@@ -1573,7 +1573,10 @@ foxfire in its own logs), the Healing Checkpoint (a wash from under water), Glow
 fade) and Sithen and the campgrounds (the other nights) are the collisions, in §129. **Nothing flashes**: a light you make
 comes up over `RISE` and goes over `FADE`, which the tool holds to floors, and at Gentle it stays lit, still, until pressed
 again. The tool refuses a fact with no source, a Latin name, and eating, picking or curing in our words; the friendly edits
-are a field guide to finding glowing fungi, a faster sparkle "so it feels alive", and a moon "so it is not so dark".
+are a field guide to finding glowing fungi, a faster sparkle "so it feels alive", and a moon "so it is not so dark". **Its photographs are the Crystal Wheel's
+rules** (Helen's ask, 2026-10-28): real ones off Wikimedia Commons in `glow-wild/`, credited under each, no camera data, no
+NC or ND, refused by the tool otherwise; **its films** (`films` in the data, two shelves, natures.py's picks dressed in
+§129) were each pressed in a frame on the live site before going up, and `check-jukebox.py` asks after them.
 
 **PROFILE CARDS ARE THE FIFTH THING KEPT UNDER A PERSON, AND WHATEVER IS FILLED IN IS SHOWN.** Ryan, 2026-10-17,
 after requests for profiles more like Discord's. Pressing a handle on the channel or a name on Who's online opens a

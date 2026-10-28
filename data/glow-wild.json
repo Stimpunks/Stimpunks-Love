@@ -9,70 +9,358 @@
     "url": "https://growwild.kew.org/blog/how-nature-glows-wild"
   },
   "also_read": [
-    {"url": "https://en.wikipedia.org/wiki/Foxfire", "name": "foxfire"},
-    {"url": "https://en.wikipedia.org/wiki/Aequorea_victoria", "name": "the crystal jelly"},
-    {"url": "https://en.wikipedia.org/wiki/Ctenophora", "name": "comb jellies"}
+    {
+      "url": "https://en.wikipedia.org/wiki/Foxfire",
+      "name": "foxfire"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Aequorea_victoria",
+      "name": "the crystal jelly"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Ctenophora",
+      "name": "comb jellies"
+    }
   ],
   "parts": [
     {
       "id": "cold-light",
       "facts": [
-        {"says": "A living thing that makes its own light does it with a chemical reaction: a substance called luciferin meets oxygen, helped along by an enzyme called luciferase.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "It is called cold light because it gives off very little heat, and it can be blue, green, yellow or red.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "People have written about it for a very long time: more than two thousand years ago, Aristotle noted fungi, and the scales and eyes of fish, shining in the dark.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "Much about it is still not known. A light may help something get away from whatever is hunting it, find food, or find a mate.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "Most of the living things that glow live in the sea.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"}
+        {
+          "says": "A living thing that makes its own light does it with a chemical reaction: a substance called luciferin meets oxygen, helped along by an enzyme called luciferase.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "It is called cold light because it gives off very little heat, and it can be blue, green, yellow or red.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "People have written about it for a very long time: more than two thousand years ago, Aristotle noted fungi, and the scales and eyes of fish, shining in the dark.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "Much about it is still not known. A light may help something get away from whatever is hunting it, find food, or find a mate.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "Most of the living things that glow live in the sea.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        }
+      ],
+      "photos": [
+        {
+          "file": "glow-wild/glowing-mushroom.jpg",
+          "shows": "A small mushroom glowing bright green on a mossy twig at night.",
+          "photo_by": "Barisandi",
+          "licence": "CC BY-SA 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Glowing_Mushroom.jpg"
+        }
       ]
     },
     {
       "id": "foxfire",
       "facts": [
-        {"says": "More than a hundred kinds of fungi are known to glow.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "The glow of fungi in rotting wood is called foxfire, and also fairy fire.", "source": "https://en.wikipedia.org/wiki/Foxfire", "source_name": "Wikipedia"},
-        {"says": "Some glow mostly underground, in the fine threads they grow through soil and wood.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "Nobody knows for certain why fungi glow. The light may draw in insects that carry their spores away, or warn off animals that would eat them.", "source": "https://en.wikipedia.org/wiki/Foxfire", "source_name": "Wikipedia"},
-        {"says": "Honey fungus is one of the glowing fungi that grow in the UK, though glowing fungi are rarely seen here.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "Foxfire lit the compass and the barometer in the Turtle, an early submarine built in the American Revolutionary War, until cold weather stopped it glowing.", "source": "https://en.wikipedia.org/wiki/Foxfire", "source_name": "Wikipedia"}
+        {
+          "says": "More than a hundred kinds of fungi are known to glow.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "The glow of fungi in rotting wood is called foxfire, and also fairy fire.",
+          "source": "https://en.wikipedia.org/wiki/Foxfire",
+          "source_name": "Wikipedia"
+        },
+        {
+          "says": "Some glow mostly underground, in the fine threads they grow through soil and wood.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "Nobody knows for certain why fungi glow. The light may draw in insects that carry their spores away, or warn off animals that would eat them.",
+          "source": "https://en.wikipedia.org/wiki/Foxfire",
+          "source_name": "Wikipedia"
+        },
+        {
+          "says": "Honey fungus is one of the glowing fungi that grow in the UK, though glowing fungi are rarely seen here.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "Foxfire lit the compass and the barometer in the Turtle, an early submarine built in the American Revolutionary War, until cold weather stopped it glowing.",
+          "source": "https://en.wikipedia.org/wiki/Foxfire",
+          "source_name": "Wikipedia"
+        }
+      ],
+      "photos": [
+        {
+          "file": "glow-wild/foxfire.jpg",
+          "shows": "Rotting tree bark at night, glowing green in patches where fungi grow through it.",
+          "photo_by": "Bruce McAdam",
+          "licence": "CC BY-SA 2.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/2.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Foxfire_bioluminescent_fungi_cc_bruce_mcadams.jpg"
+        }
       ]
     },
     {
       "id": "glow-worms",
       "facts": [
-        {"says": "Glow-worms are not worms. They are beetles.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "It is the females that glow, to bring the males to them.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "They live in meadows and grassland across Britain, and shine on summer nights.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "In the First World War, soldiers read maps and messages by the light of glow-worms, without giving away where they were.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "There are fewer glow-worms where the night is lit up by streetlights and buildings.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"}
+        {
+          "says": "Glow-worms are not worms. They are beetles.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "It is the females that glow, to bring the males to them.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "They live in meadows and grassland across Britain, and shine on summer nights.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "In the First World War, soldiers read maps and messages by the light of glow-worms, without giving away where they were.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "There are fewer glow-worms where the night is lit up by streetlights and buildings.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        }
+      ],
+      "photos": [
+        {
+          "file": "glow-wild/glow-worm.jpg",
+          "shows": "A female glow-worm holding on to a grass stem at night, the end of her body lit bright yellow-green. Photographed in Rutland, in England.",
+          "photo_by": "Emphyrio1983",
+          "licence": "CC BY-SA 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Glow-worm_(Lampyris_noctiluca).jpg"
+        }
       ]
     },
     {
       "id": "sea-sparkle",
       "facts": [
-        {"says": "Sea sparkle is a tiny living thing, a single cell, that lights up when the water around it moves.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "It can be found round the coast of the UK, and has been photographed lighting up the waves at Dunraven Bay, Southerndown, in South Wales.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "Fish, jellyfish and plankton in the sea make their own light too.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"}
+        {
+          "says": "Sea sparkle is a tiny living thing, a single cell, that lights up when the water around it moves.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "It can be found round the coast of the UK, and has been photographed lighting up the waves at Dunraven Bay, Southerndown, in South Wales.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "Fish, jellyfish and plankton in the sea make their own light too.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        }
+      ],
+      "photos": [
+        {
+          "file": "glow-wild/sea-sparkle.jpg",
+          "shows": "A beach at night under clouds, with the edge of every wave glowing bright blue.",
+          "photo_by": "Sander van der Wel",
+          "licence": "CC BY-SA 2.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/2.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Sea_sparkles_(11538049406).jpg"
+        }
       ]
     },
     {
       "id": "jellyfish",
       "facts": [
-        {"says": "The crystal jelly lives in the Pacific Ocean off the west coast of North America, from the Bering Sea to southern California.", "source": "https://en.wikipedia.org/wiki/Aequorea_victoria", "source_name": "Wikipedia"},
-        {"says": "Its light starts out blue, made by a protein called aequorin, and a second protein in the jelly, green fluorescent protein, turns that blue into green.", "source": "https://en.wikipedia.org/wiki/Aequorea_victoria", "source_name": "Wikipedia"},
-        {"says": "Osamu Shimomura, Martin Chalfie and Roger Tsien shared the 2008 Nobel Prize in Chemistry for their work on that green protein.", "source": "https://en.wikipedia.org/wiki/Aequorea_victoria", "source_name": "Wikipedia"},
-        {"says": "The rainbow that runs along a comb jelly is not its own light at all. It is light scattered by the rows of tiny combs it swims with.", "source": "https://en.wikipedia.org/wiki/Ctenophora", "source_name": "Wikipedia"}
+        {
+          "says": "The crystal jelly lives in the Pacific Ocean off the west coast of North America, from the Bering Sea to southern California.",
+          "source": "https://en.wikipedia.org/wiki/Aequorea_victoria",
+          "source_name": "Wikipedia"
+        },
+        {
+          "says": "Its light starts out blue, made by a protein called aequorin, and a second protein in the jelly, green fluorescent protein, turns that blue into green.",
+          "source": "https://en.wikipedia.org/wiki/Aequorea_victoria",
+          "source_name": "Wikipedia"
+        },
+        {
+          "says": "Osamu Shimomura, Martin Chalfie and Roger Tsien shared the 2008 Nobel Prize in Chemistry for their work on that green protein.",
+          "source": "https://en.wikipedia.org/wiki/Aequorea_victoria",
+          "source_name": "Wikipedia"
+        },
+        {
+          "says": "The rainbow that runs along a comb jelly is not its own light at all. It is light scattered by the rows of tiny combs it swims with.",
+          "source": "https://en.wikipedia.org/wiki/Ctenophora",
+          "source_name": "Wikipedia"
+        }
+      ],
+      "photos": [
+        {
+          "file": "glow-wild/crystal-jelly.jpg",
+          "shows": "A crystal jelly, almost clear, drifting in deep blue water with its fine tentacles trailing.",
+          "photo_by": "Julia Sumangil",
+          "licence": "CC BY-SA 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Crystal_jelly.jpg"
+        },
+        {
+          "file": "glow-wild/comb-jelly.jpg",
+          "shows": "A comb jelly against black, clear as glass, with rainbow colours along its rows of combs.",
+          "photo_by": "Bruno C. Vellutini",
+          "licence": "CC BY-SA 3.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Comb_jelly_2.jpg"
+        }
       ]
     },
     {
       "id": "fluorescence",
       "facts": [
-        {"says": "Fluorescence is a different thing. It is not a chemical reaction: a living thing takes in light and gives it back in a different colour.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "Human eyes cannot see most natural fluorescence without ultraviolet light, though many animals can.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"},
-        {"says": "Mushrooms, mosses, lichens and some small animals fluoresce.", "source": "https://growwild.kew.org/blog/how-nature-glows-wild", "source_name": "Kew"}
+        {
+          "says": "Fluorescence is a different thing. It is not a chemical reaction: a living thing takes in light and gives it back in a different colour.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "Human eyes cannot see most natural fluorescence without ultraviolet light, though many animals can.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "Mushrooms, mosses, lichens and some small animals fluoresce.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        }
+      ],
+      "photos": [
+        {
+          "file": "glow-wild/fluorescent-mushroom.jpg",
+          "shows": "A mushroom seen from below under ultraviolet light, its gills and stem glowing blue.",
+          "photo_by": "Alan Rockefeller",
+          "licence": "CC BY 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Fluorescent_Entoloma_in_Colombia.jpg"
+        }
       ]
     }
   ],
   "holds": [
-    {"page": "looming-rocks.html", "words": "lichen fluorescing", "why": "the fluorescence part says the lichen at Looming Rocks glows back this way under its lamps"},
-    {"page": "brew-and-stew.html", "words": "The light grows in the wood", "why": "the foxfire part says Brew and Stew, out on the campgrounds, is lit by a glow growing in its own logs"}
-  ]
+    {
+      "page": "looming-rocks.html",
+      "words": "lichen fluorescing",
+      "why": "the fluorescence part says the lichen at Looming Rocks glows back this way under its lamps"
+    },
+    {
+      "page": "brew-and-stew.html",
+      "words": "The light grows in the wood",
+      "why": "the foxfire part says Brew and Stew, out on the campgrounds, is lit by a glow growing in its own logs"
+    }
+  ],
+  "_photos": "Every photograph is a real one, of the thing itself glowing where it could be caught glowing, shared on Wikimedia Commons under a licence this site can use, read off its own file page on 2026-10-28 (the Commons API was down that day). Each was resized and saved again without camera data; nothing else was done to it.",
+  "films": {
+    "_what": "Helen's ask, 2026-10-28: films to match, from National Geographic or the like, of the forest and under the sea. Every one is on the channel of whoever made it, was checked on its own watch page (playable, allowed on other sites, its length and date), and was pressed in a frame on the live site, from the UK, and played, on 2026-10-28. The titles are theirs; the lines under them are ours.",
+    "checked": "2026-10-28",
+    "wood": [
+      {
+        "id": "33-3UCTRZWM",
+        "title": "A glowing underground network of fungi - Attenborough's Life That Glows: Preview - BBC",
+        "channel": "BBC",
+        "channel_id": "UCCj956IF62FbT7Gouszaj9w",
+        "published": "2016-05-04",
+        "runs": 123,
+        "about": "Fungi glowing through the floor of a wood at night, from David Attenborough's Life That Glows."
+      },
+      {
+        "id": "tOM6QJCK8Lg",
+        "title": "Glow-in-the-Dark Mushrooms: Nature’s Night Lights | National Geographic",
+        "channel": "National Geographic",
+        "channel_id": "UCpVm7bg6pXKo1Pr6k5kxG9A",
+        "published": "2015-02-18",
+        "runs": 133,
+        "about": "Mushrooms glowing green in the dark."
+      },
+      {
+        "id": "w-_0q0oITJU",
+        "title": "Glow worms glowing on Stockbridge Down, Hampshire - National Trust. ©BBC Inside Out",
+        "channel": "London and South East National Trust",
+        "channel_id": "UC1yhwq2EI-wZ7uLuHkvEVCw",
+        "published": "2018-08-22",
+        "runs": 24,
+        "about": "Glow-worms shining in the grass on Stockbridge Down, in Hampshire, filmed for the BBC."
+      },
+      {
+        "id": "mqZDHb_eQlY",
+        "title": "David Attenborough Shines a Light on Glowing Animals | 4K Nature Documentary",
+        "channel": "Terra Mater",
+        "channel_id": "UCK2Dxvy9H1NojirvaxnEnqw",
+        "published": "2026-05-07",
+        "runs": 3086,
+        "about": "David Attenborough's whole film about living light, from fireflies and glowing mushrooms in the woods to the deep sea."
+      }
+    ],
+    "sea": [
+      {
+        "id": "UXl8F-eIoiM",
+        "title": "Deep Sea Creatures Exhibit Bioluminescence | Blue Planet | BBC Earth",
+        "channel": "BBC Earth",
+        "channel_id": "UCwmZiChSryoWQCZMIQezgTg",
+        "published": "2009-05-18",
+        "runs": 138,
+        "about": "Animals of the deep sea lighting up in the dark, from Blue Planet."
+      },
+      {
+        "id": "aPUF40j47-o",
+        "title": "Bioluminescence in the deep sea: How and why do animals create their own light?",
+        "channel": "MBARI (Monterey Bay Aquarium Research Institute)",
+        "channel_id": "UCFXww6CrLAHhyZQCDnJ2g2A",
+        "published": "2022-01-18",
+        "runs": 247,
+        "about": "How and why animals in the deep sea make their own light, from the people who go down and film them."
+      },
+      {
+        "id": "g-zN7SrB-U0",
+        "title": "See a Glowing Plankton Bloom in California's Big Sur | National Geographic",
+        "channel": "National Geographic",
+        "channel_id": "UCpVm7bg6pXKo1Pr6k5kxG9A",
+        "published": "2018-03-06",
+        "runs": 47,
+        "about": "Waves glowing blue with plankton on the coast of Big Sur, in California."
+      },
+      {
+        "id": "pF7ftI-_fMA",
+        "title": "Crystal Jellyfish Are Clearly Awesome!",
+        "channel": "Monterey Bay Aquarium",
+        "channel_id": "UCnM5iMGiKsZg-iOlIO2ZkdQ",
+        "published": "2019-01-23",
+        "runs": 100,
+        "about": "Crystal jellies, the jellyfish in this hollow, at the Monterey Bay Aquarium."
+      },
+      {
+        "id": "bW3sqB7RTIc",
+        "title": "The Lovely Lobed Comb Jelly",
+        "channel": "Monterey Bay Aquarium",
+        "channel_id": "UCnM5iMGiKsZg-iOlIO2ZkdQ",
+        "published": "2012-10-31",
+        "runs": 88,
+        "about": "A lobed comb jelly at the Monterey Bay Aquarium."
+      },
+      {
+        "id": "l6IjegeWPNM",
+        "title": "Why Does This Sea Glow in the Dark?",
+        "channel": "PBS Terra",
+        "channel_id": "UCpxYSWgxVt3Pyn1ovXsGQ0g",
+        "published": "2023-09-18",
+        "runs": 507,
+        "about": "Why the sea glows in the dark, from PBS Terra."
+      }
+    ]
+  }
 }

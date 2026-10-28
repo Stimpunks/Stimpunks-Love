@@ -116,7 +116,7 @@
     "faery-music-room.html": ["homes", "music"],
     "faery-cinema-room.html": ["homes", "videos"],
     "faery-myths-room.html": ["homes", "reading"],
-    "glow-wild-hollow.html": ["homes", "outdoors"],
+    "glow-wild-hollow.html": ["homes", "outdoors", "videos"],
     "the-bough-house.html": ["homes", "music"],
     "swaying-sweetgrass.html": ["calm", "outdoors", "videos"],
     "solarpunk-hermitage.html": ["homes", "music", "videos"],
