@@ -4843,8 +4843,9 @@ html[data-low] {
    Center: one line from our moderators, which notice.js draws in a shadow root
    of its own, in the CB's clothes, notice.css (the forums and the office draw
    it inside theirs). Layout and nothing else: the slot is empty and hidden
-   until there is a notice, and this is only the room under it. */
-[data-notice] { margin: 0 0 18px; }
+   until there is a notice, and this is only the room round it: above it too
+   (Ryan, 2026-10-27), because it sat flush against the top of the window. */
+[data-notice] { margin: 18px 0; }
 
 /* A PHOTOGRAPH IN A SPACE A ROOM LEFT FOR IT. An imported room cannot hold an
    <img>; it leaves an element with data-photo, and tools/import-room.py puts
