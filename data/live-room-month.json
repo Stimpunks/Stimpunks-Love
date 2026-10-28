@@ -123,6 +123,15 @@
    "channel": "Austin City Limits"
   },
   {
+   "id": "2cFb4EumJDM",
+   "source": "acl",
+   "form": "long",
+   "title": "Ty Myers - Full Episode | Live on Austin City Limits TV",
+   "published": "2026-10-26T17:58:58Z",
+   "state": "pending",
+   "why": "live, or not out yet"
+  },
+  {
    "id": "1qKZ6tihPh4",
    "source": "acl",
    "form": "long",
@@ -291,46 +300,6 @@
    "state": "screen",
    "runs": 60,
    "channel": "Austin City Limits"
-  },
-  {
-   "id": "DTfCWB3kNzQ",
-   "source": "kexp",
-   "form": "long",
-   "title": "La Texana - Siempre me cuesta regresar (Live on KEXP)",
-   "published": "2026-09-28T11:00:04Z",
-   "state": "screen",
-   "runs": 248,
-   "channel": "KEXP"
-  },
-  {
-   "id": "BSFiP4WVvSg",
-   "source": "kexp",
-   "form": "long",
-   "title": "La Texana - Terco (Live on KEXP)",
-   "published": "2026-09-28T11:00:09Z",
-   "state": "screen",
-   "runs": 146,
-   "channel": "KEXP"
-  },
-  {
-   "id": "kY-O25lYy3M",
-   "source": "kexp",
-   "form": "long",
-   "title": "La Texana - Resiste (Live on KEXP)",
-   "published": "2026-09-28T11:00:09Z",
-   "state": "screen",
-   "runs": 225,
-   "channel": "KEXP"
-  },
-  {
-   "id": "0vdv_F4HqEM",
-   "source": "kexp",
-   "form": "long",
-   "title": "La Texana - La Parca (Live on KEXP)",
-   "published": "2026-09-28T11:00:16Z",
-   "state": "screen",
-   "runs": 186,
-   "channel": "KEXP"
   },
   {
    "id": "evrkmV524ZU",
@@ -1413,6 +1382,66 @@
    "channel": "KEXP"
   },
   {
+   "id": "RwAum_atcqo",
+   "source": "kexp",
+   "form": "long",
+   "title": "motifs - Maybe In Another Dream (Live on KEXP)",
+   "published": "2026-10-27T13:00:12Z",
+   "state": "screen",
+   "runs": 417,
+   "channel": "KEXP"
+  },
+  {
+   "id": "qWsLRr8hCHU",
+   "source": "kexp",
+   "form": "long",
+   "title": "motifs - Full Performance (Live on KEXP)",
+   "published": "2026-10-27T15:00:04Z",
+   "state": "screen",
+   "runs": 1608,
+   "channel": "KEXP"
+  },
+  {
+   "id": "zi1Pm3csVGI",
+   "source": "kexp",
+   "form": "long",
+   "title": "Yellow Fang - Morning (Live on KEXP)",
+   "published": "2026-10-28T11:00:02Z",
+   "state": "screen",
+   "runs": 226,
+   "channel": "KEXP"
+  },
+  {
+   "id": "zDzoPp2RZQc",
+   "source": "kexp",
+   "form": "long",
+   "title": "Yellow Fang - Athithan (Live on KEXP)",
+   "published": "2026-10-28T11:00:11Z",
+   "state": "screen",
+   "runs": 338,
+   "channel": "KEXP"
+  },
+  {
+   "id": "MuCk0pzHDvA",
+   "source": "kexp",
+   "form": "long",
+   "title": "Yellow Fang - I Don't Know (Live on KEXP)",
+   "published": "2026-10-28T11:00:20Z",
+   "state": "screen",
+   "runs": 301,
+   "channel": "KEXP"
+  },
+  {
+   "id": "8JYpKuw9AJ8",
+   "source": "kexp",
+   "form": "long",
+   "title": "Yellow Fang - If Only (Live on KEXP)",
+   "published": "2026-10-28T11:00:35Z",
+   "state": "screen",
+   "runs": 282,
+   "channel": "KEXP"
+  },
+  {
    "id": "EgAh3tgk-Wk",
    "source": "kexp",
    "form": "short",
@@ -1593,6 +1622,16 @@
    "channel": "KEXP"
   },
   {
+   "id": "JLNinD44mgY",
+   "source": "kexp",
+   "form": "short",
+   "title": "motifs perform \"Aug 16\" & more Live on KEXP at AXEAN Festival",
+   "published": "2026-10-27T17:09:52Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
    "id": "lIUUbzSM-Ns",
    "source": "kcrw",
    "form": "long",
@@ -1693,6 +1732,16 @@
    "channel": "KCRW"
   },
   {
+   "id": "nbmqQFMSBpo",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Melody's Echo Chamber's Must-Listen Albums",
+   "published": "2026-10-27T14:00:29Z",
+   "state": "screen",
+   "runs": 259,
+   "channel": "KCRW"
+  },
+  {
    "id": "C5LQJwB4oCQ",
    "source": "kcrw",
    "form": "short",
@@ -1708,13 +1757,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-27T11:32:50Z"
+     "2026-10-28T11:31:19Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-27T11:32:50Z"
+     "2026-10-28T11:31:19Z"
     ]
    ]
   },
@@ -1722,13 +1771,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-27T11:32:50Z"
+     "2026-10-28T11:31:19Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-27T11:32:50Z"
+     "2026-10-28T11:31:19Z"
     ]
    ]
   },
@@ -1736,16 +1785,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-27T11:32:50Z"
+     "2026-10-28T11:31:19Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-27T11:32:50Z"
+     "2026-10-28T11:31:19Z"
     ]
    ]
   }
  },
- "set": "2026-10-27T11:32Z"
+ "set": "2026-10-28T11:31Z"
 }
