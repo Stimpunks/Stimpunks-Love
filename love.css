@@ -1829,6 +1829,16 @@
      living lights and carry none, nor do the hills and the water drawn dark. */
   --gwh-night: #060E16; --gwh-deep: #0C1A26; --gwh-ink: #E2F2EE; --gwh-ink-2: #A9C8C3;
   --gwh-sea: #5CD6FF; --gwh-fox: #7CF2A8; --gwh-worm: #D8F25E; --gwh-hill: #14241E; --gwh-wave: #123049;
+  /* The Play Pod (§131), Helen's, through a door in the yurt under the Glimmer
+     Window: a tuff tray under a UV lamp. The night, the tray's panels and the
+     two inks carry every word, and the yellow carries the links. The lamp's
+     violet and the fluorescent colours glow in the drawing and carry no word,
+     and nor does the drawing's daylight, which is the same tray with the lamp
+     off; every one is in check-contrast.py's ORNAMENT. */
+  --ppd-night: #110726; --ppd-tray: #1D1236; --ppd-ink: #F5F0FF; --ppd-ink-2: #CFC2EE; --ppd-yellow: #EEFF5C;
+  --ppd-uv: #8A5CFF; --ppd-pink: #FF5CC8; --ppd-green: #5CFFA3; --ppd-blue: #8CE8FF; --ppd-orange: #FFAE5C; --ppd-line: #3A2766;
+  --ppd-day: #EEE7DA; --ppd-day-floor: #D8CDBA; --ppd-day-tray: #2A2A2E; --ppd-day-stand: #6A6A72;
+  --ppd-day-pink: #E3A6C6; --ppd-day-green: #A6D6B2; --ppd-day-yellow: #E9DE98; --ppd-day-blue: #BFD9E3; --ppd-day-tube: #C9C2D6;
   /* The crystal pouch (crystal-pouch.js): every stone on a disc of its own cloth, outlined in the line, so it carries its own ground on the radio. */
   --crys-cloth: #EDE6F2; --crys-line: #2A2233; --crys-bag: #B98A55; --crys-bag-2: #7E5530; --crys-cord: #9E3328;
   --crys-amethyst: #8A55C0; --crys-amethyst-2: #D3B4F0;
@@ -7416,6 +7426,12 @@ html[data-intensity="max"] .yurt-arch__glint { animation: myth-glint 3.4s ease-i
 .yurt-shroom svg { display: block; width: 100%; height: auto; }
 .room-yurt .yurt-shroom:focus-visible { outline: 3px solid var(--candle); outline-offset: 6px; }
 html[data-intensity="max"] .yurt-shroom__glow { animation: hollow-breathe 6s ease-in-out infinite alternate; }
+/* The round door into the Play Pod (§131), Helen's ask, 2026-10-28: the pod's
+   tray glowing under its lamp, seen through the door, in §131's colours. */
+.yurt-pod { display: block; width: min(100%, 320px); margin: 22px auto 0; border-radius: 12px; }
+.yurt-pod svg { display: block; width: 100%; height: auto; }
+.room-yurt .yurt-pod:focus-visible { outline: 3px solid var(--candle); outline-offset: 6px; }
+html[data-intensity="max"] .yurt-pod__glow { animation: ppd-breathe 6s ease-in-out infinite alternate; }
 
 /* THE ART GALLERY, Helen's ask, 2026-10-15: paintings out of copyright
    everywhere, hung small on the wall in a thin gilt, and pressed off the wall
@@ -17899,7 +17915,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §132
+   class on it is `bb-`, its sizes are in points and millimetres, and §133
    prints it and nothing else. */
 
 .room-broadside {
@@ -17960,7 +17976,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §132 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §133 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -28065,7 +28081,132 @@ html[data-intensity="max"] .hollow-jelly__body { animation: hollow-drift 8s ease
 }
 
 
-/* §131 ── Small screens───────────────────────────────────────────────────────
+/* §131 ── SUBROOM: Play Pod (behind the Faery Yurt, through the door under the Glimmer Window)
+   HELEN'S, LIKE THE YURT AND ITS OTHER ROOMS, and asked for at the keyboard on
+   2026-10-28: "a sensory play room" for glow baths, glow nails, glow painting,
+   tonic water under UV, messy play, mark making, PMLD sensory mark making and
+   tuff trays, "as ideas for families", with "ideas and photos with credit",
+   and the people she works with credited. The ideas, photographs and credits
+   are written by tools/make-play-pod.py from data/play-pod.json; the lamp
+   switch is play-pod.js; this section dresses them (ppd-).
+
+   THE LAMP IS THE ROOM. One UV tube over one tuff tray, and everything in the
+   tray FLUORESCES: it glows only while the lamp is on and stops the instant it
+   goes off. The switch under the drawing turns the lamp off, and the drawing
+   becomes an ordinary black tray of pale paint in a pale room. Every word
+   stands on the night or on a tray's panel, in two inks, with links in the
+   yellow; the glowing colours are in the drawing and on the panels' edges and
+   carry no word. Grandstander, round and thick, sets the name and headings;
+   Andika, drawn for people learning to read, carries everything read.
+
+   THE ROOMS IT COLLAPSES INTO, AND WHAT KEEPS IT OFF THEM:
+   · GLOW GO GEE GAWS (§67) is glow too, in every colour glow comes in. But a
+     glow toy stores the light and gives it back after the lamp is gone, and
+     fades; nothing here stores anything. Lamp off, glow off. If anything in
+     §131 ever goes on glowing in the drawing's daylight, it has become a shelf
+     of that cave's toys.
+   · GLOW WILD HOLLOW (§129), next door through the mushroom, is living light
+     at night, outdoors, points in a dark with no lamp. The pod is indoors, lit
+     by a lamp somebody switched on, and its glow is paint and water.
+   · THE REBELLION RAVE ROOM (§68) and DANCE, PUNKS (§43) are the other rooms
+     of coloured light in the dark: beams in haze, glow worn on heads. Here
+     nothing is in the air and nobody is drawn; the light lands on a tray.
+   · THE PLAYHOUSE (§9) and THE PILE (§99) are the other play rooms: saturated
+     primaries in daylight, and tempera on a junk heap. Under the lamp nothing
+     here is a primary; in daylight it is pale.
+
+   NOTHING MOVES BY ITSELF BELOW MAX GLITTER, AND NOTHING FLASHES. At MAX the
+   glow in the drawing breathes over six seconds. The lamp switch is a press,
+   and it changes the drawing once. */
+
+.room-pod { background: var(--ppd-night); color: var(--ppd-ink); font-family: 'Andika', var(--sans); font-size: 17px; line-height: 1.7; }
+.room-pod a { color: var(--ppd-yellow); text-decoration-color: rgba(238,255,92,.5); text-underline-offset: 3px; }
+.room-pod a:hover { color: var(--ppd-ink); }
+.room-pod :focus-visible { outline-color: var(--ppd-yellow); }
+.room-pod .backlink { font-family: 'Grandstander', var(--sans); font-weight: 700; font-size: 15px; color: var(--ppd-ink-2); }
+.ppd { width: min(900px, 100% - 40px); margin-inline: auto; padding: 0 0 70px; }
+.room-pod h1, .room-pod h2, .room-pod h3 { font-family: 'Grandstander', var(--sans); font-weight: 700; color: var(--ppd-ink); text-wrap: balance; }
+.room-pod h1 { font-size: clamp(42px, 7.5vw, 70px); line-height: 1.05; margin: 0 0 12px; }
+.room-pod h2 { font-size: 30px; margin: 0 0 10px; }
+.room-pod section { padding: 26px 0; }
+.ppd-top { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; padding-top: 10px; }
+.room-pod .ppd-top__note { margin: 0; font-size: 15px; color: var(--ppd-ink-2); }
+.ppd-head { text-align: center; padding: 22px 0 10px; }
+.ppd-lamp { margin: 0 auto 26px; width: min(100%, 640px); }
+.ppd-scene { display: block; width: 100%; height: auto; border-radius: 14px; }
+/* The drawing's colours are switched by the lamp. On, the night with the
+   fluorescent inks; off, the same tray in the room's daylight. */
+.ppd-lamp {
+  --s-wall: var(--ppd-night); --s-floor: var(--ppd-tray); --s-tube: var(--ppd-uv); --s-halo: var(--ppd-uv);
+  --s-line: var(--ppd-line); --s-stand: var(--ppd-line); --s-tray: var(--ppd-night); --s-rim: var(--ppd-uv);
+  --s-mark: var(--ppd-yellow); --s-foam: var(--ppd-pink); --s-foam-2: var(--ppd-green); --s-tonic: var(--ppd-blue);
+  --s-jar: var(--ppd-tray); --s-star: var(--ppd-yellow); --s-stick: var(--ppd-green); --s-stick-2: var(--ppd-orange);
+}
+.ppd-lamp[data-lamp="off"] {
+  --s-wall: var(--ppd-day); --s-floor: var(--ppd-day-floor); --s-tube: var(--ppd-day-tube); --s-line: var(--ppd-day-stand);
+  --s-stand: var(--ppd-day-stand); --s-tray: var(--ppd-day-tray); --s-rim: var(--ppd-day-stand);
+  --s-mark: var(--ppd-day-yellow); --s-foam: var(--ppd-day-pink); --s-foam-2: var(--ppd-day-green); --s-tonic: var(--ppd-day-blue);
+  --s-jar: var(--ppd-day-tray); --s-star: var(--ppd-day-tube); --s-stick: var(--ppd-day-green); --s-stick-2: var(--ppd-day-pink);
+}
+.ppd-lamp[data-lamp="off"] .ppd-scene__glow { display: none; }
+.ppd-switch { margin: 12px 0 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; }
+.room-pod .ppd-said { color: var(--ppd-ink-2); font-size: 15.5px; }
+.ppd-btn {
+  font: inherit; font-size: 16px; font-weight: 700; color: var(--ppd-ink); background: var(--ppd-tray);
+  border: 2px solid var(--ppd-uv); border-radius: 999px; padding: 8px 20px; cursor: pointer;
+}
+.ppd-btn[aria-pressed="true"] { border-color: var(--ppd-yellow); }
+.ppd-btn:hover { background: var(--ppd-night); }
+.room-pod .ppd-eyebrow { font-family: 'Grandstander', var(--sans); font-weight: 700; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--ppd-ink-2); margin: 0 0 14px; }
+.room-pod .ppd-tagline { font-size: 20px; color: var(--ppd-ink-2); max-width: 46ch; margin: 0 auto 18px; }
+.ppd-lede { max-width: 64ch; margin: 0 auto; text-align: left; }
+.room-pod .ppd-intro { color: var(--ppd-ink-2); max-width: 66ch; margin: 8px 0 14px; }
+/* Each idea is a line on a tray: the tray's panel, a fluorescent edge down
+   its left, and who shared it after it in the second ink. */
+.ppd-ideas { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; max-width: 72ch; }
+.ppd-ideas li { background: var(--ppd-tray); border-left: 4px solid var(--ppd-pink); border-radius: 0 10px 10px 0; padding: 10px 14px; }
+.ppd-ideas li:nth-child(4n+2) { border-left-color: var(--ppd-green); }
+.ppd-ideas li:nth-child(4n+3) { border-left-color: var(--ppd-blue); }
+.ppd-ideas li:nth-child(4n+4) { border-left-color: var(--ppd-orange); }
+.room-pod .ppd-from { font-size: 15px; color: var(--ppd-ink-2); }
+.ppd-care { margin: 14px 0 0; padding: 10px 14px 10px 32px; max-width: 72ch; border: 2px dashed var(--ppd-uv); border-radius: 10px; }
+.ppd-care li { margin: 0 0 4px; }
+/* Photographs, shown whole and never cropped, on the night with no frame. */
+.ppd-photos { display: flex; flex-wrap: wrap; gap: 16px; margin: 0 0 18px; }
+.ppd-photo { margin: 0; flex: 1 1 260px; }
+.ppd-photo__img { display: block; width: 100%; height: auto; max-height: 520px; object-fit: contain; border-radius: 10px; }
+.room-pod .ppd-photo__credit { margin: 6px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--ppd-ink-2); }
+/* The people Helen works with. */
+.ppd-people { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+.ppd-person { background: var(--ppd-tray); border-top: 4px solid var(--ppd-yellow); border-radius: 0 0 12px 12px; padding: 12px 16px 14px; }
+.room-pod .ppd-person__name { margin: 0; font-size: 21px; }
+.room-pod .ppd-person__of { margin: 2px 0 6px; font-size: 15px; color: var(--ppd-ink-2); }
+.room-pod .ppd-person__says { margin: 0; font-size: 16px; }
+.room-pod .ppd-credit { color: var(--ppd-ink-2); max-width: 70ch; }
+/* The film shelf: rack.js's pattern, every card a tray. */
+.ppd-screen { margin: 4px 0 0; max-width: 820px; border-radius: 12px; }
+.room-pod .ppd-screen__idle {
+  margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  padding: 18px 22px; text-align: center; border-radius: 12px; border: 2px solid var(--ppd-uv);
+  background: var(--ppd-tray); color: var(--ppd-ink-2);
+}
+.room-pod .ppd-screen__now { margin: 10px 0 0; max-width: 820px; font-weight: 700; }
+.room-pod .ppd-screen__back { margin: 8px 0 0; }
+.ppd-btn--quiet { font-size: 15px; padding: 6px 14px; }
+.ppd-rack { margin: 20px 0 0; }
+.room-pod .ppd-rack__sum { cursor: pointer; font-family: 'Grandstander', var(--sans); font-weight: 700; font-size: 24px; color: var(--ppd-ink); }
+.ppd-vids { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+.ppd-vid { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px 14px; background: var(--ppd-tray); border-radius: 12px; }
+.room-pod .ppd-vid__title { margin: 0; font-family: 'Andika', var(--sans); font-weight: 700; font-size: 17.5px; line-height: 1.35; overflow-wrap: anywhere; }
+.room-pod .ppd-vid__by, .room-pod .ppd-vid__about { margin: 0; font-size: 15px; line-height: 1.5; color: var(--ppd-ink-2); }
+.ppd-vid .facade { margin-top: auto; }
+.room-pod button.facade { background: var(--ppd-night); color: var(--ppd-ink); border: 2px solid var(--ppd-uv); border-radius: 10px; font-family: 'Andika', var(--sans); font-size: 16px; }
+.room-pod button.facade:hover { background: var(--ppd-tray); }
+.room-pod .facade__play { color: var(--ppd-yellow); }
+html[data-intensity="max"] .ppd-lamp[data-lamp="on"] .ppd-scene__glow { animation: ppd-breathe 6s ease-in-out infinite alternate; }
+@keyframes ppd-breathe { from { opacity: .6; } to { opacity: 1; } }
+
+/* §132 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -28169,7 +28310,7 @@ html[data-intensity="max"] .hollow-jelly__body { animation: hollow-drift 8s ease
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §131 says every
+   shipped with no rule here at all — which on a street whose §132 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -28293,7 +28434,7 @@ html[data-intensity="max"] .hollow-jelly__body { animation: hollow-drift 8s ease
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §132 ── Print ───────────────────────────────────────────────────────────────
+/* §133 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

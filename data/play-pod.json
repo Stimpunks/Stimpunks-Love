@@ -1,0 +1,298 @@
+{
+  "_what": "The Play Pod, through a door in Helen Edgar's Faery Yurt, under the Glimmer Window: her ask of 2026-10-28, a sensory play room for families, lit by a UV lamp. Her own words are in `intro` and in the parts' `intro`; every idea names who shared it (`from`), by name and not by link, at her ask, except the people she works with, who are linked. tools/make-play-pod.py writes it into play-pod.html between play-pod:<id> markers.",
+  "_photos": "Every photograph is a real one, never a drawing or a picture made by AI, and never of a child: this street does not publish anybody too young to say yes themselves. Helen's own are hers, under data/polaroids.json and outside the site's licence; the rest are on Wikimedia Commons under licences this site can use, read off their own file pages on 2026-10-28, each saying in `real` how it is known to be a photograph, resized and saved without camera data.",
+  "_checked": "2026-10-28",
+  "parts": [
+    {
+      "id": "under-the-lamp",
+      "intro": "My yurt has a UV lamp, and when the big lights go off and it comes on, the room glows: the wisteria, the jellyfish, the paper star, the spots on the toadstool. Nothing in it is glowing by itself. The lamp gives out light we can hardly see, and things that fluoresce give it back as colour we can.",
+      "photos": [
+        {
+          "polaroid": "yurt-glimmer-01"
+        },
+        {
+          "polaroid": "yurt-glimmer-03"
+        },
+        {
+          "polaroid": "yurt-glimmer-02"
+        }
+      ],
+      "ideas": [
+        {
+          "says": "Under a UV lamp, anything that fluoresces glows only while the lamp is on, and stops the instant it goes off.",
+          "from": "HiWave Makers"
+        },
+        {
+          "says": "Glow-in-the-dark things are different: they store the light up and give it back slowly, for minutes after the lamp goes off. Try both under one lamp and switch it off.",
+          "from": "HiWave Makers"
+        },
+        {
+          "says": "A torch marked 365 nm shows the glow far better than one marked 395 nm, which fills the room with visible violet and drowns it.",
+          "from": "HiWave Makers"
+        },
+        {
+          "says": "Point the lamp at the things you are playing with, never at anybody's eyes.",
+          "from": "HiWave Makers"
+        }
+      ]
+    },
+    {
+      "id": "glow-play",
+      "intro": "Things to make glow under the lamp. Nothing here is to eat or drink: tonic water poured into a craft jar is for looking at.",
+      "photos": [
+        {
+          "file": "play-pod/tonic-glass.jpg",
+          "shows": "A tall glass of tonic water glowing bright blue-white under a UV tube on a dark cloth.",
+          "photo_by": "Joseph Blosser",
+          "licence": "CC BY-SA 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Glass_of_UV_Illuminated_Tonic_Water.jpg",
+          "real": "Its Commons page carries the camera's record: an iPhone 8 Plus, 1 October 2019."
+        },
+        {
+          "file": "play-pod/tonic-ice.jpg",
+          "shows": "A glass of tonic water with ice cubes made of tonic water, all glowing bright blue under a black light.",
+          "photo_by": "VGB.Studios",
+          "licence": "CC BY 2.0",
+          "licence_url": "https://creativecommons.org/licenses/by/2.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Tonic_(with_quinine)_under_the_Black_Light_(7261032728).jpg",
+          "real": "Taken on 24 May 2012 and shared on Flickr then, years before pictures could be made by AI."
+        },
+        {
+          "file": "play-pod/glow-sticks-in-glasses.jpg",
+          "shows": "Two round glasses seen from above, glowing blue and yellow-green where glow sticks have leaked into them, with lit glow sticks lying around them in the dark.",
+          "photo_by": "George Alexander Ishida Newman",
+          "licence": "CC BY 2.0",
+          "licence_url": "https://creativecommons.org/licenses/by/2.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Leaky_Glow_sticks_in_Glass_(12835826463).jpg",
+          "real": "Its Commons page carries the camera's record: a Canon EOS Kiss X4, 23 March 2012."
+        },
+        {
+          "file": "play-pod/glow-sticks-under-uv.jpg",
+          "shows": "A pile of glow sticks that have not been snapped yet, glowing purple, blue, green and orange under UV light.",
+          "photo_by": "Pixelmaniac pictures",
+          "licence": "CC0",
+          "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "commons": "https://commons.wikimedia.org/wiki/File:Fluorescence_in_glow_sticks_that_are_yet_to_be_activated.JPG",
+          "real": "Its Commons page carries the camera's record: a Sony NEX-5N, 17 September 2011."
+        },
+        {
+          "file": "play-pod/fluorescent-straws.jpg",
+          "shows": "The ends of a box of fluorescent drinking straws, packed tight, glowing red, yellow and green.",
+          "photo_by": "Dave Gough",
+          "licence": "CC BY 2.0",
+          "licence_url": "https://creativecommons.org/licenses/by/2.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Cocktail_straws.jpg",
+          "real": "Its Commons page carries the camera's record: a Canon EOS 350D, a ten-second exposure, 30 September 2006."
+        },
+        {
+          "file": "play-pod/glowing-crystals.jpg",
+          "shows": "Mineral crystals under UV light, the big ones glowing pale yellow and the rock around them violet.",
+          "photo_by": "Géry Parent",
+          "licence": "CC BY-SA 3.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Apatite,_quartz,_orthose,_muscovite_sous_UVL.JPG",
+          "real": "Its Commons page carries the camera's record: a Nikon D300S, a 15-second exposure, 21 October 2012."
+        },
+        {
+          "file": "play-pod/calcite-day-and-uv.jpg",
+          "shows": "The same cluster of pale crystals photographed twice, side by side: in daylight, and under UV light, where they glow blue.",
+          "photo_by": "Masha Milshina",
+          "licence": "CC BY 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Calcite_fluorescence.jpg",
+          "real": "A mineral collector's record of one specimen, taken on 27 March 2020, before pictures could be made by AI."
+        }
+      ],
+      "ideas": [
+        {
+          "says": "Tonic water glows blue under a UV torch, because of the quinine in it. Pour it half and half with water, then a quarter, and see the glow fade bit by bit.",
+          "from": "HiWave Makers"
+        },
+        {
+          "says": "Then hunt round the house with the torch: highlighter ink, washing powder stirred into water and plain white paper all glow too.",
+          "from": "HiWave Makers"
+        },
+        {
+          "says": "Put glow sticks in warm water and in cold water, and watch how differently they glow.",
+          "from": "Steve Spangler Science, found through Project Learning Tree"
+        },
+        {
+          "says": "Glowing foam paint: shaving cream, white glue and neon paint mixed into a puffy paint that glows under the lamp.",
+          "from": "Susie Allison of Busy Toddler, found through Project Learning Tree"
+        },
+        {
+          "says": "Glowing oil and water: oil that glows, floating on water, and never mixing however you stir.",
+          "from": "Growing A Jeweled Rose, found through Project Learning Tree"
+        },
+        {
+          "says": "A glowing lava lamp, in a jar, under a black light: her film is on the shelf at the foot of the pod.",
+          "from": "Emily Calandrelli"
+        },
+        {
+          "says": "Glowing shaving-cream sensory bags: shaving cream and glow paint sealed in a bag, to squish and draw on with a finger, with no mess at all.",
+          "from": "The Pleasantest Thing"
+        },
+        {
+          "says": "Glowing cloud dough: soft, crumbly dough that holds a shape when you squeeze it, and glows under the lamp.",
+          "from": "Powerful Mothering"
+        },
+        {
+          "says": "Glow-in-the-dark play dough, to squash and roll in the dark.",
+          "from": "Sunhats and Wellie Boots"
+        },
+        {
+          "says": "Galaxy jars: a jar layered with cotton wool, water and glowing paint, like a little night sky.",
+          "from": "an idea shared on Pinterest"
+        },
+        {
+          "says": "Glow nails: nail varnish that glows under the UV lamp.",
+          "from": "Helen"
+        },
+        {
+          "says": "A glow bath, in the dark, with something in the water that glows under UV. The lamp is a battery torch, or a mains lamp kept well out of reach of the water.",
+          "from": "Helen"
+        }
+      ]
+    },
+    {
+      "id": "messy-play",
+      "intro": "Ideas for families, for getting your hands into things. Messy play is for the feel of it: there is no right way to do it, and nothing to get finished.",
+      "photos": [
+        {
+          "file": "play-pod/play-dough-creatures.jpg",
+          "shows": "Little creatures made of brightly coloured play dough, with googly eyes: a spotted toadstool, a blue spiky dinosaur, a red spotted frog, a yellow star and a caterpillar.",
+          "photo_by": "Nevit Dilmen",
+          "licence": "CC BY-SA 3.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Play_dough_04799.jpg",
+          "real": "Its Commons page carries the camera's record: a Sony DSC-W1, 8 September 2005."
+        }
+      ],
+      "ideas": [
+        {
+          "says": "Oobleck: cornflour and water, solid when you squeeze it and runny when you let go.",
+          "from": "Sarah McClelland of Little Bins for Little Hands"
+        },
+        {
+          "says": "Jelly digging, shaving cream, sponges in a tub of water, finger painting and mud.",
+          "from": "Sarah McClelland of Little Bins for Little Hands"
+        },
+        {
+          "says": "Ice excavation: little toys frozen into a block of ice, to free with warm water and spoons.",
+          "from": "Sarah McClelland of Little Bins for Little Hands"
+        },
+        {
+          "says": "Cloud dough, rainbow rice in a tray, and painting a wall or a fence with plain water and a big brush.",
+          "from": "Sarah McClelland of Little Bins for Little Hands"
+        },
+        {
+          "says": "Dry pasta with paper and glue, pom-poms and clothes pegs, measuring cups with porridge oats, sticky tape and sponges.",
+          "from": "BBC Tiny Happy People"
+        },
+        {
+          "says": "Words to say while you play, for what it feels like and what you are doing: squishy, lumpy, slippy, soft, crunchy, splash, scrunch, squash.",
+          "from": "BBC Tiny Happy People"
+        },
+        {
+          "says": "More messy play ideas for families are gathered by Fun-a-Day, by Twinkl, and on Alice Young's messy play board.",
+          "from": "Fun-a-Day, Twinkl and Alice Young"
+        }
+      ],
+      "care": [
+        "Where the play is with food, it is food that is safe for whoever is playing, allergies and all.",
+        "Water beads are left out on purpose: they grow inside the body if swallowed, and safety agencies have warned about them for children."
+      ]
+    },
+    {
+      "id": "mark-making",
+      "intro": "Making marks with anything that will make one, big or small, indoors or out, in paint, mud, water, foam or chalk.",
+      "photos": [
+        {
+          "file": "play-pod/chalk-sea.jpg",
+          "shows": "An undersea scene drawn in coloured chalk along a pavement beside a lawn and a white gate: blue water, fish, coral and a seahorse.",
+          "photo_by": "Penny Richards",
+          "licence": "CC BY-SA 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:UnderseaChalkArt2020.jpg",
+          "real": "Its Commons page carries the camera's record: an iPhone SE, 25 March 2020."
+        }
+      ],
+      "ideas": [
+        {
+          "says": "Outdoors and big: mud, water painting, giant brushes, sticks, chalk, spray bottles, sponges, leaves for brushes, puddles, ice, toy cars and balls rolled through paint, and mud handprints and footprints.",
+          "from": "The Muddy Puddle Teacher"
+        },
+        {
+          "says": "Mark making for little ones, indoors and out.",
+          "from": "Play of the Wild"
+        },
+        {
+          "says": "Sensory mark making for people with profound and multiple learning disabilities: marks made in shaving foam on a tuff tray, and with materials that are safe if they reach a mouth.",
+          "from": "Helen Robinson's PMLD sensory mark making board"
+        },
+        {
+          "says": "More sensory mark making, in textures to feel as well as see.",
+          "from": "a sensory mark making board on Pinterest"
+        }
+      ]
+    },
+    {
+      "id": "tuff-trays",
+      "intro": "A tuff tray is a big, shallow, low-sided tray, on the floor or on a stand, that holds a whole small world or a whole messy play at once, and keeps it in one place.",
+      "photos": [],
+      "ideas": [
+        {
+          "says": "Sensory tuff trays, set up for open-ended play.",
+          "from": "Learning and Exploring Through Play"
+        },
+        {
+          "says": "Tuff tray activities for open-ended learning through play.",
+          "from": "Arthur Wears"
+        },
+        {
+          "says": "The PlayTray, a tray made for sensory play and small worlds.",
+          "from": "Inspire My Play"
+        }
+      ]
+    }
+  ],
+  "people": {
+    "intro": "I work and collaborate with all of these people, and I would send you to any of them.",
+    "who": [
+      {
+        "name": "Dr Joanna Grace",
+        "of": "The Sensory Projects",
+        "url": "https://www.thesensoryprojects.co.uk/",
+        "says": "Jo is Autistic, a teacher, and the founder of The Sensory Projects, which run on the idea that with the right knowledge and a little creativity, inexpensive things can become sensory tools for inclusion. She writes and teaches sensory stories."
+      },
+      {
+        "name": "Victoria Navin",
+        "of": "Rhyming Multisensory Stories",
+        "url": "https://www.rhymingmultisensorystories.com/about",
+        "says": "Victoria makes sensory stories and Multisensory Music Journeys, and wrote a book about immersive sensory spaces."
+      },
+      {
+        "name": "Story Massage for Children",
+        "of": "Story Massage",
+        "url": "https://www.youtube.com/c/StoryMassageforChildren",
+        "says": "Stories told with simple massage strokes, shared on their own channel."
+      }
+    ]
+  },
+  "films": {
+    "_what": "A film for the shelf at the foot of the pod, on its maker's own channel, checked on its watch page and pressed in a frame on the live site, from the UK, on 2026-10-28.",
+    "checked": "2026-10-28",
+    "shelf": [
+      {
+        "id": "Hz849uVERSM",
+        "title": "Glow in the Dark Lava Lamp!",
+        "channel": "Emily Calandrelli",
+        "channel_id": "UCj7mQxv2dAm6mhyx8-kb5Xw",
+        "published": "2025-04-26",
+        "runs": 257,
+        "about": "A lava lamp that glows under a black light, made in a jar: the glowing lava lamp from her book Stay Curious and Keep Exploring."
+      }
+    ]
+  }
+}

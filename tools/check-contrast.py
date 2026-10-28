@@ -1023,6 +1023,7 @@ MYTH_AMBER = "#D98A2B"
 # of a panel, in two inks, and links in the sea's blue. The living lights carry
 # no word; they are in ORNAMENT, and the glow-worm marker has its own pair.
 GWH_NIGHT, GWH_DEEP, GWH_INK, GWH_INK2, GWH_SEA, GWH_WORM = "#060E16", "#0C1A26", "#E2F2EE", "#A9C8C3", "#5CD6FF", "#D8F25E"
+PPD_NIGHT, PPD_TRAY, PPD_INK, PPD_INK2, PPD_YELLOW, PPD_PINK = "#110726", "#1D1236", "#F5F0FF", "#CFC2EE", "#EEFF5C", "#FF5CC8"
 
 PAIRS = [
     # TASKS' TAG COLOURS (2026-10-20): a timeline bar is filled with its tag's
@@ -1520,6 +1521,13 @@ PAIRS = [
     (GWH_SEA,   GWH_NIGHT, False, "glow wild hollow: links, in the sea's blue, on the night"),
     (GWH_SEA,   GWH_DEEP,  False, "glow wild hollow: a link on a panel, and the buttons' rims"),
     (GWH_WORM,  GWH_NIGHT, False, "glow wild hollow: the glow-worm on the guild's board, lying on the night"),
+    (PPD_INK,   PPD_NIGHT, False, "play pod: body text on the night"),
+    (PPD_INK,   PPD_TRAY,  False, "play pod: each idea, the people and the buttons' words on a tray's panel"),
+    (PPD_INK2,  PPD_NIGHT, False, "play pod: the intros, the credits, the eyebrow and the back link on the night"),
+    (PPD_INK2,  PPD_TRAY,  False, "play pod: who shared an idea, and a film's line, on a tray's panel"),
+    (PPD_YELLOW, PPD_NIGHT, False, "play pod: links, in the fluorescent yellow, on the night"),
+    (PPD_YELLOW, PPD_TRAY, False, "play pod: a link on a panel, and a person's name"),
+    (PPD_PINK,  PPD_NIGHT, False, "play pod: the glowing straw on the guild's board, lying on the night"),
     # THE ARCADE (love.css §15). The first room lit by a screen.
     # Three grounds the room declares and two it composites, and every ink is
     # held against the composite as well as the flat colour, because the flat
@@ -4174,6 +4182,21 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#8a5cff": "play pod: --ppd-uv, the UV tube and its glow, the trays' rims and the panels' edges, 4.67 on the night. The lamp's light; it carries no word.",
+    "#ff5cc8": "play pod: --ppd-pink, the foam paint glowing in the drawing and an idea's edge, 7.04 on the night. It carries no word, though it would clear the bar.",
+    "#5cffa3": "play pod: --ppd-green, foam paint and a glow stick in the drawing and an idea's edge, 15.05 on the night. It carries no word.",
+    "#8ce8ff": "play pod: --ppd-blue, the tonic water glowing in the drawing and an idea's edge, 13.95 on the night. It carries no word.",
+    "#ffae5c": "play pod: --ppd-orange, a glow stick in the drawing and an idea's edge, 10.59 on the night. It carries no word.",
+    "#3a2766": "play pod: --ppd-line, the outlines and the stand under the lamp, 1.54 on the night. Dark on dark on purpose, aria-hidden, and it carries no word.",
+    "#eee7da": "play pod: --ppd-day, the room's wall in the drawing with the lamp off, aria-hidden. It carries no word.",
+    "#d8cdba": "play pod: --ppd-day-floor, the floor in the drawing with the lamp off, 1.29 on the wall. It carries no word.",
+    "#2a2a2e": "play pod: --ppd-day-tray, the black tuff tray with the lamp off, 11.63 on the wall. It carries no word.",
+    "#6a6a72": "play pod: --ppd-day-stand, the stand and outlines with the lamp off, 4.36 on the wall. It carries no word.",
+    "#e3a6c6": "play pod: --ppd-day-pink, the foam paint with the lamp off, 7.17 on the tray. It carries no word.",
+    "#a6d6b2": "play pod: --ppd-day-green, the foam paint and a glow stick with the lamp off, 8.77 on the tray. It carries no word.",
+    "#e9de98": "play pod: --ppd-day-yellow, the finger marks with the lamp off, 10.46 on the tray. It carries no word.",
+    "#bfd9e3": "play pod: --ppd-day-blue, the tonic water with the lamp off, 1.20 on the wall and 9.70 on the tray. It carries no word.",
+    "#c9c2d6": "play pod: --ppd-day-tube, the UV tube and the galaxy jar's stars with the lamp off, 1.40 on the wall. It carries no word.",
     "#7cf2a8": "glow wild hollow: --gwh-fox, the foxfire on the log, the mushroom's gills and spots, and the crystal jelly's light, 13.98 on the night. A living light; it carries no word.",
     "#14241e": "glow wild hollow: --gwh-hill, the dark slopes, the mushroom's cap and the ground, 1.20 on the night. Dark on dark on purpose, aria-hidden, and it carries no word.",
     "#123049": "glow wild hollow: --gwh-wave, the sea's water and the grass stems, 1.43 on the night. The sea is dark until something moves it; it carries no word.",

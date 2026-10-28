@@ -2219,6 +2219,21 @@
         "--gwh-ink-2"
       ]
     },
+    "play-pod.html": {
+      "kind": "phoenix",
+      "c": [0.5667, 0.0],
+      "p": -0.5,
+      "orbit": 0.015,
+      "swing": 0.06,
+      "bands": 0.08,
+      "ground": "--ppd-night",
+      "inks": [
+        "--ppd-pink",
+        "--ppd-green",
+        "--ppd-blue",
+        "--ppd-yellow"
+      ]
+    },
     "faery-reading-room.html": {
       "kind": "orbit",
       "trap": "ring",

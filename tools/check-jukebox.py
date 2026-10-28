@@ -324,6 +324,7 @@ LISTS = [
     # in the wood and under the sea, Helen's ask of 2026-10-28, each on its
     # maker's own channel.
     ("glow wild hollow", "data/glow-wild.json", "glow-wild-hollow.html"),
+    ("play pod", "data/play-pod.json", "play-pod.html"),
     ("the cabin", "data/secret-cabin.json", "lydtyss.html"),
     # Community Care's one talk, Vivian Ly's at Autscape 2020, on Autscape's own
     # channel: the source of the four things the room's channel is for.
@@ -427,10 +428,11 @@ def tracks_in(data):
     # MYCELIUM MUNCHIES keeps Derek Sarno's rack beside its mushrooms and dishes,
     # which are food rather than videos, under a key of its own. The Open
     # Notebook's collection uses the same key beside its questions.
-    # GLOW WILD HOLLOW keeps its films on two shelves beside its facts, which are
-    # words rather than videos, keyed on 'films' and 'parts' together.
+    # GLOW WILD HOLLOW keeps its films on two shelves beside its facts, and THE
+    # PLAY POD on one beside its ideas, which are words rather than videos,
+    # keyed on 'films' and 'parts' together.
     if "films" in data and "parts" in data:
-        return [dict(v, artist=v.get("channel")) for k in ("wood", "sea")
+        return [dict(v, artist=v.get("channel")) for k in ("wood", "sea", "shelf")
                 for v in data["films"].get(k, []) if not v.get("held")]
     if "videos" in data:
         # A video marked held is on no page (Brew and Stew holds one that looks

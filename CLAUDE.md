@@ -1592,6 +1592,22 @@ sensory activated and stimmy"): a light may come up in `RISE` (100 ms floor) but
 floor), which is what keeps it under the flash line; sound and buzz start off, sound is arithmetic under `MAX_GAIN`.
 The friendly edit is a quicker fade "so it feels snappier", which is the flash.
 
+**THE PLAY POD (§131) IS HELEN'S, THROUGH A ROUND DOOR IN THE YURT, AND WHAT GLOWS THERE GLOWS ONLY WHILE THE LAMP IS ON.**
+Her ask, 2026-10-28: a sensory play room for glow play, messy play, mark making, PMLD sensory mark making and tuff trays,
+"as ideas for families", with "ideas and photos with credit", and the people she works with credited (Dr Joanna Grace,
+Victoria Navin, Story Massage for Children); its door is in the yurt under the glowing mushroom and before the Regulation
+Nook. `tools/make-play-pod.py` writes it from `data/play-pod.json` in Helen's voice. **Every idea names who shared it, by
+name and not by link**, at her ask; only the people she works with are linked. The tool refuses **a photograph of a
+child** (messy play's own pictures are nearly all of children, which is why), one with no record of how it is known to be
+real (her "no AI pictures" rule), a Commons photo with camera data or an NC/ND licence, and her own photos without
+`play-pod.html` in their polaroid record's `elsewhere`; **water beads** anywhere but the care line saying why they are
+left out (they grow inside a body if swallowed); "edible" or "taste safe" on an idea; and play sold by an outcome or a
+cure (development, skills, therapy), The Pile's and the hollow's rules. **The lamp is the room**: everything there
+fluoresces, which is what holds it off Glow Go Gee Gaws, whose toys store light; `play-pod.js` switches the drawing between
+the lamp and daylight on a press and keeps and sends nothing. The friendly edits are a photo of children at a tuff tray
+"because that is what messy play looks like", a water-bead sensory bin, and a picture off Pinterest with a credit under it,
+which a credit does not make free to reuse.
+
 **PROFILE CARDS ARE THE FIFTH THING KEPT UNDER A PERSON, AND WHATEVER IS FILLED IN IS SHOWN.** Ryan, 2026-10-17,
 after requests for profiles more like Discord's. Pressing a handle on the channel or a name on Who's online opens a
 `<dialog>` (`peek()` in `cb.js`, `.pf-*` in `cb.css`): the card on the left, drawn by `profile.js`, and on the right,
@@ -5545,18 +5561,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §132 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §133 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§132 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§133 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §132 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §133 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

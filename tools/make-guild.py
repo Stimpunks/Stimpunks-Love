@@ -741,6 +741,10 @@ DRAW = {
     # light a small round glow, in --gwh-worm on the night, 15.51, over the
     # body threshold a marker is held to. It lies still.
     "hollow-glowworm": """<path d="M10 28 Q12 18 15 12" fill="none" stroke="var(--gwh-worm)" stroke-width="1.8" stroke-linecap="round"/><path d="M15 12 Q20 9 24 12 Q21 15 16 14 Z" fill="none" stroke="var(--gwh-worm)" stroke-width="1.6" stroke-linejoin="round"/><circle cx="22.5" cy="12.4" r="3.4" fill="var(--gwh-worm)"/><circle cx="22.5" cy="12.4" r="6.5" fill="none" stroke="var(--gwh-worm)" stroke-width="1" opacity=".5"/><path d="M6 28 H26" stroke="var(--gwh-worm)" stroke-width="1.4" stroke-linecap="round" opacity=".6"/>""",
+    # The Play Pod's marker is a drinking straw glowing pink under the UV lamp,
+    # bent at the neck, in --ppd-pink on the night, 7.04, over the body
+    # threshold a marker is held to. It lies still.
+    "pod-straw": """<path d="M8 27 L19 10 L25 5" fill="none" stroke="var(--ppd-pink)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.6 23 L13.4 18.7 M14.6 16.9 L17.4 12.6" stroke="var(--ppd-night)" stroke-width="1.2" stroke-linecap="round"/><path d="M5 28 H22" stroke="var(--ppd-pink)" stroke-width="1.4" stroke-linecap="round" opacity=".6"/>""",
     "reading-bookmark": """<path d="M8 6 H24 V26 H8 Z" fill="none" stroke="var(--rdr-brass)" stroke-width="2.2" stroke-linejoin="round"/><path d="M8 6 V26 M12 6 V26" stroke="var(--rdr-brass)" stroke-width="1.4"/><path d="M17 4 V21 L20 18 L23 21 V4 Z" fill="var(--rdr-brass)"/>""",
     "yurt-tallow": """<path d="M11 16 H21 V26 H11 Z" fill="none" stroke="var(--tallow-2)" stroke-width="2.2"/><path d="M16 16 L16 12" stroke="var(--tallow-2)" stroke-width="1.8"/><path d="M16 5 q4 4 0 7 q-4 -3 0 -7 Z" fill="var(--tallow-2)"/>""",
     "meadow-firefly": """<ellipse cx="16" cy="18" rx="4.5" ry="6" fill="none" stroke="var(--glow)" stroke-width="2"/><circle cx="16" cy="22" r="2.6" fill="var(--glow)"/><path d="M12 12 L7 7 M20 12 L25 7" stroke="var(--glow)" stroke-width="1.8" stroke-linecap="round"/>""",

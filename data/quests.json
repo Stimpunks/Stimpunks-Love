@@ -859,6 +859,23 @@
    "learned": "Glow Wild Hollow is Helen Edgar's, down through a glowing mushroom in her yurt: a hollow at night with no moon and no lamp, where every light belongs to something alive, from foxfire in an old log to a sea that sparkles where you touch it. Glow-worms are beetles, and it is the females that glow."
   },
   {
+   "id": "pod-straw",
+   "page": "play-pod.html",
+   "room": "The Play Pod",
+   "title": "A straw that glows",
+   "posted": "Somebody has left a drinking straw glowing pink under the UV lamp in the Play Pod, through the round door in the Faery Yurt. Find it and read what it says.",
+   "rank": 3,
+   "takes": "two minutes, and a lamp you can switch off",
+   "target": "a drinking straw glowing pink under the lamp",
+   "code": "STRAW",
+   "hints": [
+    "It is not on the street. Go out past the treeline to the campgrounds, and into the yurt at pitch 01.",
+    "In the yurt, under the glowing mushroom near the foot of the page, a little round door with a tray glowing through it. Go in.",
+    "At the very bottom of the Play Pod, under where the ideas came from."
+   ],
+   "learned": "The Play Pod is Helen Edgar's, through a round door in her yurt: a tuff tray under a UV lamp, with ideas for families for glow play, messy play, mark making and tuff trays, each credited to who shared it. What glows under a UV lamp glows only while the lamp is on."
+  },
+  {
    "id": "meadow-firefly",
    "page": "swaying-sweetgrass.html",
    "room": "Swaying Sweetgrass",

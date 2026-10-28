@@ -1789,6 +1789,13 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--hollow .hollow-eyebrow {{ margin: 0; }}
 .og--hollow h1 {{ font-size: 78px; margin: 0 !important; }}
 .og--hollow .og-lede {{ font-size: 25px; color: var(--gwh-ink-2); }}
+.og--pod {{ width: 100%; padding: 40px 60px; }}
+.og--pod .og-head {{ display: flex; align-items: center; gap: 40px; }}
+.og--pod .ppd-lamp {{ flex: 0 0 auto; width: 500px; margin: 0; }}
+.og--pod .og-words {{ display: flex; flex-direction: column; gap: 14px; }}
+.og--pod .ppd-eyebrow {{ margin: 0; }}
+.og--pod h1 {{ font-size: 76px; margin: 0 !important; }}
+.og--pod .og-lede {{ font-size: 24px; color: var(--ppd-ink-2); }}
 .og--yurt .og-lede {{ font-family: 'Crimson Pro', serif; color: #C2AC91; max-width: 1000px; }}
 .og--yurt .og-foot {{ font-family: 'Caveat', cursive; color: #A4907B;
   letter-spacing: 0; font-size: 30px; }}
@@ -2882,6 +2889,26 @@ def card_hollow(p):
         f"the water. Beside it, small pale capitals reading behind the faery yurt, down "
         f"through the glowing mushroom, then \u201c{p['h1text']}\u201d in large pale "
         f"italic serif. Under that: {p['desc_plain']}",
+    )
+
+
+def card_pod(p):
+    return (
+        "",
+        f'<div class="ppd og og--pod" data-fit="card">'
+        f'<div class="og-head"><figure class="ppd-lamp" data-lamp="on">{p["podscene"]}</figure><div class="og-words">'
+        f'<p class="ppd-eyebrow">off the faery yurt &middot; through the door under the glimmer window</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div></div>'
+        f'</div>',
+        f"A card as dark as a room with only a UV lamp on. On the left, a drawing of a "
+        f"big round tuff tray on a low stand under a long violet UV tube, everything in "
+        f"it glowing: swirls of foam paint pink and green, a jar of tonic water blue, a "
+        f"galaxy jar, two glow sticks, and finger marks in yellow. Beside it, small pale "
+        f"capitals reading off the faery yurt, through the door under the glimmer window, "
+        f"then \u201c{p['h1text']}\u201d in large round pale letters. Under that: "
+        f"{p['desc_plain']}",
     )
 
 
@@ -5843,6 +5870,7 @@ CARDS = {
     "room-cinema":  card_cinema,
     "room-myths":   card_myths,
     "room-hollow":  card_hollow,
+    "room-pod":     card_pod,
     "hermitage":    card_herm,
     "club":         card_club,
     "room-latibulum": card_latibulum,
@@ -5952,6 +5980,7 @@ def main():
         ("cstrip",   "faery-cinema-room.html", r'(<svg class="cin-strip".*?</svg>)'),
         ("myscene",  "faery-myths-room.html", r'(<svg class="myth-scene".*?</svg>)'),
         ("hscene",   "glow-wild-hollow.html", r'(<svg class="hollow-scene".*?</svg>)'),
+        ("podscene", "play-pod.html",     r'(<svg class="ppd-scene".*?</svg>)'),
         ("crown",    "faery-yurt.html",   r'(<div class="crown".*?</svg>\s*</div>)'),
         ("cabin",    "solarpunk-hermitage.html", r'(<div class="cabin".*?</svg>\s*</div>)'),
         ("esmx",     "quill-drift.html",  r'(<svg class="sprite".*?</svg>)'),

@@ -162,6 +162,11 @@
    "room": "Glow Wild Hollow"
   },
   {
+   "id": "pod-straw",
+   "title": "A straw that glows",
+   "room": "The Play Pod"
+  },
+  {
    "id": "meadow-firefly",
    "title": "The book this room lends",
    "room": "Swaying Sweetgrass"
