@@ -2,14 +2,6 @@
    username is claimed and since when, the email address it keeps for
    recovery if it keeps one (to you and nobody else), and whether recovery by
    email is switched on. POST, with a pass:
-     { action: 'claim', password, email? }  claim the username a pass from a
-                                         shared password is on: the community
-                                         one's, or a moderator's on the
-                                         moderators' password. The one thing
-                                         such a pass is still good for (Ryan,
-                                         2026-10-21). The answer has a new pass
-                                         and a recovery code, shown once and
-                                         kept only as a hash
      { action: 'password', old, password }  change it; every other device is
                                          signed off
      { action: 'everywhere', password }  sign off every other device, its
@@ -27,13 +19,13 @@
      { action: 'second-off', password, what }  'app', a passkey's id, or 'all'
      { action: 'second-codes', password }      new backup codes, the old ones gone
    Nothing a person types is ever logged, passwords and addresses above all. */
-import { readPass, readAccount, claimAccount, changePassword, signOffEverywhere, checkPassword, deleteAccount, accountAnswer,
+import { readPass, readAccount, changePassword, signOffEverywhere, checkPassword, deleteAccount, accountAnswer,
   shapeSecond, totpStart, totpConfirm, passkeyStart, passkeyAdd, secondRemove, secondCodes, webauthnSite,
-  shapeAccount, accountEmail, setAccountEmail, emailOn, readMods, json, body, sameSite } from '../cb/lib.mjs';
+  shapeAccount, accountEmail, setAccountEmail, emailOn, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This desk only answers stimpunks.world.' });
-  const who = await readPass(req, undefined, undefined, { unclaimed: true });
+  const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   if (req.method === 'GET') {
     const a = await readAccount(who.handle);
@@ -43,14 +35,8 @@ export default async (req) => {
   }
   const b = (await body(req)) || {};
   try {
-    if (b.action === 'claim') {
-      if (who.account) return json(400, { error: 'This username is claimed already.' });
-      const mods = readMods();
-      const r = await claimAccount(who.handle, b.password, undefined, undefined, mods, who.role === 'base', b.email);
-      if (r.error) return json(409, { error: r.error });
-      return json(200, { ...accountAnswer(r.handle, r.v, mods), recovery: r.recovery });
-    }
-    if (!who.account) return json(400, { error: 'Claim your username first.' });
+    // Claiming here, with a pass from a shared password, ended 2026-10-28:
+    // everybody joins at /cb/join, and every pass read here is a claimed one.
     if (b.action === 'email') {
       const r = await setAccountEmail(who.handle, b.password, b.email);
       if (r.error) return json(r.locked ? 423 : 400, { error: r.error });

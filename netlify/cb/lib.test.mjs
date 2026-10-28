@@ -19,6 +19,12 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 // The key every claimed username's pass is signed with (passKey in lib.mjs).
 process.env.CB_PASS_KEY = 'a-test-key-that-signs-passes-and-nothing-else';
+// A pass in the shape the shared passwords signed until 2026-10-28, made here
+// because nothing in lib.mjs makes one any more, so the tests can see it refused.
+const sharedPassFor = (role, handle) => {
+  const pw = role === 'base' ? process.env.CB_MOD_PASSWORD : process.env.CB_PASSWORD;
+  return `cb1.${role}.${Buffer.from(handle).toString('base64url')}.${createHmac('sha256', pw || 'unset').update(`cb1|${role}|${handle}`).digest('base64url')}`;
+};
 import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS, CAT_PLACES, CAT_MOODS,
   rescueAnimal, readShelter, animalAt, adoptAnimal, finishAdoptions, readPets, forgetPets, readAdopted, adoptedMonths,
   petKey, unnameAnimal, SHELTER_KEEP, KINDS, DOG_COATS, DOG_MARKS,
@@ -31,7 +37,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, WORLD_CALL, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
-  ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf, STARTER_GONE, PASS_LIFE, PASS_RENEW, signOffEverywhere, passesOn, checkHandle, checkInvite, joinAccount,
+  ROLES, foldHandle, readMods, signOn, readPass, rolesOf, STARTER_GONE, PASS_LIFE, PASS_RENEW, signOffEverywhere, passesOn, checkHandle, checkInvite, joinAccount,
   makeInvite, listInvites, deleteInvite, readInvites, INVITE_USES, INVITE_DAYS, INVITE_KEEP, makeInviteCode,
   emailOn, cleanAddress, accountEmail, setAccountEmail, mailResetCode, ACCT_MAIL_FOR, ACCT_MAIL_GAP, ACCT_MAIL_SUBJECT,
   renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages,
@@ -1702,19 +1708,13 @@ test('a pass is read against the list every time: roles follow it, and a removal
   process.env.CB_PASSWORD = 'community-pw'; process.env.CB_MOD_PASSWORD = 'moderators-pw';
   const req = (pass) => ({ headers: { get: (k) => (k === 'authorization' ? 'Bearer ' + pass : null) } });
   try {
-    // A pass from a shared password is read only for claiming the username it is on.
-    const U = { unclaimed: true };
-    const basePass = issuePass('base', 'Helen'), comPass = issuePass('mobile', 'Ada');
-    const before = readMods('{"Helen":["director"]}'), after = readMods('{"Helen":["director","board"]}');
-    assert.deepEqual(rolesOf((await readPass(req(basePass), before, S, U))), ['director', 'moderator']);
-    assert.deepEqual(rolesOf((await readPass(req(basePass), after, S, U))), ['board', 'director', 'moderator'], 'a new role, no new pass');
-    assert.equal((await readPass(req(basePass), readMods('{"Ryan":["administrator"]}'), S, U)), null, 'taken off the list');
-    assert.equal((await readPass(req(basePass), null, S, U)), null, 'no readable list, no base pass');
-    assert.equal((await readPass(req(comPass), before, S, U)).role, 'mobile');
-    assert.equal((await readPass(req(comPass), readMods('{"Ada":[]}'), S, U)), null, 'a community pass for a handle now reserved');
-    assert.equal((await readPass(req(comPass), null, S, U)).role, 'mobile');
-    assert.equal(await readPass(req(comPass), before, S), null, 'a pass from the starter password opened something other than claiming');
-    assert.equal(await readPass(req(basePass), before, S), null, 'a pass from the moderators\' password opened something other than claiming');
+    // A pass from a shared password opens nothing since 2026-10-28, not even claiming.
+    const basePass = sharedPassFor('base', 'Helen'), comPass = sharedPassFor('mobile', 'Ada');
+    const before = readMods('{"Helen":["director"]}');
+    for (const p of [basePass, comPass]) {
+      assert.equal(await readPass(req(p), before, S), null, 'a pass from a shared password opened something');
+      assert.equal(await readPass(req(p), before, S, { unclaimed: true }), null, 'a pass from a shared password still claims');
+    }
   } finally {
     for (const [k, v] of [['CB_PASSWORD', was[0]], ['CB_MOD_PASSWORD', was[1]]]) {
       if (v === undefined) delete process.env[k]; else process.env[k] = v;
@@ -1736,7 +1736,7 @@ async function withPasswords(fn) {
 }
 const reqWith = (pass) => ({ headers: { get: (k) => (k === 'authorization' ? 'Bearer ' + pass : null) } });
 // EVERYBODY HAS CLAIMED A USERNAME since 2026-10-21, so a pass in a test is a
-// claimed username's: a pass from a shared password is good only for claiming.
+// claimed username's: a pass from a shared password opens nothing.
 async function claimedPassFor(handle, s, role = 'mobile') {
   await claimAccount(handle, `${handle} has a long phrase`, s, 1, null, role === 'base');
   return issueAccountPass(handle, 1, role);
@@ -1744,11 +1744,11 @@ async function claimedPassFor(handle, s, role = 'mobile') {
 
 test('a claimed username signs on with its own password, and the community password stops working for it', () => withPasswords(async () => {
   const S = memoryStore({ etagOnRead: true });
-  const oldPass = issuePass('mobile', 'Ada');
-  assert.equal((await readPass(reqWith(oldPass), null, S, { unclaimed: true })).role, 'mobile');
+  const oldPass = sharedPassFor('mobile', 'Ada');
+  assert.equal(await readPass(reqWith(oldPass), null, S), null, 'a pass from the starter password opened something');
   const c = await claimAccount('Ada', 'a long enough phrase', S, 1000, null);
   assert.equal(c.v, 1); assert.match(c.recovery, /^[A-Z2-9]{4}(-[A-Z2-9]{4}){3}$/);
-  assert.equal(await readPass(reqWith(oldPass), null, S, { unclaimed: true }), null, 'a community pass for a claimed username still works');
+  assert.equal(await readPass(reqWith(oldPass), null, S), null, 'a community pass for a claimed username still works');
   assert.ok((await signOn('ada', 'community-pw', null, S)).error, 'the community password signed on as a claimed username');
   const r = await signOn('ADA', 'a long enough phrase', null, S);
   assert.equal(r.handle, 'Ada'); assert.equal(r.account, 1);
@@ -1907,13 +1907,13 @@ test('a moderator moves onto their own password: it gives the base with the list
   const shared = await signOn('juniper', 'moderators-pw', mods, S);
   assert.equal(shared.claim, true); assert.equal(shared.handle, 'Juniper');
   // A pass from the moderators' password, from before 2026-10-21, opens claiming.
-  const oldBase = issuePass('base', shared.handle);
-  assert.equal((await readPass(reqWith(oldBase), mods, S, { unclaimed: true })).role, 'base');
+  const oldBase = sharedPassFor('base', shared.handle);
+  assert.equal(await readPass(reqWith(oldBase), mods, S), null, 'a pass from the moderators\' password opened something');
   assert.ok((await claimAccount('Juniper', 'moderators-pw', S, 0, mods, true)).error, 'the shared password taken as a personal one');
   assert.ok((await claimAccount('Juniper', 'community-pw', S, 0, mods, true)).error, 'the community password taken as a personal one');
   const c = await claimAccount('Juniper', 'juniper has a phrase', S, 0, mods, true);
   assert.equal(c.v, 1);
-  assert.equal(await readPass(reqWith(oldBase), mods, S, { unclaimed: true }), null, 'the shared password\'s pass outlived the move');
+  assert.equal(await readPass(reqWith(oldBase), mods, S), null, 'the shared password\'s pass outlived the move');
   assert.ok((await signOn('Juniper', 'moderators-pw', mods, S)).error, 'the shared password still signs on as a moderator who moved');
   assert.ok((await signOn('Juniper', 'community-pw', mods, S)).error);
   const own = await signOn('JUNIPER', 'juniper has a phrase', mods, S);
@@ -4158,7 +4158,7 @@ for (const etagOnRead of [true, false]) {
   test(`fifteen devices switched on at once, ${how}`, () => withPasswords(async () => {
     const s = memoryStore({ etagOnRead });
     const subs = Array.from({ length: 15 }, () => aDevice());
-    const told = await Promise.allSettled(subs.map((d, i) => keepDevice(d, issuePass('mobile', `P${i}`), { world: true }, s)));
+    const told = await Promise.allSettled(subs.map((d, i) => keepDevice(d, issueAccountPass(`P${i}`, 1), { world: true }, s)));
     const kept = await readDevices(s);
     const worked = subs.filter((_, i) => told[i].status === 'fulfilled' && told[i].value.id);
     assert.deepEqual(worked.filter((d) => !kept[pushDeviceId(d.endpoint)]), [], 'a device told it was switched on is not kept');
@@ -4394,7 +4394,7 @@ test('props given tell only their person, with the switch on, as the claimed use
   // A device switched on as Ada before she claimed the name: her pass then is
   // no pass now, so it is dropped rather than told.
   const before = aDevice();
-  await keepDevice(before, issuePass('mobile', 'Ada'), { props: true }, s);
+  await keepDevice(before, sharedPassFor('mobile', 'Ada'), { props: true }, s);
   await claimAccount('Ada', 'a long enough phrase', s, 9, null);
   await setPropsOpen(petKey('Ada'), true, s);
   const pass = issueAccountPass('Ada', (await readAccount('Ada', s)).v);
@@ -4402,7 +4402,7 @@ test('props given tell only their person, with the switch on, as the claimed use
   await keepDevice(on, pass, { props: true }, s);
   await keepDevice(quiet, pass, { props: true, words: false }, s);
   await keepDevice(off, pass, { mentions: true, world: true }, s);
-  await keepDevice(bex, issuePass('mobile', 'Bex'), { props: true, mentions: true, world: true }, s);
+  await keepDevice(bex, sharedPassFor('mobile', 'Bex'), { props: true, mentions: true, world: true }, s);
   assert.equal(cleanWant({}).props, false, 'props were on before anybody switched them on');
   const sent = [];
   const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
@@ -6904,7 +6904,7 @@ test('a category\'s room tells only the devices whose pass can read the category
   const mods = readMods('{"Bea":["board"]}');
   await claimAccount('Bea', 'bea has a phrase', s, 0, mods, true);
   await claimAccount('Ada', 'ada has a phrase too', s, 0, mods, true);
-  const bea = issueAccountPass('Bea', 1, 'base'), ada = issueAccountPass('Ada', 1), cy = issuePass('mobile', 'Cy');
+  const bea = issueAccountPass('Bea', 1, 'base'), ada = issueAccountPass('Ada', 1), cy = sharedPassFor('mobile', 'Cy');
   const beaDev = aDevice(), adaDev = aDevice(), cyDev = aDevice();
   for (const [d, p] of [[beaDev, bea], [adaDev, ada], [cyDev, cy]]) await keepDevice(d, p, { calls: true, rooms: ['forum-board', 'forum-coping'] }, s);
   const sent = [];
@@ -6971,7 +6971,7 @@ test('a reply tells whoever sent the message it answers, behind its own switch, 
   // A room that keeps to itself announces nothing outside it, a reply included.
   const mods = readMods('{"Bex":["administrator"]}');
   const baseDev = aDevice();
-  await keepDevice(baseDev, issuePass('base', 'Bex'), { replies: true }, s);
+  await keepDevice(baseDev, sharedPassFor('base', 'Bex'), { replies: true }, s);
   await notifyMessage({ ...reply, id: 'r5' }, QUIET_ROOMS[0], s, mods, send, { id: 'o5', handle: 'Bex', text: 'hi', t: 1, base: true });
   assert.equal(sent.length, 0, 'a reply announced a room that keeps to itself');
   // An edit never tells anybody about a reply again.

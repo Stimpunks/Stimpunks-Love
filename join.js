@@ -99,17 +99,19 @@
   /* ── Somebody already on ───────────────────────────────────────────────── */
 
   var on = cbState();
-  if (on) {
+  // A pass from a shared password opens nothing since 2026-10-28, so its
+  // browser joins here like anybody's, and the pass it gets replaces the old.
+  var retired = on && /^cb1\./.test(on.pass) ? on : null;
+  if (on && !retired) {
     var p = el('p');
-    if (/^cb1\./.test(on.pass)) {
-      p.appendChild(document.createTextNode('This browser is signed on as ' + on.handle + ' with a shared password, which only claims a username now. The radio, in the corner of the screen, will claim ' + on.handle + ' for you. To join under another username instead, sign off at '));
-    } else {
-      p.appendChild(document.createTextNode('You are on the CB already, as ' + on.handle + '. To join under another username, sign off first, at '));
-    }
+    p.appendChild(document.createTextNode('You are on the CB already, as ' + on.handle + '. To join under another username, sign off first, at '));
     p.appendChild(link('/community-center.html#cb-signon-desk', 'the front desk'));
     p.appendChild(document.createTextNode(', and open the invite again.'));
     view.appendChild(p);
     return;
+  }
+  if (retired) {
+    view.appendChild(el('p', null, 'This browser was on as ' + retired.handle + ' with a shared password, which opens nothing now. Join below, as ' + retired.handle + ' if nobody has claimed it, and this browser is on with your own password.'));
   }
 
   /* ── The form ──────────────────────────────────────────────────────────── */
@@ -151,7 +153,7 @@
   invite.input.value = given.invite || '';
   var name = field('A username', 'jn-name', 'text', 'username');
   name.input.maxLength = 24;
-  name.input.value = given.name || '';
+  name.input.value = given.name || (retired ? retired.handle : '');
   var modPw = field('The moderators’ password', 'jn-mod', 'password', 'off');
   modPw.wrap.hidden = true;
   var pw = field('A password of your own, eight characters or more', 'jn-pw', 'password', 'new-password');

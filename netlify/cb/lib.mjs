@@ -5533,10 +5533,6 @@ export function shapeBeacons(list, who = null, tuned = null) {
 
 function b64(buf) { return Buffer.from(buf).toString('base64url'); }
 
-function sign(secret, role, handle) {
-  return createHmac('sha256', secret).update(`cb1|${role}|${handle}`).digest();
-}
-
 function secretFor(role) {
   const v = role === 'base' ? process.env.CB_MOD_PASSWORD : process.env.CB_PASSWORD;
   return v && v.length >= 8 ? v : null;
@@ -5670,10 +5666,6 @@ export async function signOn(handle, password, mods, s = store(), now = Date.now
   return { error: 'Nobody has claimed that username, so there is no password to sign on with. New here? You join the CB with an invite.' };
 }
 
-export function issuePass(role, handle) {
-  return `cb1.${role}.${b64(handle)}.${b64(sign(secretFor(role), role, handle))}`;
-}
-
 /* A pass is checked against the list every time, both ways: a base pass is only
    good while its handle is on the list, with the roles it has now; a community
    pass is refused once its handle belongs to a moderator, and once it has been
@@ -5696,11 +5688,13 @@ export function issuePass(role, handle) {
    Sign off everywhere is what stops every pass at once. Changing CB_PASS_KEY
    signs everybody off. Without it no pass is read or made.
 
-   A PASS FROM A SHARED PASSWORD (cb1) IS GOOD FOR ONE THING NOW: claiming the
-   username it is on (Ryan, 2026-10-21, "They must claim a username to retain
-   access"). Only /cb/account asks for it, with { unclaimed: true }; to every
-   other function it is no pass, and the radio says why and offers the claim. */
-export async function readPass(req, mods, s = store(), { unclaimed = false, now = Date.now() } = {}) {
+   A PASS FROM A SHARED PASSWORD (cb1) OPENS NOTHING SINCE 2026-10-28 (Ryan's
+   call). From 2026-10-21 it was good for one thing, claiming the username it
+   was on, and because it was signed with the shared password, anybody who knew
+   that password could make one and claim an unclaimed name without an invite.
+   Somebody still on one joins with an invite, under the same name if it is
+   free; a moderator claims theirs on the joining page, as before. */
+export async function readPass(req, mods, s = store(), { now = Date.now() } = {}) {
   if (mods === undefined) mods = await loadMods();
   const h = req.headers.get('authorization') || '';
   const a = /^Bearer cb2\.(acct|base)\.([A-Za-z0-9_-]+)\.(\d{1,9})\.(\d{10,11})\.([A-Za-z0-9_-]+)$/.exec(h);
@@ -5743,36 +5737,10 @@ export async function readPass(req, mods, s = store(), { unclaimed = false, now 
     else Object.assign(member, renew);
     return member;
   }
-  const m = /^Bearer (cb1)\.(mobile|base)\.([A-Za-z0-9_-]+)\.([A-Za-z0-9_-]+)$/.exec(h);
-  if (!m || !unclaimed) return null;
-  const role = m[2];
-  const secret = secretFor(role);
-  if (!secret) return null;
-  let handle;
-  try { handle = Buffer.from(m[3], 'base64url').toString('utf8'); } catch (e) { return null; }
-  if (cleanHandle(handle) !== handle) return null;
-  const want = sign(secret, role, handle);
-  const got = Buffer.from(m[4], 'base64url');
-  if (got.length !== want.length || !timingSafeEqual(got, want)) return null;
-  const on = mods && mods.get(foldHandle(handle));
-  if (role === 'base') {
-    // The shared password's pass stops the moment a moderator moves onto their
-    // own, the way a community pass stops when its username is claimed.
-    if (!on || await readAccount(handle, s)) return null;
-    return { role, handle, roles: on.roles };
-  }
-  if (on) return null;
-  if (await readAccount(handle, s)) return null;
-  return { role, handle, roles: new Set() };
+  // A pass from a shared password (cb1) opens nothing since 2026-10-28.
+  return null;
 }
 
-/* Whether a request carries a pass from a shared password (cb1), which is
-   good only for claiming now. The channel and Be seen here answer one 403
-   rather than 401, so a radio still running the code from before 2026-10-21
-   goes on saying "no signal" rather than forgetting its pass: that pass is
-   the one thing that lets its person claim their username once the page is
-   reloaded, with the starter password retired. */
-export function sharedPass(req) { return /^Bearer cb1\./.test((req && req.headers && req.headers.get('authorization')) || ''); }
 
 /* A claimed username's pass: cb2.base for a moderator, cb2.acct for everybody
    else, its handle, the account's version and when it ends, signed with
@@ -10985,8 +10953,6 @@ export function followsRoom(w, room) {
 function passParts(pass) {
   let m = /^cb2\.(acct|base)\.([A-Za-z0-9_-]+)\.(\d{1,9})\.(\d{10,11})\.[A-Za-z0-9_-]+$/.exec(String(pass || ''));
   if (m) return { gen: 2, kind: m[1], handle: unb64(m[2]).toString('utf8'), v: Number(m[3]), exp: Number(m[4]) };
-  m = /^cb1\.(mobile|base)\.([A-Za-z0-9_-]+)\.[A-Za-z0-9_-]+$/.exec(String(pass || ''));
-  if (m) return { gen: 1, kind: m[1], handle: unb64(m[2]).toString('utf8') };
   return null;
 }
 const passHash = (pass) => createHash('sha256').update(`stimpunks-push-pass\0${pass}`).digest('base64url');
@@ -10995,7 +10961,6 @@ function passAgain(p) {
   try {
     // A device kept from before passes ran out (no exp) has no pass now.
     if (p.gen === 2) return Number.isInteger(p.exp) && (p.kind === 'acct' || p.kind === 'base') ? passWith(p.kind, p.handle, p.v, p.exp) : null;
-    if (p.gen === 1 && (p.kind === 'mobile' || p.kind === 'base')) return issuePass(p.kind, p.handle);
   } catch (e) { /* no password set: nobody's pass is good */ }
   return null;
 }

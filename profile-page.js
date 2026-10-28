@@ -164,7 +164,7 @@
 
   function ask(handle) {
     var s = cbState(), headers = { 'accept': 'application/json', 'content-type': 'application/json' };
-    // A shared password's pass only claims a username now: it is nobody here.
+    // A shared password's pass opens nothing now: it is nobody here.
     if (s && !/^cb1\./.test(s.pass)) headers.authorization = 'Bearer ' + s.pass;
     return fetch('/cb/profile/page', {
       method: 'POST', credentials: 'omit', cache: 'no-store', headers: headers,

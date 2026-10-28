@@ -9,136 +9,143 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Wed, 28 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>A pass from a shared password opens nothing</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-28-shared-passes-retired</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-shared-passes-retired</guid>
+      <pubDate>Wed, 28 Oct 2026 12:00:00 GMT</pubDate>
+      <description>A browser still on the CB with the old starter password, or the moderators’ shared one, can no longer claim a username from there. Since 21 October such a pass could still do that one thing. It was signed with the shared password, so anybody who knew it could have made one and claimed a name without an invite. The radio says so in its place, with where to go: join with an invite, under the same username if nobody has claimed it, or, for a moderator, claim your username on the joining page. The joining page fills in the old username. Everything kept under it stays with it.</description>
+    </item>
+    <item>
       <title>Signing on runs out, and Sign off everywhere else</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-passes-run-out</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-passes-run-out</guid>
-      <pubDate>Wed, 28 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:59:00 GMT</pubDate>
       <description>Everybody on the CB is signed off once today, and signs on again with their own password. Your radio’s settings come back when you do. Why: a pass could be made by somebody who knew a shared password. The pass your browser keeps was signed with the passwords our community and our moderators shared, so anybody who knew the old starter password could have made one for somebody else’s username, and any moderator one for another moderator’s, past two-step sign-in. We know of nobody who did. Passes are signed now with a key nobody types or needs to know, and every pass made the old way stopped working. A pass runs out after thirty days with no radio listening. While your radio is open it is handed a fresh pass once a day, without a word, so you sign on again only after a month away. Sign off everywhere else, under Account on the radio, asks for your password and signs off every other device signed on as you, their notifications with them, for a lost phone or a computer left signed on. Privacy and the CB guide say how it works.</description>
     </item>
     <item>
       <title>A direct message’s notification opens its conversation</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-dm-notification-conversation</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-dm-notification-conversation</guid>
-      <pubDate>Wed, 28 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:58:00 GMT</pubDate>
       <description>Pressing a notification about a direct message now opens that conversation on the chat page, where an hour ago it opened your list of conversations. If a chat page is already open, it comes to the front and opens the conversation there. The conversation is still never in the page’s address, because the address goes into your browser’s history: the notification hands the sender’s name to the page as it opens, and nothing keeps it.</description>
     </item>
     <item>
       <title>Notifications about messages open the chat page</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-notifications-to-chat</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-notifications-to-chat</guid>
-      <pubDate>Wed, 28 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:57:00 GMT</pubDate>
       <description>Pressing a notification about a message on the CB opens that channel on the chat page, where before it opened the room’s own page. A message on World opens World there. A notification about a direct message opens Direct messages on the chat page, with your conversations in the middle. Which conversation it was is still never put in the page’s address, because the address goes into your browser’s history. A room that keeps to itself has no channel on the chat page, so its notifications still open the room. A call starting still opens its room, and an event still opens Events on the chat page.</description>
     </item>
     <item>
       <title>Checklists in comments in Tasks and the office</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-comment-checkboxes</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-comment-checkboxes</guid>
-      <pubDate>Wed, 28 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:56:00 GMT</pubDate>
       <description>A comment in Tasks or the office can hold a checklist now: a list item written - [] is drawn as a box, where before the brackets showed up as words. The comment box has a Checklist button for it, as a description’s does. Whoever wrote the comment ticks its boxes in place, and everybody else sees them ticked or not. A tick changes the comment’s words, and only its writer changes those, so it says the comment was edited and tells nobody. For a checklist everybody can tick, put it in the task’s description.</description>
     </item>
     <item>
       <title>The Haunted House, turning 09 off The Outskirts</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-haunted-house</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-haunted-house</guid>
-      <pubDate>Wed, 28 Oct 2026 11:56:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:55:00 GMT</pubDate>
       <description>Somebody asked for a haunted house in the suggestion box, and it is open: The Haunted House, an empty warehouse at the end of the road with a house built inside it out of plywood flats, lit only by the work lights behind the set coming through its seams. Haunted things are hidden in its rooms, from our own street and pages for now. With the lights up they are in one list you can scroll; with the lights down it is a hunt from room to room, where every place to look is a button that says where it looks. Nothing jumps out, nothing makes a sound, every room has its way out, and nothing you find is counted or kept. Its channel on the CB takes pictures and links of spooky things you made or love. Say so there or in the suggestion box to put one in the house for good, with your name on it, and it comes out when you ask. And the history and lore: Samhain and the thin veil, where haunted houses came from, the volunteer houses built by hand in empty warehouses, where eldritch comes from and who gets made the monster, and the darker half of the year as a time to rest.</description>
     </item>
     <item>
       <title>The forums keep more, sort and group by tag, and our administrators set how long</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-forum-keeps</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-forum-keeps</guid>
-      <pubDate>Wed, 28 Oct 2026 11:55:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:54:00 GMT</pubDate>
       <description>Announcements, Events, Show your work, Props &amp; Gratitude and every category under Interests now keep their topics for good, with the say-so of everybody who had posted in them, and so do Work opportunities and Discourse. The watering hole keeps a topic three months after its last post, where it kept one a week; a topic already there keeps its week. Our administrators can set how long each category keeps a topic, at the desk in the Moderators’ room, as they can for the CB’s channels. Every post now remembers how long its category kept topics when it was written, and a topic is never kept longer than the shortest of those, so a longer setting never keeps anybody’s words longer than they were said under. The privacy page says so. A category’s page can sort its topics by latest post, newest or oldest topic, or title, and group them by tag, a topic under each tag it carries. Both stay in the page’s address. The CB guide has the rest.</description>
     </item>
     <item>
       <title>Edible messy play in the Play Pod</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-edible-messy-play</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-edible-messy-play</guid>
-      <pubDate>Wed, 28 Oct 2026 11:54:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:53:00 GMT</pubDate>
       <description>At Helen Edgar’s ask, the Play Pod has a section of its own for edible messy play: mark making in chocolate sauce and ketchup, cornflour and oil gloop, thick instant oats, and cornflour with tapioca pearls, each idea credited to Play of the Wild, who shared it. Its care line says edible means safe for whoever is playing, allergies and swallowing included. This changes one of the room’s rules, and it was Helen’s call: until now the Play Pod would not call any idea edible. Two photographs came down from the Play Pod at Helen’s ask, the play dough creatures and the chalk undersea drawing.</description>
     </item>
     <item>
       <title>The teleporter goes to channels too</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-teleport-channels</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-teleport-channels</guid>
-      <pubDate>Wed, 28 Oct 2026 11:53:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:52:00 GMT</pubDate>
       <description>A request from our community: type a # into the radio’s teleporter and it finds channels, and Enter opens the one you picked on the chat page. It finds them the way it finds rooms, by name or by what a room is about, and each shows its #tag. A staff channel is only listed for people who can listen to it. On the chat page it is the other way round. A name on its own finds channels and picks one without leaving the page, and a / in front finds rooms’ pages, the way #the-den and /the-den already work in a message. The box’s label says which is which wherever you are, and the CB guide has the rest.</description>
     </item>
     <item>
       <title>Glow Wild Hollow is Air, Earth and Water, with a bonfire at the end</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-air-earth-water-fire</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-air-earth-water-fire</guid>
-      <pubDate>Wed, 28 Oct 2026 11:52:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:51:00 GMT</pubDate>
       <description>At Helen Edgar’s ask, Glow Wild Hollow is now three spaces, Air, Earth and Water, and you go down through them. In the air, fireflies glow over the grass when you wake them, and moths circle whichever glow is brightest. A floaty whirlpool, drawn like the stirred sea, takes you down into the earth of the forest, and a second one spirals down and down through the rhizome to the sea. Under Fire, at the very end, is a bonfire on the shore. Light it and it catches and burns for twenty seconds, or for as long as you keep it burning. This changes one of the hollow’s rules, and it was Helen’s call: until now every light in the hollow belonged to something alive, and the bonfire is the one that does not. Its flames sway slowly, never dim by more than a tenth, and its sparks rise and fade slowly, so nothing flashes. At Gentle, once lit, it burns still. New real photographs of fireflies and a moth, from Wikimedia Commons, each credited under it on the page.</description>
     </item>
     <item>
       <title>The Stim Tin, in Helen’s Regulation Nook</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-stim-tin</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-stim-tin</guid>
-      <pubDate>Wed, 28 Oct 2026 11:51:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:50:00 GMT</pubDate>
       <description>At Helen Edgar’s ask, the Stim Tin, her name for it, is in the Regulation Nook of her yurt: real photographs of stim toys (a fidget spinner, a fidget cube, a pop-it, squishes, a slinky, a crochet square with a ball inside, a going-out bag and a board of everything), each with a line on what it feels like in the hand, and Sophie Broadgate’s short film In Motion, which plays when you press it. Every photograph is a real one from Wikimedia Commons, credited under it, with no people in any of them.</description>
     </item>
     <item>
       <title>Down and into the rhizome</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-into-the-rhizome</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-into-the-rhizome</guid>
-      <pubDate>Wed, 28 Oct 2026 11:50:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:49:00 GMT</pubDate>
       <description>At Helen Edgar’s ask, the way into Glow Wild Hollow from her yurt is down and into the rhizome, where it used to say through the mushroom. The glowing mushroom is still the door you go down by.</description>
     </item>
     <item>
       <title>Glow Wild Hollow: a slower sea that moves like water, and a jellyfish that swims for twenty seconds</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-glow-wild-slow-sea-jelly</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-glow-wild-slow-sea-jelly</guid>
-      <pubDate>Wed, 28 Oct 2026 11:49:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:48:00 GMT</pubDate>
       <description>At Helen Edgar’s ask, the sea in Glow Wild Hollow moves like real water now, and slower: a touch spreads rings slowly out across it, rings cross and run back off the edges, a finger drawn through it leaves a wake, and wherever the water moves a blue glow builds up and fades slowly behind. Stir the water stirs it slowly round for twenty seconds; Keep it stirring keeps it going until you switch it off. Make a wave rolls slow waves in along the shore, glowing where they break. The jellyfish swims for twenty seconds when you touch it: its light comes up slowly, it pulses every few seconds and rises a little each time, drifts from side to side leaning the way it goes, and a ring of light runs slowly round its bell on every pulse, blue and then green. At the end its light fades and it rests. Keep it glowing keeps it swimming until you switch it off. Nothing flashes: every glow comes up a little at a time and goes down slowly, and at Gentle both stay still. The sea also no longer runs past the edge of its panel on a phone.</description>
     </item>
     <item>
       <title>Following a link no longer hangs up a call in Chrome’s app</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-app-links-keep-calls</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-app-links-keep-calls</guid>
-      <pubDate>Wed, 28 Oct 2026 11:48:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:47:00 GMT</pubDate>
       <description>With the street installed as an app from Chrome, a stimpunks.world link on the radio hung up the call you were in, while a link off the street did not; a member noticed, and it did the same for us. While a call is up, the radio opens such a link in a new tab so the call stays put, but Chrome now pulls a new tab opened from inside its app back into the app, and with nothing telling it otherwise it put the page in the call’s own window. The street’s manifest now asks for a new window each time, which is what Safari’s app already did. The CB guide says so.</description>
     </item>
     <item>
       <title>The Play Pod, through a round door in Helen’s yurt</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-play-pod</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-play-pod</guid>
-      <pubDate>Wed, 28 Oct 2026 11:47:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:46:00 GMT</pubDate>
       <description>At Helen Edgar’s ask, the Play Pod, a sensory play room through a little round door in her yurt, under the glowing mushroom and before the Regulation Nook. It is a tuff tray under a UV lamp, with ideas for families for glow play (tonic water, glow sticks, glowing foam paint, cloud dough and play dough, galaxy jars, glow baths and glow nails), messy play, mark making, PMLD sensory mark making and tuff trays, written in Helen’s voice, and every idea names who shared it. The people Helen works with are credited by name: Dr Joanna Grace of The Sensory Projects, Victoria Navin of Rhyming Multisensory Stories, and Story Massage for Children. Every photograph is a real one, and none is of a child: three of Helen’s own from her yurt under its UV lamp, and the rest from Wikimedia Commons, each credited under it. Water beads are left out on purpose, and the page says why. A lamp switch under the drawing turns the UV lamp off and on: off, an ordinary black tray of pale paint; on, everything in it glows. It keeps and sends nothing, and nothing in the room flashes. A film to make a glowing lava lamp, by Emily Calandrelli, is on the pod’s screen.</description>
     </item>
     <item>
       <title>Helen’s yurt in a new order, and Glow Wild Hollow’s glitter dial</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-yurt-order-hollow-dial</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-yurt-order-hollow-dial</guid>
-      <pubDate>Wed, 28 Oct 2026 11:46:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:45:00 GMT</pubDate>
       <description>At Helen Edgar’s ask, her yurt runs in a new order: Myths &amp; Legends through the Alchemist’s Arch at the top, then the Bookshelf and her Reading Room, the Soundtrack, the Cinema, the Art Gallery and the Glimmer Window, and under the Glimmer Window the glowing mushroom down to Glow Wild Hollow, where a Play Pod is coming next. The Adventurer’s Guild’s glow-worm job says where the mushroom is now. Glow Wild Hollow has its own glitter dial now, which it went up without, saying what MAX does in there. Its tool will not build the room without one.</description>
     </item>
     <item>
       <title>Glow Wild Hollow: real photographs all through it, and a sea and a jellyfish you can play with</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-glow-wild-immersive</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-glow-wild-immersive</guid>
-      <pubDate>Wed, 28 Oct 2026 11:45:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:44:00 GMT</pubDate>
       <description>At Helen Edgar’s ask, real photographs of glowing things all through Glow Wild Hollow, and very clear ones. Each part opens on a photograph wider than its words, nearly the width of the window: a ghost mushroom glowing pale green in an Australian forest, fungi glowing on wood, a female glow-worm lit on a grass stem, sea sparkle along the sand on Norderney, a crystal jelly, a mushroom glowing blue under ultraviolet. More stand under each, from glow-worm trails through German forests and the blue tears of the Matsu Islands to a deep-sea comb jelly, and a new part, More living light, has fireflies over lupines in Maine and coral glowing at the bottom of the North Atlantic. The soft photographs from yesterday were replaced with sharper ones, and every photograph is saved at twice the size it is shown. Every one is a real photograph, never a drawing or a picture made by AI, and the room’s data says how each is known: the camera’s own record on its Commons page, or who took it and when. Each is credited under it. The sea and the jellyfish are far more to play with. The sea lights where a finger or a pointer runs through it, more the faster it goes, and the light swirls along behind in the current; a tap sends a ring of light out across the water, holding still keeps it glowing, Stir the water spins a whirlpool of light, and the new Make a wave runs a breaking wave of light along the shore. The jellyfish pulses and swims up when it is touched, a ring of light runs round the rim of its bell from where it was touched, blue first and then green, as a crystal jelly’s light really does, and flows down its tentacles; holding on keeps it pulsing, and brushing through its tentacles makes them sway. On a phone the sea is taller, and the jellyfish’s water bigger. Sound and Buzz, each off until switched on: soft sounds made in the browser, never a recording and under the Repeater’s ceiling, and a small buzz on a phone that can. Nothing is kept or sent. Nothing flashes: a light now comes up quickly when you touch the water, but it always goes down over nearly two seconds, so nothing can come and go three times in a second; at Gentle and in a low-stimulation mode the sea and the jellyfish light and stay lit, still, and nothing moves by itself below MAX GLITTER.</description>
     </item>
     <item>
       <title>Happening now names a call going, seen or not</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-happening-now-calls</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-happening-now-calls</guid>
-      <pubDate>Wed, 28 Oct 2026 11:44:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:43:00 GMT</pubDate>
       <description>Happening now says a call is going in your room whether or not Be seen here is on. It used to know only while you were seen here, although Who’s online names every room with a call going to anybody signed on, which Ryan found when the call was missing with his switch off. The radio now hears that list each time it listens; switched off, the line says somebody is in the call and that Be seen here shows who. Changed: cb.js, netlify/functions/cb-channel.mjs, the privacy page, the CB guide.</description>
     </item>
     <item>
       <title>Happening now, under the channel</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-happening-now</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-happening-now</guid>
-      <pubDate>Wed, 28 Oct 2026 11:43:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:42:00 GMT</pubDate>
       <description>The radio has a new part, Happening now, straight under the channel, because Watching together had gone so far down the radio that a watch-together could be on in your room without your seeing it. It says what is going on in the room you are in, and only that room: its call, while you are in it or while somebody is and you are seen here; an event on now from the schedule; and anybody hosting a film here, with Go to Watching together, which takes you down to their Catch up and Follow and presses nothing. It is only there while one of them is. On the chat page it heads the right-hand column. The room’s call and On now moved up into it from In this channel rather than being said twice: Join this room’s call stays under In this channel until the call is going. Changed: cb.js, cb.css, the CB guide.</description>
     </item>
     <item>
       <title>Glow Wild Hollow: real photographs, and films of the wood and the sea</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-glow-wild-photos-films</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-glow-wild-photos-films</guid>
-      <pubDate>Wed, 28 Oct 2026 11:42:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:41:00 GMT</pubDate>
       <description>At Helen Edgar’s ask, Glow Wild Hollow now shows the real thing glowing, the way the Crystal Wheel shows real stones: a mushroom lit green on a twig, foxfire in rotting bark, a female glow-worm lit on a grass stem in Rutland, blue sea sparkle along the waves, a crystal jelly, a comb jelly with the rainbow along its combs, and a mushroom fluorescing under ultraviolet. Each is from Wikimedia Commons under a licence this site can use, credited under it with its photographer, its licence and its file page, and saved without camera data. And films of the glow, on two shelves, in the wood and under the sea, from the BBC, BBC Earth, National Geographic, Terra Mater (David Attenborough’s film about living light), the National Trust, the Monterey Bay Aquarium, its research institute MBARI, and PBS Terra, each on its own channel. Every one says how long it runs before you press, plays where it hangs or up on the hollow’s screen, and was pressed and played in a frame on this site before it went up. The room says some of them show fireflies flashing, because what happens inside another site’s player is not the room’s to hold. Changed: glow-wild-hollow.html, data/glow-wild.json, tools/make-glow-wild.py, love.css (§129), the new glow-wild/ photographs, tools/check-jukebox.py, the Now Playing bill, and the hollow’s tags, which now include Videos.</description>
     </item>
     <item>

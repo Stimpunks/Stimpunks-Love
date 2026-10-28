@@ -56,10 +56,12 @@ would break one without any test noticing:
     The friendly edit is "invited by" on a profile, Discord's; it is a list of
     who came in through whose invite. /cb/invites lists, makes and deletes and
     does nothing else, for a base pass only.
-  · THE STARTER PASSWORD SIGNS NOBODY ON, and a pass from a shared password
-    (cb1) is read only by /cb/account, for claiming. The friendly edit is to
-    let the old password back in "for people who have not heard yet"; the radio
-    asks them to claim instead.
+  · THE STARTER PASSWORD SIGNS NOBODY ON, and since 2026-10-28 a pass from a
+    shared password (cb1) opens nothing at all: it was signed with that
+    password, so anybody who knew it could make one and claim a name without an
+    invite. The friendly edits are to let the old password back in "for people
+    who have not heard yet", and to bring back claiming with a cb1 pass; the
+    radio sends them to an invite instead (passRetired).
   · THE JOINING PAGE sends to /cb/join and nowhere else, keeps nothing but the
     pass it is given, builds nothing from a string, and its sheet wears the
     CB's seven colours and no literal one.
@@ -235,17 +237,24 @@ def main():
                         "which keeps nothing about who.")
     if "if (all && same(password, all)) return { error: STARTER_GONE };" not in lib:
         problems.append(f"{LIB.name}: signOn lets the retired starter password sign somebody on.")
-    if "if (!m || !unclaimed) return null;" not in lib:
-        problems.append(f"{LIB.name}: readPass reads a pass from a shared password for more than claiming.")
+    rp = lib[lib.find("export async function readPass("):]
+    rp = rp[:rp.find("\n}\n")]
+    rp = re.sub(r"//[^\n]*", " ", re.sub(r"/\*.*?\*/", " ", rp, flags=re.S))
+    if not rp or re.search(r"cb1|unclaimed", rp) or "Bearer cb2" not in rp:
+        problems.append(f"{LIB.name}: readPass reads a pass from a shared password (cb1). It opens nothing since 2026-10-28.")
+    if re.search(r"export function (issuePass|sharedPass)\b", lib):
+        problems.append(f"{LIB.name}: makes or recognises a pass from a shared password again.")
     for f in sorted(FUNCS.glob("*.mjs")):
-        if "unclaimed: true" in f.read_text() and f.name != "cb-account.mjs":
-            problems.append(f"{f.name}: reads a pass from a shared password. Only claiming at /cb/account does.")
+        if re.search(r"unclaimed: true|sharedPass|action === 'claim'", f.read_text()):
+            problems.append(f"{f.name}: reads, or claims with, a pass from a shared password. Everybody joins at /cb/join.")
     icode = re.sub(r"/\*.*?\*/", " ", INVITES.read_text(), flags=re.S) if INVITES.exists() else ""
     asks = sorted(set(re.findall(r"\bb\.(\w+)", icode)))
     if asks != ["delete", "make"] or "who.role !== 'base'" not in icode:
         problems.append(f"{INVITES.name}: the invites' desk takes {asks} or not only from a base pass; it lists, "
                         "makes and deletes, for a moderator, and nothing else.")
     jcode = re.sub(r"/\*.*?\*/", " ", JOIN.read_text(), flags=re.S) if JOIN.exists() else ""
+    if "it will not be shown again" not in jcode:
+        problems.append(f"{JOIN.name}: no longer says the recovery code is shown once.")
     urls = sorted(set(re.findall(r"fetch\('([^']+)'", jcode)))
     if urls != ["/cb/join"]:
         problems.append(f"{JOIN.name}: the joining page sends to {urls}; it sends to /cb/join and nowhere else.")
@@ -286,8 +295,7 @@ def main():
                         "before it resets, deletes or clears anything, or one moderator can sign on as another, roles and all.")
     cb = CB.read_text()
     for want, why in (("'Delete my account'", "Delete my account"), ("'Yes, delete my account'", "the second press before deleting"),
-                      ("'Claim ' + h", "the offer to claim"), ("it will not be shown again", "saying the recovery code is shown once"),
-                      ("if (/^cb1\\./.test(s.pass || '')) { claimFirst(s); return; }", "claiming first, before any radio, for a pass from a shared password")):
+                      ("if (/^cb1\\./.test(s.pass || '')) { passRetired(s); return; }", "the panel, before any radio, for a pass from a shared password")):
         if want not in cb:
             problems.append(f"{CB.name}: Account has lost {why}.")
     for f in (CB, FORUM, PROFILE, CBCSS):

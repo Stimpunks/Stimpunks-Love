@@ -4768,9 +4768,7 @@ it replaces works until its own end; **Sign off everywhere else** under Account 
 radio orders passes by version and then by end (`passVersion`), and its push mark carries the end
 (`passMark`), so a renewed pass reaches every tab and switches the device's notifications on again with
 itself; a device record without `exp` has no pass. The second step's ticket is made from `CB_PASS_KEY` too.
-**A cb1 pass from a shared password is still signed with that password** and good only for claiming, so
-anybody who knows `CB_PASSWORD` can still claim an unclaimed name without an invite; `DECISIONS.md` has it
-open. The friendly edits are **renewing on every request "so the radio can stay folded"**, which breaks folded
+**A cb1 pass from a shared password opens nothing at all since the same evening** (below). The friendly edits are **renewing on every request "so the radio can stay folded"**, which breaks folded
 sending nothing, **a list of passes "so you can see your devices"**, which is a record of every device
 somebody uses, and **falling back to `CB_PASSWORD` when the key is missing**, which is the hole again.
 
@@ -4836,11 +4834,11 @@ the joining page (`join.js`, `join.css`, the CB's clothes in a shadow root, `/cb
 chooses a username and a password of their own and is on with a claimed username from their first minute;
 **the starter password retired at once** (Ryan chose that over keeping it as a standing invite, knowing
 stimpunks.org's join page needs an invite link before anybody new can get in), so `signOn` refuses it with
-`STARTER_GONE`; **a pass from a shared password (`cb1`) is read only by `/cb/account`, for claiming**
-(`readPass(…, { unclaimed: true })`), and the radio builds no radio for one, only `claimFirst()` in
-`cb.js`, which claims and then brings the radio; `/cb/channel` and `/cb/here` answer such a pass 403
-(`sharedPass`), not 401, so a tab still running the old `cb.js` says "no signal" rather than forgetting
-the one pass that can still claim. **A moderator's username takes the moderators' password and no
+`STARTER_GONE`; **a pass from a shared password (`cb1`) opens nothing since 2026-10-28** (Ryan's call: it
+was signed with that password, so anybody who knew it could make one and claim a name without an invite).
+From 2026-10-21 until then it could claim the username it was on; now `readPass` never reads one, the radio
+builds no radio for one, only `passRetired()` in `cb.js`, which says where to go and offers Sign off, and the
+joining page lets its browser join like anybody's, the old handle filled in. **A moderator's username takes the moderators' password and no
 invite** (`joinAccount`), the moderators' password signs nobody on (it answers `{ claim }` and the page
 sends them to the joining page), and **joining fails closed** without a readable `CB_MODS`, so an invite
 cannot claim a moderator's name. **An invite is its id, code, note, maker, when made, when it runs out,
@@ -4991,9 +4989,9 @@ reversing the meeting hall of 2026-09-29: the community uses Stimpunks.World and
 so the room no longer mentions Stoat or Discord. It opens with **Getting started**, Ryan's draft: ask to
 join on stimpunks.org's Community page, which gives you an **invite** (the starter password until
 2026-10-21), open its link, choose a username and a password of your own on the joining page, keep the
-recovery code, then quests. **The steps name the joining page's own labels and buttons**, and the note for
-somebody still on the starter password names the radio's (Claim and the username), so a change to those
-labels in `join.js` or `claimFirst` is a change to that list. **Other pages send people to `community-center.html#getting-started`**, never to a
+recovery code, then quests. **The steps name the joining page's own labels and buttons**, so a change to
+those labels in `join.js` is a change to that list, and the note for somebody still on the starter password
+says to join with an invite under the same name. **Other pages send people to `community-center.html#getting-started`**, never to a
 meeting hall: the guest bar, the CB guide, the Sandbox's box and the Fishbowl's call panel. The channel is
 still for what forgets in two weeks and the forums for what needs longer. stoat.chat stays out of
 `ORIGINS`: it sends `X-Frame-Options: SAMEORIGIN`.

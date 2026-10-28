@@ -105,7 +105,7 @@
     return;
   }
   if (/^cb1\./.test(on.pass)) {
-    view.appendChild(el('p', null, 'This browser is signed on with a shared password, which only claims a username now. The radio, in the corner of the screen, will claim ' + on.handle + ' for you, and then the directory opens here.'));
+    view.appendChild(el('p', null, 'This browser is signed on with a pass from a shared password, which opens nothing now. The radio, in the corner of the screen, says where to go to join as ' + on.handle + '.'));
     return;
   }
 

@@ -203,10 +203,13 @@ def main():
     for want, why in (("'Forget me'", "a Forget me button"), ("'Yes, forget me'", "a second press before it forgets"),
                       ("A handle is not an account", "the sentence saying an unclaimed handle is not an account"),
                       ("call('/cb/pets', { body: { forget: true } }", "a Forget Me that asks the server to forget"),
-                      ("'Yes, delete my account'", "a second press before an account is deleted"),
-                      ("it will not be shown again", "the sentence saying a recovery code is shown once")):
+                      ("'Yes, delete my account'", "a second press before an account is deleted")):
         if want not in cb:
             problems.append(f"{CB.name}: the radio has lost {why}.")
+    # A recovery code is shown on the joining page since 2026-10-28, when the
+    # radio stopped claiming usernames itself.
+    if "it will not be shown again" not in (ROOT / "join.js").read_text():
+        problems.append("join.js: the joining page has lost the sentence saying a recovery code is shown once.")
 
     for kind, page in PAGES.items():
         src = page.read_text()

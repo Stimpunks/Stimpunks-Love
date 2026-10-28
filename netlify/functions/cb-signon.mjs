@@ -4,7 +4,7 @@
    /cb/join. A moderator whose handle is still on the moderators' password is
    answered { claim } with no pass, so the page can send them to claim it. See
    ../cb/lib.mjs for what this may and may not keep. */
-import { signOn, issuePass, issueAccountPass, cleanHandle, rolesOf, secondTicket, secondCheck, webauthnSite, accountAnswer, json, body, sameSite } from '../cb/lib.mjs';
+import { signOn, issueAccountPass, cleanHandle, rolesOf, secondTicket, secondCheck, webauthnSite, accountAnswer, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -26,7 +26,7 @@ export default async (req) => {
     if (!second) return json(503, { error: 'Two-step sign-in is switched off just now. Tell Ryan or Helen.' });
     return json(200, { second, handle: r.acct.handle });
   }
-  const pass = r.account ? issueAccountPass(r.handle, r.account, r.role) : issuePass(r.role, r.handle);
+  const pass = issueAccountPass(r.handle, r.account, r.role);
   return json(200, { pass, handle: r.handle, base: r.role === 'base', roles: rolesOf(r), claimed: !!r.account, ...(r.twostep ? { twostep: r.twostep } : {}) });
 };
 

@@ -25,11 +25,11 @@
    never a room that keeps to itself, and it says nothing about where the
    asker is. null until 8x8 is telling us who is in calls. */
 import { createHash } from 'node:crypto';
-import { staffShut, readPass, sharedPass, readTuned, readBeacons, roomTag, roomAllows, rolesOf, mentionableRoles, shape, shapeRule, shapeBeacons, callsReady, callsOn, WINDOW, json } from '../cb/lib.mjs';
+import { staffShut, readPass, readTuned, readBeacons, roomTag, roomAllows, rolesOf, mentionableRoles, shape, shapeRule, shapeBeacons, callsReady, callsOn, WINDOW, json } from '../cb/lib.mjs';
 
 export default async (req) => {
   const who = await readPass(req);
-  if (!who) return sharedPass(req) ? json(403, { error: 'claim your username first' }) : json(401, { error: 'signed off' });
+  if (!who) return json(401, { error: 'signed off' });
   // ?room=<tag> only while the radio is tuned to a room; World sends nothing.
   const q = new URL(req.url).searchParams;
   const asked = q.get('room');

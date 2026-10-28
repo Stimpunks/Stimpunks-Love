@@ -266,7 +266,7 @@
   }
   if (/^cb1\./.test(on.pass)) {
     var claim = el('div', 'hm-view');
-    claim.appendChild(el('p', null, 'This browser is signed on with a shared password, which only claims a username now. The radio, in the corner of the screen, will claim ' + on.handle + ' for you, and then Home opens here.'));
+    claim.appendChild(el('p', null, 'This browser is signed on with a pass from a shared password, which opens nothing now. The radio, in the corner of the screen, says where to go to join as ' + on.handle + '.'));
     box.appendChild(claim);
     return;
   }
