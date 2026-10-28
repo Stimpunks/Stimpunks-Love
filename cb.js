@@ -1724,6 +1724,10 @@
     this.inCallNow = el('p', 'cb-seen-now cb-in-call');
     this.inCallNow.hidden = true;
     callSub.appendChild(this.inCallNow);
+    // That a call is going here, without who, for a radio not seen here: see callPlace.
+    this.callOnNow = el('p', 'cb-seen-now cb-in-call');
+    this.callOnNow.hidden = true;
+    callSub.appendChild(this.callOnNow);
     hereSec.appendChild(callSub);
     /* BRING MY FAMILIAR (Ryan, 2026-10-19): only for a claimed username with
        a familiar following it, off until pressed; see familiarShown(). */
@@ -3416,6 +3420,7 @@
         if (!r.body.same) { me.chanV = r.body.v || null; me.show(r.body.messages || []); me.readTick(r.body.messages || []); }
         me.showBeacons(r.body.beacons, r.body.now);
         me.calls = !!r.body.calls;
+        me.callGoing = Array.isArray(r.body.going) ? r.body.going : null;
         me.callShown();
         me.keepRoles(r.body.roles);
         me.twostepShown(r.body.twostep);
@@ -12595,14 +12600,24 @@
   };
 
   /* THE ROOM'S CALL STANDS UNDER HAPPENING NOW WHILE IT IS GOING: while you
-     are in it, or while somebody is and you are seen here, which is the only
-     way the radio is told who is in it (presenceDraw). Otherwise it stands
-     under In this channel, where Join this room's call always is. One
-     subsection moved, never a copy of it, so who is in the call is said in
-     one place. The keyboard goes with it if it was on it. */
+     are in it, or while somebody is. Who is in it is told only to a radio
+     seen here (presenceDraw); that somebody is comes on every listen
+     (callGoing, the rooms Who's online names as having calls going, for
+     anybody signed on), so a radio not seen here says a call is going and
+     not who (Ryan, 2026-10-27: Be seen here had been switched off and the
+     call was missing). Otherwise it stands under In this channel, where Join
+     this room's call always is. One subsection moved, never a copy of it, so
+     the call is said in one place. The keyboard goes with it if it was on it. */
   Radio.prototype.callPlace = function () {
-    var sub = this.callSub;
-    var going = this.callBtn.getAttribute('aria-pressed') === 'true' || !!this.callFull;
+    var sub = this.callSub, here = hereRoom();
+    var inIt = this.callBtn.getAttribute('aria-pressed') === 'true';
+    // What a radio seen here is told outranks the list: it is about this room alone.
+    var listed = !!(here && !worldHere() && this.inCallNow.hidden && Array.isArray(this.callGoing) && this.callGoing.indexOf(here.tag) >= 0);
+    this.callOnNow.hidden = inIt || !listed;
+    this.callOnNow.textContent = this.state.seen
+      ? 'Somebody is in this room\u2019s call now.'
+      : 'Somebody is in this room\u2019s call now. Switch on Be seen here to see who.';
+    var going = inIt || !!this.callFull || listed;
     var to = going ? this.nowSec : this.hereSec, before = going ? this.nowSub : this.famSub;
     if (sub.parentNode === to) return;
     var root = sub.getRootNode(), had = root.activeElement && sub.contains(root.activeElement) ? root.activeElement : null;

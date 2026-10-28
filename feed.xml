@@ -9,17 +9,24 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Wed, 28 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Happening now names a call going, seen or not</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-28-happening-now-calls</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-happening-now-calls</guid>
+      <pubDate>Wed, 28 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Happening now says a call is going in your room whether or not Be seen here is on. It used to know only while you were seen here, although Who’s online names every room with a call going to anybody signed on, which Ryan found when the call was missing with his switch off. The radio now hears that list each time it listens; switched off, the line says somebody is in the call and that Be seen here shows who. Changed: cb.js, netlify/functions/cb-channel.mjs, the privacy page, the CB guide.</description>
+    </item>
+    <item>
       <title>Happening now, under the channel</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-happening-now</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-happening-now</guid>
-      <pubDate>Wed, 28 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:59:00 GMT</pubDate>
       <description>The radio has a new part, Happening now, straight under the channel, because Watching together had gone so far down the radio that a watch-together could be on in your room without your seeing it. It says what is going on in the room you are in, and only that room: its call, while you are in it or while somebody is and you are seen here; an event on now from the schedule; and anybody hosting a film here, with Go to Watching together, which takes you down to their Catch up and Follow and presses nothing. It is only there while one of them is. On the chat page it heads the right-hand column. The room’s call and On now moved up into it from In this channel rather than being said twice: Join this room’s call stays under In this channel until the call is going. Changed: cb.js, cb.css, the CB guide.</description>
     </item>
     <item>
       <title>Glow Wild Hollow: real photographs, and films of the wood and the sea</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-glow-wild-photos-films</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-28-glow-wild-photos-films</guid>
-      <pubDate>Wed, 28 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Wed, 28 Oct 2026 11:58:00 GMT</pubDate>
       <description>At Helen Edgar’s ask, Glow Wild Hollow now shows the real thing glowing, the way the Crystal Wheel shows real stones: a mushroom lit green on a twig, foxfire in rotting bark, a female glow-worm lit on a grass stem in Rutland, blue sea sparkle along the waves, a crystal jelly, a comb jelly with the rainbow along its combs, and a mushroom fluorescing under ultraviolet. Each is from Wikimedia Commons under a licence this site can use, credited under it with its photographer, its licence and its file page, and saved without camera data. And films of the glow, on two shelves, in the wood and under the sea, from the BBC, BBC Earth, National Geographic, Terra Mater (David Attenborough’s film about living light), the National Trust, the Monterey Bay Aquarium, its research institute MBARI, and PBS Terra, each on its own channel. Every one says how long it runs before you press, plays where it hangs or up on the hollow’s screen, and was pressed and played in a frame on this site before it went up. The room says some of them show fireflies flashing, because what happens inside another site’s player is not the room’s to hold. Changed: glow-wild-hollow.html, data/glow-wild.json, tools/make-glow-wild.py, love.css (§129), the new glow-wild/ photographs, tools/check-jukebox.py, the Now Playing bill, and the hollow’s tags, which now include Videos.</description>
     </item>
     <item>
