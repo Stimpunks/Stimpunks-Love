@@ -4784,7 +4784,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment,
   TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment, officeTemplate, importTaskComment,
   taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, readTaskTpls, TASK_TEMPLATE_SEED,
-  taskSnippets, saveTaskSnippet, removeTaskSnippet, TASK_SNIPPETS_KEEP,
+  taskSnippets, saveTaskSnippet, removeTaskSnippet, TASK_SNIPPETS_KEEP, fillSnippet,
   memberMap, readMemberMap, mapFind, mapPut, mapTake, mapTakeOne, importMap, officeMemberMap, MAP_NEAR_KM } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
@@ -5454,6 +5454,23 @@ test('snippets: the team’s words for !, read and changed only by task readers,
   assert.ok((await removeTaskSnippet(TSAM, other.snippet.id, s)).error);
   assert.match((await saveTaskSnippet(TCHELSEA, { id: made.snippet.id, body: 'x' }, s, T0 + 3)).error, /deleted/);
   assert.ok(TASK_SNIPPETS_KEEP >= 20);
+});
+
+test('snippet fill-ins: a role’s holders now, as checkbox lines, in Tasks and the office and never sent to the forums', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.match((await saveTaskSnippet(TCHELSEA, { name: 'Odd', body: '{directorz}' }, s, T0)).error, /no fill-in called \{directorz\}/);
+  await saveTaskSnippet(TCHELSEA, { name: 'Sign-off', body: 'Tick when read:\n{directors}' }, s, T0);
+  await saveTaskSnippet(TCHELSEA, { name: 'Minutes', body: 'Taken by {me} on {today} for {name}' }, s, T0);
+  const all = await taskSnippets(TCHELSEA, s, { mods: TMODS });
+  const sign = all.find((x) => x.name === 'Sign-off'), mins = all.find((x) => x.name === 'Minutes');
+  assert.equal(sign.body, 'Tick when read:\n{directors}', 'the words as written were filled');
+  assert.equal(sign.put, 'Tick when read:\n- [ ] Chelsea\n- [ ] Norah\n- [ ] Ryan');
+  assert.equal(mins.put, 'Taken by Chelsea on {today} for {name}', '{today} is the browser’s and {name} a template’s');
+  // The forums are sent no snippet holding a role's fill-in, and no holders.
+  const forum = await taskSnippets(TCHELSEA, s, { roles: false, mods: TMODS });
+  assert.deepEqual(forum.map((x) => x.name), ['Minutes']);
+  assert.ok(!JSON.stringify(forum).includes('Norah'));
+  assert.equal(fillSnippet('{board}', TRYAN, TMODS), '(Nobody holds the board role just now.)');
 });
 
 test('the Join form makes a Join Request case and an onboarding task from its template, linking both, once', () => withOfficeKey(OFFICE_TEST_KEY, async () => {

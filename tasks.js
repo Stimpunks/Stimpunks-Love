@@ -2696,6 +2696,7 @@
     view.appendChild(h);
     view.appendChild(el('p', 'tk-shown', list.length + (list.length === 1 ? ' snippet' : ' snippets')));
     view.appendChild(el('p', null, 'A snippet is words you put into a box by typing ! and part of its name: in a task’s description or a comment, in the office’s notes, descriptions and comments, and in the forums. Put a checklist with a line for every director in one, and anybody can add it to a task for everybody to tick. A snippet is the team’s: anybody on Tasks can change or delete it, and changing it changes nothing it was already put into.'));
+    view.appendChild(el('p', null, 'A snippet can hold fill-ins, filled when it goes into a box: {directors}, {board} and {administrators} become a checkbox line for everybody who holds that role then, {me} your username, and {today} the day. What goes in is plain words, so a task keeps the names it was made with. A snippet holding {directors}, {board} or {administrators} is offered in Tasks and the office only, never in the forums.'));
     var row = el('p', 'tk-row');
     var make = el('a', 'cb-btn tk-small', 'New snippet'); make.href = '#/snippets/new';
     row.appendChild(make);
@@ -2708,6 +2709,7 @@
       var by = x.by ? 'Made by ' + x.by + ', ' + when(x.t) : 'Made ' + when(x.t);
       if (x.edited) by += '. Changed' + (x.editedBy ? ' by ' + x.editedBy : '') + ', ' + when(x.edited);
       li.appendChild(el('p', 'cb-quiet tk-snip__by', by + '.'));
+      if (/\{(directors|board|administrators)\}/.test(x.body)) li.appendChild(el('p', 'cb-quiet tk-snip__by', 'Holds a role’s fill-in, so it is offered in Tasks and the office only.'));
       var words = el('pre', 'tk-snip__words');
       words.setAttribute('aria-label', 'What ! puts in');
       words.textContent = x.body;
@@ -2768,7 +2770,7 @@
     form.appendChild(nameHint);
     var desc = kit.describe(x ? x.body : '', x ? 'Save' : 'Make the snippet', '#/snippets', {
       label: 'Its words', max: settings.snippetMax || 5000,
-      hint: 'These go into the box exactly as they are written here. Use the buttons above, or Markdown if you know it. A list item starting [ ] is a checkbox: in a task’s description it is ticked on the task itself. An @ before a username in a snippet tells that person when the words are posted, not when the snippet is saved.' });
+      hint: 'These go into the box as they are written here, with the fill-ins filled. Put {directors}, {board} or {administrators} on a line of its own: it becomes a checkbox line for everybody who holds that role when the snippet goes in, and such a snippet is never offered in the forums. {me} becomes your username and {today} the day. A template’s fill-ins, such as {name}, are left as they are. Use the buttons above, or Markdown if you know it. A list item starting [ ] is a checkbox: in a task’s description it is ticked on the task itself. An @ before a username in a snippet tells that person when the words are posted, not when the snippet is saved.' });
     var text = desc.text, go = desc.go, answer = desc.answer;
     form.addEventListener('submit', function (e) {
       e.preventDefault();

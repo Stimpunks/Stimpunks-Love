@@ -557,6 +557,18 @@ def check_snippets(lib):
     forum = code_of(ROOT / "netlify" / "functions" / "cb-forum.mjs")
     if "if (b.action === 'snippets') return answer(200, { snippets: tasksAllow(who) ?" not in forum:
         problems.append("cb-forum.mjs: the forums send snippets without asking whether the reader can read Tasks.")
+    if "taskSnippets(who, undefined, { roles: false })" not in forum:
+        problems.append("cb-forum.mjs: the forums can be sent a snippet holding {directors}, {board} or {administrators}, "
+                        "which would put who holds a role into a post anybody in its category reads.")
+    ts = fn(lib, "taskSnippets")
+    if "if (!roles) list = list.filter((x) => !snippetHoldsRole(x.body));" not in ts or "const mods = roles &&" not in ts:
+        problems.append("lib.mjs: taskSnippets fills a role's holders in, or sends such a snippet, when asked without roles.")
+    callers = [f.name for f in (ROOT / "netlify" / "functions").glob("*.mjs") if re.search(r"\btaskSnippets\(|\bfillSnippet\(", code_of(f))]
+    if sorted(callers) != ["cb-forum.mjs", "cb-office.mjs", "cb-tasks.mjs"]:
+        problems.append(f"netlify/functions: snippets, and the role holders filled into them, are sent by {', '.join(sorted(callers))}, "
+                        "not by Tasks, the office and the forums alone.")
+    if re.search(r"fillSnippet\(", lib.replace(fn(lib, "taskSnippets"), "").replace(fn(lib, "fillSnippet"), "")):
+        problems.append("lib.mjs: fillSnippet is called outside taskSnippets, so a role's holders could be sent somewhere else.")
     office = code_of(ROOT / "netlify" / "functions" / "cb-office.mjs")
     if "snippets: staffReady() ?" not in office:
         problems.append("cb-office.mjs: the office reads the snippets without asking for the staff key they are sealed with.")

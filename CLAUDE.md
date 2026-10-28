@@ -6305,10 +6305,16 @@ Tasks under **Snippets** (`#/snippets` in `tasks.js`), read by `/cb/tasks`, `/cb
 and @: **`!` after a space or at a line's start, and a bare `!` only at a line's start**, so "Great!" and "Great !" stay
 words and `![` (a picture) never opens it; words of several lines go in on a line of their own. Every pick from those
 menus now goes in through `execCommand('insertText')`, so Undo takes it back. The radio's chat has no `!`.
-`make-tasks.py` (`check_snippets`) holds it. The friendly edits are **fill-ins in a snippet** ("{directors}" from the
-roles, "{today}"), which would make a snippet a template and the list of who holds a role something a page can print,
-**personal snippets kept per person**, and **a snippet that changes the words it was put into when it is edited**; each
-is Ryan's call, and `privacy.html#task-snippets` first.
+**Fill-ins came the same evening, Ryan's call, reversing "nobody is shown who holds a role" for Tasks and the office
+alone**: `{directors}`, `{board}` and `{administrators}` (`SNIPPET_ROLES`) are filled by `fillSnippet` in
+`taskSnippets`, as `put`, with a `- [ ] username` line per holder now, `{me}` with the reader, and `{today}` by
+`links.js` in the reader's own day; a template's fill-ins pass through, and any other is refused. **Filled when the
+snippet goes in and never again**, so a task keeps the names it was made with and `tickTask`'s word match holds. The
+forums ask with `{ roles: false }` and are sent no snippet holding a role, because a post is read by anybody in its
+category. `make-tasks.py` (`check_snippets`) holds it, and was broken on purpose. The friendly edits are **filling a
+role when the task is read** "so it stays current", which changes who must sign after the fact and breaks ticking,
+**role fill-ins in the forums or on the radio**, and **personal snippets kept per person**; each is Ryan's call, and
+`privacy.html#task-snippets` first.
 
 **A TASK'S, A GRANT REQUEST'S OR A CASE'S NAME IN ITS LIST SHOWS A PREVIEW ON HOVER OR FOCUS, AND `preview.js` IS THE ONE FILE.** Norah's ask, 2026-10-21. `window.lovePreview({ p, box })` makes one card per page, and each list hands every name it watches its own `read(id)` (the feed's `view=feed&ids=`, kept by when the record last changed, never in the browser) and `draw`. It keeps WCAG 1.4.13: Escape puts it away until the pointer or the keyboard leaves that name, the pointer can move onto it, and it stays until they leave; a touch shows nothing. **It is `aria-hidden` and nothing on it can be pressed or reached** (`still()` makes markdown.js's links words and its boxes disabled), because the record's page is one press away with all of it and a screen reader would otherwise hear a description at every row. `make-tasks.py` holds it. The friendly edits are **buttons on the preview** ("Mark it completed from the hover"), which makes it something a keyboard has to get into, and **showing it on touch**, where a tap is the way in. **The forums' bar has Tasks and Office only when `/cb/forum`'s `me` says the pass reaches them** (`tasksAllow`, `officeAllow`), and Tasks' and the office's bars have Forums.
 

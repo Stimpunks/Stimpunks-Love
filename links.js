@@ -209,8 +209,12 @@
      exclamation mark at the end of a word never does, and a bare ! with
      nothing after it only at the start of a line, so "Great !" stays words;
      ![ is a picture and never a snippet, because [ is not a letter. Words of
-     several lines start on a line of their own and end with one.
-     o: { list() (a promise of [{ id, name, body }]), said(text)?, after()? } */
+     several lines start on a line of their own and end with one. What goes
+     in is `put`, which the server filled for this reader ({directors} and
+     the rest, and {me}), with {today} filled here, in the reader's own day.
+     o: { list() (a promise of [{ id, name, body, put }]), said(text)?, after()? } */
+  function today() { return new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); }
+  function filled(x) { return String(x.put != null ? x.put : x.body || '').replace(/\{today\}/g, today()); }
   function snippets(text, o) {
     return menu(text, {
       label: 'Snippets', wait: 0,
@@ -232,12 +236,12 @@
       empty: function (q) { return q ? 'No snippet is called that.' : 'There are no snippets yet. Make them under Snippets in Tasks.'; },
       row: function (li, x) {
         li.appendChild(el('span', 'cb-opt__name', x.name));
-        var first = String(x.body || '').split('\n').filter(function (l) { return l.trim(); })[0] || '';
+        var first = filled(x).split('\n').filter(function (l) { return l.trim(); })[0] || '';
         var cs = Array.from(first);
         if (first) li.appendChild(el('span', 'cb-opt__tag', cs.length > 60 ? cs.slice(0, 59).join('') + '…' : first));
       },
       put: function (x, before) {
-        var body = String(x.body || '');
+        var body = filled(x);
         if (body.indexOf('\n') < 0) return body + ' ';
         return (before && !/\n$/.test(before) ? '\n' : '') + body + '\n';
       },

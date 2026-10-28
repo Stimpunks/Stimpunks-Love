@@ -13015,13 +13015,28 @@ export async function removeTaskTemplate(who, id, s = store()) {
    each its id, name and words, who made and changed it and when; anybody who
    can read Tasks can read, make, change or delete one, as with templates.
    They are offered in Tasks, the office and, to the same people, the forums
-   (links.js), and a snippet's words are only words: nothing is filled in,
-   nobody is told when one changes, and putting one into a box tells nobody
-   anything the words would not have told them typed. */
+   (links.js). Nobody is told when one changes, and putting one into a box
+   tells nobody anything the words would not have told them typed.
+
+   FILL-INS (Ryan's call, the same day): {directors}, {board} and
+   {administrators} are filled with a line `- [ ] username` for everybody who
+   holds that role now, alphabetical, when the snippet is sent to be put into
+   a box, so a sign-off checklist never goes out of date; {me} is the
+   reader's username, and {today} the reader's own day, which links.js fills
+   in the browser. They are filled when the snippet goes in and never again:
+   what went in is plain words, so a task keeps the names it was made with
+   and its boxes keep ticking. THIS REVERSES "nobody is shown who holds a
+   role" for the readers of Tasks and the office alone, who are directors,
+   board members and administrators themselves; the forums are sent no
+   snippet that holds a role's fill-in, because a post can be read by
+   anybody in its category. A template's fill-ins ({name} and the rest)
+   are left as they are, for a snippet put into a template. */
 export const TASK_SNIPPETS_KEEP = 100;
 export const TASK_SNIPPET_NAME_MAX = 60;
 export const TASK_SNIPPET_MAX = 5000;
 const TASK_SNIPPETS = 'task-snippets';
+export const SNIPPET_ROLES = { directors: 'director', board: 'board', administrators: 'administrator' };
+export const SNIPPET_FILL_INS = [...Object.keys(SNIPPET_ROLES), 'me', 'today'];
 export function taskSnippetId(v) { return typeof v === 'string' && /^s[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
 const newTaskSnippetId = () => 's' + randomBytes(9).toString('base64url');
 
@@ -13032,10 +13047,36 @@ async function readTaskSnippets(s = store()) {
 function shapeTaskSnippet(x) {
   return { id: x.id, name: x.name, body: x.body, t: x.t || null, by: x.by || null, edited: x.edited || null, editedBy: x.editedBy || null };
 }
-/* Every snippet, by name, words and all: they are short, and a box offers them as it is typed in. */
-export async function taskSnippets(who, s = store()) {
+/* Whether some words hold a role's fill-in. */
+export function snippetHoldsRole(text) {
+  return Object.keys(SNIPPET_ROLES).some((k) => String(text || '').includes('{' + k + '}'));
+}
+/* A snippet's words as they go into a box for `who`: a role's fill-in its
+   holders now, one checkbox each, and {me} their username. {today} is left
+   for the browser, which knows the reader's own day. */
+export function fillSnippet(body, who, mods) {
+  const holders = (role) => (mods ? [...mods.values()] : []).filter((m) => m.roles.has(role)).map((m) => m.handle)
+    .sort((a, b) => a.localeCompare(b));
+  return String(body || '').replace(/\{(\w+)\}/g, (m, k) => {
+    if (Object.hasOwn(SNIPPET_ROLES, k)) {
+      const list = holders(SNIPPET_ROLES[k]);
+      return list.length ? list.map((h) => '- [ ] ' + h).join('\n') : '(Nobody holds the ' + SNIPPET_ROLES[k] + ' role just now.)';
+    }
+    if (k === 'me') return who.handle;
+    return m;
+  });
+}
+/* Every snippet, by name, words and all: they are short, and a box offers
+   them as it is typed in. `put` is what goes in, filled for the reader;
+   with roles false (the forums), a snippet holding a role's fill-in is not
+   sent at all. */
+export async function taskSnippets(who, s = store(), opts = {}) {
   if (!tasksAllow(who)) return null;
-  return (await readTaskSnippets(s)).map(shapeTaskSnippet).sort((a, b) => a.name.localeCompare(b.name));
+  const roles = opts.roles !== false;
+  let list = (await readTaskSnippets(s)).map(shapeTaskSnippet);
+  if (!roles) list = list.filter((x) => !snippetHoldsRole(x.body));
+  const mods = roles && list.some((x) => snippetHoldsRole(x.body)) ? (opts.mods === undefined ? await loadMods() : opts.mods) : null;
+  return list.map((x) => ({ ...x, put: fillSnippet(x.body, who, mods) })).sort((a, b) => a.name.localeCompare(b.name));
 }
 
 /* A snippet made, or changed: only the fields sent change. Its name is one
@@ -13064,6 +13105,11 @@ export async function saveTaskSnippet(who, f, s = store(), now = Date.now()) {
     }
     if (!next.name) { why = 'Give the snippet a name.'; return null; }
     if (!next.body) { why = 'Give the snippet some words.'; return null; }
+    const unknown = [];
+    for (const m of next.body.matchAll(/\{(\w+)\}/g)) {
+      if (!SNIPPET_FILL_INS.includes(m[1]) && !TASK_FILL_INS.includes(m[1]) && !unknown.includes(m[0])) unknown.push(m[0]);
+    }
+    if (unknown.length) { why = `Snippets have no fill-in called ${unknown.join(', ')}. They know ${SNIPPET_FILL_INS.map((x) => '{' + x + '}').join(', ')}, and leave a template’s ${TASK_FILL_INS.map((x) => '{' + x + '}').join(', ')} as they are.`; return null; }
     const same = (a) => a.normalize('NFKC').toLowerCase();
     if (list.some((x, i) => i !== k && same(x.name) === same(next.name))) { why = `There is a snippet called “${next.name}” already.`; return null; }
     if (had) { next.edited = now; next.editedBy = who.handle; }

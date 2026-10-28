@@ -31,7 +31,8 @@
      { action: 'preview', body, pics? }              how the words will set; pics: the composer's pictures, placed where the words say
      { action: 'links', q }                          what [[ offers for q: the topics, and for staff the tasks and
                                                      the office's records, the reader can open (findLinks), by POST
-     { action: 'snippets' }                          Tasks' snippets, for ! in a box, to a reader who can read Tasks;
+     { action: 'snippets' }                          Tasks' snippets, for ! in a box, to a reader who can read Tasks,
+                                                     never one holding {directors}, {board} or {administrators};
                                                      nobody else is sent any
    A post that @mentions somebody tells their devices, if they asked
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
@@ -100,7 +101,8 @@ export default async (req, context) => {
       return answer(200, { blocks: placePictures(parseBrass(text, { refs: true }), pics) }, QUIET);
     }
     if (b.action === 'links') return answer(200, { found: await findLinks(who, typeof b.q === 'string' ? b.q : '') }, QUIET);
-    if (b.action === 'snippets') return answer(200, { snippets: tasksAllow(who) ? (await taskSnippets(who)) || [] : [] }, QUIET);
+    // Never one holding a role's fill-in: a post can be read by anybody in its category.
+    if (b.action === 'snippets') return answer(200, { snippets: tasksAllow(who) ? (await taskSnippets(who, undefined, { roles: false })) || [] : [] }, QUIET);
     let r;
     const t = String(b.t || ''), p = String(b.p || '');
     if (b.action === 'start') r = await startTopic(who, b);
