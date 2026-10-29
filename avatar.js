@@ -1654,10 +1654,10 @@
       if (!by[v]) { by[v] = []; order.push(v); }
       by[v].push(pw[1]);
     });
-    return 'a chimera onesie with ' + order.map(function (v) {
+    return 'a chimera onesie with ' + and(order.map(function (v) {
       var A = K.animals[v];
       return 'the ' + and(by[v]) + ' of ' + A.a + ' ' + A.word;
-    }).join(', ');
+    }));
   }
 
   /* ── Words, for the owner ────────────────────────────────────────────── */
