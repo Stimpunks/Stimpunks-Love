@@ -8458,10 +8458,29 @@ export function eventRooms(who) {
   return { locked, may: locked.filter((t) => roomAllows(who, t)) };
 }
 
-/* Every event a reader can see, the soonest first. */
-export async function eventsFor(who, s = store(), now = Date.now()) {
-  return (await readEvents(s)).filter((e) => seesEvent(who, e)).map((e) => shapeEvent(e, who, now)).filter(Boolean)
+/* Every event a reader can see, the soonest first. `heard` says whether 8x8 is
+   telling us who is in a call (cb-events passes it from the environment).
+
+   WHO IS IN AN EVENT'S CALL, WHILE THE EVENT IS ON (Ryan's call, 2026-10-29,
+   from a proposal to join an On Now event's call from the chat page and see
+   who is in it first). It reverses "who is in a call is shown only in its
+   room, to radios seen there" for this one case: an event in a call that is
+   going on now names everybody in that call (inCall: names, guests' typed ones
+   included, alphabetical, no number) to everybody who can see the event, which
+   seesEvent has already decided by roomAllows. The call is an announced
+   gathering while the event is on; before it starts and after it ends, the
+   card says nothing about the call. `callHeard` says whether 8x8 is telling
+   us, so an empty list is never a guess. Nothing more is kept for it, and
+   privacy.html#calls says so. */
+export async function eventsFor(who, s = store(), now = Date.now(), heard = false) {
+  const list = (await readEvents(s)).filter((e) => seesEvent(who, e)).map((e) => shapeEvent(e, who, now)).filter(Boolean)
     .sort((a, b) => a.start - b.start || a.title.localeCompare(b.title));
+  for (const e of list) {
+    if (!e.on || e.at !== 'call') continue;
+    e.callHeard = !!heard;
+    if (heard) e.call = await inCall(e.room, s, now);
+  }
+  return list;
 }
 
 // The events still to come or going on, which is all a write keeps.

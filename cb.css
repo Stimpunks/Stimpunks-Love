@@ -2159,6 +2159,11 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
 .cb-ev-title:focus-visible, .cb-sec--events > .cb-h:focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
 .cb-ev-card .cb-ev-on { margin: 0 6px 0 0; }
 .cb-ev-acts { margin-top: 6px; }
+/* An event on now in a call: who is in it, and the ways in (evCallPart). */
+.cb-ev-call { display: grid; gap: 4px; padding: 8px 0 2px; border-top: 1px solid var(--cb-steel-2); }
+.cb-ev-call > p { margin: 0; }
+.cb-ev-join { margin-top: 2px; }
+.cb-ev-join a.cb-btn { color: var(--cb-steel); text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box; }
 .cb-ev-ask { flex: 1 1 100%; margin: 0; }
 .cb-ev-now { margin: 0; font-size: 14px; }
 button.cb-ev-link {

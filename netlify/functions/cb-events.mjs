@@ -9,7 +9,9 @@
      { action: 'keen', id, on }                    say you are interested, or take it back
    Every answer is the list again, so the radio draws what is true now. An
    event in a room is seen by whoever may go into the room, one on World by
-   everybody signed on. Who is interested is names and never how many. Nothing
+   everybody signed on. Who is interested is names and never how many. An
+   event on now in a call names who is in that call (Ryan's call, 2026-10-29;
+   eventsFor). Nothing
    a person types is logged. See ../cb/lib.mjs, events, and privacy.html#events. */
 import { readPass, forumReader, loadMods, eventsFor, eventRooms, makeEvent, editEvent, removeEvent, skipEvent, keenEvent, notifyEventNew,
   eventId, json, body, sameSite } from '../cb/lib.mjs';
@@ -24,6 +26,8 @@ export default async (req) => {
   if (!who) return json(401, { error: 'signed off' });
   if (!forumReader(who)) return json(403, { error: 'Events are for a claimed username.' });
   const b = (await body(req)) || {};
+  // Whether 8x8 is telling us who is in a call, for an event on now in one.
+  const heard = !!process.env.CB_JAAS_EVENTS_SECRET;
   try {
     let r = null;
     const id = eventId(b.id);
@@ -34,11 +38,11 @@ export default async (req) => {
     else if (b.action === 'skip') r = await skipEvent(who, id, Number(b.at));
     else if (b.action === 'keen') r = await keenEvent(who, id, b.on === true);
     else return json(400, { error: 'Do what with it?' }, NOINDEX);
-    if (r.error) return json(400, { error: r.error, events: await eventsFor(who), me: eventRooms(who), now: Date.now() }, NOINDEX);
+    if (r.error) return json(400, { error: r.error, events: await eventsFor(who, undefined, undefined, heard), me: eventRooms(who), now: Date.now() }, NOINDEX);
     // A new event tells the devices that asked, before the answer goes, so the
     // function is not stopped halfway through telling them.
     if (b.action === 'make' && r.event) { try { await notifyEventNew(r.event, undefined, mods); } catch (e) { /* the event is up whether or not anybody was told */ } }
-    return json(200, { events: await eventsFor(who), me: eventRooms(who), id: r.event ? r.event.id : null, now: Date.now() }, NOINDEX);
+    return json(200, { events: await eventsFor(who, undefined, undefined, heard), me: eventRooms(who), id: r.event ? r.event.id : null, now: Date.now() }, NOINDEX);
   } catch (e) {
     return json(503, { error: 'Events are busy. Try again in a moment. Nothing was changed.' }, NOINDEX);
   }

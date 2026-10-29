@@ -9,24 +9,31 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Thu, 29 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Join an event’s call from its card, and see who is in it</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-29-event-calls</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-29-event-calls</guid>
+      <pubDate>Thu, 29 Oct 2026 12:00:00 GMT</pubDate>
+      <description>An event on now in a call has a way in on its card. On the chat page, Join the call here opens the room’s channel and joins its call beside it. Join it in the room goes to the room’s own page, where whatever is showing on its screens or hosted there is beside the call, and puts the keyboard on its Join this room’s call button for you to press. An event on the World call has Join the World call. The card names who is in the call while the event is on, alphabetical and never how many, to everybody who can see the event. That reverses a rule this street kept until today, that who is in a call is shown only in its room to people seen there, for this one case: Ryan’s call, because the call is an announced gathering while its event is on. Before it starts and after it ends, the card says nothing about who is in the call. The privacy page says so, and the CB guide has the buttons.</description>
+    </item>
+    <item>
       <title>The Inbox on the CB: unreads, mentions, bookmarks and reminders</title>
       <link>https://stimpunks.world/changelog.html#2026-10-29-cb-inbox</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-29-cb-inbox</guid>
-      <pubDate>Thu, 29 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Thu, 29 Oct 2026 11:59:00 GMT</pubDate>
       <description>A tray on the radio’s bar opens the Inbox, asked for by somebody in our community after Discord’s: four tabs, Unreads, Mentions, Bookmarks and Reminders. The tray has a dot while something is new or a reminder has come due, and never a number. To make room on a bar that was already full, Teleport is a portal now rather than the word. Mentions are where somebody has @mentioned you, or a role you hold, on the channels you can hear and in the forums, worked out when you look and kept nowhere, so a message gone is gone from them too. Bookmark and Remind me are under a message’s three dots. A bookmark keeps only where the message is, never its words, so it shows the message as it is now and says when it has gone. A reminder comes due in the Inbox and, if your devices notify you, as a notification of its own, the one kind that starts switched on, because you asked for it. Nothing in a room that keeps to itself can be either. The CB guide has it all, and the privacy page says what is kept.</description>
     </item>
     <item>
       <title>Back and forward on the chat page</title>
       <link>https://stimpunks.world/changelog.html#2026-10-29-chat-back-forward</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-29-chat-back-forward</guid>
-      <pubDate>Thu, 29 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Thu, 29 Oct 2026 11:58:00 GMT</pubDate>
       <description>The chat page has Back and Forward on the radio’s bar, beside Enlarge the chat: one step through what has been in the middle, as chat apps have. Your browser’s own Back and Forward walk the same steps. A conversation, All messages and a search’s results are steps now, as a channel and Events already were, so Back from a conversation goes to what you had before it rather than skipping it. None of them is in the page’s address, and the tab’s history keeps only which kind of thing was in the middle, never who you were talking to or what you searched for; after a reload, a step back to a conversation is All messages. Each button can be pressed while the step that way is on the chat page, and says so when it is not. The CB guide has it.</description>
     </item>
     <item>
       <title>A menu on every channel, and a link to every message</title>
       <link>https://stimpunks.world/changelog.html#2026-10-29-channel-menu</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-29-channel-menu</guid>
-      <pubDate>Thu, 29 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Thu, 29 Oct 2026 11:57:00 GMT</pubDate>
       <description>Every channel on the chat page has a menu, after Discord’s: the … beside it, or a right-click. In it: Mark as read, Follow or Unfollow, Copy link, Copy the room’s link, Copy its #tag, Search this channel and Go to the room. The Menu key, or Shift and F10, opens it from the keyboard, and Shift and a right-click is still your browser’s own menu. A message’s three dots have Copy link: an address that opens the chat page on that channel with the keyboard on that message, for anybody who can hear the channel, while the message is on the air. The CB guide has both.</description>
     </item>
     <item>

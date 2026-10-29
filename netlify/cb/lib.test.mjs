@@ -8034,6 +8034,31 @@ for (const etagOnRead of [true, false]) {
   }));
 }
 
+test('an event on now in a call names who is in that call, and nothing else does', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const ada = writer('Ada', 1);
+  const at = Date.UTC(2026, 9, 23, 13, 15);   // 07:15 in Colorado, a quarter of an hour into a 07:00 start
+  await makeEvent(ada, evAt('2026-10-23', '07:00', { title: 'World hour' }), s, NOW);
+  assert.ok((await makeEvent(ada, evAt('2026-10-23', '07:00', { title: 'Den hour', room: 'the-den' }), s, NOW)).event);
+  await makeEvent(ada, evAt('2026-10-23', '07:00', { title: 'Den film', room: 'the-den', at: 'here' }), s, NOW);
+  await makeEvent(ada, evAt('2026-10-24', '07:00', { title: 'Tomorrow', room: 'the-den' }), s, NOW);
+  const joined = (fqn, name, id) => ({ eventType: 'PARTICIPANT_JOINED', fqn: `${JAAS_APP}/${fqn}`, timestamp: at - 60000, data: { name, participantId: id, email: 'never@kept.example' } });
+  await callEvent(joined('stimpunks-world', 'Zed', 'w1'), s, at);
+  await callEvent(joined('stimpunks-the-den', 'Sam', 'd1'), s, at);
+  await callEvent(joined('stimpunks-the-den', 'a guest', 'd2'), s, at);
+  const by = (list) => Object.fromEntries(list.map((e) => [e.title, e]));
+  const e = by(await eventsFor(writer('Bex', 2), s, at, true));
+  assert.deepEqual(e['World hour'].call, [{ name: 'Zed', base: false }]);
+  assert.deepEqual(e['Den hour'].call.map((p) => p.name), ['a guest', 'Sam'], 'not everybody in the call, alphabetical');
+  assert.equal(e['Den hour'].callHeard, true);
+  assert.equal(e['Den film'].call, undefined, 'an event in the room, not its call, named who is in the call');
+  assert.equal(e['Tomorrow'].call, undefined, 'an event not on yet named who is in the call');
+  assert.equal(JSON.stringify(e).includes('never@kept'), false);
+  const quiet = by(await eventsFor(writer('Bex', 2), s, at, false));
+  assert.equal(quiet['Den hour'].callHeard, false);
+  assert.equal(quiet['Den hour'].call, undefined, 'a list was sent while 8x8 is not telling us');
+}));
+
 test('a time cancelled is one of the next ones, and a change to when brings cancelled times back', () => withPasswords(async () => {
   const s = memoryStore({ etagOnRead: true });
   const ada = writer('Ada', 1);

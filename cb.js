@@ -3474,8 +3474,10 @@
         if (!r.body.same) { me.chanV = r.body.v || null; me.show(r.body.messages || []); me.readTick(r.body.messages || []); }
         me.showBeacons(r.body.beacons, r.body.now);
         me.calls = !!r.body.calls;
+        me.callsKnown = true;
         me.callGoing = Array.isArray(r.body.going) ? r.body.going : null;
         me.callShown();
+        if (me.callWanted) me.toCall();
         me.keepRoles(r.body.roles);
         me.twostepShown(r.body.twostep);
         me.pushFollow();
@@ -4691,11 +4693,20 @@
         return false;
       }
     }
-    if (t === chatTag && !first) return false;
+    if (t === chatTag && !first) { chatJoin(); return false; }
     chatTag = t;
     var moved = radio.wasPath !== undefined ? radio.whereNow() : (radio.bandShown(), false);
     if (said) radio.tell(said);
+    chatJoin();
     return moved;
+  }
+
+  // Join the call here, on an event (evJoin), once the chat is on its room.
+  function chatJoin() {
+    var t = radio.joinAt;
+    if (!t) return;
+    radio.joinAt = null;
+    if (t === chatTag) radio.setCall(true);
   }
 
   /* BACK AND FORWARD THROUGH THE CHAT PAGE (Ryan's ask, 2026-10-29). A
@@ -6393,7 +6404,7 @@
     this.evNowShown(live, now);
     if (inChat() && this.chatEvNote) this.chatEvNote.hidden = !live.some(function (e) { return e.start <= now; });
     if (!this.evShown()) return;
-    var key = JSON.stringify([live, Math.floor(now / 60000), this.evFailed, this.events === null, rooms === null, this.evFocus || '']);
+    var key = JSON.stringify([live, Math.floor(now / 60000), this.evFailed, this.events === null, rooms === null, this.evFocus || '', callOpenTag(), this.calls]);
     if (key === this.evKey) return;
     this.evKey = key;
     var focused = this.evTray.getRootNode().activeElement;
@@ -6463,7 +6474,9 @@
       li.appendChild(el('p', 'cb-ev-then', 'Then ' + e.then.map(function (t) { return evDay(t, now).replace(/^Today|^Tomorrow/, function (w) { return w.toLowerCase(); }) + ' at ' + hhmm(new Date(t)); }).join('; ') + '.'));
     }
     li.appendChild(el('p', 'cb-ev-length', 'Runs ' + evLength(e.mins) + '.'));
-    li.appendChild(this.evWhere(e));
+    var live = e.at === 'call' && e.start <= now;
+    li.appendChild(this.evWhere(e, live));
+    if (live) li.appendChild(this.evCallPart(e));
     var by = el('p', 'cb-ev-by');
     by.appendChild(document.createTextNode('Scheduled by '));
     by.appendChild(this.evName(e.handle, e.id + '|by'));
@@ -6552,7 +6565,7 @@
   };
 
   // Where an event is, as words with the room's link in them.
-  Radio.prototype.evWhere = function (e) {
+  Radio.prototype.evWhere = function (e, live) {
     var p = el('p', 'cb-ev-where'), r = evRoom(e);
     function room() {
       var a = el('a', null, r.name);
@@ -6568,13 +6581,91 @@
       if (r) { add('in '); add(room()); } else add('on World');
       add('.');
     } else if (!r) {
-      add(e.at === 'call' ? 'On the World call, which Join World call under Who\u2019s around takes you into.' : 'On World, the whole street\u2019s channel.');
+      add(e.at !== 'call' ? 'On World, the whole street\u2019s channel.' : live ? 'On the World call.' : 'On the World call, which Join World call under Who\u2019s around takes you into.');
     } else if (e.at === 'call') {
-      add('In the call in '); add(room()); add(': Join this room\u2019s call is under In this channel, in the room.');
+      add('In the call in '); add(room());
+      add(live ? '.' : ': Join this room\u2019s call is under In this channel, in the room.');
     } else {
       add('In '); add(room()); add('.');
     }
     return p;
+  };
+
+  /* JOINING AN EVENT'S CALL WHILE IT IS ON (Ryan's call, 2026-10-29, from a
+     proposal). Who is in the call, from the event's own answer (eventsFor:
+     names, no number, only while the event is on), and the ways in: on the
+     chat page, Join the call here, which tunes the chat to the room's channel
+     and joins its call (evJoin); in the room itself, Join the call; and Join
+     it in the room, a link to the room's page, where whatever is showing on
+     its screens or hosted there is beside the call. That link ends #cb=call,
+     which puts the keyboard on Join this room's call there and presses
+     nothing (toCall): a link anybody can write must not open a call, and its
+     camera preview, by itself. The World call's event has its own button. */
+  function callOpenTag() {
+    var lc = window.loveCall;
+    if (!lc) return '';
+    var open = lc.openRoom && lc.openRoom(), away = lc.away && lc.away();
+    return open || (away && away.tag) || '';
+  }
+  Radio.prototype.evCallPart = function (e) {
+    var me = this, part = el('div', 'cb-ev-call'), world = e.room === WORLD_CALL, r = evRoom(e);
+    var who = el('p', 'cb-ev-incall');
+    if (e.callHeard && Array.isArray(e.call)) {
+      if (e.call.length) {
+        who.appendChild(document.createTextNode('In the call now: '));
+        var names = el('span'); whoList(names, e.call, 'name'); who.appendChild(names);
+        who.appendChild(document.createTextNode('.'));
+      } else who.textContent = 'Nobody is in the call yet.';
+      part.appendChild(who);
+    }
+    if (callOpenTag() === e.room) { part.appendChild(el('p', 'cb-ev-incall', 'You are in this call.')); return part; }
+    if (!this.calls) { part.appendChild(el('p', 'cb-quiet', 'Calls cannot be opened just now.')); return part; }
+    var row = el('div', 'cb-acct__row cb-ev-join');
+    function btn(words, at, go) {
+      var b = el('button', 'cb-btn', words);
+      b.type = 'button';
+      b.dataset.at = e.id + '|' + at;
+      b.addEventListener('click', go);
+      row.appendChild(b);
+    }
+    var here = hereRoom(), notes = [];
+    if (world) btn('Join the World call', 'join', function () { me.setCall(true, true); });
+    else if (inChat() && this.chatHas(e.room)) {
+      btn('Join the call here', 'join', function () { me.evJoin(e.room); });
+      notes.push('Here opens the call beside ' + r.name + '\u2019s channel on this page.');
+    } else if (!inChat() && here && here.tag === e.room) btn('Join the call', 'join', function () { me.setCall(true); });
+    // The room's own page, where its screens and racks are; a forum category's page is the forums.
+    if (!world && r && !r.forum && /^\/[a-z0-9-]+\.html$/.test(r.path) && !(here && here.tag === e.room && !inChat())) {
+      var a = el('a', 'cb-btn cb-ev-in-room', 'Join it in ' + r.name);
+      a.href = r.path + '#cb=call';
+      a.dataset.at = e.id + '|room';
+      row.appendChild(a);
+      notes.push('In ' + r.name + ' itself, anything showing on its screens or hosted there is beside the call, and its Join button is ready for you.');
+    }
+    if (row.firstChild) part.appendChild(row);
+    notes.forEach(function (n) { part.appendChild(el('p', 'cb-hint', n)); });
+    return part;
+  };
+
+  // On the chat page: the room's channel, and its call, once the chat is on it (chatTake).
+  Radio.prototype.evJoin = function (tag) {
+    this.joinAt = tag;
+    chatGo(tag);
+  };
+
+  // Arriving at a room from Join it in the room: the keyboard on its Join button, nothing pressed.
+  Radio.prototype.toCall = function () {
+    try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) { /* the address stays */ }
+    if (this.state.folded) this.setFolded(false, true);
+    if (this.tiny()) this.setSize('normal', true);
+    // Whether calls can be opened comes with the first listen.
+    if (!this.callsKnown) { this.callWanted = true; return; }
+    this.callWanted = false;
+    var me = this, b = this.callBtn;
+    if (callOpenTag() === (hereRoom() || {}).tag) { this.tell('You are in this room\u2019s call.'); return; }
+    if (b.hidden) { this.tell('This room\u2019s call cannot be opened just now.'); return; }
+    function go() { b.scrollIntoView({ block: 'center' }); b.focus(); me.tell('Join this room\u2019s call has the keyboard: press it, or Enter, to join.'); }
+    if (this.host.style.visibility === 'hidden') this.whenShown = go; else go();
   };
 
   // Asked once more, in the card, before anything is cancelled.
@@ -13603,6 +13694,8 @@
     this.worldCallBtn.setAttribute('aria-pressed', String(world));
     // A window that has just opened gets its who-is-in-the-call line at once.
     if (this.present) this.presenceShown();
+    // An event's card says when you are in its call (evCallPart).
+    if (this.evTray) this.evDraw();
   };
 
   /* One call at a time: joining the World call leaves this room's, and the
@@ -14984,6 +15077,7 @@
 
   function arrive() {
     if (location.hash === '#cb=props') { if (radio) radio.toProps(); return; }
+    if (location.hash === '#cb=call') { if (radio && !inChat()) radio.toCall(); return; }
     if (location.hash === '#cb=messages') { if (radio) { radio.toMessages(); dmFromNotice(); } return; }
     var m = location.hash.match(/^#spot=(\d{1,6}|live)(?:&film=([^&]*))?$/);
     if (m && !radio && stub) {

@@ -869,7 +869,8 @@ handle on the channel opens, drawn under the list). `callsOn` in `lib.mjs` reads
 `whoSeen`'s rules (`roomAllows`, never a quiet room) and `/cb/online` sends the tags with `callHeard`, so
 an empty list is never a guess. **The friendly edit is to put the names in**, so people can see who is
 in a call before they walk over; who is in a call is still shown only in its room, to radios seen there,
-and widening that is Ryan's call, written in `privacy.html#calls` first. No number either.
+and widening that is Ryan's call, written in `privacy.html#calls` first. No number either. **The one widening
+so far is an event's call** (Events, 2026-10-29), and it is held to the event being on.
 
 **A CHAT STATUS SAYS WHETHER SOMEBODY WANTS TO BE TALKED TO, AND BE SEEN HERE STAYS WHAT IT IS.** Ryan's ask,
 2026-10-24, after Discord's Online, Idle, Do Not Disturb and Invisible: Be seen here is already Online and Invisible, a
@@ -1821,6 +1822,17 @@ means no room may be called `events.html`, which `make-chat.py` refuses. `tools/
 friendly edits are Discord's "12 Interested"**, the headcount the street refuses wearing an RSVP, **a time of when somebody
 said they were interested**, a record of somebody's days, **and an event in a quiet room "kept inside it"**, which names
 its address on a list; `DECISIONS.md` has what is still open, a cover picture first.
+
+**AN EVENT ON NOW IN A CALL NAMES WHO IS IN THAT CALL, AND ITS CARD IS A WAY IN.** A proposal, Ryan's call, 2026-10-29,
+reversing "who is in a call is shown only in its room, to radios seen there" for this case alone (`privacy.html#event-calls`
+first): `eventsFor` adds `call` (`inCall`'s names, no number) and `callHeard` to an event whose `at` is `call` **only while
+it is on**, for everybody `seesEvent` already lets see it. `evCallPart` in `cb.js` draws the names and the ways in: **Join the
+call here** on the chat page (`evJoin`, which tunes the chat to the room and joins once `chatTake` is on it, `chatJoin`),
+**Join the call** in the room, **Join the World call**, and **Join it in** the room, a link to `<room>.html#cb=call`, where
+`toCall` opens the radio with the keyboard on Join this room's call and **presses nothing**, because anybody can write that
+link and a call's pre-join screen asks for the camera. `lib.test.mjs` holds the names to on-now call events. The friendly
+edits are **names on an event before it starts or after it ends**, **names on an event in the room rather than its call**,
+and **`#cb=call` opening the call by itself** "so it is one press".
 
 **THE FANFARE FOLLOWS THE DIAL AND THE WORDS NEVER DO.** Gentle says its piece and adds nothing,
 Regular chimes, MAX chimes properly and throws sparks that rise once and fade. The sentences are

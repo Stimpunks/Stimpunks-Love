@@ -108,6 +108,15 @@ def main():
         refuse("cleanEvent must refuse a room that keeps to itself, and a room its maker may not go into.")
     if "eventsFor" not in lib or not re.search(r"filter\(\(e\) => seesEvent\(who, e\)\)", fn(lib, "eventsFor")):
         refuse("eventsFor sends events without asking seesEvent of each.")
+    # Who is in a call, on an event (Ryan's call, 2026-10-29): only on now, only in a call.
+    ef = uncomment(fn(lib, "eventsFor"))
+    if "inCall(" in ef and not re.search(r"if \(!e\.on \|\| e\.at !== 'call'\) continue;", ef):
+        refuse("eventsFor names who is in a call on an event that is not on now, or not in a call. "
+               "privacy.html#event-calls holds the names to an event in a call while it is on.")
+    tc = re.search(r"Radio\.prototype\.toCall = function.*?\n  \};", CB.read_text(), re.S)
+    if not tc or re.search(r"setCall\(|\.click\(\)|loveCall\.open", tc.group(0)):
+        refuse("toCall opens a call by itself, or is gone. A #cb=call link is anybody's to write, so arriving "
+               "by one puts the keyboard on Join this room's call and presses nothing.")
 
     # Notifications: never the maker about their own, only the interested at a start, never who else.
     start = fn(lib, "notifyEventStart")
