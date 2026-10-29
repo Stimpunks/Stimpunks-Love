@@ -154,14 +154,12 @@
   var name = field('A username', 'jn-name', 'text', 'username');
   name.input.maxLength = 24;
   name.input.value = given.name || (retired ? retired.handle : '');
-  var modPw = field('The moderators’ password', 'jn-mod', 'password', 'off');
-  modPw.wrap.hidden = true;
   var pw = field('A password of your own, eight characters or more', 'jn-pw', 'password', 'new-password');
   var again = field('The same again', 'jn-pw2', 'password', 'new-password');
   var email = field('An email address for password recovery, if you want one (optional)', 'jn-email', 'email', 'email');
   email.wrap.hidden = true;
   email.say('Used for one thing: sending you a reset code when you ask for one at the front desk. Kept scrambled, shown to nobody but you, and gone when your username goes. The email comes from our team’s mailbox.');
-  [invite, name, modPw, pw, again, email].forEach(function (f) { form.appendChild(f.wrap); });
+  [invite, name, pw, again, email].forEach(function (f) { form.appendChild(f.wrap); });
   var norms = el('p', 'cb-quiet');
   norms.appendChild(document.createTextNode('Joining, you agree to '));
   norms.appendChild(link('https://stimpunks.org/covenant/', 'our covenant'));
@@ -177,16 +175,8 @@
   form.appendChild(said);
   view.appendChild(form);
 
-  var mod = false;
-  function setMod(yes) {
-    mod = !!yes;
-    modPw.wrap.hidden = !mod;
-    invite.wrap.hidden = mod && !invite.input.value;
-    if (mod) name.say('That username is a moderator’s. It is claimed with the moderators’ password as well, and needs no invite.');
-  }
-
   /* What the server can say before anybody types a password: whether the
-     invite works, whether the username is free and a moderator's, and whether
+     invite works, whether the username is free, and whether
      recovery by email is switched on. */
   function check(what) {
     var send = { action: 'check' };
@@ -200,26 +190,23 @@
       if (iv) invite.say(iv.ok ? (iv.until ? 'This invite works, until ' + day(iv.until) + '.' : 'This invite works.') : iv.why);
       var hd = r.body.handle;
       if (hd) {
-        if (hd.taken) { setMod(false); name.say(hd.why); }
-        else if (!hd.ok) { setMod(false); name.say(hd.why); }
-        else if (hd.mod) setMod(true);
-        else { setMod(false); name.say(hd.handle + ' is free.'); }
+        name.say(hd.ok ? hd.handle + ' is free.' : hd.why);
       }
     }, function () { /* the join press says what went wrong */ });
   }
   invite.input.addEventListener('change', function () { if (invite.input.value.trim()) check({ invite: true }); else invite.say(''); });
-  name.input.addEventListener('change', function () { if (name.input.value.trim()) check({ name: true }); else { name.say(''); setMod(false); } });
+  name.input.addEventListener('change', function () { if (name.input.value.trim()) check({ name: true }); else name.say(''); });
   check({ invite: !!invite.input.value, name: !!name.input.value });
   (invite.input.value ? name.input : invite.input).focus();
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!name.input.value.trim()) { said.textContent = 'Type the username you would like.'; name.input.focus(); return; }
-    if (!mod && !invite.input.value.trim()) { said.textContent = 'Type your invite code, or open the link it came in.'; invite.input.focus(); return; }
+    if (!invite.input.value.trim()) { said.textContent = 'Type your invite code, or open the link it came in.'; invite.input.focus(); return; }
     if (pw.input.value !== again.input.value) { said.textContent = 'The two passwords are not the same.'; pw.input.focus(); return; }
     said.textContent = 'Joining…';
     go.disabled = true;
-    ask({ action: 'join', invite: invite.input.value, handle: name.input.value, modPassword: mod ? modPw.input.value : undefined,
+    ask({ action: 'join', invite: invite.input.value, handle: name.input.value,
       password: pw.input.value, email: email.wrap.hidden ? undefined : email.input.value }).then(function (r) {
       go.disabled = false;
       if (r.status === 200 && r.body.pass) {
@@ -230,8 +217,7 @@
         return;
       }
       said.textContent = why(r, 'That did not work just now. Nothing was claimed.');
-      if (r.body && r.body.mod) { setMod(true); modPw.input.focus(); }
-      else if (r.body && r.body.taken) name.input.focus();
+      if (r.body && r.body.taken) name.input.focus();
       else if (r.body && r.body.invite) invite.input.focus();
     }, function () { go.disabled = false; said.textContent = 'No signal: the joining desk could not be reached. Nothing was claimed.'; });
   });

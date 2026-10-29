@@ -1,9 +1,9 @@
 /* The CB: signing on. A username and its own password in, a pass out; a
    moderator's own password gives a base pass. The starter password signs
    nobody on since 2026-10-21: everybody joins by claiming a username, at
-   /cb/join. A moderator whose handle is still on the moderators' password is
-   answered { claim } with no pass, so the page can send them to claim it. See
-   ../cb/lib.mjs for what this may and may not keep. */
+   /cb/join, and since 2026-10-28 the moderators' shared password signs nobody
+   on either: a moderator joins with an invite like anybody. See ../cb/lib.mjs
+   for what this may and may not keep. */
 import { signOn, issueAccountPass, cleanHandle, rolesOf, secondTicket, secondCheck, webauthnSite, accountAnswer, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
@@ -20,7 +20,6 @@ export default async (req) => {
   if (!handle) return json(400, { error: 'A handle is between one and 24 characters.' });
   const r = await signOn(handle, b && b.password);
   if (r.error) return json(401, { error: r.error });
-  if (r.claim) return json(200, { claim: true, mod: !!r.mod, handle: r.handle });
   if (r.second) {
     const second = secondTicket(r.acct, webauthnSite(req));
     if (!second) return json(503, { error: 'Two-step sign-in is switched off just now. Tell Ryan or Helen.' });

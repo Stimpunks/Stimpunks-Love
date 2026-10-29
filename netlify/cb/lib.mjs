@@ -239,14 +239,47 @@ function openMeta(key, m) {
   const out = openJsonWith(office ? officeKey() : staffCipherKey(), office ? 'office' : 'staff', key + '#meta', m);
   return out;
 }
-function staffCipherKey() {
-  const v = process.env.CB_STAFF_KEY;
-  if (!v) return null;
-  try { const k = Buffer.from(v.trim(), 'base64url'); return k.length === 32 ? k : null; } catch (e) { return null; }
-}
+function staffCipherKey() { return keyRing(process.env.CB_STAFF_KEY, process.env.CB_STAFF_KEY_OLD); }
 export function staffReady() { return !!staffCipherKey(); }
 /* A staff room's channel without the key: shut, never written in the clear. */
 export function staffShut(room) { return !!room && !!lockedRoom(room) && !staffReady(); }
+/* ROTATING A SEALING KEY (Ryan, 2026-10-28). Each of the three keys
+   (CB_STAFF_KEY, CB_DM_KEY, CB_OFFICE_KEY) may have a partner ending _OLD.
+   Everything is sealed with the key itself; a read tries the key and then its
+   _OLD partner (keyRing, gcmOpen), so nothing goes dark while the keys change;
+   and rekeyStore, from cb-rekey every quarter of an hour, seals again under the
+   new key whatever is still under the old one, whole blobs, a file's
+   metadata, and the two secrets kept inside an account (its recovery email and
+   its authenticator app), and writes how far it has got in `key-rotation`.
+   TO ROTATE ONE: put its key in _OLD, a new key in its place (in Netlify and in
+   1Password), and deploy; once `key-rotation` says `done` for those keys, delete
+   _OLD and deploy again. Until then never remove _OLD: anything still under it
+   would be unreadable. A key and its _OLD are never sent or logged. */
+function keyFrom(v) {
+  if (!v) return null;
+  try { const k = Buffer.from(String(v).trim(), 'base64url'); return k.length === 32 ? k : null; } catch (e) { return null; }
+}
+function keyRing(now, before) {
+  const k = keyFrom(now);
+  if (!k) return null;
+  const old = keyFrom(before);
+  if (old && !old.equals(k)) k.old = old;
+  return k;
+}
+/* AES-256-GCM opened with a key, then with its _OLD partner if it has one. */
+function gcmOpen(key, iv, tag, data, aad) {
+  const tries = key.old ? [key, key.old] : [key];
+  for (let i = 0; i < tries.length; i++) {
+    try {
+      const d = createDecipheriv('aes-256-gcm', tries[i], iv);
+      if (aad) d.setAAD(aad);
+      d.setAuthTag(tag);
+      return Buffer.concat([d.update(data), d.final()]);
+    } catch (e) { if (i === tries.length - 1) throw e; }
+  }
+  throw new Error('no key');
+}
+
 /* JSON sealed under `key` with its blob's `name` as associated data, marked
    with whose key it is (`tag`). The direct messages' sealing uses it too. */
 function sealJsonWith(key, tag, name, obj) {
@@ -259,10 +292,7 @@ function sealJsonWith(key, tag, name, obj) {
 function openJsonWith(key, tag, name, d) {
   if (!d || d.sealed !== 1 || d.k !== tag) return d;
   if (!key) throw new Error('shut');
-  const c = createDecipheriv('aes-256-gcm', key, Buffer.from(d.iv, 'base64url'));
-  c.setAAD(Buffer.from(name, 'utf8'));
-  c.setAuthTag(Buffer.from(d.tag, 'base64url'));
-  return JSON.parse(Buffer.concat([c.update(Buffer.from(d.data, 'base64url')), c.final()]).toString('utf8'));
+  return JSON.parse(gcmOpen(key, Buffer.from(d.iv, 'base64url'), Buffer.from(d.tag, 'base64url'), Buffer.from(d.data, 'base64url'), Buffer.from(name, 'utf8')).toString('utf8'));
 }
 const isSealedStaff = (d) => !!d && d.sealed === 1 && d.k === 'staff';
 /* Bytes sealed under `key` with their blob's `name` as associated data:
@@ -281,10 +311,7 @@ function openBytesWith(key, magic, name, bytes) {
   if (!bytesSealedAs(magic, bytes)) return bytes;
   if (!key) throw new Error('shut');
   const b = toBuf(bytes);
-  const c = createDecipheriv('aes-256-gcm', key, b.subarray(4, 16));
-  c.setAAD(Buffer.from(name, 'utf8'));
-  c.setAuthTag(b.subarray(16, 32));
-  return toArrayBuffer(Buffer.concat([c.update(b.subarray(32)), c.final()]));
+  return toArrayBuffer(gcmOpen(key, b.subarray(4, 16), b.subarray(16, 32), b.subarray(32), Buffer.from(name, 'utf8')));
 }
 const openStaffBytes = (key, d) => (d == null ? d : openBytesWith(staffCipherKey(), 'SST1', key, d));
 /* The store, sealing every name STAFF_SEALED lists. `raw` is the store as it
@@ -381,6 +408,112 @@ export async function sealStaffLeftovers(s = store()) {
     await s.setJSON(SEAL_MARK, { pass: SEAL_PASS }, cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true });
   }
   return any;
+}
+
+/* The keys being rotated now, by what they seal, and a print of them that
+   says nothing about either key. */
+function rotating() {
+  const out = {};
+  for (const [tag, k] of [['staff', staffCipherKey()], ['dm', dmCipherKey()], ['office', officeKey()]]) if (k && k.old) out[tag] = k;
+  return out;
+}
+const rotationPrint = (r) => createHash('sha256').update(Object.keys(r).sort()
+  .map((t) => `${t}:${r[t].old.toString('base64url')}>${r[t].toString('base64url')}`).join('|')).digest('base64url').slice(0, 22);
+/* Whether something sealed under `k` opens with the new key alone. */
+const newOnly = (k) => Buffer.from(k);
+const MAGIC = { SST1: 'staff', SDM1: 'dm', SOF1: 'office' };
+/* One blob sealed again under the new keys, or null if nothing in it is under
+   an old one. JSON or bytes, as the store gives either. */
+function rekeyed(name, data, meta, r) {
+  let changed = false;
+  let out = data;
+  const b = data == null ? null : (Buffer.isBuffer(data) || data instanceof ArrayBuffer || ArrayBuffer.isView(data)) ? toBuf(data) : null;
+  const magic = b && b.length > 32 ? b.subarray(0, 4).toString('latin1') : '';
+  if (MAGIC[magic]) {
+    const k = r[MAGIC[magic]];
+    if (k) {
+      try { openBytesWith(newOnly(k), magic, name, data); } catch (e) {
+        out = sealBytesWith(k, magic, name, openBytesWith(k, magic, name, data));
+        changed = true;
+      }
+    }
+  } else {
+    let obj = data;
+    if (b) { try { obj = JSON.parse(b.toString('utf8')); } catch (e) { obj = null; } }
+    if (obj && typeof obj === 'object') {
+      const again = (box, tag, aad) => {
+        const k = r[tag];
+        if (!k || !box || box.sealed !== 1) return box;
+        const open = aad == null ? (key) => unsealWith(key, box) : (key) => openJsonWith(key, tag, aad, box);
+        try { open(newOnly(k)); return box; } catch (e) { /* under the old key */ }
+        changed = true;
+        const plain = open(k);
+        return aad == null ? sealWith(k, plain) : sealJsonWith(k, tag, aad, plain);
+      };
+      if (obj.sealed === 1) obj = obj.k ? again(obj, obj.k, name) : again(obj, 'office', null);
+      else if (name.startsWith('acct/')) {
+        obj = { ...obj };
+        if (obj.email) obj.email = again(obj.email, 'office', null);
+        if (obj.mfa && obj.mfa.totp) obj.mfa = { ...obj.mfa, totp: again(obj.mfa.totp, 'staff', totpName(obj.handle)) };
+      }
+      out = obj;
+    }
+  }
+  let m = meta;
+  if (meta && meta.sealed === 1 && r[meta.k]) {
+    const k = r[meta.k];
+    try { openJsonWith(newOnly(k), meta.k, name + '#meta', meta); } catch (e) {
+      const box = sealJsonWith(k, meta.k, name + '#meta', openJsonWith(k, meta.k, name + '#meta', meta));
+      m = typeof meta.t === 'number' ? { ...box, t: meta.t } : box;
+      changed = true;
+    }
+  }
+  return changed ? { data: out, meta: m, bytes: !!MAGIC[magic] } : null;
+}
+export const REKEY_MARK = 'key-rotation';
+/* Every blob in the store, in order, from where the last run stopped, for as
+   long as `budget` allows; a full pass that found nothing under an old key
+   writes `done`. Nothing happens without an _OLD key. */
+export async function rekeyStore(s = store(), now = Date.now(), budget = 20e3) {
+  s = sealingStore(s);
+  const r = rotating();
+  if (!Object.keys(r).length) return { rotating: false };
+  const print = rotationPrint(r);
+  const raw = s.raw;
+  const was = await raw.get(REKEY_MARK, { type: 'json' });
+  let mark = was && was.print === print ? was : { print, after: null, found: 0, done: false };
+  if (mark.done) return { rotating: true, done: true };
+  const keys = ((await raw.list({ prefix: '' })).blobs || []).map((x) => x.key).filter((k) => k !== REKEY_MARK).sort();
+  const todo = keys.filter((k) => mark.after == null || k > mark.after);
+  const start = Date.now();
+  let i = 0, found = 0;
+  const one = async (key) => {
+    const g = await raw.getWithMetadata(key, { type: 'arrayBuffer' });
+    if (!g) return;
+    const next = rekeyed(key, g.data, g.metadata, r);
+    if (!next) return;
+    if (next.bytes) {
+      await raw.set(key, next.data, { ...(next.meta ? { metadata: next.meta } : {}), ...(g.etag ? { onlyIfMatch: g.etag } : {}) });
+    } else {
+      // JSON, with the conditional write: a change between read and write is
+      // left for the next pass, which sees it sealed under the new key.
+      const cur = await versioned(raw, key);
+      if (cur.exists) await raw.setJSON(key, next.data, { onlyIfMatch: cur.etag });
+    }
+    found++;
+  };
+  while (i < todo.length && Date.now() - start < budget) {
+    const batch = todo.slice(i, i + 12);
+    await Promise.all(batch.map((k) => one(k).catch(() => { found++; })));
+    i += batch.length;
+  }
+  const finished = i >= todo.length;
+  mark = finished
+    ? { print, after: null, found: 0, done: mark.found + found === 0, t: now }
+    : { print, after: todo[i - 1], found: mark.found + found, done: false, t: now };
+  const cur = await versioned(raw, REKEY_MARK);
+  await raw.setJSON(REKEY_MARK, mark, cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true });
+  return { rotating: true, done: mark.done, found };
 }
 
 /* The channel as it stands: no message past its time, whether or not the
@@ -4028,11 +4161,7 @@ const markBlob = (me, them) => `${DM_MARK}${me}/${them}`;
    written in the clear. A blob written before the key was read as it is and
    sealed the next time it is written; the hourly sweep seals what is left.
    Losing the key loses every conversation, so Ryan keeps a copy of it. */
-function dmCipherKey() {
-  const v = process.env.CB_DM_KEY;
-  if (!v) return null;
-  try { const k = Buffer.from(v.trim(), 'base64url'); return k.length === 32 ? k : null; } catch (e) { return null; }
-}
+function dmCipherKey() { return keyRing(process.env.CB_DM_KEY, process.env.CB_DM_KEY_OLD); }
 export function dmReady() { return !!dmCipherKey(); }
 function sealDm(name, obj) { return sealJsonWith(dmCipherKey(), 'dm', name, obj); }
 const isSealedDm = (d) => !!d && d.sealed === 1 && d.k === 'dm';
@@ -5629,18 +5758,8 @@ export const STARTER_GONE = 'The starter password has been retired. You join the
 export async function signOn(handle, password, mods, s = store(), now = Date.now()) {
   if (!passKey()) return { error: 'Signing on is switched off just now. Tell Ryan or Helen.' };
   if (mods === undefined) mods = await loadMods();
-  const mod = secretFor('base');
-  if (mod && same(password, mod)) {
-    if (!mods) return { error: 'Moderator sign-on is switched off until its list of handles can be read. Tell Ryan or Helen.' };
-    const m = mods.get(foldHandle(handle));
-    if (!m) return { error: 'That handle is not on the moderators\' list.' };
-    // A MODERATOR WHO HAS MOVED ONTO THEIR OWN PASSWORD is refused the shared
-    // one, exactly as a claimed username is refused the community password:
-    // every moderator knows the moderators' password, so while it worked for
-    // this handle any of them could sign on as it.
-    if (await readAccount(m.handle, s)) return { error: 'That moderator signs on with their own password now, not the moderators\' one.' };
-    return { claim: true, mod: true, handle: m.handle };
-  }
+  // The moderators' shared password signs nobody on and claims nothing since
+  // 2026-10-28: it is refused below like any password that is not the account's.
   // A CLAIMED USERNAME SIGNS ON WITH ITS OWN PASSWORD AND NOTHING ELSE. The
   // community password is refused for it, the way it is refused for a
   // moderator's handle, so nobody can sign on as somebody who has claimed.
@@ -5669,9 +5788,6 @@ export async function signOn(handle, password, mods, s = store(), now = Date.now
   }
   const all = secretFor('mobile');
   if (all && same(password, all)) return { error: STARTER_GONE };
-  if (mods && mods.has(foldHandle(handle))) {
-    return { error: 'That username is a moderator\'s, and has not been claimed yet. Its moderator claims it on the joining page, with the moderators\' password.' };
-  }
   return { error: 'Nobody has claimed that username, so there is no password to sign on with. New here? You join the CB with an invite.' };
 }
 
@@ -5874,6 +5990,10 @@ export async function setRoles(who, handle, roles, s = store(), now = Date.now()
   const key = foldHandle(h);
   if (fixed.has(key)) return { error: `${fixed.get(key).handle} is on the break-glass list in Netlify's settings, which the desk cannot change.` };
   const acct = await readAccount(h, s);
+  // Roles go to a username somebody has joined with (2026-10-28): a name
+  // given roles before it was claimed is one an invite could not claim
+  // (HELD), and until then was claimed with the moderators' shared password.
+  if (!acct && !remove) return { error: `Nobody has claimed ${h}. Roles go to a username somebody has joined with: they join with an invite first.` };
   const spelling = acct ? acct.handle : h;
   let why = null;
   const next = await updateDoc(ROLES_KEY, (d) => {
@@ -6942,15 +7062,27 @@ export async function checkHandle(handle, mods, s = store()) {
   if (roleWord(h)) return { ok: false, taken: true, why: ROLE_WORD };
   if (botWord(h)) return { ok: false, taken: true, why: BOT_WORD };
   const m = mods && mods.get(foldHandle(h));
-  if (await readAccount(m ? m.handle : h, s)) return { ok: false, taken: true, mod: !!m, why: 'That username has been claimed already. Pick another.' };
-  return { ok: true, mod: !!m, handle: m ? m.handle : h };
+  if (await readAccount(m ? m.handle : h, s)) return { ok: false, taken: true, why: 'That username has been claimed already. Pick another.' };
+  // On the moderators' list and not claimed: held, in words that do not say
+  // it is a moderator's, because who is on the list is not ours to publish.
+  if (m) return { ok: false, taken: true, why: HELD };
+  return { ok: true, handle: h };
 }
 
-/* JOINING: an invite (or, for a moderator's username, the moderators'
-   password), a username, a password of your own, and an email address if you
-   want one for recovery. The answer is what signing on answers, and the
-   recovery code, shown once. */
-export async function joinAccount({ invite, handle, modPassword, password, email } = {}, mods, s = store(), now = Date.now()) {
+/* JOINING: an invite, a username, a password of your own, and an email
+   address if you want one for recovery. The answer is what signing on
+   answers, and the recovery code, shown once.
+
+   EVERYBODY JOINS WITH AN INVITE, MODERATORS INCLUDED (Ryan's call,
+   2026-10-28). Until then a moderator's username was claimed with the
+   moderators' shared password and no invite, so every moderator knew the one
+   thing that claimed any unclaimed moderator's name. Now a moderator joins as
+   anybody does and an administrator gives them roles at the desk afterwards
+   (setRoles refuses a username nobody has claimed), and a name on the list that
+   nobody has claimed is HELD: no invite claims it, so nobody can join into
+   somebody else's roles. */
+export const HELD = 'That username cannot be claimed with an invite. If it is yours, ask an administrator to take it off the list at the desk, join, and they give it back.';
+export async function joinAccount({ invite, handle, password, email } = {}, mods, s = store(), now = Date.now()) {
   if (mods === undefined) mods = await loadMods();
   const h = cleanHandle(handle);
   if (!h) return { error: `A username is between one and ${HANDLE_MAX} characters.` };
@@ -6960,25 +7092,17 @@ export async function joinAccount({ invite, handle, modPassword, password, email
   // from anybody's, and an invite could claim one.
   if (!mods) return { error: 'Joining is switched off until the moderators\' list can be read, so that nobody claims a moderator\'s username by mistake. Tell Ryan or Helen.' };
   const m = mods.get(foldHandle(h));
-  if (m) {
-    const mod = secretFor('base');
-    if (!mod || !same(modPassword == null ? '' : modPassword, mod)) {
-      return { error: 'That username is on the moderators\' list, so it is claimed only with the moderators\' password as well. Type that too, or pick another username.', mod: true };
-    }
-  }
-  const name = m ? m.handle : h;
-  if (await readAccount(name, s)) return { error: 'That username has been claimed already. Pick another.', taken: true };
+  if (await readAccount(m ? m.handle : h, s)) return { error: 'That username has been claimed already. Pick another.', taken: true };
+  if (m) return { error: HELD, taken: true };
+  const name = h;
   // Checked before an invite's use is taken, so a password or an address
   // somebody needs to fix costs nobody a use.
   if (!ownPassword(password)) return { error: `A password of your own is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters. A few words you will remember is fine.` };
   const box = await recoveryBox(email);
   if (box && box.error) return box;
-  let used = null;
-  if (!m) {
-    used = await useInvite(invite, s, now);
-    if (used.error) return { error: used.error, invite: true };
-  }
-  const c = await claimAccount(name, password, s, now, mods, !!m, email);
+  const used = await useInvite(invite, s, now);
+  if (used.error) return { error: used.error, invite: true };
+  const c = await claimAccount(name, password, s, now, mods, false, email);
   if (c.error) {
     if (used) await giveBackInvite(used.id, s);
     return c;
@@ -13682,29 +13806,23 @@ export function officeAllow(who) { return tasksAllow(who); }
 
 /* The key: 32 bytes, as base64url, in CB_OFFICE_KEY. Anything else and the
    office is shut. */
-function officeKey() {
-  const v = process.env.CB_OFFICE_KEY;
-  if (!v) return null;
-  try { const k = Buffer.from(v.trim(), 'base64url'); return k.length === 32 ? k : null; } catch (e) { return null; }
-}
+function officeKey() { return keyRing(process.env.CB_OFFICE_KEY, process.env.CB_OFFICE_KEY_OLD); }
 export function officeReady() { return !!officeKey(); }
 
 /* A record sealed: the JSON encrypted, with a fresh nonce each time and GCM's
    tag, so a sealed blob cannot be read or altered without the key. */
-export function seal(obj) {
-  const key = officeKey();
+export function seal(obj) { return sealWith(officeKey(), obj); }
+function sealWith(key, obj) {
   if (!key) throw new Error('shut');
   const iv = randomBytes(12), c = createCipheriv('aes-256-gcm', key, iv);
   const data = Buffer.concat([c.update(JSON.stringify(obj), 'utf8'), c.final()]);
   return { sealed: 1, iv: iv.toString('base64url'), tag: c.getAuthTag().toString('base64url'), data: data.toString('base64url') };
 }
-export function unseal(box) {
-  const key = officeKey();
+export function unseal(box) { return unsealWith(officeKey(), box); }
+function unsealWith(key, box) {
   if (!key) throw new Error('shut');
   if (!box || box.sealed !== 1) throw new Error('unsealed');
-  const d = createDecipheriv('aes-256-gcm', key, Buffer.from(box.iv, 'base64url'));
-  d.setAuthTag(Buffer.from(box.tag, 'base64url'));
-  return JSON.parse(Buffer.concat([d.update(Buffer.from(box.data, 'base64url')), d.final()]).toString('utf8'));
+  return JSON.parse(gcmOpen(key, Buffer.from(box.iv, 'base64url'), Buffer.from(box.tag, 'base64url'), Buffer.from(box.data, 'base64url'), null).toString('utf8'));
 }
 async function readSealed(key, s) {
   const d = await s.get(key, { type: 'json' });

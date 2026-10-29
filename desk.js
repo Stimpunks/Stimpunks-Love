@@ -96,7 +96,7 @@
     found.textContent = '';
     if (!a.claimed) {
       found.appendChild(el('p', a.mod
-        ? handle + ' is a moderator\u2019s handle, not claimed yet. Its moderator claims it on the joining page, with the moderators\u2019 password.'
+        ? handle + ' is on the moderators\u2019 list and not claimed yet, so no invite can claim it. Take it off the list in Roles, let them join with an invite, and give the roles back.'
         : handle + ' has not been claimed, so nobody can sign on as it. Anybody with an invite can join as it.'));
       return;
     }
@@ -810,7 +810,7 @@
         var li = el('li', null, 'md-role' + (x.fixed ? ' md-role--fixed' : ''));
         li.appendChild(el('p', x.handle, 'md-role__name'));
         var about = x.fixed ? 'On the break-glass list, in the site’s settings: the desk cannot change it. ' + words(x.roles)
-          : (x.claimed ? 'Claimed.' : 'Not claimed yet: they claim it on the joining page with the moderators’ password.') + (x.by ? ' Changed last by ' + x.by + (x.t ? ' on ' + day(x.t) : '') + '.' : '');
+          : (x.claimed ? 'Claimed.' : 'Not claimed yet, so no invite can claim it: take it off the list, let them join with an invite, and give it back.') + (x.by ? ' Changed last by ' + x.by + (x.t ? ' on ' + day(x.t) : '') + '.' : '');
         li.appendChild(el('p', about, 'md-role__about'));
         if (!x.fixed) {
           var row = el('p', null, 'md-roles__checks');

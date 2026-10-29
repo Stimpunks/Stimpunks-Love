@@ -4848,10 +4848,14 @@ stimpunks.org's join page needs an invite link before anybody new can get in), s
 was signed with that password, so anybody who knew it could make one and claim a name without an invite).
 From 2026-10-21 until then it could claim the username it was on; now `readPass` never reads one, the radio
 builds no radio for one, only `passRetired()` in `cb.js`, which says where to go and offers Sign off, and the
-joining page lets its browser join like anybody's, the old handle filled in. **A moderator's username takes the moderators' password and no
-invite** (`joinAccount`), the moderators' password signs nobody on (it answers `{ claim }` and the page
-sends them to the joining page), and **joining fails closed** without a readable `CB_MODS`, so an invite
-cannot claim a moderator's name. **An invite is its id, code, note, maker, when made, when it runs out,
+joining page lets its browser join like anybody's, the old handle filled in. **Since 2026-10-28 a moderator joins with an invite
+like anybody** (Ryan's call: the moderators' shared password claimed any unclaimed moderator's name, and every
+moderator knew it), and an administrator gives roles afterwards: `setRoles` refuses a username nobody has
+claimed, a name on the list that nobody has claimed is **held** (`HELD`: no invite claims it, and the name
+check says so without saying it is a moderator's), the moderators' password signs nobody on and claims
+nothing, and **joining fails closed** without a readable `CB_MODS`, so an invite cannot claim a moderator's
+name. The friendly edit is a moderators' way in without an invite "to save a step", which is the shared
+password again. **An invite is its id, code, note, maker, when made, when it runs out,
 how many uses it may have and how many it has had**: a use is reserved before the claim and given back
 if the claim fails (`lib.test.mjs` races fifteen at a five-use invite), and **nothing records who joined
 with which invite**. The friendly edits are "invited by" on a profile and a list of who used an invite;
@@ -6284,6 +6288,23 @@ which `loadMods` already does for roles it cannot read. `make-tasks.py`, `make-f
 `check-push.py` and `check-roles.py` hold it; the friendly edit is a fallback to the clear. Ryan keeps a copy of
 the key.
 
+**THE THREE SEALING KEYS ROTATE, AND THE OLD ONE STAYS UNTIL THE SWEEP SAYS DONE.** Ryan, 2026-10-28.
+`CB_STAFF_KEY`, `CB_DM_KEY` and `CB_OFFICE_KEY` may each have an `_OLD` partner, read beside it in its own key
+function (`keyRing`), and **every read tries the key and then the old one** (`gcmOpen`, in `openJsonWith`,
+`openBytesWith` and `unsealWith`), while everything is sealed with the new one. `rekeyStore`, from `cb-rekey`
+every quarter of an hour and only while an `_OLD` is set, walks every blob in the store from where it last
+stopped (twenty seconds a run), seals again whatever is still under an old key, whole blobs, a file's sealed
+metadata, and **the two secrets kept inside an account** (its recovery email, the office's, and its
+authenticator app, the staff key's, `totpName`), and writes its progress to `key-rotation`: a print of the keys
+that says nothing about them, where it got to, and `done` once a whole pass found nothing under an old key.
+**To rotate one**: copy its key to `_OLD` in Netlify and 1Password, put a new key in its place, deploy, wait for
+`netlify blobs:get cb key-rotation` to say `done`, then delete `_OLD` and deploy again. **Never delete `_OLD`
+before `done`**: whatever is still under it can never be read again. A nested sealed value somewhere new needs
+a line in `rekeyed`, or a rotation leaves it under the old key; `make-office.py`, `make-tasks.py` and
+`check-messages.py` hold each key and its partner to their one function. The friendly edits are **logging the
+sweep's progress**, which `make-accounts.py` refuses for anything in `netlify/`, and **dropping the `_OLD`
+read once a rotation is done "to keep it simple"**, which leaves the next rotation nothing to read with.
+
 **`node --check` IS NOT A LOAD CHECK, AND IT TOOK THE RADIO DOWN.** 2026-10-25: an edit put `staffShut` into the
 first import of `cb-channel` and `cb-transmit`, which is `node:crypto`; syntax was fine, the modules did not load,
 and the live site answered 502 until the next deploy, so the radio could neither listen nor send for a few
@@ -6459,7 +6480,7 @@ shadow root, `office.css` the CB's seven tokens only), `office.js`, `/cb/office`
 base64url, in Netlify and nowhere else) by `seal`, written only by `updateSealed`, and **without the key the office is
 shut**, never open in the clear; `make-office.py` refuses a write past `updateSealed`, a fixed nonce, the key read
 anywhere but `officeKey`, and a value for it in any file. **Losing the key loses the office**: Ryan keeps a copy of it
-somewhere of his own, and changing it means unsealing everything with the old key first. **Most of these people never
+somewhere of his own, and changing it is a rotation (below). **Most of these people never
 signed on to the street, so nothing about them is ever logged** (the function, the office's code and its page), and **a
 search never goes into the address**, which goes into the browser's history; only the list's order does. **A contact
 brought from EspoCRM keeps EspoCRM's id** and arrives through `importContacts`, two hundred to a sealed write, which

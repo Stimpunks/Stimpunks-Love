@@ -37,7 +37,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, WORLD_CALL, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
-  ROLES, foldHandle, readMods, signOn, readPass, rolesOf, STARTER_GONE, PASS_LIFE, PASS_RENEW, signOffEverywhere, passesOn, checkHandle, checkInvite, joinAccount,
+  ROLES, foldHandle, readMods, signOn, readPass, rolesOf, STARTER_GONE, PASS_LIFE, PASS_RENEW, signOffEverywhere, passesOn, checkHandle, checkInvite, joinAccount, HELD,
   makeInvite, listInvites, deleteInvite, readInvites, INVITE_USES, INVITE_DAYS, INVITE_KEEP, makeInviteCode,
   emailOn, cleanAddress, accountEmail, setAccountEmail, mailResetCode, ACCT_MAIL_FOR, ACCT_MAIL_GAP, ACCT_MAIL_SUBJECT,
   renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages,
@@ -1680,14 +1680,14 @@ test('the mods\' list: moderator implied, handles folded, and anything odd means
   assert.deepEqual(ROLES.slice().sort(), ['administrator', 'board', 'director', 'moderator']);
 });
 
-test('sign-on: a claimed username\'s own password only; the starter password is retired, and the MOD password sends a moderator to claim', async () => {
+test('sign-on: a claimed username\'s own password only; the starter password and the moderators\' password are retired', async () => {
   const S = memoryStore({ etagOnRead: true });
   const was = [process.env.CB_PASSWORD, process.env.CB_MOD_PASSWORD];
   process.env.CB_PASSWORD = 'community-pw'; process.env.CB_MOD_PASSWORD = 'moderators-pw';
   try {
     const mods = readMods('{"Ryan":["administrator"],"Helen":["director"]}');
     const r = (await signOn('ryan', 'moderators-pw', mods, S));
-    assert.deepEqual(r, { claim: true, mod: true, handle: 'Ryan' }, 'a moderator on the shared password was given a pass rather than sent to claim');
+    assert.ok(r.error && !r.claim && !r.pass, 'the moderators\' password did something');
     assert.ok((await signOn('Somebody', 'moderators-pw', mods, S)).error, 'not on the list');
     assert.equal((await signOn('Ryan ', 'community-pw', mods, S)).error, STARTER_GONE);
     assert.equal((await signOn('Ada', 'community-pw', mods, S)).error, STARTER_GONE, 'the starter password still signs somebody on');
@@ -1733,6 +1733,11 @@ async function withPasswords(fn) {
       if (v === undefined) delete process.env[k]; else process.env[k] = v;
     }
   }
+}
+// Roles go only to a username somebody has joined with (2026-10-28), so a test
+// that gives roles joins its names first.
+async function joinedAs(s, ...names) {
+  for (const n of names) if (!(await readAccount(n, s))) await claimAccount(n, `${n} has a long phrase`, s, 1, null, true);
 }
 const reqWith = (pass) => ({ headers: { get: (k) => (k === 'authorization' ? 'Bearer ' + pass : null) } });
 // EVERYBODY HAS CLAIMED A USERNAME since 2026-10-21, so a pass in a test is a
@@ -1901,13 +1906,12 @@ test('a moderator\'s handle is claimed only by the moderator, from a base pass',
 
 // MODERATORS ON THEIR OWN PASSWORDS. The names and roles here are made up:
 // who holds which role is not ours to publish, in a test or anywhere.
-test('a moderator moves onto their own password: it gives the base with the list\'s roles, and the shared one stops', () => withPasswords(async () => {
+test('a moderator\'s own password gives the base with the list\'s roles, and the moderators\' password gives nothing', () => withPasswords(async () => {
   const S = memoryStore({ etagOnRead: true });
   const mods = readMods('{"Juniper":["board"],"Quill":[]}');
-  const shared = await signOn('juniper', 'moderators-pw', mods, S);
-  assert.equal(shared.claim, true); assert.equal(shared.handle, 'Juniper');
-  // A pass from the moderators' password, from before 2026-10-21, opens claiming.
-  const oldBase = sharedPassFor('base', shared.handle);
+  assert.ok((await signOn('juniper', 'moderators-pw', mods, S)).error, 'the moderators\' password did something');
+  // A pass from the moderators' password, from before 2026-10-21, opens nothing.
+  const oldBase = sharedPassFor('base', 'Juniper');
   assert.equal(await readPass(reqWith(oldBase), mods, S), null, 'a pass from the moderators\' password opened something');
   assert.ok((await claimAccount('Juniper', 'moderators-pw', S, 0, mods, true)).error, 'the shared password taken as a personal one');
   assert.ok((await claimAccount('Juniper', 'community-pw', S, 0, mods, true)).error, 'the community password taken as a personal one');
@@ -1932,12 +1936,11 @@ test('a moderator moves onto their own password: it gives the base with the list
   assert.equal(asPlain.swap.base, true); assert.match(asPlain.swap.pass, /^cb2\.base\./);
   assert.equal((await readPass(reqWith(asPlain.swap.pass), mods, S)).role, 'base');
   assert.equal((await readPass(reqWith(issueAccountPass('Juniper', 1)), null, S)).swap, undefined, 'a pass was swapped with no list to swap it by');
-  // A base pass is signed with the moderators' password: a community-signed
-  // forgery with the base label is refused.
+  // The kind is inside what is signed: a member's signature on a base pass is refused.
   const forged = mine.replace(/\.[A-Za-z0-9_-]+$/, '.' + issueAccountPass('Juniper', 1).split('.').pop());
   assert.equal(await readPass(reqWith(forged), mods, S), null, 'a cb2.base pass signed with the community password');
-  // Quill is still on the shared password, and nothing about Juniper moved them.
-  assert.equal((await signOn('Quill', 'moderators-pw', mods, S)).claim, true);
+  // Quill has not joined, and the moderators' password does nothing for them.
+  assert.ok((await signOn('Quill', 'moderators-pw', mods, S)).error);
   // A change of password signs the moderator off everywhere, as anybody's does.
   const ch = await changePassword('Juniper', 'juniper has a phrase', 'a newer phrase too', S, 0);
   assert.equal(ch.v, 2);
@@ -1956,9 +1959,9 @@ test('a moderator moves onto their own password: it gives the base with the list
   // included, and swaps no pass on the strength of it.
   const blind = await readPass(reqWith(issueAccountPass('Juniper', 2, 'base')), null, S);
   assert.equal(blind.role, 'mobile'); assert.equal(blind.swap, undefined);
-  // Deleting it puts the handle back on the shared password, to be claimed again.
+  // Deleted while on the list, the name is held: no invite claims it.
   await deleteAccount('Juniper', S);
-  assert.equal((await signOn('Juniper', 'moderators-pw', mods, S)).claim, true);
+  assert.equal((await checkHandle('Juniper', mods, S)).why, HELD);
 }));
 
 // PASSES RUN OUT, AND ARE SIGNED WITH A KEY NOBODY TYPES (2026-10-28).
@@ -7355,20 +7358,27 @@ test('fifteen people at an invite with five uses: five get in, and one name goes
   assert.equal((await readInvites(S)).find((i) => i.id === any.id).used, 1, 'a join that lost the name kept its use');
 }));
 
-test('a moderator\'s username is claimed only with the moderators\' password, which needs no invite', () => withPasswords(async () => {
+test('moderators join with an invite like anybody, roles go only to a joined username, and a held name is claimed by nobody', () => withBreakGlass('{"Quill":["administrator"]}', async () => {
   const S = memoryStore({ etagOnRead: true });
-  const mods = readMods('{"Juniper":["board"]}');
+  const glass = desk('Quill', ['administrator'], true);
   const inv = (await makeInvite(IMOD, { most: 0, days: 0 }, S, 0)).invite;
-  assert.deepEqual(await checkHandle('juniper ', mods, S), { ok: true, mod: true, handle: 'Juniper' });
-  assert.equal((await joinAccount({ invite: inv.code, handle: 'juniper', password: 'juniper has a phrase' }, mods, S, 1)).mod, true, 'an invite was enough for a moderator\'s username');
-  assert.ok((await joinAccount({ handle: 'Juniper', modPassword: 'community-pw', password: 'juniper has a phrase' }, mods, S, 1)).error);
-  assert.ok((await joinAccount({ handle: 'Juniper', modPassword: 'moderators-pw', password: 'moderators-pw' }, mods, S, 1)).error, 'the shared password taken as a moderator\'s own');
-  assert.ok((await joinAccount({ handle: 'Juniper', modPassword: 'moderators-pw', password: 'juniper has a phrase' }, null, S, 1)).error, 'no readable list, and somebody joined');
-  const j = await joinAccount({ handle: 'JUNIPER', modPassword: 'moderators-pw', password: 'juniper has a phrase' }, mods, S, 1);
-  assert.match(j.pass, /^cb2\.base\./); assert.equal(j.handle, 'Juniper'); assert.deepEqual(j.roles, ['board', 'moderator']);
-  assert.equal((await readInvites(S))[0].used, 0, 'a moderator used an invite');
-  assert.equal((await checkHandle('Juniper', mods, S)).taken, true);
-  assert.equal((await signOn('Juniper', 'juniper has a phrase', mods, S)).role, 'base');
+  // No roles for a name nobody has joined with.
+  assert.match((await setRoles(glass, 'Juniper', ['board'], S, T0)).error, /Nobody has claimed Juniper/);
+  // Juniper joins with an invite, as anybody does; the moderators' password is no way in.
+  assert.ok((await signOn('Juniper', 'moderators-pw', readMods(), S)).error, 'the moderators\' password signed somebody on');
+  const j = await joinAccount({ invite: inv.code, handle: 'Juniper', password: 'juniper has a phrase' }, readMods(), S, 1);
+  assert.match(j.pass, /^cb2\.acct\./); assert.equal(j.base, false);
+  assert.ok((await setRoles(glass, 'Juniper', ['board'], S, T0)).people);
+  assert.deepEqual([...readMods().get('juniper').roles].sort(), ['board', 'moderator']);
+  assert.equal((await signOn('Juniper', 'juniper has a phrase', readMods(), S)).role, 'base');
+  // A name on the list that nobody has claimed (Quill, on the break-glass list here)
+  // is held: the name check says so without saying whose, and no invite claims it.
+  const held = await checkHandle('quill', readMods(), S);
+  assert.equal(held.ok, false); assert.equal(held.mod, undefined, 'the name check said a name is a moderator\'s');
+  const r = await joinAccount({ invite: inv.code, handle: 'Quill', password: 'quill has a phrase' }, readMods(), S, 1);
+  assert.equal(r.error, HELD, 'an invite claimed a moderator\'s name');
+  assert.equal(await readAccount('Quill', S), null);
+  assert.equal((await readInvites(S))[0].used, 1, 'a refused join used the invite');
 }));
 
 test('an email address is kept sealed, only when recovery by email is on, and only its owner changes it', () => withPasswords(() => withOfficeKey(OFFICE_TEST_KEY, async () => {
@@ -7512,6 +7522,7 @@ const desk = (handle, roles, fixed = false) => ({ role: 'base', handle, roles: n
 
 test('the break-glass list and the stored roles are read together, and the break-glass list wins', () => withBreakGlass('{"Juniper":["administrator","board"],"Quill":["administrator"]}', async () => {
   const s = memoryStore({ etagOnRead: true });
+  await joinedAs(s, 'Ada');
   const glass = desk('Juniper', ['administrator', 'board'], true);
   assert.ok(rolesEditor(glass) && !rolesEditor(desk('Ada', ['director'])) && !rolesEditor({ role: 'mobile', handle: 'Ada', roles: new Set() }));
   assert.ok((await setRoles(glass, 'Ada', ['director'], s, T0)).people);
@@ -7541,6 +7552,7 @@ test('the break-glass list and the stored roles are read together, and the break
 
 test('the desk is for administrators, keeps who changed a name last and nothing more, and board needs the board', () => withBreakGlass('{"Juniper":["administrator","board"]}', async () => {
   const s = memoryStore({ etagOnRead: true });
+  await joinedAs(s, 'Quill', 'Nobody');
   const glass = desk('Juniper', ['administrator', 'board'], true);
   const admin = desk('Quill', ['administrator']);
   const boardAdmin = desk('Bo', ['administrator', 'board']);
@@ -7568,6 +7580,7 @@ test('the desk is for administrators, keeps who changed a name last and nothing 
 
 test('nobody is left without an administrator', () => withBreakGlass('{"Juniper":["director"]}', async () => {
   const s = memoryStore({ etagOnRead: true });
+  await joinedAs(s, 'Quill', 'Ada');
   await s.setJSON('roles', { people: { quill: { handle: 'Quill', roles: ['administrator'], by: 'x', t: 1 } } }, { onlyIfNew: true });
   const quill = desk('Quill', ['administrator']);
   assert.match((await setRoles(quill, 'Quill', [], s, T0)).error, /nobody an administrator/);
@@ -7579,6 +7592,7 @@ test('nobody is left without an administrator', () => withBreakGlass('{"Juniper"
 test('fifteen administrators changing fifteen names at once lose nothing', () => withBreakGlass('{"Juniper":["administrator","board"]}', async () => {
   for (const etagOnRead of [true, false]) {
     const s = memoryStore({ etagOnRead });
+    await joinedAs(s, 'p0', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14');
     const glass = desk('Juniper', ['administrator', 'board'], true);
     const results = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => setRoles(glass, `p${i}`, ['director'], s, T0)));
     const said = results.filter((r) => r.status === 'fulfilled' && r.value.people).length;
@@ -8772,6 +8786,7 @@ import { staffShut, lockedRoom as lockedRoomOf, MOD_ROOMS as STAFF_ROOMS } from 
 
   test('every notification device and the stored roles are sealed, and read back as they were', () => withStaffKey(() => withBreakGlass('{"Juniper":["administrator","board"]}', async () => {
     const s = sealingStore(memoryStore({ etagOnRead: true }));
+    await joinedAs(s, 'Ada');
     assert.ok(staffSealed('push-devices') && staffSealed('roles'));
     const glass = desk('Juniper', ['administrator', 'board'], true);
     assert.ok((await setRoles(glass, 'Ada', ['director'], s, T0)).people);
@@ -8791,6 +8806,7 @@ import { staffShut, lockedRoom as lockedRoomOf, MOD_ROOMS as STAFF_ROOMS } from 
 
   test('without the staff key the sealed roles cannot be read, and only the break-glass list counts', () => withStaffKey(() => withBreakGlass('{"Juniper":["administrator"]}', async () => {
     const s = sealingStore(memoryStore({ etagOnRead: true }));
+    await joinedAs(s, 'Ada');
     await setRoles(desk('Juniper', ['administrator'], true), 'Ada', ['director'], s, T0);
     const was = process.env.CB_STAFF_KEY;
     delete process.env.CB_STAFF_KEY;
@@ -9352,3 +9368,48 @@ import { setForumRule, forumRulesList, loadForumRules, keepOf, topicKeep, FORUM_
     assert.deepEqual(FORUM_SORTS, ['last', 'new', 'old', 'az', 'za']);
   });
 }
+
+// ROTATING A SEALING KEY (2026-10-28): the old key reads while the sweep seals
+// everything again under the new one, and once it says done the old key can go.
+import { rekeyStore, REKEY_MARK, seal as officeSeal, unseal as officeUnseal } from './lib.mjs';
+test('a sealing key is rotated: the old one reads meanwhile, the sweep seals everything again, and then it can go', async () => {
+  const names = ['CB_STAFF_KEY', 'CB_OFFICE_KEY'];
+  const was = Object.fromEntries(names.flatMap((n) => [[n, process.env[n]], [n + '_OLD', process.env[n + '_OLD']]]));
+  const k = () => rnd(32).toString('base64url');
+  const A = { CB_STAFF_KEY: k(), CB_OFFICE_KEY: k() }, B = { CB_STAFF_KEY: k(), CB_OFFICE_KEY: k() };
+  const put = (o) => { for (const [n, v] of Object.entries(o)) { if (v === undefined) delete process.env[n]; else process.env[n] = v; } };
+  try {
+    put({ ...A, CB_STAFF_KEY_OLD: undefined, CB_OFFICE_KEY_OLD: undefined });
+    const s = sealingStore(memoryStore({ etagOnRead: true }));
+    assert.equal((await rekeyStore(s, 1)).rotating, false, 'the sweep ran with no rotation');
+    await s.setJSON('tasks', { list: ['a task'] }, { onlyIfNew: true });
+    await s.set('img/abc', new TextEncoder().encode('a picture').buffer, { metadata: { t: 5, name: 'whose-papers.png' } });
+    await s.raw.setJSON('office-x', officeSeal({ who: 'a contact' }), { onlyIfNew: true });
+    await s.raw.setJSON(`acct/${acctKey('Ada')}`, { handle: 'Ada', v: 1, email: officeSeal({ email: 'ada@example.org' }) }, { onlyIfNew: true });
+    const before = JSON.stringify(await s.raw.get('tasks', { type: 'json' }));
+    // The new keys alone cannot read what the old ones sealed.
+    put({ ...B });
+    await assert.rejects(() => s.get('tasks', { type: 'json' }));
+    // With the old ones beside them, everything reads.
+    put({ CB_STAFF_KEY_OLD: A.CB_STAFF_KEY, CB_OFFICE_KEY_OLD: A.CB_OFFICE_KEY });
+    assert.deepEqual(await s.get('tasks', { type: 'json' }), { list: ['a task'] });
+    assert.equal(officeUnseal(await s.raw.get('office-x', { type: 'json' })).who, 'a contact');
+    // A run with a tiny budget stops part-way and says where.
+    const part = await rekeyStore(s, 2, 0);
+    assert.equal(part.done, false);
+    // Runs until it is done: the first full pass seals, the next finds nothing.
+    let r;
+    for (let i = 0; i < 20 && !(r && r.done); i++) r = await rekeyStore(s, 3 + i, 1e6);
+    assert.equal(r.done, true, 'the sweep never said done');
+    assert.equal((await s.raw.get(REKEY_MARK, { type: 'json' })).done, true);
+    assert.notEqual(JSON.stringify(await s.raw.get('tasks', { type: 'json' })), before, 'the task list was not sealed again');
+    assert.equal(JSON.stringify(await s.raw.get(REKEY_MARK, { type: 'json' })).includes(B.CB_STAFF_KEY), false, 'the mark carries a key');
+    // The old keys go, and everything still reads under the new ones.
+    put({ CB_STAFF_KEY_OLD: undefined, CB_OFFICE_KEY_OLD: undefined });
+    assert.deepEqual(await s.get('tasks', { type: 'json' }), { list: ['a task'] });
+    const pic = await s.getWithMetadata('img/abc', { type: 'arrayBuffer' });
+    assert.equal(Buffer.from(pic.data).toString(), 'a picture'); assert.equal(pic.metadata.name, 'whose-papers.png'); assert.equal(pic.metadata.t, 5);
+    assert.equal(officeUnseal(await s.raw.get('office-x', { type: 'json' })).who, 'a contact');
+    assert.equal(officeUnseal((await s.raw.get(`acct/${acctKey('Ada')}`, { type: 'json' })).email).email, 'ada@example.org');
+  } finally { put(was); }
+});

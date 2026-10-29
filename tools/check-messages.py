@@ -83,7 +83,8 @@ def uncomment(s):
 
 
 def fn(src, name):
-    m = re.search(r"(?:export )?(?:async )?function " + re.escape(name) + r"\(.*?\n\}", src, re.S)
+    head = r"(?:export )?(?:async )?function " + re.escape(name) + r"\("
+    m = re.search(head + r"[^\n]*\}\n", src) or re.search(head + r".*?\n\}", src, re.S)
     if not m:
         refuse(f"lib.mjs has no {name}, which direct messages need.")
         return ""
@@ -217,7 +218,8 @@ def main():
         refuse("reportDm copies a picture onto the desk without sealing it.")
     if re.search(r"s\.setJSON\((?:p\.key|key|pairBlob|REPORTS|DM_SET)[^,]*, next", part):
         refuse("a conversation, a switch or the reports are written with setJSON and no seal.")
-    if lib.count("process.env.CB_DM_KEY") != 1 or "process.env.CB_DM_KEY" not in fn(lib, "dmCipherKey"):
+    if (len(re.findall(r"process\.env\.CB_DM_KEY(?!_OLD)\b", lib)) != 1 or lib.count("process.env.CB_DM_KEY_OLD") != 1
+            or "keyRing(process.env.CB_DM_KEY, process.env.CB_DM_KEY_OLD)" not in fn(lib, "dmCipherKey")):
         refuse("CB_DM_KEY is read somewhere other than dmCipherKey.")
     if "CB_OFFICE_KEY" in fn(lib, "dmCipherKey"):
         refuse("direct messages are sealed with the office's key, not a key of their own.")

@@ -97,7 +97,7 @@
     <thead><tr><th>Variable</th><th>Used for</th></tr></thead>
     <tbody>
       <tr><td><code>CB_PASSWORD</code></td><td>Once the community&rsquo;s starter password, which signs nobody on since 2026-10-21. Every pass is still an HMAC keyed by it, so changing it and redeploying signs everybody off.</td></tr>
-      <tr><td><code>CB_MOD_PASSWORD</code></td><td>The moderators&rsquo; shared password, which claims a username on the moderators&rsquo; list and signs nobody on</td></tr>
+      <tr><td><code>CB_MOD_PASSWORD</code></td><td>The moderators&rsquo; old shared password, which signs nobody on and claims nothing since 28 October 2026; a password of your own may not be it</td></tr>
       <tr><td><code>CB_MODS</code></td><td>Which handles hold which roles. Missing or unreadable, it fails closed.</td></tr>
       <tr><td><code>CB_JAAS_KID</code>, <code>CB_JAAS_KEY</code></td><td>The 8x8 key id and private key that sign call tokens</td></tr>
       <tr><td><code>CB_JAAS_EVENTS_SECRET</code></td><td>Checks 8x8&rsquo;s webhook saying who is in a call</td></tr>

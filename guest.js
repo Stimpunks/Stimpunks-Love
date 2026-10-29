@@ -315,13 +315,6 @@
       signon({ handle: handle.value, password: password.value }).then(function (r) {
         send.disabled = false;
         if (r.status === 200 && r.body.second) { secondStep(r.body.second); return; }
-        if (r.status === 200 && r.body.claim) {
-          password.value = '';
-          said.textContent = r.body.handle + ' is a moderator\u2019s username, and has not been claimed yet. Claim it on ';
-          said.appendChild(link('/join.html#name=' + encodeURIComponent(r.body.handle), 'the joining page'));
-          said.appendChild(document.createTextNode(', with the moderators\u2019 password and one of your own.'));
-          return;
-        }
         if (r.status === 200 && r.body.pass) {
           password.value = '';
           took(r.body);

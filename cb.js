@@ -11095,7 +11095,7 @@
     del.addEventListener('click', function () {
       form.textContent = ''; form.hidden = false;
       form.appendChild(el('p', null, base
-        ? 'This deletes your own password, your pets and your direct messages, and puts ' + a.handle + ' back on the moderators\u2019 password, which any moderator can sign on with. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'
+        ? 'This deletes your own password, your pets and your direct messages, and puts ' + a.handle + ' back to nobody: while it is on the moderators\u2019 list no invite can claim it, so ask an administrator first if you mean to join again. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'
         : 'This deletes your username, its password, your pets and your direct messages, and anybody can take the name afterwards. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
       var pw = field('Your password, to be sure it is you', 'cb-acct-del', 'password');
       pw.input.autocomplete = 'current-password';
@@ -13615,10 +13615,7 @@
     set.appendChild(head);
     var p = el('p');
     if (base) {
-      p.appendChild(document.createTextNode('You were on as ' + h + ' with the moderators\u2019 shared password, and a pass from it opens nothing now. Claim ' + h + ' on '));
-      var jl = el('a', null, 'the joining page'); jl.href = '/join.html';
-      p.appendChild(jl);
-      p.appendChild(document.createTextNode(', with the moderators\u2019 password and a password of your own. Your roles stay where they are.'));
+      p.appendChild(document.createTextNode('You were on as ' + h + ' with the moderators\u2019 shared password, which opens nothing now. Ask an administrator for an invite, and to take ' + h + ' off the moderators\u2019 list at the desk while you join with it; then they give your roles back.'));
     } else {
       p.appendChild(document.createTextNode('You were on as ' + h + ' with the starter password, which was retired on 21 October, and a pass from it opens nothing now. Everybody joins with an invite: '));
       var gl = el('a', null, 'the Community Center'); gl.href = '/community-center.html#getting-started';
@@ -13861,19 +13858,6 @@
               box.remove(); took(b);
             }, function () { box.remove(); form.hidden = false; said.textContent = 'That sign-on ran out. Sign on again with your password.'; });
           }, function () { form.hidden = false; said.textContent = 'The second step could not be loaded just now. Try again in a moment.'; });
-          return;
-        }
-        /* A MODERATOR'S USERNAME NOT CLAIMED YET (2026-10-21): the moderators'
-           password signs nobody on now, and sends its moderator to claim the
-           username on the joining page, where it is asked for again. */
-        if (r.status === 200 && r.body.claim) {
-          form.elements.password.value = '';
-          said.textContent = r.body.handle + ' is a moderator\u2019s username, and has not been claimed yet. Claim it on ';
-          var j = document.createElement('a');
-          j.href = '/join.html#name=' + encodeURIComponent(r.body.handle);
-          j.textContent = 'the joining page';
-          said.appendChild(j);
-          said.appendChild(document.createTextNode(', with the moderators\u2019 password and one of your own.'));
           return;
         }
         if (r.status === 200 && r.body.pass) { took(r.body); return; }

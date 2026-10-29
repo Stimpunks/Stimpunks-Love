@@ -540,9 +540,10 @@ def check_sealed(lib):
         problems.append("lib.mjs: STAFF_SEALED no longer names every Tasks store, so one is written in the clear.")
     if "return sealingStore(getStore(" not in fn(lib, "store") or lib.count("getStore(") != 1:
         problems.append("lib.mjs: something gets the store without the sealing store, so Tasks could be written in the clear.")
-    key_fn = re.search(r"\nfunction staffCipherKey\(\) \{.*?\n\}", lib, re.S)
+    key_fn = re.search(r"\nfunction staffCipherKey\(\) \{[^\n]*\}\n|\nfunction staffCipherKey\(\) \{.*?\n\}", lib, re.S)
     key_fn = key_fn.group(0) if key_fn else ""
-    if lib.count("process.env.CB_STAFF_KEY") != 1 or "process.env.CB_STAFF_KEY" not in key_fn:
+    if (len(re.findall(r"process\.env\.CB_STAFF_KEY(?!_OLD)\b", lib)) != 1 or lib.count("process.env.CB_STAFF_KEY_OLD") != 1
+            or "keyRing(process.env.CB_STAFF_KEY, process.env.CB_STAFF_KEY_OLD)" not in key_fn):
         problems.append("lib.mjs: CB_STAFF_KEY is read somewhere other than staffCipherKey.")
     if "CB_OFFICE_KEY" in key_fn or "CB_DM_KEY" in key_fn:
         problems.append("lib.mjs: Tasks are sealed with another store's key, not a key of their own.")

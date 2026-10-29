@@ -220,6 +220,12 @@ def fn(src, name):
     return m.group(0) if m else ""
 
 
+def inner(src, name):
+    """A function that is not exported, on one line or many."""
+    m = re.search(rf"\nfunction {name}\([^\n]*\}}\n|\nfunction {name}\(.*?\n\}}", src, re.S)
+    return m.group(0) if m else ""
+
+
 def check_lib(lib):
     start = lib.find("/* ── The office ──")
     if start < 0:
@@ -273,14 +279,18 @@ def check_lib(lib):
     if "return tasksAllow(who)" not in fn(sec, "officeAllow"):
         problems.append(f"{LIB.name}: officeAllow is no longer tasksAllow: directors, board members and administrators, on a claimed username.")
     # Sealed, with a fresh nonce, under the one key from the environment.
-    if lib.count("process.env.CB_OFFICE_KEY") != 1 or "process.env.CB_OFFICE_KEY" not in sec:
-        problems.append(f"{LIB.name}: CB_OFFICE_KEY must be read once, in the office's officeKey, and nowhere else.")
-    if not re.search(r"k\.length === 32", sec):
+    # The key and, while it is rotated (2026-10-28), its _OLD partner, both read
+    # in officeKey and nowhere else, through keyRing, which takes 32 bytes only.
+    ok_fn = inner(sec, "officeKey")
+    if (len(re.findall(r"process\.env\.CB_OFFICE_KEY(?!_OLD)\b", lib)) != 1 or lib.count("process.env.CB_OFFICE_KEY_OLD") != 1
+            or "keyRing(process.env.CB_OFFICE_KEY, process.env.CB_OFFICE_KEY_OLD)" not in ok_fn):
+        problems.append(f"{LIB.name}: CB_OFFICE_KEY (and its _OLD partner) must be read once, in the office's officeKey, and nowhere else.")
+    if not re.search(r"k\.length === 32", inner(lib, "keyFrom")):
         problems.append(f"{LIB.name}: the office's key must be exactly 32 bytes, or the office is shut.")
     seal = fn(sec, "seal")
     if "createCipheriv('aes-256-gcm'" not in seal or "randomBytes(12)" not in seal or "getAuthTag()" not in seal:
         problems.append(f"{LIB.name}: seal must be AES-256-GCM with a fresh 12-byte nonce and its tag.")
-    if "setAuthTag(" not in fn(sec, "unseal"):
+    if "gcmOpen(" not in inner(sec, "unsealWith") or "setAuthTag(" not in inner(lib, "gcmOpen"):
         problems.append(f"{LIB.name}: unseal must check GCM's tag, so a record changed without the key is refused.")
     writes = re.findall(r"\.set(?:JSON)?\(", code)
     us = re.search(r"async function updateSealed\(.*?\n\}", sec, re.S)

@@ -3,15 +3,15 @@
    Ryan's brief, 2026-10-21. No pass is needed, because joining is how you get
    one. POST, JSON:
      { action: 'check', invite?, handle? }   whether an invite works, and
-                                             whether a username is free and is
-                                             a moderator's, before anybody types
+                                             whether a username is free,
+                                             before anybody types
                                              a password; and whether recovery by
                                              email is switched on
-     { action: 'join', invite, handle, password, email?, modPassword? }
-                                             claim the username; a moderator's
-                                             takes the moderators' password and
-                                             no invite. The answer is a pass and
-                                             a recovery code, shown once
+     { action: 'join', invite, handle, password, email? }
+                                             claim the username, with an invite,
+                                             moderators too (2026-10-28). The
+                                             answer is a pass and a recovery
+                                             code, shown once
    Nothing is kept about who joined with which invite, and nothing a person
    types is ever logged. See ../cb/lib.mjs, invites. */
 import { checkInvite, checkHandle, joinAccount, emailOn, json, body, sameSite } from '../cb/lib.mjs';
@@ -28,7 +28,7 @@ export default async (req) => {
     }
     if (b.action === 'join') {
       const r = await joinAccount(b);
-      if (r.error) return json(400, { error: r.error, mod: !!r.mod, taken: !!r.taken, invite: !!r.invite });
+      if (r.error) return json(400, { error: r.error, taken: !!r.taken, invite: !!r.invite });
       return json(200, r);
     }
     return json(400, { error: 'Do what?' });
