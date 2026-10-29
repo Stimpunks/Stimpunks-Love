@@ -158,7 +158,7 @@
      data/coworking.json and MOD_ROOMS, and holds the rest. See chatMake. */
   function chatDock() { return document.querySelector('[data-cb-dock]'); }
   function inChat() { return !inWindow() && !!(document.body && document.body.hasAttribute('data-cb-chat') && chatDock()); }
-  var CHAT_OWN = ['folded', 'size', 'small', 'popped', 'band', 'x', 'y'];
+  var CHAT_OWN = ['folded', 'size', 'small', 'popped', 'band', 'x', 'y', 'fold'];
   /* YOUR PAGE (you.html, Ryan's ask, 2026-10-25): the radio's You part docked
      into a page the way the chat page docks the radio, with Past notifications
      beside it, everything your devices were told in the last 30 days (see
@@ -169,6 +169,20 @@
      page; its channel is simply not shown. */
   function inYou() { return !inWindow() && !!(document.body && document.body.hasAttribute('data-cb-you') && chatDock()); }
   function docked() { return inChat() || inYou(); }
+  /* Which parts fold (see part()): never Where you are, Channel or Happening
+     now; on the chat page not Messages or Events either, which are views in
+     its middle, nor its Channels or Search; on Your page not You, which is the
+     page. */
+  var FOLDS = ['here', 'around', 'new', 'events', 'dm', 'film', 'you', 'yours'];
+  function foldable(key) {
+    if (FOLDS.indexOf(key) < 0) return false;
+    if (inChat() && (key === 'dm' || key === 'events')) return false;
+    return !(inYou() && key === 'you');
+  }
+  /* Where the folded parts are kept in love-cb: the chat page and Your page
+     each keep their own, so folding a part there folds nothing on the street,
+     and the street's is in CHAT_OWN, so they leave it as it was. */
+  function partFold() { return inChat() ? 'chatFold' : inYou() ? 'youFold' : 'fold'; }
   var streetWin = null;
   // The window this one came from, or the one it last opened a room in, while
   // it is open and on this site.
@@ -1459,6 +1473,14 @@
     var cols = ['a', 'b', 'c', 'd'].map(function (k) { return el('div', 'cb-col cb-col--' + k); });
     cols.forEach(function (c) { set.appendChild(c); });
     var dividers = this.dividers = [], parts = 0;
+    /* A PART FOLDS UP (a request from our community, 2026-10-29, to scroll
+       less and bring the parts people want further up): its heading holds a
+       button, as Profile's sections do, and a folded part is its heading and
+       nothing under it, in the same place, so the parts never change order.
+       Where you are, Channel and Happening now never fold: they are the radio
+       and what is going on in this room. Which are folded is remembered in
+       love-cb on this device (partFold). See setPart. */
+    var folds = this.folds = {};
     function part(cls, title, col) {
       var sec = el('div', 'cb-sec ' + cls + (parts ? ' cb-sec--after' : ''));
       // The groove above every part after the first carries a theme's drawing too.
@@ -1470,7 +1492,21 @@
         dividers.push(dv);
       }
       parts++;
-      sec.appendChild(el('h2', 'cb-h', title));
+      var key = cls.replace('cb-sec--', ''), h = el('h2', 'cb-h');
+      if (foldable(key)) {
+        var b = el('button', 'cb-partfold');
+        b.type = 'button';
+        b.setAttribute('aria-expanded', 'true');
+        var mark = el('span', 'cb-partfold__mark');
+        mark.setAttribute('aria-hidden', 'true');
+        b.appendChild(mark);
+        b.appendChild(el('span', 'cb-partfold__words', title));
+        b.dataset.label = title;
+        b.addEventListener('click', function () { me.setPart(key, b.getAttribute('aria-expanded') !== 'true'); });
+        h.appendChild(b);
+        folds[key] = { sec: sec, btn: b };
+      } else h.textContent = title;
+      sec.appendChild(h);
       cols[col].appendChild(sec);
       return sec;
     }
@@ -1556,6 +1592,8 @@
     if (chat) this.chatMake(chansSec, chanSec, dmSec);
     if (searchSec) this.searchMake(searchSec);
     if (noticeSec) this.noticesMake(noticeSec);
+    var kept = this.state[partFold()];
+    if (Array.isArray(kept)) kept.forEach(function (k) { if (folds[k]) me.setPart(k, false, true); });
 
     /* WHERE YOU ARE, in words, at the top. Ryan, 2026-10-13: some people could
        not tell where they were. "Tuned to World" is the channel and not the
@@ -3461,8 +3499,8 @@
     this.screenNamed(w);
     this.hostTick(w);
     this.hereTick();
-    if (!this.online.hidden) this.onlineTick();
-    if (this.dmBox && !this.dmBox.hidden) this.dmTick();
+    if (!this.online.hidden && !this.partFolded('around')) this.onlineTick();
+    if (this.dmBox && !this.dmBox.hidden && !this.partFolded('dm')) this.dmTick();
     this.newsTick();
     this.evTick();
     if (inChat()) this.chatDmTick();
@@ -3864,6 +3902,7 @@
     var li = log.querySelector(':scope > li[data-id="' + CSS.escape(id) + '"]');
     if (!li) return;
     if (log === this.log && this.state.size === 'small') this.setSize('normal', true);
+    this.reveal(li);
     li.tabIndex = -1;
     li.scrollIntoView({ block: 'nearest' });
     li.focus({ preventScroll: true });
@@ -6555,7 +6594,7 @@
       var want = this.evFocus;
       this.evFocus = '';
       var card = this.evList.querySelector('.cb-ev-card[data-id="' + CSS.escape(want) + '"]');
-      if (card) { var h = card.querySelector('.cb-ev-title'); h.scrollIntoView({ block: 'start' }); h.focus({ preventScroll: true }); }
+      if (card) { var h = card.querySelector('.cb-ev-title'); this.reveal(h); h.scrollIntoView({ block: 'start' }); h.focus({ preventScroll: true }); }
       else this.evSaid.textContent = 'That event is not on the list: it has been and gone, been cancelled, or is somewhere you cannot go.';
     }
   };
@@ -6800,7 +6839,7 @@
     var me = this, b = this.callBtn;
     if (callOpenTag() === (hereRoom() || {}).tag) { this.tell('You are in this room\u2019s call.'); return; }
     if (b.hidden) { this.tell('This room\u2019s call cannot be opened just now.'); return; }
-    function go() { b.scrollIntoView({ block: 'center' }); b.focus(); me.tell('Join this room\u2019s call has the keyboard: press it, or Enter, to join.'); }
+    function go() { me.reveal(b); b.scrollIntoView({ block: 'center' }); b.focus(); me.tell('Join this room\u2019s call has the keyboard: press it, or Enter, to join.'); }
     if (this.host.style.visibility === 'hidden') this.whenShown = go; else go();
   };
 
@@ -10099,6 +10138,7 @@
     change.addEventListener('click', function () {
       if (!me.availBox) return;
       var c = me.availInputs.filter(function (r) { return r.checked; })[0] || me.availInputs[0];
+      me.reveal(me.availBox);
       me.availBox.scrollIntoView({ block: 'nearest' });
       c.focus();
     });
@@ -10229,6 +10269,8 @@
     dms.forEach(function (h) { items.push({ key: 'd|' + h, dm: h }); });
     // The Inbox is marked while anything here is new, or a reminder has come due.
     markNew(this.ibBtn, items.length > 0 || !!(n && n.due));
+    this.newsAny = items.length > 0;
+    this.foldMarks();
     if (this.ibTabs) markNew(this.ibTabs.remind, !!(n && n.due));
     var sig = JSON.stringify([claimed, items.map(function (x) { return x.key; }), here && here.tag, follow.length > 0, all]);
     if (sig === this.newSig) return;
@@ -11063,7 +11105,7 @@
     if (this.state.folded) this.setFolded(false, true);
     if (this.tiny()) this.setSize('normal', true);
     this.dmOpen(handle);
-    function go() { me.dmSec.scrollIntoView({ block: 'nearest' }); me.dmHead.focus(); }
+    function go() { me.reveal(me.dmSec); me.dmSec.scrollIntoView({ block: 'nearest' }); me.dmHead.focus(); }
     if (this.host.style.visibility === 'hidden') this.whenShown = go; else go();
   };
 
@@ -11080,7 +11122,7 @@
     if (inChat()) this.chatViewDm();
     if (this.dmWith) this.dmShowInbox();
     if (this.dmBox.hidden) this.setDm(true); else this.dmTick();
-    function go() { me.dmSec.scrollIntoView({ block: 'start' }); ((inChat() && me.chatDmAll) || me.dmBtn).focus(); }
+    function go() { me.reveal(me.dmSec); me.dmSec.scrollIntoView({ block: 'start' }); ((inChat() && me.chatDmAll) || me.dmBtn).focus(); }
     if (this.host.style.visibility === 'hidden') this.whenShown = go; else go();
   };
 
@@ -11615,8 +11657,8 @@
     if (this.tiny()) this.setSize('normal', true);
     if (this.petsPanel.hidden) this.setPets(true);
     if (this.pfSecs.props.body.hidden) this.pfOpen('props', true);
-    var head = this.pfSecs.props.btn;
-    function go() { head.scrollIntoView({ block: 'start' }); head.focus(); }
+    var me = this, head = this.pfSecs.props.btn;
+    function go() { me.reveal(head); head.scrollIntoView({ block: 'start' }); head.focus(); }
     // Until cb.css has loaded the radio is hidden, and nothing hidden takes focus.
     if (this.host.style.visibility === 'hidden') this.whenShown = go; else go();
   };
@@ -11955,6 +11997,56 @@
     this.place();
   };
 
+  /* FOLD A PART, or open it (see part()). quiet is the radio putting back
+     what love-cb remembers, or opening a part because something sent you
+     into it, and neither is remembered. A folded part asks nothing for what
+     only it shows (Who's online, an open conversation), and opening it asks
+     at once rather than on the next listen. Unreads, Events and Be seen here
+     go on as before, because the dots, Happening now and being seen are not
+     only that part's. */
+  Radio.prototype.setPart = function (key, open, quiet) {
+    var f = this.folds && this.folds[key];
+    if (!f) return;
+    f.sec.classList.toggle('cb-sec--folded', !open);
+    f.btn.setAttribute('aria-expanded', String(!!open));
+    if (!quiet) {
+      var k = partFold(), list = (Array.isArray(this.state[k]) ? this.state[k] : []).filter(function (x) { return x !== key && FOLDS.indexOf(x) >= 0; });
+      if (!open) list.push(key);
+      if (list.length) this.state[k] = list; else delete this.state[k];
+      save(this.state);
+    }
+    if (open && key === 'around' && this.online && !this.online.hidden) this.onlineTick();
+    if (open && key === 'dm' && this.dmBox && !this.dmBox.hidden) { this.dmSig = null; this.dmTick(); }
+    if (open && key === 'you' && this.petsPanel && !this.petsPanel.hidden) this.setPets(true);
+    this.foldMarks();
+    this.place();
+  };
+
+  Radio.prototype.partFolded = function (key) {
+    var f = this.folds && this.folds[key];
+    return !!f && f.sec.classList.contains('cb-sec--folded');
+  };
+
+  // Something is sending you into a part: open it first, or nothing in it can take the keyboard.
+  Radio.prototype.reveal = function (node) {
+    var sec = node && node.closest && node.closest('.cb-sec');
+    for (var k in this.folds) if (this.folds[k].sec === sec && this.partFolded(k)) this.setPart(k, true, true);
+  };
+
+  /* A folded part with something new in it says so on its heading: the
+     dot markNew draws everywhere else, never a number. Unreads has something
+     when it lists anything; any other part when a dot is drawn inside it. */
+  Radio.prototype.foldMarks = function () {
+    for (var k in this.folds) {
+      var f = this.folds[k], on = false;
+      if (this.partFolded(k)) {
+        on = k === 'new' ? !!this.newsAny
+          : [].some.call(f.sec.querySelectorAll('.cb-new'), function (d) { return !f.btn.contains(d); });
+      }
+      markNew(f.btn, on);
+    }
+  };
+
   /* PROFILE'S SECTIONS ARE FOLDED UP (Ryan's ask, 2026-10-19: the tray was so
      long he scanned and scrolled for the one he wanted). Each section's
      heading is a button that opens it, so the headings are the list of what
@@ -11996,7 +12088,7 @@
   // Is that section on the screen, so that reading it again is worth a request?
   Radio.prototype.pfShown = function (key) {
     var s = this.pfSecs && this.pfSecs[key];
-    return !!s && !s.body.hidden && !this.petsPanel.hidden;
+    return !!s && !s.body.hidden && !this.petsPanel.hidden && !this.partFolded('you');
   };
 
   Radio.prototype.setAccount = function (open) {
@@ -14648,6 +14740,7 @@
     var to = mine ? this.hostBtn : row && row.querySelector('button');
     if (!to || to.hidden) to = this.filmSec.querySelector('.cb-h');
     if (!to) return;
+    this.reveal(to);
     if (to.classList.contains('cb-h')) to.tabIndex = -1;
     to.scrollIntoView({ block: 'center' });
     to.focus({ preventScroll: true });
@@ -14747,13 +14840,13 @@
     if (this.newsSaid) this.newsSaid.textContent = '';
   };
   Radio.prototype.tellFilm = function (s) {
-    if (this.tiny() || this.state.folded || this.filmSec.hidden) { this.tell(s); return; }
+    if (this.tiny() || this.state.folded || this.filmSec.hidden || this.partFolded('film')) { this.tell(s); return; }
     this.filmSaid.textContent = s;
     this.said.textContent = '';
     if (this.newsSaid) this.newsSaid.textContent = '';
   };
   Radio.prototype.tellNews = function (s) {
-    if (this.tiny() || this.state.folded) { this.tell(s); return; }
+    if (this.tiny() || this.state.folded || this.partFolded('new')) { this.tell(s); return; }
     this.newsSaid.textContent = s;
     this.said.textContent = '';
     if (this.filmSaid) this.filmSaid.textContent = '';

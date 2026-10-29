@@ -1011,7 +1011,19 @@ heading of their own (Ryan, 2026-10-24: "we like big headings and breaking thing
 an `h3.cb-h3`, as In this channel's Seen here, In this room's call, Your familiar and On now are, which `cb.css`
 hides while nothing under its heading shows. The friendly edit is to flatten them back to save height. The headings are `h2`s in the shadow root, so a
 screen reader moves between them; Small shows none of them. Do not flatten it back into one column to
-save height.
+save height. **What saves height is folding** (a request from our community, 2026-10-29): `part()` puts a
+button in every heading but Where you are, Channel and Happening now (`FOLDS`, `foldable()`; on the chat
+page not Messages, Events, Channels or Search, which are its views; on Your page not You), and `setPart`
+hides everything under a heading by `cb-sec--folded`, leaving the part where it was. Which are folded is
+`fold` in `love-cb`, in `CHAT_OWN`, and the chat page and Your page keep `chatFold` and `youFold`
+(`partFold()`), so a fold made there changes nothing on the street. **Anything that sends you into a part
+calls `reveal()` first**, which opens it without remembering; a new way into a part needs the same, or
+its focus lands on nothing. A folded part with something new shows `markNew`'s dot on its heading
+(`foldMarks`). A folded Who's around or Messages skips its own tick in `listen()`; Unreads and Events do
+not, because the dots and Happening now come from them. **Its class is `cb-partfold`**: `cb-fold` is the
+bar's Fold away, which the docked pages hide. The friendly edits are folding the channel "to save even more
+room", which leaves a radio that looks broken and a live region nobody hears, and a per-person order of the
+parts, which reverses Ryan's order of 2026-10-23 and is his call.
 
 **A call's window and the `Mover` live in `call.js`, not `cb.js`**, because a public room's guest
 must never download the radio. `cb.js` loads `call.js` before it builds the radio. `call.js` reads

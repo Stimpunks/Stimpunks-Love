@@ -542,6 +542,21 @@
    the largest words on the radio. The forums' headings wear .cb-h too and
    keep their own sizes in forum.css. */
 .cb-sec > .cb-h { font-size: min(calc(18px * var(--cb-display-scale, 1)), 19px); }
+/* A PART FOLDS UP (cb.js, part() and setPart; a request from our community,
+   2026-10-29): its heading is a button wearing the heading's own face, size,
+   case and colour, with Profile's mark saying which way it is, changed and
+   never turned. Folded, the part is its heading and nothing else, in the same
+   place: the groove's drawing stays and everything under the heading goes,
+   whatever display it asks for. Nothing in a colour of its own. */
+.cb-partfold {
+  display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; margin: 0; padding: 0;
+  font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; text-align: left;
+  background: none; border: 0; cursor: pointer;
+}
+.cb-partfold:hover .cb-partfold__words { text-decoration: underline; text-underline-offset: 3px; }
+.cb-partfold__mark::before { content: '\25B8'; display: inline-block; width: 1em; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; }
+.cb-partfold[aria-expanded="true"] .cb-partfold__mark::before { content: '\25BE'; }
+.cb-sec--folded > :not(.cb-h):not(.cb-divider) { display: none !important; }
 /* A PART'S SUBSECTIONS ARE BIGGER TOO (Ryan's ask, 2026-10-24: "we like big
    headings and breaking things into sections"): People, Calls going now, Your
    chat status, Seen here and the rest, a size over the radio's 15px words and
