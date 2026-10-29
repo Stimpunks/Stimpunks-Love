@@ -13,15 +13,16 @@
    of one blob, beside a claimed name only, by withAvatars()'s rules, and the
    nameplate each chose on their profile (2026-10-17), the same way, by
    withPlates()'s, and the chat status each chose (2026-10-24), by
-   withChatStatus()'s. */
-import { readPass, whoSeen, withAvatars, withPlates, withChatStatus, callsOn, json, sameSite } from '../cb/lib.mjs';
+   withChatStatus()'s, and the availability each chose (2026-10-29), by
+   withAvailability()'s. */
+import { readPass, whoSeen, withAvatars, withPlates, withChatStatus, withAvailability, callsOn, json, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The CB only answers stimpunks.world.' });
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   const heard = !!process.env.CB_JAAS_EVENTS_SECRET;
-  return json(200, { people: await withChatStatus(await withPlates(await withAvatars(await whoSeen(who)))), calls: heard ? await callsOn(who) : [], callHeard: heard });
+  return json(200, { people: await withAvailability(await withChatStatus(await withPlates(await withAvatars(await whoSeen(who))))), calls: heard ? await callsOn(who) : [], callHeard: heard });
 };
 
 export const config = {

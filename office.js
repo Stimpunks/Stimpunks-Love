@@ -172,6 +172,15 @@
 
   var settings = null, me = null, contacts = [], grants = [];
   function took(b) { if (b.settings) settings = b.settings; if (b.me) me = b.me; }
+  /* AVAILABILITY (2026-10-29): the state and line each of the office's people
+     chose on the radio, sent as me.away, beside their name in the @ list. */
+  var AVAIL_NAMES = { available: 'Available', busy: 'Busy', away: 'Away', dnd: 'Do not disturb', 'out-of-office': 'Out of office' };
+  function availWords(h) {
+    var all = (me && me.away) || {}, a = null;
+    Object.keys(all).forEach(function (k) { if (fold(k) === fold(h)) a = all[k]; });
+    if (!a || !AVAIL_NAMES[a.avail]) return '';
+    return AVAIL_NAMES[a.avail] + (a.note ? ': ' + a.note : '');
+  }
 
   /* ── Pieces ────────────────────────────────────────────────────────────── */
 
@@ -2229,7 +2238,7 @@
     return { p: 'of', id: id, heading: heading, comments: talked.id === id ? talked.list : null, landOn: landOn,
       admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,
       ask: function (send) { return call(null, send); }, why: why, say: say, sure: sure,
-      people: people, roles: roles, me: me ? me.handle : '', mark: marked, snippets: snippetsNow,
+      people: people, about: availWords, roles: roles, me: me ? me.handle : '', mark: marked, snippets: snippetsNow,
       kept: function (list) { talked = { id: id, list: list }; }, files: commentFiles(id) };
   }
 
@@ -3830,7 +3839,7 @@
       var writing = li.dataset.writing === '1';
       if (writing) {
         // A comment written on the card: what is typed is kept on the card while it is redrawn.
-        var box = window.loveComments.box({ p: 'of', said: say, people: people, roles: roles, me: me ? me.handle : '', mark: marked, snippets: snippetsNow, id: 'of-say-' + x.id, label: 'Comment on “' + (x.name || 'No name') + '”', value: li.draft || '', goText: 'Comment',
+        var box = window.loveComments.box({ p: 'of', said: say, people: people, about: availWords, roles: roles, me: me ? me.handle : '', mark: marked, snippets: snippetsNow, id: 'of-say-' + x.id, label: 'Comment on “' + (x.name || 'No name') + '”', value: li.draft || '', goText: 'Comment',
           max: settings.commentMax, hint: COMMENT_HINT, ask: function (send) { return call(null, send); }, why: why,
           cancel: function () { li.dataset.writing = ''; li.draft = ''; li.dataset.keep = 'comment'; card(li, it, whole); },
           send: function (text, done) {

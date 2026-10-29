@@ -59,6 +59,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, clearProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS,
   TAGLINE_MAX, communityDirectory, profilePage,
   CHAT_STATUSES, cleanChatStatus, setChatStatus, chatStatusOf, withChatStatus, forgetChatStatus,
+  AVAILABILITY, AVAIL_NOTE_MAX, cleanAvailability, cleanAvailNote, setAvailability, availabilityOf, withAvailability, availabilityFor, forgetAvailability,
   PROP_MAX, PROPS_KEEP, PROPS_WAITING, cleanProp, readProps, giveProp, confirmProp, rejectProp, dropProp, setPropsOpen, forgetProps, ownProps, shownProps } from './lib.mjs';
 import { generateKeyPairSync, createVerify, createECDH, randomBytes as rnd, verify as cryptoVerify, createPublicKey, createHmac } from 'node:crypto';
 import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, keepDevice, readDevices, readDevice, dropDevice, dropDevicesOf,
@@ -3107,6 +3108,63 @@ for (const etagOnRead of [true, false]) {
     const shown = await withChatStatus(names.map((handle) => ({ handle, claimed: true, rooms: [] })), s);
     names.forEach((n, i) => {
       if (told[i].status === 'fulfilled') assert.equal(shown[i].chat, pick(i), `${n} was told their status was kept and it is not shown`);
+      else assert.equal(told[i].reason.message, 'busy');
+    });
+    if (etagOnRead) assert.equal(told.filter((r) => r.status === 'fulfilled').length, 15);
+  });
+}
+
+
+/* ── Availability ────────────────────────────────────────────────────── */
+
+test('an availability is one of five states with a line, or not shown, nobody has one until they choose, and the record holds nothing about when', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.deepEqual(AVAILABILITY, ['available', 'busy', 'away', 'dnd', 'out-of-office']);
+  for (const v of ['', null, undefined]) assert.equal(cleanAvailability(v), '');
+  for (const v of ['online', 'idle', 'invisible', 'come-say-hi', 'BUSY', 1, {}, ['busy']]) assert.equal(cleanAvailability(v), null, `${JSON.stringify(v)} was taken`);
+  assert.equal(cleanAvailNote('x'.repeat(AVAIL_NOTE_MAX)), 'x'.repeat(AVAIL_NOTE_MAX));
+  assert.equal(cleanAvailNote('x'.repeat(AVAIL_NOTE_MAX + 1)), null);
+  const pk = petKey('Ada');
+  assert.deepEqual(await availabilityOf(pk, s), { avail: '', note: '' }, 'somebody who never chose had an availability');
+  assert.deepEqual(await setAvailability(pk, 'idle', '', s), { error: 'which' });
+  assert.deepEqual(await setAvailability(pk, 'busy', 'x'.repeat(AVAIL_NOTE_MAX + 1), s), { error: 'note' });
+  assert.equal(s.keys().length, 0, 'a refused availability wrote something');
+  assert.deepEqual(await setAvailability(pk, 'out-of-office', '  back Monday  ', s), { avail: 'out-of-office', note: 'back Monday' });
+  assert.deepEqual(await availabilityOf(pk, s), { avail: 'out-of-office', note: 'back Monday' });
+  assert.deepEqual(await s.get('availability', { type: 'json' }), { status: { [pk]: { a: 'out-of-office', note: 'back Monday' } } }, 'the record holds something besides the state and the line');
+  // Not shown takes the line with it.
+  assert.deepEqual(await setAvailability(pk, '', 'still here', s), { avail: '', note: '' });
+  assert.deepEqual(await s.get('availability', { type: 'json' }), { status: {} }, 'not shown left them in the record');
+  await setAvailability(pk, 'busy', '', s);
+  assert.deepEqual(await s.get('availability', { type: 'json' }), { status: { [pk]: { a: 'busy' } } });
+  const people = [{ handle: 'Ada', claimed: true, rooms: [] }, { handle: 'Bex', claimed: true, rooms: [] }];
+  const shown = await withAvailability(people, s);
+  assert.equal(shown[0].avail, 'busy');
+  assert.equal('avail' in shown[1], false, 'somebody who chose none was shown as something');
+  assert.equal('avail' in (await withAvailability([{ handle: 'Ada', claimed: false, rooms: [] }], s))[0], false, 'an unclaimed name wore an availability');
+  assert.deepEqual(await availabilityFor(['Ada', 'Bex'], s), { Ada: { avail: 'busy', note: '' } });
+  await forgetAvailability(pk, s);
+  assert.deepEqual(await availabilityOf(pk, s), { avail: '', note: '' }, 'Forget me left the availability');
+});
+
+test('deleting a username takes its availability with it', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  await setAvailability(petKey('Ada'), 'dnd', 'writing', s);
+  await deleteAccount('Ada', s);
+  assert.deepEqual(await availabilityOf(petKey('Ada'), s), { avail: '', note: '' }, 'a deleted username kept its availability');
+}));
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`fifteen availabilities chosen at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const names = Array.from({ length: 15 }, (_, i) => `P${i}`);
+    const pick = (i) => AVAILABILITY[i % AVAILABILITY.length];
+    const told = await Promise.allSettled(names.map((n, i) => setAvailability(petKey(n), pick(i), `line ${i}`, s)));
+    const shown = await withAvailability(names.map((handle) => ({ handle, claimed: true, rooms: [] })), s);
+    names.forEach((n, i) => {
+      if (told[i].status === 'fulfilled') { assert.equal(shown[i].avail, pick(i), `${n} was told theirs was kept and it is not shown`); assert.equal(shown[i].note, `line ${i}`); }
       else assert.equal(told[i].reason.message, 'busy');
     });
     if (etagOnRead) assert.equal(told.filter((r) => r.status === 'fulfilled').length, 15);

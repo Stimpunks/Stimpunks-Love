@@ -1599,6 +1599,10 @@
     toChat.hidden = true;
     whereRow.appendChild(toChat);
     (whereSec || hereSec).appendChild(whereRow);
+    /* STILL AVAILABLE? (2026-10-29): your availability, chosen before today,
+       asked about once, at the top where it is seen. The day is kept in this
+       browser alone (love-cb's availDay) and never sent. See availStaleShown. */
+    if (forumPass(this.state.pass)) this.availStaleMake(whereSec || hereSec);
     // The page's own dial and the bodymind break turn the same dial.
     document.addEventListener('love-low', function () { me.dialShown(); });
     document.addEventListener('love-intensity', function () { me.dialShown(); });
@@ -1741,6 +1745,8 @@
     aroundSec.appendChild(aroundSaid);
     // YOUR CHAT STATUS (Ryan's ask, 2026-10-24), for a claimed username. See chatStatusMake.
     if (forumPass(this.state.pass)) this.chatStatusMake(aroundSec);
+    // YOUR AVAILABILITY (Ryan's ask, 2026-10-29), under it. See availMake.
+    if (forumPass(this.state.pass)) this.availMake(aroundSec);
 
     /* BE SEEN HERE, the Slake's switch in every room. Ryan, 2026-09-29. One
        switch both ways: seen, the radio is told who else is seen in this room
@@ -7200,6 +7206,14 @@
           var after = card.querySelector('.pf-tagline') || card.querySelector('.pf-line') || card.querySelector('.pf-name');
           if (after) after.parentNode.insertBefore(chatLine, after.nextSibling);
         }
+        /* AND THEIR AVAILABILITY (2026-10-29), under that, in words. */
+        var availNow = rs[0].status === 200 && rs[0].body ? availLine(rs[0].body) : null;
+        if (availNow) {
+          var availP = el('p', 'pf-avail');
+          availP.appendChild(availNow);
+          var afterA = card.querySelector('.pf-chat') || card.querySelector('.pf-tagline') || card.querySelector('.pf-line') || card.querySelector('.pf-name');
+          if (afterA) afterA.parentNode.insertBefore(availP, afterA.nextSibling);
+        }
         var cardBody = card.querySelector('.pf-body');
         if (rs[0].status !== 200) cardBody.appendChild(el('p', 'cb-quiet pf-empty', 'Their profile card could not be fetched just now.'));
         else if (rs[0].body.private) cardBody.appendChild(el('p', 'cb-quiet pf-empty', whose + ' keeps their card private.'));
@@ -9853,6 +9867,8 @@
       if (r.status === 200 && r.body && r.body.latest) { me.news = r.body; me.newsShown(); }
       // Your own chat status rides on this ask, so another device's choice reaches here.
       if (r.status === 200 && r.body && typeof r.body.chat === 'string') me.chatStatusKnown(r.body.chat, asked);
+      // So does your availability.
+      if (r.status === 200 && r.body && typeof r.body.avail === 'string') me.availKnown(r.body, asked);
     }, function () { me.newsAt = Date.now(); }).then(function () { me.newsBusy = false; });
   };
 
@@ -9945,6 +9961,160 @@
     var tag = this.tunedRoom() || WORLD_CALL, newest = 0;
     (messages || []).forEach(function (m) { if (typeof m.t === 'number' && m.t > newest) newest = m.t; });
     this.readUpTo({ ch: tag }, 'ch|' + tag, newest);
+  };
+
+  /* YOUR AVAILABILITY, under your chat status (Ryan's ask, 2026-10-29):
+     not shown, or one of five states, each with a line of your own words.
+     Ordinary radio buttons, sent to /cb/availability once the last change has
+     settled, so walking the arrows past a state does not choose it, and read
+     back from /cb/unread on the radio's own ask. Nothing chooses it for
+     anybody and nothing changes it but its person: not shown is where it
+     starts, and it never goes by itself. */
+  Radio.prototype.availMake = function (sec) {
+    var me = this;
+    var box = this.availBox = el('fieldset', 'cb-chatpick cb-availpick');
+    box.appendChild(el('legend', 'cb-h3', 'Your availability'));
+    var about = el('p', 'cb-online-about');
+    about.appendChild(document.createTextNode('Whether you are around for working together, with a line of your own if you like. It is shown beside your name wherever your chat status is, and in Tasks and the office. Only you change it: nothing sets it for you, it never goes by itself, and nothing about when you chose it is kept. Do not disturb asks people to hold what can wait; it silences none of your notifications. '));
+    var more = el('a', null, 'More about it');
+    more.href = '/cb-guide.html#availability';
+    about.appendChild(more);
+    about.appendChild(document.createTextNode('.'));
+    box.appendChild(about);
+    var opts = [{ id: '', name: 'Not shown', says: 'nothing is shown beside your name.' }].concat(AVAIL);
+    this.availInputs = opts.map(function (c) {
+      var lab = el('label', 'cb-chatpick__row');
+      var r = el('input');
+      r.type = 'radio';
+      r.name = 'cb-avail';
+      r.value = c.id;
+      lab.appendChild(r);
+      lab.appendChild(el('b', 'cb-availpick__name', c.name));
+      lab.appendChild(el('span', 'cb-chatpick__says', c.says));
+      r.addEventListener('change', function () { if (r.checked) me.setAvailability(); });
+      box.appendChild(lab);
+      return r;
+    });
+    var noteLab = el('label', 'cb-lab cb-availpick__lab', 'Your line, shown after it (one line, at most ' + AVAIL_NOTE_MAX + ' characters)');
+    noteLab.htmlFor = 'cb-avail-note';
+    var note = this.availNote = el('input', 'cb-say cb-availpick__note');
+    note.id = 'cb-avail-note';
+    note.type = 'text';
+    note.maxLength = AVAIL_NOTE_MAX;
+    note.autocomplete = 'off';
+    note.addEventListener('input', function () { me.setAvailability(1200); });
+    box.appendChild(noteLab);
+    box.appendChild(note);
+    var said = this.availSaid = el('p', 'cb-said');
+    said.setAttribute('role', 'status');
+    box.appendChild(said);
+    sec.appendChild(box);
+    this.availShown();
+  };
+
+  Radio.prototype.setAvailability = function (wait) {
+    var me = this;
+    clearTimeout(this.availTimer);
+    // Anything read back before this is kept is older than it.
+    this.availHold = Infinity;
+    var seq = this.availSeq = (this.availSeq || 0) + 1;
+    var chosen = this.availInputs.filter(function (r) { return r.checked; })[0];
+    var v = { avail: chosen ? chosen.value : '', note: chosen && chosen.value ? this.availNote.value : '' };
+    this.availNote.disabled = !v.avail;
+    this.availTimer = setTimeout(function () {
+      call('/cb/availability', { body: v }, me.state.pass).then(function (r) {
+        if (r.status === 401) return me.lost();
+        if (seq !== me.availSeq) return;
+        me.availHold = Date.now();
+        if (r.status === 200 && r.body && typeof r.body.avail === 'string') {
+          me.availMine = { avail: r.body.avail, note: r.body.note || '' };
+          // Chosen today, on this device: the reminder waits for another day.
+          me.state.availDay = localDay();
+          save(me.state);
+          var a = availOf(r.body.avail);
+          me.availSaid.textContent = a ? 'Done. People see ' + a.name + (r.body.note ? ': ' + r.body.note : '') + ' beside your name.' : 'Done. Nothing is shown beside your name.';
+        } else me.availSaid.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.';
+        me.availShown();
+      }, function () {
+        if (seq !== me.availSeq) return;
+        me.availHold = Date.now();
+        me.availSaid.textContent = 'That did not work just now. Nothing changed.';
+        me.availShown();
+      });
+    }, wait || 500);
+  };
+
+  // What the server keeps, unless a choice has been made since it was asked.
+  Radio.prototype.availKnown = function (b, asked) {
+    if (this.availHold && asked < this.availHold) return;
+    var v = { avail: b.avail, note: typeof b.note === 'string' ? b.note : '' };
+    if (this.availMine && this.availMine.avail === v.avail && this.availMine.note === v.note) return;
+    this.availMine = v;
+    this.availShown();
+  };
+
+  Radio.prototype.availShown = function () {
+    var m = this.availMine;
+    if (this.availInputs) {
+      this.availInputs.forEach(function (r) { r.checked = !!m && r.value === m.avail; });
+      // Never under somebody's fingers.
+      var root = this.availNote.getRootNode();
+      if (m && root.activeElement !== this.availNote) this.availNote.value = m.note;
+      this.availNote.disabled = !m || !m.avail;
+    }
+    this.availStaleShown();
+  };
+
+  /* STILL AVAILABLE? Your availability, chosen on another day, is asked about
+     once, with Keep it, Not shown and Change it. The day it was chosen or kept
+     is love-cb's availDay, in this browser alone; the server never hears of
+     it, so nothing anybody else sees changes until you press. A state first
+     seen here with no day is given today's, so it is asked about tomorrow. */
+  Radio.prototype.availStaleMake = function (sec) {
+    var me = this;
+    var box = this.availStale = el('div', 'cb-avail-stale');
+    box.hidden = true;
+    this.availStaleWords = el('p', 'cb-avail-stale__words');
+    box.appendChild(this.availStaleWords);
+    var row = el('div', 'cb-acct__row');
+    var keep = el('button', 'cb-btn', 'Keep it');
+    keep.type = 'button';
+    keep.addEventListener('click', function () {
+      me.state.availDay = localDay();
+      save(me.state);
+      me.availStaleShown();
+      if (me.availSaid) me.availSaid.textContent = 'Kept. You will be asked again another day.';
+      if (me.availBox) { var c = me.availInputs.filter(function (r) { return r.checked; })[0]; if (c) c.focus(); }
+    });
+    var off = el('button', 'cb-btn', 'Not shown');
+    off.type = 'button';
+    off.addEventListener('click', function () {
+      if (!me.availInputs) return;
+      me.availInputs[0].checked = true;
+      me.availInputs[0].focus();
+      me.setAvailability();
+    });
+    var change = el('button', 'cb-btn', 'Change it');
+    change.type = 'button';
+    change.addEventListener('click', function () {
+      if (!me.availBox) return;
+      var c = me.availInputs.filter(function (r) { return r.checked; })[0] || me.availInputs[0];
+      me.availBox.scrollIntoView({ block: 'nearest' });
+      c.focus();
+    });
+    row.appendChild(keep); row.appendChild(off); row.appendChild(change);
+    box.appendChild(row);
+    sec.appendChild(box);
+  };
+
+  Radio.prototype.availStaleShown = function () {
+    var box = this.availStale;
+    if (!box) return;
+    var m = this.availMine, a = m && availOf(m.avail), today = localDay();
+    if (a && !this.state.availDay) { this.state.availDay = today; save(this.state); }
+    var stale = !!(a && this.state.availDay < today);
+    box.hidden = !stale;
+    if (stale) this.availStaleWords.textContent = 'You are still showing ' + a.name + (m.note ? ': ' + m.note : '') + ', chosen before today. Is it still true?';
   };
 
   // A conversation open on the screen has been read up to its newest message.
@@ -10929,7 +11099,7 @@
       this.dmHead.appendChild(hb);
       this.dmLab.textContent = 'Your message to ' + who;
     }
-    var sig = b.state + '|' + b.can + '|' + (b.chat || '');
+    var sig = b.state + '|' + b.can + '|' + (b.chat || '') + '|' + (b.avail || '') + '|' + (b.note || '');
     if (this.dmStateSig !== sig) { this.dmStateSig = sig; this.dmDrawState(b); }
     this.dmForm.hidden = b.can !== 'yes';
     // A picture only once the conversation is accepted: a request is words only.
@@ -10971,6 +11141,16 @@
       cl.appendChild(chatBadge(cs.id, true));
       cl.appendChild(document.createTextNode(': ' + cs.says + ' ' + cs.then));
       box.appendChild(cl);
+    }
+    /* AND THEIR AVAILABILITY (2026-10-29), the line they wrote with it, and
+       never an answer sent for them: it refuses nothing either. */
+    var av = availOf(b.avail);
+    if (av) {
+      var al = el('p', 'cb-dm-avail');
+      al.appendChild(document.createTextNode(who + ' shows '));
+      al.appendChild(el('b', null, av.name));
+      al.appendChild(document.createTextNode((b.note ? ': ' + b.note : '') + '. ' + (av.id === 'available' ? '' : 'You can still write; an answer may wait.')));
+      box.appendChild(al);
     }
     if (b.state === 'asked') {
       box.appendChild(el('p', 'cb-seen-now', 'Waiting for ' + who + ' to answer. Until they do, only the two of you can read it and you can write nothing more, but you can edit it or take it back. If they reject it, it goes, and nobody is told.'));
@@ -12837,6 +13017,41 @@
     if (mine) li.appendChild(document.createTextNode(' (you)'));
   }
 
+  /* AVAILABILITY (Ryan's ask, 2026-10-29): whether somebody is around for
+     working together, beside the chat status and never in its place. Words
+     only, in the radio's own ink and with no colour of its own, so it can
+     never be read as a badge. Set by its person and nothing else: lib.mjs
+     holds the ids (AVAILABILITY) and tools/check-availability.py the two
+     together. Do not disturb is a sign: it silences nobody's notifications. */
+  var AVAIL_NOTE_MAX = 100;
+  var AVAIL = [
+    { id: 'available', name: 'Available', says: 'around, and glad to be asked for things.' },
+    { id: 'busy', name: 'Busy', says: 'working on something, and slower to answer.' },
+    { id: 'away', name: 'Away', says: 'not at the keyboard for a while.' },
+    { id: 'dnd', name: 'Do not disturb', says: 'please hold anything that can wait.' },
+    { id: 'out-of-office', name: 'Out of office', says: 'not working just now. Your line can say when you are back.' },
+  ];
+  function availOf(id) {
+    for (var i = 0; i < AVAIL.length; i++) if (AVAIL[i].id === id) return AVAIL[i];
+    return null;
+  }
+  /* Somebody's availability in words, "Busy: grant review till three", heard
+     as "availability: Busy: …", or null for not shown. Their line is set as
+     text and never as markup. */
+  function availLine(x, cls) {
+    var a = x && availOf(x.avail);
+    if (!a) return null;
+    var s = el('span', cls || 'cb-avail');
+    s.appendChild(el('span', 'sr', 'availability: '));
+    s.appendChild(el('b', null, a.name));
+    if (x.note) s.appendChild(document.createTextNode(': ' + x.note));
+    return s;
+  }
+  function localDay() {
+    var d = new Date(), z = function (n) { return (n < 10 ? '0' : '') + n; };
+    return d.getFullYear() + '-' + z(d.getMonth() + 1) + '-' + z(d.getDate());
+  }
+
   /* Redrawn only when what it says changes, and the keyboard is put back on
      the same room's link, so a listen every four seconds does not throw
      somebody off the link they were about to press. */
@@ -12883,6 +13098,9 @@
       // THEIR CHAT STATUS, beside a claimed name only, as they chose it.
       var chat = p.chat && chatBadge(p.chat);
       if (chat) li.appendChild(chat);
+      // AND THEIR AVAILABILITY (2026-10-29), in words.
+      var avail = availLine(p);
+      if (avail) li.appendChild(avail);
       li.appendChild(document.createTextNode(' in '));
       roomsOf(p).forEach(function (r, i) {
         if (i) li.appendChild(document.createTextNode(', '));
@@ -13670,6 +13888,8 @@
       if (x.base) p.appendChild(el('span', 'cb-tag', 'BASE'));
       var b = chat && x.chat && chatBadge(x.chat);
       if (b) p.appendChild(b);
+      var av = chat && availLine(x);
+      if (av) p.appendChild(av);
     });
   }
 

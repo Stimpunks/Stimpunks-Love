@@ -191,6 +191,15 @@
   }
 
   var settings = null, people = [], me = null, tasks = [], views = [], recurs = [], templates = [];
+  /* AVAILABILITY (2026-10-29): the state and line each of Tasks' people chose
+     on the radio, sent as me.away and set nowhere here; '' for not shown. */
+  var AVAIL_NAMES = { available: 'Available', busy: 'Busy', away: 'Away', dnd: 'Do not disturb', 'out-of-office': 'Out of office' };
+  function availWords(h) {
+    var all = (me && me.away) || {}, a = null;
+    Object.keys(all).forEach(function (k) { if (fold(k) === fold(h)) a = all[k]; });
+    if (!a || !AVAIL_NAMES[a.avail]) return '';
+    return AVAIL_NAMES[a.avail] + (a.note ? ': ' + a.note : '');
+  }
   function took(b) {
     if (typeof b.unread === 'number') setUnread(b.unread);
     if (b.settings) settings = b.settings;
@@ -1565,7 +1574,7 @@
       var writing = li.dataset.writing === '1';
       if (writing) {
         // A comment written on the card: what is typed is kept on the card while it is redrawn.
-        var box = window.loveComments.box({ p: 'tk', said: say, people: function () { return people; }, roles: roles, me: me ? me.handle : '', mark: marked, snippets: snippetsNow, id: 'tk-say-' + t.id, label: 'Comment on “' + t.name + '”', value: li.draft || '', goText: 'Comment',
+        var box = window.loveComments.box({ p: 'tk', said: say, people: function () { return people; }, about: availWords, roles: roles, me: me ? me.handle : '', mark: marked, snippets: snippetsNow, id: 'tk-say-' + t.id, label: 'Comment on “' + t.name + '”', value: li.draft || '', goText: 'Comment',
           max: settings.commentMax, hint: COMMENT_HINT, ask: function (send) { return call(null, send); }, why: why,
           cancel: function () { li.dataset.writing = ''; li.draft = ''; li.dataset.keep = 'comment'; feedCard(li, t, got); },
           send: function (text, done) {
@@ -1661,7 +1670,7 @@
     function fact(k, v) { if (v == null || v === '') return; dl.appendChild(el('dt', null, k)); var dd = el('dd'); if (typeof v === 'string') dd.textContent = v; else dd.appendChild(v); dl.appendChild(dd); }
     fact('Status', statusPill(t.status));
     fact('Priority', t.priority);
-    fact('Assigned to', t.who || 'Nobody');
+    fact('Assigned to', t.who ? (availWords(t.who) ? t.who + ' \u2014 ' + availWords(t.who) : t.who) : 'Nobody');
     if (t.with.length) fact('Also on it', t.with.join(', '));
     fact('Starts', dayWords(t.start));
     if (t.due) { var d = el('span', null, dayWords(t.due)); if (overdue(t)) d.appendChild(tag('OVERDUE', 'tk-late')); fact('Due', d); }
@@ -1837,7 +1846,7 @@
     return { p: 'tk', id: id, heading: heading, comments: talked.id === id ? talked.list : null, landOn: landOn,
       admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,
       ask: function (send) { return call(null, send); }, why: why, say: say, sure: sure,
-      people: function () { return people; }, roles: roles, me: me ? me.handle : '', mark: marked, snippets: snippetsNow,
+      people: function () { return people; }, about: availWords, roles: roles, me: me ? me.handle : '', mark: marked, snippets: snippetsNow,
       kept: function (list) { talked = { id: id, list: list }; }, posted: posted, files: commentFiles(id) };
   }
   /* A comment's pictures and files (attach.js, through comments.js): the
@@ -2075,10 +2084,10 @@
       form.appendChild(w);
       return input;
     }
-    function select(values, value, blank) {
+    function select(values, value, blank, label) {
       var s = el('select', 'cb-say tk-input');
       if (blank) { var o0 = el('option', null, blank); o0.value = ''; s.appendChild(o0); }
-      values.forEach(function (v) { var o = el('option', null, v); o.value = v; s.appendChild(o); });
+      values.forEach(function (v) { var o = el('option', null, label ? label(v) : v); o.value = v; s.appendChild(o); });
       s.value = value || '';
       return s;
     }
@@ -2104,7 +2113,7 @@
       field('tk-body', o.label || 'Description', text);
       text.setAttribute('aria-describedby', 'tk-body-hint');
       window.loveLinks.attach(text, { ask: findLinks, said: say });
-      window.loveLinks.people(text, { people: function () { return people; }, roles: roles, me: me ? me.handle : '', said: say });
+      window.loveLinks.people(text, { people: function () { return people; }, about: availWords, roles: roles, me: me ? me.handle : '', said: say });
       window.loveLinks.snippets(text, { list: snippetsNow, said: say });
       window.loveFormat.toolbar(text, { p: 'tk', said: say, checklist: true });
       var hint = el('p', 'cb-quiet tk-hint', o.hint || 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A list item starting [ ] or [x] is a checkbox, ticked on the task itself. Type @ and a name to mention a director, who is told, or a role (@board, @director, @administrator, @moderator) to tell everybody on Tasks who holds it, and [[ and part of a name to link a task, a forum topic or a record of the office. Type ! and part of a snippet’s name to put in words the team keeps under Snippets, like a checklist with a line for every director.');
@@ -2179,7 +2188,8 @@
     var choices = people.slice();
     if (t && t.who && choices.every(function (p) { return fold(p) !== fold(t.who); })) choices.push(t.who);
     var mine = me && choices.some(function (p) { return fold(p) === fold(me.handle); }) ? me.handle : '';
-    var who = field('tk-whois', 'Assigned to', select(choices, t ? t.who : tpl && tpl.who ? tpl.who : mine, 'Nobody'));
+    // With the availability each chose, so somebody out of office is not given a task unawares.
+    var who = field('tk-whois', 'Assigned to', select(choices, t ? t.who : tpl && tpl.who ? tpl.who : mine, 'Nobody', function (h) { var a = availWords(h); return a ? h + ' (' + a + ')' : h; }));
     var start = el('input', 'cb-say tk-input'); start.type = 'date'; start.value = t && t.start ? t.start : tpl && tpl.startAfter != null ? plus(today(), tpl.startAfter) : '';
     field('tk-start', 'Starts', start);
     var due = el('input', 'cb-say tk-input'); due.type = 'date'; due.value = t && t.due ? t.due : tpl && tpl.dueAfter != null ? plus(today(), tpl.dueAfter) : '';

@@ -890,6 +890,20 @@ device. **Its first deploy named the picker `chatMake` and its redraw `chatShown
 Channels list: the later assignment won silently and /chat lost its channels until the rename (`chatStatusMake` and
 the rest), so `check-ids.py` now refuses a method assigned twice in any script. `DECISIONS.md` has what is open.
 
+**AVAILABILITY IS FOR WORKING TOGETHER, SET BY ITS PERSON, AND NOTHING SETS IT FOR THEM.** Ryan's brief, 2026-10-29, after a
+request for an away message and a status: Available, Busy, Away, Do not disturb and Out of office, each with a line of its
+person's words (`AVAIL_NOTE_MAX`), or Not shown, where everybody starts; under Your chat status on the radio
+(`availMake` in `cb.js`), beside the chat status wherever it is shown and never in its place, and in Tasks and the office
+beside their people's names (`me.away`). One blob, `availability`, each claimed person's state and line and nothing about
+when (`setAvailability` in `lib.mjs`, `/cb/availability`). **Ryan asked whether Available should turn to Not shown after an
+hour unseen and chose not**: that needs a last-seen time the street keeps nowhere, and anybody watching the change learns it.
+What stands in its place is **Still true?**, which the radio asks its own person on a later day, from `availDay` in
+`love-cb`, never sent. Do not disturb silences no notification, and nothing answers for anybody.
+`tools/check-availability.py` holds it. **The friendly edits are an auto-away or an auto-off "since it is only an hour",
+an automatic reply, a stored return date for Out of office, Do not disturb holding notifications, and a coloured dot per
+state**: the first two publish somebody's attention or speak for them, the third is a status that runs out, the fourth is
+the chat status's settled call, and the fifth puts a second set of coloured badges beside the first. `DECISIONS.md` has what is open.
+
 **FOLLOWING A LINK NO LONGER HANGS UP YOUR CALL.** Ryan's ask and choice, 2026-10-24: every room is a page and a page
 that goes takes its call, so a #tag on the channel hung up the call you were in. **While a call is open in the page,
 anything in the radio that would leave it opens in a new tab and says so** (`callUp`, `leavesPage`, `goPage` and

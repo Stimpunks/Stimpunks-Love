@@ -63,7 +63,7 @@
       window.loveLinks.attach(text, { said: o.said, ask: function (q) {
         return o.ask({ action: 'links', q: q }).then(function (r) { return r.status === 200 ? r.body.found : []; });
       } });
-      if (o.people) window.loveLinks.people(text, { people: o.people, roles: o.roles, me: o.me, said: o.said });
+      if (o.people) window.loveLinks.people(text, { people: o.people, about: o.about, roles: o.roles, me: o.me, said: o.said });
       // And ! the team's snippets, where the page has them (o.snippets(), a promise of the list).
       if (o.snippets) window.loveLinks.snippets(text, { list: o.snippets, said: o.said });
     }
@@ -140,7 +140,7 @@
     talk.appendChild(h);
     var ol = el('ol', p + '-comments');
     talk.appendChild(ol);
-    var write = box({ p: p, id: p + '-say', label: 'Write a comment', goText: 'Comment', max: o.max, hint: o.hint, ask: o.ask, why: o.why, said: o.say, people: o.people, roles: o.roles, me: o.me, mark: o.mark, files: o.files, snippets: o.snippets,
+    var write = box({ p: p, id: p + '-say', label: 'Write a comment', goText: 'Comment', max: o.max, hint: o.hint, ask: o.ask, why: o.why, said: o.say, people: o.people, about: o.about, roles: o.roles, me: o.me, mark: o.mark, files: o.files, snippets: o.snippets,
       send: function (text, done, files) {
         var send = { action: 'comment', id: o.id, body: text };
         if (files && files.length) send.files = files;
@@ -200,7 +200,7 @@
         ed.addEventListener('click', function () {
           // The words are changed where they stand, and Cancel puts them back.
           body.hidden = true; tools.hidden = true;
-          var b = box({ p: p, id: p + '-edit-' + c.id, label: 'Your comment', value: c.body, goText: 'Save', max: o.max, hint: o.hint, ask: o.ask, why: o.why, said: o.say, people: o.people, roles: o.roles, me: o.me, mark: o.mark, snippets: o.snippets,
+          var b = box({ p: p, id: p + '-edit-' + c.id, label: 'Your comment', value: c.body, goText: 'Save', max: o.max, hint: o.hint, ask: o.ask, why: o.why, said: o.say, people: o.people, about: o.about, roles: o.roles, me: o.me, mark: o.mark, snippets: o.snippets,
             files: o.files, had: c.files,
             cancel: function () { b.form.remove(); body.hidden = false; tools.hidden = false; ed.focus(); },
             send: function (text, done, files) {

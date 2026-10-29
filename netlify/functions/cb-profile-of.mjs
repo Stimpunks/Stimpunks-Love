@@ -4,11 +4,12 @@
    profile null when there is nothing in it, and { handle, profile: null } for
    a handle that is not claimed, the same whether it is unclaimed or nobody at
    all. A claimed username's answer carries its chat status too, '' for none
-   (chatStatusOf, 2026-10-24). A card its owner made private is
+   (chatStatusOf, 2026-10-24), and its availability, avail and note, '' for
+   not shown (availabilityOf, 2026-10-29). A card its owner made private is
    { handle, profile: null, private: true } to everybody but them (2026-10-26).
    Nothing about who asked is kept, and the handle travels in the body
    rather than the address, so it is in no request log. */
-import { readPass, shownProfile, chatStatusOf, petKey, cleanHandle, json, body, sameSite } from '../cb/lib.mjs';
+import { readPass, shownProfile, chatStatusOf, availabilityOf, petKey, cleanHandle, json, body, sameSite } from '../cb/lib.mjs';
 
 const NOINDEX = { 'x-robots-tag': 'noindex, nofollow, noarchive' };
 
@@ -21,7 +22,7 @@ export default async (req) => {
   if (!handle) return json(400, { error: 'Whose profile?' });
   const got = await shownProfile(handle, undefined, who.handle);
   if (!got) return json(200, { handle, profile: null }, NOINDEX);
-  return json(200, { ...got, chat: await chatStatusOf(petKey(got.handle)) }, NOINDEX);
+  return json(200, { ...got, chat: await chatStatusOf(petKey(got.handle)), ...(await availabilityOf(petKey(got.handle))) }, NOINDEX);
 };
 
 /* Netlify counts the tries per address and never tells us the address. */

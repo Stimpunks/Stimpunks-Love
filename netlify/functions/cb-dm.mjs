@@ -35,8 +35,11 @@
    carries the other person's chat status (chatStatusOf, 2026-10-24), so it can
    be checked before anybody writes, '' for none, and none while they are not
    taking messages from you or you have blocked them. It is a sign and never a
-   lock: nothing here refuses a message because of it. */
-import { dmReady, readPass, forumReader, listDms, readDmWith, chatStatusOf, petKey, sendDm, acceptDm, rejectDm, takeDm, takeMineDm, editDm, reactDm, setDmTimer, setDmOpen, blockDm,
+   lock: nothing here refuses a message because of it. So with their
+   availability, avail and note (availabilityOf, 2026-10-29), under the same
+   rule: shown before anybody writes, never while they are not taking messages
+   from you, and it refuses nothing. */
+import { dmReady, readPass, forumReader, listDms, readDmWith, chatStatusOf, availabilityOf, petKey, sendDm, acceptDm, rejectDm, takeDm, takeMineDm, editDm, reactDm, setDmTimer, setDmOpen, blockDm,
   unblockDm, reportDm, notifyDm, cleanHandle, MESSAGE_MAX, REPORT_NOTE_MAX, DM_WITH, json, body, sameSite } from '../cb/lib.mjs';
 
 // Every answer asks search engines not to index or archive it, as
@@ -68,8 +71,10 @@ export default async (req, context) => {
     const talk = async (extra = {}) => {
       const r = await readDmWith(who, handle);
       if (r.error === 'self') return json(400, { error: 'Messages are for somebody else.' });
-      const chat = r.error || !r.handle || r.can === 'closed' || r.can === 'blocked' ? '' : await chatStatusOf(petKey(r.handle));
-      return ok({ ...r, chat, ...extra });
+      const shut = r.error || !r.handle || r.can === 'closed' || r.can === 'blocked';
+      const chat = shut ? '' : await chatStatusOf(petKey(r.handle));
+      const avail = shut ? { avail: '', note: '' } : await availabilityOf(petKey(r.handle));
+      return ok({ ...r, chat, ...avail, ...extra });
     };
     if (b.send !== undefined) {
       const kinds = ['sticker', 'avatar', 'chimera', 'patch', 'jacket'];

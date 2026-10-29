@@ -57,7 +57,7 @@
      { action: 'snippet-remove', id }                a snippet deleted; the words it was put into stay
    A task saved with tpl, a template's id, keeps which template it was made from.
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
-import { staffReady, readPass, forumReader, mentionableRoles, rolesOf, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
+import { staffReady, readPass, forumReader, mentionableRoles, rolesOf, tasksAllow, taskPeople, availabilityFor, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
   attachTask, detachTask, describeTaskFile, TASK_ATTACH_MAX, TASK_COMMENT_FILES_MAX, FILE_MAX, FILE_PART, FORUM_FILE_TYPES, FORUM_ALT_MAX,
   taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment, tickTaskComment, importTaskComment, TASK_COMMENT_MAX,
   removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, taskSnippets, saveTaskSnippet, removeTaskSnippet, TASK_SNIPPET_NAME_MAX, TASK_SNIPPET_MAX, SNIPPET_FILL_INS, parseBrass, nameRefs, findLinks, backlinksTo,
@@ -94,6 +94,8 @@ export default async (req) => {
   // An administrator may delete anybody's comment, so the page offers it.
   // mention: the roles a description or comment can call with an @; roles: the reader's own, so a call of one is marked.
   const me = { handle: who.handle, admin: who.roles.has('administrator'), mention: mentionableRoles(who), roles: rolesOf(who) };
+  // away: the availability each of Tasks' people chose (2026-10-29), so assigning shows who is out of office.
+  try { me.away = await availabilityFor(taskPeople()); } catch (e) { me.away = {}; }
   // Every answer's links to tasks, topics and the office named for this reader, last.
   const answer = async (code, b, h) => json(code, await nameRefs(b, who), h);
   const url = new URL(req.url);

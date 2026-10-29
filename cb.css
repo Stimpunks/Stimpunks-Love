@@ -807,6 +807,17 @@ ol.cb-md-list { list-style: decimal; }
 .pf-chat { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0; color: var(--cb-steel); }
 .pf-chat .cb-chat { margin-left: 0; }
 .cb-dm-chat .cb-chat { margin: 0 2px; }
+/* AVAILABILITY (Ryan's ask, 2026-10-29): words in the radio's own ink and
+   never a colour of its own, so it can never be read as one of the badges
+   beside it, and every theme draws it with pairs it already holds. */
+.cb-avail { margin-left: 6px; }
+.cb-availpick__name { flex: none; }
+.cb-availpick__lab { margin: 8px 0 0; }
+.cb-availpick__note { width: 100%; box-sizing: border-box; }
+.cb-availpick__note:disabled { opacity: .55; }
+.pf-avail { margin: 0; color: var(--cb-steel); }
+.cb-avail-stale { margin: 8px 0 0; padding: 8px 10px; border: 1px solid var(--cb-amber-2); border-radius: 8px; }
+.cb-avail-stale__words { margin: 0 0 6px; }
 .cb-catch, .cb-now-go { justify-self: start; min-height: 44px; }
 .cb-take, .cb-catch, .cb-now-go {
   color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2);

@@ -169,7 +169,8 @@
      forums' list had it. The roles the page says its reader may call
      (@moderator and the rest, Ryan's ask, 2026-10-23) come first, each saying
      what it calls and never who holds it.
-     o: { people() (the handles to offer), roles()? (the roles), me (your own, never offered), said(text)?, after()? } */
+     o: { people() (the handles to offer), about(handle)? (a few words beside a name: Tasks' and the office's
+     availability, 2026-10-29), roles()? (the roles), me (your own, never offered), said(text)?, after()? } */
   function fold(h) { return String(h || '').normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim(); }
   var ROLE_SAYS = { administrator: 'Calls every administrator', board: 'Calls the board', director: 'Calls every director', moderator: 'Calls every moderator' };
   var ROLE_OPT = {};
@@ -193,7 +194,12 @@
       },
       empty: function () { return 'Nobody here is called that.'; },
       row: function (li, h) {
-        if (!h.role) { li.appendChild(el('span', 'cb-opt__name', h)); return; }
+        if (!h.role) {
+          li.appendChild(el('span', 'cb-opt__name', h));
+          var said = o.about ? o.about(h) : '';
+          if (said) li.appendChild(el('span', 'cb-opt__tag', said));
+          return;
+        }
         li.appendChild(el('span', 'cb-opt__name', '@' + h.role));
         li.appendChild(el('span', 'cb-opt__tag', ROLE_SAYS[h.role]));
       },

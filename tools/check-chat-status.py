@@ -94,7 +94,7 @@ def fn(src, name):
 def main():
     lib = LIB.read_text()
     cb = CB.read_text()
-    part = between(lib, "/* ── Chat status", "/* ── Who is in a room's call", "lib.mjs's Chat status part")
+    part = between(lib, "/* ── Chat status", "/* ── Availability", "lib.mjs's Chat status part")
     code = uncomment(part)
     radio = between(cb, "  /* CHAT STATUS (Ryan's ask", "  function personLine", "cb.js's chat status badges")
     picker = between(cb, "  /* YOUR CHAT STATUS, under Who's around", "  // The channel being listened to", "cb.js's chat status picker")

@@ -3660,6 +3660,122 @@ export async function forgetChatStatus(pk, s = store()) {
   return true;
 }
 
+/* ── Availability ────────────────────────────────────────────────────── */
+
+/* AVAILABILITY, FOR WORKING TOGETHER (Ryan's ask, 2026-10-29, after a request
+   for an away message and a status). Whether somebody is around for team work,
+   which the chat status never said: available, busy, away, do not disturb or
+   out of office, each with a line of their own words, or not shown, which is
+   where everybody starts. It sits beside the chat status and never replaces
+   it: the badges say whether you would like to be talked to, this says
+   whether you are working.
+
+   IT IS SET BY ITS PERSON AND NOTHING ELSE. Ryan asked whether available
+   should turn to not shown after an hour unseen, and chose not: that needs a
+   record of when each person was last heard, which the street keeps nowhere,
+   and anybody watching the flip would learn it anyway. So there is no idle,
+   no time it runs out and no timer, and the blob, availability, holds each
+   claimed person's pet key, their state and their line and nothing about
+   when. The reminder that a state has gone stale is the radio's, in its own
+   browser (love-cb's availDay), and is never sent.
+
+   DO NOT DISTURB IS A SIGN, NOT A SWITCH. It holds no notification, the chat
+   status's rule (Ryan's call, 2026-10-24): those are device by device. And it
+   locks nothing: a message to somebody out of office goes like any other.
+
+   No auto-reply: the line is shown where somebody is about to write, and
+   nothing is sent on anybody's behalf. Not shown and never set look the same,
+   and choosing not shown takes the line too. */
+export const AVAILABILITY = ['available', 'busy', 'away', 'dnd', 'out-of-office'];
+export const AVAIL_NOTE_MAX = 100;
+const AVAIL = 'availability';
+
+/* A state as sent, '' for not shown, or null for one the street does not know. */
+export function cleanAvailability(v) {
+  if (v === '' || v == null) return '';
+  return typeof v === 'string' && AVAILABILITY.includes(v) ? v : null;
+}
+/* Its line: one line of at most AVAIL_NOTE_MAX characters, '' for none, null for too long. */
+export const cleanAvailNote = (v) => cleanUpTo(v, AVAIL_NOTE_MAX);
+
+async function updateAvail(change, s) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, AVAIL);
+    const status = { ...((cur.exists && cur.data && cur.data.status) || {}) };
+    if (change(status) === false) return status;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(AVAIL, { status }, opts);
+    if (res.modified) return status;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* Choose a state and its line, or not shown. The caller has checked the
+   username is claimed. { avail, note } or { error: 'which' | 'note' }. */
+export async function setAvailability(pk, v, line, s = store()) {
+  const avail = cleanAvailability(v);
+  if (avail === null) return { error: 'which' };
+  const note = avail ? cleanAvailNote(line) : '';
+  if (note === null) return { error: 'note' };
+  await updateAvail((all) => {
+    if (!avail) { if (!own(all, pk)) return false; delete all[pk]; return true; }
+    const had = own(all, pk) ? all[pk] : null;
+    if (had && had.a === avail && (had.note || '') === note) return false;
+    all[pk] = note ? { a: avail, note } : { a: avail };
+    return true;
+  }, s);
+  return { avail, note };
+}
+
+async function readAvail(s) {
+  const d = await s.get(AVAIL, { type: 'json' });
+  return (d && d.status && typeof d.status === 'object') ? d.status : {};
+}
+
+function availOf(all, k) {
+  const x = own(all, k) ? all[k] : null;
+  const avail = x && typeof x === 'object' ? cleanAvailability(x.a) : null;
+  if (!avail) return null;
+  const note = cleanAvailNote(x.note);
+  return { avail, note: note || '' };
+}
+
+/* One person's, { avail: '' , note: '' } when not shown. */
+export async function availabilityOf(pk, s = store()) {
+  return availOf(await readAvail(s), pk) || { avail: '', note: '' };
+}
+
+/* Who's online and the people seen in a room, with each claimed person's
+   state and line. Nothing beside an unclaimed name, whatever the blob holds. */
+export async function withAvailability(people, s = store()) {
+  if (!people.some((p) => p.claimed)) return people;
+  const all = await readAvail(s);
+  return people.map((p) => {
+    if (!p.claimed) return p;
+    const a = availOf(all, petKey(p.handle));
+    return a ? { ...p, avail: a.avail, note: a.note } : p;
+  });
+}
+
+/* Tasks' and the office's people, the usernames taskPeople names, each with
+   the state they chose: { handle: { avail, note } }, nobody who chose none. */
+export async function availabilityFor(handles, s = store()) {
+  const all = await readAvail(s);
+  const out = {};
+  for (const h of handles) {
+    const a = availOf(all, petKey(h));
+    if (a) out[h] = a;
+  }
+  return out;
+}
+
+/* Forget me, and deleting the username. */
+export async function forgetAvailability(pk, s = store()) {
+  await setAvailability(pk, '', '', s);
+  return true;
+}
+
 /* ── Who is in a room's call ─────────────────────────────────────────── */
 
 /* EVERYBODY IN A CALL, FROM 8x8. Ryan's call, 2026-09-29: who is in a room's
@@ -6562,6 +6678,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetNotices(petKey(handle), s);
   await forgetProps(petKey(handle), s);
   await forgetChatStatus(petKey(handle), s);
+  await forgetAvailability(petKey(handle), s);
   await forgetEvents(acct.handle, acct.since, s);
   await forgetDms(acct.handle, acct.since, s);
   await forgetReads(acct.handle, acct.since, s);
