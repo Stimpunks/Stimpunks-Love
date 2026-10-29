@@ -4266,6 +4266,17 @@ conversations "since they are on the server anyway"**: the first ranks rooms and
 two keep a person's words where privacy.html#chat-search says they are not, and the last is Ryan's call
 (`DECISIONS.md`).
 
+**A CHANNEL ON THE CHAT PAGE HAS A MENU, AND A MESSAGE HAS A LINK.** Ryan's ask, 2026-10-29, after Discord's:
+the ⋯ beside every channel, a right-click, the ContextMenu key or Shift and F10 open `chanMenu` in `cb.js`, an ARIA
+menu of things the radio already does elsewhere (Mark as read through `readUpTo`, Follow through `followTag`, copying
+`chat.html#<tag>`, the room's page and its #tag, Search's `in`, Go to the room through `goPage`), so it sends and keeps
+nothing new; Shift and a right-click stays the browser's own menu. A message's **Copy link** copies
+`chat.html#<tag>/m/<id>` (`CHAT_HASH`), which `chatTake` turns into Search's `jumpTo` marked `far`, so `jumpLand` pages
+back as far as a channel keeps (`JUMP_FAR`). Never in a room that keeps to itself, whose #tag is its address. The
+friendly edits are **Mute and a per-channel notification setting in that menu**, which are the device's notification
+switches (`w.rooms`) and need their own words first, and **a link to a direct message**, which would put a conversation
+in an address and the browser's history.
+
 **THE RADIO CAN GO INTO A WINDOW OF ITS OWN, `cb-window.html`, AND ONLY ONE RADIO LISTENS.** Ryan's ask,
 2026-10-19: "a popout for the CB like the video player, keeping currently selected size". Pop out, under
 Your radio, opens it as big as the radio is and at its size; − and + there resize the window

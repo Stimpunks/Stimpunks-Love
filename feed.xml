@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Wed, 28 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 29 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>A menu on every channel, and a link to every message</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-29-channel-menu</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-29-channel-menu</guid>
+      <pubDate>Thu, 29 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Every channel on the chat page has a menu, after Discord’s: the … beside it, or a right-click. In it: Mark as read, Follow or Unfollow, Copy link, Copy the room’s link, Copy its #tag, Search this channel and Go to the room. The Menu key, or Shift and F10, opens it from the keyboard, and Shift and a right-click is still your browser’s own menu. A message’s three dots have Copy link: an address that opens the chat page on that channel with the keyboard on that message, for anybody who can hear the channel, while the message is on the air. The CB guide has both.</description>
+    </item>
     <item>
       <title>Halloween in Fantasy Fancy Dress and the Dress-Up Den</title>
       <link>https://stimpunks.world/changelog.html#2026-10-28-halloween-fancy-dress</link>

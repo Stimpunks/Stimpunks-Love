@@ -641,7 +641,7 @@ button.cb-re { cursor: pointer; text-decoration: underline dotted; text-underlin
   display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 4px;
 }
 .cb-more-menu > .cb-btn { min-height: 32px; min-width: 0; padding: 2px 8px; font-size: 12px; }
-.cb-copy { color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2); }
+.cb-copy, .cb-copy-link { color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2); }
 .cb-head { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
 .cb-handle { font-weight: 700; }
 /* A handle on the channel is a button that shows that person's pets, if they
@@ -1945,6 +1945,38 @@ button.cb-help-btn[hidden] { display: none; }
 /* ARRANGING (My own order): Move up and Move down beside each channel, and a
    line in the readout's amber where a dragged channel will land, the pair a
    pressed button's edge already uses. */
+/* A CHANNEL'S MENU (cb.js, chanMenu): its ⋯ beside the channel, in the same
+   place on every row, shown where the hand is, as a message's strip is: see-
+   through and nothing else, so nothing on the row moves when it comes, and
+   always where nothing can point. The menu itself is the case with a steel
+   edge, its items the channels' own steel, and the one under the keyboard or
+   the pointer on the bar's grey, as a channel is. */
+.cb-chan-list > li.cb-chan-row { display: flex; align-items: center; gap: 2px; }
+.cb-chan-row > .cb-chan { flex: 1 1 auto; min-width: 0; }
+.cb-radio .cb-chan-menu {
+  flex: none; min-width: 32px; min-height: 32px; padding: 0; display: inline-grid; place-items: center;
+  color: var(--cb-steel); background: none; border: 1px solid transparent; border-radius: 4px; opacity: 0;
+}
+.cb-chan-row:hover > .cb-chan-menu, .cb-chan-row:focus-within > .cb-chan-menu,
+.cb-chan-row--menu > .cb-chan-menu, .cb-chan-row > .cb-chan[aria-current] + .cb-chan-menu { opacity: 1; }
+.cb-radio .cb-chan-menu:hover, .cb-radio .cb-chan-menu[aria-expanded="true"] { border-color: var(--cb-steel); }
+@media (hover: none), (pointer: coarse) { .cb-radio .cb-chan-menu { opacity: 1; } }
+.cb-chans-said { margin: 0; font-size: 13px; }
+.cb-chans-said:empty { display: none; }
+.cb-chan-pop {
+  position: fixed; z-index: 120; min-width: 13em; max-width: min(20em, calc(100vw - 16px));
+  display: grid; padding: 4px; margin: 0;
+  background: var(--cb-case); border: 1px solid var(--cb-steel-2); border-radius: 8px;
+  box-shadow: 0 6px 18px rgb(0 0 0 / .45);
+}
+.cb-radio .cb-chan-pop__item {
+  display: block; width: 100%; min-height: 32px; padding: 5px 10px; text-align: left; cursor: pointer;
+  font: 15px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; color: var(--cb-steel);
+  background: none; border: 0; border-radius: 5px;
+}
+.cb-radio .cb-chan-pop__item:hover, .cb-radio .cb-chan-pop__item:focus { background: var(--cb-bar); }
+.cb-radio .cb-chan-pop__item:focus-visible { outline: 2px solid var(--cb-amber); outline-offset: -2px; }
+.cb-chan-pop__line { height: 1px; margin: 4px 6px; background: var(--cb-steel-2); }
 .cb-chan-list > li.cb-chan-arr { display: flex; align-items: center; gap: 2px; cursor: grab; }
 .cb-chan-arr > .cb-chan { flex: 1 1 auto; min-width: 0; }
 .cb-radio .cb-chan-move { flex: none; min-width: 32px; min-height: 32px; padding: 0; font-size: 15px; line-height: 1; }

@@ -3849,6 +3849,11 @@
   Radio.prototype.moreFor = function (m, li) {
     var me = this, items = [];
     if (m.text) items.push(this.copyBtn(m, li));
+    /* COPY LINK (Ryan's ask, 2026-10-29): an address that opens the chat page
+       on this channel and puts the keyboard on this message, for anybody who
+       can hear the channel, while the message is on the air. Never in a room
+       that keeps to itself, whose #tag is its address. */
+    if (!(offList() && this.tunedRoom())) items.push(this.linkBtn(m));
     if (VOICE) items.push(this.readBtn(m, li));
     /* EDIT is on your own messages, and only yours, even for the base (Ryan,
        2026-10-18): which are yours to edit is canEdit's rule in lib.mjs,
@@ -4018,6 +4023,21 @@
         var said = li && li.querySelector(':scope > .cb-text');
         navigator.clipboard.writeText(said ? said.cbRaw : m.text).then(done, function () { tellIt('Your browser would not let the radio copy that.'); });
       } else tellIt('Your browser would not let the radio copy that.');
+    });
+    return b;
+  };
+
+  Radio.prototype.linkBtn = function (m) {
+    var me = this, b = el('button', 'cb-btn cb-copy-link', 'Copy link');
+    var url = chatUrl(this.tunedRoom() || WORLD_CALL) + '/m/' + m.id;
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Copy a link to ' + m.handle + '\u2019s message ' + sentAt(m.t));
+    b.addEventListener('click', function () {
+      copyWords(url, function () {
+        b.textContent = 'Copied';
+        me.tell('Copied a link to ' + m.handle + '\u2019s message. It opens on the chat page, for anybody who can hear this channel, while the message is on the air.');
+        setTimeout(function () { b.textContent = 'Copy link'; }, 1800);
+      }, function (t) { me.tell(t); });
     });
     return b;
   };
@@ -4572,12 +4592,15 @@
     return room && inChat() && radio && radio.chatHas(room.tag) ? '#' + room.tag : null;
   }
 
-  // The tag the address names, if it is shaped like one.
-  function chatFromHash() {
+  // The tag the address names, if it is shaped like one, and a message on it
+  // (#the-den/m/<id>, from a message's Copy link).
+  var CHAT_HASH = /^([a-z0-9]+(?:-[a-z0-9]+)*)(?:\/m\/([A-Za-z0-9-]{8,64}))?$/;
+  function chatHash() {
     var t = '';
     try { t = decodeURIComponent(location.hash.slice(1)); } catch (e) { t = ''; }
-    return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(t) ? t : '';
+    return CHAT_HASH.exec(t);
   }
+  function chatFromHash() { var h = chatHash(); return h ? h[1] : ''; }
 
   // Going to a channel is going to its address, so Back comes back.
   function chatGo(tag) {
@@ -4605,6 +4628,17 @@
       t = WORLD_CALL;
     }
     if (!first && radio.chatView !== 'channel') radio.chatViewChannel();
+    // A message's link: the channel asked for far enough back to reach it, and
+    // the keyboard on it once it is drawn (jumpLand), as Search's Jump to it.
+    var h = chatHash(), msg = !said && h && h[1] === t ? h[2] : '';
+    if (msg) {
+      radio.jumpTo = { room: t === WORLD_CALL ? null : t, id: msg, pages: 1, tries: 0, far: true };
+      if (t === chatTag && !first) {
+        // Asked afresh, so a channel with nothing new still answers with its messages.
+        if (radio.msgLi(msg)) radio.jumpLand(); else { radio.chanV = null; clearTimeout(radio.timer); radio.listen(); }
+        return false;
+      }
+    }
     if (t === chatTag && !first) return false;
     chatTag = t;
     var moved = radio.wasPath !== undefined ? radio.whereNow() : (radio.bandShown(), false);
@@ -4701,6 +4735,10 @@
     body.appendChild(sortLab);
     body.appendChild(sortRow);
     body.appendChild(this.chatSortSaid);
+    // What a channel's menu did: Copied, Following, and the rest.
+    this.chatMenuSaid = el('p', 'cb-quiet cb-chans-said');
+    this.chatMenuSaid.setAttribute('role', 'status');
+    body.appendChild(this.chatMenuSaid);
     body.appendChild(groups);
     body.appendChild(this.chatNone);
     sec.appendChild(body);
@@ -4711,6 +4749,24 @@
     });
     t.addEventListener('click', function () { me.chatOpen(t.getAttribute('aria-expanded') !== 'true'); });
     groups.addEventListener('keydown', function (e) { me.chatKey(e); });
+    /* A CHANNEL'S MENU opens from its ⋯ and from a right-click on it. Shift
+       and a right-click is the browser's own menu, for Open in a new tab. */
+    groups.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('.cb-chan-menu');
+      if (!b) return;
+      var x = me.chanOf(b.parentNode.querySelector('.cb-chan'));
+      if (!x) return;
+      if (me.chanPop && me.chanPop.from === b) { me.chanMenuShut(true); return; }
+      me.chanMenu(x, null, b);
+    });
+    groups.addEventListener('contextmenu', function (e) {
+      if (e.shiftKey) return;
+      var li = e.target.closest && e.target.closest('.cb-chan-row');
+      var x = li && me.chanOf(li.querySelector('.cb-chan'));
+      if (!x) return;
+      e.preventDefault();
+      me.chanMenu(x, { x: e.clientX, y: e.clientY }, li.querySelector('.cb-chan-menu'));
+    });
     groups.addEventListener('click', function (e) {
       var a = e.target.closest && e.target.closest('.cb-chan');
       if (!a) return;
@@ -5456,6 +5512,7 @@
     }
     chatGo(tag);
   };
+  var JUMP_FAR = 10; // pages of WINDOW: the most a channel keeps, KEEP_CHOICES' 1000 in lib.mjs
   Radio.prototype.jumpLand = function () {
     var j = this.jumpTo;
     if (!j || (this.chanRoom || null) !== j.room || this.chatView !== 'channel') return;
@@ -5465,7 +5522,8 @@
       return;
     }
     // Messages sent since the search pushed it further back: once more, a page further.
-    if (!this.earlier.hidden && j.tries < 1) {
+    // A link from Copy link, which knows no place, looks back as far as a channel keeps.
+    if (!this.earlier.hidden && j.tries < (j.far ? JUMP_FAR : 1)) {
       j.tries++;
       j.pages = this.pages + 1;
       var me = this;
@@ -5473,7 +5531,7 @@
       return;
     }
     this.jumpTo = null;
-    this.tell('That message has gone from the channel since you searched.');
+    this.tell(j.far ? 'That message is not on the channel any more.' : 'That message has gone from the channel since you searched.');
   };
 
   /* YOUR CONVERSATIONS, for the list: asked from listen() and nowhere else,
@@ -5600,9 +5658,22 @@
         }
         a.tabIndex = -1;
         li.appendChild(a);
+        // A channel's own menu, beside it (see chanMenu); a conversation has none.
+        if (r.dm == null) {
+          li.className = 'cb-chan-row';
+          var mb0 = el('button', 'cb-btn cb-ico cb-chan-menu');
+          mb0.type = 'button';
+          mb0.tabIndex = -1;
+          mb0.appendChild(msgIcon('more'));
+          mb0.setAttribute('aria-haspopup', 'menu');
+          mb0.setAttribute('aria-expanded', 'false');
+          mb0.setAttribute('aria-label', 'More for ' + (r.tag === WORLD_CALL ? 'World' : '#' + r.name));
+          mb0.title = 'More';
+          li.appendChild(mb0);
+        }
         if (me.chatArranging && chatSortable(g.key) && r.dm == null) {
           // Move up and Move down, named for the channel and its group.
-          li.className = 'cb-chan-arr';
+          li.className = 'cb-chan-row cb-chan-arr';
           li.draggable = true;
           li.dataset.tag = r.tag;
           a.draggable = false;
@@ -5684,14 +5755,181 @@
     var stop = want && shown.indexOf(want) >= 0 ? want : cur || shown[0];
     this.chatLinks.forEach(function (x) {
       x.a.tabIndex = x.a === stop ? 0 : -1;
-      // While arranging, the channel's own Move buttons come next in the Tab order.
-      x.li.querySelectorAll('.cb-chan-move').forEach(function (b) { b.tabIndex = x.a === stop ? 0 : -1; });
+      // Its menu button, and while arranging its Move buttons, come next in the Tab order.
+      x.li.querySelectorAll('.cb-chan-menu, .cb-chan-move').forEach(function (b) { b.tabIndex = x.a === stop ? 0 : -1; });
     });
+  };
+
+  /* A CHANNEL'S MENU (Ryan's ask, 2026-10-29, after Discord's): a ⋯ beside
+     every channel down the left, and a right-click on one, open a menu of
+     what can be done with that channel from the list. An ARIA menu, because
+     it pops up over the list and goes again: the arrows move through it,
+     Escape and Tab put the keyboard back where it was, and the ContextMenu
+     key or Shift and F10 on a channel open it too. Everything in it is
+     something the radio already does somewhere else (Mark as read is what
+     reading a channel sends, Follow is Unreads' follow), so it sends nothing
+     new and keeps nothing new. Shift and a right-click is the browser's own
+     menu, for opening a channel in a new tab. */
+  Radio.prototype.chanOf = function (a) {
+    if (!a) return null;
+    for (var i = 0; i < this.chatLinks.length; i++) {
+      var x = this.chatLinks[i];
+      if (x.a === a) return x.room && x.dm == null && !x.ev ? x : null;
+    }
+    return null;
+  };
+
+  // The address that opens a channel on the chat page, for anybody who can hear it.
+  function chatUrl(tag) { return location.origin + '/chat.html#' + tag; }
+
+  // Onto the clipboard, saying so on `said`, or saying the browser would not.
+  function copyWords(words, done, said) {
+    if (!(navigator.clipboard && navigator.clipboard.writeText)) { said('Your browser would not let the radio copy that.'); return; }
+    navigator.clipboard.writeText(words).then(done, function () { said('Your browser would not let the radio copy that.'); });
+  }
+
+  Radio.prototype.chanMenu = function (x, at, from) {
+    var me = this, r = x.room, tag = x.tag, world = tag === WORLD_CALL;
+    var name = world ? 'World' : '#' + r.name;
+    this.chanMenuShut(false);
+    var said = function (t) { me.chatMenuSaid.textContent = t; };
+    var pop = el('div', 'cb-chan-pop');
+    pop.setAttribute('role', 'menu');
+    pop.setAttribute('aria-label', name);
+    pop.from = from || x.a;
+    var items = [];
+    function item(words, act) {
+      var b = el('button', 'cb-chan-pop__item', words);
+      b.type = 'button';
+      b.tabIndex = -1;
+      b.setAttribute('role', 'menuitem');
+      b.addEventListener('click', function () { me.chanMenuShut(true); said(''); act(); });
+      pop.appendChild(b);
+      items.push(b);
+    }
+    function line() {
+      if (!items.length || pop.lastChild.getAttribute('role') === 'separator') return;
+      var hr = el('div', 'cb-chan-pop__line');
+      hr.setAttribute('role', 'separator');
+      pop.appendChild(hr);
+    }
+    // Something new since you last read it: Mark as read sends what reading it would.
+    var n = this.news, newest = n && n.latest && n.latest[tag];
+    if (forumPass(this.state.pass) && newest && newest > ((n.read && n.read[tag]) || 0)) {
+      item('Mark as read', function () {
+        me.readUpTo({ ch: tag }, 'ch|' + tag, newest);
+        said(name + ' is marked as read.');
+      });
+    }
+    // Follow, as Unreads has it, for every room but World, which Unreads always lists.
+    if (forumPass(this.state.pass) && !world && !this.state.followAll) {
+      var follows = (this.state.follow || []).indexOf(tag) >= 0;
+      item(follows ? 'Unfollow' : 'Follow', function () {
+        if (!me.followTag(tag, !follows)) { said('That did not work just now. Nothing changed.'); return; }
+        said(follows ? 'Not following ' + name + ' any more.'
+          : 'Following ' + name + ': Unreads lists it whenever something new is said there. Kept in this browser only.');
+      });
+    }
+    line();
+    item('Copy link', function () {
+      copyWords(chatUrl(tag), function () { said('Copied the link to ' + name + ' on the chat page.'); }, said);
+    });
+    item(world ? 'Copy the World room\u2019s link' : r.forum ? 'Copy the category\u2019s link' : 'Copy the room\u2019s link', function () {
+      copyWords(location.origin + r.path, function () { said('Copied the link to ' + (world ? 'the World room' : r.name) + '.'); }, said);
+    });
+    if (!world) {
+      item('Copy #' + tag, function () {
+        copyWords('#' + tag, function () { said('Copied #' + tag + ', which shows as ' + name + ' in a message.'); }, said);
+      });
+    }
+    line();
+    if (this.searchBox && this.searchField) {
+      item('Search this channel', function () {
+        me.searchChannels();
+        me.searchField.in.value = tag;
+        if (me.searchField.in.value !== tag) { said('That channel cannot be searched here.'); return; }
+        me.searchFiltersBtn.setAttribute('aria-expanded', 'true');
+        me.searchFilters.hidden = false;
+        me.searchSaid.textContent = 'Searching in ' + name + '. Type what to look for, then Search.';
+        me.searchBox.focus();
+      });
+    }
+    item(world ? 'Go to the World room' : r.forum ? 'Go to the category' : 'Go to the room', function () {
+      me.tabTold(goPage(r.path), null);
+    });
+    if (pop.lastChild && pop.lastChild.getAttribute('role') === 'separator') pop.removeChild(pop.lastChild);
+    pop.addEventListener('keydown', function (e) {
+      var i = items.indexOf(e.target), j = -1;
+      if (e.key === 'ArrowDown') j = (i + 1) % items.length;
+      else if (e.key === 'ArrowUp') j = (i - 1 + items.length) % items.length;
+      else if (e.key === 'Home') j = 0;
+      else if (e.key === 'End') j = items.length - 1;
+      else if (e.key === 'Escape' || e.key === 'Tab') { e.preventDefault(); me.chanMenuShut(true); return; }
+      else if (e.key.length === 1 && /\S/.test(e.key)) {
+        // A letter goes to the next item starting with it.
+        var k = e.key.toLowerCase();
+        for (var s = 1; s <= items.length; s++) {
+          var c = items[(i + s) % items.length];
+          if (c.textContent.trim().toLowerCase().indexOf(k) === 0) { j = (i + s) % items.length; break; }
+        }
+        if (j < 0) return;
+      } else return;
+      e.preventDefault();
+      items[j].focus();
+    });
+    this.chatSec.appendChild(pop);
+    this.chanPop = pop;
+    if (pop.from && pop.from.classList.contains('cb-chan-menu')) pop.from.setAttribute('aria-expanded', 'true');
+    pop.from.closest('li').classList.add('cb-chan-row--menu');
+    // Where the pointer was, or under what opened it, and always on the screen.
+    var box = pop.getBoundingClientRect(), vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight;
+    var px, py;
+    if (at) { px = at.x; py = at.y; }
+    else { var fr = pop.from.getBoundingClientRect(); px = fr.right - box.width; py = fr.bottom + 2; if (py + box.height > vh - 8) py = fr.top - box.height - 2; }
+    pop.style.left = Math.max(8, Math.min(px, vw - box.width - 8)) + 'px';
+    pop.style.top = Math.max(8, Math.min(py, vh - box.height - 8)) + 'px';
+    items[0].focus();
+    // A press anywhere else, or the page scrolling or resizing, puts it away.
+    this.chanAway = function (e) {
+      // Its own ⋯ shuts it by its click, so the press does not open it again.
+      var path = e.type === 'pointerdown' && e.composedPath ? e.composedPath() : [];
+      if (path.indexOf(pop) >= 0 || path.indexOf(pop.from) >= 0) return;
+      // Only a scroll that moves the channel under it: the log scrolls itself as messages arrive.
+      if (e.type === 'scroll' && e.target !== document && !(e.target.contains && e.target.contains(pop.from))) return;
+      me.chanMenuShut(false);
+    };
+    document.addEventListener('pointerdown', this.chanAway, true);
+    window.addEventListener('resize', this.chanAway);
+    window.addEventListener('scroll', this.chanAway, true);
+    // The list scrolls inside the radio, where a window's listener never hears it.
+    this.chanRoot = this.box.getRootNode();
+    this.chanRoot.addEventListener('scroll', this.chanAway, true);
+  };
+
+  Radio.prototype.chanMenuShut = function (back) {
+    var pop = this.chanPop;
+    if (!pop) return;
+    this.chanPop = null;
+    document.removeEventListener('pointerdown', this.chanAway, true);
+    window.removeEventListener('resize', this.chanAway);
+    window.removeEventListener('scroll', this.chanAway, true);
+    if (this.chanRoot) this.chanRoot.removeEventListener('scroll', this.chanAway, true);
+    var from = pop.from;
+    if (from.classList.contains('cb-chan-menu')) from.setAttribute('aria-expanded', 'false');
+    var li = from.closest('li');
+    if (li) li.classList.remove('cb-chan-row--menu');
+    pop.remove();
+    if (back && from.isConnected) from.focus();
   };
 
   Radio.prototype.chatKey = function (e) {
     var a = e.target.closest && e.target.closest('.cb-chan');
     if (!a) return;
+    if (e.key === 'ContextMenu' || (e.shiftKey && e.key === 'F10')) {
+      var xm = this.chanOf(a);
+      if (xm) { e.preventDefault(); this.chanMenu(xm, null, a); }
+      return;
+    }
     if (e.altKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
       var li = a.closest('.cb-chan-arr'), g = li && (this.chatGroupEls || []).filter(function (x) { return x.ul.contains(li); })[0];
       if (!this.chatArranging || !g) return;
