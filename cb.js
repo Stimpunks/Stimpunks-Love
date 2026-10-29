@@ -1333,6 +1333,28 @@
        or a press on the dim puts it back. Nothing is kept: CHAT_OWN's rule,
        the chat page writes no layout of its own into love-cb. See setBig. */
     if (chat) {
+      /* BACK AND FORWARD (Ryan's ask, 2026-10-29), at the start of the bar's
+         buttons, where chat apps keep them: one step through what has been in
+         the middle of the chat page, the tab's own history, which the
+         browser's Back and Forward walk too. Each is pressable only while that
+         step is on this page, and otherwise stays where it is, focusable, and
+         says so, as minus and plus do at either end. See chatHistStep. */
+      var hist = el('span', 'cb-hist');
+      hist.setAttribute('role', 'group');
+      hist.setAttribute('aria-label', 'Back and forward in the chat');
+      [['back', 'Back', -1], ['forward', 'Forward', 1]].forEach(function (b) {
+        var x = me[b[0] === 'back' ? 'histBack' : 'histFwd'] = el('button', 'cb-btn cb-icon-btn cb-hist-' + b[0]);
+        x.type = 'button';
+        x.setAttribute('aria-label', b[1]);
+        x.title = b[1];
+        x.appendChild(barIcon(b[0]));
+        x.addEventListener('click', function () { me.histGo(b[2], x); });
+        hist.appendChild(x);
+      });
+      this.histSaid = el('span', 'sr');
+      this.histSaid.setAttribute('role', 'status');
+      hist.appendChild(this.histSaid);
+      bar.appendChild(hist);
       var big = this.bigBtn = el('button', 'cb-btn cb-big-btn', 'Enlarge the chat');
       big.type = 'button';
       big.addEventListener('click', function () { me.setBig(!me.big); });
@@ -4611,8 +4633,9 @@
   /* The address has changed, or the lists have arrived: the channel it names,
      if this pass can hear it. A # that names nothing (the page's own #top
      and #main) leaves the channel where it is; no # at all is World, where
-     the page starts. */
-  function chatTake(first) {
+     the page starts. `keep` changes the channel underneath and leaves what is in
+     the middle alone, for a step back to a conversation or a search. */
+  function chatTake(first, keep) {
     if (!radio || !radio.chatSure) return false;
     var evAt = evFromHash();
     if (evAt !== null && radio.evSec) { radio.chatViewEvents(evAt); return false; }
@@ -4627,7 +4650,7 @@
       }
       t = WORLD_CALL;
     }
-    if (!first && radio.chatView !== 'channel') radio.chatViewChannel();
+    if (!first && !keep && radio.chatView !== 'channel') radio.chatViewChannel();
     // A message's link: the channel asked for far enough back to reach it, and
     // the keyboard on it once it is drawn (jumpLand), as Search's Jump to it.
     var h = chatHash(), msg = !said && h && h[1] === t ? h[2] : '';
@@ -4645,6 +4668,125 @@
     if (said) radio.tell(said);
     return moved;
   }
+
+  /* BACK AND FORWARD THROUGH THE CHAT PAGE (Ryan's ask, 2026-10-29). A
+     channel and Events are already in the address, so going to one is a step
+     in the tab's history. A conversation, All messages and a search's results
+     are never in the address, which goes into the browser's history: so each
+     is a step with the same address as the channel under it, and the step
+     holds a key and which kind of view it is (loveChat), never a name or a
+     word. Who the conversation was with is kept in this page's memory
+     (chatMemo) and goes when it closes, so a step back to a conversation
+     after a reload is All messages, and to a search whose words have gone,
+     the channel. steps.js's rule for tasks, the office and the forums, in the
+     radio's own file. A view is recorded once the change that made it is
+     done (a microtask later), so opening a conversation from Events is one
+     step and not three; walking the history replaces rather than pushes. */
+  var CHAT_VIEWS = /^(channel|events|all|dm|search)$/;
+  var chatMemo = {}, chatWalking = false;
+  function chatStepOf(s) {
+    var x = s && typeof s === 'object' ? s.loveChat : null;
+    return x && typeof x.key === 'string' && CHAT_VIEWS.test(x.view) ? x : null;
+  }
+  // What is in the middle now.
+  function chatNowView() {
+    var v = radio.chatView;
+    if (v === 'dm') return radio.dmWith && !radio.dmTalk.hidden ? { view: 'dm', handle: radio.dmWith } : { view: 'all' };
+    return { view: v };
+  }
+  // What the step the tab is on says is in the middle.
+  function chatStepView() {
+    var st = chatStepOf(history.state);
+    if (st) return { view: st.view, handle: (chatMemo[st.key] || {}).handle };
+    return { view: evFromHash() !== null ? 'events' : 'channel' };
+  }
+  Radio.prototype.chatHistStep = function () {
+    if (!inChat() || !this.chatSure || this.chatStepping) return;
+    var me = this;
+    this.chatStepping = true;
+    Promise.resolve().then(function () {
+      me.chatStepping = false;
+      if (radio !== me) return;
+      var now = chatNowView(), was = chatStepView();
+      if (now.view !== was.view || now.handle !== was.handle) {
+        var key = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        var url = now.view === 'events' ? location.href : location.pathname + location.search + (chatTag === WORLD_CALL ? '' : '#' + chatTag);
+        var s = history.state && typeof history.state === 'object' ? history.state : {}, n = {};
+        Object.keys(s).forEach(function (k) { n[k] = s[k]; });
+        n.loveChat = { key: key, view: now.view };
+        chatMemo[key] = now.handle ? { handle: now.handle } : {};
+        try {
+          if (chatWalking) history.replaceState(n, '', url);
+          else { history.pushState(n, '', url); me.histSaid.textContent = ''; }
+        } catch (e) { /* the browser keeps its own steps */ }
+      }
+      me.histShown();
+    });
+  };
+
+  /* The tab has gone back or forward (popstate, and hashchange for a browser
+     that sends only that): the view the step names, over the channel the
+     address names. */
+  function chatWalk() {
+    if (!radio || !radio.chatSure) return;
+    var st = chatStepOf(history.state), handle = st && (chatMemo[st.key] || {}).handle;
+    chatWalking = true;
+    if (st && (st.view === 'dm' || st.view === 'all') && radio.dmBox) {
+      chatTake(false, true);
+      if (st.view === 'dm' && handle) {
+        if (radio.chatView !== 'dm' || radio.dmWith !== handle || radio.dmTalk.hidden) radio.dmOpen(handle);
+      } else radio.chatAllMessages();
+    } else if (st && st.view === 'search' && radio.searchQ) {
+      chatTake(false, true);
+      radio.chatViewSearch();
+    } else chatTake(false);
+    radio.chatHistStep();
+    // After chatHistStep's own microtask, which replaces rather than pushes.
+    Promise.resolve().then(function () { chatWalking = false; });
+    radio.histLanded();
+  }
+
+  /* The bar's Back and Forward: pressable while the step that way is on this
+     page (the Navigation API says; a browser without it lets the press go
+     wherever the tab's history goes). The keyboard stays on the button, and
+     what is in the middle now is said. */
+  function chatCan(by) {
+    var nav = window.navigation;
+    if (!nav || !nav.entries || !nav.currentEntry) return true;
+    var all = nav.entries(), i = nav.currentEntry.index + by;
+    if (i < 0 || i >= all.length || !all[i].url) return false;
+    try {
+      var u = new URL(all[i].url);
+      return u.origin === location.origin && u.pathname === location.pathname;
+    } catch (e) { return false; }
+  }
+  Radio.prototype.histShown = function () {
+    if (!this.histBack) return;
+    this.histBack.setAttribute('aria-disabled', String(!chatCan(-1)));
+    this.histFwd.setAttribute('aria-disabled', String(!chatCan(1)));
+  };
+  Radio.prototype.histGo = function (by, btn) {
+    if (!chatCan(by)) {
+      this.histSaid.textContent = by < 0 ? 'Nothing earlier in the chat to go back to.' : 'Nothing later in the chat to go forward to.';
+      return;
+    }
+    this.histFrom = btn;
+    this.histSaid.textContent = '';
+    history.go(by);
+  };
+  Radio.prototype.histLanded = function () {
+    var btn = this.histFrom, me = this;
+    this.histFrom = null;
+    this.histShown();
+    if (!btn) { this.histSaid.textContent = ''; return; }
+    btn.focus();
+    var v = chatNowView(), room = chatRoom();
+    var says = v.view === 'dm' ? 'With ' + v.handle : v.view === 'all' ? 'All messages' : v.view === 'events' ? 'Events'
+      : v.view === 'search' ? 'Search results' : room.tag === WORLD_CALL ? 'World' : '#' + room.name;
+    // Emptied first, so the same words twice are still said twice.
+    this.histSaid.textContent = '';
+    setTimeout(function () { if (radio === me) me.histSaid.textContent = 'Now showing ' + says + '.'; }, 50);
+  };
 
   /* THE CHANNEL LIST, the left of the chat page: a box to find a channel by
      its name or what its room is about (the teleporter's search, findRooms),
@@ -4776,7 +4918,7 @@
       if (a.dataset.dm != null) {
         e.preventDefault();
         if (a.dataset.dm) me.dmOpen(a.dataset.dm);
-        else { me.chatViewDm(); if (me.dmWith) me.dmShowInbox(); if (me.dmBox.hidden) me.setDm(true); else me.dmTick(); me.chatShown(); var to = me.dmInbox.querySelector('#cb-dm-to'); if (narrow && to) to.focus(); }
+        else { me.chatAllMessages(); var to = me.dmInbox.querySelector('#cb-dm-to'); if (narrow && to) to.focus(); }
         return;
       }
       // The channel the address already names: back to it from a
@@ -5003,6 +5145,11 @@
       me.chatShown();
       var moved = chatTake(true);
       if (!moved) me.tune();
+      // The step the page opened on says what is in the middle: a reload keeps
+      // the tab's steps, and this one is a channel or Events again.
+      chatWalking = true;
+      me.chatHistStep();
+      Promise.resolve().then(function () { chatWalking = false; });
     });
   };
 
@@ -5036,9 +5183,16 @@
      the way and the Messages part takes its place. The channel's radio goes
      on listening, as it does with Messages open anywhere, and its messages are
      not counted as read while you are not looking at them (readTick). */
+  Radio.prototype.chatAllMessages = function () {
+    this.chatViewDm();
+    if (this.dmWith) this.dmShowInbox();
+    if (this.dmBox.hidden) this.setDm(true); else this.dmTick();
+    this.chatShown();
+  };
   Radio.prototype.chatViewDm = function () {
     if (!this.dmBox || this.chatView === 'dm') return;
-    if (this.chatView === 'events') this.chatLeaveEvents(true);
+    this.chatHistStep();
+    if (this.chatView === 'events') this.chatLeaveEvents();
     else if (this.chatView === 'search') this.searchLeave();
     this.chatView = 'dm';
     this.chatChan.hidden = true;
@@ -5047,7 +5201,8 @@
   };
   Radio.prototype.chatViewChannel = function () {
     if (this.chatView === 'channel') return;
-    if (this.chatView === 'events') this.chatLeaveEvents(false);
+    this.chatHistStep();
+    if (this.chatView === 'events') this.chatLeaveEvents();
     else if (this.chatView === 'search') this.searchLeave();
     else {
       if (this.dmWith) this.dmShowInbox();
@@ -5063,6 +5218,7 @@
      events, as it does for a conversation, and goes on listening. `id` opens
      the list on that event. */
   Radio.prototype.chatViewEvents = function (id) {
+    this.chatHistStep();
     if (this.chatView === 'search') this.searchLeave();
     else if (this.chatView === 'dm') {
       if (this.dmWith) this.dmShowInbox();
@@ -5077,15 +5233,12 @@
     else { this.evKey = null; this.evDraw(); }
     this.chatShown();
   };
-  // Out of Events. Into a conversation, the address goes back to the channel,
-  // so a reload is not Events again.
-  Radio.prototype.chatLeaveEvents = function (toDm) {
+  // Out of Events. Into a conversation or a search, the step chatHistStep adds
+  // has the channel's address, so a reload is not Events again, and Back is.
+  Radio.prototype.chatLeaveEvents = function () {
     this.setEvents(false);
     this.evSec.hidden = true;
     this.chatView = 'channel';
-    if (toDm && evFromHash() !== null) {
-      try { history.replaceState(history.state, '', location.pathname + location.search + (chatTag === WORLD_CALL ? '' : '#' + chatTag)); } catch (e) { /* it says what it says */ }
-    }
   };
 
   /* SEARCH, AFTER DISCORD'S (Ryan's ask, 2026-10-27). At the top of the
@@ -5461,7 +5614,8 @@
      out of the way, and the channel goes on listening, not marked read. */
   Radio.prototype.chatViewSearch = function () {
     if (this.chatView === 'search') return;
-    if (this.chatView === 'events') this.chatLeaveEvents(true);
+    this.chatHistStep();
+    if (this.chatView === 'events') this.chatLeaveEvents();
     else if (this.chatView === 'dm') { if (this.dmWith) this.dmShowInbox(); this.setDm(false); this.dmSec.hidden = true; }
     this.chatView = 'search';
     this.chatChan.hidden = true;
@@ -9950,6 +10104,7 @@
   };
 
   Radio.prototype.dmShowInbox = function () {
+    if (inChat()) this.chatHistStep();
     this.dmReplyStop();
     this.dmWith = null;
     this.dmTalk.hidden = true;
@@ -10051,7 +10206,7 @@
   /* Open the conversation with `handle`: its own view, the keyboard on its
      heading, and the first answer drawn without reading every message out. */
   Radio.prototype.dmOpen = function (handle) {
-    if (inChat()) this.chatViewDm();
+    if (inChat()) { this.chatViewDm(); this.chatHistStep(); }
     this.dmReplyStop();
     this.dmWith = String(handle);
     this.dmStateSig = null;
@@ -14494,7 +14649,11 @@
     // Following a spot to the room you are already in changes only the hash.
     window.addEventListener('hashchange', arrive);
     // On the chat page the hash is the channel.
-    if (inChat()) window.addEventListener('hashchange', function () { chatTake(false); });
+    if (inChat()) {
+      window.addEventListener('popstate', chatWalk);
+      window.addEventListener('hashchange', chatWalk);
+      if (window.navigation && window.navigation.addEventListener) window.navigation.addEventListener('currententrychange', function () { if (radio) radio.histShown(); });
+    }
     if (inChat()) window.addEventListener('love-dm-from', dmFromNotice);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);

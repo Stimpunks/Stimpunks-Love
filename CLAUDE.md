@@ -4277,6 +4277,18 @@ friendly edits are **Mute and a per-channel notification setting in that menu**,
 switches (`w.rooms`) and need their own words first, and **a link to a direct message**, which would put a conversation
 in an address and the browser's history.
 
+**BACK AND FORWARD ON THE CHAT PAGE ARE THE TAB'S HISTORY, AND A STEP HOLDS NO NAME.** Ryan's ask, 2026-10-29: two
+arrows on the chat page's bar (`histGo`, `histShown`), and every view in the middle a step. A channel and Events are steps
+by their `#`; a conversation, All messages and a search's results are pushed by `chatHistStep` with the channel's address
+and `loveChat` (a key and the view's kind) in `history.state`, **never the handle or the words**, which are in `chatMemo`,
+this page's memory, so after a reload a conversation step is All messages (steps.js's rule, in cb.js). A view is recorded a
+microtask after the change, so one press is one step; `chatWalk` (popstate and hashchange) restores and replaces, never
+pushes, and `chatTake(first, keep)` changes the channel under a conversation without closing it. Each arrow is pressable
+only while the step that way is on this page (`navigation.entries()`). **Its first build named the method `chatStep`**,
+which was already Arrange's move: the later one won silently and no step was ever pushed, so grep a method's name before
+adding one. The friendly edits are the handle in the state "so a reload reopens the conversation", which puts a name in
+the browser's history, and Back leaving the page.
+
 **THE RADIO CAN GO INTO A WINDOW OF ITS OWN, `cb-window.html`, AND ONLY ONE RADIO LISTENS.** Ryan's ask,
 2026-10-19: "a popout for the CB like the video player, keeping currently selected size". Pop out, under
 Your radio, opens it as big as the radio is and at its size; − and + there resize the window

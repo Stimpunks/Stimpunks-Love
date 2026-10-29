@@ -480,6 +480,8 @@
 .cb-icon-btn__art { width: 18px; height: 18px; display: block; }
 .cb-sizer { display: inline-flex; gap: 3px; }
 .cb-sizer[hidden] { display: none; }
+/* The chat page's Back and Forward (cb.js, chatStep), the sizer's shape. */
+.cb-hist { display: inline-flex; gap: 3px; }
 .cb-icon-btn[aria-disabled="true"] { opacity: .45; cursor: default; }
 .cb-icon-btn[aria-disabled="true"]:hover { border-color: var(--cb-steel-2); }
 

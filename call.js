@@ -62,6 +62,8 @@
     }
     if (kind === 'grip') {
       [6, 10, 14].forEach(function (y) { [7, 13].forEach(function (x) { add('circle', { cx: String(x), cy: String(y), r: '1.7', fill: 'currentColor' }); }); });
+    } else if (kind === 'back' || kind === 'forward') {
+      add('path', { d: kind === 'back' ? 'M16 10H4.5M9.5 5 4.5 10l5 5' : 'M4 10h11.5M10.5 5l5 5-5 5', fill: 'none', stroke: 'currentColor', 'stroke-width': '2.4', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
     } else {
       add('path', { d: kind === 'plus' ? 'M4 10H16M10 4V16' : 'M4 10H16', fill: 'none', stroke: 'currentColor', 'stroke-width': '2.6', 'stroke-linecap': 'round' });
     }
