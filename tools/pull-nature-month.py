@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 """Read a channel list's feeds and write its latest month of videos, for one of
-the two month racks in Nature's Contribution:
+the month racks in Nature's Contribution, and The Green's:
 
     tools/pull-nature-month.py sanctuary   -> data/all-needs-met-month.json   (All Needs Met)
     tools/pull-nature-month.py farm        -> data/all-together-now-month.json (All Together Now Farms)
+    tools/pull-nature-month.py green       -> data/the-green-month.json        (The Green's third rack)
+
+The Green is not on Nature's Contribution's land; its third rack is the same
+reading of one channel's month (Ryan's, 2026-10-29), so it is a third key here
+rather than a fourth copy of the reading.
 
 THIS TOUCHES THE NETWORK AND THE ROOMS' GENERATORS DO NOT, and they must not be
 merged: pull-arrivals.py's rule for pull-arrivals.py's reason. A build that
@@ -66,12 +71,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 RACKS = {"sanctuary": ROOT / "data/all-needs-met-month.json",
-         "farm": ROOT / "data/all-together-now-month.json"}
+         "farm": ROOT / "data/all-together-now-month.json",
+         "green": ROOT / "data/the-green-month.json"}
 MAKERS = {"sanctuary": "tools/make-all-needs-met.py --month",
-          "farm": "tools/make-all-together-now.py --month"}
+          "farm": "tools/make-all-together-now.py --month",
+          "green": "tools/make-the-green.py --month"}
 WHICH = sys.argv[1] if len(sys.argv) > 1 else ""
 if WHICH not in RACKS:
-    print("usage: tools/pull-nature-month.py sanctuary|farm")
+    print("usage: tools/pull-nature-month.py sanctuary|farm|green")
     sys.exit(2)
 DATA = RACKS[WHICH]
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "

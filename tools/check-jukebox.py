@@ -293,6 +293,8 @@ LISTS = [
     # All Together Now: Claude's picks, and Farming While Beige's month.
     ("all together now", "data/all-together-now.json", "all-together-now.html"),
     ("all together now's month", "data/all-together-now-month.json", "all-together-now.html"),
+    # The Green's third rack: Future in Bloom's month, by the same puller.
+    ("the green's month", "data/the-green-month.json", "the-green.html"),
     # Wide-Spread Chaos: Claude's picks.
     ("wide-spread chaos", "data/wide-spread-chaos.json", "wide-spread-chaos.html"),
     # The four lots where the buildings stop, each with a rack of Ryan's pick:

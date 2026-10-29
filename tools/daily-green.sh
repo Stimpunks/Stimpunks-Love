@@ -15,6 +15,12 @@
 #                                     that needs network)
 #   3. make-the-green.py --latest   — redraws the second rack and nothing else on
 #                                     the page
+#   3b. pull-nature-month.py green and make-the-green.py --month — the third
+#                                     rack, Future in Bloom's month. A feed that
+#                                     will not answer leaves yesterday's third
+#                                     rack standing and does NOT stop the second:
+#                                     one channel failing must not leave the
+#                                     search's rack behind, the twins' reason.
 #   4. the fast offline checkers, as a gate on committing a broken page
 #   5. commits ONLY its own paths, and pushes
 #
@@ -35,7 +41,7 @@
 set -uo pipefail
 
 REPO="/Users/ryan/Documents/GitHub/Stimpunks-Love"
-OWNED=("data/the-green-latest.json" "the-green.html")
+OWNED=("data/the-green-latest.json" "data/the-green-month.json" "the-green.html")
 cd "$REPO" || { echo "error: cannot cd to $REPO"; exit 1; }
 
 refuse() { echo "REFUSED: $*"; exit 2; }
@@ -53,6 +59,11 @@ dirty_owned="$(git status --porcelain -- "${OWNED[@]}")"
 python3 tools/pull-green-latest.py || refuse "a search did not answer, or answered with something this does not parse.
          Yesterday's rack is still standing. See the output above."
 python3 tools/make-the-green.py --latest || refuse "the rack would not fill from what was read."
+if python3 tools/pull-nature-month.py green; then
+  python3 tools/make-the-green.py --month || refuse "the third rack would not fill from what was read."
+else
+  echo "note: Future in Bloom's feeds did not answer; yesterday's third rack is still standing."
+fi
 
 # ── 4. The gate ──────────────────────────────────────────────────────────────
 # Fast, offline, and every one of them reads the published HTML. The ones that
@@ -72,7 +83,10 @@ fi
 rows="$(python3 - <<'PY'
 import json
 d = json.load(open("data/the-green-latest.json"))
-print(f"{len(d['latest'])} videos on the rack from {len(d['searches'])} searches, filled {d['set']}")
+m = json.load(open("data/the-green-month.json"))
+live = [v for v in m["log"] if v["state"] in ("screen", "door")]
+print(f"{len(d['latest'])} videos on the rack from {len(d['searches'])} searches, filled {d['set']}; "
+      f"{len(live)} on the third rack, filled {m['set']}")
 PY
 )"
 

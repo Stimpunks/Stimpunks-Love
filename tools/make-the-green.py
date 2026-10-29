@@ -56,6 +56,14 @@ title, a row its own channel filed under a game or music, and a rack over
 Ryan's number. The titles are the channels' and are not swept; the rack says
 nobody here watched them first.
 
+THE THIRD RACK IS ONE CHANNEL'S MONTH. Ryan's ask, 2026-10-29: Future in Bloom
+with Steph Speirs, its videos and its shorts, the latest month of each.
+tools/pull-nature-month.py green reads it on the same morning timer, and this
+runs with --month so that only that rack is redrawn; the rack is
+tools/natures.py's month rack, All Together Now Farms' shape for Farming While
+Beige, dressed in §98. The channel is Ryan's and its videos are nobody's choice
+one by one, and the titles are the channel's and are not swept.
+
 THE QUOTATIONS ARE OURS, AND CHECKED. Both were read on our own Nature page and
 are checked against the Knowledge System mirror's copy of it word for word on
 every build when the mirror is there, the Town Hall's rule.
@@ -76,6 +84,7 @@ ROOT = Path(__file__).resolve().parent.parent
 TOOLS = ROOT / "tools"
 DATA = ROOT / "data/the-green.json"
 LATEST = ROOT / "data/the-green-latest.json"
+MONTHLY = ROOT / "data/the-green-month.json"
 PAGE = ROOT / "the-green.html"
 NOTES = ROOT / "liner-notes.html"
 CSS = ROOT / "love.css"
@@ -123,6 +132,8 @@ pekoe = tool("make-pekoe")
 # tools/pull-green-latest.py, so the tool that chooses and the tool that refuses
 # cannot disagree. Importing it touches no network; only its main() does.
 pull = tool("pull-green-latest")
+# THE THIRD RACK IS THE AREA'S MONTH RACK, read rather than restated.
+nc = tool("natures")
 WEEK, RACK, LEFT_OFF = pull.WEEK, pull.RACK, pull.LEFT_OFF
 
 
@@ -512,7 +523,7 @@ def rack_block(d):
     sid, sname = SCREEN
     out = [f'    <div class="grn-screen" data-rack-screen="{sid}" tabindex="-1" hidden>',
            '      <p class="grn-screen__idle"><span><b>The screen under the porch roof.</b> Nothing is on it. Any video on '
-           'either rack can go up here with the button under it, and nothing loads until you press one.</span></p>',
+           'any rack can go up here with the button under it, and nothing loads until you press one.</span></p>',
            '    </div>',
            f'    <p class="grn-screen__now" data-rack-now="{sid}" tabindex="-1" hidden></p>',
            f'    <p class="grn-screen__back" hidden><button type="button" class="grn-btn grn-btn--quiet" '
@@ -691,7 +702,19 @@ def latest_block(r):
     return "\n".join(out)
 
 
-def liner_sources(d, r):
+def month_block(m):
+    return nc.month_block(m, "grn", SCREEN[0], SCREEN[1],
+                          "The third rack: Future in Bloom&rsquo;s month, newest first")
+
+
+def check_month(m):
+    found = nc.Problems()
+    nc.check_month(m, MONTHLY.name, found)
+    for msg in found:
+        refuse(msg)
+
+
+def liner_sources(d, r, m):
     rows = [(v["for"], f'<a href="{attr(v["url"])}">{esc(v["title"])}</a>, {esc(v["by"])}, read {esc(v["read"])}')
             for v in d["sources"].values()]
     chans = []
@@ -709,7 +732,8 @@ def liner_sources(d, r):
                              for s in r["searches"])
                  + ". Ryan Boren&rsquo;s brief, of 2026-10-07, and his topics. Nobody here chooses or watches them "
                  "first, none of their channels is affiliated with Stimpunks, and nothing of theirs is hosted here"))
-    return "\n".join(f'      <tr><td>{esc(w)}</td><td>{src}</td></tr>' for w, src in rows)
+    return ("\n".join(f'      <tr><td>{esc(w)}</td><td>{src}</td></tr>' for w, src in rows)
+            + "\n" + nc.month_credit(m))
 
 
 # ── The script and the page as written ───────────────────────────────────────
@@ -774,6 +798,21 @@ def section_css():
 def main():
     r = json.loads(LATEST.read_text())
     check_latest(r)
+    m = json.loads(MONTHLY.read_text())
+    check_month(m)
+    if "--month" in sys.argv[1:]:
+        # THE MORNING TIMER'S OTHER PATH: the third rack and nothing else.
+        if problems:
+            print("REFUSING:\n  " + "\n  ".join(dict.fromkeys(problems)))
+            sys.exit(1)
+        swap(PAGE, "grn:month", month_block(m), "    ")
+        check_page()
+        if problems:
+            print("REFUSING (the page as written):\n  " + "\n  ".join(dict.fromkeys(problems)))
+            sys.exit(1)
+        live = [x for x in m["log"] if x["state"] in ("screen", "door")]
+        print(f"the green: the third rack, filled {m['set']}, {len(live)} on it")
+        return
     if "--latest" in sys.argv[1:]:
         # THE MORNING TIMER'S PATH: the second rack and nothing else, so a
         # session's edit to the rest of the page or to the liner notes is never
@@ -808,7 +847,8 @@ def main():
         swap(PAGE, f"grn:quote-{q['key']}", quote_block(q), "    ")
     swap(PAGE, "grn:rack", rack_block(d), "    ")
     swap(PAGE, "grn:latest", latest_block(r), "    ")
-    swap(NOTES, "green-sources", liner_sources(d, r), "      ")
+    swap(PAGE, "grn:month", month_block(m), "    ")
+    swap(NOTES, "green-sources", liner_sources(d, r, m), "      ")
     check_script()
     check_page()
     section_css()
@@ -816,7 +856,7 @@ def main():
         print("REFUSING (the page as written):\n  " + "\n  ".join(dict.fromkeys(problems)))
         sys.exit(1)
     print("the green: the view from the porch, the trail and every stop on it, the trailhead sign, the quotations, "
-          "the screen's two racks and the credits written; it has just stopped raining, and nothing casts a shadow")
+          "the screen's racks and the credits written; it has just stopped raining, and nothing casts a shadow")
 
 
 if __name__ == "__main__":

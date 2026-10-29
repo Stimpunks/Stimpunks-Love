@@ -3918,10 +3918,14 @@ nothing its channel filed under Gaming or Music (this week's solarpunk was a vid
 title twice, and each search takes a turn. **The friendly edits are dropping the title gate because a good video
 missed it, and calling the rack curated**; the first makes the rack whatever a search mentions, the second is a
 claim nobody made. `make-the-green.py --latest` redraws only `grn:latest`; `tools/daily-green.sh` is the seventh
-script on the morning task, committing two paths as `daily green refill`, and does **not** own `now-playing.html`
+script on the morning task, committing its paths as `daily green refill`, and does **not** own `now-playing.html`
 because the poster's line is Ryan's pick, which comes first on the page. The titles are the channels' and are not
 swept. **If the results page stops carrying `ytInitialData`, the puller refuses and yesterday's rack stands**;
-teach it the new page by hand, never on a timer.
+teach it the new page by hand, never on a timer. **Its third rack is one channel's month** (Ryan, 2026-10-29: Future in
+Bloom with Steph Speirs), `tools/natures.py`'s month rack read by `tools/pull-nature-month.py green` into
+`data/the-green-month.json` and redrawn by `make-the-green.py --month` between `grn:month` markers; `daily-green.sh`
+runs it after the search and commits it with the rest, and **a feed of that channel failing leaves its rack as it was and
+never stops the search's**.
 
 **THE PILE (§99) IS A JUNK PLAYGROUND, AND NOTHING ON IT IS FOR ANYTHING.** Our Play page says play is learning
 and the room quotes it, but it never sells play by an outcome (skills, development, readiness), because the

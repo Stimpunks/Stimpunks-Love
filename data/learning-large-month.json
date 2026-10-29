@@ -76,9 +76,15 @@
    "name": "Greg Isenberg",
    "url": "https://www.youtube.com/@GregIsenberg",
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
+  },
+  {
+   "slug": "two-minute-papers",
+   "name": "Two Minute Papers",
+   "url": "https://www.youtube.com/@TwoMinutePapers",
+   "channel_id": "UCbfYPyITQ-7l4upoX8nvctg"
   }
  ],
- "set": "2026-10-29T11:24Z",
+ "set": "2026-10-29T14:12Z",
  "log": [
   {
    "id": "mn0agTT8lG8",
@@ -234,7 +240,7 @@
    "id": "1kQ_1_QL5Es",
    "source": "ai-labs",
    "form": "long",
-   "title": "This Is Microsoft's New Plan To Fix Claude's Usage Limits",
+   "title": "This Is Microsoft's New Tool Finally Fixed Claude's Usage Limits",
    "published": "2026-10-28T15:00:31Z",
    "state": "screen",
    "runs": 787,
@@ -469,16 +475,6 @@
    "state": "screen",
    "runs": 103,
    "channel": "Matt Wolfe"
-  },
-  {
-   "id": "gbbPBr3OraQ",
-   "source": "nate-b-jones",
-   "form": "long",
-   "title": "I Gave Meta's Muse The Most Boring Job I Had. It Found $5,350 A Year.",
-   "published": "2026-09-29T14:00:22Z",
-   "state": "screen",
-   "runs": 1876,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
    "id": "osZZjdMZVvA",
@@ -1248,6 +1244,16 @@
    "published": "2026-10-23T13:45:37Z",
    "state": "screen",
    "runs": 1178,
+   "channel": "Austin Marchese"
+  },
+  {
+   "id": "QBClwotyT3Y",
+   "source": "austin-marchese",
+   "form": "long",
+   "title": "Stop Watching Tutorials - Build These 4 Claude Artifacts to 10x Output",
+   "published": "2026-10-29T13:45:26Z",
+   "state": "screen",
+   "runs": 946,
    "channel": "Austin Marchese"
   },
   {
@@ -2159,6 +2165,66 @@
    "state": "screen",
    "runs": 83,
    "channel": "Greg Isenberg"
+  },
+  {
+   "id": "ZHVNTTKu9fU",
+   "source": "two-minute-papers",
+   "form": "long",
+   "title": "The Billion Dollar AI Advantage Is Disappearing",
+   "published": "2026-10-05T09:53:12Z",
+   "state": "screen",
+   "runs": 223,
+   "channel": "Two Minute Papers"
+  },
+  {
+   "id": "Wkaw03p3BrM",
+   "source": "two-minute-papers",
+   "form": "long",
+   "title": "DeepMind's New AI Just Cracked The Code Of Life",
+   "published": "2026-10-07T13:29:33Z",
+   "state": "screen",
+   "runs": 1997,
+   "channel": "Two Minute Papers"
+  },
+  {
+   "id": "4fLVq6HJsKc",
+   "source": "two-minute-papers",
+   "form": "long",
+   "title": "DeepSeek Solved AI’s Memory Problem",
+   "published": "2026-10-11T16:53:17Z",
+   "state": "screen",
+   "runs": 337,
+   "channel": "Two Minute Papers"
+  },
+  {
+   "id": "z_sXLlLVUls",
+   "source": "two-minute-papers",
+   "form": "long",
+   "title": "OpenAI’s New AI Is Doing Things We Barely Understand",
+   "published": "2026-10-13T08:56:12Z",
+   "state": "screen",
+   "runs": 529,
+   "channel": "Two Minute Papers"
+  },
+  {
+   "id": "LWxX6vvHfrc",
+   "source": "two-minute-papers",
+   "form": "long",
+   "title": "Gemini 4 Argon Is Not What I Expected",
+   "published": "2026-10-19T08:49:21Z",
+   "state": "screen",
+   "runs": 408,
+   "channel": "Two Minute Papers"
+  },
+  {
+   "id": "pryCaGv8wuo",
+   "source": "two-minute-papers",
+   "form": "long",
+   "title": "DeepSeek's New AI Is An Absolute Monster",
+   "published": "2026-10-28T17:32:40Z",
+   "state": "screen",
+   "runs": 341,
+   "channel": "Two Minute Papers"
   }
  ],
  "covered": {
@@ -2166,13 +2232,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ]
   },
@@ -2180,13 +2246,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ]
   },
@@ -2194,13 +2260,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ]
   },
@@ -2208,13 +2274,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ]
   },
@@ -2222,13 +2288,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ]
   },
@@ -2236,13 +2302,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ]
   },
@@ -2250,13 +2316,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ]
   },
@@ -2264,13 +2330,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ]
   },
@@ -2278,13 +2344,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ]
   },
@@ -2292,13 +2358,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ]
   },
@@ -2306,13 +2372,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ]
   },
@@ -2320,13 +2386,27 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-29T11:24:02Z"
+     "2026-10-29T14:12:16Z"
+    ]
+   ]
+  },
+  "two-minute-papers": {
+   "long": [
+    [
+     "2026-08-28T09:44:44Z",
+     "2026-10-29T14:12:16Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-29T14:12:16Z",
+     "2026-10-29T14:12:16Z"
     ]
    ]
   }

@@ -1,0 +1,81 @@
+{
+ "_source": "Future in Bloom with Steph Speirs, the channel Ryan named for The Green, 2026-10-29: its latest month, videos and shorts, as the Green's third rack. Its channel id was read off its own page on 2026-10-29. Filled by tools/pull-nature-month.py green on the morning timer (tools/daily-green.sh). Do not hand-edit the log.",
+ "_log": "A video is an id, the channel it came from, whether it is long-form or a short, its title as written, when it was published, its state (screen, door, pending or gone), why if it is a door, how long it runs, and its channel's name as YouTube gives it. Nothing else: no description, no thumbnail, no count of any kind.",
+ "sources": [
+  {
+   "slug": "future-in-bloom",
+   "name": "Future in Bloom with Steph Speirs",
+   "url": "https://www.youtube.com/@skyspeirs",
+   "channel_id": "UCj0VqueTI8SeTUS4rykh7Pw"
+  }
+ ],
+ "set": "2026-10-29T14:14Z",
+ "covered": {
+  "future-in-bloom": {
+   "long": [
+    [
+     "2026-09-29T14:14:21Z",
+     "2026-10-29T14:14:21Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-29T14:14:21Z",
+     "2026-10-29T14:14:21Z"
+    ]
+   ]
+  }
+ },
+ "log": [
+  {
+   "id": "mfzKtDJ9zXU",
+   "source": "future-in-bloom",
+   "form": "long",
+   "title": "How Do You Swim With Aggressive Sharks?",
+   "published": "2026-10-16T19:30:12Z",
+   "state": "screen",
+   "runs": 793,
+   "channel": "Future in Bloom with Steph Speirs"
+  },
+  {
+   "id": "mHu-xXtDv1w",
+   "source": "future-in-bloom",
+   "form": "short",
+   "title": "How Climate Change & Expensive Bills Threaten Local Food Shops",
+   "published": "2026-10-07T12:00:02Z",
+   "state": "screen",
+   "runs": 135,
+   "channel": "Future in Bloom with Steph Speirs"
+  },
+  {
+   "id": "S-ekO5px7FY",
+   "source": "future-in-bloom",
+   "form": "short",
+   "title": "How Do You Swim With Aggressive Sharks?",
+   "published": "2026-10-20T12:00:25Z",
+   "state": "screen",
+   "runs": 48,
+   "channel": "Future in Bloom with Steph Speirs"
+  },
+  {
+   "id": "IUH4qpK7VSw",
+   "source": "future-in-bloom",
+   "form": "short",
+   "title": "Is Closed-Loop Cooling In Data Centers Really Better?",
+   "published": "2026-10-21T12:00:37Z",
+   "state": "screen",
+   "runs": 107,
+   "channel": "Future in Bloom with Steph Speirs"
+  },
+  {
+   "id": "qejyJoN6NaQ",
+   "source": "future-in-bloom",
+   "form": "short",
+   "title": "What's Driving Up The Cost Of American-Made Clothing?",
+   "published": "2026-10-28T12:00:00Z",
+   "state": "screen",
+   "runs": 158,
+   "channel": "Future in Bloom with Steph Speirs"
+  }
+ ]
+}

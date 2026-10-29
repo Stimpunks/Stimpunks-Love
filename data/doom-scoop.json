@@ -28,6 +28,14 @@
      "url": "https://www.youtube.com/@MeidasTouch/videos",
      "feed": "UULF9r9HYFxEQOBXSopFS61ZWg",
      "shape": "wide"
+    },
+    {
+     "slug": "heather-cox-richardson",
+     "name": "Heather Cox Richardson",
+     "url": "https://www.youtube.com/@heathercoxrichardson/featured",
+     "feed": "UULFnbKOlm6H9njgmN-Yil90Rg",
+     "shape": "wide",
+     "_feed": "Ryan linked the channel's front page, 2026-10-29, so this reads its long-form list, The Daily Show's rule beside it: her Politics Chats, explainers and readings of Letters from an American are long-form, and a channel's front page opens on those. Its shorts, clips cut from those, are left off; that is one word in `feed` to change if Ryan wants them. The channel id was read off the channel's own page the same day."
     }
    ]
   },
@@ -106,54 +114,54 @@
    ]
   }
  ],
- "set": "2026-10-29T11:17Z",
+ "set": "2026-10-29T14:11Z",
  "covered": {
   "meidastouch": [
    [
     "2026-10-03T05:30:32Z",
-    "2026-10-29T11:17:32Z"
+    "2026-10-29T14:11:12Z"
    ]
   ],
   "closer-look": [
    [
     "2026-07-17T01:00:31Z",
-    "2026-10-29T11:17:32Z"
+    "2026-10-29T14:11:12Z"
    ]
   ],
   "late-night-monologues": [
    [
     "2026-07-15T01:00:12Z",
-    "2026-10-29T11:17:32Z"
+    "2026-10-29T14:11:12Z"
    ]
   ],
   "kimmel": [
    [
     "2026-09-18T06:00:06Z",
-    "2026-10-29T11:17:32Z"
+    "2026-10-29T14:11:12Z"
    ]
   ],
   "jason-salmon": [
    [
     "2026-08-24T15:00:06Z",
-    "2026-10-29T11:17:32Z"
+    "2026-10-29T14:11:12Z"
    ]
   ],
   "texas-paul": [
    [
     "2026-09-17T21:37:08Z",
-    "2026-10-29T11:17:32Z"
+    "2026-10-29T14:11:12Z"
    ]
   ],
   "tennessee-brando": [
    [
     "2026-09-17T16:07:51Z",
-    "2026-10-29T11:17:32Z"
+    "2026-10-29T14:11:12Z"
    ]
   ],
   "lawyer-oyer": [
    [
     "2026-09-01T01:12:06Z",
-    "2026-10-29T11:17:32Z"
+    "2026-10-29T14:11:12Z"
    ]
   ],
   "hawk": [
@@ -183,13 +191,19 @@
    ],
    [
     "2026-10-28T23:00:05Z",
-    "2026-10-29T11:17:32Z"
+    "2026-10-29T14:11:12Z"
    ]
   ],
   "daily-show": [
    [
     "2026-09-18T11:35:00Z",
-    "2026-10-29T11:17:32Z"
+    "2026-10-29T14:11:12Z"
+   ]
+  ],
+  "heather-cox-richardson": [
+   [
+    "2026-10-22T22:14:28Z",
+    "2026-10-29T14:11:12Z"
    ]
   ]
  },
@@ -336,6 +350,16 @@
    "channel": "Lawyer Oyer"
   },
   {
+   "id": "r_VobaaoBtk",
+   "source": "heather-cox-richardson",
+   "title": "Out of Whack",
+   "published": "2026-10-22T22:14:28Z",
+   "edition": "2026-10-23",
+   "state": "screen",
+   "runs": 818,
+   "channel": "Heather Cox Richardson"
+  },
+  {
    "id": "-VubyJz-61w",
    "source": "hawk",
    "title": "You’re gonna take off that uniform, ain’t ya",
@@ -440,6 +464,16 @@
    "channel": "The Daily Show"
   },
   {
+   "id": "IafWs2aeqpY",
+   "source": "heather-cox-richardson",
+   "title": "Today in Politics Chat | Livestream Replay",
+   "published": "2026-10-23T02:19:46Z",
+   "edition": "2026-10-23",
+   "state": "screen",
+   "runs": 3305,
+   "channel": "Heather Cox Richardson"
+  },
+  {
    "id": "5V07ZwhJOKA",
    "source": "meidastouch",
    "title": "Trump FALLS APART in Iowa…",
@@ -450,6 +484,26 @@
    "channel": "MeidasTouch"
   },
   {
+   "id": "FiwraFISeZk",
+   "source": "heather-cox-richardson",
+   "title": "Politics Chat, October 22, 2026",
+   "published": "2026-10-23T02:27:11Z",
+   "edition": "2026-10-23",
+   "state": "screen",
+   "runs": 3406,
+   "channel": "Heather Cox Richardson"
+  },
+  {
+   "id": "tyzlIpr_xTs",
+   "source": "heather-cox-richardson",
+   "title": "Extreme Instability and a National Security Issue | Explainer",
+   "published": "2026-10-23T02:33:37Z",
+   "edition": "2026-10-23",
+   "state": "screen",
+   "runs": 1080,
+   "channel": "Heather Cox Richardson"
+  },
+  {
    "id": "DQxGFYEMnNg",
    "source": "hawk",
    "title": "Cleetus Has a Meltdown",
@@ -458,6 +512,16 @@
    "state": "screen",
    "runs": 60,
    "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "czogxk3Q36o",
+   "source": "heather-cox-richardson",
+   "title": "An Urgency for Change and Addressing Voter Concerns | Explainer",
+   "published": "2026-10-23T02:50:09Z",
+   "edition": "2026-10-23",
+   "state": "screen",
+   "runs": 1226,
+   "channel": "Heather Cox Richardson"
   },
   {
    "id": "LlxyxMGvthc",
@@ -675,6 +739,16 @@
    "state": "screen",
    "runs": 873,
    "channel": "MeidasTouch"
+  },
+  {
+   "id": "IEixgyYivxA",
+   "source": "heather-cox-richardson",
+   "title": "New York City Women’s March, October 23, 1915 | Talk & Draw with Liza & Heather",
+   "published": "2026-10-23T17:35:11Z",
+   "edition": "2026-10-24",
+   "state": "screen",
+   "runs": 122,
+   "channel": "Heather Cox Richardson"
   },
   {
    "id": "YR8Vp3q5JLQ",
@@ -1129,6 +1203,16 @@
    "channel": "Tennessee Brando"
   },
   {
+   "id": "YTWT6y7ks9U",
+   "source": "heather-cox-richardson",
+   "title": "Oil Deals",
+   "published": "2026-10-24T21:16:47Z",
+   "edition": "2026-10-25",
+   "state": "screen",
+   "runs": 417,
+   "channel": "Heather Cox Richardson"
+  },
+  {
    "id": "eW3iTvT7G8k",
    "source": "meidastouch",
    "title": "🚨Trump LOSES IT while VOTING…",
@@ -1337,6 +1421,16 @@
    "state": "screen",
    "runs": 1393,
    "channel": "MeidasTouch"
+  },
+  {
+   "id": "O7U7OKyz_MQ",
+   "source": "heather-cox-richardson",
+   "title": "A New Approach",
+   "published": "2026-10-25T18:58:02Z",
+   "edition": "2026-10-26",
+   "state": "screen",
+   "runs": 653,
+   "channel": "Heather Cox Richardson"
   },
   {
    "id": "dXClXk2WggU",
@@ -1706,6 +1800,16 @@
    "state": "screen",
    "runs": 114,
    "channel": "Texas Paul"
+  },
+  {
+   "id": "70rGpBn_n3s",
+   "source": "heather-cox-richardson",
+   "title": "Momentum",
+   "published": "2026-10-26T19:07:26Z",
+   "edition": "2026-10-27",
+   "state": "screen",
+   "runs": 858,
+   "channel": "Heather Cox Richardson"
   },
   {
    "id": "DCGjkbmsg7E",
@@ -2280,6 +2384,16 @@
    "channel": "Tennessee Brando"
   },
   {
+   "id": "tu7EIdo3c7A",
+   "source": "heather-cox-richardson",
+   "title": "Erratic and Corrupt",
+   "published": "2026-10-27T21:09:17Z",
+   "edition": "2026-10-28",
+   "state": "screen",
+   "runs": 812,
+   "channel": "Heather Cox Richardson"
+  },
+  {
    "id": "nkkrU3Fq5ak",
    "source": "meidastouch",
    "title": "🚨Trump CRUSHED by EARLY VOTING",
@@ -2340,6 +2454,16 @@
    "channel": "The Daily Show"
   },
   {
+   "id": "N_OAsWFC4L4",
+   "source": "heather-cox-richardson",
+   "title": "Politics Chat, October 27, 2026",
+   "published": "2026-10-28T03:03:05Z",
+   "edition": "2026-10-28",
+   "state": "screen",
+   "runs": 3938,
+   "channel": "Heather Cox Richardson"
+  },
+  {
    "id": "TNLJuVw1IWY",
    "source": "meidastouch",
    "title": "🚨Trump gets INSTANTLY REJECTED by GRAND JURY…",
@@ -2348,6 +2472,16 @@
    "state": "screen",
    "runs": 986,
    "channel": "MeidasTouch"
+  },
+  {
+   "id": "1SpmBM0vJMM",
+   "source": "heather-cox-richardson",
+   "title": "Today in Politics Chat | Livestream Replay",
+   "published": "2026-10-28T03:21:52Z",
+   "edition": "2026-10-28",
+   "state": "screen",
+   "runs": 3837,
+   "channel": "Heather Cox Richardson"
   },
   {
    "id": "6z0SFYA5EH8",
@@ -2379,6 +2513,26 @@
    "why": "no embedding",
    "runs": 160,
    "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "EjDd6oQBhdE",
+   "source": "heather-cox-richardson",
+   "title": "Destroying Our Systems for Authoritarian Rule | Explainer",
+   "published": "2026-10-28T04:17:18Z",
+   "edition": "2026-10-28",
+   "state": "screen",
+   "runs": 1873,
+   "channel": "Heather Cox Richardson"
+  },
+  {
+   "id": "66UuSDYMXxw",
+   "source": "heather-cox-richardson",
+   "title": "The Flooding of Money and Disinformation | Explainer",
+   "published": "2026-10-28T04:26:28Z",
+   "edition": "2026-10-28",
+   "state": "screen",
+   "runs": 806,
+   "channel": "Heather Cox Richardson"
   },
   {
    "id": "2IVGT9Q0xLk",
@@ -2708,6 +2862,16 @@
    "channel": "Hawk's Podcasts / mdg650hawk"
   },
   {
+   "id": "Sp65pooKDdQ",
+   "source": "heather-cox-richardson",
+   "title": "Manipulating the Media",
+   "published": "2026-10-29T01:16:51Z",
+   "edition": "2026-10-29",
+   "state": "screen",
+   "runs": 637,
+   "channel": "Heather Cox Richardson"
+  },
+  {
    "id": "HygVTJrz_7I",
    "source": "daily-show",
    "title": "Brent Taylor's D**k Pics, Trump's Ass Obsession & Alaska's Dueling Dan Sullivans | The Daily Show",
@@ -2916,6 +3080,16 @@
    "channel": "Hawk's Podcasts / mdg650hawk"
   },
   {
+   "id": "GHrVBYeTHGA",
+   "source": "late-night-monologues",
+   "title": "Obama Says Trump Made White House Look Like \"Saddam Hussein Opened a Cheesecake Factory\"",
+   "published": "2026-10-29T09:00:29Z",
+   "edition": "2026-10-29",
+   "state": "screen",
+   "runs": 1088,
+   "channel": "Late Night with Seth Meyers"
+  },
+  {
    "id": "efTdrd_F6w4",
    "source": "hawk",
    "title": "Nobody cares about Donald",
@@ -2946,6 +3120,67 @@
    "why": "no embedding",
    "runs": 71,
    "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "BuClYrMPPOI",
+   "source": "hawk",
+   "title": "ABOLISH ICE - NOW",
+   "published": "2026-10-29T11:31:28Z",
+   "edition": "2026-10-30",
+   "state": "screen",
+   "runs": 67,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "i-MfiaW2QjU",
+   "source": "hawk",
+   "title": "They don’t care",
+   "published": "2026-10-29T12:00:04Z",
+   "edition": "2026-10-30",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 63,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "Yu4733VQZ7M",
+   "source": "daily-show",
+   "title": "Charlamagne Tha God on the Masculinity Obsession That's Bro-ing Up the Midterms | The Daily Show",
+   "published": "2026-10-29T12:07:12Z",
+   "edition": "2026-10-30",
+   "state": "screen",
+   "runs": 436,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "OjwRtkkAKS4",
+   "source": "meidastouch",
+   "title": "🚨All HELL BREAKS LOOSE as Zelensky FIRES BACK…",
+   "published": "2026-10-29T12:30:37Z",
+   "edition": "2026-10-30",
+   "state": "screen",
+   "runs": 1444,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "oTw9yBTZzgg",
+   "source": "texas-paul",
+   "title": "Alaska Republican Governor attempts October surprise opening investigation into Peltola campaign.",
+   "published": "2026-10-29T14:00:05Z",
+   "edition": "2026-10-30",
+   "state": "screen",
+   "runs": 147,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "mmdHEeGNoQg",
+   "source": "meidastouch",
+   "title": "🚨Trump Suddenly FIRES TOP GENERAL at WORST TIME…",
+   "published": "2026-10-29T14:00:26Z",
+   "edition": "2026-10-30",
+   "state": "screen",
+   "runs": 1373,
+   "channel": "MeidasTouch"
   }
  ],
  "newest": "2026-10-29"
