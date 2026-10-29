@@ -82,9 +82,15 @@
    "name": "Two Minute Papers",
    "url": "https://www.youtube.com/@TwoMinutePapers",
    "channel_id": "UCbfYPyITQ-7l4upoX8nvctg"
+  },
+  {
+   "slug": "robonuggets",
+   "name": "Jay E | RoboNuggets",
+   "url": "https://www.youtube.com/@RoboNuggets",
+   "channel_id": "UCgscS8mBsQZ5sFRkJIFWD7Q"
   }
  ],
- "set": "2026-10-29T14:12Z",
+ "set": "2026-10-29T15:51Z",
  "log": [
   {
    "id": "mn0agTT8lG8",
@@ -94,16 +100,6 @@
    "published": "2026-10-19T12:59:11Z",
    "state": "screen",
    "runs": 1532,
-   "channel": "Tina Huang"
-  },
-  {
-   "id": "DcHKTtQlVNQ",
-   "source": "tina-huang",
-   "form": "short",
-   "title": "AI Lifebot",
-   "published": "2026-09-29T15:00:24Z",
-   "state": "screen",
-   "runs": 57,
    "channel": "Tina Huang"
   },
   {
@@ -310,7 +306,7 @@
    "id": "AtjFk9f44HE",
    "source": "matt-wolfe",
    "form": "long",
-   "title": "His AI Made 20 Reels Before Breakfast",
+   "title": "He Breaks Down His 3 Most Insane AI Automations",
    "published": "2026-10-28T19:25:38Z",
    "state": "screen",
    "runs": 2289,
@@ -474,6 +470,16 @@
    "published": "2026-10-28T18:25:36Z",
    "state": "screen",
    "runs": 103,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "evXFML_Rnc0",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "3 Critical Tasks AI Can Automate For You",
+   "published": "2026-10-29T15:28:47Z",
+   "state": "screen",
+   "runs": 62,
    "channel": "Matt Wolfe"
   },
   {
@@ -1177,16 +1183,6 @@
    "channel": "Paul J Lipsky"
   },
   {
-   "id": "QsU0f-547rQ",
-   "source": "austin-marchese",
-   "form": "long",
-   "title": "Matt Pocock's EXACT System To 10x Your Claude Skills",
-   "published": "2026-09-29T14:30:02Z",
-   "state": "screen",
-   "runs": 927,
-   "channel": "Austin Marchese"
-  },
-  {
    "id": "hsbr0IoFZJ8",
    "source": "austin-marchese",
    "form": "long",
@@ -1255,16 +1251,6 @@
    "state": "screen",
    "runs": 946,
    "channel": "Austin Marchese"
-  },
-  {
-   "id": "A8ptWsvM3cw",
-   "source": "riley-brown",
-   "form": "long",
-   "title": "How to Set Up Your Windows PC for AI (Full Guide)",
-   "published": "2026-09-29T15:02:53Z",
-   "state": "screen",
-   "runs": 1225,
-   "channel": "Riley Brown"
   },
   {
    "id": "t0ZwER9Y99c",
@@ -2225,6 +2211,206 @@
    "state": "screen",
    "runs": 341,
    "channel": "Two Minute Papers"
+  },
+  {
+   "id": "uaVYHiF8f7k",
+   "source": "robonuggets",
+   "form": "long",
+   "title": "Turn Claude Into a Video Editing GENIUS (in 3 simple steps)",
+   "published": "2026-10-02T01:03:02Z",
+   "state": "screen",
+   "runs": 946,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "3iDiWTt8lok",
+   "source": "robonuggets",
+   "form": "long",
+   "title": "These 19 Jev-Claude use cases are blowing people's minds (with prompts)",
+   "published": "2026-10-04T00:21:30Z",
+   "state": "screen",
+   "runs": 845,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "VQyYzLJ6xos",
+   "source": "robonuggets",
+   "form": "long",
+   "title": "Anthropic Just Revealed 10 NEW Rules for Claude Skills",
+   "published": "2026-10-05T07:49:31Z",
+   "state": "screen",
+   "runs": 735,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "Fuo1i_-9Frc",
+   "source": "robonuggets",
+   "form": "long",
+   "title": "Someone Just Rebuilt Adobe for Free, and Claude Can Run Them All (7 apps tested)",
+   "published": "2026-10-08T11:08:06Z",
+   "state": "screen",
+   "runs": 518,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "lDrAZ1wAyVs",
+   "source": "robonuggets",
+   "form": "long",
+   "title": "9 NEW Claude Mods that can truly change how you work",
+   "published": "2026-10-08T12:12:10Z",
+   "state": "screen",
+   "runs": 767,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "gvESqM6s0kM",
+   "source": "robonuggets",
+   "form": "long",
+   "title": "Claude 5.5 Model Mistakes you may still be making (23 Tips and Fixes)",
+   "published": "2026-10-12T04:49:14Z",
+   "state": "screen",
+   "runs": 1231,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "Eg08Lr3zqdw",
+   "source": "robonuggets",
+   "form": "long",
+   "title": "Claude MOTION is Unreal for Video. Master it in 12 minutes.",
+   "published": "2026-10-16T03:39:31Z",
+   "state": "screen",
+   "runs": 728,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "NarezKh3w4o",
+   "source": "robonuggets",
+   "form": "long",
+   "title": "Anthropic just shared how they use Claude differently (Master it in 12 mins)",
+   "published": "2026-10-17T22:52:03Z",
+   "state": "screen",
+   "runs": 762,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "s_1GPN-NXA0",
+   "source": "robonuggets",
+   "form": "long",
+   "title": "A NEW Agentic OS Standard for Claude 5.5 is here (Claude Mods, Jev, 5.5 Models)",
+   "published": "2026-10-21T06:45:08Z",
+   "state": "screen",
+   "runs": 2289,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "yMnFHFf43Qg",
+   "source": "robonuggets",
+   "form": "long",
+   "title": "Anthropic Just Shipped Claude 2.0 (Master it in 17 minutes)",
+   "published": "2026-10-28T01:48:38Z",
+   "state": "screen",
+   "runs": 1026,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "0SFKD0xkdR8",
+   "source": "robonuggets",
+   "form": "long",
+   "title": "\"Jev for Images\" Just Changed Visual Automations Forever",
+   "published": "2026-10-29T01:36:46Z",
+   "state": "screen",
+   "runs": 730,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "fbXh3Gih5kg",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "Stop running Claude without these 3 mods (Skins, Reflect, Terminal Browser) #shorts",
+   "published": "2026-10-19T22:00:36Z",
+   "state": "screen",
+   "runs": 49,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "D7deI3r3Mug",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "Someone reverse engineered Adobe and open sourced it for free #shorts",
+   "published": "2026-10-20T02:00:30Z",
+   "state": "screen",
+   "runs": 32,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "lL--nCLw94Q",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "3 Claude + Jev use cases: inbox, competitor ads, sales calls #shorts",
+   "published": "2026-10-20T06:00:25Z",
+   "state": "screen",
+   "runs": 59,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "J-hF4uGkzUc",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "3 Claude mods that save you money and stop costly mistakes #shorts",
+   "published": "2026-10-20T22:00:33Z",
+   "state": "screen",
+   "runs": 59,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "RBSV9NCQ8TU",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "Grok Bot will now use the best AI model for each job #shorts",
+   "published": "2026-10-21T02:00:41Z",
+   "state": "screen",
+   "runs": 33,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "gMVGBXE-6R0",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "Every second of this video was animated by Claude (3 steps) #shorts",
+   "published": "2026-10-21T06:00:27Z",
+   "state": "screen",
+   "runs": 84,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "TOwp7KU5Z0c",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "Stop running Claude without these 3 mods (Savvy Progress, File Tree, Replay Theater) #shorts",
+   "published": "2026-10-21T22:00:21Z",
+   "state": "screen",
+   "runs": 50,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "tmvSKkLNJv8",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "3 Claude + Jev use cases: Google Sheets, customer messages, buyers in comments #shorts",
+   "published": "2026-10-22T02:00:34Z",
+   "state": "screen",
+   "runs": 68,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "mVeuPp46UKE",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "Google quietly released 5 free AI tools #shorts",
+   "published": "2026-10-22T06:00:31Z",
+   "state": "screen",
+   "runs": 38,
+   "channel": "Jay E | RoboNuggets"
   }
  ],
  "covered": {
@@ -2232,13 +2418,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ]
   },
@@ -2246,13 +2432,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ]
   },
@@ -2260,13 +2446,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ]
   },
@@ -2274,13 +2460,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ]
   },
@@ -2288,13 +2474,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ]
   },
@@ -2302,13 +2488,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ]
   },
@@ -2316,13 +2502,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ]
   },
@@ -2330,13 +2516,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ]
   },
@@ -2344,13 +2530,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ]
   },
@@ -2358,13 +2544,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ]
   },
@@ -2372,13 +2558,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ]
   },
@@ -2386,13 +2572,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ]
   },
@@ -2400,13 +2586,27 @@
    "long": [
     [
      "2026-08-28T09:44:44Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:12:16Z",
-     "2026-10-29T14:12:16Z"
+     "2026-10-29T15:51:57Z"
+    ]
+   ]
+  },
+  "robonuggets": {
+   "long": [
+    [
+     "2026-09-23T01:33:56Z",
+     "2026-10-29T15:51:57Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-25T03:00:26Z",
+     "2026-10-29T15:51:57Z"
     ]
    ]
   }
