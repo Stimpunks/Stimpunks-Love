@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-10-28T11:19Z",
+ "set": "2026-10-29T11:20Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2024-05-03T15:53:16Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-10-28T11:19:17Z"
+     "2026-10-29T11:20:09Z"
     ]
    ]
   }
@@ -341,16 +341,6 @@
    "channel": "Sarah's Vegan Kitchen"
   },
   {
-   "id": "KokysFzLQlU",
-   "source": "sarahs-vegan-kitchen",
-   "form": "short",
-   "title": "Shredded BBQ Tofu Sandwiches 🥪",
-   "published": "2026-09-28T21:36:42Z",
-   "state": "screen",
-   "runs": 22,
-   "channel": "Sarah's Vegan Kitchen"
-  },
-  {
    "id": "oPTQSdBi3Hs",
    "source": "sarahs-vegan-kitchen",
    "form": "short",
@@ -458,6 +448,16 @@
    "published": "2026-10-28T01:30:24Z",
    "state": "screen",
    "runs": 71,
+   "channel": "Ahmad Noori"
+  },
+  {
+   "id": "TQVzoVSE75E",
+   "source": "ahmad-noori",
+   "form": "long",
+   "title": "3 Crispy Vegan Snacks You’ll Want to Make Again",
+   "published": "2026-10-29T01:30:26Z",
+   "state": "screen",
+   "runs": 86,
    "channel": "Ahmad Noori"
   },
   {
@@ -694,10 +694,11 @@
    "id": "L9n4shonC6U",
    "source": "pb-with-j",
    "form": "long",
-   "title": "4 Foolproof Fall Spice Blends for Lattes, Soups & the Holidays",
-   "published": "2026-10-24T18:26:46Z",
-   "state": "pending",
-   "why": "live, or not out yet"
+   "title": "Make Pumpkin Spice & Turmeric Lattes (and more) at Home for Less",
+   "published": "2026-10-28T15:00:08Z",
+   "state": "screen",
+   "runs": 789,
+   "channel": "PB with J"
   },
   {
    "id": "B7GpqxJIG6U",
@@ -987,6 +988,16 @@
    "published": "2026-10-21T21:35:25Z",
    "state": "screen",
    "runs": 741,
+   "channel": "Merle O'Neal"
+  },
+  {
+   "id": "9671O0Z8Dh8",
+   "source": "merle-oneal",
+   "form": "long",
+   "title": "The Protein Powerhouse No One Knows How to Cook…",
+   "published": "2026-10-28T19:52:04Z",
+   "state": "screen",
+   "runs": 776,
    "channel": "Merle O'Neal"
   }
  ]
