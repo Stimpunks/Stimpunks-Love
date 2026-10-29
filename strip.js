@@ -17,6 +17,13 @@
    list of choices. tools/make-bodymind.py reads this file and refuses each of
    those, and a POST.
 
+   AND IT READS YOUR CHIMERAS, FOR FANTASY FANCY DRESS'S CHIMERA ONESIE (a
+   request from our community for Halloween, 2026-10-28): loveStrip.chimeras()
+   asks /cb/chimeras for the chimeras already kept in Chimera Obscura, the same
+   way and under the same rules, and only when somebody presses Bring my
+   chimeras. Keeping one is Chimera Obscura's, as keeping an avatar is the
+   booth's and the Den's.
+
    A SCREEN READER HEARS ONLY WHAT ITS OWNER WROTE. A frame's drawing is named
    by what was written about it, and is silent if nothing was; nothing here
    describes a body for anybody.
@@ -27,7 +34,7 @@
 (function () {
   'use strict';
 
-  var AVATARS = '/cb/avatars';
+  var AVATARS = '/cb/avatars', CHIMERAS = '/cb/chimeras';
 
   function say(el, text) {
     el.textContent = '';
@@ -39,10 +46,10 @@
     catch (e) { return null; }
   }
 
-  function read() {
+  function read(from) {
     var p = pass();
     if (!p) return Promise.resolve({ status: 0, body: {} });
-    return fetch(AVATARS, { method: 'GET', credentials: 'omit', cache: 'no-store',
+    return fetch(from || AVATARS, { method: 'GET', credentials: 'omit', cache: 'no-store',
       headers: { 'accept': 'application/json', 'authorization': 'Bearer ' + p } }).then(function (r) {
       return r.json().then(function (b) { return { status: r.status, body: b }; }, function () { return { status: r.status, body: {} }; });
     }, function () { return { status: -1, body: {} }; });
@@ -105,4 +112,9 @@
       refresh: function () { if (!o.list.hidden) open(); }
     };
   };
+  /* Your kept chimeras: a promise of { status, body }, body.chimeras each
+     { id, parts, name }, and trouble() words for anything else. */
+  window.loveStrip.chimeras = function () { return read(CHIMERAS); };
+  window.loveStrip.trouble = trouble;
+  window.loveStrip.signedOn = function () { return !!pass(); };
 })();

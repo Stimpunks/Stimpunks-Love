@@ -39,6 +39,12 @@ It refuses, and writes nothing, if any of these is true:
     reads what is already kept; make-bodymind.py holds it to that.
   - THE DEN WITH NO DOOR TO THIS ROOM, or a door that does not say the
     bodymind goes through with you.
+  - A CHIMERA ONESIE THAT IS NOT ONE (a request from our community for
+    Halloween, 2026-10-28): a piece marked `chimera` anywhere but the
+    chimera-onesie on the suits rail, which is the one piece avatar.js and the
+    server let carry a chimera; a chimera on Chimera Obscura's wall with a
+    part the shelf does not know; and fancy-dress.js reading your kept
+    chimeras any way but strip.js's, which only reads.
 
 Run it after make-bodymind.py, which writes these pieces into the lists
 avatar.js draws from.
@@ -59,6 +65,7 @@ DEN = ROOT / "dopamine-dress-up-den.html"
 AVATAR = ROOT / "avatar.js"
 JS = ROOT / "fancy-dress.js"
 CSS = ROOT / "love.css"
+CHIMERA = ROOT / "data/chimera-obscura.json"
 
 problems = []
 
@@ -124,7 +131,10 @@ def check(d, dd, mod):
             st = g.get("start") or []
             if len(st) != 2 or st[0] not in prints or st[1] not in colourways:
                 refuse(f"{where}: start {st!r} is not a print and a colourway out of the Den's lists.")
-            if not re.search(rf"'{re.escape(g['key'])}': function", avatar):
+            if g.get("chimera") and (s["key"] != "suit" or g["key"] != "chimera-onesie"):
+                refuse(f"{where}: a piece made after a chimera is the chimera onesie on the suits rail; avatar.js and the "
+                       "server carry a chimera for that one piece and no other.")
+            if not re.search(rf"'{re.escape(g['key'])}': (?:function|[A-Za-z]+,)", avatar):
                 refuse(f"{where}: avatar.js has no drawing for it, so picking it would change nothing.")
             for k in ("name", "a", "feel", "on"):
                 sweep(g.get(k, ""), f"{where} {k}", mod)
@@ -166,7 +176,42 @@ def select(iid, part, label, options, chosen):
             f'<select class="ffd-pick__sel" id="{iid}" data-part="{part}">{opts}</select></span>')
 
 
+def chimera_code(parts, shelf):
+    """A chimera as Chimera Obscura's address writes it (chimera.js's code()):
+    its parts in the shelf's order, dots between, arms and feet left out when
+    they are the body's."""
+    slots = [s["key"] for s in shelf["slots"]]
+    defaults = {s["key"]: s["defaults_to"] for s in shelf["slots"] if s.get("defaults_to")}
+    plain_ = all(parts[k] == parts[v] for k, v in defaults.items())
+    return ".".join(parts[k] for k in slots if not (plain_ and k in defaults))
+
+
+def chooser(shelf):
+    """WHICH CHIMERA a chimera onesie is made after: the one you brought from
+    Chimera Obscura, the ones on its wall, and the ones you kept, which
+    fancy-dress.js adds when you ask for them. Every value is a chimera in
+    Chimera Obscura's own address form, which avatar.js reads."""
+    opts = []
+    for p in shelf["presets"]:
+        if set(p["parts"]) != {s["key"] for s in shelf["slots"]} or any(
+                v not in shelf["animals"] for k, v in p["parts"].items() if not (k == "back" and v == "none")):
+            refuse(f"chimera preset {p['id']} has a part the shelf does not know.")
+            continue
+        opts.append(f'<option value="{attr(chimera_code(p["parts"], shelf))}">{esc(p["label"])} ({esc(p["whose"])})</option>')
+    return (
+        '        <div class="ffd-chimera" id="ffd-chimera">\n'
+        '          <p class="ffd-pick"><span class="ffd-pick__one"><label class="ffd-pick__lab" for="ffd-suit-chimera">Which chimera</label> '
+        '<select class="ffd-pick__sel" id="ffd-suit-chimera" data-part="chimera">'
+        f'<optgroup label="On the wall in Chimera Obscura" id="ffd-chimera-wall">{"".join(opts)}</optgroup></select></span></p>\n'
+        '          <p class="ffd-chimera__mine" id="ffd-chimera-do" hidden><button type="button" class="ffd-go ffd-go--quiet" id="ffd-chimera-open">Bring my chimeras</button></p>\n'
+        '          <p class="ffd-chimera__said" id="ffd-chimera-said" role="status"></p>\n'
+        '          <p class="ffd-chimera__how">Make one of your own in <a href="chimera-obscura.html">Chimera Obscura</a> and press <em>Wear it as a onesie</em> there, '
+        'or keep it there and bring your chimeras here, signed on to the CB. A chimera onesie is in its chimera&rsquo;s own colours, so the print and colours above are set aside while it is on.</p>\n'
+        '        </div>')
+
+
 def rails(d, dd):
+    shelf = json.loads(CHIMERA.read_text())
     prints = [(p["key"], p["key"] == "solid" and "Plain" or p["a"][0].upper() + p["a"][1:]) for p in dd["prints"]]
     prints = [(k, "Plain" if k == "solid" else v.replace("In ", "", 1).capitalize()) for k, v in prints]
     cways = [(c["key"], c["name"][0].upper() + c["name"][1:]) for c in dd["colourways"]]
@@ -189,6 +234,8 @@ def rails(d, dd):
         out.append('        </ul>')
         out.append(f'        <p class="ffd-pick">{select(f"ffd-{k}-print", "print", "Print", prints, first[0])} '
                    f'{select(f"ffd-{k}-colours", "colours", "Colours", cways, first[1])}</p>')
+        if any(g.get("chimera") for g in s["garments"]):
+            out.append(chooser(shelf))
         out.append('      </fieldset>')
     return "\n".join(out)
 

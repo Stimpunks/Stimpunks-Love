@@ -181,6 +181,7 @@
     });
   }
 
+  var onesie = document.getElementById('chm-onesie');
   function render(fresh) {
     disc.textContent = '';
     var art = C.draw(state.parts, { prefix: 'chm-live', cls: 'chm-disc__draw' + (fresh ? ' chm-new' : '') });
@@ -190,6 +191,9 @@
     if (nameIn.value !== state.name) nameIn.value = state.name;
     spoken.textContent = C.words(state.parts);
     try { history.replaceState(null, '', '#chimera=' + C.code(state.parts)); } catch (e) {}
+    // Wear it as a onesie goes to Fantasy Fancy Dress with this chimera in the
+    // address, the way a bodymind goes through the Dress-Up Den's curtain.
+    if (onesie) onesie.href = 'fantasy-fancy-dress.html#chimera=' + C.code(state.parts);
   }
 
   function sync(fresh) {

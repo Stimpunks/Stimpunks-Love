@@ -89,6 +89,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/bodymind.json"
 DRESS = ROOT / "data/dressup.json"
 FANCY = ROOT / "data/fancy-dress.json"
+CHIMERA = ROOT / "data/chimera-obscura.json"
 PAGE = ROOT / "bodymind-booth.html"
 DEN = ROOT / "dopamine-dress-up-den.html"
 NOTES = ROOT / "liner-notes.html"
@@ -189,6 +190,60 @@ def fancy():
     return json.loads(FANCY.read_text())["slots"]
 
 
+HEX = re.compile(r"^#[0-9A-Fa-f]{6}$")
+
+
+def chimera_lists():
+    """What avatar.js needs to make a chimera onesie (Fantasy Fancy Dress,
+    a request from our community for Halloween, 2026-10-28): for every animal
+    on Chimera Obscura's shelf, its colours, the kind of ears, tail and back it
+    has and its markings, read out of data/chimera-obscura.json so that a new
+    animal on the shelf is a new onesie with nothing to edit. Only the shapes'
+    kinds come across, never chimera.js's drawings: a onesie is a suit with a
+    hood, and what it borrows from an animal is what a suit can carry. The
+    slots and their defaults come across too, so avatar.js checks a chimera
+    the way chimera.js and the server's cleanChimera() do."""
+    c = json.loads(CHIMERA.read_text())
+    comb = re.search(r"COMB = '(#[0-9A-Fa-f]{6})'", (ROOT / "chimera.js").read_text())
+    if not comb:
+        refuse("chimera.js has no COMB colour, and a chicken's comb on a hood is drawn in it.")
+    animals = {}
+    for key, a in c["animals"].items():
+        col = a.get("colours") or {}
+        for part in ("fur", "light", "dark", "skin"):
+            if not HEX.match(str(col.get(part, ""))):
+                refuse(f"chimera shelf: {key} has no {part} colour as a hex, and its onesie is drawn in it.")
+        t = a.get("tail")
+        tail = None
+        if t and not t.get("none"):
+            kind = ("stub" if t.get("at") else "paddle" if t.get("hatch") else "tuft" if t.get("tuft")
+                    else "whip" if (t.get("whip") or t.get("string")) else "thick")
+            tail = {"kind": kind, "fill": t.get("fill") or "fur"}
+        b = a.get("back")
+        back = None
+        if b:
+            main = b.get("plate") or b.get("quill")
+            second = b.get("band") or b.get("tip") or main
+            third = b.get("tip") or b.get("eye") or b.get("speck") or b.get("ring") or second
+            if not all(HEX.match(str(x or "")) for x in (main, second, third)):
+                refuse(f"chimera shelf: {key}'s back has no colours as hexes.")
+            back = {"kind": b["kind"], "word": b.get("word") or key, "main": main, "second": second, "third": third}
+        animals[key] = {
+            "word": a.get("word") or key, "a": a.get("a") or "a",
+            "fur": col.get("fur"), "light": col.get("light"), "dark": col.get("dark"), "skin": col.get("skin"),
+            "ears": (a.get("ears") or {}).get("type") or "none",
+            "tail": tail,
+            "marks": sorted(k for k, v in (a.get("markings") or {}).items() if v),
+            "back": back,
+        }
+    return {
+        "slots": [s["key"] for s in c["slots"]],
+        "defaults": {s["key"]: s["defaults_to"] for s in c["slots"] if s.get("defaults_to")},
+        "animals": animals,
+        "comb": comb.group(1) if comb else "#D7313E",
+    }
+
+
 def lists(d, dd, mod):
     """Everything avatar.js needs to know, as one object."""
     ink, panel, wood = css_hex("dd-ink"), css_hex("dd-panel"), css_hex("dd-wood")
@@ -237,6 +292,7 @@ def lists(d, dd, mod):
         "inks": inks,
         "inkNames": dd["ink_names"],
         "stand": {"wood": standalone(mod.WOOD, "wood", (ink, panel, wood)), "cuts": cuts, "paint": list(mod.PAINT)},
+        "chimera": chimera_lists(),
         "body": {
             "groups": groups,
             "colours": colours,

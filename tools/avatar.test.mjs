@@ -34,7 +34,10 @@ const plain = (x) => JSON.parse(JSON.stringify(x));
 // group: a fixture for a test, not a body the booth starts from.
 const body = {};
 for (const g of D.body.groups) body[g.key] = g.multi ? [] : g.options[0][0];
-const look = (over = {}, wear = {}) => ({ base: 'bodymind', body: { ...body, ...over }, wear });
+// A chimera onesie needs the chimera it is made after; every other piece needs none.
+const OTTER = Object.fromEntries(D.chimera.slots.map((k) => [k, k === 'back' ? 'none' : 'otter']));
+const look = (over = {}, wear = {}, chimera) => ({ base: 'bodymind', body: { ...body, ...over }, wear,
+  ...(chimera || (wear.suit && wear.suit[0] === 'chimera-onesie') ? { chimera: chimera || OTTER } : {}) });
 // Each picture has its own prefix on its patterns; take it out to compare two.
 const norm = (svg) => svg.replace(/lav\d+/g, 'lav');
 // A choice that only shows when another is made: hair colour on no hair.
@@ -67,6 +70,50 @@ test('every garment on the rails is drawn on a body in every pose, and on the st
       if (!bodyOnly) drawn({ base: 'stand', wear: { [slot]: [g, 'stripes', 'rainbow'] } });
     }
   }
+});
+
+test('a chimera onesie draws every animal on the shelf in every part, in every pose', () => {
+  const animals = Object.keys(D.chimera.animals);
+  const backs = animals.filter((a) => D.chimera.animals[a].back);
+  const K = D.chimera.animals;
+  // Each part is held against an animal that has none of it, so a kind of
+  // ears, tail or marking that draws nothing is caught: a raven has no ears
+  // and no markings, a bat no tail.
+  const MARKS = ['belly', 'tux', 'disc', 'chest', 'stripes', 'chevrons', 'bands', 'folds', 'coils', 'spots', 'patches',
+    'blotches', 'darkPaws', 'darkLimbs'];
+  const none = { ears: 'raven', tail: 'bat', markings: 'raven' };
+  for (const pose of POSES) {
+    const onesie = (parts) => norm(drawn(look({ pose }, { suit: ['chimera-onesie', 'solid', 'black'] }, { ...OTTER, ...parts })));
+    const base = { ears: onesie(none), tail: onesie(none), markings: onesie(none) };
+    const otter = onesie({});
+    for (const an of animals) {
+      const a = K[an];
+      if (an !== 'otter') assert.notEqual(onesie({ colours: an }), otter, `${an}'s colours draw an otter's ${pose}`);
+      if (a.ears !== 'none') assert.notEqual(onesie({ ...none, ears: an }), base.ears, `${an}'s ears (${a.ears}) draw nothing ${pose}`);
+      if (a.tail) assert.notEqual(onesie({ ...none, tail: an }), base.tail, `${an}'s tail (${a.tail.kind}) draws nothing ${pose}`);
+      if (a.marks.some((m) => MARKS.includes(m))) assert.notEqual(onesie({ ...none, markings: an }), base.markings, `${an}'s markings draw nothing ${pose}`);
+      for (const part of ['colours', 'ears', 'tail', 'markings']) {
+        const lk = look({ pose }, { suit: ['chimera-onesie', 'solid', 'black'] }, { ...OTTER, [part]: an });
+        assert.ok(A.wearWords(lk).includes(a.word), `${an}'s ${part} is not in the onesie's words`);
+      }
+    }
+    for (const an of backs) {
+      const without = norm(drawn(look({ pose }, { suit: ['chimera-onesie', 'solid', 'black'] })));
+      const withIt = norm(drawn(look({ pose }, { suit: ['chimera-onesie', 'solid', 'black'] }, { ...OTTER, back: an })));
+      assert.notEqual(withIt, without, `${an}'s back changes nothing on a chimera onesie ${pose}`);
+    }
+  }
+  // Without its chimera it is nothing, on the page or on the server.
+  const bare = { base: 'bodymind', body, wear: { suit: ['chimera-onesie', 'solid', 'black'] } };
+  assert.equal(A.clean(bare), null);
+  assert.equal(cleanLook(bare), null);
+  // A chimera on anything else is dropped by both.
+  const stray = { base: 'bodymind', body, wear: { suit: ['onesie', 'solid', 'black'] }, chimera: OTTER };
+  assert.deepEqual(plain(A.clean(stray)), cleanLook(stray));
+  assert.equal(A.clean(stray).chimera, undefined);
+  // And an address from Chimera Obscura reads the way chimera.js reads it.
+  assert.deepEqual(plain(A.chimera.uncode('otter.otter.raccoon.otter.raccoon.none.otter.raccoon')),
+    { ...OTTER, ears: 'raccoon', tail: 'raccoon', markings: 'raccoon' });
 });
 
 test('every choice in every group changes the picture, in every pose', () => {
@@ -103,6 +150,15 @@ test('the page and the server agree about what a look may hold', () => {
       else if (rnd() < .5) lk.body[g.key] = pick(keys);
     }
     for (const slot of D.slots) if (rnd() < .5) lk.wear[slot] = [pick(D.garments[slot]), pick(Object.keys(D.prints)), pick(Object.keys(D.colourways))];
+    if (lk.wear.suit && lk.wear.suit[0] === 'chimera-onesie' || rnd() < .05) {
+      const animals = Object.keys(D.chimera.animals);
+      lk.chimera = Object.fromEntries(D.chimera.slots.map((k) => [k, k === 'back' ? (rnd() < .5 ? 'none' : pick(animals)) : pick(animals)]));
+      const w = rnd();
+      if (w < .05) lk.chimera.ears = 'griffin';
+      else if (w < .08) lk.chimera.wings = 'bat';
+      else if (w < .12) { delete lk.chimera.arms; delete lk.chimera.feet; }
+      else if (w < .14) lk.chimera = 'otter';
+    }
     if (rnd() < .2) lk.base = 'stand';
     // And some that are wrong.
     const r = rnd();

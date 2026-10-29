@@ -55,6 +55,7 @@
   var GROUPS = A.data.body.groups;
   var STANDING = A.data.body.standingOnly;
   var wear = {};            // what it has on, if it came back from next door
+  var onesie = null;        // and the chimera a chimera onesie it has on is made after
   var editing = null;       // the id of the avatar being changed, if any
   var was = { name: '', about: '' };
 
@@ -98,7 +99,9 @@
         body[g.key] = on ? on.value : g.options[0][0];
       }
     });
-    return { base: 'bodymind', body: body, wear: wear };
+    var lk = { base: 'bodymind', body: body, wear: wear };
+    if (onesie) lk.chimera = onesie;
+    return lk;
   }
 
   function set(look) {
@@ -224,6 +227,7 @@
         b.textContent = 'Change ' + (a.name || 'this one') + ' here';
         b.addEventListener('click', function () {
           wear = a.look.wear || {};
+          onesie = a.look.chimera || null;
           set(a.look);
           feet();
           editMode(a.id, a.name, a.about);
@@ -261,6 +265,7 @@
   var brought = from.look ? A.uncode(from.look) : null;
   if (brought && brought.base === 'bodymind') {
     wear = brought.wear || {};
+    onesie = brought.chimera || null;
     set(brought);
     feet();
     if (from.avatar && /^v[A-Za-z0-9_-]{10}$/.test(from.avatar)) {

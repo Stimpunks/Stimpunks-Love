@@ -1,5 +1,6 @@
 {
   "_what": "Fantasy Fancy Dress, the shop behind the Dopamine Dress-Up Den, Helen Edgar's ask, 2026-10-15: faery wings in different sizes and colours, jewellery, beads and rings, onesies, tiger, bear, dragon and unicorn dress-up suits, and animal ears, tails and paws. Everything here is worn by a bodymind drawn at the Bodymind Booth (Helen's answer: your bodymind), so none of it hangs on the Den's valet stand; avatar.js draws every piece from the body it is on, and tools/make-fancy-dress.py builds the shop's rails from this file.",
+  "_chimera": "THE CHIMERA ONESIE, a request from our community for Halloween (2026-10-28): a onesie made after one of your chimeras from Chimera Obscura, in the colours of the animal that gave it its colours, with the ears, tail, markings and back of the animals that gave those. A piece with `chimera` true gets a chooser under its rail, and its look carries the chimera's parts, which avatar.js and the server's cleanLook() both check as a kept chimera is checked. The chimera comes from Chimera Obscura's address (#chimera=), from the chimeras on its wall, or from the ones you kept, read by strip.js when you press for them; nothing is kept here. Its print and colours are the chimera's, so the rail's own are set aside while it is on.",
   "_words": "Every piece says how it feels and how it goes on and comes off, the Den's rule, and the tool reads make-dressup.py's sweeps over every word here. Our voice never says costume: it is a dress-up suit, an outfit or fancy dress.",
   "_start": "start is what a rail's selects open on when that piece is picked: a print and a colourway out of the Den's own lists, a first suggestion and nothing more. Everything comes in every print and every colourway.",
   "sign": "Fantasy Fancy Dress",
@@ -133,7 +134,10 @@
          "on": "A zip from the neck to the knee, with a big pull."},
         {"key": "unicorn-suit", "name": "Unicorn suit", "a": "a unicorn suit", "start": ["solid", "pink-lime"],
          "feel": "Soft fleece, a stuffed gold horn on the hood and a mane down one side.",
-         "on": "A zip from the neck to the knee, with a big pull."}
+         "on": "A zip from the neck to the knee, with a big pull."},
+        {"key": "chimera-onesie", "name": "Chimera onesie", "a": "a chimera onesie", "start": ["solid", "black"], "chimera": true,
+         "feel": "Soft fleece in your chimera's own colours, its ears on the hood, its tail at the back and its markings down the front.",
+         "on": "A zip from the neck to the knee, with a big pull. Choose which chimera under this rail."}
       ]
     }
   ]

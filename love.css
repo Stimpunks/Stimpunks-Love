@@ -25993,6 +25993,15 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .fancy-dress .ffd-pick { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 10px 0 0; font-size: 15px; }
 .ffd-pick__one { display: inline-flex; gap: 8px; align-items: center; }
 .ffd-pick__sel { font: 15px 'Kumbh Sans', var(--sans), sans-serif; color: var(--ffd-ink); background: var(--ffd-ground); border: 2px solid var(--ffd-edge); border-radius: 8px; padding: 4px 8px; }
+.ffd-pick__sel:disabled { opacity: .55; }
+/* WHICH CHIMERA a chimera onesie is made after, under the suits rail: the
+   rail's own picks, a hairline above it, in the shop's own inks. */
+.ffd-chimera { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--ffd-edge); }
+.ffd-chimera .ffd-pick { margin: 0; }
+.ffd-chimera .ffd-pick__sel { max-width: 100%; }
+.fancy-dress .ffd-chimera__mine { margin: 10px 0 0; }
+.fancy-dress .ffd-chimera__said { margin: 6px 0 0; min-height: 1.5em; font-size: 15px; }
+.fancy-dress .ffd-chimera__how { margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: var(--ffd-ink-2); }
 
 .ffd-part { max-width: 860px; }
 .ffd-rules { margin: 0; padding-left: 1.4em; }
@@ -26510,6 +26519,10 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .chm-bench__btns { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 14px; }
 .chm-btn { font: 700 15px/1.2 'Gantari', var(--sans); padding: 8px 14px; border-radius: 999px; border: 2px solid var(--chm-link); background: var(--chm-link); color: var(--chm-room); cursor: pointer; }
 .chm-btn:hover { background: var(--chm-table); border-color: var(--chm-table); }
+/* Wear it as a onesie is a link dressed as a button, because it goes to
+   another room; the room's own link colour would put link on link. */
+.chimera-obscura a.chm-btn { display: inline-block; text-decoration: none; color: var(--chm-room); }
+.chimera-obscura a.chm-btn:hover { color: var(--chm-room); }
 .chm-btn--quiet { background: var(--chm-panel); color: var(--chm-text); border-color: var(--chm-line); }
 .chm-btn--quiet:hover { background: var(--chm-pick); color: var(--chm-text); border-color: var(--chm-link); }
 .chm-opt input { accent-color: var(--chm-link); }

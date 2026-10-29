@@ -24,6 +24,13 @@
    came in rides back to the Den in the address, so Keep the changes there
    changes that one.
 
+   A CHIMERA ONESIE IS MADE AFTER ONE OF YOUR CHIMERAS (a request from our
+   community for Halloween, 2026-10-28). Which one is chosen under the suits
+   rail: the one brought from Chimera Obscura in the address (#chimera=), the
+   ones on its wall, or the ones you kept, which strip.js reads when you press
+   Bring my chimeras. The look carries the chimera's parts, which avatar.js
+   checks, and goes back to the Dress-Up Den with it.
+
    NOTHING MOVES. A pick changes the drawing at once.
    ============================================================================= */
 (function () {
@@ -41,6 +48,9 @@
   if (!A || !form || !box || !readout) return;
 
   var ONLY = A.data.bodyOnly || [];
+  var chimSel = document.getElementById('ffd-suit-chimera');
+  var chimSaid = document.getElementById('ffd-chimera-said');
+  var ONESIE = 'chimera-onesie';
   var rails = Array.prototype.slice.call(form.querySelectorAll('.ffd-rail[data-slot]'));
 
   function say(text) {
@@ -73,11 +83,48 @@
     if (piece) { sel(rail, 'print').value = piece[1]; sel(rail, 'colours').value = piece[2]; }
   }
 
+  /* ── Which chimera ─────────────────────────────────────────────────── */
+  function chimeraOption(group, label, parts, pick) {
+    var code = A.chimera && A.chimera.code(parts);
+    if (!chimSel || !code) return;
+    var g = chimSel.querySelector('optgroup[data-group="' + group + '"]');
+    if (!g) {
+      g = document.createElement('optgroup');
+      g.label = label;
+      g.setAttribute('data-group', group);
+      chimSel.insertBefore(g, group === 'mine' ? null : chimSel.firstChild);
+    }
+    return { add: function (text) {
+      var o = document.createElement('option');
+      o.value = code;
+      o.textContent = text;
+      g.appendChild(o);
+      if (pick) chimSel.value = code;
+      return o;
+    } };
+  }
+  function chimeraNow() { return chimSel && A.chimera ? A.chimera.uncode(chimSel.value) : null; }
+  function wearOnesie() {
+    var r = form.querySelector('input[name="ffd-suit"][value="' + ONESIE + '"]');
+    if (r) r.checked = true;
+  }
+
   if (brought) {
+    if (brought.chimera) {
+      var came = chimeraOption('came', 'On your bodymind', brought.chimera, true);
+      if (came) came.add('The one it came in wearing');
+    }
     Object.keys(brought.wear || {}).forEach(function (slot) {
       if (ONLY.indexOf(slot) !== -1) set(slot, brought.wear[slot]);
       else den[slot] = brought.wear[slot];
     });
+  }
+
+  // A chimera brought from Chimera Obscura goes straight on as a onesie.
+  var fromBench = from.chimera && A.chimera ? A.chimera.uncode(from.chimera) : null;
+  if (fromBench) {
+    var bench = chimeraOption('bench', 'From Chimera Obscura', fromBench, true);
+    if (bench) { bench.add('The one you brought from Chimera Obscura'); wearOnesie(); }
   }
 
   function worn() {
@@ -93,10 +140,22 @@
     var wear = {}, here = worn();
     Object.keys(den).forEach(function (k) { wear[k] = den[k]; });
     Object.keys(here).forEach(function (k) { wear[k] = here[k]; });
-    return A.clean({ base: 'bodymind', body: body, wear: wear });
+    var lk = { base: 'bodymind', body: body, wear: wear };
+    if (wear.suit && wear.suit[0] === ONESIE) lk.chimera = chimeraNow();
+    return A.clean(lk);
+  }
+
+  /* A chimera onesie is in its chimera's own colours, so the suits rail's
+     print and colours are set aside while it is on. */
+  function onesieMode() {
+    var rail = form.querySelector('.ffd-rail[data-slot="suit"]');
+    var r = rail && rail.querySelector('input[type="radio"]:checked');
+    var on = !!(r && r.value === ONESIE);
+    if (rail) ['print', 'colours'].forEach(function (part) { var x = sel(rail, part); if (x) x.disabled = on; });
   }
 
   function show() {
+    onesieMode();
     var lk = look();
     box.textContent = '';
     var art = lk && A.draw(lk, { ground: true, cls: 'ffd-bodymind' });
@@ -113,6 +172,7 @@
      changing them after that is yours. */
   form.addEventListener('change', function (e) {
     var t = e.target;
+    if (t === chimSel) wearOnesie();
     if (t.type === 'radio' && t.value && t.getAttribute('data-start')) {
       var st = t.getAttribute('data-start').split(' '), rail = t.closest('.ffd-rail');
       sel(rail, 'print').value = st[0];
@@ -133,6 +193,7 @@
       sel(rail, 'print').value = any(values(sel(rail, 'print')));
       sel(rail, 'colours').value = any(values(sel(rail, 'colours')));
     });
+    if (chimSel) chimSel.value = any(values(chimSel));
     show();
     say('Surprise. ' + readout.textContent);
   });
@@ -159,6 +220,10 @@
       if (ONLY.indexOf(slot) !== -1) set(slot, a.look.wear[slot]);
       else den[slot] = a.look.wear[slot];
     });
+    if (a.look.chimera) {
+      var c = chimeraOption('kept-' + a.id, (a.name || 'Your bodymind') + ' had on', a.look.chimera, true);
+      if (c) c.add('The one it came in wearing');
+    }
     yours = true;
     kept = a.id;
     if (someone) someone.hidden = true;
@@ -204,6 +269,38 @@
       who.appendChild(a);
       who.appendChild(document.createTextNode(', take it into the Dress-Up Den, and come through the curtain: it comes in with you.'));
     }
+  }
+
+  /* ── Your chimeras ────────────────────────────────────────────────────── */
+  var chimDo = document.getElementById('ffd-chimera-do'), chimOpen = document.getElementById('ffd-chimera-open');
+  function chimSay(text) {
+    if (!chimSaid) return;
+    chimSaid.textContent = '';
+    setTimeout(function () { chimSaid.textContent = text; }, 60);
+  }
+  if (chimDo && chimOpen && window.loveStrip && window.loveStrip.chimeras && window.loveStrip.signedOn()) {
+    chimDo.hidden = false;
+    chimOpen.addEventListener('click', function () {
+      chimSay('Fetching your chimeras…');
+      window.loveStrip.chimeras().then(function (r) {
+        if (r.status !== 200 || !r.body.chimeras) { chimSay(window.loveStrip.trouble(r)); return; }
+        var old = chimSel.querySelector('optgroup[data-group="mine"]');
+        if (old) old.remove();
+        if (!r.body.chimeras.length) {
+          chimSay('Nothing kept yet. Make a chimera in Chimera Obscura and press Keep it in my Profile there.');
+          return;
+        }
+        var first = null;
+        r.body.chimeras.forEach(function (c) {
+          var mine = chimeraOption('mine', 'Kept in your Profile', c.parts, false);
+          var o = mine && mine.add(c.name || 'Not named');
+          if (o && !first) first = o;
+        });
+        if (first) { chimSel.value = first.value; wearOnesie(); show(); }
+        chimSel.focus();
+        chimSay('Your chimeras are in the list, under Kept in your Profile, and the first is on. ' + readout.textContent);
+      });
+    });
   }
 
   if (doBox) doBox.hidden = false;

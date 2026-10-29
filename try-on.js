@@ -44,6 +44,7 @@
   var AVATARS = '/cb/avatars';
   var body = null;          // the bodymind brought in, if any
   var extra = {};           // what it has on from Fantasy Fancy Dress, which the rails here do not hang
+  var onesie = null;        // the chimera a chimera onesie from there is made after, which goes with it
   var door = document.getElementById('dd-fancy-door');
   var onBody = false;       // whether it is wearing the clothes
   var editing = null, was = { name: '', about: '' };
@@ -90,7 +91,9 @@
     if (!(onBody && body)) return { base: 'stand', wear: D.wear() };
     var wear = D.wear();
     Object.keys(extra).forEach(function (k) { wear[k] = extra[k]; });
-    return { base: 'bodymind', body: body, wear: wear };
+    var lk = { base: 'bodymind', body: body, wear: wear };
+    if (onesie) lk.chimera = onesie;
+    return lk;
   }
   /* The door through the back takes the bodymind with it, in the address,
      and which avatar it is, if one is being changed, so Keep the changes still
@@ -166,6 +169,7 @@
         b.textContent = x.name ? 'Put it on ' + x.name : x.about ? 'Put it on: ' + x.about : 'Put it on the one you kept on ' + when;
         b.addEventListener('click', function () {
           extra = fancy(x.look.wear);
+          onesie = x.look.chimera || null;
           wearIt(x.look.body, 'It is on ' + (x.name || 'your bodymind') + '.');
           // Keep the changes changes that one; Keep it as a new one is beside it.
           editMode(x.id, x.name, x.about);
@@ -268,6 +272,7 @@
         if (mind) {
           D.put(a.look.wear || {});
           extra = fancy(a.look.wear);
+          onesie = a.look.chimera || null;
           wearIt(a.look.body, '');
         } else {
           onBody = false;
@@ -305,7 +310,7 @@
         if (a) editMode(a.id, a.name, a.about);
       });
     }
-    if (brought.base === 'bodymind') { extra = fancy(brought.wear); wearIt(brought.body, ''); }
+    if (brought.base === 'bodymind') { extra = fancy(brought.wear); onesie = brought.chimera || null; wearIt(brought.body, ''); }
     else show();
   } else {
     show();

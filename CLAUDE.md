@@ -5236,6 +5236,21 @@ the window when you left the last page, and visitors walk in from the window's e
 transitions were the other way, and they would need the familiar on the new page before its first paint, which means a
 render-blocking script on every page; the familiar is drawn by a script that loads after it.
 
+**A CHIMERA CAN BE WORN AS A ONESIE IN FANTASY FANCY DRESS, AND THE LOOK CARRIES THE CHIMERA.** A request from our
+community for Halloween, 2026-10-28. `chimera-onesie` on the suits rail is the one piece with `chimera` in
+`data/fancy-dress.json`, and a look wearing it carries `chimera`, the chimera's parts, checked by `avatar.js`'s
+`cleanChimera` and by `cleanLook` through the server's `cleanChimera`; a look with no chimera onesie drops one, and the
+avatar test races both. **`avatar.js` draws it from `DATA.chimera`, which `make-bodymind.py` writes out of
+`data/chimera-obscura.json`**: each animal's colours and the KINDS of its ears, tail, markings and back, never
+`chimera.js`'s drawings, so a new animal on the shelf is a new onesie, and **a new kind of ears, tail, marking or back is
+a drawing in `chimeraOnesie`** or the test fails it (each part is held against an animal without it). Which chimera is
+chosen under the rail: the wall's (presets, written by `make-fancy-dress.py`), Chimera Obscura's `#chimera=` (its **Wear
+it as a onesie**), or the ones you kept, which `strip.js`'s `loveStrip.chimeras()` reads on **Bring my chimeras**, so
+the shop still keeps and sends nothing. **`try-on.js` and `booth.js` rebuild a look from body and wear, so they carry
+`chimera` too**; anything new that rebuilds a look must, or Keep fails on a chimera onesie. The friendly edits are the
+onesie in a print "like the other suits", which stops it looking like its chimera, and drawing the chimera's own face on
+the hood, which is `chimera.js`'s drawing on a body it was not drawn for.
+
 **COMMUNITY CARE (§122) IS THE ROOM FOR ASKING, AND ITS CHANNEL IS THE ONLY WAY TO ASK IN IT.** Ryan's brief,
 2026-10-22: our mutual aid and care room, whose channel on the CB is where people ask for mutual aid, peer support
 and any other help, under Community on the chat page (`COMMUNITY` in `tools/make-chat.py`). Its page is built from
