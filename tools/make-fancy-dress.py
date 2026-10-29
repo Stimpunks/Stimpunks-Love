@@ -45,6 +45,18 @@ It refuses, and writes nothing, if any of these is true:
     server let carry a chimera; a chimera on Chimera Obscura's wall with a
     part the shelf does not know; and fancy-dress.js reading your kept
     chimeras any way but strip.js's, which only reads.
+  - AN AID AS FANCY DRESS (Halloween, 2026-10-28): a peg leg, a hand hook, a
+    hook for a hand, an eye patch, a straitjacket or a crutch, by key or by
+    name, on any rail. A prosthetic leg, a prosthetic arm and an eye patch
+    are things somebody always has with them, chosen at the Bodymind Booth
+    as part of their bodymind; hung on a rail they become a pirate's joke,
+    on a Disabled people's site. The friendly edit is "a pirate needs a peg
+    leg"; a pirate here is the hat, the shirt, the sash and the breeches.
+    The straitjacket is the Haunted House's refusal of the asylum.
+  - SOMETHING TO HOLD THAT avatar.js PUTS IN A BUSY HAND. Every piece on the
+    held rail must be drawn through held(), which goes to a hand nothing else
+    is in and otherwise slings it or hangs it on a cord;
+    tools/avatar.test.mjs draws each one with every aid, limb and pose.
 
 Run it after make-bodymind.py, which writes these pieces into the lists
 avatar.js draws from.
@@ -68,6 +80,9 @@ CSS = ROOT / "love.css"
 CHIMERA = ROOT / "data/chimera-obscura.json"
 
 problems = []
+# AN AID IS NOT FANCY DRESS. See the docstring.
+AID = re.compile(r"\b(?:peg ?legs?|hand hooks?|hook (?:for a )?hands?|eye ?patch(?:es)?|"
+                 r"straitjackets?|strait ?jackets?|crutch(?:es)?|prosthe\w*|wheelchairs?)\b", re.I)
 
 
 def refuse(msg):
@@ -138,6 +153,15 @@ def check(d, dd, mod):
                 refuse(f"{where}: avatar.js has no drawing for it, so picking it would change nothing.")
             for k in ("name", "a", "feel", "on"):
                 sweep(g.get(k, ""), f"{where} {k}", mod)
+            for k in ("key", "name", "a"):
+                if AID.search(g.get(k, "").replace("-", " ")):
+                    refuse(f"{where}: {g.get(k)!r} is an aid somebody always has with them, chosen at the Bodymind "
+                           "Booth, and not fancy dress. See the docstring.")
+            if s["key"] == "held":
+                m = re.search(rf"'{re.escape(g['key'])}': function \(g, c\) \{{(.*?)\n    \}},", avatar, re.S)
+                if not m or "return held(g," not in m.group(1):
+                    refuse(f"{where}: avatar.js does not draw it through held(), which is what keeps it out of a "
+                           "hand a cane, a crutch, a walker or an AAC device is in.")
     if f"bodyOnly" not in avatar:
         refuse("avatar.js does not know which slots are body-only; run make-bodymind.py first.")
 

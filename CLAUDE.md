@@ -5255,6 +5255,19 @@ the shop still keeps and sends nothing. **`try-on.js` and `booth.js` rebuild a l
 onesie in a print "like the other suits", which stops it looking like its chimera, and drawing the chimera's own face on
 the hood, which is `chimera.js`'s drawing on a body it was not drawn for.
 
+**SOMETHING TO HOLD GOES IN A HAND NOTHING ELSE IS IN, AND NO AID IS FANCY DRESS.** Halloween's rails, 2026-10-28:
+Fantasy Fancy Dress grew a `face` rail (paint and fangs, drawn under the booth's glasses, mask and cannula) and a `held`
+rail (staff, broom, wand, lantern, treat bucket), and the Dress-Up Den took hats, a vampire cape, a wizard robe, clown shoes
+and Halloween prints. **Every held piece is drawn through `held()` in `avatar.js`**, which puts it in the hand `freeHand()`
+finds free of a cane, white cane, crutches, walker, AAC device, fidget or a short arm, and with none free slings a long one
+across the back and hangs a short one on a cord at the hip; `make-fancy-dress.py` refuses a held piece drawn any other way,
+and `tools/avatar.test.mjs` draws each with every aid, limb and pose and checks nothing already drawn is lost. **A suit with
+no hood leaves the hair showing**: the hair is hidden by `worn.suit.hood`, never by any suit. **`make-fancy-dress.py` refuses
+a peg leg, a hand hook, an eye patch, a crutch, a prosthetic, a wheelchair or a straitjacket on any rail**, because a
+prosthetic or an eye patch is something somebody always has with them, chosen at the booth, and the straitjacket is the
+Haunted House's asylum. The friendly edits are a pirate's peg leg and hook "because that is what a pirate is", a broom in
+the hand a cane is in "so the picture is tidier", and face paint over the glasses.
+
 **COMMUNITY CARE (§122) IS THE ROOM FOR ASKING, AND ITS CHANNEL IS THE ONLY WAY TO ASK IN IT.** Ryan's brief,
 2026-10-22: our mutual aid and care room, whose channel on the CB is where people ask for mutual aid, peer support
 and any other help, under Community on the chat page (`COMMUNITY` in `tools/make-chat.py`). Its page is built from

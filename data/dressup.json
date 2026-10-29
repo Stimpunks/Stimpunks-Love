@@ -52,6 +52,27 @@
           "a": "a big wig",
           "feel": "A great cloud of curls. Warm, and a bit itchy for some people.",
           "on": "Goes on over a wig cap and comes off in one lift."
+        },
+        {
+          "key": "witch-hat",
+          "name": "Witch hat",
+          "a": "a witch hat",
+          "feel": "Soft felt with a tall crown that bends over at the tip, a wide brim and a band with a buckle.",
+          "on": "Sits on. No elastic, no strap under the chin."
+        },
+        {
+          "key": "tricorne",
+          "name": "Pirate hat",
+          "a": "a pirate hat",
+          "feel": "Stiff felt with its brim turned up on three sides, braid along the edge and a rosette.",
+          "on": "Sits on. The braid is stitched flat, so nothing scratches."
+        },
+        {
+          "key": "clown-hat",
+          "name": "Clown hat",
+          "a": "a clown hat",
+          "feel": "A little cone of soft card, with pompoms down the front and one on the tip.",
+          "on": "Sits on a soft covered band, so there is no elastic under the chin."
         }
       ]
     },
@@ -93,6 +114,20 @@
           "a": "a sequin jacket",
           "feel": "Sequins sewn onto mesh. They catch the light, and some people find they scratch.",
           "on": "Zips up the front."
+        },
+        {
+          "key": "vampire-cape",
+          "name": "Vampire cape",
+          "a": "a vampire cape",
+          "feel": "Long and heavy, with a stand-up collar that frames you from behind and a smooth lining.",
+          "on": "One clasp at the throat that opens with a pull. It swings off over one shoulder."
+        },
+        {
+          "key": "wizard-robe",
+          "name": "Wizard robe",
+          "a": "a wizard robe",
+          "feel": "Floor length and roomy, with wide bell sleeves that hang past the wrists.",
+          "on": "Open down the front. Shrug it on like a dressing gown."
         }
       ]
     },
@@ -209,6 +244,13 @@
           "a": "just socks",
           "feel": "Seamless toes, and nothing else.",
           "on": "Pull on."
+        },
+        {
+          "key": "clown-shoes",
+          "name": "Clown shoes",
+          "a": "clown shoes",
+          "feel": "Big round toes and plenty of room to wiggle, light for how big they look.",
+          "on": "Step in. They fasten with a strap and a big button."
         }
       ]
     }
@@ -274,6 +316,21 @@
       "key": "sequins",
       "name": "sequins",
       "a": "in sequins"
+    },
+    {
+      "key": "bats",
+      "name": "bats",
+      "a": "with bats"
+    },
+    {
+      "key": "webs",
+      "name": "spiderwebs",
+      "a": "in spiderwebs"
+    },
+    {
+      "key": "pumpkins",
+      "name": "pumpkins",
+      "a": "with pumpkins"
     }
   ],
   "_colourways": "Every colourway names its inks, which are --dd-f- custom properties in love.css; the tool reads the stylesheet and refuses an ink it does not declare, because CSS paints nothing for an unknown custom property. A print uses the inks in order: a plain garment is the first ink, stripes run through all of them. The all-black one is required; see _black.",
@@ -297,7 +354,8 @@
     "denim": "denim",
     "black": "black",
     "silver": "silver",
-    "coal": "charcoal"
+    "coal": "charcoal",
+    "pumpkin": "pumpkin orange"
   },
   "colourways": [
     {
@@ -391,6 +449,42 @@
         "indigo",
         "gold",
         "cream"
+      ]
+    },
+    {
+      "key": "pumpkin-black",
+      "name": "pumpkin and black",
+      "inks": [
+        "pumpkin",
+        "black",
+        "marigold"
+      ]
+    },
+    {
+      "key": "candy-corn",
+      "name": "candy corn",
+      "inks": [
+        "marigold",
+        "pumpkin",
+        "cream"
+      ]
+    },
+    {
+      "key": "bone-black",
+      "name": "bone and black",
+      "inks": [
+        "cream",
+        "black",
+        "coal"
+      ]
+    },
+    {
+      "key": "slime-violet",
+      "name": "slime and violet",
+      "inks": [
+        "lime",
+        "violet",
+        "black"
       ]
     },
     {

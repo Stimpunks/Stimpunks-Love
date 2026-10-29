@@ -259,6 +259,21 @@ CUTS = {
         (160, 138, 17), (240, 138, 17), (150, 112, 19), (250, 112, 19),
         (152, 84, 20), (248, 84, 20), (172, 60, 20), (228, 60, 20), (200, 50, 21),
         (182, 74, 18), (218, 74, 18), (200, 84, 18), (178, 104, 16), (222, 104, 16))),
+    "witch-hat": lambda: (
+        fab("M170 102 Q178 70 190 44 Q198 22 214 18 Q232 16 240 30 Q226 26 218 34 "
+            "Q214 66 230 102 Z")
+        + fab("M112 106 Q200 82 288 106 Q200 128 112 106 Z")
+        + fab("M172 92 Q200 98 228 92 L230 102 Q200 108 170 102 Z")
+        + '<rect class="dd-knot" x="192" y="91" width="16" height="12" rx="2"/>'),
+    "tricorne": lambda: (
+        fab("M160 96 Q164 58 200 56 Q236 58 240 96 Z")
+        + fab("M120 92 Q158 54 200 66 Q242 54 280 92 L200 124 Z")
+        + seam("M128 90 Q160 62 200 72 Q240 62 272 90")
+        + knot(150, 88, 6)),
+    "clown-hat": lambda: (
+        fab("M176 100 L224 100 L206 28 Z")
+        + ball(207, 24, 9) + ball(204, 56, 6) + ball(200, 80, 6)
+        + seam("M172 104 Q200 112 228 104")),
 
     # ── Over the top ──
     "haori": lambda: (
@@ -293,6 +308,16 @@ CUTS = {
         + pair("M170 150 L106 168 L106 300 H194 L192 180 Z")
         + pair("M170 150 L192 180 L178 216 L160 170 Z")
         + seam("M112 290 H192 M208 290 H288")),
+    "vampire-cape": lambda: (
+        pair("M150 120 L118 70 Q150 92 182 140 Z")
+        + pair("M168 144 L96 180 Q66 380 60 566 H184 Q182 340 190 158 Z")
+        + fab("M168 144 Q200 128 232 144 L226 160 Q200 150 174 160 Z")
+        + seam("M178 170 Q174 360 180 560 M222 170 Q226 360 220 560")
+        + knot(200, 158, 7)),
+    "wizard-robe": lambda: (
+        pair("M106 168 L58 178 L28 330 Q62 346 108 330 L112 230 Z")
+        + pair("M170 150 L106 168 Q100 380 96 566 H186 Q188 340 192 176 Z")
+        + seam("M186 176 V560 M214 176 V560 M44 318 Q68 330 104 318 M296 318 Q332 330 356 318")),
 
     # ── Underneath ──
     "button-down": lambda: (
@@ -370,6 +395,10 @@ CUTS = {
     "socks": lambda: shoes(
         fab("M140 504 H166 L166 548 Q190 548 194 564 Q194 578 180 578 H140 Z")
         + seam("M140 516 H166")),
+    "clown-shoes": lambda: shoes(
+        fab("M140 540 H166 L170 556 Q206 548 210 566 Q210 578 192 578 H118 "
+            "Q108 578 110 566 Q112 552 140 550 Z")
+        + seam("M146 548 H166 M122 570 H206") + knot(156, 556, 3.6)),
 
     # ── And the rest ──
     "boa": lambda: "".join(
@@ -422,6 +451,32 @@ def flower(cx, cy, petal, middle):
     return "".join(out)
 
 
+def bat(cx, cy, fill):
+    """A bat with its wings out, scalloped along the bottom edge."""
+    return (f'<path d="M{cx - 11} {cy - 1} Q{cx - 6} {cy - 7} {cx - 2} {cy - 2} L{cx} {cy - 5} L{cx + 2} {cy - 2} '
+            f'Q{cx + 6} {cy - 7} {cx + 11} {cy - 1} Q{cx + 8} {cy} {cx + 7} {cy + 3} Q{cx + 5} {cy + 1} {cx + 3} {cy + 3} '
+            f'Q{cx + 1} {cy + 2} {cx} {cy + 4} Q{cx - 1} {cy + 2} {cx - 3} {cy + 3} Q{cx - 5} {cy + 1} {cx - 7} {cy + 3} '
+            f'Q{cx - 8} {cy} {cx - 11} {cy - 1} Z" fill="var(--{fill})"/>')
+
+
+def web(cx, cy, r, stroke):
+    """A spiderweb: eight threads out from the middle and three rings across them."""
+    spokes = [(cx + r * math.cos(k * math.pi / 4), cy + r * math.sin(k * math.pi / 4)) for k in range(8)]
+    d = "".join(f"M{cx} {cy} L{x:.1f} {y:.1f} " for x, y in spokes)
+    for f in (.32, .62, .92):
+        pts = [(cx + (x - cx) * f, cy + (y - cy) * f) for x, y in spokes]
+        d += "M" + " ".join(f"{x:.1f} {y:.1f}" for x, y in pts) + " Z "
+    return f'<path d="{d.strip()}" fill="none" stroke="var(--{stroke})" stroke-width="1.1"/>'
+
+
+def pumpkin(cx, cy, fill, stalk):
+    """A pumpkin: three lobes side by side and a stalk."""
+    return (f'<rect x="{cx - 1.5}" y="{cy - 11}" width="3" height="5" fill="var(--{stalk})"/>'
+            f'<ellipse cx="{cx - 5}" cy="{cy}" rx="6" ry="7.5" fill="var(--{fill})"/>'
+            f'<ellipse cx="{cx + 5}" cy="{cy}" rx="6" ry="7.5" fill="var(--{fill})"/>'
+            f'<ellipse cx="{cx}" cy="{cy}" rx="5.5" ry="8" fill="var(--{fill})" stroke="var(--g)" stroke-width=".8"/>')
+
+
 STITCH = ('<path d="M24 0 V72 M48 0 V72 M0 24 H72 M0 48 H72" fill="none" '
           'stroke="var(--dd-ink)" stroke-width="1" stroke-dasharray="3 3" opacity=".7"/>')
 
@@ -450,6 +505,10 @@ PRINTS = {
     "sequins": (12, 10, lambda: rect(0, 0, 12, 10, "g")
                 + '<circle cx="3" cy="3" r="3.2" fill="var(--f1)" stroke="var(--g)" stroke-width=".6"/>'
                 + '<circle cx="9" cy="8" r="3.2" fill="var(--f2)" stroke="var(--g)" stroke-width=".6"/>'),
+    "bats": (48, 40, lambda: rect(0, 0, 48, 40, "g") + bat(14, 12, "f1") + bat(37, 30, "f2")),
+    "webs": (48, 48, lambda: rect(0, 0, 48, 48, "g") + web(24, 24, 22, "f1")),
+    "pumpkins": (52, 44, lambda: rect(0, 0, 52, 44, "g") + pumpkin(15, 14, "f1", "f2")
+                 + pumpkin(41, 34, "f1", "f2")),
 }
 
 

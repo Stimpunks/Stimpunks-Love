@@ -178,6 +178,59 @@ test('the page and the server agree about what a look may hold', () => {
   }
 });
 
+// Every piece of the picture without it is still there with it, in order:
+// a piece adds to a bodymind and takes nothing away.
+function keeps(without, withIt, why) {
+  const parts = without.split('><');
+  let at = 0;
+  for (const p of parts) {
+    const i = withIt.indexOf(p, at);
+    assert.ok(i !== -1, why + ': lost ' + p.slice(0, 80));
+    at = i + p.length;
+  }
+}
+
+test('something to hold goes in a free hand or is carried, and takes away no aid, in every pose', () => {
+  const opts = (k) => D.body.groups.find((g) => g.key === k).options.map((o) => o[0]);
+  for (const pose of POSES) {
+    for (const hands of opts('hands')) {
+      if (pose !== 'standing' && D.body.standingOnly.hands.includes(hands)) continue;
+      for (const limbs of opts('limbs')) {
+        // The hand an aid is in, or a hand that is not there, is never the one chosen.
+        const BUSY = { cane: [1], white: [1], fidget: [-1], aac: [-1, 1], walker: [-1, 1], crutches: [-1, 1] };
+        const busy = (BUSY[hands] || []).concat(limbs === 'arm-short' ? [-1] : []);
+        const free = A._freeHand({ hands, limbs });
+        assert.ok(!busy.includes(free), `a held piece goes in a busy hand with ${hands} and ${limbs}`);
+        if (free === 0) assert.ok([-1, 1].every((s) => busy.includes(s)), `a free hand is passed over with ${hands} and ${limbs}`);
+        const without = norm(drawn(look({ pose, hands, limbs })));
+        for (const g of D.garments.held || []) {
+          const withIt = norm(drawn(look({ pose, hands, limbs }, { held: [g, 'solid', 'black'] })));
+          assert.notEqual(withIt, without, `${g} draws nothing ${pose} with ${hands} and ${limbs}`);
+          keeps(without, withIt, `${g} ${pose} with ${hands} and ${limbs}`);
+        }
+      }
+    }
+  }
+});
+
+test('face paint and fangs go under glasses, a mask and a cannula, never over them', () => {
+  for (const pose of POSES) {
+    for (const faceAid of ['mask', 'cannula']) {
+      for (const eyewear of ['glasses', 'dark']) {
+        const body = { pose, faceAid, eyewear };
+        const without = norm(drawn(look(body)));
+        for (const g of D.garments.face || []) {
+          const withIt = norm(drawn(look(body, { face: [g, 'solid', 'black'] })));
+          keeps(without, withIt, `${g} ${pose} with ${faceAid} and ${eyewear}`);
+          // The aids are drawn after the paint: the last element of the face is an aid's.
+          const aid = without.split('><').filter((x) => x.includes('stroke-width="1.3"') && x.startsWith('rect')).pop();
+          if (aid) assert.ok(withIt.lastIndexOf(aid) > withIt.indexOf('url(#lav-face)'), `${g} is drawn over the glasses ${pose}`);
+        }
+      }
+    }
+  }
+});
+
 test('a cane, crutches or a walker are refused in a chair, by both checkers', () => {
   for (const pose of POSES.filter((p) => p !== 'standing')) {
     for (const h of D.body.standingOnly.hands) {

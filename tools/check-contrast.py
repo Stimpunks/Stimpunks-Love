@@ -5133,6 +5133,9 @@ ORNAMENT = {
     "#34343b": "dress-up den: the coal cloth on the rails, 7.66 on the wall; every garment is "
                "carried by its --dd-ink outline at 11.12, and a cloth this dark by its own "
                "fill as well. It carries no word; nothing is set on cloth.",
+    "#f07a1a": "dress-up den: the pumpkin cloth on the rails (Halloween, 2026-10-28), 1.74 on the wall; "
+               "every garment is carried by its --dd-ink outline at 6.40. It carries no word; nothing "
+               "is set on cloth.",
     "#bac5b0": "community: --ctr-hollow, the window bay's depth in the drawing and the inside of every "
                "pigeonhole on the board, 1.22 on the plaster and 1.41 against the ash. Every hole is carried by "
                "its grain edge at 3.65; it carries no word, and the sheet and the plate in it are measured above.",

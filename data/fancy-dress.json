@@ -20,7 +20,10 @@
          "on": "Loops over the shoulders, wide enough to shrug off."},
         {"key": "great-wings", "name": "Great faery wings", "a": "great faery wings", "start": ["solid", "mint-coral"],
          "feel": "The biggest: four long panels from above your head to below your hips, sheer and floaty.",
-         "on": "Loops over the shoulders. They fold flat to sit back in a chair."}
+         "on": "Loops over the shoulders. They fold flat to sit back in a chair."},
+        {"key": "bat-wings", "name": "Bat wings", "a": "bat wings", "start": ["solid", "black"],
+         "feel": "Stretchy fabric over soft ribs that fold up like an umbrella, with a scalloped edge.",
+         "on": "Two soft loops over the shoulders. They fold flat to sit back in a chair."}
       ]
     },
     {
@@ -41,7 +44,31 @@
          "on": "On a soft covered band that slips on and off."},
         {"key": "mouse-ears", "name": "Mouse ears", "a": "mouse ears", "start": ["solid", "black-silver"],
          "feel": "Two big round ears, light and a little bit silly.",
+         "on": "On a soft covered band that slips on and off."},
+        {"key": "wolf-ears", "name": "Wolf ears", "a": "wolf ears", "start": ["solid", "black-silver"],
+         "feel": "Tall furry ears with a tuft at each tip and pale fluff inside.",
+         "on": "On a soft covered band that slips on and off."},
+        {"key": "bat-ears", "name": "Bat ears", "a": "bat ears", "start": ["solid", "plum-black"],
+         "feel": "Big pointed ears that stick out to the sides, smooth on the inside.",
          "on": "On a soft covered band that slips on and off."}
+      ]
+    },
+    {
+      "key": "face",
+      "name": "Face paint and fangs",
+      "garments": [
+        {"key": "vampire-fangs", "name": "Vampire fangs", "a": "vampire fangs", "start": ["solid", "bone-black"],
+         "feel": "Two small soft fangs that clip over your own teeth and do not get in the way of talking.",
+         "on": "Press on and pull off. No glue."},
+        {"key": "clown-face", "name": "Clown face paint", "a": "clown face paint", "start": ["solid", "tomato-turquoise"],
+         "feel": "A round red nose, rosy cheeks and a big painted smile.",
+         "on": "The nose is soft foam on a clip. The paint is water based and washes off with warm water."},
+        {"key": "whisker-paint", "name": "Whisker face paint", "a": "whisker face paint", "start": ["solid", "black"],
+         "feel": "Whiskers drawn out over the cheeks and a dot on the tip of the nose.",
+         "on": "Water based paint that washes off with warm water."},
+        {"key": "skull-face", "name": "Skull face paint", "a": "skull face paint", "start": ["solid", "bone-black"],
+         "feel": "A pale face, dark rings round the eyes, a dark nose and teeth drawn over the lips.",
+         "on": "Water based paint that washes off with warm water."}
       ]
     },
     {
@@ -65,6 +92,9 @@
          "on": "Clips on at the back of a waistband and unclips. Sitting down, it lies to one side."},
         {"key": "unicorn-tail", "name": "Unicorn tail", "a": "a unicorn tail", "start": ["solid", "rainbow"],
          "feel": "Long silky strands that swish when you move.",
+         "on": "Clips on at the back of a waistband and unclips."},
+        {"key": "wolf-tail", "name": "Wolf tail", "a": "a wolf tail", "start": ["solid", "black-silver"],
+         "feel": "Long and bushy, hanging low, with a dark tip.",
          "on": "Clips on at the back of a waistband and unclips."}
       ]
     },
@@ -80,6 +110,9 @@
          "on": "They slide on and off, and the fingers are free underneath."},
         {"key": "dragon-claws", "name": "Dragon claws", "a": "dragon claws", "start": ["solid", "mint-coral"],
          "feel": "Scaly-printed soft gloves with stuffed felt claws.",
+         "on": "They slide on and off, and the fingers are free underneath."},
+        {"key": "wolf-claws", "name": "Wolf claws", "a": "wolf claws", "start": ["solid", "black-silver"],
+         "feel": "Furry mitts with four soft felt claws each.",
          "on": "They slide on and off, and the fingers are free underneath."}
       ]
     },
@@ -98,6 +131,12 @@
          "on": "A big clasp at the front, easy to open."},
         {"key": "choker", "name": "Velvet choker", "a": "a velvet choker", "start": ["solid", "plum-black"],
          "feel": "A soft velvet band, as loose as you like.",
+         "on": "Fastens with a hook and loop at the back, and comes off with one pull."},
+        {"key": "neck-bolts", "name": "Neck bolts", "a": "neck bolts", "start": ["solid", "black-silver"],
+         "feel": "Two light foam bolts, one each side of the neck, on a soft band.",
+         "on": "The band fastens with a hook and loop and comes off with one pull."},
+        {"key": "web-choker", "name": "Spiderweb choker", "a": "a spiderweb choker", "start": ["webs", "black-silver"],
+         "feel": "A soft lace band like a spiderweb, with a little spider at the front.",
          "on": "Fastens with a hook and loop at the back, and comes off with one pull."}
       ]
     },
@@ -113,7 +152,34 @@
          "on": "Stretch over your hand."},
         {"key": "bangles", "name": "Bangles", "a": "bangles", "start": ["solid", "violet-gold"],
          "feel": "Smooth hoops that slide and clink together.",
+         "on": "Slip over your hand."},
+        {"key": "spider-rings", "name": "Spider rings", "a": "spider rings", "start": ["solid", "black"],
+         "feel": "Little soft spiders with bendy legs that sit on your fingers.",
+         "on": "Slide on and off. The bands stretch, so none of them is tight."},
+        {"key": "bone-bangles", "name": "Bone bangles", "a": "bone bangles", "start": ["solid", "bone-black"],
+         "feel": "Smooth hoops strung with little carved bones that clack together.",
          "on": "Slip over your hand."}
+      ]
+    },
+    {
+      "key": "held",
+      "name": "Something to hold",
+      "garments": [
+        {"key": "wizard-staff", "name": "Wizard staff", "a": "a wizard staff", "start": ["solid", "moss-rust"],
+         "feel": "A long light staff, smooth to hold, with a stone set in the top.",
+         "on": "Hold it, or lean it on your shoulder. If your hands are full, it goes on a strap across your back."},
+        {"key": "witch-broom", "name": "Witch broom", "a": "a witch broom", "start": ["solid", "candy-corn"],
+         "feel": "A light broom with a bundle of soft straw at the end.",
+         "on": "Hold it, or sling it across your back on its strap when your hands are full."},
+        {"key": "magic-wand", "name": "Magic wand", "a": "a magic wand", "start": ["solid", "midnight-gold"],
+         "feel": "A short smooth wand with a star on the end.",
+         "on": "Hold it, or tuck it into the cord at your hip."},
+        {"key": "lantern", "name": "Lantern", "a": "a lantern", "start": ["solid", "black"],
+         "feel": "A little lantern with a warm window that stays lit and never flickers.",
+         "on": "Hold it by its handle, or hang it from the cord at your hip."},
+        {"key": "treat-bucket", "name": "Treat bucket", "a": "a treat bucket", "start": ["solid", "pumpkin-black"],
+         "feel": "A round pumpkin bucket with a grin, light even when it is full.",
+         "on": "Hold it by its handle, or hang it from the cord at your hip."}
       ]
     },
     {
@@ -137,7 +203,31 @@
          "on": "A zip from the neck to the knee, with a big pull."},
         {"key": "chimera-onesie", "name": "Chimera onesie", "a": "a chimera onesie", "start": ["solid", "black"], "chimera": true,
          "feel": "Soft fleece in your chimera's own colours, its ears on the hood, its tail at the back and its markings down the front.",
-         "on": "A zip from the neck to the knee, with a big pull. Choose which chimera under this rail."}
+         "on": "A zip from the neck to the knee, with a big pull. Choose which chimera under this rail."},
+        {"key": "mummy-wraps", "name": "Mummy wraps", "a": "mummy wraps", "start": ["solid", "bone-black"],
+         "feel": "Soft stretchy bandages wound round and round, with one loose end trailing.",
+         "on": "A suit with the wraps sewn on, and a zip from the neck to the knee. Nothing is wound tight."},
+        {"key": "skeleton-suit", "name": "Skeleton suit", "a": "a skeleton suit", "start": ["solid", "black"],
+         "feel": "Soft dark fleece with the bones printed on in pale paint.",
+         "on": "A zip from the neck to the knee, with a big pull."},
+        {"key": "ghost-suit", "name": "Ghost suit", "a": "a ghost suit", "start": ["solid", "bone-black"],
+         "feel": "A floaty white hooded robe with a wavy hem, light as a sheet but with your face free.",
+         "on": "Goes on over your head. No fastenings."},
+        {"key": "pumpkin-suit", "name": "Pumpkin suit", "a": "a pumpkin suit", "start": ["solid", "pumpkin-black"],
+         "feel": "A round squashy pumpkin middle, soft fleece arms and legs, and a stalk on the hood.",
+         "on": "A zip from the neck to the knee, with a big pull."},
+        {"key": "bat-suit", "name": "Bat suit", "a": "a bat suit", "start": ["solid", "black"],
+         "feel": "Soft fleece with bat ears on the hood and wings from the wrists to the waist.",
+         "on": "A zip from the neck to the knee, with a big pull. The wings are loose, so your arms move freely."},
+        {"key": "clown-suit", "name": "Clown suit", "a": "a clown suit", "start": ["dots", "rainbow"],
+         "feel": "Baggy all over, with a soft ruffled collar and three pompom buttons.",
+         "on": "A zip up the back with a long pull, and loose cuffs that let your hands out."},
+        {"key": "pirate-outfit", "name": "Pirate outfit", "a": "a pirate outfit", "start": ["stripes", "black-silver"],
+         "feel": "A loose shirt with a deep neck, breeches to the knee and a sash round the middle.",
+         "on": "The sash ties in a loose knot at the side and the shirt pulls on over your head."},
+        {"key": "vampire-suit", "name": "Vampire suit", "a": "a vampire suit", "start": ["solid", "black"],
+         "feel": "A long-tailed coat, a red waistcoat and a ruffled cravat, all soft.",
+         "on": "The coat is open at the front, and the cravat is on a hook and loop."}
       ]
     }
   ]
