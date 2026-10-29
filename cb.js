@@ -13408,10 +13408,32 @@
 
   /* The password changed, so the pass no longer opens the channel. Said once,
      on the radio, and then the radio goes. */
+  /* SIGNED OFF ONLY WHEN THE PASS HELD NOW IS REFUSED (2026-10-28, found
+     testing passkeys). Every request that is refused calls this, and most do
+     not check that the refusal was for the pass the radio holds now: one sent
+     just before the pass changed (two-step sign-in, a new password, a renewal)
+     came back refused and signed off a radio whose new pass was fine, and a
+     radio that had already been replaced on the page could sign off its
+     successor and delete its pass. So a radio that is no longer the page's
+     does nothing, and the pass held now is asked about once before anything
+     is forgotten: only its own refusal signs off. */
   Radio.prototype.lost = function () {
+    var me = this;
+    if (radio !== me || me.losing) return;
     // Another tab already has a newer pass for this username: take it, and go on.
-    var newer = newerStored(this.state.handle, this.state.pass);
-    if (newer) { this.adoptPass(newer); clearTimeout(this.timer); this.listen(); return; }
+    var newer = newerStored(me.state.handle, me.state.pass);
+    if (newer) { me.adoptPass(newer); clearTimeout(me.timer); me.listen(); return; }
+    me.losing = true;
+    var held = me.state.pass;
+    call('/cb/account', null, held).then(function (r) {
+      me.losing = false;
+      if (radio !== me) return;
+      // The pass changed while this was asked: the new one is the radio's now.
+      if (me.state.pass !== held) return;
+      if (r.status === 401) me.signedOff();
+    }, function () { me.losing = false; /* no answer: the next listen asks again */ });
+  };
+  Radio.prototype.signedOff = function () {
     keepSettings(this.state);
     forget();
     clearTimeout(this.timer);
