@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-10-28T11:16Z",
+  "set": "2026-10-29T11:16Z",
   "springs": [
     {
       "id": "starstuff",
@@ -73,7 +73,7 @@
           "anon": true
         }
       ],
-      "read": "2026-10-28T11:16Z"
+      "read": "2026-10-29T11:16Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-10-28T11:16Z"
+      "read": "2026-10-29T11:16Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-10-28T11:16Z"
+      "read": "2026-10-29T11:16Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-10-28T11:16Z"
+      "read": "2026-10-29T11:16Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-10-28T11:16Z"
+      "read": "2026-10-29T11:16Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-10-28T11:16Z"
+      "read": "2026-10-29T11:16Z"
     },
     {
       "id": "love",
@@ -439,67 +439,67 @@
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
         {
-          "title": "The forums keep more, sort and group by tag, and administrators set h…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/75fa306cd9ad280ad3ed1f8e4545f0f7ef7ff65b",
-          "date": "2026-10-28T10:26:26Z",
-          "sha": "75fa306",
+          "title": "Join call from a channel's menu, and a menu on conversations",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/788c1dec71dac78dc544c2ad1c6f6dc28f3be82f",
+          "date": "2026-10-29T11:11:07Z",
+          "sha": "788c1de",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Merge Ryan's teleporter channels into the Play Pod's edible messy play",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/3d784dca9f9cf97e5490f43191019885d1b86a7e",
-          "date": "2026-10-28T09:06:43Z",
-          "sha": "3d784dc",
-          "by": [
-            "AutisticRealms",
-            "Claude Opus 5.5"
-          ]
-        },
-        {
-          "title": "Play Pod: edible messy play as its own section, and two photos down",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/40a5c4c8aab54627c7504c03bd27ab19ba131bfd",
-          "date": "2026-10-28T09:05:12Z",
-          "sha": "40a5c4c",
-          "by": [
-            "AutisticRealms",
-            "Claude Opus 5.5"
-          ]
-        },
-        {
-          "title": "The teleporter goes to channels too",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/ce7f6d3b2237d9baf5e8d4f749240e601815cd5f",
-          "date": "2026-10-28T08:55:32Z",
-          "sha": "ce7f6d3",
+          "title": "Join an event's call from its card, and see who is in it",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/8171e38bef04b66157e1f4f159d4e4e33e1ecada",
+          "date": "2026-10-29T09:29:05Z",
+          "sha": "8171e38",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Glow Wild Hollow: Air, Earth and Water, with a bonfire at the end",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/260348307e73bde8c2c660056f3c7340770f1b01",
-          "date": "2026-10-28T08:09:11Z",
-          "sha": "2603483",
+          "title": "The Inbox on the CB: unreads, mentions, bookmarks and reminders",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/57a0dbfc20735d32adc3259dee07f9dcc5e927a2",
+          "date": "2026-10-29T08:58:17Z",
+          "sha": "57a0dbf",
           "by": [
-            "AutisticRealms",
+            "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "The Stim Tin, in Helen's Regulation Nook",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/add18309bf71203ec8d04451bac859fcb0e0e7e5",
-          "date": "2026-10-28T07:46:35Z",
-          "sha": "add1830",
+          "title": "Back and forward on the chat page",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/edc63cea355ef763ff77f7707205087dd8f8355e",
+          "date": "2026-10-29T08:27:25Z",
+          "sha": "edc63ce",
           "by": [
-            "AutisticRealms",
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "A menu on every channel on the chat page, and Copy link on every message",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/37eaac1a69d24532e24d684c59fa74a4aab8c4c9",
+          "date": "2026-10-29T07:54:04Z",
+          "sha": "37eaac1",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "Halloween on the fancy dress rails, with face paint and something to …",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/2bd6d93e2f7a62d9084c2fe2d052e8ed2a36104c",
+          "date": "2026-10-29T04:02:12Z",
+          "sha": "2bd6d93",
+          "by": [
+            "ryanboren",
             "Claude Opus 5.5"
           ]
         }
       ],
-      "read": "2026-10-28T11:16Z"
+      "read": "2026-10-29T11:16Z"
     },
     {
       "id": "garden",
@@ -568,7 +568,7 @@
           "anon": true
         }
       ],
-      "read": "2026-10-28T11:16Z"
+      "read": "2026-10-29T11:16Z"
     }
   ]
 }
