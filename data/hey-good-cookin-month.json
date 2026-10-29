@@ -276,43 +276,13 @@
    "channel": "America's Test Kitchen"
   },
   {
-   "id": "kbQXZt9f1Qw",
+   "id": "JPWsv_cVQvE",
    "source": "americas-test-kitchen",
-   "form": "short",
-   "title": "How to Make Your Chicken Breast More Flavorful",
-   "published": "2026-09-28T15:59:46Z",
+   "form": "long",
+   "title": "How to Easily Make Poached Eggs (New Orleans Style) | America's Test Kitchen",
+   "published": "2026-10-28T15:59:49Z",
    "state": "screen",
-   "runs": 138,
-   "channel": "America's Test Kitchen"
-  },
-  {
-   "id": "isb7sJLE4Vc",
-   "source": "americas-test-kitchen",
-   "form": "short",
-   "title": "Eat Your Dirty Martini",
-   "published": "2026-09-28T16:29:50Z",
-   "state": "screen",
-   "runs": 63,
-   "channel": "America's Test Kitchen"
-  },
-  {
-   "id": "kgIy3yw-duU",
-   "source": "americas-test-kitchen",
-   "form": "short",
-   "title": "How to Reheat Chicken Without Drying it Out",
-   "published": "2026-09-28T20:59:51Z",
-   "state": "screen",
-   "runs": 50,
-   "channel": "America's Test Kitchen"
-  },
-  {
-   "id": "huQsPY6SolQ",
-   "source": "americas-test-kitchen",
-   "form": "short",
-   "title": "What's the Difference Between Chicken Broth, Chicken Stock, and Bone Broth?",
-   "published": "2026-09-29T00:59:56Z",
-   "state": "screen",
-   "runs": 59,
+   "runs": 428,
    "channel": "America's Test Kitchen"
   },
   {
@@ -516,6 +486,16 @@
    "channel": "America's Test Kitchen"
   },
   {
+   "id": "cr5DFnCkbhk",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "Lumpy Batter Makes Better Pancakes",
+   "published": "2026-10-28T15:59:55Z",
+   "state": "screen",
+   "runs": 52,
+   "channel": "America's Test Kitchen"
+  },
+  {
    "id": "5vk8ANhjoHQ",
    "source": "alton-brown",
    "form": "long",
@@ -583,6 +563,16 @@
    "published": "2026-10-21T16:00:23Z",
    "state": "screen",
    "runs": 958,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "BrLTf27eUL0",
+   "source": "epicurious",
+   "form": "long",
+   "title": "Butcher Explains Which Steak to Buy | Ultimate Buying Guide | Epicurious",
+   "published": "2026-10-28T16:00:13Z",
+   "state": "screen",
+   "runs": 1143,
    "channel": "Epicurious"
   },
   {
@@ -946,13 +936,13 @@
    "channel": "Andy Cooks"
   },
   {
-   "id": "4rsPL1yj1gI",
+   "id": "-F9McxVWKdU",
    "source": "andy-cooks",
-   "form": "short",
-   "title": "Everyone overcooks pork Here is how I cook a juicy pork scotch steak with @GetSomePorkOnYourFork",
-   "published": "2026-09-29T08:45:02Z",
+   "form": "long",
+   "title": "Can I Recreate a Restaurant Dish Without the Recipe?",
+   "published": "2026-10-29T06:10:20Z",
    "state": "screen",
-   "runs": 63,
+   "runs": 1565,
    "channel": "Andy Cooks"
   },
   {
@@ -1226,26 +1216,6 @@
    "channel": "The Pasta Queen"
   },
   {
-   "id": "8m0HtgoU2_U",
-   "source": "the-pasta-queen",
-   "form": "short",
-   "title": "White Meatball Spaghetti With My Daughter",
-   "published": "2026-09-28T11:33:47Z",
-   "state": "screen",
-   "runs": 90,
-   "channel": "The Pasta Queen"
-  },
-  {
-   "id": "nWijXgJTZ8M",
-   "source": "the-pasta-queen",
-   "form": "short",
-   "title": "ITALIAN LENTIL PASTA",
-   "published": "2026-09-28T18:50:30Z",
-   "state": "screen",
-   "runs": 89,
-   "channel": "The Pasta Queen"
-  },
-  {
    "id": "6owwOvIOlpI",
    "source": "the-pasta-queen",
    "form": "short",
@@ -1376,14 +1346,14 @@
    "channel": "The Pasta Queen"
   },
   {
-   "id": "mUlDnpG_cG0",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "Why This 86-Year-Old Grandma Works 19 Hours a Day Selling 35-Cent Bread",
-   "published": "2026-09-28T22:00:23Z",
+   "id": "N1eD-LMAMBQ",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "Roman-Style Pizza 🍕",
+   "published": "2026-10-28T19:23:20Z",
    "state": "screen",
-   "runs": 2305,
-   "channel": "Japanese Food Noodles"
+   "runs": 89,
+   "channel": "The Pasta Queen"
   },
   {
    "id": "Pu_xXXaapkw",
@@ -1883,6 +1853,26 @@
    "published": "2026-10-27T22:00:02Z",
    "state": "screen",
    "runs": 1353,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "OiQoMxJUSQg",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "200 Bowls a Day! Why U.S. Service Members at Iwakuni Love This Tonkotsu Ramen",
+   "published": "2026-10-28T22:00:38Z",
+   "state": "screen",
+   "runs": 2656,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "oKPn1ZD55U0",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Why Workers Rush to This Tokyo Steakhouse for Huge Steaks and Rice",
+   "published": "2026-10-29T00:00:01Z",
+   "state": "screen",
+   "runs": 1882,
    "channel": "Japanese Food Noodles"
   },
   {
@@ -2456,6 +2446,16 @@
    "channel": "Fallow"
   },
   {
+   "id": "PghM3UavVjc",
+   "source": "fallow",
+   "form": "long",
+   "title": "Why 40 Cloves of Garlic Makes Chicken Incredible",
+   "published": "2026-10-28T18:00:08Z",
+   "state": "screen",
+   "runs": 707,
+   "channel": "Fallow"
+  },
+  {
    "id": "bd083GdM2KE",
    "source": "fallow",
    "form": "short",
@@ -2646,16 +2646,6 @@
    "channel": "Guga"
   },
   {
-   "id": "I3W9x3V1qNQ",
-   "source": "guga",
-   "form": "short",
-   "title": "I tried the Pyramid Burger!",
-   "published": "2026-09-28T16:40:29Z",
-   "state": "screen",
-   "runs": 61,
-   "channel": "Guga"
-  },
-  {
    "id": "ABljzWIbSX0",
    "source": "guga",
    "form": "short",
@@ -2683,16 +2673,6 @@
    "published": "2026-10-11T14:00:39Z",
    "state": "screen",
    "runs": 1108,
-   "channel": "mrnigelng"
-  },
-  {
-   "id": "0F3aRYlZuow",
-   "source": "mrnigelng",
-   "form": "short",
-   "title": "Cooking To Impress My Asian Mom",
-   "published": "2026-09-28T13:00:03Z",
-   "state": "screen",
-   "runs": 140,
    "channel": "mrnigelng"
   },
   {
@@ -2724,16 +2704,6 @@
    "state": "screen",
    "runs": 179,
    "channel": "mrnigelng"
-  },
-  {
-   "id": "VROXawcSGME",
-   "source": "eater",
-   "form": "long",
-   "title": "How Brooklyn’s Hottest Pizzaiolo Eats on His Day Off — Chef’s Day Off",
-   "published": "2026-09-28T14:00:05Z",
-   "state": "screen",
-   "runs": 889,
-   "channel": "Eater"
   },
   {
    "id": "VGXUclzgEA8",
@@ -2866,6 +2836,16 @@
    "channel": "Eater"
   },
   {
+   "id": "ACDzOs4rvds",
+   "source": "eater",
+   "form": "short",
+   "title": "Why duck eggs make the best noodles #shorts #noodles",
+   "published": "2026-10-28T13:00:26Z",
+   "state": "screen",
+   "runs": 71,
+   "channel": "Eater"
+  },
+  {
    "id": "rvmJYzAfj74",
    "source": "munchies",
    "form": "long",
@@ -2893,6 +2873,16 @@
    "published": "2026-10-14T15:00:32Z",
    "state": "screen",
    "runs": 975,
+   "channel": "Munchies"
+  },
+  {
+   "id": "jLFwDTE2XCg",
+   "source": "munchies",
+   "form": "long",
+   "title": "How To Make Radicchio Egg Noodles with Pro Skater Ben Kadow | Obscene Flavor Explosion",
+   "published": "2026-10-28T15:00:35Z",
+   "state": "screen",
+   "runs": 588,
    "channel": "Munchies"
   },
   {
@@ -3024,16 +3014,6 @@
    "state": "screen",
    "runs": 14708,
    "channel": "Strictly Dumpling"
-  },
-  {
-   "id": "5uxrzq0aQ_o",
-   "source": "strictly-dumpling",
-   "form": "short",
-   "title": "This is America's BEST Night Market & EVERY DISH Is ONLY $6! 🤯 #shorts",
-   "published": "2026-09-28T23:00:10Z",
-   "state": "screen",
-   "runs": 168,
-   "channel": "Strictly Dumpling"
   }
  ],
  "covered": {
@@ -3041,13 +3021,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3055,13 +3035,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3069,13 +3049,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3083,13 +3063,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3097,13 +3077,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3111,13 +3091,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3125,13 +3105,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3139,13 +3119,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3153,13 +3133,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3167,13 +3147,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3181,13 +3161,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3195,13 +3175,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3209,13 +3189,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3223,13 +3203,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3237,13 +3217,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3251,13 +3231,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3265,13 +3245,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3279,13 +3259,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3293,13 +3273,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3307,13 +3287,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3321,13 +3301,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3335,13 +3315,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   },
@@ -3349,16 +3329,16 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-10-28T11:24:27Z"
+     "2026-10-29T11:25:46Z"
     ]
    ]
   }
  },
- "set": "2026-10-28T11:24Z"
+ "set": "2026-10-29T11:25Z"
 }
