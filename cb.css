@@ -811,6 +811,7 @@ ol.cb-md-list { list-style: decimal; }
 .cb-take, .cb-catch, .cb-now-go {
   color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2);
 }
+a.cb-now-go { text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box; }
 .cb-quiet { color: var(--cb-amber-2); font-size: 14px; }
 /* A place in a film, "@34:12", as the sender typed it. A button, because it
    does something, sitting in the line like a word; amber on the readout like

@@ -1794,8 +1794,8 @@
        here while somebody is in it, and under In this channel otherwise: see
        callPlace. What is on now from the schedule stands here always, and is
        not shown while nothing is. */
-    /* CALLS GOING ELSEWHERE, on the chat page's World only (Ryan's proposal,
-       2026-10-27): every other room whose call has somebody in it, out of the
+    /* CALLS GOING ELSEWHERE, while the radio is on World (worldWide, Ryan's
+       proposals, 2026-10-29): every other room whose call has somebody in it, out of the
        listen's `going`, which Who's online already shows to anybody signed on,
        the room and never who. See callPlace. */
     var elseSub = this.elseSub = el('div', 'cb-sub cb-else-sub');
@@ -4567,9 +4567,11 @@
     return byTag[WORLD_CALL] || { tag: WORLD_CALL, name: 'World', path: '/' + WORLD_CALL + '.html' };
   }
 
-  /* World picked on the chat page, where Happening now speaks for every channel
-     the reader can hear rather than for one room (Ryan's proposal, 2026-10-29). */
-  function worldWide() { return inChat() && chatRoom().tag === WORLD_CALL; }
+  /* The radio on World: World picked on the chat page, the World room, or any
+     radio tuned to World. Happening now then speaks for every channel the
+     reader can hear rather than for one room (Ryan's proposal, 2026-10-29,
+     on the chat page first and everywhere on World the same day). */
+  function worldWide() { return !!radio && radio.tunedRoom() === null; }
 
   /* The groups make-chat.py wrote on the chat page: Community's rooms, World
      first, in its order; Staff's, each with the roles that open it, as its
@@ -6556,7 +6558,7 @@
   Radio.prototype.evNowShown = function (live, now) {
     var line = this.evNowLine, me = this;
     var here = hereRoom(), tag = here && !here.quiet ? here.tag : (worldHere() ? WORLD_CALL : null), wide = worldWide();
-    // On the chat page's World, what is on now in every channel the radio was told of.
+    // On World, what is on now in every channel the radio was told of.
     var on = wide ? live.filter(function (e) { return e.start <= now; })
       : tag ? live.filter(function (e) { return e.room === tag && e.start <= now; }) : [];
     var key = JSON.stringify([on.map(function (e) { return [e.id, e.title, e.end, e.room]; }), tag, wide]);
@@ -13777,9 +13779,10 @@
     if (had) had.focus();
   };
 
-  /* CALLS GOING ELSEWHERE, under Happening now on the chat page's World: each
-     room, a link to its channel, and Join the call, which takes the chat there
-     and joins (evJoin), a press of the reader's. Never a room the list does not
+  /* CALLS GOING ELSEWHERE, under Happening now while the radio is on World: each
+     room, a link to it, and on the chat page Join the call, which takes the chat
+     there and joins (evJoin), a press of the reader's; anywhere else Join it in,
+     the room's own page with its Join button ready and nothing pressed (toCall). Never a room the list does not
      know, so never a room that keeps to itself, which `going` leaves out too.
      Rows are drawn again only when the rooms change. */
   Radio.prototype.elseShown = function (here) {
@@ -13800,11 +13803,18 @@
       a.href = chatHref(r) || r.path;
       li.appendChild(a);
       li.appendChild(document.createTextNode(': somebody is in its call.'));
-      var j = el('button', 'cb-btn cb-now-go', 'Join the call');
-      j.type = 'button';
-      j.setAttribute('aria-label', 'Join the call in ' + r.name);
-      j.addEventListener('click', function () { me.evJoin(t); });
-      li.appendChild(j);
+      if (inChat() && me.chatHas(t)) {
+        var j = el('button', 'cb-btn cb-now-go', 'Join the call');
+        j.type = 'button';
+        j.setAttribute('aria-label', 'Join the call in ' + r.name);
+        j.addEventListener('click', function () { me.evJoin(t); });
+        li.appendChild(j);
+      } else if (!r.forum && /^\/[a-z0-9-]+\.html$/.test(r.path)) {
+        // Off the chat page, the room itself, its Join button ready and nothing pressed (toCall).
+        var go = el('a', 'cb-btn cb-now-go', 'Join it in ' + r.name);
+        go.href = r.path + '#cb=call';
+        li.appendChild(go);
+      }
       ul.appendChild(li);
     });
     ul.hidden = !tags.length;
@@ -14356,7 +14366,7 @@
      written, drawBeacons' rule, so the keyboard is not thrown off every listen. */
   Radio.prototype.filmNowShown = function (list, keys) {
     var ul = this.filmNowList, me = this, here = [], hk = [], i, wide = worldWide();
-    // On the chat page's World, every host the radio hears; anywhere else, this room's.
+    // On World, every host the radio hears; tuned to a room, that room's.
     for (i = 0; i < list.length; i++) if (wide || keys[i].split('|')[1] !== 'there') { here.push(list[i]); hk.push(keys[i]); }
     this.filmNowHead.textContent = wide ? 'Watching together' : 'Watching together here';
     var kids = ul.children, same = kids.length === hk.length;
