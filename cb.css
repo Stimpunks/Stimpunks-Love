@@ -374,7 +374,7 @@
   display: flex; flex-direction: column;
 }
 .cb-bar { flex: none; }
-.cb-tp-panel { flex: none; }
+.cb-tp-panel, .cb-ib-panel { flex: none; }
 .cb-set { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 /* EVERY ROW KEEPS ITS OWN HEIGHT, and the set scrolls instead. Once the radio
    was capped at the window's height the set had a height shorter than what is
@@ -459,6 +459,35 @@
 .cb-col { display: contents; }
 .cb-tp-find { width: 100%; }
 .cb-tp-list { max-height: min(40vh, 260px); margin: 0; }
+/* TELEPORT AND THE INBOX ARE PICTURES (2026-10-29): the same readout, a
+   portal and a tray on it, so both fit where the word Teleport used to. The
+   two together are narrower than the word was (measured in every theme: the
+   word was 82 to 84px, the pair 80 to 84 with the gap), because the bar was
+   already full. Still 44px tall, as the bar's icons are. */
+.cb-tp--icon { display: inline-grid; place-items: center; min-width: 36px; padding: 2px 6px; }
+.cb-tp--icon .cb-icon-btn__art { width: 18px; height: 18px; }
+.cb-tp--icon > .cb-new { position: absolute; margin: 0; top: 5px; right: 5px; width: 7px; height: 7px; }
+.cb-ib-btn { position: relative; }
+/* THE INBOX drops down from the bar like the teleporter: a heading, four tabs
+   and what the open one holds, scrolling by itself so the bar stays put. */
+.cb-ib-panel { padding: 10px 12px 0; display: grid; gap: 8px; max-height: min(70vh, 560px); overflow-y: auto; grid-template-columns: minmax(0, 1fr); }
+.cb-ib-panel > .cb-h { margin: 0; }
+.cb-ib-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.cb-ib-tab[aria-selected="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
+.cb-ib-tab > .cb-new { margin-left: 6px; }
+.cb-ib-pane { display: grid; gap: 8px; align-content: start; }
+.cb-ib-pane[hidden] { display: none; }
+.cb-ib-about { margin: 0; }
+.cb-ib-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.cb-ib-list > .cb-hit { display: block; }
+.cb-ib-list > .cb-hit > * + * { margin-top: 4px; }
+.cb-ib-due { margin: 0; font-weight: 700; }
+.cb-ib-due--now { padding-left: 8px; border-left: 3px solid var(--cb-amber); }
+.cb-ib-title { margin: 0; font-weight: 700; }
+.cb-ib-acts { display: flex; flex-wrap: wrap; gap: 6px; }
+.cb-ib-again { justify-self: start; }
+/* Remind me's times open in a row of their own under the three dots' buttons. */
+.cb-remind-when { display: flex; flex-wrap: wrap; gap: 6px; flex-basis: 100%; }
 
 .cb-btn {
   min-height: 44px; min-width: 44px; padding: 6px 11px;

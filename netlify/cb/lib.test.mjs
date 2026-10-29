@@ -3936,7 +3936,10 @@ test('only a real push service\'s address, with keys the right size, is kept', (
   const offCurve = rnd(65); offCurve[0] = 4;
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: offCurve.toString('base64url') } }), null, 'a key that is not a point');
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: rnd(64).toString('base64url') } }), null, 'a key the wrong size');
-  assert.deepEqual(cleanWant({}), { all: false, mentions: false, replies: false, props: false, messages: false, world: false, calls: false, tasks: false, events: false, scheduled: false, suggestions: false, answered: false, words: true, rooms: [], everyRoom: false }, 'something started on');
+  assert.deepEqual(cleanWant({}), { all: false, mentions: false, replies: false, props: false, messages: false, world: false, calls: false, tasks: false, events: false, scheduled: false, suggestions: false, answered: false, reminders: true, words: true, rooms: [], everyRoom: false }, 'something started on that is not in PUSH_ON');
+  assert.equal(cleanWant({ reminders: false }).reminders, false, 'a reminder switched off came back on');
+  assert.equal(wants({}, 'reminders'), true, 'a device saved before reminders was not told about one');
+  assert.equal(wants({ reminders: false }, 'reminders'), false);
   assert.equal(cleanWant({ everyRoom: 'yes' }).everyRoom, false, 'every room is on only when it is true');
   assert.equal(cleanWant({ rooms: Array.from({ length: 61 }, (_, i) => `room-${i}`) }), null);
   assert.deepEqual(cleanWant({ rooms: ['the-den', 'The Den', 'the-den'] }).rooms, ['the-den']);
@@ -4825,6 +4828,55 @@ test('what is new to a claimed username is a mark worked out from what it read, 
   // Forgetting deletes the record.
   await forgetReads('Ada', 11, s);
   assert.deepEqual((await newFor(ada, s, now)).read, {}, 'Forget me left what was read');
+}));
+
+import { bookmark, remindMe, reminderDone, remindersDue, inboxSaved, inboxMentions, tellReminders, forgetInbox, PUSH_ON } from './lib.mjs';
+
+test('the Inbox keeps pointers and times, never words, and a reminder is told once', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  const now = Date.now();
+  await updateChannel((list) => [...list, { id: 'm1', handle: 'Bex', text: 'hello @Ada', at: ['Ada'], t: now - 5000 }, { id: 'm2', handle: 'Ada', text: 'mine', t: now - 4000 }], s);
+  assert.equal((await bookmark({ role: 'mobile', handle: 'Cy', roles: new Set() }, WORLD_CALL, 'm1', true, s)).error, 'claim', 'an unclaimed handle kept a bookmark');
+  assert.equal((await bookmark(ada, WORLD_CALL, 'nope', true, s)).error, 'gone', 'a bookmark was kept on a message that is not there');
+  assert.equal((await bookmark(ada, QUIET_ROOMS[0], 'm1', true, s)).error, 'which', 'a room that keeps to itself was bookmarked');
+  assert.equal((await bookmark(ada, 'town-hall-board', 'm1', true, s)).error, 'which', 'a room the username may not enter was bookmarked');
+  assert.equal((await bookmark(ada, WORLD_CALL, 'm1', undefined, s)).saved, true);
+  assert.equal((await bookmark(ada, WORLD_CALL, 'm1', true, s)).saved, true, 'bookmarking twice took it off');
+  let box = await inboxSaved(ada, s, now);
+  assert.equal(box.saved.length, 1);
+  assert.equal(box.saved[0].message.text, 'hello @Ada', 'a bookmark was not read off the channel');
+  assert.deepEqual((await inboxSaved(bex, s, now)).saved, [], 'one person saw another’s bookmarks');
+  // A reminder: in the future, within a year, and marked when it comes.
+  assert.equal((await remindMe(ada, WORLD_CALL, 'm1', now - 1, s, now)).error, 'when');
+  assert.equal((await remindMe(ada, WORLD_CALL, 'm1', now + 400 * 86400000, s, now)).error, 'when');
+  const r = await remindMe(ada, WORLD_CALL, 'm1', now + 60000, s, now);
+  assert.ok(r.r, 'no reminder was kept');
+  assert.equal(await remindersDue(ada, s, now), false, 'a reminder was due early');
+  assert.equal(await remindersDue(ada, s, now + 61000), true, 'a reminder that had come was not marked');
+  // Told once, by the run, and only after its time.
+  assert.equal(await tellReminders(s, now, null, async () => 201), 0, 'a reminder was told early');
+  assert.equal(await tellReminders(s, now + 61000, null, async () => 201), 1, 'a reminder that had come was not told');
+  assert.equal(await tellReminders(s, now + 62000, null, async () => 201), 0, 'a reminder was told twice');
+  // The message goes, and the bookmark and the reminder say so, keeping no words.
+  await updateChannel((list) => list.filter((m) => m.id !== 'm1'), s);
+  box = await inboxSaved(ada, s, now + 61000);
+  assert.equal(box.saved[0].gone, true, 'a bookmark kept a message taken off the air');
+  assert.equal(box.remind[0].gone, true);
+  assert.equal(box.remind[0].come, true);
+  for (const b of (await s.list({ prefix: 'inbox/' })).blobs) assert.ok(!JSON.stringify(await s.get(b.key, { type: 'json' })).includes('hello'), 'the Inbox kept a message’s words');
+  await reminderDone(ada, r.r, s);
+  assert.equal((await inboxSaved(ada, s, now)).remind.length, 0, 'Done left the reminder');
+  // Mentions are worked out, never your own, and kept nowhere.
+  await updateChannel((list) => [...list, { id: 'm3', handle: 'Bex', text: 'hi @Ada', at: ['Ada'], t: now - 1000 }, { id: 'm4', handle: 'Ada', text: 'me @Ada', at: ['Ada'], t: now - 900 }], s);
+  const men = await inboxMentions(ada, s, now);
+  assert.deepEqual(men.channel.map((x) => x.message.id), ['m3'], 'Mentions listed the wrong messages');
+  // Forget me takes it all.
+  await bookmark(ada, WORLD_CALL, 'm3', true, s);
+  await remindMe(ada, WORLD_CALL, 'm3', now + 60000, s, now);
+  await forgetInbox('Ada', 11, s);
+  assert.deepEqual(await inboxSaved(ada, s, now), { saved: [], remind: [] }, 'Forget me left the Inbox');
+  assert.deepEqual(PUSH_ON, ['reminders']);
 }));
 
 for (const etagOnRead of [true, false]) {

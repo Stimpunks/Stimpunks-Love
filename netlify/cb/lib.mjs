@@ -4701,6 +4701,207 @@ export async function forgetReads(handle, since, s = store()) {
   return true;
 }
 
+/* ── THE INBOX: bookmarks and reminders (a request from our community,
+   2026-10-29, after Discord's Inbox, and Ryan's calls the same day) ──────
+
+   The radio's Inbox drops down from an icon on its bar with four tabs:
+   Unreads (the marks above, drawn again), Mentions (inboxMentions, below),
+   Bookmarks and Reminders. Only the last two keep anything, and this is it.
+
+   A BOOKMARK IS A POINTER AND NEVER A COPY (Ryan's call): which channel and
+   which message, and nothing else, not even when it was made. Its words are
+   read off the channel every time the Inbox is opened, as your past
+   notifications are, so a message taken off the air or past its time is
+   gone from your bookmarks too, and they say so: a copy would keep somebody's
+   words past their message and past Take off, the copy the street refuses a
+   reply's quote. A REMINDER IS A BOOKMARK WITH A TIME: when to remind you,
+   which you chose, and whether you have been told. Both are a claimed
+   username's (forumReader), under its dmKey as what you have read is, so a
+   name claimed again by somebody else reaches nothing of theirs. Never a room
+   that keeps to itself, whose tag is its address (and a reminder would
+   announce it outside), never a room you may not enter, and a room you can
+   no longer enter is shut in your Inbox rather than read. Shown to nobody
+   else, a moderator included. Forget me and deleting the username delete it.
+
+   A reminder comes due on its own time: the Inbox marks it (`due` on what is
+   new to you, a mark and never a number), and tellReminders, every five
+   minutes, tells your own devices once (notifyReminder). REMIND_DUE is the one
+   small index that run reads, each person's next untold time by dmKey, so it
+   never lists everybody's Inbox; it holds no handle and no message. The
+   friendly edits are a copy of the words "so a bookmark survives", a time
+   beside each bookmark, a count on the Inbox, and a reminder somebody else
+   sets for you. */
+const INBOX = 'inbox/';
+const REMIND_DUE = 'remind-due';
+export const SAVED_MAX = 200;                       // bookmarks one person keeps
+export const REMIND_MAX = 50;                       // reminders one person keeps
+export const REMIND_FAR = 366 * 86400000;           // how far ahead a reminder may be set
+const REMIND_ID = /^r[A-Za-z0-9_-]{10}$/;
+
+function inboxDoc(d) {
+  d = plain(d);
+  const room = (r) => (r === WORLD_CALL ? WORLD_CALL : roomTag(r));
+  const saved = [], seen = new Set();
+  for (const x of Array.isArray(d.saved) ? d.saved : []) {
+    const r = room(x && x.room), id = replyTo(x && x.id);
+    if (!r || !id || seen.has(r + '/' + id)) continue;
+    seen.add(r + '/' + id);
+    saved.push({ room: r, id });
+  }
+  const remind = [];
+  for (const x of Array.isArray(d.remind) ? d.remind : []) {
+    const r = room(x && x.room), id = replyTo(x && x.id);
+    if (!r || !id || !REMIND_ID.test(String(x.r)) || typeof x.due !== 'number' || !isFinite(x.due)) continue;
+    remind.push({ r: x.r, room: r, id, due: x.due, told: x.told === true });
+  }
+  return { handle: typeof d.handle === 'string' ? d.handle : '', saved: saved.slice(0, SAVED_MAX), remind: remind.slice(0, REMIND_MAX) };
+}
+// Whether this pass may hear that channel now: World, or a room it may enter that is not quiet.
+function inboxHears(who, tag) {
+  if (tag === WORLD_CALL) return true;
+  return !!roomTag(tag) && !quietRoom(tag) && roomAllows(who, tag) && !staffShut(tag);
+}
+// The next untold time of a person's reminders, kept in the index, or gone from it.
+async function noteDue(me, doc, s) {
+  const next = doc.remind.filter((x) => !x.told).reduce((a, x) => Math.min(a, x.due), Infinity);
+  await updateMap(REMIND_DUE, 'due', (map) => {
+    if (next === Infinity) { if (!(me in map)) return false; delete map[me]; return; }
+    if (map[me] === next) return false;
+    map[me] = next;
+  }, s);
+}
+async function onTheAir(tag, id, s) {
+  const { messages } = await readTuned(tag, s);
+  return messages.find((m) => m.id === id) || null;
+}
+
+/* Bookmark a message on a channel, or take the bookmark off: `on` true or
+   false, or neither to turn it over. Answers { saved }. */
+export async function bookmark(who, room, id, on, s = store()) {
+  if (!forumReader(who)) return { error: 'claim' };
+  const tag = room === WORLD_CALL || !room ? WORLD_CALL : roomTag(room);
+  id = replyTo(id);
+  if (!tag || !id || !inboxHears(who, tag)) return { error: 'which' };
+  const me = dmKey(who.handle, who.since);
+  const key = (x) => x.room === tag && x.id === id;
+  const was = inboxDoc(await s.get(INBOX + me, { type: 'json' }));
+  const want = typeof on === 'boolean' ? on : !was.saved.some(key);
+  if (want && !(await onTheAir(tag, id, s))) return { error: 'gone' };
+  const out = await updateDm(INBOX + me, inboxDoc, (d) => {
+    const has = d.saved.some(key);
+    if (has === want) return null;
+    if (want && d.saved.length >= SAVED_MAX) return { error: 'full' };
+    return { ...d, handle: who.handle, saved: want ? [{ room: tag, id }, ...d.saved] : d.saved.filter((x) => !key(x)) };
+  }, s);
+  return out.error ? out : { saved: want };
+}
+
+/* Remind me about a message at `due`, a time you chose. Answers { r, due }. */
+export async function remindMe(who, room, id, due, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: 'claim' };
+  const tag = room === WORLD_CALL || !room ? WORLD_CALL : roomTag(room);
+  id = replyTo(id);
+  if (!tag || !id || !inboxHears(who, tag)) return { error: 'which' };
+  if (typeof due !== 'number' || !isFinite(due) || due <= now || due > now + REMIND_FAR) return { error: 'when' };
+  if (!(await onTheAir(tag, id, s))) return { error: 'gone' };
+  const me = dmKey(who.handle, who.since);
+  const r = 'r' + randomBytes(8).toString('base64url').slice(0, 10);
+  const out = await updateDm(INBOX + me, inboxDoc, (d) => {
+    if (d.remind.length >= REMIND_MAX) return { error: 'full' };
+    const remind = [...d.remind, { r, room: tag, id, due: Math.floor(due), told: false }].sort((a, b) => a.due - b.due);
+    return { ...d, handle: who.handle, remind };
+  }, s);
+  if (out.error) return out;
+  await noteDue(me, out, s);
+  return { r, due: Math.floor(due) };
+}
+
+/* A reminder done with, or taken back before it came due. */
+export async function reminderDone(who, r, s = store()) {
+  if (!forumReader(who)) return { error: 'claim' };
+  if (!REMIND_ID.test(String(r))) return { error: 'which' };
+  const me = dmKey(who.handle, who.since);
+  const out = await updateDm(INBOX + me, inboxDoc, (d) => (d.remind.some((x) => x.r === r) ? { ...d, remind: d.remind.filter((x) => x.r !== r) } : null), s);
+  await noteDue(me, out, s);
+  return { done: true };
+}
+
+/* Whether a reminder of yours has come due, for the Inbox's mark: yes or no. */
+export async function remindersDue(who, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return false;
+  const d = inboxDoc(await s.get(INBOX + dmKey(who.handle, who.since), { type: 'json' }));
+  return d.remind.some((x) => x.due <= now);
+}
+
+/* Your bookmarks, newest first, and your reminders, soonest first, each with
+   its message as it is on the channel now: { message }, or { gone } when it
+   is no longer on the air, or { shut } when you can no longer hear the room. */
+export async function inboxSaved(who, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return null;
+  const d = inboxDoc(await s.get(INBOX + dmKey(who.handle, who.since), { type: 'json' }));
+  const logs = new Map();
+  async function look(x) {
+    const out = { room: x.room, id: x.id };
+    if (!inboxHears(who, x.room)) return { ...out, shut: true };
+    if (!logs.has(x.room)) logs.set(x.room, readTuned(x.room, s).then((l) => l.messages, () => []));
+    const said = await logs.get(x.room), i = said.findIndex((m) => m.id === x.id);
+    if (i < 0) return { ...out, gone: true };
+    return { ...out, back: said.length - 1 - i, message: shape([said[i]])[0] };
+  }
+  const saved = [];
+  for (const x of d.saved) saved.push(await look(x));
+  const remind = [];
+  for (const x of d.remind) remind.push({ ...(await look(x)), r: x.r, due: x.due, come: x.due <= now });
+  return { saved, remind };
+}
+
+/* Where you have been @mentioned, by name or as a role you hold, by somebody
+   else: the channels you can hear (Search's rules, so never a room that keeps
+   to itself) and the forums (forumMentions). Worked out from the words every
+   time the tab is opened, and kept nowhere, which is what keeps a list of
+   your mentions from being a record kept against you: when the messages go,
+   so do they. */
+export async function inboxMentions(who, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return null;
+  const me = foldHandle(who.handle);
+  const roles = who.role === 'base' && who.roles ? [...who.roles] : [];
+  const q = cleanSearch({ mentions: [who.handle, ...roles], by: 'person' });
+  const found = q ? await searchChannels(who, q, s, now) : { results: [] };
+  const channel = found.results.filter((x) => x.message && foldHandle(x.message.handle) !== me);
+  let forum = [];
+  try { forum = await forumMentions(who, s, now); } catch (e) { forum = []; }
+  return { channel, forum };
+}
+
+/* Forget me, and deleting the username: the bookmarks and reminders, and the index's line. */
+export async function forgetInbox(handle, since, s = store()) {
+  const me = dmKey(handle, since);
+  await s.delete(INBOX + me);
+  await updateMap(REMIND_DUE, 'due', (map) => { if (!(me in map)) return false; delete map[me]; }, s);
+  return true;
+}
+
+/* Every five minutes (cb-remind): each reminder that has come due and not
+   been told is marked told, once, and then told to its person's own devices.
+   Marked first, so a run that stops halfway never tells anybody twice. */
+export async function tellReminders(s = store(), now = Date.now(), mods, send = sendPush) {
+  const map = plain((await s.get(REMIND_DUE, { type: 'json' }) || {}).due);
+  const told = [];
+  for (const [me, at] of Object.entries(map)) {
+    if (typeof at !== 'number' || at > now || !/^[A-Za-z0-9_-]{32}$/.test(me)) continue;
+    let came = [];
+    const out = await updateDm(INBOX + me, inboxDoc, (d) => {
+      came = d.remind.filter((x) => !x.told && x.due <= now);
+      if (!came.length) return null;
+      return { ...d, remind: d.remind.map((x) => (x.told || x.due > now ? x : { ...x, told: true })) };
+    }, s);
+    await noteDue(me, out, s);
+    if (out.handle) for (const x of came) told.push({ me, handle: out.handle, x });
+  }
+  for (const t of told) await notifyReminder(t.me, t.handle, t.x, s, mods, send).catch(() => null);
+  return told.length;
+}
+
 /* ── Reports, the one way a message reaches the moderators ── */
 
 /* Report a message the other person sent you: its words, who sent it and when,
@@ -6247,7 +6448,7 @@ export async function resetAccount(handle, s = store(), now = Date.now()) {
   return next ? { code, until: now + ACCT_RESET_FOR } : { error: 'That username has not been claimed.' };
 }
 
-/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its crystals, its herbs, its profile and its sets, its own order for the chat page, its props, its chat status, its events and its messages. The username is free again. */
+/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its crystals, its herbs, its profile and its sets, its own order for the chat page, its props, its chat status, its events, its messages, and its bookmarks and reminders. The username is free again. */
 export async function deleteAccount(handle, s = store()) {
   const acct = await readAccount(handle, s);
   if (!acct) return { error: 'That username has not been claimed.' };
@@ -6270,6 +6471,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetEvents(acct.handle, acct.since, s);
   await forgetDms(acct.handle, acct.since, s);
   await forgetReads(acct.handle, acct.since, s);
+  await forgetInbox(acct.handle, acct.since, s);
   await dropDevicesOf(handle, s);
   await s.delete(acctBlob(handle));
   return { deleted: true };
@@ -11057,20 +11259,24 @@ export function cleanSubscription(sub) {
 }
 
 /* What a device asked for: a switch per kind and one for every kind, all off
-   until switched on, the words, on unless switched off, the rooms it follows,
+   until switched on but PUSH_ON's, the words, on unless switched off, the rooms it follows,
    and whether it follows every room. null if it follows too many. */
-export const PUSH_KINDS = ['mentions', 'replies', 'props', 'messages', 'world', 'calls', 'tasks', 'events', 'scheduled', 'suggestions', 'answered'];
+export const PUSH_KINDS = ['mentions', 'replies', 'props', 'messages', 'world', 'calls', 'tasks', 'events', 'scheduled', 'suggestions', 'answered', 'reminders'];
+/* The kinds that START ON, so a device that notifies at all is told unless it
+   switched that one off: only a reminder you set yourself (Ryan's call,
+   2026-10-29), because you asked for that notification when you set it. */
+export const PUSH_ON = ['reminders'];
 export function cleanWant(w) {
   w = w && typeof w === 'object' && !Array.isArray(w) ? w : {};
   const rooms = Array.isArray(w.rooms) ? [...new Set(w.rooms.map(roomTag).filter(Boolean))] : [];
   if (rooms.length > PUSH_ROOMS_MAX) return null;
   const out = { all: w.all === true };
-  for (const k of PUSH_KINDS) out[k] = w[k] === true;
+  for (const k of PUSH_KINDS) out[k] = PUSH_ON.includes(k) ? w[k] !== false : w[k] === true;
   return { ...out, words: w.words !== false, rooms, everyRoom: w.everyRoom === true };
 }
 /* Whether a device wants this kind: its own switch, or Everything. */
 export function wants(w, kind) {
-  return !!(w && typeof w === 'object' && (w.all === true || w[kind] === true));
+  return !!(w && typeof w === 'object' && (w.all === true || w[kind] === true || (PUSH_ON.includes(kind) && w[kind] !== false)));
 }
 /* Whether a device follows this room: on its list, or following every room
    (Norah's ask, 2026-10-21), which takes in rooms that open later and is not
@@ -11605,6 +11811,44 @@ export async function notifyProps(handle, writer, text, s = store(), mods, send 
       if ([...words].length > PUSH_WORDS) words = [...words].slice(0, PUSH_WORDS - 1).join('') + '…';
     }
     sends.push({ id, d, payload: { kind: 'props', handle: String(writer || ''), text: words }, opts: {} });
+  }
+  return deliver(sends, gone, s, send);
+}
+
+/* A reminder you set has come due (tellReminders, under the Inbox): tell your
+   own devices, the ones switched on as you, whose pass is still that claimed
+   username's own (dmKey, so a name claimed again reaches nothing of yours),
+   and only while the pass may still hear the room. When a reminder I set
+   comes due STARTS ON (Ryan's call, 2026-10-29): you asked for this one
+   yourself, so a device that notifies at all tells you unless you switch it
+   off, the one kind in PUSH_ON. It says whose message and where, and its
+   first words if the device wants words and the message is still on the
+   air; a message gone says so, and nobody else is ever told. */
+export async function notifyReminder(me, handle, x, s = store(), mods, send = sendPush) {
+  if (mods === undefined) mods = await loadMods();
+  if (send === sendPush && !pushReady()) return [];
+  const to = foldHandle(handle);
+  if (!to || !x) return [];
+  const room = x.room === WORLD_CALL ? '' : x.room;
+  let msg = null;
+  try { msg = (await readTuned(x.room, s)).messages.find((m) => m.id === x.id) || null; } catch (e) { msg = null; }
+  const devs = await readDevices(s);
+  const sends = [], gone = [];
+  for (const [id, d] of Object.entries(devs)) {
+    if (!d || d.fold !== to || !wants(d.want, 'reminders')) continue;
+    const who = await deviceWho(d, s, mods);
+    if (!who) { gone.push(id); continue; }
+    if (!who.account || dmKey(who.handle, who.since) !== me) continue;
+    if (room && (quietRoom(room) || !roomAllows(who, room))) continue;
+    let text = '';
+    if (msg && d.want.words !== false) {
+      text = linkWords(msg.text || '').replace(/\s+/g, ' ').trim();
+      if ([...text].length > PUSH_WORDS) text = [...text].slice(0, PUSH_WORDS - 1).join('') + '…';
+    }
+    const what = !msg ? 'gone' : msg.img ? 'picture' : (msg.sticker || msg.avatar || msg.chimera || msg.patch || msg.jacket) ? 'sticker' : '';
+    const payload = { kind: 'message', why: 'remind', handle: msg ? msg.handle : '', room, text, what, id: x.id };
+    if (forumRoom(room)) payload.place = forumPlace(room);
+    sends.push({ id, d, payload, opts: { urgency: 'high' } });
   }
   return deliver(sends, gone, s, send);
 }

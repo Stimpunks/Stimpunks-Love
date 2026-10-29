@@ -13,8 +13,10 @@
    ever sent what you have read. See newFor and markRead in ../cb/lib.mjs.
    The {} answer also carries your own chat status, `chat` (2026-10-24), so a
    badge chosen on another device reaches this radio by its next ask without a
-   request of its own; it is chosen at /cb/chat-status. */
-import { readPass, forumReader, newFor, markRead, chatStatusOf, petKey, json, body, sameSite } from '../cb/lib.mjs';
+   request of its own; it is chosen at /cb/chat-status. And `due` (2026-10-29),
+   whether a reminder of yours has come due, so the Inbox can be marked: yes or
+   no, never how many. */
+import { readPass, forumReader, newFor, markRead, chatStatusOf, remindersDue, petKey, json, body, sameSite } from '../cb/lib.mjs';
 
 // Every answer asks search engines not to index or archive it.
 const NOINDEX = { 'x-robots-tag': 'noindex, nofollow, noarchive' };
@@ -32,7 +34,7 @@ export default async (req) => {
       if (r.error) return json(400, { error: 'Which channel or conversation?' }, NOINDEX);
       return json(200, { read: true }, NOINDEX);
     }
-    return json(200, { ...(await newFor(who)), chat: await chatStatusOf(petKey(who.handle)) }, NOINDEX);
+    return json(200, { ...(await newFor(who)), chat: await chatStatusOf(petKey(who.handle)), due: await remindersDue(who) }, NOINDEX);
   } catch (e) {
     return json(503, { error: 'busy' }, NOINDEX);
   }

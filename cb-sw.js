@@ -50,6 +50,7 @@ function noticeWords(rooms) {
     if (/^\/forum\.html#\/c\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p)) return p;
     if (/^\/chat\.html#events(?:\/e[A-Za-z0-9_-]{12})?$/.test(p)) return p;
     if (/^\/chat\.html#[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p)) return p;
+    if (/^\/chat\.html#[a-z0-9]+(?:-[a-z0-9]+)*\/m\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(p)) return p;
     if (/^\/sandbox\.html#suggestion-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(p)) return p;
     return /^\/forum\.html#\/t\/t[A-Za-z0-9_-]{12}(?:\/p[A-Za-z0-9_-]{11})?$/.test(p) ? p : '/';
   }
@@ -190,6 +191,14 @@ function noticeWords(rooms) {
          message still opens its own page. */
       if (place || !tag || tag === 'world') url = '/chat.html#' + (place ? tag : 'world');
       var who = String(d.handle || 'Somebody').slice(0, 40);
+      /* A reminder you set (2026-10-29) opens the chat page on the message
+         itself, and says so if the message has gone. */
+      if (d.why === 'remind') {
+        return { title: 'Reminder: ' + (d.handle ? who + '’s message' : 'a message') + ' ' + (place || tag ? 'in ' + where : 'on World'),
+          body: typeof d.text === 'string' && d.text ? d.text : d.what === 'gone' ? 'That message is no longer on the channel.'
+            : d.what === 'picture' ? 'A picture.' : d.what === 'sticker' ? 'A sticker.' : 'A message you asked to be reminded about.',
+          url: d.what === 'gone' ? url : safePath('/chat.html#' + (tag || 'world') + '/m/' + String(d.id || '')), tag: 'cb-remind-' + String(d.id || '') };
+      }
       var title = d.why === 'mention'
         ? who + ' mentioned ' + called(d) + ' ' + (place || tag ? 'in ' + where : 'on World')
         : d.why === 'reply' ? who + ' replied to you ' + (place || tag ? 'in ' + where : 'on World')

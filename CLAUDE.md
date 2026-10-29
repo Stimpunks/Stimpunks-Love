@@ -4329,6 +4329,22 @@ username delete the record. **The friendly edits are a number beside the dot, a 
 and the tab's title changing**; each is the count or the alert the street still refuses. DECISIONS.md has
 what is still open.
 
+**THE INBOX KEEPS POINTERS AND TIMES, NEVER WORDS, AND ITS MENTIONS ARE KEPT NOWHERE.** A request from our community,
+Ryan's calls, 2026-10-29, after Discord's Inbox: a tray on the radio's bar (`ibBtn`, beside Teleport, which became a
+portal so the two fit where the word did, measured in every theme) drops down Unreads, Mentions, Bookmarks and Reminders
+(`ibMake` and the rest in `cb.js`, the Inbox part of `lib.mjs`, `/cb/inbox`). **Unreads is the Unreads part's list drawn
+again** by `newsShown` into both lists, never a second fetch. **Mentions is `searchChannels` with your handle and your
+roles plus `forumMentions`, worked out when the tab opens**, which is what keeps it off the "list of your mentions" refused
+above. **A bookmark is `{ room, id }` and a reminder `{ r, room, id, due, told }`** in `inbox/<dmKey>`, read off the channel
+on every look (`inboxSaved`), so they go quiet with their message; Bookmark and Remind me are under a channel message's
+three dots, never in a quiet room and not yet in direct messages. `remind-due` is the one index `tellReminders` reads every
+five minutes (`cb-remind`), each person's next untold time by dmKey and nothing else, and a reminder is marked told before
+`notifyReminder` tells its person's own devices. **`reminders` is the one push kind that starts on** (`PUSH_ON`, read by
+`wants()` and `cleanWant`, and `NOTIFY_KINDS`' fourth field on the radio), because you asked for it. Forget me and deleting
+the username call `forgetInbox`. The friendly edits are **the words copied into a bookmark "so it survives"**, **a time
+beside each bookmark**, **a count on the tray**, and **the radio asking about mentions while the Inbox is shut** "so the tray
+can mark a new one"; `DECISIONS.md` has what is open.
+
 **A LINK IN A MESSAGE IS A CARD OF WORDS, AND ONLY WHAT THE STREET ALREADY FRAMES PLAYS IN ONE.** A request from our
 community, Ryan's ask, 2026-10-24, after Discord's embeds: up to `CHAT_PREVIEWS` bare links in a channel message
 (`chatLinks`; not `[words](address)`, not code, not the street, not `<https://…>`, which is how somebody asks for no card)

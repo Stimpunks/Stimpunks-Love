@@ -43,8 +43,8 @@
     return e;
   }
 
-  /* THE BAR'S ICONS: a grip of six dots for Move, and minus and plus for the
-     size, in currentColor, aria-hidden, because each button carries its name.
+  /* THE BAR'S ICONS: a grip of six dots for Move, minus and plus for the
+     size, a portal for Teleport and a tray for the Inbox, in currentColor, aria-hidden, because each button carries its name.
      Here rather than in cb.js because a call's window has them too and a
      guest in a call never loads cb.js; the radio draws its own from here, as
      loveCall.barIcon, so the two bars cannot drift apart. */
@@ -62,6 +62,13 @@
     }
     if (kind === 'grip') {
       [6, 10, 14].forEach(function (y) { [7, 13].forEach(function (x) { add('circle', { cx: String(x), cy: String(y), r: '1.7', fill: 'currentColor' }); }); });
+    } else if (kind === 'teleport') {
+      // A portal with a spark in it (2026-10-29: the word made room for the Inbox).
+      add('ellipse', { cx: '10', cy: '10', rx: '5.6', ry: '7.6', fill: 'none', stroke: 'currentColor', 'stroke-width': '2' });
+      add('path', { d: 'M10 6.4l1 2.6 2.6 1-2.6 1-1 2.6-1-2.6-2.6-1 2.6-1z', fill: 'currentColor' });
+    } else if (kind === 'inbox') {
+      // A tray with a dip in its front, Discord's Inbox (2026-10-29).
+      add('path', { d: 'M3.5 11V5.5a1.5 1.5 0 0 1 1.5-1.5h10a1.5 1.5 0 0 1 1.5 1.5V11m-13 0v3.5A1.5 1.5 0 0 0 5 16h10a1.5 1.5 0 0 0 1.5-1.5V11m-13 0h3.6l1.4 2h3l1.4-2h3.6', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linejoin': 'round' });
     } else if (kind === 'back' || kind === 'forward') {
       add('path', { d: kind === 'back' ? 'M16 10H4.5M9.5 5 4.5 10l5 5' : 'M4 10h11.5M10.5 5l5 5-5 5', fill: 'none', stroke: 'currentColor', 'stroke-width': '2.4', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
     } else {

@@ -1281,11 +1281,31 @@
        navigation on this site, so it sends nothing to the channel and tells
        nobody where you went. It hides while the radio is folded, like Small,
        because folded sends nothing and the list is fetched from this site. */
-    var tp = this.tpBtn = el('button', 'cb-tp', 'Teleport');
+    /* A PORTAL SINCE 2026-10-29, when the word made room for the Inbox on a bar
+       that was already full (Ryan's call): the same readout, the same name to
+       a screen reader, a picture instead of the word. */
+    var tp = this.tpBtn = el('button', 'cb-tp cb-tp--icon');
     tp.type = 'button';
+    tp.setAttribute('aria-label', 'Teleport');
+    tp.title = 'Teleport';
+    tp.appendChild(barIcon('teleport'));
     tp.setAttribute('aria-expanded', 'false');
     tp.setAttribute('aria-controls', 'cb-tp-panel');
     name.appendChild(tp);
+    /* THE INBOX (a request from our community, 2026-10-29, after Discord's):
+       Unreads, Mentions, Bookmarks and Reminders, dropping down from the bar
+       as the teleporter does. Marked, never counted, when something in
+       Unreads is new or a reminder has come due. Hidden while folded, like
+       Teleport, because folded asks nothing. See ibMake. */
+    var ib = this.ibBtn = el('button', 'cb-tp cb-tp--icon cb-ib-btn');
+    ib.type = 'button';
+    ib.setAttribute('aria-label', 'Inbox');
+    ib.title = 'Inbox: unreads, mentions, bookmarks and reminders';
+    ib.appendChild(barIcon('inbox'));
+    ib.setAttribute('aria-expanded', 'false');
+    ib.setAttribute('aria-controls', 'cb-ib-panel');
+    ib.addEventListener('click', function () { me.setInbox(me.ibPanel.hidden); });
+    name.appendChild(ib);
     bar.appendChild(name);
 
     /* MOVE IS A GRIP AND THE SIZE IS MINUS AND PLUS (Ryan, 2026-10-17: Size then
@@ -1410,6 +1430,7 @@
     tpp.appendChild(tlist);
     tpp.appendChild(this.tpNone);
     box.appendChild(tpp);
+    box.appendChild(this.ibMake());
 
     // Everything below the bar is the set, and folding it switches it off.
     var set = this.set = el('div', 'cb-set cb-set--parts');
@@ -2830,6 +2851,7 @@
     this.sizeShown();
     if (tiny) { this.close(); this.tell(''); }
     if (size === 'icon' && !this.tpPanel.hidden) this.setTeleport(false);
+    if (size === 'icon' && !this.ibPanel.hidden) this.setInbox(false);
     if (!quiet) save(this.state);
     this.place();
     if (inWindow() && !quiet) this.fitWindow();
@@ -3025,6 +3047,8 @@
     // yours, for anybody; and, for a moderator's pass only, something new there.
     ['answered', 'When a moderator replies to a suggestion of mine'],
     ['suggestions', 'Something new in the suggestion box: a suggestion, or a reply from whoever dropped it in', 'base'],
+    // A reminder you set yourself (2026-10-29) is the one switch that starts on, PUSH_ON in lib.mjs.
+    ['reminders', 'When a reminder I set comes due', null, 'on'],
     ['words', 'Show the words of a message, a post, props, a task, a suggestion or an event\u2019s title'],
   ];
   function pushable() { return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window; }
@@ -3164,7 +3188,7 @@
     NOTIFY_KINDS.forEach(function (k) {
       if (k[2] === 'base' && !me.state.base) return;
       // The words are not a kind of notification, so Everything leaves them alone.
-      var kind = k[0] !== 'words', is = !!(w[k[0]] || (kind && w.all));
+      var kind = k[0] !== 'words', is = !!(w[k[0]] === true || (k[3] === 'on' && w[k[0]] !== false) || (kind && w.all));
       var b = el('button', 'cb-btn cb-notify__kind', k[1] + ': ' + (is ? 'on' : 'off'));
       b.type = 'button';
       b.setAttribute('aria-pressed', String(is));
@@ -3350,8 +3374,10 @@
     this.set.hidden = folded;
     this.sizer.hidden = folded;
     this.tpBtn.hidden = folded;
+    this.ibBtn.hidden = folded;
     this.breakBarBtn.hidden = !folded;
     if (folded && !this.tpPanel.hidden) this.setTeleport(false);
+    if (folded && !this.ibPanel.hidden) this.setInbox(false);
     if (folded && !this.petsPanel.hidden) this.setPets(false);
     if (folded && !this.acctPanel.hidden) this.setAccount(false);
     if (folded && !this.screenPanel.hidden) this.setScreenPanel(false);
@@ -3877,6 +3903,9 @@
        that keeps to itself, whose #tag is its address. */
     if (!(offList() && this.tunedRoom())) items.push(this.linkBtn(m));
     if (VOICE) items.push(this.readBtn(m, li));
+    /* BOOKMARK and REMIND ME (2026-10-29), into the Inbox, for a claimed
+       username, never in a room that keeps to itself. */
+    if (forumPass(this.state.pass) && !(offList() && this.tunedRoom())) { items.push(this.saveBtn(m)); items.push(this.remindBtn(m, li)); }
     /* EDIT is on your own messages, and only yours, even for the base (Ryan,
        2026-10-18): which are yours to edit is canEdit's rule in lib.mjs,
        asked again by the server. */
@@ -5556,25 +5585,10 @@
     var chanName = {};
     this.searchChannels().forEach(function (c) { chanName[c.tag] = c.tag === WORLD_CALL ? 'World' : '#' + c.name; });
     results.forEach(function (x) {
-      var m = x.message, where = chanName[x.room] || '#' + x.room, bot = !!m.feed;
+      var m = x.message, where = chanName[x.room] || '#' + x.room;
       if (!m || typeof m.id !== 'string') return;
-      var li = el('li', 'cb-msg cb-hit');
-      var head = el('p', 'cb-head');
-      head.appendChild(el('span', 'cb-hit-where', where));
-      head.appendChild(el('b', 'cb-handle', m.handle));
-      if (m.base) head.appendChild(el('span', 'cb-tag', 'BASE'));
-      if (bot) head.appendChild(el('span', 'cb-tag', 'BOT'));
-      var when = el('time', 'cb-time', clock(m.t));
-      when.dateTime = new Date(m.t).toISOString();
-      when.title = new Date(m.t).toLocaleString();
-      head.appendChild(when);
-      li.appendChild(head);
-      var said = el('div', 'cb-text' + (bot ? ' cb-feed' : ''));
-      if (bot) li.appendChild(feedCard(said, m.feed));
-      else { li.appendChild(md(said, m.text)); me.markAt(said, m.at || [], m.roles || []); }
-      if (m.img) said.appendChild(el('p', 'cb-quiet', m.alt ? 'A picture: ' + m.alt : 'A picture, with no description.'));
-      if (m.sticker || m.avatar || m.chimera || m.patch || m.jacket) said.appendChild(el('p', 'cb-quiet', 'A sticker.'));
-      searchMark(said, terms);
+      var li = me.hitLi(m, where);
+      searchMark(li.querySelector('.cb-text'), terms);
       var jump = el('button', 'cb-btn cb-hit-jump', 'Jump to it');
       jump.type = 'button';
       jump.setAttribute('aria-label', 'Jump to ' + m.handle + '’s message ' + sentAt(m.t) + ' in ' + where);
@@ -5585,6 +5599,29 @@
     });
     this.searchMore.hidden = !more;
     if (page && first) first.focus();
+  };
+
+  /* A message found somewhere else than its channel, as a search result and
+     in the Inbox: where, who, when and its words, drawn as the log draws them,
+     and nothing to press yet. */
+  Radio.prototype.hitLi = function (m, where) {
+    var bot = !!m.feed, li = el('li', 'cb-msg cb-hit');
+    var head = el('p', 'cb-head');
+    head.appendChild(el('span', 'cb-hit-where', where));
+    head.appendChild(el('b', 'cb-handle', m.handle));
+    if (m.base) head.appendChild(el('span', 'cb-tag', 'BASE'));
+    if (bot) head.appendChild(el('span', 'cb-tag', 'BOT'));
+    var when = el('time', 'cb-time', clock(m.t));
+    when.dateTime = new Date(m.t).toISOString();
+    when.title = new Date(m.t).toLocaleString();
+    head.appendChild(when);
+    li.appendChild(head);
+    var said = el('div', 'cb-text' + (bot ? ' cb-feed' : ''));
+    if (bot) li.appendChild(feedCard(said, m.feed));
+    else { li.appendChild(md(said, m.text)); this.markAt(said, m.at || [], m.roles || []); }
+    if (m.img) said.appendChild(el('p', 'cb-quiet', m.alt ? 'A picture: ' + m.alt : 'A picture, with no description.'));
+    if (m.sticker || m.avatar || m.chimera || m.patch || m.jacket) said.appendChild(el('p', 'cb-quiet', 'A sticker.'));
+    return li;
   };
 
   // The words searched for, marked where they are in a result's words.
@@ -9285,6 +9322,7 @@
       if (/^\/forum\.html#\/c\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p)) return p;
       if (/^\/chat\.html#events(?:\/e[A-Za-z0-9_-]{12})?$/.test(p)) return p;
       if (/^\/chat\.html#[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p)) return p;
+      if (/^\/chat\.html#[a-z0-9]+(?:-[a-z0-9]+)*\/m\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(p)) return p;
       if (/^\/sandbox\.html#suggestion-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(p)) return p;
       return /^\/forum\.html#\/t\/t[A-Za-z0-9_-]{12}(?:\/p[A-Za-z0-9_-]{11})?$/.test(p) ? p : '/';
     }
@@ -9425,6 +9463,14 @@
            message still opens its own page. */
         if (place || !tag || tag === 'world') url = '/chat.html#' + (place ? tag : 'world');
         var who = String(d.handle || 'Somebody').slice(0, 40);
+        /* A reminder you set (2026-10-29) opens the chat page on the message
+           itself, and says so if the message has gone. */
+        if (d.why === 'remind') {
+          return { title: 'Reminder: ' + (d.handle ? who + '’s message' : 'a message') + ' ' + (place || tag ? 'in ' + where : 'on World'),
+            body: typeof d.text === 'string' && d.text ? d.text : d.what === 'gone' ? 'That message is no longer on the channel.'
+              : d.what === 'picture' ? 'A picture.' : d.what === 'sticker' ? 'A sticker.' : 'A message you asked to be reminded about.',
+            url: d.what === 'gone' ? url : safePath('/chat.html#' + (tag || 'world') + '/m/' + String(d.id || '')), tag: 'cb-remind-' + String(d.id || '') };
+        }
         var title = d.why === 'mention'
           ? who + ' mentioned ' + called(d) + ' ' + (place || tag ? 'in ' + where : 'on World')
           : d.why === 'reply' ? who + ' replied to you ' + (place || tag ? 'in ' + where : 'on World')
@@ -9783,41 +9829,378 @@
     (rooms || []).forEach(function (r) { if (r.tag !== WORLD_CALL && (all || follow.indexOf(r.tag) >= 0) && fresh(r.tag)) items.push({ key: 'r|' + r.tag, room: r }); });
     // A first message waiting is one of these: it opens where Accept is.
     dms.forEach(function (h) { items.push({ key: 'd|' + h, dm: h }); });
+    // The Inbox is marked while anything here is new, or a reminder has come due.
+    markNew(this.ibBtn, items.length > 0 || !!(n && n.due));
+    if (this.ibTabs) markNew(this.ibTabs.remind, !!(n && n.due));
     var sig = JSON.stringify([claimed, items.map(function (x) { return x.key; }), here && here.tag, follow.length > 0, all]);
     if (sig === this.newSig) return;
     this.newSig = sig;
-    var on = this.box.getRootNode().activeElement, keep = on && this.newList.contains(on) ? on.dataset.newKey : null;
-    var ul = this.newList;
-    ul.textContent = '';
-    items.forEach(function (x) {
-      var li = el('li'), b;
-      if (x.room && !(here && x.room.tag === here.tag)) {
-        b = el('a', 'cb-room');
-        b.href = chatHref(x.room) || x.room.path;
-        var hash = el('span', null, '#');
-        hash.setAttribute('aria-hidden', 'true');
-        b.appendChild(hash);
-        b.appendChild(document.createTextNode(x.room.name));
-      } else {
-        b = el('button', 'cb-btn cb-new-go', x.world ? 'World' : x.room ? '#' + x.room.name : 'Messages from ' + x.dm);
-        b.type = 'button';
-        b.addEventListener('click', function () {
-          if (x.world) me.setBand('world');
-          else if (x.room) me.setBand('room');
-          else { me.setDm(true); me.dmOpen(x.dm); }
-        });
-      }
-      b.dataset.newKey = x.key;
-      li.appendChild(b);
-      ul.appendChild(li);
-    });
-    ul.hidden = !items.length;
     var hint = follow.length || all ? '' : 'Follow a room, with Follow this room under Channel, and it is listed here whenever something new is said there; or follow every room, below.';
-    this.newNone.textContent = !claimed
+    var none = !claimed
       ? 'Claim your username, under Account, and the radio marks what is new to you and lists it here.'
       : items.length ? hint : 'Nothing new in World, ' + (all ? 'any room' : 'the rooms you follow') + ' or your messages.' + (hint ? ' ' + hint : '');
-    this.newNone.hidden = !this.newNone.textContent;
-    if (keep) { var again = ul.querySelector('[data-new-key="' + CSS.escape(keep) + '"]'); if (again) again.focus(); }
+    /* The same list, drawn in the Unreads part and in the Inbox's Unreads tab
+       from the one set of items, so the two can never disagree. */
+    var at = this.box.getRootNode().activeElement;
+    [[this.newList, this.newNone], [this.ibNewList, this.ibNewNone]].forEach(function (pair) {
+      var ul = pair[0], said = pair[1];
+      if (!ul) return;
+      var keep = at && ul.contains(at) ? at.dataset.newKey : null;
+      var inInbox = ul === me.ibNewList;
+      ul.textContent = '';
+      items.forEach(function (x) {
+        var li = el('li'), b;
+        if (x.room && !(here && x.room.tag === here.tag)) {
+          b = el('a', 'cb-room');
+          b.href = chatHref(x.room) || x.room.path;
+          var hash = el('span', null, '#');
+          hash.setAttribute('aria-hidden', 'true');
+          b.appendChild(hash);
+          b.appendChild(document.createTextNode(x.room.name));
+          if (inInbox) b.addEventListener('click', function () { me.setInbox(false); });
+        } else {
+          b = el('button', 'cb-btn cb-new-go', x.world ? 'World' : x.room ? '#' + x.room.name : 'Messages from ' + x.dm);
+          b.type = 'button';
+          b.addEventListener('click', function () {
+            if (inInbox) me.setInbox(false);
+            if (x.world) me.setBand('world');
+            else if (x.room) me.setBand('room');
+            else { me.setDm(true); me.dmOpen(x.dm); }
+          });
+        }
+        b.dataset.newKey = x.key;
+        li.appendChild(b);
+        ul.appendChild(li);
+      });
+      ul.hidden = !items.length;
+      // The Follow every room button is under the Unreads part, not in the Inbox.
+      said.textContent = inInbox ? none.replace('every room, below.', 'every room, under Unreads on the radio.') : none;
+      said.hidden = !none;
+      if (keep) { var again = ul.querySelector('[data-new-key="' + CSS.escape(keep) + '"]'); if (again) again.focus(); }
+    });
+  };
+
+  /* ── The Inbox ───────────────────────────────────────────────────────────
+
+     A request from our community, 2026-10-29, after Discord's Inbox, and Ryan's
+     calls the same day. It drops down from the tray on the bar, as the
+     teleporter does, with four tabs (the ARIA tabs pattern, arrows between
+     them):
+
+     · UNREADS is the Unreads part's list, drawn again from the same items by
+       newsShown, so the two cannot disagree. It asks nothing new.
+     · MENTIONS is where you have been @mentioned, on the channels you can hear
+       and in the forums, by somebody else: worked out by the server when the
+       tab is opened and kept nowhere (inboxMentions in lib.mjs), so it is
+       never a list kept against anybody, and a message gone is gone from it.
+     · BOOKMARKS are pointers you keep, each read off its channel when the tab
+       is opened, so a message taken off or past its time says it has gone.
+     · REMINDERS are bookmarks with a time you chose. One that has come due is
+       marked on the tray and on its tab, never counted, and your devices are
+       told once (When a reminder I set comes due, which starts on).
+
+     Bookmark and Remind me are under a message's three dots on the channel.
+     Nothing here is counted, and nothing is asked until a tab is opened: a
+     closed Inbox costs no request but the marks Unreads already asks for. The
+     friendly edits are a number on the tray, a time beside each bookmark, the
+     words copied into a bookmark "so it survives", and listening for mentions
+     while the Inbox is shut. */
+  var IB_TABS = [['unreads', 'Unreads'], ['mentions', 'Mentions'], ['saved', 'Bookmarks'], ['remind', 'Reminders']];
+  // When Remind me can be for: minutes ahead, or a function of now.
+  var REMIND_WHEN = [
+    ['In 20 minutes', function (d) { return d.getTime() + 20 * 60000; }],
+    ['In an hour', function (d) { return d.getTime() + 3600000; }],
+    ['In 3 hours', function (d) { return d.getTime() + 3 * 3600000; }],
+    ['Tomorrow at 9 in the morning', function (d) { var x = new Date(d); x.setDate(x.getDate() + 1); x.setHours(9, 0, 0, 0); return x.getTime(); }],
+    ['In a week', function (d) { return d.getTime() + 7 * 86400000; }],
+  ];
+  function inboxWhere(tag) {
+    if (!tag || tag === WORLD_CALL) return 'World';
+    return '#' + (byTag[tag] ? byTag[tag].name : tag);
+  }
+  // A reminder's time in the reader's own day: today, tomorrow, yesterday, or its date.
+  function remindAt(t) {
+    var d = new Date(t), now = new Date(), one = new Date(now);
+    function same(a, b) { return a.toDateString() === b.toDateString(); }
+    var day;
+    if (same(d, now)) day = 'today';
+    else if (one.setDate(now.getDate() + 1) && same(d, one)) day = 'tomorrow';
+    else if (one.setDate(now.getDate() - 1) && same(d, one)) day = 'yesterday';
+    else day = 'on ' + d.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' });
+    return day + ' at ' + d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  }
+
+  Radio.prototype.ibMake = function () {
+    var me = this;
+    var box = this.ibPanel = el('div', 'cb-ib-panel');
+    box.id = 'cb-ib-panel';
+    box.hidden = true;
+    box.setAttribute('role', 'region');
+    box.setAttribute('aria-labelledby', 'cb-ib-h');
+    var h = el('h2', 'cb-h', 'Inbox');
+    h.id = 'cb-ib-h';
+    box.appendChild(h);
+    var list = el('div', 'cb-ib-tabs');
+    list.setAttribute('role', 'tablist');
+    list.setAttribute('aria-label', 'Inbox');
+    this.ibTabs = {};
+    this.ibPanes = {};
+    this.ibTab = 'unreads';
+    IB_TABS.forEach(function (k) {
+      var b = me.ibTabs[k[0]] = el('button', 'cb-btn cb-ib-tab', k[1]);
+      b.type = 'button';
+      b.id = 'cb-ib-tab-' + k[0];
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-controls', 'cb-ib-pane-' + k[0]);
+      b.addEventListener('click', function () { me.ibShow(k[0]); });
+      b.addEventListener('keydown', function (e) {
+        var i = IB_TABS.map(function (x) { return x[0]; }).indexOf(k[0]), to = null;
+        if (e.key === 'ArrowRight') to = IB_TABS[(i + 1) % IB_TABS.length][0];
+        else if (e.key === 'ArrowLeft') to = IB_TABS[(i + IB_TABS.length - 1) % IB_TABS.length][0];
+        else if (e.key === 'Home') to = IB_TABS[0][0];
+        else if (e.key === 'End') to = IB_TABS[IB_TABS.length - 1][0];
+        if (!to) return;
+        e.preventDefault();
+        me.ibShow(to);
+        me.ibTabs[to].focus();
+      });
+      list.appendChild(b);
+      var pane = me.ibPanes[k[0]] = el('div', 'cb-ib-pane');
+      pane.id = 'cb-ib-pane-' + k[0];
+      pane.setAttribute('role', 'tabpanel');
+      pane.setAttribute('aria-labelledby', b.id);
+      pane.tabIndex = 0;
+    });
+    box.appendChild(list);
+    // Unreads: newsShown fills these, beside the Unreads part's own.
+    this.ibNewList = el('ul', 'cb-new-list');
+    this.ibNewList.hidden = true;
+    this.ibNewNone = el('p', 'cb-quiet');
+    this.ibPanes.unreads.appendChild(this.ibNewList);
+    this.ibPanes.unreads.appendChild(this.ibNewNone);
+    // The other three are each a line saying how it stands, a list and Look again.
+    ['mentions', 'saved', 'remind'].forEach(function (k) {
+      var pane = me.ibPanes[k];
+      pane.appendChild(el('p', 'cb-quiet cb-ib-about', k === 'mentions'
+        ? 'Where somebody has @mentioned you, or a role you hold, on the channels you can hear and in the forums, while the messages are still there. Worked out when you open this tab and kept nowhere.'
+        : k === 'saved'
+          ? 'Messages you bookmarked, under a message’s three dots. A bookmark is only where the message is: when the message goes, so do its words here.'
+          : 'Messages you asked to be reminded about, under a message’s three dots, soonest first. When one comes due it is marked here, and your devices are told if they notify you.'));
+      var ul = el('ul', 'cb-ib-list');
+      ul.setAttribute('aria-live', 'off');
+      pane.appendChild(ul);
+      var none = el('p', 'cb-quiet');
+      none.hidden = true;
+      pane.appendChild(none);
+      var again = el('button', 'cb-btn cb-ib-again', 'Look again');
+      again.type = 'button';
+      again.addEventListener('click', function () { me.ibLoad(k, true); });
+      pane.appendChild(again);
+      me.ibPanes[k + 'List'] = ul;
+      me.ibPanes[k + 'None'] = none;
+    });
+    IB_TABS.forEach(function (k) { box.appendChild(me.ibPanes[k[0]]); });
+    var said = this.ibSaid = el('p', 'cb-said');
+    said.setAttribute('role', 'status');
+    box.appendChild(said);
+    box.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || e.defaultPrevented) return;
+      e.preventDefault();
+      me.setInbox(false);
+      me.ibBtn.focus();
+    });
+    this.ibShow('unreads', true);
+    return box;
+  };
+
+  Radio.prototype.setInbox = function (open) {
+    if (open && !this.tpPanel.hidden) this.setTeleport(false);
+    this.ibPanel.hidden = !open;
+    this.ibBtn.setAttribute('aria-expanded', String(open));
+    this.ibSaid.textContent = '';
+    if (open) {
+      if (!forumPass(this.state.pass)) {
+        this.ibSaid.textContent = 'The Inbox is for a claimed username: claim yours under Account in You on this radio.';
+      }
+      // Due reminders come first, so they are seen; otherwise the tab last open.
+      this.ibShow(this.news && this.news.due ? 'remind' : this.ibTab);
+      this.ibTabs[this.ibTab].focus();
+    }
+    this.place();
+  };
+
+  Radio.prototype.ibShow = function (tab, quiet) {
+    var me = this;
+    this.ibTab = tab;
+    IB_TABS.forEach(function (k) {
+      var on = k[0] === tab;
+      me.ibTabs[k[0]].setAttribute('aria-selected', String(on));
+      me.ibTabs[k[0]].tabIndex = on ? 0 : -1;
+      me.ibPanes[k[0]].hidden = !on;
+    });
+    if (!quiet && tab !== 'unreads') this.ibLoad(tab);
+  };
+
+  // Asked when a tab is opened, and on Look again; never on a timer.
+  Radio.prototype.ibLoad = function (tab, again) {
+    var me = this, pass = this.state.pass;
+    if (!forumPass(pass)) return;
+    var ul = this.ibPanes[tab + 'List'], none = this.ibPanes[tab + 'None'];
+    if (!ul.firstChild || again) { none.hidden = false; none.textContent = 'Looking…'; }
+    call('/cb/inbox', { body: tab === 'mentions' ? { view: 'mentions' } : { view: 'saved' } }, pass).then(function (r) {
+      if (r.status !== 200 || !r.body) { none.hidden = false; none.textContent = (r.body && typeof r.body.error === 'string' && r.body.error !== 'busy') ? r.body.error : 'The street could not be reached just now. Look again in a moment.'; return; }
+      if (tab === 'mentions') me.ibMentions(r.body);
+      else { me.ibSaved(r.body, 'saved'); me.ibSaved(r.body, 'remind'); }
+    }, function () { none.hidden = false; none.textContent = 'The street could not be reached just now. Look again in a moment.'; });
+  };
+
+  /* Where a message is, as something to press: on the chat page, a jump to it
+     there; anywhere else, a link that opens the chat page on it. */
+  Radio.prototype.ibGo = function (x) {
+    var me = this, tag = x.room || WORLD_CALL, m = x.message;
+    var words = 'Go to ' + (m ? m.handle + '’s message' : 'the message') + ' in ' + inboxWhere(tag);
+    if (inChat() && (tag === WORLD_CALL || this.chatHas(tag))) {
+      var b = el('button', 'cb-btn cb-hit-jump', 'Go to it');
+      b.type = 'button';
+      b.setAttribute('aria-label', words);
+      b.addEventListener('click', function () { me.setInbox(false); me.searchJump({ room: tag, back: x.back || 0, message: m || { id: x.id } }); });
+      return b;
+    }
+    var a = el('a', 'cb-btn cb-hit-jump', 'Go to it');
+    a.href = '/chat.html#' + tag + '/m/' + (m ? m.id : x.id);
+    a.setAttribute('aria-label', words + ', on the chat page');
+    return a;
+  };
+
+  Radio.prototype.ibMentions = function (b) {
+    var me = this, ul = this.ibPanes.mentionsList, none = this.ibPanes.mentionsNone;
+    ul.textContent = '';
+    (b.channel || []).forEach(function (x) {
+      if (!x.message || typeof x.message.id !== 'string') return;
+      var li = me.hitLi(x.message, inboxWhere(x.room));
+      li.appendChild(me.ibGo(x));
+      ul.appendChild(li);
+    });
+    (b.forum || []).forEach(function (f) {
+      if (!f || typeof f.id !== 'string' || !f.match) return;
+      var li = el('li', 'cb-msg cb-hit');
+      var head = el('p', 'cb-head');
+      head.appendChild(el('span', 'cb-hit-where', 'In the forums'));
+      head.appendChild(el('b', 'cb-handle', String(f.match.handle || '')));
+      li.appendChild(head);
+      li.appendChild(el('p', 'cb-ib-title', String(f.title || '')));
+      li.appendChild(el('p', 'cb-text', String(f.match.words || '')));
+      var a = el('a', 'cb-btn cb-hit-jump', 'Go to it');
+      a.href = '/forum.html#/t/' + encodeURIComponent(f.id) + (f.match.post ? '/' + encodeURIComponent(f.match.post) : '');
+      a.setAttribute('aria-label', 'Go to ' + f.match.handle + '’s post in ' + (f.title || 'the forums'));
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+    none.hidden = !!ul.firstChild;
+    none.textContent = 'Nobody has @mentioned you on a channel you can hear, or in the forums, in what is there now.';
+  };
+
+  Radio.prototype.ibSaved = function (b, which) {
+    var me = this, ul = this.ibPanes[which + 'List'], none = this.ibPanes[which + 'None'];
+    var list = which === 'saved' ? b.saved : b.remind;
+    this.savedIds = {};
+    (b.saved || []).forEach(function (x) { me.savedIds[(x.room || WORLD_CALL) + '/' + x.id] = true; });
+    ul.textContent = '';
+    (list || []).forEach(function (x) {
+      var where = inboxWhere(x.room), li;
+      if (x.message) li = me.hitLi(x.message, where);
+      else {
+        li = el('li', 'cb-msg cb-hit');
+        var head = el('p', 'cb-head');
+        head.appendChild(el('span', 'cb-hit-where', where));
+        li.appendChild(head);
+        li.appendChild(el('p', 'cb-quiet', x.shut
+          ? 'A message in a room you can no longer go into.'
+          : 'This message is no longer on the channel: taken off, or past its time.'));
+      }
+      if (which === 'remind') {
+        var when = el('p', 'cb-ib-due' + (x.come ? ' cb-ib-due--now' : ''), (x.come ? 'Due: you asked to be reminded ' : 'Remind me ') + remindAt(x.due) + '.');
+        li.insertBefore(when, li.firstChild);
+      }
+      var acts = el('p', 'cb-ib-acts');
+      if (x.message) acts.appendChild(me.ibGo(x));
+      var off = el('button', 'cb-btn', which === 'saved' ? 'Remove bookmark' : x.come ? 'Done' : 'Cancel reminder');
+      off.type = 'button';
+      off.setAttribute('aria-label', (which === 'saved' ? 'Remove the bookmark on ' : x.come ? 'Done with the reminder about ' : 'Cancel the reminder about ') + (x.message ? x.message.handle + '’s message' : 'a message') + ' in ' + where);
+      off.addEventListener('click', function () {
+        var body = which === 'saved' ? { save: { room: x.room, id: x.id }, on: false } : { done: x.r };
+        call('/cb/inbox', { body: body }, me.state.pass).then(function (r) {
+          if (r.status !== 200) { me.ibSaid.textContent = (r.body && typeof r.body.error === 'string' && r.body.error !== 'busy') ? r.body.error : 'That did not work just now.'; return; }
+          var next = li.nextElementSibling || li.previousElementSibling;
+          li.remove();
+          if (which === 'saved') delete me.savedIds[(x.room || WORLD_CALL) + '/' + x.id];
+          me.ibSaid.textContent = which === 'saved' ? 'Bookmark removed.' : x.come ? 'Done.' : 'Reminder cancelled.';
+          none.hidden = !!ul.firstChild;
+          var btn = next && next.querySelector('.cb-ib-acts button, .cb-ib-acts a');
+          (btn || me.ibTabs[which]).focus();
+          if (which === 'remind' && me.news) { me.news.due = false; me.newsAt = 0; }
+        }, function () { me.ibSaid.textContent = 'The street could not be reached just now.'; });
+      });
+      acts.appendChild(off);
+      li.appendChild(acts);
+      ul.appendChild(li);
+    });
+    none.hidden = !!ul.firstChild;
+    none.textContent = which === 'saved' ? 'No bookmarks. Bookmark a message under its three dots.' : 'No reminders. Remind me is under a message’s three dots.';
+  };
+
+  /* BOOKMARK and REMIND ME, under a message's three dots on the channel, for a
+     claimed username, anywhere but a room that keeps to itself. Bookmark says
+     which way it means, by what it says; Remind me opens its times. */
+  Radio.prototype.saveBtn = function (m) {
+    var me = this, tag = this.tunedRoom() || WORLD_CALL;
+    var on = !!(this.savedIds && this.savedIds[tag + '/' + m.id]);
+    var b = el('button', 'cb-btn cb-save-btn', on ? 'Remove bookmark' : 'Bookmark');
+    b.type = 'button';
+    b.addEventListener('click', function () {
+      // Says which way, so a press never takes off a bookmark the radio did not know about.
+      var want = b.textContent === 'Bookmark';
+      call('/cb/inbox', { body: { save: { room: tag, id: m.id }, on: want } }, me.state.pass).then(function (r) {
+        if (r.status !== 200) { me.tell((r.body && typeof r.body.error === 'string' && r.body.error !== 'busy') ? r.body.error : 'That did not work just now.'); return; }
+        me.savedIds = me.savedIds || {};
+        if (r.body.saved) me.savedIds[tag + '/' + m.id] = true; else delete me.savedIds[tag + '/' + m.id];
+        b.textContent = r.body.saved ? 'Remove bookmark' : 'Bookmark';
+        me.tell(r.body.saved ? 'Bookmarked ' + m.handle + '’s message. It is under Bookmarks in the Inbox, while it is on the channel.' : 'Bookmark removed.');
+      }, function () { me.tell('The street could not be reached just now.'); });
+    });
+    return b;
+  };
+  Radio.prototype.remindBtn = function (m, li) {
+    var me = this, tag = this.tunedRoom() || WORLD_CALL;
+    var b = el('button', 'cb-btn cb-remind-btn', 'Remind me');
+    b.type = 'button';
+    b.setAttribute('aria-expanded', 'false');
+    b.addEventListener('click', function () {
+      var row = li.querySelector(':scope > .cb-more-menu > .cb-remind-when');
+      if (row) { row.remove(); b.setAttribute('aria-expanded', 'false'); return; }
+      row = el('span', 'cb-remind-when');
+      row.setAttribute('role', 'group');
+      row.setAttribute('aria-label', 'Remind me about ' + m.handle + '’s message');
+      REMIND_WHEN.forEach(function (w) {
+        var x = el('button', 'cb-btn', w[0]);
+        x.type = 'button';
+        x.addEventListener('click', function () {
+          var due = w[1](new Date());
+          call('/cb/inbox', { body: { remind: { room: tag, id: m.id }, due: due } }, me.state.pass).then(function (r) {
+            if (r.status !== 200) { me.tell((r.body && typeof r.body.error === 'string' && r.body.error !== 'busy') ? r.body.error : 'That did not work just now.'); return; }
+            row.remove();
+            b.setAttribute('aria-expanded', 'false');
+            b.focus();
+            me.tell('I will remind you about ' + m.handle + '’s message ' + remindAt(r.body.due) + ', under Reminders in the Inbox.');
+          }, function () { me.tell('The street could not be reached just now.'); });
+        });
+        row.appendChild(x);
+      });
+      b.parentNode.insertBefore(row, b.nextSibling);
+      b.setAttribute('aria-expanded', 'true');
+      row.firstChild.focus();
+    });
+    return b;
   };
 
   /* ── Messages ────────────────────────────────────────────────────────────
@@ -11976,6 +12359,7 @@
   };
 
   Radio.prototype.setTeleport = function (open) {
+    if (open && !this.ibPanel.hidden) this.setInbox(false);
     this.tpPanel.hidden = !open;
     this.tpBtn.setAttribute('aria-expanded', String(open));
     if (open) {
