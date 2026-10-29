@@ -981,9 +981,12 @@ is: the room's call (`callPlace` moves `callSub` there from In this channel whil
 moved, never copied; that somebody is comes on every listen as `/cb/channel`'s `going`, which is `callsOn`, Who's
 online's list of rooms with calls, and who is in it only to a radio seen here, as before), what is on now from the
 schedule (`nowSub`), and this room's hosts (`filmNowShown`, out of `drawBeacons`' own list and keys), each with **Go to
-Watching together**, which puts the keyboard on their Catch up and presses nothing. The friendly edits are other rooms'
-calls and films there (Who's online, the World room and Hosting now already say them), a Join that plays the film, and
-names in the call line for a radio not seen here.
+Watching together**, which puts the keyboard on their Catch up and presses nothing. **On the chat page's World it
+speaks for every channel** (Ryan's proposal, 2026-10-29, `worldWide()` in `cb.js`): every other room with a call going
+(`elseShown`, from the same `going`, with Join the call through `evJoin`), what is on now in every channel the radio
+was told of, and every host it hears, each linked to their room with their spot. All of it is what Who's online, Events
+and Hosting now already show, so it asks nothing new. The friendly edits are a Join that plays the film, names in a call
+line for a radio not seen there, and the same street-wide list in every room.
 **A long tray ends in its own Close** (`footClose`: Profile, Account, Themes, Notifications, the stickers and Your
 messages), which closes it and puts the view and the keyboard back on the button that opened it; a tray
 drawn afresh on each opening (stickers, the Notifications body) draws its foot again too. `part()` in

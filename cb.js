@@ -1794,6 +1794,17 @@
        here while somebody is in it, and under In this channel otherwise: see
        callPlace. What is on now from the schedule stands here always, and is
        not shown while nothing is. */
+    /* CALLS GOING ELSEWHERE, on the chat page's World only (Ryan's proposal,
+       2026-10-27): every other room whose call has somebody in it, out of the
+       listen's `going`, which Who's online already shows to anybody signed on,
+       the room and never who. See callPlace. */
+    var elseSub = this.elseSub = el('div', 'cb-sub cb-else-sub');
+    elseSub.appendChild(el('h3', 'cb-h3', 'Calls going'));
+    var elseList = this.elseList = el('ul', 'cb-beacons');
+    elseList.setAttribute('aria-label', 'Calls going');
+    elseList.hidden = true;
+    elseSub.appendChild(elseList);
+    nowSec.appendChild(elseSub);
     var nowSub = this.nowSub = el('div', 'cb-sub cb-now-sub');
     nowSub.appendChild(el('h3', 'cb-h3', 'Events'));
     nowSub.appendChild(this.evNowLine);
@@ -1802,7 +1813,7 @@
        view and the keyboard on their row under Watching together, where
        Catch up and Follow are. It presses nothing there. See filmNowShown. */
     var filmNow = el('div', 'cb-sub cb-film-now');
-    filmNow.appendChild(el('h3', 'cb-h3', 'Watching together here'));
+    filmNow.appendChild(this.filmNowHead = el('h3', 'cb-h3', 'Watching together here'));
     var filmNowList = this.filmNowList = el('ul', 'cb-beacons');
     filmNowList.setAttribute('aria-label', 'Watching together here');
     filmNowList.hidden = true;
@@ -4556,6 +4567,10 @@
     return byTag[WORLD_CALL] || { tag: WORLD_CALL, name: 'World', path: '/' + WORLD_CALL + '.html' };
   }
 
+  /* World picked on the chat page, where Happening now speaks for every channel
+     the reader can hear rather than for one room (Ryan's proposal, 2026-10-29). */
+  function worldWide() { return inChat() && chatRoom().tag === WORLD_CALL; }
+
   /* The groups make-chat.py wrote on the chat page: Community's rooms, World
      first, in its order; Staff's, each with the roles that open it, as its
      Town Hall page carries them; and every other room by its tags, out of
@@ -6540,21 +6555,24 @@
   // What is on now in the room you are in, or in the channel picked.
   Radio.prototype.evNowShown = function (live, now) {
     var line = this.evNowLine, me = this;
-    var here = hereRoom(), tag = here && !here.quiet ? here.tag : (worldHere() ? WORLD_CALL : null);
-    var on = tag ? live.filter(function (e) { return e.room === tag && e.start <= now; }) : [];
-    var key = JSON.stringify([on.map(function (e) { return [e.id, e.title, e.end]; }), tag]);
+    var here = hereRoom(), tag = here && !here.quiet ? here.tag : (worldHere() ? WORLD_CALL : null), wide = worldWide();
+    // On the chat page's World, what is on now in every channel the radio was told of.
+    var on = wide ? live.filter(function (e) { return e.start <= now; })
+      : tag ? live.filter(function (e) { return e.room === tag && e.start <= now; }) : [];
+    var key = JSON.stringify([on.map(function (e) { return [e.id, e.title, e.end, e.room]; }), tag, wide]);
     if (key === this.evNowKey) return;
     this.evNowKey = key;
     line.textContent = '';
     line.hidden = !on.length;
     if (!on.length) return;
-    line.appendChild(document.createTextNode((inChat() ? 'On now in this channel: ' : 'On now in this room: ')));
+    line.appendChild(document.createTextNode(wide ? 'On now: ' : inChat() ? 'On now in this channel: ' : 'On now in this room: '));
     on.forEach(function (e, i) {
       if (i) line.appendChild(document.createTextNode('; '));
       var b = el('button', 'cb-ev-link', e.title);
       b.type = 'button';
       b.addEventListener('click', function () { me.evGo(e.id); });
       line.appendChild(b);
+      if (wide) line.appendChild(document.createTextNode(e.room === WORLD_CALL ? ' on World' : ' in #' + ((byTag[e.room] || {}).name || e.room)));
       line.appendChild(document.createTextNode(', until ' + hhmm(new Date(e.end))));
     });
     line.appendChild(document.createTextNode('.'));
@@ -13751,11 +13769,45 @@
       ? 'Somebody is in this room\u2019s call now.'
       : 'Somebody is in this room\u2019s call now. Switch on Be seen here to see who.';
     var going = inIt || !!this.callFull || listed;
-    var to = going ? this.nowSec : this.hereSec, before = going ? this.nowSub : this.famSub;
+    var to = going ? this.nowSec : this.hereSec, before = going ? this.elseSub : this.famSub;
+    this.elseShown(here);
     if (sub.parentNode === to) return;
     var root = sub.getRootNode(), had = root.activeElement && sub.contains(root.activeElement) ? root.activeElement : null;
     to.insertBefore(sub, before);
     if (had) had.focus();
+  };
+
+  /* CALLS GOING ELSEWHERE, under Happening now on the chat page's World: each
+     room, a link to its channel, and Join the call, which takes the chat there
+     and joins (evJoin), a press of the reader's. Never a room the list does not
+     know, so never a room that keeps to itself, which `going` leaves out too.
+     Rows are drawn again only when the rooms change. */
+  Radio.prototype.elseShown = function (here) {
+    var me = this, ul = this.elseList;
+    var tags = worldWide() && Array.isArray(this.callGoing) ? this.callGoing.filter(function (t) {
+      return t !== WORLD_CALL && (!here || t !== here.tag) && byTag[t] && !byTag[t].quiet;
+    }) : [];
+    var key = tags.join('|');
+    if (key === this.elseKey) return;
+    this.elseKey = key;
+    ul.textContent = '';
+    tags.forEach(function (t) {
+      var r = byTag[t], li = el('li', 'cb-beacon'), a = el('a', 'cb-room');
+      var hash = el('span', null, '#');
+      hash.setAttribute('aria-hidden', 'true');
+      a.appendChild(hash);
+      a.appendChild(document.createTextNode(r.name));
+      a.href = chatHref(r) || r.path;
+      li.appendChild(a);
+      li.appendChild(document.createTextNode(': somebody is in its call.'));
+      var j = el('button', 'cb-btn cb-now-go', 'Join the call');
+      j.type = 'button';
+      j.setAttribute('aria-label', 'Join the call in ' + r.name);
+      j.addEventListener('click', function () { me.evJoin(t); });
+      li.appendChild(j);
+      ul.appendChild(li);
+    });
+    ul.hidden = !tags.length;
   };
 
   /* FAMILIARS IN THE ROOM (Ryan, 2026-10-19: let other people see what
@@ -14303,20 +14355,27 @@
      a button goes to is always there. Rows are kept and only their place is
      written, drawBeacons' rule, so the keyboard is not thrown off every listen. */
   Radio.prototype.filmNowShown = function (list, keys) {
-    var ul = this.filmNowList, me = this, here = [], hk = [], i;
-    for (i = 0; i < list.length; i++) if (keys[i].split('|')[1] !== 'there') { here.push(list[i]); hk.push(keys[i]); }
+    var ul = this.filmNowList, me = this, here = [], hk = [], i, wide = worldWide();
+    // On the chat page's World, every host the radio hears; anywhere else, this room's.
+    for (i = 0; i < list.length; i++) if (wide || keys[i].split('|')[1] !== 'there') { here.push(list[i]); hk.push(keys[i]); }
+    this.filmNowHead.textContent = wide ? 'Watching together' : 'Watching together here';
     var kids = ul.children, same = kids.length === hk.length;
     for (i = 0; same && i < kids.length; i++) same = kids[i].dataset.key === hk[i];
     if (!same) {
       ul.textContent = '';
       here.forEach(function (b, j) { ul.appendChild(me.filmNowRow(b, hk[j])); });
     }
-    for (i = 0; i < here.length; i++) ul.children[i].querySelector('.cb-beacon-at').textContent = this.beaconAt(here[i]);
+    for (i = 0; i < here.length; i++) {
+      var li = ul.children[i], b = here[i];
+      li.querySelector('.cb-beacon-at').textContent = this.beaconAt(b);
+      var a = li.querySelector('a.cb-room');
+      if (a) a.href = roomHref(byTag[b.room], '#spot=' + (b.live ? 'live' : Math.floor(this.placeOf(b))) + '&film=' + encodeURIComponent(b.film));
+    }
     ul.hidden = !here.length;
   };
 
   Radio.prototype.filmNowRow = function (b, key) {
-    var li = el('li', 'cb-beacon'), mine = key.split('|')[1] === 'mine', me = this;
+    var li = el('li', 'cb-beacon'), kind = key.split('|')[1], mine = kind === 'mine', me = this;
     li.dataset.key = key;
     if (mine) li.appendChild(document.createTextNode('You are hosting '));
     else {
@@ -14324,7 +14383,21 @@
       if (b.base) li.appendChild(el('span', 'cb-tag', 'BASE'));
       li.appendChild(document.createTextNode(' is hosting '));
     }
-    li.appendChild(document.createTextNode('\u201c' + b.film + '\u201d here: '));
+    li.appendChild(document.createTextNode('\u201c' + b.film + '\u201d '));
+    if (kind === 'there') {
+      // In another room: a link there, carrying the host's spot, as Hosting now's is.
+      li.appendChild(document.createTextNode('at '));
+      var a = el('a', 'cb-room'), hash = el('span', null, '#');
+      hash.setAttribute('aria-hidden', 'true');
+      a.appendChild(hash);
+      a.appendChild(document.createTextNode(byTag[b.room].name));
+      li.appendChild(a);
+      li.appendChild(document.createTextNode(': '));
+      li.appendChild(el('span', 'cb-beacon-at'));
+      li.appendChild(document.createTextNode('.'));
+      return li;
+    }
+    li.appendChild(document.createTextNode('here: '));
     li.appendChild(el('span', 'cb-beacon-at'));
     li.appendChild(document.createTextNode('.'));
     var go = el('button', 'cb-btn cb-now-go', 'Go to Watching together');
