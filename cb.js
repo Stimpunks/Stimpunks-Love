@@ -3036,6 +3036,7 @@
     ['replies', 'When somebody replies to me'],
     ['props', 'When somebody gives me props'],
     ['messages', 'When somebody messages me'],
+    ['ringing', 'When somebody I\u2019m messaging opens a call with me'],
     ['world', 'Every message on World'],
     ['calls', 'Calls starting in rooms I follow, and the World call'],
     // Tasks are for directors, board members and administrators, on the base pass, so only a base pass is offered the switch.
@@ -6119,7 +6120,7 @@
       if (r.status === 401) return me.lost();
       if (r.ok) me.dmCallWith = who;
       me.callShown();
-      said(r.ok ? r.said + ' ' + who + ' is not told: say so in your conversation.' : r.said);
+      said(r.ok ? r.said + ' ' + who + ' is rung only on devices they switched on for calls from people they message, so say so in your conversation too.' : r.said);
     });
   };
 
@@ -9632,6 +9633,13 @@
       }
       if (d.kind === 'dm') {
         var sender = String(d.handle || 'Somebody').slice(0, 40);
+        /* A ring (2026-10-29): somebody you are messaging opened your call. It
+           opens the conversation, where Join call is, as a message does. */
+        if (d.call === true) {
+          return Promise.resolve({ title: sender + ' opened a call with you',
+            body: 'Open your conversation on the chat page to join it: Join call is under the \u2026 beside it.',
+            url: '/chat.html#cb=messages', tag: 'cb-dmcall-' + sender, dm: d.handle ? sender : '' });
+        }
         return Promise.resolve({ title: d.asked ? sender + ' asks to message you' : sender + ' sent you a message',
           body: typeof d.text === 'string' && d.text ? d.text : d.asked ? 'It waits under Messages on the CB for you to answer it, accept it or reject it.'
             : d.what === 'picture' ? 'A picture. Open Messages on the CB to see it.'

@@ -11323,7 +11323,7 @@ export function cleanSubscription(sub) {
 /* What a device asked for: a switch per kind and one for every kind, all off
    until switched on but PUSH_ON's, the words, on unless switched off, the rooms it follows,
    and whether it follows every room. null if it follows too many. */
-export const PUSH_KINDS = ['mentions', 'replies', 'props', 'messages', 'world', 'calls', 'tasks', 'events', 'scheduled', 'suggestions', 'answered', 'reminders'];
+export const PUSH_KINDS = ['mentions', 'replies', 'props', 'messages', 'ringing', 'world', 'calls', 'tasks', 'events', 'scheduled', 'suggestions', 'answered', 'reminders'];
 /* The kinds that START ON, so a device that notifies at all is told unless it
    switched that one off: only a reminder you set yourself (Ryan's call,
    2026-10-29), because you asked for that notification when you set it. */
@@ -11996,6 +11996,29 @@ export async function notifyDm(handle, sender, said, asked, s = store(), mods, s
     if (picture) payload.what = 'picture';
     else if (stuck) payload.what = 'sticker';
     sends.push({ id, d, payload, opts: {} });
+  }
+  return deliver(sends, gone, s, send);
+}
+
+/* A RING (Ryan's ask, 2026-10-29): somebody opened the call with somebody
+   they are messaging (dmCallFor, from /cb/call, which has already found the
+   conversation accepted and nobody blocked), so the other person's devices
+   switched on for `ringing`, as that claimed username, are told who, and
+   nothing else. Nothing records whether anybody is in the call, so it rings
+   whoever opens it, the second person included. */
+export async function notifyDmCall(handle, sender, s = store(), mods, send = sendPush) {
+  if (mods === undefined) mods = await loadMods();
+  if (send === sendPush && !pushReady()) return [];
+  const to = foldHandle(handle), from = foldHandle(sender);
+  if (!to || to === from) return [];
+  const devs = await readDevices(s);
+  const sends = [], gone = [];
+  for (const [id, d] of Object.entries(devs)) {
+    if (!d || d.fold !== to || !wants(d.want, 'ringing')) continue;
+    const who = await deviceWho(d, s, mods);
+    if (!who) { gone.push(id); continue; }
+    if (!forumReader(who) || foldHandle(who.handle) !== to) continue;
+    sends.push({ id, d, payload: { kind: 'dm', handle: String(sender || ''), call: true }, opts: {} });
   }
   return deliver(sends, gone, s, send);
 }

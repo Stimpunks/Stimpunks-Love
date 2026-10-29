@@ -4292,8 +4292,11 @@ in an address and the browser's history. **Join call** joins the room's call thr
 (`takeMineDm`, after asking), and **Join call**, a call for the two people only (`dmCallFor`: accepted, no block, a
 `dmcall-` name hashed from the pair, `callToken(…, { dm: true })` with nobody moderating or recording). **A `dmcall-`
 name is never a room**: `roomAllows` refuses it and `callEventRoom` ignores it, so nothing records who is in it, it is
-never on Who's online and it tells nobody. The friendly edits are ringing the other person, which is a notification
-`privacy.html#conversation-calls` does not mention, and a who-is-in-it line, which is a record kept of two people.
+never on Who's online. **Opening it rings the other person** (Ryan's ask, the same day): `notifyDmCall`, from `/cb/call`
+after the token, to their devices switched on for `ringing` (off until switched on), saying who and nothing else, as a
+`dm` payload with `call: true`, which opens the conversation. It rings whoever opens it, the second person included,
+because nothing records who is in the call. The friendly edits are a who-is-in-it line "so the second person is not
+rung", which is a record kept of two people, and a ring that starts on.
 
 **BACK AND FORWARD ON THE CHAT PAGE ARE THE TAB'S HISTORY, AND A STEP HOLDS NO NAME.** Ryan's ask, 2026-10-29: two
 arrows on the chat page's bar (`histGo`, `histShown`), and every view in the middle a step. A channel and Events are steps

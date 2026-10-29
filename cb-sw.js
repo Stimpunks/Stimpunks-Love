@@ -160,6 +160,13 @@ function noticeWords(rooms) {
     }
     if (d.kind === 'dm') {
       var sender = String(d.handle || 'Somebody').slice(0, 40);
+      /* A ring (2026-10-29): somebody you are messaging opened your call. It
+         opens the conversation, where Join call is, as a message does. */
+      if (d.call === true) {
+        return Promise.resolve({ title: sender + ' opened a call with you',
+          body: 'Open your conversation on the chat page to join it: Join call is under the \u2026 beside it.',
+          url: '/chat.html#cb=messages', tag: 'cb-dmcall-' + sender, dm: d.handle ? sender : '' });
+      }
       return Promise.resolve({ title: d.asked ? sender + ' asks to message you' : sender + ' sent you a message',
         body: typeof d.text === 'string' && d.text ? d.text : d.asked ? 'It waits under Messages on the CB for you to answer it, accept it or reject it.'
           : d.what === 'picture' ? 'A picture. Open Messages on the CB to see it.'

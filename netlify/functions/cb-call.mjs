@@ -4,9 +4,9 @@
    only, under a name they typed. A conversation's call, { with: handle }, is
    for the two people in it only (dmCallFor). Nothing about the call is kept
    here. */
-import { readPass, roomTag, roomAllows, publicCall, cleanHandle, callsReady, callToken, callSrc, dmReady, dmCallFor, forumReader, json, body, sameSite } from '../cb/lib.mjs';
+import { readPass, roomTag, roomAllows, publicCall, cleanHandle, callsReady, callToken, callSrc, dmReady, dmCallFor, notifyDmCall, forumReader, json, body, sameSite } from '../cb/lib.mjs';
 
-export default async (req) => {
+export default async (req, context) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
   if (!callsReady()) return json(503, { error: 'Calls are not switched on yet.' });
   const b = await body(req);
@@ -21,6 +21,9 @@ export default async (req) => {
     let token = null;
     try { token = callToken(who, r.tag, undefined, undefined, { dm: true }); } catch (e) { token = null; }
     if (!token) return json(503, { error: 'Calls are switched on but the signing key cannot be read. Tell the base.' });
+    // Rings the other person's devices that asked to be rung (notifyDmCall), after the answer.
+    const rung = notifyDmCall(r.handle, who.handle).catch(() => []);
+    if (context && typeof context.waitUntil === 'function') context.waitUntil(rung); else await rung;
     return json(200, { room: r.tag, src: callSrc(r.tag, token) });
   }
   const room = roomTag(b && b.room);

@@ -65,7 +65,7 @@ import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, ke
   mentions, notifyMessage, notifyEdit, notifyCall, pushDeviceId, PUSH_PER_HANDLE, CALL_QUIET, followsRoom,
   noticeArchive, noticeOf, forgetNotices, NOTICE_KEEP } from './lib.mjs';
 import { readWireXml, runFeedBot, keepBot, feedRooms, FEED_KEEP, FEED_RUN, FEED_NAMES, botWord, shapeFeed } from './lib.mjs';
-import { dmKey, sendDm, readDmWith, listDms, acceptDm, rejectDm, takeDm, takeMineDm, dmCallFor, dmCallTag, editDm, setDmOpen, blockDm, unblockDm, forgetDms,
+import { dmKey, sendDm, readDmWith, listDms, acceptDm, rejectDm, takeDm, takeMineDm, dmCallFor, dmCallTag, notifyDmCall, editDm, setDmOpen, blockDm, unblockDm, forgetDms,
   reportDm, readReports, closeReport, sweepDms, shapeDm, notifyDm, readDmSet, DM_KEEP, DM_WITH, REPORT_DAYS } from './lib.mjs';
 
 function memoryStore({ etagOnRead }) {
@@ -3936,7 +3936,7 @@ test('only a real push service\'s address, with keys the right size, is kept', (
   const offCurve = rnd(65); offCurve[0] = 4;
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: offCurve.toString('base64url') } }), null, 'a key that is not a point');
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: rnd(64).toString('base64url') } }), null, 'a key the wrong size');
-  assert.deepEqual(cleanWant({}), { all: false, mentions: false, replies: false, props: false, messages: false, world: false, calls: false, tasks: false, events: false, scheduled: false, suggestions: false, answered: false, reminders: true, words: true, rooms: [], everyRoom: false }, 'something started on that is not in PUSH_ON');
+  assert.deepEqual(cleanWant({}), { all: false, mentions: false, replies: false, props: false, messages: false, ringing: false, world: false, calls: false, tasks: false, events: false, scheduled: false, suggestions: false, answered: false, reminders: true, words: true, rooms: [], everyRoom: false }, 'something started on that is not in PUSH_ON');
   assert.equal(cleanWant({ reminders: false }).reminders, false, 'a reminder switched off came back on');
   assert.equal(wants({}, 'reminders'), true, 'a device saved before reminders was not told about one');
   assert.equal(wants({ reminders: false }, 'reminders'), false);
@@ -4792,6 +4792,24 @@ test('a message tells only the devices switched on for messages, as that claimed
   sent.length = 0;
   await notifyDm('Bex', 'bex', 'to myself', false, s, readMods(''), send);
   assert.equal(sent.length, 0, 'somebody was told about their own message');
+}));
+
+test('opening a conversation\u2019s call rings only the devices switched on for it, and says who and nothing else', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await claimAccount('Bex', 'a long enough phrase', s, 22, null);
+  const acct = await readAccount('Bex', s);
+  const on = aDevice(), off = aDevice(), every = aDevice();
+  await keepDevice(on, issueAccountPass('Bex', acct.v), { ringing: true }, s);
+  await keepDevice(off, issueAccountPass('Bex', acct.v), { messages: true }, s);
+  await keepDevice(every, issueAccountPass('Bex', acct.v), { all: true }, s);
+  const sent = [];
+  const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
+  await notifyDmCall('Bex', 'Ada', s, readMods(''), send);
+  assert.deepEqual(sent.map((x) => x.to).sort(), [on.endpoint, every.endpoint].sort(), 'a ring reached a device not switched on for it, or missed Everything');
+  assert.deepEqual(sent[0].payload, { kind: 'dm', handle: 'Ada', call: true });
+  sent.length = 0;
+  await notifyDmCall('Bex', 'bex', s, readMods(''), send);
+  assert.equal(sent.length, 0, 'somebody was rung by their own call');
 }));
 
 import { wants, PUSH_KINDS } from './lib.mjs';
