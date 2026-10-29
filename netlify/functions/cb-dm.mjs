@@ -17,6 +17,7 @@
      { with, accept: true }          accept what they asked
      { with, reject: true }          reject it: emptied, and nobody is told
      { with, take: id }              take one of your messages back
+     { with, takeMine: true }        take back every message of yours in it
      { with, edit: id, text }        edit one of your messages
      { with, block: true }           block them, which empties the conversation
      { unblock: handle }             stop blocking them
@@ -31,7 +32,7 @@
    be checked before anybody writes, '' for none, and none while they are not
    taking messages from you or you have blocked them. It is a sign and never a
    lock: nothing here refuses a message because of it. */
-import { dmReady, readPass, forumReader, listDms, readDmWith, chatStatusOf, petKey, sendDm, acceptDm, rejectDm, takeDm, editDm, reactDm, setDmOpen, blockDm,
+import { dmReady, readPass, forumReader, listDms, readDmWith, chatStatusOf, petKey, sendDm, acceptDm, rejectDm, takeDm, takeMineDm, editDm, reactDm, setDmOpen, blockDm,
   unblockDm, reportDm, notifyDm, cleanHandle, MESSAGE_MAX, REPORT_NOTE_MAX, DM_WITH, json, body, sameSite } from '../cb/lib.mjs';
 
 // Every answer asks search engines not to index or archive it, as
@@ -102,6 +103,12 @@ export default async (req, context) => {
     if (typeof b.take === 'string') {
       const r = await takeDm(who, handle, b.take);
       if (r.error) return json(404, { error: 'That message is not there any more, or is not yours.' });
+      return talk();
+    }
+    if (b.takeMine === true) {
+      const r = await takeMineDm(who, handle);
+      if (r.error === 'none') return json(404, { error: 'You have no messages left in that conversation.' });
+      if (r.error) return json(404, { error: 'That conversation is not there any more.' });
       return talk();
     }
     if (typeof b.react === 'string') {

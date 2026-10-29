@@ -4630,7 +4630,7 @@
     if (radio && radio.dmBox) {
       dms.push({ dm: '', name: 'All messages' });
       var b = radio.dmInboxBody, convs = b && Array.isArray(b.conversations) ? b.conversations : [];
-      convs.forEach(function (c) { if (c && typeof c.handle === 'string') dms.push({ dm: c.handle, name: c.handle, asking: c.state === 'asking' }); });
+      convs.forEach(function (c) { if (c && typeof c.handle === 'string') dms.push({ dm: c.handle, name: c.handle, asking: c.state === 'asking', state: c.state }); });
     }
     return [
       { key: 'community', name: 'Community', rooms: community },
@@ -5860,8 +5860,8 @@
         }
         a.tabIndex = -1;
         li.appendChild(a);
-        // A channel's own menu, beside it (see chanMenu); a conversation has none.
-        if (r.dm == null) {
+        // A channel's own menu, beside it, and a conversation's (see chanMenu); All messages has none.
+        if (r.dm == null || r.dm) {
           li.className = 'cb-chan-row';
           var mb0 = el('button', 'cb-btn cb-ico cb-chan-menu');
           mb0.type = 'button';
@@ -5869,7 +5869,7 @@
           mb0.appendChild(msgIcon('more'));
           mb0.setAttribute('aria-haspopup', 'menu');
           mb0.setAttribute('aria-expanded', 'false');
-          mb0.setAttribute('aria-label', 'More for ' + (r.tag === WORLD_CALL ? 'World' : '#' + r.name));
+          mb0.setAttribute('aria-label', 'More for ' + (r.dm ? 'your conversation with ' + r.dm : r.tag === WORLD_CALL ? 'World' : '#' + r.name));
           mb0.title = 'More';
           li.appendChild(mb0);
         }
@@ -5976,7 +5976,9 @@
     if (!a) return null;
     for (var i = 0; i < this.chatLinks.length; i++) {
       var x = this.chatLinks[i];
-      if (x.a === a) return x.room && x.dm == null && !x.ev ? x : null;
+      if (x.a !== a) continue;
+      if (x.ev) return null;
+      return x.dm != null ? (x.dm ? x : null) : x.room ? x : null;
     }
     return null;
   };
@@ -5992,7 +5994,7 @@
 
   Radio.prototype.chanMenu = function (x, at, from) {
     var me = this, r = x.room, tag = x.tag, world = tag === WORLD_CALL;
-    var name = world ? 'World' : '#' + r.name;
+    var name = x.dm ? 'Your conversation with ' + x.dm : world ? 'World' : '#' + r.name;
     this.chanMenuShut(false);
     var said = function (t) { me.chatMenuSaid.textContent = t; };
     var pop = el('div', 'cb-chan-pop');
@@ -6015,6 +6017,17 @@
       hr.setAttribute('role', 'separator');
       pop.appendChild(hr);
     }
+    if (x.dm) this.dmMenuItems(x.dm, r, item, said);
+    else this.chanMenuItems(x, r, item, line, said);
+    if (pop.lastChild && pop.lastChild.getAttribute('role') === 'separator') pop.removeChild(pop.lastChild);
+    // A request waiting on your answer has nothing here yet: it is answered in the conversation.
+    if (!items.length) { said(x.dm ? x.dm + ' is waiting for your answer: open the conversation to accept or reject it.' : ''); return; }
+    this.chanMenuPop(pop, items, at);
+  };
+
+  Radio.prototype.chanMenuItems = function (x, r, item, line, said) {
+    var me = this, tag = x.tag, world = tag === WORLD_CALL;
+    var name = world ? 'World' : '#' + r.name;
     // Something new since you last read it: Mark as read sends what reading it would.
     var n = this.news, newest = n && n.latest && n.latest[tag];
     if (forumPass(this.state.pass) && newest && newest > ((n.read && n.read[tag]) || 0)) {
@@ -6031,6 +6044,21 @@
         said(follows ? 'Not following ' + name + ' any more.'
           : 'Following ' + name + ': Unreads lists it whenever something new is said there. Kept in this browser only.');
       });
+    }
+    line();
+    /* JOIN CALL (Ryan's ask, 2026-10-29): the channel's room's call, here on
+       the chat page beside its channel, as an event's Join the call here does
+       (evJoin), or the World call; and JOIN CALL IN ROOM, the room's own page,
+       arriving with the keyboard on its Join button and nothing pressed
+       (toCall, #cb=call), because a link anybody can write must not open a
+       call. Leave call while you are in it. */
+    if (this.calls) {
+      if (callOpenTag() === tag) item('Leave call', function () { me.setCall(false, world); });
+      else if (world) item('Join call', function () { me.setCall(true, true); });
+      else item('Join call', function () { me.evJoin(tag); });
+    }
+    if (this.calls && !world && !r.forum && /^\/[a-z0-9-]+\.html$/.test(r.path)) {
+      item('Join call in room', function () { me.tabTold(goPage(r.path + '#cb=call'), null); });
     }
     line();
     item('Copy link', function () {
@@ -6059,7 +6087,88 @@
     item(world ? 'Go to the World room' : r.forum ? 'Go to the category' : 'Go to the room', function () {
       me.tabTold(goPage(r.path), null);
     });
-    if (pop.lastChild && pop.lastChild.getAttribute('role') === 'separator') pop.removeChild(pop.lastChild);
+  };
+
+  /* A CONVERSATION'S MENU (Ryan's ask, 2026-10-29): Join call, a call for
+     the two of you only, once the conversation is accepted (dmCallJoin), and
+     Delete my messages, every message of yours in it taken back after asking,
+     as Take back takes one. */
+  Radio.prototype.dmMenuItems = function (who, r, item, said) {
+    var me = this;
+    if (this.calls && r.state === 'open') {
+      var inIt = this.dmCallWith && fold(this.dmCallWith) === fold(who) && !!callOpenTag();
+      if (inIt) item('Leave call', function () { window.loveCall.leave(); });
+      else item('Join call', function () { me.dmCallJoin(who); });
+    }
+    if (r.state === 'open' || r.state === 'asked') {
+      item('Delete my messages', function () { me.dmTakeMine(who); });
+    }
+  };
+
+  Radio.prototype.dmCallJoin = function (who) {
+    var me = this, said = function (t) { me.chatMenuSaid.textContent = t; };
+    said('Opening the call with ' + who + '\u2026');
+    window.loveCall.open({ tag: 'dm', with: who, name: who, title: 'The call with ' + who }, {
+      left: function (why) {
+        me.callShown();
+        if (why === 'switch') return;
+        me.dmCallWith = null;
+        said('You have left the call with ' + who + '.');
+      }
+    }).then(function (r) {
+      if (r.status === 401) return me.lost();
+      if (r.ok) me.dmCallWith = who;
+      me.callShown();
+      said(r.ok ? r.said + ' ' + who + ' is not told: say so in your conversation.' : r.said);
+    });
+  };
+
+  // Asked first, under the conversation in the list, and then every message of yours taken back.
+  Radio.prototype.dmTakeMine = function (who) {
+    var me = this, x = this.chatLinks.filter(function (y) { return y.dm && fold(y.dm) === fold(who); })[0];
+    if (!x) return;
+    var li = x.li, was = li.querySelector('.cb-chan-sure');
+    if (was) was.remove();
+    var sure = el('div', 'cb-forget-sure cb-chan-sure');
+    sure.appendChild(el('p', null, 'This deletes every message you sent in your conversation with ' + who + ', for both of you. Theirs stay. It cannot be undone.'));
+    var y = el('button', 'cb-btn cb-copy', 'Yes, delete them');
+    y.type = 'button';
+    var n = el('button', 'cb-btn cb-copy', 'Not now');
+    n.type = 'button';
+    sure.appendChild(y);
+    sure.appendChild(n);
+    li.appendChild(sure);
+    n.focus();
+    function shut(back) { sure.remove(); if (back && x.a.isConnected) x.a.focus(); }
+    n.addEventListener('click', function () { shut(true); });
+    sure.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); shut(true); } });
+    y.addEventListener('click', function () {
+      y.disabled = true;
+      var open = me.dmWith && fold(me.dmWith) === fold(who);
+      // Open in the middle, the conversation is drawn again from the answer.
+      if (open) {
+        me.dmCall({ with: who, takeMine: true }, 'Your messages are deleted.').then(function (b) {
+          if (!b) { y.disabled = false; return; }
+          shut(false);
+          me.chatMenuSaid.textContent = 'Your messages with ' + who + ' are deleted.';
+        });
+        return;
+      }
+      call('/cb/dm', { body: { with: who, takeMine: true } }, me.state.pass).then(function (r) {
+        if (r.status === 401) return me.lost();
+        if (r.status !== 200) { y.disabled = false; me.chatMenuSaid.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.'; return; }
+        shut(true);
+        me.chatMenuSaid.textContent = 'Your messages with ' + who + ' are deleted.';
+        // The list asked again, since the conversation may have gone with them.
+        me.chatDmAt = 0;
+        me.chatDmTick();
+      }, function () { y.disabled = false; me.chatMenuSaid.textContent = 'The street could not be reached just now. Nothing changed.'; });
+    });
+  };
+
+  // The menu put up where the pointer was, or under what opened it.
+  Radio.prototype.chanMenuPop = function (pop, items, at) {
+    var me = this;
     pop.addEventListener('keydown', function (e) {
       var i = items.indexOf(e.target), j = -1;
       if (e.key === 'ArrowDown') j = (i + 1) % items.length;

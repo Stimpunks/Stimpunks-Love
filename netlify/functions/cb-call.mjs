@@ -1,13 +1,28 @@
 /* The CB: a room's call. A signed-on radio asks for the call of the room it is
    on and gets back the address to frame, carrying a token for that handle and
    that room only; a guest with no pass can ask for one of the public calls
-   only, under a name they typed. Nothing about the call is kept here. */
-import { readPass, roomTag, roomAllows, publicCall, cleanHandle, callsReady, callToken, callSrc, json, body, sameSite } from '../cb/lib.mjs';
+   only, under a name they typed. A conversation's call, { with: handle }, is
+   for the two people in it only (dmCallFor). Nothing about the call is kept
+   here. */
+import { readPass, roomTag, roomAllows, publicCall, cleanHandle, callsReady, callToken, callSrc, dmReady, dmCallFor, forumReader, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
   if (!callsReady()) return json(503, { error: 'Calls are not switched on yet.' });
   const b = await body(req);
+  if (b && b.with !== undefined) {
+    const who = await readPass(req);
+    if (!who) return json(401, { error: 'signed off' });
+    if (!forumReader(who)) return json(403, { error: 'A call with somebody is for claimed usernames, at both ends, as messages are.' });
+    if (!dmReady()) return json(503, { error: 'Direct messages are shut just now, and so are their calls.' });
+    const r = await dmCallFor(who, b.with);
+    if (r.error === 'accepted') return json(409, { error: 'A call is for a conversation you have both accepted.' });
+    if (r.error) return json(403, { error: 'That call is not one you can join.' });
+    let token = null;
+    try { token = callToken(who, r.tag, undefined, undefined, { dm: true }); } catch (e) { token = null; }
+    if (!token) return json(503, { error: 'Calls are switched on but the signing key cannot be read. Tell the base.' });
+    return json(200, { room: r.tag, src: callSrc(r.tag, token) });
+  }
   const room = roomTag(b && b.room);
   if (!room) return json(400, { error: 'That is not a room on the street.' });
   // Signed on to the CB: your handle, anywhere. Not signed on: a public call

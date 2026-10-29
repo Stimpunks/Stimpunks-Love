@@ -30,10 +30,17 @@
       <description>The chat page has Back and Forward on the radio’s bar, beside Enlarge the chat: one step through what has been in the middle, as chat apps have. Your browser’s own Back and Forward walk the same steps. A conversation, All messages and a search’s results are steps now, as a channel and Events already were, so Back from a conversation goes to what you had before it rather than skipping it. None of them is in the page’s address, and the tab’s history keeps only which kind of thing was in the middle, never who you were talking to or what you searched for; after a reload, a step back to a conversation is All messages. Each button can be pressed while the step that way is on the chat page, and says so when it is not. The CB guide has it.</description>
     </item>
     <item>
+      <title>Join a call from the channels, and call somebody you are messaging</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-29-menu-calls</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-29-menu-calls</guid>
+      <pubDate>Thu, 29 Oct 2026 11:57:00 GMT</pubDate>
+      <description>A channel’s menu on the chat page has Join call and Join call in room: the room’s call here beside its channel, or in the room itself with its Join button ready. Your conversations have a menu too: Join call, a call for the two of you only, and Delete my messages, which takes back every message you sent in that conversation after asking. The privacy page says what a call between two people keeps, which is nothing.</description>
+    </item>
+    <item>
       <title>A menu on every channel, and a link to every message</title>
       <link>https://stimpunks.world/changelog.html#2026-10-29-channel-menu</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-29-channel-menu</guid>
-      <pubDate>Thu, 29 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Thu, 29 Oct 2026 11:56:00 GMT</pubDate>
       <description>Every channel on the chat page has a menu, after Discord’s: the … beside it, or a right-click. In it: Mark as read, Follow or Unfollow, Copy link, Copy the room’s link, Copy its #tag, Search this channel and Go to the room. The Menu key, or Shift and F10, opens it from the keyboard, and Shift and a right-click is still your browser’s own menu. A message’s three dots have Copy link: an address that opens the chat page on that channel with the keyboard on that message, for anybody who can hear the channel, while the message is on the air. The CB guide has both.</description>
     </item>
     <item>

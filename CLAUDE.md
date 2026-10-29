@@ -4287,7 +4287,13 @@ nothing new; Shift and a right-click stays the browser's own menu. A message's *
 back as far as a channel keeps (`JUMP_FAR`). Never in a room that keeps to itself, whose #tag is its address. The
 friendly edits are **Mute and a per-channel notification setting in that menu**, which are the device's notification
 switches (`w.rooms`) and need their own words first, and **a link to a direct message**, which would put a conversation
-in an address and the browser's history.
+in an address and the browser's history. **Join call** joins the room's call through `evJoin`; **Join call in room** is
+`#cb=call`, which presses nothing. **A conversation's row has the same menu** (`dmMenuItems`): **Delete my messages**
+(`takeMineDm`, after asking), and **Join call**, a call for the two people only (`dmCallFor`: accepted, no block, a
+`dmcall-` name hashed from the pair, `callToken(…, { dm: true })` with nobody moderating or recording). **A `dmcall-`
+name is never a room**: `roomAllows` refuses it and `callEventRoom` ignores it, so nothing records who is in it, it is
+never on Who's online and it tells nobody. The friendly edits are ringing the other person, which is a notification
+`privacy.html#conversation-calls` does not mention, and a who-is-in-it line, which is a record kept of two people.
 
 **BACK AND FORWARD ON THE CHAT PAGE ARE THE TAB'S HISTORY, AND A STEP HOLDS NO NAME.** Ryan's ask, 2026-10-29: two
 arrows on the chat page's bar (`histGo`, `histShown`), and every view in the middle a step. A channel and Events are steps

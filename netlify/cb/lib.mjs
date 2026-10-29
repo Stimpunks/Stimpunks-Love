@@ -3704,7 +3704,8 @@ export function jaasSigned(header, raw, secret, now = Date.now()) {
 /* The room an 8x8 event is about, or null: our App ID, one of our rooms. */
 export function callEventRoom(fqn) {
   const m = /^([^/]+)\/stimpunks-([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(String(fqn || ''));
-  return m && m[1] === JAAS_APP ? roomTag(m[2]) : null;
+  // A call between two people is never kept (dmCallFor).
+  return m && m[1] === JAAS_APP && !dmCallTag(m[2]) ? roomTag(m[2]) : null;
 }
 const pidOf = (d) => {
   const id = d && (d.participantId || d.participantJid || d.id);
@@ -4469,6 +4470,42 @@ export async function takeDm(who, handle, id, s = store(), now = Date.now()) {
     const left = c.messages.filter((x) => x.id !== id);
     return left.length ? { ...c, messages: left } : emptied();
   }, s, now);
+}
+
+/* DELETE MY MESSAGES (Ryan's ask, 2026-10-29): every message of yours in a
+   conversation taken back in one write, as Take back takes one, and theirs
+   left as they are. Nothing of yours left and nothing of theirs leaves no
+   conversation. */
+export async function takeMineDm(who, handle, s = store(), now = Date.now()) {
+  const p = await pairOf(who, handle, s);
+  if (p.error) return { error: 'which' };
+  return updateConv(p.key, (c) => {
+    if (!c.messages.some((x) => x.by === p.me)) return { error: 'none' };
+    const left = c.messages.filter((x) => x.by !== p.me);
+    return left.length ? { ...c, messages: left } : emptied();
+  }, s, now);
+}
+
+/* A CALL BETWEEN TWO PEOPLE (Ryan's ask, 2026-10-29): Join call on a
+   conversation. It is a call like a room's, at 8x8, named from the pair and
+   nothing else, so the same two people always meet in the same call and
+   nobody else's token can name it. Only the two of them get a token, only
+   while the conversation is accepted and neither has blocked the other, and
+   the name is never a room: roomAllows refuses it, so no channel, beacon or
+   call by tag can use it, and callEventRoom ignores it, so who is in it is
+   never kept, never on Who's online and never tells anybody. Joining tells
+   the other person nothing; the conversation is where you say so. */
+export const DM_CALL = 'dmcall-';
+export function dmCallTag(tag) { return typeof tag === 'string' && tag.startsWith(DM_CALL); }
+export async function dmCallFor(who, handle, s = store(), now = Date.now()) {
+  const p = await pairOf(who, handle, s);
+  if (p.error === 'self') return { error: 'self' };
+  if (p.error) return { error: 'closed' };
+  const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
+  if (blocks(mine, p.handle) || blocks(theirs, who.handle)) return { error: 'closed' };
+  const c = convDoc(await getDm(p.key, s), now, await ruleOf(RULE_DM, s));
+  if (stateOf(c, p.me) !== 'open') return { error: 'accepted' };
+  return { tag: DM_CALL + createHash('sha256').update(`stimpunks-dm-call|${p.key}`).digest('hex').slice(0, 24), handle: p.handle };
 }
 
 /* Edit one of your own messages: the channel's rule, the words replaced and
@@ -5362,6 +5399,8 @@ export function roomAllows(who, tag) {
     const cat = forumRoom(tag);
     return !!cat && forumAllows(who, cat);
   }
+  // A call between two people is no room (dmCallFor): nothing reaches it by its name.
+  if (dmCallTag(tag)) return false;
   if (!modRoom(tag)) return true;
   if (!who || who.role !== 'base' || !who.roles) return false;
   if (!STRICT_ROOMS.includes(tag) && who.roles.has('administrator')) return true;
@@ -5700,14 +5739,18 @@ export function callsReady() { return !!jaasKey(); }
 /* One token, for one handle in one room's call. 8x8 counts people by id, so
    the id is made from the handle and the role, the same every time, and says
    nothing a name in the call does not already say. */
-export function callToken(who, tag, now = Date.now(), key = jaasKey()) {
+export function callToken(who, tag, now = Date.now(), key = jaasKey(), opts = {}) {
   if (!key) return null;
+  // A call between two people: only with a name dmCallFor made, never a guest,
+  // nobody moderates it and nobody records it.
+  const dm = opts.dm === true;
+  if (dm && (!dmCallTag(tag) || who.role === 'guest')) return null;
   // A guest (role 'guest') is somebody with no CB pass in a public call: the
   // same token as a participant's, and never the base's.
   if (who.role === 'guest' && !publicCall(tag)) return null;
   // A private room's call is the base's, whatever else asks for it.
-  if (!roomAllows(who, tag)) return null;
-  const base = who.role === 'base';
+  if (!dm && !roomAllows(who, tag)) return null;
+  const base = who.role === 'base' && !dm;
   // THE LOBBY IS FOR GUESTS. Ryan's call, 2026-10-24: anybody with an account
   // comes straight into the public calls, and 8x8 lets only a moderator past
   // its lobby, so in those three every account is one. It moderates, and no

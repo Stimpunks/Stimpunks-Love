@@ -581,7 +581,8 @@
     var hungUp = false;
     var pass = cbPass(), headers = { 'accept': 'application/json', 'content-type': 'application/json' };
     if (pass) headers.authorization = 'Bearer ' + pass;
-    var b = { room: room.tag };
+    // A conversation's call asks by who it is with; the server names it (dmCallFor).
+    var b = room.with ? { with: room.with } : { room: room.tag };
     if (!pass && opts.guest) b.name = opts.guest;
     return fetch('/cb/call', { method: 'POST', headers: headers, body: JSON.stringify(b), credentials: 'omit', cache: 'no-store' })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (body) { return { status: r.status, body: body }; }); })
@@ -594,6 +595,8 @@
             : 'The call could not be opened. Try again in a moment.';
           return { ok: false, status: r.status, said: said };
         }
+        // A conversation's call is held under the name the server gave it.
+        if (room.with && typeof r.body.room === 'string') room = Object.assign({}, room, { tag: r.body.room });
         return new Promise(function (done) {
           withEmbed(function () {
             var frame = window.loveEmbed && window.loveEmbed.frameUrl(r.body.src, room.title || 'The call in ' + room.name);
@@ -603,7 +606,8 @@
             current = callWindow(room, frame, leave, {
               whole: !!opts.whole,
               // Signed on only: the window asks with the pass, and a guest has none.
-              pop: pass && !opts.whole && line ? function () { return popOut(room); } : null
+              // A conversation's call has no name a window could ask for again.
+              pop: pass && !opts.whole && line && !room.with ? function () { return popOut(room); } : null
             });
             current.left = opts.left;
             if (!opts.whole) guarding(true);

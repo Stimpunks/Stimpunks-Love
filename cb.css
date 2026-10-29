@@ -1982,8 +1982,10 @@ button.cb-help-btn[hidden] { display: none; }
    always where nothing can point. The menu itself is the case with a steel
    edge, its items the channels' own steel, and the one under the keyboard or
    the pointer on the bar's grey, as a channel is. */
-.cb-chan-list > li.cb-chan-row { display: flex; align-items: center; gap: 2px; }
-.cb-chan-row > .cb-chan { flex: 1 1 auto; min-width: 0; }
+.cb-chan-list > li.cb-chan-row { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; }
+.cb-chan-row > .cb-chan { flex: 1 1 0; min-width: 0; }
+/* Delete my messages asks under its conversation, the row's whole width. */
+.cb-chan-row > .cb-chan-sure { flex: 1 1 100%; margin: 2px 0 6px; }
 .cb-radio .cb-chan-menu {
   flex: none; min-width: 32px; min-height: 32px; padding: 0; display: inline-grid; place-items: center;
   color: var(--cb-steel); background: none; border: 1px solid transparent; border-radius: 4px; opacity: 0;

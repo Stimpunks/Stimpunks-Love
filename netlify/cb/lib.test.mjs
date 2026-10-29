@@ -65,7 +65,7 @@ import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, ke
   mentions, notifyMessage, notifyEdit, notifyCall, pushDeviceId, PUSH_PER_HANDLE, CALL_QUIET, followsRoom,
   noticeArchive, noticeOf, forgetNotices, NOTICE_KEEP } from './lib.mjs';
 import { readWireXml, runFeedBot, keepBot, feedRooms, FEED_KEEP, FEED_RUN, FEED_NAMES, botWord, shapeFeed } from './lib.mjs';
-import { dmKey, sendDm, readDmWith, listDms, acceptDm, rejectDm, takeDm, editDm, setDmOpen, blockDm, unblockDm, forgetDms,
+import { dmKey, sendDm, readDmWith, listDms, acceptDm, rejectDm, takeDm, takeMineDm, dmCallFor, dmCallTag, editDm, setDmOpen, blockDm, unblockDm, forgetDms,
   reportDm, readReports, closeReport, sweepDms, shapeDm, notifyDm, readDmSet, DM_KEEP, DM_WITH, REPORT_DAYS } from './lib.mjs';
 
 function memoryStore({ etagOnRead }) {
@@ -4536,6 +4536,45 @@ test('only your own message comes back or changes, and a moderator cannot reach 
   await takeDm(ada, 'Bex', one, s);
   await takeDm(bex, 'Ada', two, s);
   assert.deepEqual((await listDms(ada, s)).conversations, [], 'a conversation with nothing in it was still listed');
+}));
+
+test('Delete my messages takes back every one of yours and none of theirs', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  await setDmOpen(bex, true, s);
+  await sendDm(ada, 'Bex', 'one', s);
+  await acceptDm(bex, 'Ada', s);
+  await sendDm(bex, 'Ada', 'two', s);
+  await sendDm(ada, 'Bex', 'three', s);
+  await takeMineDm(ada, 'Bex', s);
+  assert.deepEqual((await readDmWith(ada, 'Bex', s)).messages.map((m) => m.text), ['two'], 'theirs went, or yours stayed');
+  assert.equal((await takeMineDm(ada, 'Bex', s)).error, 'none');
+  await takeMineDm(bex, 'Ada', s);
+  assert.deepEqual((await listDms(ada, s)).conversations, [], 'a conversation with nothing in it was still listed');
+}));
+
+test('a call between two people is theirs only, once accepted, and is never a room', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  await claimAccount('Cy', 'a long enough phrase', s, 33, null);
+  const cy = person('Cy', 33);
+  await setDmOpen(bex, true, s);
+  await sendDm(ada, 'Bex', 'hi', s);
+  assert.equal((await dmCallFor(ada, 'Bex', s)).error, 'accepted', 'a call before the conversation was accepted');
+  await acceptDm(bex, 'Ada', s);
+  const a = await dmCallFor(ada, 'Bex', s), b = await dmCallFor(bex, 'ada', s);
+  assert.ok(dmCallTag(a.tag) && a.tag === b.tag, 'the two of them are not in the same call');
+  assert.equal((await dmCallFor(cy, 'Bex', s)).error, 'accepted', 'somebody else got a call with Bex');
+  assert.notEqual((await dmCallFor(cy, 'Ada', s)).tag, a.tag);
+  assert.equal(roomAllows(cy, a.tag), false, 'a call between two people was reachable as a room');
+  assert.equal(callToken(cy, a.tag, Date.now(), key), null, 'a room token for a call between two people');
+  const t = open(callToken(ada, a.tag, Date.now(), key, { dm: true }));
+  assert.equal(t.body.room, 'stimpunks-' + a.tag);
+  assert.equal(t.body.context.features.recording, false, 'somebody could record a call between two people');
+  assert.equal(callToken(ada, 'the-den', Date.now(), key, { dm: true }), null, 'a conversation\u2019s token for a room');
+  assert.equal(callEventRoom(`${JAAS_APP}/stimpunks-${a.tag}`), null, 'who is in a call between two people was kept');
+  await blockDm(bex, 'Ada', s);
+  assert.equal((await dmCallFor(ada, 'Bex', s)).error, 'closed', 'a call through a block');
 }));
 
 test('a block refuses both ways, says nothing, empties the conversation and holds if the name is claimed again', () => withPasswords(async () => {
