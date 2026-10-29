@@ -3083,7 +3083,17 @@ found or what is left, a place with nothing in it, a quiet room as a thing, a pi
 script that keeps, sends, sounds, waits on a clock, writes markup from a string or reads `.length`. **The friendly edits
 are "4 of 12 found", a flickering bulb or lightning at MAX, a ghost drifting across, a scream on a press, and a haunted
 asylum room "because every haunted house has one".** A thing from our community goes in with `whose`, `given` and
-`said_yes` and comes out deleted when asked, Show Your Work's rule; somebody else's work only as a link. A tenth turning
+`said_yes` and comes out deleted when asked, Show Your Work's rule; somebody else's work only as a link. **ITS ONE SOUND
+IS ENIGMA'S SOUNDTRACK, AND IT WAITS TO BE PRESSED.** Ryan's call, 2026-10-28, reversing "nothing plays in this house"
+for the soundtrack alone: Enigma made *Hallowscenes* with Suno and asked for it in the house. Every piece is a facade
+(`soundtrack` in the data, written between `hh:soundtrack` markers) framed from `suno.com/embed/`, the eighth origin in
+`ORIGINS`: Suno's song and album pages refuse a frame, its album embed's rows only open suno.com, and its files cannot
+be fetched (403), so a piece at a time in Suno's own player is the only way. The tool refuses a facade anywhere else on
+the page, a piece without its length, an id that is not Suno's, autoplay and a lyric field, and `haunted-house.js` still
+makes no sound. **It is the street's one thing made with generative AI**, credited as such where it plays and on
+`design.html#ai` with the cover pictures Suno's player shows; Stimpunks does not use generative AI for art, and this is a
+community member's work. The friendly edits are a soundtrack that starts as you walk in, one piece playing on into the
+next, and hosting the files here (which reverses "nothing musical is hosted here"). A tenth turning
 needs a tenth light.
 
 **FOUR MORE TURNINGS, AND EACH ONE TOOK A LIGHT THE ROAD DID NOT HAVE.** 2026-09-23, Ryan's call. The

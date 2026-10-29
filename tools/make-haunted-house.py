@@ -20,6 +20,11 @@ haunted-house.html:
   · THE LIST (hh:list): every thing in the house with the lights up, the one
     copy of each; haunted-house.js clones from it into the hunt, so a place and
     the list cannot disagree about what is hidden there.
+  · THE SOUNDTRACK (hh:soundtrack): Enigma's Hallowscenes, which she made with
+    Suno and asked to have in the house (relayed by Ryan, 2026-10-28), a
+    press-to-play button for every piece that love-embed.js turns into Suno's
+    own player for it. The one thing in the house that makes a sound, and only
+    when somebody presses it.
   · EVERY SECTION (hh:lede, hh:veil, hh:history, hh:made, hh:weird, hh:rest),
     WHAT IS NOT IN THIS HOUSE (hh:rules), BRINGING SOMETHING (hh:bring), WHO READS
     THE CHANNEL (hh:channel), NEXT DOOR (hh:elsewhere) and THE CREDITS
@@ -64,9 +69,19 @@ WHAT IT REFUSES, and the first four are the house:
     System mirror is on the machine.
   · A SCRIPT THAT KEEPS, SENDS, SOUNDS, MOVES OR COUNTS. haunted-house.js may not
     touch storage, the network, audio, a timer, an animation frame, innerHTML or
-    `.length`; the page may load love.js, quest.js and it, and nothing else; and
-    the page may not carry a form, an audio or video element, a facade or
-    autoplay outside the job marker.
+    `.length`; the page may load love.js, quest.js, love-embed.js and it, and
+    nothing else; and the page may not carry a form, an audio or video element,
+    a frame or autoplay anywhere outside the job marker.
+  · A SOUND ANYWHERE BUT THE SOUNDTRACK, AND A SOUNDTRACK THAT DOES NOT WAIT.
+    This reversed "nothing plays in this house" for the soundtrack alone (Ryan's
+    call, 2026-10-28). A press-to-play button is refused outside the
+    hh:soundtrack markers, one inside them that frames anything but a piece of
+    the soundtrack on suno.com/embed/, a piece with no length on its button
+    (the street's runtime rule), a piece whose id is not one of Suno's, the
+    soundtrack with no `given`, no `said_yes` or no `made_with`, a lyric field,
+    and suno.com/embed/ gone from love-embed.js's ORIGINS. The friendly edits
+    are a soundtrack that starts when you walk in "for atmosphere" and a piece
+    that plays the next by itself; nothing in the house starts unasked.
   · A KEYFRAME, AN ANIMATION OR A TRANSITION in §132. Nothing in the house moves at
     any setting, MAX GLITTER included, and nothing flickers: the work lights are
     on, steadily, behind the set.
@@ -118,7 +133,7 @@ SWEEPS = [
 SWEEPS = [(re.compile(rf"\b(?:{p})", re.I),
            re.compile(rf"\b{NEGATION}\b[^.]{{0,70}}?$", re.I), why) for p, why in SWEEPS]
 
-SCRIPTS = {"love.js", "quest.js", "haunted-house.js"}
+SCRIPTS = {"love.js", "quest.js", "love-embed.js", "haunted-house.js"}
 JS_REFUSED = [
     (r"localStorage|sessionStorage|indexedDB|document\.cookie", "keeps something"),
     (r"\bfetch\s*\(|XMLHttpRequest|sendBeacon|EventSource|WebSocket", "sends something"),
@@ -330,6 +345,40 @@ for r in rooms:
     if not any(t.get("room") == r.get("id") for t in things):
         refuse(f"room {r.get('id')}: nothing hidden in it. Looking somewhere and finding nothing is a let-down this "
                "house does not hand out; put something there or take the room out.")
+
+# THE SOUNDTRACK: hers, framed from Suno, every piece a press with its length on it.
+st = d.get("soundtrack") or {}
+SUNO = "https://suno.com/embed/"
+UUID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+RUNTIME = re.compile(r"^\d{1,2}:\d{2}$")
+origins = re.search(r"var ORIGINS = \[(.*?)\];", (ROOT / "love-embed.js").read_text(), re.S)
+origins = re.findall(r"^\s*'([^']+)'", re.sub(r"/\*.*?\*/", " ", origins.group(1), flags=re.S), re.M) if origins else []
+if st:
+    for need in ("name", "whose", "made_with", "url", "given", "said_yes"):
+        if not str(st.get(need, "")).strip():
+            refuse(f"soundtrack: no {need}. Something from our community goes in with whose it is, what it was "
+                   "made with, the day its maker said yes and who said it.")
+    if not str(st.get("url", "")).startswith("https://suno.com/"):
+        refuse("soundtrack: its url is not on suno.com, where it lives.")
+    if SUNO not in origins:
+        refuse(f"soundtrack: {SUNO} is not in love-embed.js's ORIGINS, so every press would build nothing.")
+    if not st.get("tracks"):
+        refuse("soundtrack: no tracks.")
+    seen_ids = set()
+    for j, tr in enumerate(st.get("tracks") or [], 1):
+        where = f"soundtrack track {j} ({tr.get('title')})"
+        if set(tr) - {"id", "title", "runtime"}:
+            refuse(f"{where}: carries {sorted(set(tr) - {'id', 'title', 'runtime'})}. A piece is an id, a title "
+                   "and a length, and no lyric is ever on this page.")
+        if not UUID.match(str(tr.get("id", ""))):
+            refuse(f"{where}: {tr.get('id')!r} is not a Suno song id, and a bad id is a button that never plays.")
+        if tr.get("id") in seen_ids:
+            refuse(f"{where}: the same piece twice.")
+        seen_ids.add(tr.get("id"))
+        if not str(tr.get("title", "")).strip() or ENTITY.search(str(tr.get("title", ""))):
+            refuse(f"{where}: no title, or a title carrying an HTML entity.")
+        if not RUNTIME.match(str(tr.get("runtime", ""))):
+            refuse(f"{where}: no length as m:ss. Every button on this street says how long before the press.")
 
 for i, r in enumerate(d.get("not_here") or [], 1):
     ours(r.get("name", ""), f"not_here {i}")
@@ -564,6 +613,37 @@ swap(ROOM, "hh:set", setd)
 for name in sections:
     swap(ROOM, f"hh:{name}", section(name), "    ")
 swap(ROOM, "hh:hunt", hunt(), "    ")
+
+
+def soundtrack():
+    who, made = esc(st["whose"]), esc(st["made_with"])
+    out = [
+        f'    <p><b>{esc(st["name"])}</b> is a soundtrack for the house. {who}, who is in our community, made it '
+        f'with {made}, an AI music generator, and asked for it to be in here. It plays from '
+        f'<a href="{attr(st["url"])}">{made}</a>, where it lives, in {made}&rsquo;s own player.</p>',
+        "    <p><b>It is the one thing in the house that makes a sound, and only when you press it.</b> Nothing starts "
+        f"when you walk in. Each piece says how long it runs before you press it, and nothing reaches {made} until "
+        f"you do: the first press brings in {made}&rsquo;s player for that piece, and its own play button starts it. "
+        "A piece ends when it ends, and nothing plays the next one by itself.</p>",
+        f"    <p>{made}&rsquo;s player shows a cover picture for each piece, which {made}&rsquo;s generator made. The "
+        f"music is {who}&rsquo;s, not under this site&rsquo;s licence, and it comes out of the house the moment she "
+        "asks.</p>",
+        '    <ol class="hh-tracks">',
+    ]
+    for tr in st["tracks"]:
+        out.append(f'      <li class="hh-track">\n'
+                   f'        <button type="button" class="facade hh-track__play" '
+                   f'data-embed-src="{attr(SUNO + tr["id"])}" '
+                   f'data-embed-title="{attr(tr["title"] + ", by " + st["whose"] + ", on " + st["made_with"])}">'
+                   f'<span class="hh-track__name">{esc(tr["title"])}</span> '
+                   f'<span class="hh-track__len">Play, {esc(tr["runtime"])}</span></button>\n'
+                   f'      </li>')
+    out.append("    </ol>")
+    return "\n".join(out)
+
+
+if st:
+    swap(ROOM, "hh:soundtrack", soundtrack(), "    ")
 swap(ROOM, "hh:list", '    <ol class="hh-things">\n' + "\n".join(thing(t) for t in things) + "\n    </ol>", "    ")
 
 rules = [f'      <li><strong>{esc(r["name"])}</strong> {linked(r["line"])}</li>' for r in d["not_here"]]
@@ -627,6 +707,10 @@ credits = [
                for s in web)
     + f" Every quotation is {cap} words or fewer, and <code>tools/make-haunted-house.py</code> checks the ones from "
     "our own pages against them word for word whenever our copy of stimpunks.org is on the machine.</li>",
+    (f"      <li><strong>The soundtrack is {esc(st['whose'])}&rsquo;s</strong>: <i>{esc(st['name'])}</i>, which she made "
+     f"with {esc(st['made_with'])} and asked to have in the house, given on {esc(st['given'])}. It plays from "
+     f"{esc(st['made_with'])}&rsquo;s own player, is not under this site&rsquo;s licence, and comes out the moment she "
+     "asks.</li>") if st else "",
     "      <li><strong>Every thing in the house is credited to whoever made it.</strong> The engraving is Gustave "
     "Dor&eacute;&rsquo;s, public domain, as it hangs in <a href=\"the-mopery.html\">the Mopery</a>; the rooms are "
     "this street&rsquo;s and the pages are stimpunks.org&rsquo;s.</li>",
@@ -638,7 +722,7 @@ credits = [
     f"{esc(text_face['designer'])}, for everything you read, under the {esc(licence(text_face))}, both read off "
     'their own records. More in <a href="liner-notes.html#haunted-house">the liner notes</a>.</li>',
 ]
-swap(ROOM, "hh:credits", '    <ul class="hh-credits">\n' + "\n".join(credits) + "\n    </ul>", "    ")
+swap(ROOM, "hh:credits", '    <ul class="hh-credits">\n' + "\n".join(c for c in credits if c) + "\n    </ul>", "    ")
 
 notes = []
 for qid, q in quotes.items():
@@ -651,12 +735,25 @@ swap(NOTES, "haunted-house-credits", "\n".join(notes), "      ")
 # ── The published page, checked ──────────────────────────────────────────────
 src = ROOM.read_text()
 body = re.sub(r"<!-- quest:.*?:end -->", " ", src, flags=re.S)
+score = re.search(r"<!-- hh:soundtrack:begin -->(.*?)<!-- hh:soundtrack:end -->", body, re.S)
+score = score.group(1) if score else ""
+body = re.sub(r"<!-- hh:soundtrack:begin -->.*?<!-- hh:soundtrack:end -->", " ", body, flags=re.S)
 body = re.sub(r"<!--.*?-->", " ", body, flags=re.S)
-for tag in re.findall(r"<(form|input|textarea|select|audio|video|iframe)\b", body, re.I):
-    refuse(f"{ROOM.name}: a <{tag}> outside the job marker. Nothing in this house takes your details, plays or "
-           "sounds.")
-if re.search(r'class="[^"]*\bfacade\b|autoplay|data-embed', body):
-    refuse(f"{ROOM.name}: something to press and play. Nothing plays in this house; the gramophone only points.")
+for tag in re.findall(r"<(form|input|textarea|select|audio|video|iframe)\b", body + score, re.I):
+    refuse(f"{ROOM.name}: a <{tag}> outside the job marker. Nothing in this house takes your details, and the "
+           "soundtrack is a frame only once somebody presses it.")
+if re.search(r'class="[^"]*\bfacade\b|autoplay|data-embed|data-audio', body) or "autoplay" in score:
+    refuse(f"{ROOM.name}: something to press and play outside the soundtrack, or something that starts by itself. "
+           "The soundtrack is the one sound in this house, and it waits to be pressed.")
+for tag in re.findall(r"<button\b[^>]*>.*?</button>", score, re.S):
+    srcs = re.findall(r'data-embed-src="([^"]*)"', tag)
+    if not (srcs and srcs[0].startswith(SUNO) and UUID.match(srcs[0][len(SUNO):])):
+        refuse(f"{ROOM.name}: a button in the soundtrack that is not one of its pieces on {SUNO}.")
+    if not re.search(r"\bPlay, \d{1,2}:\d{2}<", tag):
+        refuse(f"{ROOM.name}: a piece of the soundtrack with no length on its button.")
+if st and len(re.findall(r'class="facade hh-track__play"', score)) != len(st["tracks"]):
+    refuse(f"{ROOM.name}: the soundtrack on the page is not the soundtrack in the data. Run this tool.")
+body = body + re.sub(r'<ol class="hh-tracks">.*?</ol>', " ", score, flags=re.S)
 for s in re.findall(r'<script\b[^>]*\bsrc="([^"]+)"', src):
     if s not in SCRIPTS:
         refuse(f"{ROOM.name}: loads {s}, and the house runs {', '.join(sorted(SCRIPTS))} and nothing else.")
@@ -689,4 +786,5 @@ print(f"haunted house: {len(rooms)} rooms, {len(things)} things hidden, {len(quo
 print(f"  longest quotation {longest} words against a cap of {cap}; "
       + ("the ones from our pages checked against the mirror word for word" if mirror_ok
          else "the Knowledge System mirror is not on this machine, so our pages were not re-read"))
-print("  nothing jumps out, nobody is the monster, nothing counted, nothing kept")
+print("  nothing jumps out, nobody is the monster, nothing counted, nothing kept"
+      + (f"; {st['name']} plays only when pressed" if st else ""))

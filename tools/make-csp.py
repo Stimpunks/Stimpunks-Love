@@ -58,9 +58,21 @@ if not found:
     print("REFUSING: love-embed.js's ORIGINS array parsed to nothing.")
     print("A silently narrowed frame-src is a room full of blank boxes.")
     sys.exit(2)
-# The array holds trailing slashes because it is used with indexOf(); a CSP
-# source expression does not want one.
-origins = " ".join(o.rstrip("/") for o in found)
+# The array holds trailing slashes because it is used with indexOf(). A bare
+# origin loses it, because a CSP source expression does not want one there. A
+# PATH KEEPS IT: in CSP a path ending in / matches everything under it, and one
+# that does not matches that exact path and nothing else, so suno.com/embed
+# (the Haunted House's soundtrack, 2026-10-28) would have refused every
+# suno.com/embed/<song> it was there to allow, live only, because the dev
+# server sends no headers.
+def source(o):
+    return o.rstrip("/") if re.match(r"^https://[^/]+/$", o) else o
+origins = " ".join(source(o) for o in found)
+for o in found:
+    if not o.endswith("/"):
+        print(f"REFUSING: love-embed.js's ORIGINS has {o!r} with no trailing slash, and indexOf() would then let "
+              "a longer host through on a prefix.")
+        sys.exit(2)
 
 # THE ORIGINS THE SCRIPT WILL ACTUALLY PLAY AUDIO FROM, read the same way and for
 # the same reason. Kept WITH their path, because a CSP source expression may

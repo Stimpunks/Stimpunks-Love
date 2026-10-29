@@ -28371,6 +28371,27 @@ html[data-intensity="max"] .ppd-lamp[data-lamp="on"] .ppd-scene__glow { animatio
 .hh-quote__who { margin: 8px 0 0; font-size: 16px; line-height: 1.55; color: var(--hh-ink-2); }
 .hh-lede .hh-quote { margin: 4px 0 18px; }
 
+/* THE SOUNDTRACK: Enigma's Hallowscenes, a painted board for every piece with
+   the light under its foot, as under a shut door, like a place to look. The
+   button is §4's facade; its own shape and clothes are here, and the player a
+   press puts in its place is a strip the height Suno's player lays out in
+   (measured from 340 to 640 wide), not a 16:9 screen. Suno's player brings its
+   own colours inside its frame; nothing of ours is laid over it. */
+.hh-tracks { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 10px; align-items: start; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.hh-track { margin: 0; }
+/* A piece somebody pressed takes the whole row, so its player is not squeezed
+   into a button's cell with gaps left beside it. */
+.hh-track:has(> div.facade) { grid-column: 1 / -1; }
+.hh-track button.facade {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  aspect-ratio: auto; min-height: 56px; padding: 12px 14px; text-align: left;
+  font: 700 18px/1.35 'Domine', var(--sans); color: var(--hh-ink); background: var(--hh-slip);
+  border: 2px solid var(--hh-paint); border-radius: 4px; box-shadow: inset 0 -3px 0 var(--hh-seam);
+}
+.hh-track button.facade:hover { background: var(--hh-slip); border-color: var(--hh-link); }
+.hh-track__len { font-weight: 400; font-size: 16px; color: var(--hh-link); }
+.hh-track div.facade { aspect-ratio: auto; height: 170px; padding: 0; border: 0; background: none; }
+
 /* THE LIGHTS: two buttons, the pressed one outlined in the link's colour. No
    word is ever set on the light itself. */
 .hh-lights { margin: 34px 0 0; padding: 16px 18px 18px; background: var(--hh-slip); border: 2px solid var(--hh-paint); border-radius: 4px; max-width: 760px; }

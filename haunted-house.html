@@ -69,13 +69,65 @@
   <section class="hh-lede">
 <!-- hh:lede:begin -->
     <p>Past the last streetlight, at the end of the road, there is a warehouse nobody was using. Inside it, somebody built a house: plywood flats screwed to timber, gaffer tape over the joins, every wall painted by people who had never painted a wall to look old before and did it anyway. <b>The work lights are on behind the set.</b> Inside the house you never see them. You see only where their light comes through: the seams where two flats do not quite meet, the gap under a door, the cracks between the boards over a window.</p>
-    <p>Things are hidden in the house: spooky things from our own street and our own pages, and, as people bring them, haunted things our community has made and things we love. <b>There are two ways through it.</b> With the lights up, everything is laid out in one list you can scroll. With the lights down, it is a hunt: go from room to room and look in places, and what is hidden there turns up where you looked. Nothing jumps out, nothing makes a sound, and the house counts nothing you find.</p>
+    <p>Things are hidden in the house: spooky things from our own street and our own pages, and, as people bring them, haunted things our community has made and things we love. <b>There are two ways through it.</b> With the lights up, everything is laid out in one list you can scroll. With the lights down, it is a hunt: go from room to room and look in places, and what is hidden there turns up where you looked. Nothing jumps out, nothing makes a sound unless you press play on <a href="haunted-house.html#soundtrack">its soundtrack</a>, and the house counts nothing you find.</p>
     <blockquote class="hh-quote">
       <p>For me, haunted houses bring together themes of the horror of existence, the inevitability of death, remembrance of ancestors, DIY, making, creativity, thresholds, liminality, and seasonal rest.</p>
       <footer class="hh-quote__who">Ryan Boren, his brief for this room, 2026</footer>
     </blockquote>
     <p>Its channel on the CB is for haunted things: share a picture or a link of something spooky you made or love, and say what it is. Sign on and tune the radio to <b>This room</b> while you are in here, or open <a href="chat.html#haunted-house">the house’s channel</a> on the chat page.</p>
     <!-- hh:lede:end -->
+  </section>
+
+  <!-- THE SOUNDTRACK, written by tools/make-haunted-house.py from data/haunted-house.json:
+       Enigma's Hallowscenes, the one thing in the house that makes a sound, and
+       only when pressed. Each piece is a press-to-play button that love-embed.js
+       turns into Suno's own player for that piece. Do not hand-edit between the
+       markers. -->
+  <section class="hh-part hh-score" id="soundtrack" aria-labelledby="hh-score-h">
+    <h2 id="hh-score-h">The house&rsquo;s soundtrack</h2>
+<!-- hh:soundtrack:begin -->
+    <p><b>Hallowscenes</b> is a soundtrack for the house. Enigma, who is in our community, made it with Suno, an AI music generator, and asked for it to be in here. It plays from <a href="https://suno.com/s/7gWEJWGy0Vo6rJZP">Suno</a>, where it lives, in Suno&rsquo;s own player.</p>
+    <p><b>It is the one thing in the house that makes a sound, and only when you press it.</b> Nothing starts when you walk in. Each piece says how long it runs before you press it, and nothing reaches Suno until you do: the first press brings in Suno&rsquo;s player for that piece, and its own play button starts it. A piece ends when it ends, and nothing plays the next one by itself.</p>
+    <p>Suno&rsquo;s player shows a cover picture for each piece, which Suno&rsquo;s generator made. The music is Enigma&rsquo;s, not under this site&rsquo;s licence, and it comes out of the house the moment she asks.</p>
+    <ol class="hh-tracks">
+      <li class="hh-track">
+        <button type="button" class="facade hh-track__play" data-embed-src="https://suno.com/embed/e6cc190a-8cbf-4422-9385-2d8387796a6f" data-embed-title="Echoes, by Enigma, on Suno"><span class="hh-track__name">Echoes</span> <span class="hh-track__len">Play, 2:03</span></button>
+      </li>
+      <li class="hh-track">
+        <button type="button" class="facade hh-track__play" data-embed-src="https://suno.com/embed/fc8f288e-5b01-4823-a99b-eeade6262e79" data-embed-title="Ghostropolis, by Enigma, on Suno"><span class="hh-track__name">Ghostropolis</span> <span class="hh-track__len">Play, 3:04</span></button>
+      </li>
+      <li class="hh-track">
+        <button type="button" class="facade hh-track__play" data-embed-src="https://suno.com/embed/b77e169f-df1f-4f5c-98c6-9f211ec159b5" data-embed-title="Zombots, by Enigma, on Suno"><span class="hh-track__name">Zombots</span> <span class="hh-track__len">Play, 3:09</span></button>
+      </li>
+      <li class="hh-track">
+        <button type="button" class="facade hh-track__play" data-embed-src="https://suno.com/embed/999d12f7-11ce-4eb6-9e78-3d6dd2455a36" data-embed-title="Elequid, by Enigma, on Suno"><span class="hh-track__name">Elequid</span> <span class="hh-track__len">Play, 1:52</span></button>
+      </li>
+      <li class="hh-track">
+        <button type="button" class="facade hh-track__play" data-embed-src="https://suno.com/embed/f62e20ba-0c62-4c84-b8f4-7deddd873148" data-embed-title="Hauntestra, by Enigma, on Suno"><span class="hh-track__name">Hauntestra</span> <span class="hh-track__len">Play, 3:17</span></button>
+      </li>
+      <li class="hh-track">
+        <button type="button" class="facade hh-track__play" data-embed-src="https://suno.com/embed/e876b4ad-e099-416d-8b3c-4c72bd54f202" data-embed-title="Reapercussions, by Enigma, on Suno"><span class="hh-track__name">Reapercussions</span> <span class="hh-track__len">Play, 3:22</span></button>
+      </li>
+      <li class="hh-track">
+        <button type="button" class="facade hh-track__play" data-embed-src="https://suno.com/embed/6b97c925-6c69-4b50-9b84-b180a8b14db3" data-embed-title="Toylandfill, by Enigma, on Suno"><span class="hh-track__name">Toylandfill</span> <span class="hh-track__len">Play, 3:03</span></button>
+      </li>
+      <li class="hh-track">
+        <button type="button" class="facade hh-track__play" data-embed-src="https://suno.com/embed/5cad8a1a-f4b2-4825-995b-d9309e9edf3b" data-embed-title="Helloscape, by Enigma, on Suno"><span class="hh-track__name">Helloscape</span> <span class="hh-track__len">Play, 0:37</span></button>
+      </li>
+      <li class="hh-track">
+        <button type="button" class="facade hh-track__play" data-embed-src="https://suno.com/embed/434d21c1-a34e-4dcc-bc2f-d1bd4569119a" data-embed-title="Getaway, by Enigma, on Suno"><span class="hh-track__name">Getaway</span> <span class="hh-track__len">Play, 3:33</span></button>
+      </li>
+      <li class="hh-track">
+        <button type="button" class="facade hh-track__play" data-embed-src="https://suno.com/embed/5cd9a234-7d75-410d-9592-d7a317631bef" data-embed-title="Styx, by Enigma, on Suno"><span class="hh-track__name">Styx</span> <span class="hh-track__len">Play, 3:50</span></button>
+      </li>
+      <li class="hh-track">
+        <button type="button" class="facade hh-track__play" data-embed-src="https://suno.com/embed/cb0f807f-6135-41d1-b250-a4a32c03998f" data-embed-title="Wonderlapse, by Enigma, on Suno"><span class="hh-track__name">Wonderlapse</span> <span class="hh-track__len">Play, 2:27</span></button>
+      </li>
+      <li class="hh-track">
+        <button type="button" class="facade hh-track__play" data-embed-src="https://suno.com/embed/65a37798-91c4-4548-9401-c6ad3978a9c8" data-embed-title="Unending, by Enigma, on Suno"><span class="hh-track__name">Unending</span> <span class="hh-track__len">Play, 0:36</span></button>
+      </li>
+    </ol>
+    <!-- hh:soundtrack:end -->
   </section>
 
   <!-- THE LIGHTS: two ways through the same things. Ships hidden, so a page
@@ -189,6 +241,10 @@
             <button type="button" class="hh-look" aria-expanded="false" aria-controls="look-show-your-work" data-hh-look="show-your-work">Step through the gap between two flats</button>
             <div class="hh-found" id="look-show-your-work" hidden></div>
           </li>
+          <li class="hh-place">
+            <button type="button" class="hh-look" aria-expanded="false" aria-controls="look-hallowscenes" data-hh-look="hallowscenes">Look over the sound desk</button>
+            <div class="hh-found" id="look-hallowscenes" hidden></div>
+          </li>
         </ul>
         <p class="hh-out">The way out: <a href="the-outskirts.html">back to the road</a>, or <a href="#lights-up">put the lights up</a>.</p>
       </li>
@@ -278,7 +334,7 @@
         <div class="hh-thing__body" data-hh-thing="creeps">
           <h3 class="hh-thing__name"><a href="https://stimpunks.org/2024/10/31/gather-round-creeps-happy-halloween-from-the-black-leather-lagoon/">Gather ‘Round Creeps</a></h3>
           <p class="hh-thing__kind">A page of ours &middot; Stimpunks</p>
-          <p class="hh-thing__line">Our punky Halloween playlist, from 2024, full of weird pride. The gramophone only points at it; nothing plays in this house.</p>
+          <p class="hh-thing__line">Our punky Halloween playlist, from 2024, full of weird pride. The gramophone only points at it.</p>
         </div>
         <p class="hh-thing__where">Where it hides: The cellar: wind up the gramophone</p>
       </li>
@@ -297,6 +353,14 @@
           <p class="hh-thing__line">A garage with the door rolled up, where our community shows what it is making before it is finished. Behind every set is a workshop.</p>
         </div>
         <p class="hh-thing__where">Where it hides: Behind the set: step through the gap between two flats</p>
+      </li>
+      <li class="hh-thing" id="thing-hallowscenes">
+        <div class="hh-thing__body" data-hh-thing="hallowscenes">
+          <h3 class="hh-thing__name"><a href="haunted-house.html#soundtrack">Hallowscenes</a></h3>
+          <p class="hh-thing__kind">Made by somebody in our community &middot; Enigma</p>
+          <p class="hh-thing__line">A soundtrack for the house, made by Enigma with Suno, an AI music generator. It plays only when you press it, piece by piece, in <a href="haunted-house.html#soundtrack">the house’s soundtrack</a>.</p>
+        </div>
+        <p class="hh-thing__where">Where it hides: Behind the set: look over the sound desk</p>
       </li>
     </ol>
     <!-- hh:list:end -->
@@ -411,7 +475,7 @@
     <h2 id="hh-rules-h">What is not in this house</h2>
 <!-- hh:rules:begin -->
     <ul class="hh-rules">
-      <li><strong>Nothing jumps out.</strong> No sound, nothing moves at any setting, and nothing appears unless you looked for it. A haunted house is allowed to frighten people; this one does it slowly and you can always see the light.</li>
+      <li><strong>Nothing jumps out.</strong> No sound unless you press play on the soundtrack, nothing moves at any setting, and nothing appears unless you looked for it. A haunted house is allowed to frighten people; this one does it slowly and you can always see the light.</li>
       <li><strong>A way out of every room.</strong> Every room in the hunt ends with the way out: back to the road, or the lights up. It is never called a chicken exit, and leaving early is a real way through the house.</li>
       <li><strong>Nobody is the monster.</strong> No madness, no asylum, no disabled body and no difference is the scare in here, however old the trick is.</li>
       <li><strong>Nothing counted.</strong> No score, no tally of what you found, and the house never says how many things are left to find.</li>
@@ -450,6 +514,7 @@
     <ul class="hh-credits">
       <li><strong>The house is ours</strong>: the set, its rooms, where everything hides, and every sentence not in a quotation, drawn and written as code by Claude, an AI model made by Anthropic, to Ryan&rsquo;s brief and to <a href="https://stimpunks.world/sandbox.html#suggestion-44668378-c1fe-4094-98c4-426cf81d4ec2">the suggestion</a> that asked for it. Nothing on this page calls an AI while you read it.</li>
       <li><strong>Every quotation belongs to whoever said it</strong> and is credited where it stands: Chris Heller, Lisa Morton, Larry Kirchner, Hannah Daisy, Ryan Boren and Ferrous, aka Oolong, and Stimpunks. Chris Heller&rsquo;s <a href="https://www.smithsonianmag.com/history/history-haunted-house-180957008/">A Brief History of the Haunted House</a> was read on 28 October 2026, in the Internet Archive's copy, because the magazine answers a script with a refusal. Hannah Daisy&rsquo;s <a href="https://exquisiteenergies.com/2026/09/14/halloween-and-the-thinning-veil-when-the-worlds-feel-closer/">Halloween and the Thinning Veil: When the Worlds Feel Closer</a> was read on 28 October 2026. Every quotation is 50 words or fewer, and <code>tools/make-haunted-house.py</code> checks the ones from our own pages against them word for word whenever our copy of stimpunks.org is on the machine.</li>
+      <li><strong>The soundtrack is Enigma&rsquo;s</strong>: <i>Hallowscenes</i>, which she made with Suno and asked to have in the house, given on 2026-10-28. It plays from Suno&rsquo;s own player, is not under this site&rsquo;s licence, and comes out the moment she asks.</li>
       <li><strong>Every thing in the house is credited to whoever made it.</strong> The engraving is Gustave Dor&eacute;&rsquo;s, public domain, as it hangs in <a href="the-mopery.html">the Mopery</a>; the rooms are this street&rsquo;s and the pages are stimpunks.org&rsquo;s.</li>
       <li><strong>Where eldritch comes from</strong> is read in Wiktionary&rsquo;s entry for it, which says nobody is sure; the history of the haunted house is Chris Heller&rsquo;s, as written above, and no date or name in it was added from memory.</li>
       <li>The type is Mystery Quest, by Sideshow, for the house&rsquo;s name and its headings, under the SIL Open Font License, and Domine, by Impallari Type, for everything you read, under the SIL Open Font License, both read off their own records. More in <a href="liner-notes.html#haunted-house">the liner notes</a>.</li>
@@ -522,6 +587,7 @@
 <!-- signoff:end -->
 
 <script src="love.js" defer></script>
+<script src="love-embed.js" defer></script>
 <script src="quest.js" defer></script>
 <script src="haunted-house.js" defer></script>
 </body>

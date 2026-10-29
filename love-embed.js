@@ -81,6 +81,18 @@
        and played from the dev server on 2026-10-16 before this line went in,
        and dnt=1 on the address asks the player not to track the session. */
     'https://player.vimeo.com/',
+    /* The Haunted House's soundtrack, Hallowscenes, which Enigma made with
+       Suno and asked to have in the house (relayed by Ryan, 2026-10-28).
+       EIGHTH ORIGIN, AND APPLE'S SPLIT A THIRD TIME: suno.com/song/ and
+       suno.com/album/ send X-Frame-Options: SAMEORIGIN and frame-ancestors
+       'none', and suno.com/embed/ sends neither (all twelve songs measured).
+       Signed out, one song's embed played it whole (2:03 of 2:03). Suno's
+       album embed is a list whose rows open suno.com in a new tab and play
+       nothing, so every song is its own press. Suno's files cannot be streamed
+       instead: its CDN answered 403 and the page's audio address is
+       /api/forbidden, so a frame is the only way it plays here. Suno shows its
+       own play button inside the frame, so a song is two presses. */
+    'https://suno.com/embed/',
     /* A room's call, through 8x8's Jitsi as a Service. FIFTH ORIGIN, AND THE
        FIRST ONE HANDED THE CAMERA AND THE MICROPHONE. Ryan, 2026-09-28. It
        is still only framed after a press, and only from the CB, with a token

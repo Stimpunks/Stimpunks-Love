@@ -125,7 +125,7 @@
   "sections": {
     "lede": [
       {"p": "Past the last streetlight, at the end of the road, there is a warehouse nobody was using. Inside it, somebody built a house: plywood flats screwed to timber, gaffer tape over the joins, every wall painted by people who had never painted a wall to look old before and did it anyway. **The work lights are on behind the set.** Inside the house you never see them. You see only where their light comes through: the seams where two flats do not quite meet, the gap under a door, the cracks between the boards over a window."},
-      {"p": "Things are hidden in the house: spooky things from our own street and our own pages, and, as people bring them, haunted things our community has made and things we love. **There are two ways through it.** With the lights up, everything is laid out in one list you can scroll. With the lights down, it is a hunt: go from room to room and look in places, and what is hidden there turns up where you looked. Nothing jumps out, nothing makes a sound, and the house counts nothing you find."},
+      {"p": "Things are hidden in the house: spooky things from our own street and our own pages, and, as people bring them, haunted things our community has made and things we love. **There are two ways through it.** With the lights up, everything is laid out in one list you can scroll. With the lights down, it is a hunt: go from room to room and look in places, and what is hidden there turns up where you looked. Nothing jumps out, nothing makes a sound unless you press play on [its soundtrack](haunted-house.html#soundtrack), and the house counts nothing you find."},
       {"q": "ryan-themes"},
       {"p": "Its channel on the CB is for haunted things: share a picture or a link of something spooky you made or love, and say what it is. Sign on and tune the radio to **This room** while you are in here, or open [the house’s channel](chat.html#haunted-house) on the chat page."}
     ],
@@ -240,7 +240,7 @@
       "id": "creeps", "room": "cellar", "look": "Wind up the gramophone",
       "name": "Gather ‘Round Creeps", "kind": "page", "whose": "Stimpunks",
       "url": "https://stimpunks.org/2024/10/31/gather-round-creeps-happy-halloween-from-the-black-leather-lagoon/",
-      "line": "Our punky Halloween playlist, from 2024, full of weird pride. The gramophone only points at it; nothing plays in this house."
+      "line": "Our punky Halloween playlist, from 2024, full of weird pride. The gramophone only points at it."
     },
     {
       "id": "sithen", "room": "cellar", "look": "Follow the draught to the bricked-up arch",
@@ -253,10 +253,17 @@
       "name": "Show Your Work", "kind": "room", "whose": "Stimpunks",
       "url": "show-your-work.html",
       "line": "A garage with the door rolled up, where our community shows what it is making before it is finished. Behind every set is a workshop."
+    },
+    {
+      "id": "hallowscenes", "room": "backstage", "look": "Look over the sound desk",
+      "name": "Hallowscenes", "kind": "made", "whose": "Enigma",
+      "given": "2026-10-28", "said_yes": "Enigma, who made it and asked for it to be in the house",
+      "url": "haunted-house.html#soundtrack",
+      "line": "A soundtrack for the house, made by Enigma with Suno, an AI music generator. It plays only when you press it, piece by piece, in [the house’s soundtrack](haunted-house.html#soundtrack)."
     }
   ],
   "not_here": [
-    {"name": "Nothing jumps out.", "line": "No sound, nothing moves at any setting, and nothing appears unless you looked for it. A haunted house is allowed to frighten people; this one does it slowly and you can always see the light."},
+    {"name": "Nothing jumps out.", "line": "No sound unless you press play on the soundtrack, nothing moves at any setting, and nothing appears unless you looked for it. A haunted house is allowed to frighten people; this one does it slowly and you can always see the light."},
     {"name": "A way out of every room.", "line": "Every room in the hunt ends with the way out: back to the road, or the lights up. It is never called a chicken exit, and leaving early is a real way through the house."},
     {"name": "Nobody is the monster.", "line": "No madness, no asylum, no disabled body and no difference is the scare in here, however old the trick is."},
     {"name": "Nothing counted.", "line": "No score, no tally of what you found, and the house never says how many things are left to find."},
@@ -269,5 +276,29 @@
     {"page": "show-your-work.html", "name": "Show Your Work", "line": "for what our community is making, shown before it is finished.", "holds": ["Show your work"]},
     {"page": "sandbox.html", "name": "The Sandbox", "line": "where somebody asked for this house, in the suggestion box.", "holds": ["suggestion"]}
   ],
+  "soundtrack": {
+    "_what": "THE HOUSE'S SOUNDTRACK, the one thing in it that makes a sound, and only when somebody presses it. Enigma made Hallowscenes with Suno and asked for it to be in the house (relayed by Ryan, 2026-10-28). It plays from Suno's own player, framed from suno.com/embed/, which is in love-embed.js's ORIGINS: suno.com's song and album pages refuse a frame and the embed host does not, and Suno's files cannot be fetched (its CDN answered 403 and the page's audio address is /api/forbidden), so a frame is the only way. Suno's album embed is a list whose rows open suno.com and play nothing, so every piece is its own press. Every id was read off the album's own page and checked against its embed page's title, every length is what Suno's player shows (its duration, rounded down), and every piece's lyric field said [Instrumental], 2026-10-28. It is hers, not under this site's licence, and it comes out the moment she asks, deleted rather than hidden. Suno's player shows a cover picture for each piece, which Suno's generator made; design.html says so.",
+    "name": "Hallowscenes",
+    "whose": "Enigma",
+    "handle": "@theenigmanextdoor",
+    "made_with": "Suno",
+    "url": "https://suno.com/s/7gWEJWGy0Vo6rJZP",
+    "given": "2026-10-28",
+    "said_yes": "Enigma, who made it and asked for it to be in the house",
+    "tracks": [
+      {"id": "e6cc190a-8cbf-4422-9385-2d8387796a6f", "title": "Echoes", "runtime": "2:03"},
+      {"id": "fc8f288e-5b01-4823-a99b-eeade6262e79", "title": "Ghostropolis", "runtime": "3:04"},
+      {"id": "b77e169f-df1f-4f5c-98c6-9f211ec159b5", "title": "Zombots", "runtime": "3:09"},
+      {"id": "999d12f7-11ce-4eb6-9e78-3d6dd2455a36", "title": "Elequid", "runtime": "1:52"},
+      {"id": "f62e20ba-0c62-4c84-b8f4-7deddd873148", "title": "Hauntestra", "runtime": "3:17"},
+      {"id": "e876b4ad-e099-416d-8b3c-4c72bd54f202", "title": "Reapercussions", "runtime": "3:22"},
+      {"id": "6b97c925-6c69-4b50-9b84-b180a8b14db3", "title": "Toylandfill", "runtime": "3:03"},
+      {"id": "5cad8a1a-f4b2-4825-995b-d9309e9edf3b", "title": "Helloscape", "runtime": "0:37"},
+      {"id": "434d21c1-a34e-4dcc-bc2f-d1bd4569119a", "title": "Getaway", "runtime": "3:33"},
+      {"id": "5cd9a234-7d75-410d-9592-d7a317631bef", "title": "Styx", "runtime": "3:50"},
+      {"id": "cb0f807f-6135-41d1-b250-a4a32c03998f", "title": "Wonderlapse", "runtime": "2:27"},
+      {"id": "65a37798-91c4-4548-9401-c6ad3978a9c8", "title": "Unending", "runtime": "0:36"}
+    ]
+  },
   "suggestion": "https://stimpunks.world/sandbox.html#suggestion-44668378-c1fe-4094-98c4-426cf81d4ec2"
 }
