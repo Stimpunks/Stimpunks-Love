@@ -2086,9 +2086,9 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
   .cb-radio--chat .cb-sec--dm > .cb-dm { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
   .cb-radio--chat .cb-dm > * { flex: none; }
   .cb-radio--chat .cb-dm > .cb-dm-inbox { flex: 1 1 0; min-height: 0; overflow-y: auto; align-content: start; }
-  .cb-radio--chat .cb-dm > .cb-dm-talk { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .cb-radio--chat .cb-dm > .cb-dm-talk { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; overflow-y: auto; }
   .cb-radio--chat .cb-dm-talk > * { flex: none; }
-  .cb-radio--chat .cb-dm-talk > .cb-dm-state, .cb-radio--chat .cb-dm-talk > .cb-dm-tx, .cb-radio--chat .cb-dm-talk > .cb-dm-block { align-self: stretch; }
+  .cb-radio--chat .cb-dm-talk > .cb-dm-state, .cb-radio--chat .cb-dm-talk > .cb-dm-tx, .cb-radio--chat .cb-dm-talk > .cb-dm-go, .cb-radio--chat .cb-dm-talk > .cb-dm-block { align-self: stretch; }
   .cb-radio--chat .cb-dm-talk > .cb-dm-lcd { flex: 1 1 0; min-height: 10rem; align-self: stretch; display: flex; flex-direction: column; overflow-y: auto; }
   .cb-radio--chat .cb-dm-lcd > .cb-dm-log { flex: 1 1 0; max-height: none; }
 }
@@ -2127,8 +2127,8 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
 .cb-radio--big .cb-lcd > .cb-log { flex: 1 1 0; min-height: 8rem; max-height: none; }
 .cb-radio--big .cb-sec--dm > .cb-dm { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
 .cb-radio--big .cb-dm > .cb-dm-inbox { flex: 1 1 0; min-height: 0; overflow-y: auto; align-content: start; }
-.cb-radio--big .cb-dm > .cb-dm-talk { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
-.cb-radio--big .cb-dm-talk > .cb-dm-state, .cb-radio--big .cb-dm-talk > .cb-dm-tx, .cb-radio--big .cb-dm-talk > .cb-dm-block { align-self: stretch; }
+.cb-radio--big .cb-dm > .cb-dm-talk { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; overflow-y: auto; }
+.cb-radio--big .cb-dm-talk > .cb-dm-state, .cb-radio--big .cb-dm-talk > .cb-dm-tx, .cb-radio--big .cb-dm-talk > .cb-dm-go, .cb-radio--big .cb-dm-talk > .cb-dm-block { align-self: stretch; }
 .cb-radio--big .cb-dm-talk > .cb-dm-lcd { flex: 1 1 0; min-height: 10rem; align-self: stretch; display: flex; flex-direction: column; overflow-y: auto; }
 .cb-radio--big .cb-dm-lcd > .cb-dm-log { flex: 1 1 0; max-height: none; }
 .cb-radio--big .cb-sec--searching > .cb-search-res { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
@@ -2333,6 +2333,12 @@ body.cb-callwin :focus-visible, body.cb-cbwin :focus-visible { outline: 3px soli
 .cb-dm-sure { margin: 4px 0 0; }
 .cb-dm-sure .cb-say, .cb-dm-edit .cb-say { border-color: var(--cb-amber-2); }
 .cb-dm-block { display: grid; gap: 6px; justify-items: start; }
+/* Disappearing messages (2026-10-29): the choices under the box, and a line
+   above the messages while they are on. */
+.cb-dm-go-sum { cursor: pointer; font-size: 14px; }
+.cb-dm-go-in { display: grid; gap: 4px; justify-items: start; margin: 4px 0 0; }
+.cb-dm-go-about { margin: 0; font-size: 13px; }
+.cb-dm-go-note { margin: 0; font-size: 14px; }
 .cb-dm-block .cb-forget-sure { margin: 0; }
 .cb-radio--large .cb-dm-log { max-height: min(56vh, 640px); }
 /* In a profile, the Message button at the foot of the card, in its own inks. */

@@ -4120,17 +4120,36 @@ export async function sweepCalls(s = store(), now = Date.now()) {
    PICTURE IS COPIED ONTO THE DESK with its message (REPORT_IMG), copy first,
    and goes when the report is closed or at its thirty days.
 
+   DISAPPEARING MESSAGES, A TIMER ON THE CONVERSATION (a request from our
+   community and Ryan's go, 2026-10-29, after WhatsApp's): either of the two,
+   once the conversation is accepted, can set its new messages to go a day or a
+   week after they are sent (DM_TIMERS), never longer than the desk's setting
+   for direct messages. The conversation keeps `timer`, the days, and nothing
+   about who set it or when; every message sent after it is stamped with the
+   shorter of the timer and the desk's time (timedRule, through stampNew), and
+   ONLY those: a message keeps the time it was sent under, so setting it, or
+   switching it off, reaches back to nothing. A conversation with nothing left
+   in it loses its timer with everything else. NOT GONE ONCE READ, which was
+   the first ask: a message that vanished when read would tell its sender it
+   was read (a receipt, refused above), the server cannot tell when somebody
+   has read anything, and it would leave the reader no time to report a
+   message that should not have been sent. A report's copy is the desk's, and
+   keeps its thirty days whatever the timer says. The friendly edits are gone
+   once read, an hour, and a line saying who switched it on.
+
    WHAT IS KEPT. For each person (dmKey: the folded name and when it was
    claimed, the forums' authorMark's ingredients, so a name claimed again after
    its owner deleted it is somebody else): whether they take messages and who
    they blocked (dm-set/). For each conversation (dm/, under both people's
    keys): their two handles, who asked, whether it was accepted, and its
    messages, each its words, its sender's handle and key, BASE if so, when it
-   was sent and last edited. And an empty marker per person per conversation
+   was sent and last edited, and how long it is kept; and its timer, if
+   either of them set one. And an empty marker per person per conversation
    (dm-with/), holding when it was written and nothing else, written before
    the conversation, so a listing finds somebody's
    conversations without anybody keeping a list of them. Forget me and deleting
    the username delete all of it. */
+export const DM_TIMERS = [1, 7];               // days a conversation's disappearing messages can be set to
 export const DM_KEEP = KEEP;                   // messages in one conversation at once, unless the desk says otherwise
 export const DM_WITH = 40;                     // conversations one person can be in at once
 export const DM_BLOCKS = 200;                  // people one person can block
@@ -4193,7 +4212,16 @@ function convDoc(d, now = Date.now(), rule = ruleFrom({}, RULE_DM)) {
   d = plain(d);
   const messages = stored(d).filter((m) => onAir(m, now, rule.life)).slice(-rule.keep);
   if (!messages.length) return { people: {}, from: null, open: false, messages: [] };
-  return { people: { ...plain(d.people) }, from: typeof d.from === 'string' ? d.from : null, open: d.open === true, messages };
+  const out = { people: { ...plain(d.people) }, from: typeof d.from === 'string' ? d.from : null, open: d.open === true, messages };
+  if (d.open === true && DM_TIMERS.includes(d.timer)) out.timer = d.timer;
+  return out;
+}
+/* The rule a new message in this conversation is stamped under: its timer's
+   days, when that is shorter than the desk's time for direct messages. */
+function timedRule(rule, timer) {
+  if (!DM_TIMERS.includes(timer)) return rule;
+  const life = timer * 24 * 60 * 60 * 1000;
+  return rule.life === 0 || life < rule.life ? { ...rule, life } : rule;
 }
 
 function reportsDoc(d, now = Date.now()) {
@@ -4233,7 +4261,8 @@ async function updateConv(key, change, s, now) {
     const next = change(was);
     if (!next || next.error) return next;
     before = was;
-    after = { people: next.people, from: next.from, open: next.open === true, messages: stampNew(was.messages, next.messages, rule).slice(-rule.keep) };
+    after = { people: next.people, from: next.from, open: next.open === true, messages: stampNew(was.messages, next.messages, timedRule(rule, next.timer)).slice(-rule.keep) };
+    if (after.open && DM_TIMERS.includes(next.timer)) after.timer = next.timer;
     return after;
   }, s, true);
   if (after && out === after) await dropDmImages(droppedImages(before.messages, after.messages), s);
@@ -4414,10 +4443,11 @@ export async function readDmWith(who, handle, s = store(), now = Date.now()) {
   const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
   if (blocks(mine, p.handle)) return { handle: p.handle, state: 'new', can: 'blocked', messages: [] };
   if (blocks(theirs, who.handle)) return { handle: p.handle, state: 'new', can: 'closed', messages: [] };
-  const c = convDoc(await getDm(p.key, s), now, await ruleOf(RULE_DM, s));
+  const rule = await ruleOf(RULE_DM, s);
+  const c = convDoc(await getDm(p.key, s), now, rule);
   const state = stateOf(c, p.me);
   const can = state === 'asked' ? 'waiting' : state === 'new' && !theirs.open ? 'closed' : 'yes';
-  return { handle: p.handle, state, can, messages: c.messages.map((m) => shapeDm(m, p.me)) };
+  return { handle: p.handle, state, can, timer: c.timer || 0, rule: shapeRule(rule), messages: c.messages.map((m) => shapeDm(m, p.me)) };
 }
 
 /* Everybody you are in a conversation with, the latest first: who, whether
@@ -4542,6 +4572,27 @@ export async function reactDm(who, handle, id, emoji, s = store(), now = Date.no
     if (!c.messages.some((x) => x.id === id)) return { error: 'which' };
     const next = toggleReaction(c.messages, id, emoji, who.handle);
     return next ? { ...c, messages: next } : { error: 'full' };
+  }, s, now);
+}
+
+/* Disappearing messages: the conversation's new messages set to go `days`
+   after they are sent, or 0 to go when direct messages do. Either of the two,
+   once it is accepted; 'accepted' before then, 'longer' for a timer no shorter
+   than the desk's time, 'which' for no conversation. Nothing that is there
+   already changes, and nothing records who set it. */
+export async function setDmTimer(who, handle, days, s = store(), now = Date.now()) {
+  if (days !== 0 && !DM_TIMERS.includes(days)) return { error: 'days' };
+  const p = await pairOf(who, handle, s);
+  if (p.error) return { error: 'which' };
+  const rule = await ruleOf(RULE_DM, s);
+  if (days && rule.life !== 0 && days * 24 * 60 * 60 * 1000 >= rule.life) return { error: 'longer' };
+  return updateConv(p.key, (c) => {
+    if (!c.messages.length) return { error: 'which' };
+    if (!c.open) return { error: 'accepted' };
+    if ((c.timer || 0) === days) return null;
+    const next = { ...c };
+    if (days) next.timer = days; else delete next.timer;
+    return next;
   }, s, now);
 }
 

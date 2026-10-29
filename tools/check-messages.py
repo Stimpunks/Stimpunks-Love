@@ -56,6 +56,17 @@ WHAT IT REFUSES, and why each one is here:
     all of those. "seen" is the word and not part of a name: its first run
     refused the radio's own cb-seen-now class, and the pattern was narrowed
     rather than the class excepted.
+  · DISAPPEARING MESSAGES THAT REACH BACK, ARRIVE IN A REQUEST, KEEP WHO SET
+    THEM, OR GO ONCE READ (a request from our community and Ryan's go,
+    2026-10-29). setDmTimer refuses before the conversation is accepted,
+    writes the conversation's `timer` and nothing else (never its messages,
+    never who or when), and refuses a timer no shorter than the desk's time;
+    only updateConv's stamp for NEW messages reads it (timedRule), so a timer
+    changes nothing already sent. Nothing about it may read what somebody has
+    read: the first ask was gone once read, which would tell the sender it was
+    read, and leave no time to report. The radio draws it only in an accepted
+    conversation, and the privacy page says it stops no screenshot and no
+    report.
   · MARKUP FROM A STRING, on the radio or on the desk.
   · A function that logs anything, an answer search engines may keep, and a
     privacy page or CB guide with no section on messages.
@@ -156,6 +167,23 @@ def main():
     if "slice(-rule.keep)" not in fn(part, "convDoc") or "slice(-rule.keep)" not in fn(part, "updateConv"):
         refuse("a conversation keeps more messages than its rule (the desk's setting for direct messages).")
 
+    # Disappearing messages (2026-10-29).
+    timer = fn(part, "setDmTimer")
+    if "if (!c.open) return { error: 'accepted' };" not in timer:
+        refuse("setDmTimer sets a timer on a conversation nobody has accepted.")
+    if "return { error: 'longer' };" not in timer:
+        refuse("setDmTimer takes a timer no shorter than the desk's time for direct messages.")
+    if re.search(r"next\.(?!timer\b)\w+\s*=|\bmessages\s*:|\bby\s*:|:\s*now\b", timer.split("return updateConv", 1)[-1]):
+        refuse("setDmTimer writes something besides the timer: the messages already sent, or who set it or when.")
+    if "timedRule(rule, next.timer)" not in fn(part, "updateConv"):
+        refuse("updateConv no longer stamps new messages with the conversation's timer.")
+    conv = fn(part, "convDoc")
+    if "out.timer = d.timer" not in conv or re.search(r"out\.timer\w|timerBy|timerAt|timerT", part):
+        refuse("a conversation keeps more about its timer than the days it is set to.")
+    for name in ("setDmTimer", "timedRule", "convDoc", "updateConv"):
+        if re.search(r"markRead|newFor|READS\b|'reads/", fn(part, name)):
+            refuse(f"{name} reads what somebody has read. Disappearing messages run on a timer from when a message was sent, never on its being read.")
+
     da = re.search(r"export async function deleteAccount\(.*?\n\}", lib, re.S)
     if not da or "await forgetDms(acct.handle, acct.since, s);" not in da.group(0):
         refuse("deleteAccount in lib.mjs no longer deletes a username's messages.")
@@ -200,6 +228,8 @@ def main():
         refuse("desk.js fetches a reported picture without a moderator pressing Show the picture.")
     if "this.dmPicBtn.hidden = !pics;" not in radio or "b.state === 'open'" not in radio:
         refuse("the radio offers Picture in a conversation nobody has accepted.")
+    if "this.dmGoDraw(b, pics);" not in radio or "this.dmGoRow.hidden = !open;" not in radio:
+        refuse("the radio offers disappearing messages in a conversation nobody has accepted.")
     if "this.dmStickBtn.hidden = !pics;" not in radio or "if (this.dmLive) acts.appendChild(this.reactBtn(" not in radio:
         refuse("the radio offers Sticker or React in a conversation nobody has accepted.")
     sw = SW.read_text()
@@ -234,6 +264,8 @@ def main():
         refuse("the privacy page no longer says direct messages are not end-to-end encrypted.")
     elif "sealed at rest" not in priv:
         refuse("the privacy page does not say direct messages are sealed at rest.")
+    if 'id="disappearing"' not in priv or "screenshot" not in priv[priv.find('id="disappearing"'):][:3000]:
+        refuse("the privacy page has no section on disappearing messages (id=\"disappearing\") saying they stop no screenshot.")
     if 'id="messages"' not in (ROOT / "cb-guide.html").read_text():
         refuse("the CB guide (cb-guide.html) has no section on messages (id=\"messages\").")
 

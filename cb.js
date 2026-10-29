@@ -10504,6 +10504,10 @@
     talk.appendChild(head);
     this.dmState = el('div', 'cb-dm-state');
     talk.appendChild(this.dmState);
+    // Disappearing messages, said above the messages while they are on.
+    var goNote = this.dmGoNote = el('p', 'cb-seen-now cb-dm-go-note');
+    goNote.hidden = true;
+    talk.appendChild(goNote);
     var lcd = this.dmLcd = el('div', 'cb-lcd cb-dm-lcd');
     lcd.hidden = true;
     var log = this.dmLog = el('ol', 'cb-log cb-dm-log');
@@ -10590,6 +10594,37 @@
     form.appendChild(stickBox);
     talk.appendChild(form);
     linkBox(say, function (t) { if (me.dmSaid) me.dmSaid.textContent = t; });
+    /* DISAPPEARING MESSAGES (a request from our community, Ryan's go,
+       2026-10-29, after WhatsApp's): either of you, once the conversation is
+       accepted, sets its new messages to go 24 hours or 7 days after they are
+       sent. It reaches only what is sent after, and nothing says who set it.
+       Never gone once read: that would tell the sender it was read. Folded to
+       one line, which says what it is set to, so the messages keep the room. */
+    var goRow = this.dmGoRow = el('details', 'cb-dm-go');
+    goRow.hidden = true;
+    var goSum = this.dmGoSum = el('summary', 'cb-dm-go-sum', 'Disappearing messages: Off');
+    goSum.id = 'cb-dm-go-lab';
+    goRow.appendChild(goSum);
+    var goIn = el('div', 'cb-dm-go-in');
+    goIn.setAttribute('role', 'group');
+    goIn.setAttribute('aria-labelledby', 'cb-dm-go-lab');
+    goRow.appendChild(goIn);
+    var goAbout = this.dmGoAbout = el('p', 'cb-quiet cb-dm-go-about');
+    goAbout.id = 'cb-dm-go-about';
+    var goBtns = el('div', 'cb-acct__row');
+    this.dmGoBtns = [[0, 'Off'], [1, DM_GO[1]], [7, DM_GO[7]]].map(function (c) {
+      var g = el('button', 'cb-btn', c[1]);
+      g.type = 'button';
+      g.dataset.days = String(c[0]);
+      g.setAttribute('aria-pressed', 'false');
+      g.setAttribute('aria-describedby', 'cb-dm-go-about');
+      g.addEventListener('click', function () { me.dmGoSet(c[0], g); });
+      goBtns.appendChild(g);
+      return g;
+    });
+    goIn.appendChild(goBtns);
+    goIn.appendChild(goAbout);
+    talk.appendChild(goRow);
     this.dmBlockRow = el('div', 'cb-dm-block');
     talk.appendChild(this.dmBlockRow);
     box.appendChild(talk);
@@ -10811,6 +10846,7 @@
     this.dmForm.hidden = true;
     this.dmLcd.hidden = true;
     this.dmBlockRow.textContent = '';
+    this.dmGoRow.open = false;
     this.dmTold('');
     this.dmInbox.hidden = true;
     this.dmTalk.hidden = false;
@@ -10886,6 +10922,7 @@
     // So with a reply.
     if (!pics) this.dmReplyStop();
     this.dmLive = pics;
+    this.dmGoDraw(b, pics);
     var msgs = Array.isArray(b.messages) ? b.messages : [];
     this.dmDrawLog(msgs);
     this.dmReadTick(msgs);
@@ -11229,6 +11266,41 @@
 
   /* BLOCK, under the conversation, asking once more. Built again only when
      the person or whether it is shown changes. */
+  /* Disappearing messages as the conversation has them: the note above the
+     messages while they are on, and the choices, never one as long as the
+     desk's time for direct messages or longer, because it would change
+     nothing. Written only when the words change, so nothing moves under the
+     keyboard on each listen. */
+  var DM_GO = { 1: '24 hours', 7: '7 days' };
+  Radio.prototype.dmGoDraw = function (b, open) {
+    var t = open && DM_GO[b.timer] ? b.timer : 0;
+    var r = b.rule && typeof b.rule.days === 'number' ? b.rule : null;
+    this.dmGoRow.hidden = !open;
+    this.dmGoNote.hidden = !t;
+    var note = t ? 'Disappearing messages are on: each new message here goes ' + DM_GO[t] + ' after it is sent.' : '';
+    if (this.dmGoNote.textContent !== note) this.dmGoNote.textContent = note;
+    var sum = 'Disappearing messages: ' + (t ? DM_GO[t] : 'Off');
+    if (this.dmGoSum.textContent !== sum) this.dmGoSum.textContent = sum;
+    this.dmGoBtns.forEach(function (g) {
+      var d = +g.dataset.days;
+      g.setAttribute('aria-pressed', d === t ? 'true' : 'false');
+      g.hidden = d !== 0 && d !== t && !!r && r.days !== 0 && d >= r.days;
+    });
+    var off = !r ? 'when direct messages do' : r.days === 0 ? 'only when they are taken back' : (FOR[r.days] || r.days + ' days') + ' after they are sent';
+    var about = 'Either of you can change it, and it reaches only messages sent after the change. Off, messages here go ' + off +
+      '. It does not stop a screenshot or a copy, and a message reported to the moderators stays on their desk for 30 days.';
+    if (this.dmGoAbout.textContent !== about) this.dmGoAbout.textContent = about;
+  };
+  // Not disabled while it asks: a disabled button drops the keyboard.
+  Radio.prototype.dmGoSet = function (days, g) {
+    var me = this;
+    if (g.getAttribute('aria-pressed') === 'true' || this.dmGoBusy) return;
+    this.dmGoBusy = true;
+    this.dmCall({ with: this.dmWith, timer: days },
+      days ? 'Disappearing messages are on. New messages here go ' + DM_GO[days] + ' after they are sent.' : 'Disappearing messages are off for new messages.',
+      function () { return g; }).then(function () { me.dmGoBusy = false; });
+  };
+
   Radio.prototype.dmBlockShown = function (show) {
     var me = this, box = this.dmBlockRow, who = this.dmWith;
     var sig = who + '|' + show;

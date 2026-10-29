@@ -66,7 +66,7 @@ import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, ke
   noticeArchive, noticeOf, forgetNotices, NOTICE_KEEP } from './lib.mjs';
 import { readWireXml, runFeedBot, keepBot, feedRooms, FEED_KEEP, FEED_RUN, FEED_NAMES, botWord, shapeFeed } from './lib.mjs';
 import { dmKey, sendDm, readDmWith, listDms, acceptDm, rejectDm, takeDm, takeMineDm, dmCallFor, dmCallTag, notifyDmCall, editDm, setDmOpen, blockDm, unblockDm, forgetDms,
-  reportDm, readReports, closeReport, sweepDms, shapeDm, notifyDm, readDmSet, DM_KEEP, DM_WITH, REPORT_DAYS } from './lib.mjs';
+  reportDm, readReports, closeReport, sweepDms, shapeDm, notifyDm, readDmSet, setDmTimer, DM_KEEP, DM_WITH, DM_TIMERS, REPORT_DAYS } from './lib.mjs';
 
 function memoryStore({ etagOnRead }) {
   const blobs = new Map();          // key -> { value, etag }
@@ -4551,6 +4551,43 @@ test('Delete my messages takes back every one of yours and none of theirs', () =
   assert.equal((await takeMineDm(ada, 'Bex', s)).error, 'none');
   await takeMineDm(bex, 'Ada', s);
   assert.deepEqual((await listDms(ada, s)).conversations, [], 'a conversation with nothing in it was still listed');
+}));
+
+test('disappearing messages: either of the two, once accepted, and only what is sent after', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  await setDmOpen(bex, true, s);
+  const t0 = Math.max(Date.now(), LONG);
+  await sendDm(ada, 'Bex', 'before', s, t0);
+  assert.equal((await setDmTimer(ada, 'Bex', 1, s, t0)).error, 'accepted', 'a timer on a request');
+  assert.equal((await setDmTimer(bex, 'Ada', 1, s, t0)).error, 'accepted', 'a timer on a request, from its person');
+  await acceptDm(bex, 'Ada', s, t0);
+  assert.equal((await setDmTimer(bex, 'Ada', 3, s, t0)).error, 'days', 'a timer not on the list');
+  assert.equal((await setDmTimer(bex, 'Ada', 30, s, t0)).error, 'days', 'a timer longer than the list');
+  assert.deepEqual(DM_TIMERS, [1, 7]);
+  const set = await setDmTimer(bex, 'Ada', 1, s, t0);
+  assert.equal(set.timer, 1);
+  assert.deepEqual(Object.keys(set).sort(), ['from', 'messages', 'open', 'people', 'timer'], 'a timer kept something about who set it or when');
+  assert.equal((await readDmWith(ada, 'Bex', s, t0)).timer, 1, 'the other person was not shown the timer');
+  const t1 = t0 + 1000;
+  await sendDm(ada, 'Bex', 'after', s, t1);
+  const day = 24 * 60 * 60 * 1000;
+  assert.deepEqual((await readDmWith(bex, 'Ada', s, t1 + day - 1)).messages.map((m) => m.text), ['before', 'after']);
+  assert.deepEqual((await readDmWith(bex, 'Ada', s, t1 + day)).messages.map((m) => m.text), ['before'], 'a message outlived its timer, or the timer reached back');
+  // Switched off, the next one keeps the desk's time; the one before keeps its day.
+  await setDmTimer(ada, 'Bex', 0, s, t1);
+  assert.equal((await readDmWith(ada, 'Bex', s, t1)).timer, 0);
+  await sendDm(bex, 'Ada', 'later', s, t1 + 2000);
+  assert.deepEqual((await readDmWith(ada, 'Bex', s, t1 + 2 * day)).messages.map((m) => m.text), ['before', 'later'], 'switching it off kept a message longer than it was sent under');
+  // The desk's time is the most: a timer no shorter is refused.
+  const ADMIN = { role: 'base', handle: 'Ada', roles: new Set(['moderator', 'administrator']) };
+  await setRule(ADMIN, 'dm', { keep: 100, days: 7 }, s);
+  assert.equal((await setDmTimer(ada, 'Bex', 7, s, t1)).error, 'longer', 'a timer as long as the desk\u2019s time');
+  assert.equal((await setDmTimer(ada, 'Bex', 1, s, t1)).timer, 1);
+  // A conversation with nothing left in it loses its timer with everything else.
+  await takeMineDm(ada, 'Bex', s, t1);
+  await takeMineDm(bex, 'Ada', s, t1);
+  assert.equal((await readDmWith(ada, 'Bex', s, t1)).timer, 0, 'an empty conversation kept its timer');
 }));
 
 test('a call between two people is theirs only, once accepted, and is never a room', () => withPasswords(async () => {

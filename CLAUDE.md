@@ -1797,7 +1797,12 @@ missed"; the notification switch (*When somebody messages me*, `notifyDm`) is ho
 `moreFor`), stickers and reactions are the channel's (`dmSticker`, `reactDm` with `toggleReaction`), and
 both wait, like pictures, until the conversation is accepted; `check-messages.py` holds that. Nothing in a
 conversation goes to the forums. **A picture can be pasted** into either box (`pastedPicture`), into the
-same preview and redraw. **A conversation
+same preview and redraw. **Disappearing messages are a timer on the conversation, never gone once read** (a request from our community and
+Ryan's go, 2026-10-29, after WhatsApp's): once accepted, either person sets its new messages to go after `DM_TIMERS`' days
+(`setDmTimer`), never as long as the desk's time; the conversation keeps `timer` and nothing about who set it or when, and
+only messages sent after are stamped with it (`timedRule` through `stampNew`), so it reaches back to nothing.
+`check-messages.py` holds it. The friendly edits are **gone once read**, which tells the sender it was read and leaves no
+time to report, **an hour** "so it is nearly instant", the same, and **a line saying who switched it on**. **A conversation
 takes pictures once it is accepted, and a request never does** (Ryan's call, 2026-10-19, after somebody could not send
 him a screenshot privately): `putDmImage` and `sendDm` refuse one until the conversation is open, so nobody's first
 contact with you is a picture. It is the channel's picture otherwise (the one redraw, `pictureCheck` shared with

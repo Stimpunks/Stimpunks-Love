@@ -19,6 +19,10 @@
      { with, take: id }              take one of your messages back
      { with, takeMine: true }        take back every message of yours in it
      { with, edit: id, text }        edit one of your messages
+     { with, timer: days }           disappearing messages: its new messages go
+                                     a day or a week after they are sent, or
+                                     0 for when direct messages go, once the
+                                     conversation is accepted
      { with, block: true }           block them, which empties the conversation
      { unblock: handle }             stop blocking them
      { with, report: id, note }      report a message they sent you to the
@@ -32,7 +36,7 @@
    be checked before anybody writes, '' for none, and none while they are not
    taking messages from you or you have blocked them. It is a sign and never a
    lock: nothing here refuses a message because of it. */
-import { dmReady, readPass, forumReader, listDms, readDmWith, chatStatusOf, petKey, sendDm, acceptDm, rejectDm, takeDm, takeMineDm, editDm, reactDm, setDmOpen, blockDm,
+import { dmReady, readPass, forumReader, listDms, readDmWith, chatStatusOf, petKey, sendDm, acceptDm, rejectDm, takeDm, takeMineDm, editDm, reactDm, setDmTimer, setDmOpen, blockDm,
   unblockDm, reportDm, notifyDm, cleanHandle, MESSAGE_MAX, REPORT_NOTE_MAX, DM_WITH, json, body, sameSite } from '../cb/lib.mjs';
 
 // Every answer asks search engines not to index or archive it, as
@@ -124,6 +128,14 @@ export default async (req, context) => {
       if (r.error === 'empty') return json(400, { error: 'A message needs words, unless it is a picture. Take it back instead, if you want it gone.' });
       if (r.error === 'long') return json(400, { error: `A message is at most ${MESSAGE_MAX} characters.` });
       if (r.error) return json(404, { error: 'That message is not there any more, or is not yours.' });
+      return talk();
+    }
+    if (typeof b.timer === 'number') {
+      const r = await setDmTimer(who, handle, b.timer);
+      if (r.error === 'days') return json(400, { error: 'Messages can disappear after a day or a week, or when direct messages do.' });
+      if (r.error === 'accepted') return json(409, { error: `Disappearing messages can be set once ${handle} has accepted the conversation.` });
+      if (r.error === 'longer') return json(409, { error: 'Direct messages already go sooner than that.' });
+      if (r.error) return json(404, { error: 'That conversation is not there any more.' });
       return talk();
     }
     if (b.block === true) {
