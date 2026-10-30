@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-10-29T11:16Z",
+  "set": "2026-10-30T11:16Z",
   "springs": [
     {
       "id": "starstuff",
@@ -73,7 +73,7 @@
           "anon": true
         }
       ],
-      "read": "2026-10-29T11:16Z"
+      "read": "2026-10-30T11:16Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-10-29T11:16Z"
+      "read": "2026-10-30T11:16Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-10-29T11:16Z"
+      "read": "2026-10-30T11:16Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-10-29T11:16Z"
+      "read": "2026-10-30T11:16Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-10-29T11:16Z"
+      "read": "2026-10-30T11:16Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-10-29T11:16Z"
+      "read": "2026-10-30T11:16Z"
     },
     {
       "id": "love",
@@ -439,67 +439,67 @@
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
         {
-          "title": "Join call from a channel's menu, and a menu on conversations",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/788c1dec71dac78dc544c2ad1c6f6dc28f3be82f",
-          "date": "2026-10-29T11:11:07Z",
-          "sha": "788c1de",
+          "title": "Join World call on World's Call tab",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/0425eb5ef42392d9770ef4ef03a5cc6ce34968c4",
+          "date": "2026-10-30T11:08:53Z",
+          "sha": "0425eb5",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Join an event's call from its card, and see who is in it",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/8171e38bef04b66157e1f4f159d4e4e33e1ecada",
-          "date": "2026-10-29T09:29:05Z",
-          "sha": "8171e38",
+          "title": "The chat's Call tab is always there; no familiar in the chat",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/7dbba7d40685ca39e169756ec89181efcdb0a5ac",
+          "date": "2026-10-30T10:48:14Z",
+          "sha": "7dbba7d",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "The Inbox on the CB: unreads, mentions, bookmarks and reminders",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/57a0dbfc20735d32adc3259dee07f9dcc5e927a2",
-          "date": "2026-10-29T08:58:17Z",
-          "sha": "57a0dbf",
+          "title": "A call of its own tab in the chat on a phone; World's blank band",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/f8562956cbd4143af8fe651edf4eb80a27c60657",
+          "date": "2026-10-30T10:20:51Z",
+          "sha": "f856295",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Back and forward on the chat page",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/edc63cea355ef763ff77f7707205087dd8f8355e",
-          "date": "2026-10-29T08:27:25Z",
-          "sha": "edc63ce",
+          "title": "Chat on the radio's bar; a call's bar on one row",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/044bb609ca61eb2a44f66c7fa003ecbe59d5321d",
+          "date": "2026-10-30T09:49:57Z",
+          "sha": "044bb60",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "A menu on every channel on the chat page, and Copy link on every message",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/37eaac1a69d24532e24d684c59fa74a4aab8c4c9",
-          "date": "2026-10-29T07:54:04Z",
-          "sha": "37eaac1",
+          "title": "The chat is an app: no page round the radio",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/2fd9950bf38b8e1fd5b614d1ccc14db47385bfce",
+          "date": "2026-10-30T09:19:21Z",
+          "sha": "2fd9950",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Halloween on the fancy dress rails, with face paint and something to …",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/2bd6d93e2f7a62d9084c2fe2d052e8ed2a36104c",
-          "date": "2026-10-29T04:02:12Z",
-          "sha": "2bd6d93",
+          "title": "Bring Your Muchness as a profile effect",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/8800e3e485d1097ee5a4a3bef44a2e081945b687",
+          "date": "2026-10-30T05:09:32Z",
+          "sha": "8800e3e",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         }
       ],
-      "read": "2026-10-29T11:16Z"
+      "read": "2026-10-30T11:16Z"
     },
     {
       "id": "garden",
@@ -568,7 +568,7 @@
           "anon": true
         }
       ],
-      "read": "2026-10-29T11:16Z"
+      "read": "2026-10-30T11:16Z"
     }
   ]
 }
