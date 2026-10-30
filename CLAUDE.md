@@ -4292,10 +4292,15 @@ into: **Show every column**); on a phone one part at a time, **Channels**, **Cha
 (`APP_TABS`, `appMake`, `appTo`), shown by the box's `data-pane` in `cb.css`, from tabs along its foot. Picking a channel,
 a conversation or Events goes to Chat (`chatTake`, the `chatView*` functions); a search's results go to Search. Which tab
 is shown is kept nowhere. The dock is kept the height of the visual viewport, so the message box clears an iPhone's
-keyboard. **On a phone a call in the chat is a Call tab** (Ryan's ask, the same day, after Discord's:
-the call's window over the chat hid the messages): `appCall` shows the tab while `loveCall.isOpen()`,
-opens on it, and `loveCall.dockTo` puts the call between the bar and the tabs (`cb-call--app`, no grip,
-no minus and plus), hidden by `visibility` and still going behind any other tab. The friendly edit is
+keyboard. **On a phone the chat has a Call tab, always** (Ryan's asks, the same day, after Discord's:
+the call's window over the chat hid the messages, and Join under People was hard to find). Before a
+call it holds the channel's call part, `callSub`, which `callPlace` moves there on a phone (one part
+moved, never copied, the rule it already kept between In this channel and Happening now), so who is
+in the call follows the radio's rule: names only to a radio seen here. Once `loveCall.isOpen()`,
+`appCall` opens on the tab and `loveCall.dockTo` puts the call between the bar and the tabs
+(`cb-call--app`, no grip, no minus and plus), hidden by `visibility` and still going behind any other
+tab. **No familiar comes into the chat** (`data-cb-chat` in love.js's `familiar()` and familiar.js's
+`allowed()`, held by `make-chimera-obscura.py`): it is all radio, and one sat on the messages. The friendly edit is
 `display: none` for a hidden call, which risks the browser stopping its frame. **A band of nothing
 under World's chat was the `.sr` words beside each message**, absolutely positioned inside an
 unpositioned log, so they were placed against the channel part as far down as their message and the

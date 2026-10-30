@@ -4790,6 +4790,7 @@
     if (t === chatTag && !first) { chatJoin(); return false; }
     chatTag = t;
     if (!first && inApp()) radio.appTo('chat');
+    if (inApp()) radio.appCallShown();
     var moved = radio.wasPath !== undefined ? radio.whereNow() : (radio.bandShown(), false);
     if (said) radio.tell(said);
     chatJoin();
@@ -5272,12 +5273,14 @@
      columns are, as on the chat page. Picking a channel, a conversation or
      Events goes to Chat, and a search's results to Search. Nothing is kept:
      the app opens on Chat, and on Channels when the address names none. */
-  /* AND THE CALL (Ryan's ask, 2026-10-30, after Discord's mobile app, because
-     a call's window over the chat hid the messages and the message box): while
-     a call is open in the chat on a phone, a Call tab after Chat shows it, the
-     screen between the bar and the tabs, and the call goes on behind any other
-     tab (appCall, loveCall.dockTo). It opens on Call and goes back to Chat when
-     the call ends. */
+  /* AND THE CALL (Ryan's asks, 2026-10-30, after Discord's mobile app). The
+     Call tab, after Chat, is always there on a phone. Before a call it holds
+     the channel's call part (callSub, moved here by callPlace, never copied):
+     Join the call, and who is in it under the radio's own rule, names only
+     to a radio seen here and otherwise that somebody is. Once a call is open
+     in the page, the call fills the screen between the bar and the tabs on
+     that tab, and goes on behind any other tab (appCall, loveCall.dockTo).
+     It opens on Call, and leaving it leaves you there with Join again. */
   var APP_TABS = [['chans', 'Channels'], ['chat', 'Chat'], ['call', 'Call'], ['search', 'Search'], ['people', 'People'], ['you', 'You']];
   Radio.prototype.appMake = function () {
     var me = this, nav = el('nav', 'cb-app-tabs');
@@ -5295,12 +5298,23 @@
         if (t[0] === 'search' && me.searchBox) me.searchBox.focus();
       });
       me.appTabs[t[0]] = b;
-      // Call is there only while a call is open in the page.
-      if (t[0] === 'call') b.hidden = true;
       nav.appendChild(b);
     });
     this.appNav = nav;
     this.box.appendChild(nav);
+    // The Call tab's own part, which the channel's call part is moved into.
+    var col = this.appCallCol = el('div', 'cb-col cb-col--call');
+    var sec = el('div', 'cb-sec cb-sec--callpane');
+    sec.appendChild(el('h2', 'cb-h', 'Call'));
+    this.appCallWhere = el('p', 'cb-app-call-where');
+    sec.appendChild(this.appCallWhere);
+    this.appCallNone = el('p', 'cb-quiet');
+    this.appCallNone.hidden = true;
+    sec.appendChild(this.appCallNone);
+    col.appendChild(sec);
+    this.box.querySelector('.cb-set--parts').appendChild(col);
+    if (CHAT_WIDE && CHAT_WIDE.addEventListener) CHAT_WIDE.addEventListener('change', function () { me.callPlace(); });
+    this.callPlace();
     if (window.ResizeObserver) new ResizeObserver(function () { me.appPlaceCall(); }).observe(this.box);
     if (CHAT_WIDE && CHAT_WIDE.addEventListener) CHAT_WIDE.addEventListener('change', function () { me.appCall(); });
     this.appTo(chatFromHash() || evFromHash() !== null ? 'chat' : 'chans');
@@ -5321,17 +5335,29 @@
      call on it when it opens, and Chat again when it ends from Call. Only on
      a phone; on a wide window the call is its own window, as anywhere. */
   Radio.prototype.appCall = function () {
-    var tab = this.appTabs && this.appTabs.call;
-    if (!tab) return;
+    if (!this.appTabs) return;
     var lc = window.loveCall, open = !!(lc && lc.isOpen()) && !(CHAT_WIDE && CHAT_WIDE.matches);
-    tab.hidden = !open;
     if (open && !this.appCallOn) { this.appCallOn = true; this.appTo('call'); }
+    // Ended: the tab shows the channel's call again, with Join, which the radio
+    // puts the keyboard on; where Join is not shown, the tab has it.
     else if (!open && this.appCallOn) {
       this.appCallOn = false;
-      // The keyboard was in the call, which has gone: it goes to the channel's name.
-      if (this.appPane === 'call') { this.appTo('chat'); if (this.chanH && !this.chatChan.hidden) this.chanH.focus(); }
+      var me = this;
+      setTimeout(function () {
+        if (me.appPane === 'call' && !me.host.shadowRoot.activeElement) (me.callBtn.hidden ? me.appTabs.call : me.callBtn).focus();
+      }, 0);
     }
+    this.appCallShown();
     this.appPlaceCall();
+  };
+  // What the Call tab says above the call part: which channel's call, or that there are none.
+  Radio.prototype.appCallShown = function () {
+    if (!this.appCallWhere) return;
+    var room = chatRoom(), world = room.tag === WORLD_CALL;
+    this.appCallWhere.textContent = world ? 'The World call, for the whole street.' : 'The call for #' + room.name + '.';
+    var none = this.callBtn.hidden && this.inCallNow.hidden && this.callOnNow.hidden;
+    this.appCallNone.hidden = !none;
+    this.appCallNone.textContent = 'Calls are not on just now.';
   };
   // The call between the bar and the tabs, seen only on Call.
   Radio.prototype.appPlaceCall = function () {
@@ -14274,10 +14300,13 @@
     this.callOnNow.hidden = inIt || !listed;
     this.callOnNow.textContent = this.state.seen
       ? 'Somebody is in this room\u2019s call now.'
-      : 'Somebody is in this room\u2019s call now. Switch on Be seen here to see who.';
+      : 'Somebody is in this room\u2019s call now. Switch on Be seen here' + (this.appCallCol && !this.chatWide() ? ', under People,' : '') + ' to see who.';
     var going = inIt || !!this.callFull || listed;
     var to = going ? this.nowSec : this.hereSec, before = going ? this.elseSub : this.famSub;
+    // In the chat app on a phone it is on the Call tab, whatever is going.
+    if (this.appCallCol && !this.chatWide()) { to = this.appCallCol.firstChild; before = null; }
     this.elseShown(here);
+    if (this.appCallCol) this.appCallShown();
     if (sub.parentNode === to) return;
     var root = sub.getRootNode(), had = root.activeElement && sub.contains(root.activeElement) ? root.activeElement : null;
     to.insertBefore(sub, before);

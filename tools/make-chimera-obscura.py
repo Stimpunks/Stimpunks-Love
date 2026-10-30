@@ -714,9 +714,9 @@ def check_familiar():
     if "clearBox(" not in body_of(code, "speak"):
         refuse("speak() in familiar.js puts up a speech bubble without checking it covers no words.")
     allowed = body_of(code, "allowed")
-    for need in ("window.top", "data-cb", "'off'", "data-cb-window"):
+    for need in ("window.top", "data-cb", "'off'", "data-cb-window", "data-cb-chat"):
         if need not in allowed:
-            refuse(f"allowed() in familiar.js no longer checks {need}: no familiar in a frame, a window, or a room that says data-cb=\"off\".")
+            refuse(f"allowed() in familiar.js no longer checks {need}: no familiar in a frame, a window, the chat, or a room that says data-cb=\"off\".")
     words = strings_of(code)
     for m in re.finditer(rf"\b(?:{PERKS})\b", words, re.I):
         refuse(f"familiar.js says {m.group(0)!r}. A familiar keeps you company; it gives you nothing and nothing is counted.")
@@ -740,7 +740,7 @@ def check_familiar():
     if not fam:
         refuse("love.js no longer loads a familiar.")
     else:
-        for need in ("data-cb", "'off'", "data-cb-window", "window.top", "love-familiar"):
+        for need in ("data-cb", "'off'", "data-cb-window", "data-cb-chat", "window.top", "love-familiar"):
             if need not in fam.group(1):
                 refuse(f"love.js loads familiar.js without checking {need}.")
     if "<code>love-familiar</code>" not in PRIVACY.read_text():

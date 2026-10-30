@@ -2249,6 +2249,10 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
 @media (min-width: 1000px) {
   .cb-radio--app.cb-radio--full:not(.cb-radio--folded) { height: 100%; min-height: 0; }
 }
+/* The Call tab's part is a phone's alone: on a wide window the call part is
+   under In this channel or Happening now, as on every page. */
+.cb-set--parts > .cb-col.cb-col--call { display: none; }
+.cb-app-call-where { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
 @media (max-width: 999.98px) {
   .cb-radio--app .cb-trim, .cb-radio--app .cb-big-btn { display: none; }
   /* clip, not hidden: a box that is hidden can still be scrolled by a
@@ -2257,6 +2261,7 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
     display: flex; flex-direction: column; gap: 0; padding: 0; overflow: hidden; overflow: clip;
   }
   .cb-radio--app .cb-set--parts > .cb-col { display: none; }
+  .cb-radio--app[data-pane="call"] .cb-set--parts > .cb-col--call,
   .cb-radio--app[data-pane="chans"] .cb-set--parts > .cb-col--a,
   .cb-radio--app[data-pane="people"] .cb-set--parts > .cb-col--c,
   .cb-radio--app[data-pane="you"] .cb-set--parts > .cb-col--c {

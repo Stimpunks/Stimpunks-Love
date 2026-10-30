@@ -1417,13 +1417,14 @@
      kept in their own browser under love-familiar, which familiar.js writes
      and nothing else does. familiar.js is only downloaded when that key holds
      one, so a visitor who never takes one fetches nothing for it, and not in
-     a frame, the radio's window, or on a page whose <body> says data-cb="off"
+     a frame, the radio's window, the chat (data-cb-chat, which is all radio
+     and has nowhere for one to be), or on a page whose <body> says data-cb="off"
      (Stay Frosty, the Healing Checkpoint, the call window). familiar.js asks
      the same again. A page that already loads it, Chimera Obscura, is left to. */
   function familiar() {
     var b = document.body;
     if (!b || window.loveFamiliar || document.querySelector('script[src$="familiar.js"]')) return;
-    if (b.getAttribute('data-cb') === 'off' || b.hasAttribute('data-cb-window')) return;
+    if (b.getAttribute('data-cb') === 'off' || b.hasAttribute('data-cb-window') || b.hasAttribute('data-cb-chat')) return;
     try { if (window.top !== window.self) return; } catch (e) { return; }
     var s = null;
     try { s = localStorage.getItem('love-familiar'); } catch (e) { return; }

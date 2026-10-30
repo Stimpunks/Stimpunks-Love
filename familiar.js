@@ -151,7 +151,9 @@
     var b = document.body;
     if (!b) return false;
     try { if (window.top !== window.self) return false; } catch (e) { return false; }
-    return b.getAttribute('data-cb') !== 'off' && !b.hasAttribute('data-cb-window');
+    // Nor in the chat (chat.html), which is all radio and has nowhere off it
+    // for a familiar to be (Ryan, 2026-10-30: it sat on the messages).
+    return b.getAttribute('data-cb') !== 'off' && !b.hasAttribute('data-cb-window') && !b.hasAttribute('data-cb-chat');
   }
 
   /* chimera.js, if this page has not got it. The radio loads it the same
