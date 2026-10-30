@@ -3558,7 +3558,10 @@
       if (r.status === 200) {
         me.signal(true);
         me.channelRule(r.body.rule, r.body.older);
+        // When the server heard this channel for this listen, for readTick.
+        if (typeof r.body.now === 'number') me.heardAt = { room: room, t: r.body.now };
         if (!r.body.same) { me.chanV = r.body.v || null; me.show(r.body.messages || []); me.readTick(r.body.messages || []); }
+        else me.readTick([]);
         me.showBeacons(r.body.beacons, r.body.now);
         me.calls = !!r.body.calls;
         me.callsKnown = true;
@@ -10218,6 +10221,13 @@
     if (!log.hidden && log.scrollHeight - log.scrollTop - log.clientHeight >= 24) return;
     var tag = this.tunedRoom() || WORLD_CALL, newest = 0;
     (messages || []).forEach(function (m) { if (typeof m.t === 'number' && m.t > newest) newest = m.t; });
+    /* AND UP TO THE TIME UNREADS WAS TOLD, once this channel has been heard
+       since then (Ryan, 2026-10-30: marks on empty channels came back after
+       every visit). A message at that time that is not in the log is gone,
+       by its keep, Take off or Clear, so there is nothing left to read; and
+       a channel with no messages has no newest to report without this. */
+    var told = this.news && this.news.latest && this.news.latest[tag], heard = this.heardAt;
+    if (told && heard && (heard.room || null) === (this.tunedRoom() || null) && told <= heard.t && told > newest) newest = told;
     this.readUpTo({ ch: tag }, 'ch|' + tag, newest);
   };
 

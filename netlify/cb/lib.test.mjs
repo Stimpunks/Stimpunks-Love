@@ -4982,6 +4982,19 @@ test('what is new to a claimed username is a mark worked out from what it read, 
   assert.deepEqual((await newFor(ada, s, now)).read, {}, 'Forget me left what was read');
 }));
 
+test('a channel gone quiet by its own keep is not new, though LATEST still remembers it', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada] = await twoPeople(s);
+  const now = Date.now(), day = 24 * 60 * 60 * 1000;
+  // The Den keeps a day; everywhere else the default, which is longer.
+  await s.setJSON('channel-rules', { rooms: { 'the-den': { keep: 100, days: 1 } } }, { onlyIfNew: true });
+  await noteLatest('the-den', now - 2 * day, s, now);
+  await noteLatest('covenstead', now - 2 * day, s, now);
+  const n = await newFor(ada, s, now);
+  assert.equal(n.latest['the-den'], undefined, 'a channel whose newest message is past its keep was still new (Ryan found marks on empty channels that never cleared)');
+  assert.equal(n.latest['covenstead'], now - 2 * day, 'a channel kept longer lost its newest time');
+}));
+
 import { bookmark, remindMe, reminderDone, remindersDue, inboxSaved, inboxMentions, tellReminders, forgetInbox, PUSH_ON } from './lib.mjs';
 
 test('the Inbox keeps pointers and times, never words, and a reminder is told once', () => withPasswords(async () => {

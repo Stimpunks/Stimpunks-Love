@@ -4787,7 +4787,17 @@ export async function forgetDms(handle, since, s = store()) {
    it is sent the whole map, the rooms it may enter and none that keeps to
    itself, as the World room already shows when each channel last spoke. A
    conversation is new when its newest message is the other person's and came
-   after you last read it, or when somebody's first message waits for you. */
+   after you last read it, or when somebody's first message waits for you.
+
+   A CHANNEL'S TIME IN LATEST IS NEW ONLY WHILE ITS MESSAGE COULD STILL BE ON
+   THE AIR (Ryan found marks on empty channels that came back after every
+   visit, 2026-10-30): LATEST let go of a time only after LIFE, the default
+   two weeks, so a channel the desk keeps shorter went quiet and stayed new,
+   and a radio can only say it has read up to a message it was sent. newFor
+   leaves out a time older than its channel's own keep now. The radio does
+   the rest: it reports a channel read up to the time it was told, once it
+   has heard the channel since then, which also clears a mark left by a
+   message taken off. */
 const READS = 'reads/';
 const LATEST = 'channel-latest';
 export const READS_ROOMS = 400;                // channels one record keeps a time for at most
@@ -4848,10 +4858,14 @@ export async function newFor(who, s = store(), now = Date.now()) {
   const me = dmKey(who.handle, who.since);
   const r = readsDoc(await s.get(READS + me, { type: 'json' }), now);
   const map = plain((await s.get(LATEST, { type: 'json' }) || {}).latest);
+  const rules = await loadRules(s, now);
   const latest = {};
   for (const [tag, t] of Object.entries(map)) {
     if (typeof t !== 'number' || now - t >= LIFE || !roomTag(tag) || quietRoom(tag)) continue;
     if (tag !== WORLD_CALL && !roomAllows(who, tag)) continue;
+    // Gone by its channel's keep now, so nothing in it is new.
+    const life = ruleFrom(rules, tag === WORLD_CALL ? 'world' : tag).life;
+    if (life && now - t >= life) continue;
     latest[tag] = t;
   }
   const set = await readDmSet(me, s);

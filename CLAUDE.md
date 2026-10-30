@@ -4417,7 +4417,12 @@ the next room to open and runs past `FOLLOW_MAX`. The channels' newest times are
 `noteLatest` in `cb-transmit`, so the radio learns what is new in This room without saying where it is. The
 radio asks `/cb/unread` from `listen()` at most every `NEWS_EVERY`, and reports a channel read only when its
 newest message is at the foot of the log. Never a room that keeps to itself; Forget me and deleting the
-username delete the record. **The friendly edits are a number beside the dot, a dot on the icon, a sound,
+username delete the record. **A channel's time in LATEST is new only while its message could still be on the
+air** (Ryan found marks on empty channels that came back after every visit, 2026-10-30): `newFor` leaves out a time
+past its channel's keep now, and `readTick` in `cb.js` reports a channel read up to the time Unreads was told once a
+listen has heard the channel since then (`heardAt`, the listen's own server clock), which also clears a mark left by a
+message taken off or a channel cleared. The friendly edit is to lower LATEST when a message goes, which races a new
+message being sent. **The friendly edits are a number beside the dot, a dot on the icon, a sound,
 and the tab's title changing**; each is the count or the alert the street still refuses. DECISIONS.md has
 what is still open.
 
