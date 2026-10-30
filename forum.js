@@ -56,7 +56,7 @@
 
   var SEEN = 'love-forum';
   var SEEN_MAX = 1000;
-  var GROUPS = [['every', 'Everyday'], ['low', 'Low stimulation'], ['radio', 'Radio faceplates'], ['world', 'Worlds, with drawings'], ['season', 'Halloween and autumn'],
+  var GROUPS = [['every', 'Everyday'], ['low', 'Low stimulation'], ['radio', 'Radio faceplates'], ['world', 'Worlds, with drawings'], ['season', 'Halloween and autumn'], ['holiday', 'Fall and winter holidays'],
     ['skin', 'Winamp skins'], ['geo', 'GeoCities pages'], ['game', 'Ryan’s favourite games']];
 
   function el(tag, cls, text) {

@@ -61,9 +61,18 @@
     parent.appendChild(e);
     return e;
   }
+  // A motion is a CSS transform, which would take the place of the group's own
+  // transform attribute, so a group that both moves and is placed is two: the
+  // outer one moves, and the inner one is placed and returned.
   function group(parent, at, o) {
     var g = document.createElementNS(NS, 'g');
     var k;
+    if (at && at.transform && o && o.cls) {
+      var outer = document.createElementNS(NS, 'g');
+      timing(outer, o);
+      parent.appendChild(outer);
+      return group(outer, at);
+    }
     for (k in (at || {})) g.setAttribute(k, at[k]);
     timing(g, o || {});
     parent.appendChild(g);
@@ -1689,6 +1698,463 @@
           }
         }
       }
+    }
+  };
+
+  /* FALL AND WINTER HOLIDAYS (Ryan, 2026-10-30: "the upcoming fall/winter
+     holidays celebrated in our community"). Día de Muertos, Diwali,
+     Thanksgiving, Hanukkah, Christmas, Kwanzaa and New Year's, in the order
+     they come, each its own world and none dressed in another's things. Every
+     drawing is ours, after nobody's picture. Every flame breathes over four
+     seconds or more and none flickers, and New Year's fireworks bloom and
+     fade: nothing on any of them flashes or bangs. */
+  // A flame, x y at its foot, k high in tens: its glow, then the flame, then
+  // its heart, the glow breathing.
+  function hdFlame(svg, x, y, k, inks, r) {
+    var g = group(svg, {}, { cls: 'art-glow', d: r() * 4, t: 4 + r() * 3 });
+    add(g, 'circle', { cx: f(x), cy: f(y - 4.4 * k), r: f(4.6 * k), 'fill-opacity': '.1' }, { fill: inks[2] });
+    add(g, 'path', { d: 'M' + f(x) + ' ' + f(y - 10 * k) + 'C' + f(x + 3.4 * k) + ' ' + f(y - 5 * k) + ' ' + f(x + 3 * k) + ' ' + f(y) + ' ' + f(x) + ' ' + f(y) +
+      'C' + f(x - 3 * k) + ' ' + f(y) + ' ' + f(x - 3.4 * k) + ' ' + f(y - 5 * k) + ' ' + f(x) + ' ' + f(y - 10 * k) + 'Z' }, { fill: inks[0] });
+    add(g, 'ellipse', { cx: f(x), cy: f(y - 2.6 * k), rx: f(1.2 * k), ry: f(2.2 * k) }, { fill: inks[1] });
+  }
+  function hdStars(c, r, ink, top) {
+    for (var x = r() * 14; x < c.w; x += 12 + r() * 26) add(c.svg, 'circle', { cx: f(x), cy: f(r() * c.h * (top || .35)), r: f(.4 + r() * .7) }, { fill: ink, cls: r() < .4 ? 'art-twinkle' : '', d: r() * 4, t: 5 });
+  }
+
+  /* DÍA DE MUERTOS: papel picado strung along the top, every flag cut through,
+     and along the foot cempasúchil marigolds, candles for an ofrenda and
+     calaveras smiling. It is a remembering and a welcome home, and it is not
+     Halloween: nothing in it is meant to frighten anybody. */
+  var MU_FLAGS = ['--cb-muertos-pink', '--cb-muertos-orange', '--cb-muertos-yellow', '--cb-muertos-green', '--cb-muertos-blue', '--cb-muertos-purple'];
+  function muFlags(c, r, y, fh) {
+    var fw = fh * .78, x, i = 0;
+    add(c.svg, 'path', { d: wave(c.w, y, fh * .06, 30, 0) }, { stroke: '--cb-muertos-string', sw: at(.5 * c.s, .4) });
+    for (x = fw * .2; x < c.w; x += fw * 1.12, i++) {
+      var g = group(c.svg, {}, { cls: i % 3 ? '' : 'art-sway', d: r() * 4, t: 6 + r() * 2 });
+      var top = y + fh * .06 * Math.sin(x / 30), zz = '';
+      for (var z = 0; z <= 6; z++) zz += 'L' + f(x + fw - z * fw / 6) + ' ' + f(top + fh - (z % 2 ? fh * .12 : 0));
+      add(g, 'path', { d: 'M' + f(x) + ' ' + f(top) + 'L' + f(x + fw) + ' ' + f(top) + zz + 'Z' }, { fill: MU_FLAGS[i % 6] });
+      // the cuts: a flower in the middle and a row of little diamonds
+      var cx = x + fw / 2, cy = top + fh * .45, cr = fw * .16;
+      for (var p = 0; p < 4; p++) add(g, 'circle', { cx: f(cx + cr * Math.cos(p * Math.PI / 2)), cy: f(cy + cr * Math.sin(p * Math.PI / 2)), r: f(cr * .55) }, { fill: '--cb-case' });
+      add(g, 'circle', { cx: f(cx), cy: f(cy), r: f(cr * .5) }, { fill: MU_FLAGS[i % 6] });
+      for (var d = 1; d < 4; d++) {
+        var dx = x + fw * d / 4, dy = top + fh * .16, q = fw * .06;
+        add(g, 'path', { d: 'M' + f(dx) + ' ' + f(dy - q) + 'L' + f(dx + q) + ' ' + f(dy) + 'L' + f(dx) + ' ' + f(dy + q) + 'L' + f(dx - q) + ' ' + f(dy) + 'Z' }, { fill: '--cb-case' });
+      }
+    }
+  }
+  function muMarigold(svg, x, y, R, r) {
+    var g = group(svg, {}, { cls: r() < .2 ? 'art-breathe' : '', d: r() * 3, t: 6 });
+    for (var p = 0; p < 9; p++) {
+      var a = p * Math.PI * 2 / 9;
+      add(g, 'circle', { cx: f(x + R * .55 * Math.cos(a)), cy: f(y + R * .55 * Math.sin(a)), r: f(R * .5) }, { fill: '--cb-muertos-marigold-2' });
+    }
+    for (p = 0; p < 7; p++) {
+      a = p * Math.PI * 2 / 7 + .3;
+      add(g, 'circle', { cx: f(x + R * .32 * Math.cos(a)), cy: f(y + R * .32 * Math.sin(a)), r: f(R * .42) }, { fill: '--cb-muertos-marigold' });
+    }
+    add(g, 'circle', { cx: f(x), cy: f(y), r: f(R * .26) }, { fill: '--cb-muertos-orange' });
+  }
+  // A calavera, x y the middle of its head and R across: a round head, its
+  // jaw, flower eyes, a heart of a nose and a smile with its teeth.
+  function muCalavera(svg, x, y, R) {
+    add(svg, 'path', { d: 'M' + f(x - R) + ' ' + f(y) + 'A' + f(R) + ' ' + f(R) + ' 0 1 1 ' + f(x + R) + ' ' + f(y) + 'Q' + f(x + R) + ' ' + f(y + R * .5) + ' ' + f(x + R * .6) + ' ' + f(y + R * .62) +
+      'L' + f(x + R * .5) + ' ' + f(y + R * 1.1) + 'L' + f(x - R * .5) + ' ' + f(y + R * 1.1) + 'L' + f(x - R * .6) + ' ' + f(y + R * .62) + 'Q' + f(x - R) + ' ' + f(y + R * .5) + ' ' + f(x - R) + ' ' + f(y) + 'Z' },
+      { fill: '--cb-muertos-bone', stroke: '--cb-muertos-line', sw: at(R * .05, .4) });
+    [-1, 1].forEach(function (sd) {
+      var ex = x + sd * R * .42, ey = y - R * .05;
+      add(svg, 'circle', { cx: f(ex), cy: f(ey), r: f(R * .3) }, { fill: '--cb-muertos-line' });
+      for (var p = 0; p < 5; p++) {
+        var a = p * Math.PI * 2 / 5 - Math.PI / 2;
+        add(svg, 'circle', { cx: f(ex + R * .13 * Math.cos(a)), cy: f(ey + R * .13 * Math.sin(a)), r: f(R * .08) }, { fill: sd < 0 ? '--cb-muertos-pink' : '--cb-muertos-blue' });
+      }
+    });
+    add(svg, 'path', { d: 'M' + f(x) + ' ' + f(y + R * .4) + 'l' + f(-R * .1) + ' ' + f(-R * .14) + 'a' + f(R * .06) + ' ' + f(R * .06) + ' 0 0 1 ' + f(R * .1) + ' 0a' + f(R * .06) + ' ' + f(R * .06) + ' 0 0 1 ' + f(R * .1) + ' 0Z' }, { fill: '--cb-muertos-line' });
+    add(svg, 'path', { d: 'M' + f(x - R * .4) + ' ' + f(y + R * .66) + 'Q' + f(x) + ' ' + f(y + R * .9) + ' ' + f(x + R * .4) + ' ' + f(y + R * .66) +
+      'M' + f(x - R * .2) + ' ' + f(y + R * .7) + 'v' + f(R * .16) + 'M' + f(x) + ' ' + f(y + R * .74) + 'v' + f(R * .16) + 'M' + f(x + R * .2) + ' ' + f(y + R * .7) + 'v' + f(R * .16) },
+      { stroke: '--cb-muertos-line', sw: at(R * .06, .4) });
+    add(svg, 'path', { d: 'M' + f(x - R * .2) + ' ' + f(y - R * .72) + 'q' + f(R * .2) + ' ' + f(-R * .2) + ' ' + f(R * .4) + ' 0' }, { stroke: '--cb-muertos-pink', sw: at(R * .07, .4) });
+  }
+  function muCandle(svg, x, base, k, r) {
+    add(svg, 'rect', { x: f(x - 2 * k), y: f(base - 8 * k), width: f(4 * k), height: f(8 * k), rx: f(.6 * k) }, { fill: '--cb-muertos-candle' });
+    hdFlame(svg, x, base - 8.4 * k, k * .7, ['--cb-muertos-flame', '--cb-muertos-orange', '--cb-muertos-glow'], r);
+  }
+  T.muertos = {
+    band: function (c, r) {
+      var h = c.h, w = c.w, x, i, tall = h >= 60, divider = c.kind === 'divider';
+      if (tall) hdStars(c, r, '--cb-steel', .25);
+      muFlags(c, r, 1, divider ? h * .82 : h * (tall ? .32 : .46));
+      if (divider) return;
+      var base = h * .98, k = Math.min(h / (tall ? 40 : 30), 2.4);
+      for (x = 10 + r() * 10, i = 0; x < w; i++) {
+        var pick = i % 5;
+        if (pick === 2 && h >= 24) { muCalavera(c.svg, x, base - 9 * k, 7 * k); x += 20 * k; }
+        else if (pick === 4) { muCandle(c.svg, x, base, k, r); x += 12 * k; }
+        else { muMarigold(c.svg, x, base - 4.2 * k, 4.4 * k * (.8 + r() * .3), r); x += 11 * k; }
+      }
+    }
+  };
+
+  /* DIWALI: a toran of marigolds and mango leaves swagged along the top, rows
+     of clay diyas lit along the foot, and on a tall strip rangolis and
+     lanterns hanging between them. The flames breathe and never flicker. */
+  var DW_RANGOLI = ['--cb-diwali-magenta', '--cb-diwali-teal', '--cb-diwali-yellow', '--cb-diwali-orange', '--cb-diwali-purple'];
+  function dwDiya(svg, x, base, k, r) {
+    add(svg, 'path', { d: 'M' + f(x - 6 * k) + ' ' + f(base - 3.4 * k) + 'Q' + f(x) + ' ' + f(base + 1.6 * k) + ' ' + f(x + 6 * k) + ' ' + f(base - 3.4 * k) + 'L' + f(x + 7 * k) + ' ' + f(base - 4.6 * k) + 'L' + f(x + 4.4 * k) + ' ' + f(base - 4 * k) + 'Z' }, { fill: '--cb-diwali-clay', stroke: '--cb-diwali-clay-2', sw: at(.5 * k, .4) });
+    add(svg, 'ellipse', { cx: f(x), cy: f(base - 3.5 * k), rx: f(5.6 * k), ry: f(1.1 * k) }, { fill: '--cb-diwali-clay-2' });
+    hdFlame(svg, x + 4.6 * k, base - 4.2 * k, k * .62, ['--cb-diwali-flame', '--cb-diwali-flame-2', '--cb-diwali-glow'], r);
+  }
+  function dwRangoli(svg, x, y, R, r) {
+    var g = group(svg, {}, { cls: 'art-breathe', d: r() * 3, t: 8 });
+    var a, p;
+    for (p = 0; p < 8; p++) {
+      a = p * Math.PI / 4;
+      add(g, 'ellipse', { cx: f(x + R * .62 * Math.cos(a)), cy: f(y + R * .62 * Math.sin(a)), rx: f(R * .38), ry: f(R * .18), transform: 'rotate(' + f(a * 180 / Math.PI) + ' ' + f(x + R * .62 * Math.cos(a)) + ' ' + f(y + R * .62 * Math.sin(a)) + ')' }, { fill: DW_RANGOLI[p % 2 ? 0 : 1] });
+    }
+    for (p = 0; p < 8; p++) {
+      a = p * Math.PI / 4 + Math.PI / 8;
+      add(g, 'circle', { cx: f(x + R * .98 * Math.cos(a)), cy: f(y + R * .98 * Math.sin(a)), r: f(R * .1) }, { fill: '--cb-diwali-yellow' });
+    }
+    add(g, 'circle', { cx: f(x), cy: f(y), r: f(R * .34) }, { fill: '--cb-diwali-orange' });
+    add(g, 'circle', { cx: f(x), cy: f(y), r: f(R * .16) }, { fill: '--cb-diwali-purple' });
+  }
+  function dwLantern(svg, x, top, k, r) {
+    add(svg, 'path', { d: 'M' + f(x) + ' 0V' + f(top) }, { stroke: '--cb-steel-2', sw: at(.4 * k, .4) });
+    var g = group(svg, {}, { cls: 'art-sway', d: r() * 4, t: 7 });
+    add(g, 'path', { d: 'M' + f(x) + ' ' + f(top) + 'L' + f(x + 6 * k) + ' ' + f(top + 7 * k) + 'L' + f(x) + ' ' + f(top + 14 * k) + 'L' + f(x - 6 * k) + ' ' + f(top + 7 * k) + 'Z' }, { fill: '--cb-diwali-lantern', stroke: '--cb-diwali-yellow', sw: at(.5 * k, .4) });
+    add(g, 'path', { d: 'M' + f(x - 6 * k) + ' ' + f(top + 7 * k) + 'H' + f(x + 6 * k) + 'M' + f(x) + ' ' + f(top) + 'V' + f(top + 14 * k) }, { stroke: '--cb-diwali-yellow', sw: at(.4 * k, .4) });
+    add(g, 'path', { d: 'M' + f(x - 2 * k) + ' ' + f(top + 14 * k) + 'l' + f(-1 * k) + ' ' + f(6 * k) + 'M' + f(x) + ' ' + f(top + 14 * k) + 'v' + f(7 * k) + 'M' + f(x + 2 * k) + ' ' + f(top + 14 * k) + 'l' + f(1 * k) + ' ' + f(6 * k) }, { stroke: '--cb-diwali-yellow', sw: at(.4 * k, .4) });
+  }
+  T.diwali = {
+    band: function (c, r) {
+      var h = c.h, w = c.w, x, i, tall = h >= 60, divider = c.kind === 'divider';
+      if (tall) hdStars(c, r, '--cb-steel', .3);
+      var k = Math.min(h / (tall ? 40 : 28), 2.4);
+      if (!divider) {
+        // the toran: a string of marigolds swagged, with mango leaves hanging
+        var span = 70 * Math.max(k, .7), y0 = h * .04;
+        for (x = 0; x < w; x += span) {
+          for (var t = 0; t <= 1; t += .07) {
+            var bx = x + span * t, by = y0 + Math.sin(t * Math.PI) * h * (tall ? .1 : .2);
+            add(c.svg, 'circle', { cx: f(bx), cy: f(by), r: f(1.6 * k) }, { fill: Math.round(t * 14) % 2 ? '--cb-diwali-orange' : '--cb-diwali-yellow' });
+          }
+          var lg = group(c.svg, { transform: 'translate(' + f(x) + ' ' + f(y0 + 1.6 * k) + ') scale(' + (k * .8).toFixed(2) + ')' }, { cls: 'art-sway', d: r() * 4, t: 6 });
+          add(lg, 'path', { d: 'M0 0Q3 4 0 10Q-3 4 0 0Z' }, { fill: '--cb-diwali-leaf' });
+        }
+        if (tall) {
+          for (x = 70 + r() * 60, i = 0; x < w; x += 150 + r() * 120, i++) {
+            if (i % 2) dwLantern(c.svg, x, h * .2, k * .9, r);
+            else dwRangoli(c.svg, x, h * .45, h * .16, r);
+          }
+        }
+      }
+      var base = h * (divider ? .92 : .97), dk = divider ? h / 13 : k * .9;
+      for (x = 8 + r() * 8, i = 0; x < w; x += 18 * dk + r() * 6 * dk, i++) {
+        if (!divider && !tall && h >= 24 && i % 6 === 3) { dwRangoli(c.svg, x, base - 5 * dk, 5 * dk, r); continue; }
+        dwDiya(c.svg, x, base, dk, r);
+      }
+    }
+  };
+
+  /* THANKSGIVING: a garland of autumn leaves on twine along the top, and a
+     harvest along the foot, wheat, corn in its husk, squash, gourds and apples,
+     with a pie now and then on a tall strip. It is the gratitude and the
+     harvest: no pilgrims are drawn and nobody else either, because for many
+     Indigenous people the day in the United States is a day of mourning. */
+  var TH_LEAVES = ['--cb-thanks-leaf', '--cb-thanks-squash', '--cb-thanks-corn', '--cb-thanks-cranberry'];
+  function thCorn(svg, x, base, k, rot) {
+    var g = group(svg, { transform: 'rotate(' + f(rot) + ' ' + f(x) + ' ' + f(base) + ')' });
+    add(g, 'path', { d: 'M' + f(x) + ' ' + f(base) + 'Q' + f(x - 6 * k) + ' ' + f(base - 6 * k) + ' ' + f(x - 2 * k) + ' ' + f(base - 16 * k) + 'Q' + f(x - 1 * k) + ' ' + f(base - 8 * k) + ' ' + f(x) + ' ' + f(base) + 'Z' }, { fill: '--cb-thanks-husk' });
+    add(g, 'ellipse', { cx: f(x + 1 * k), cy: f(base - 8 * k), rx: f(2.6 * k), ry: f(7.4 * k) }, { fill: '--cb-thanks-corn', stroke: '--cb-thanks-wheat', sw: at(.4 * k, .3) });
+    for (var ky = -13; ky < -3; ky += 2) add(g, 'path', { d: 'M' + f(x - 1.2 * k) + ' ' + f(base + ky * k) + 'h' + f(4.4 * k) }, { stroke: '--cb-thanks-wheat', sw: at(.3 * k, .3) });
+    add(g, 'path', { d: 'M' + f(x) + ' ' + f(base) + 'Q' + f(x + 7 * k) + ' ' + f(base - 5 * k) + ' ' + f(x + 4 * k) + ' ' + f(base - 14 * k) + 'Q' + f(x + 3 * k) + ' ' + f(base - 6 * k) + ' ' + f(x) + ' ' + f(base) + 'Z' }, { fill: '--cb-thanks-husk' });
+  }
+  function thWheat(svg, x, base, k, lean, r) {
+    var g = group(svg, {}, { cls: r() < .3 ? 'art-sway' : '', d: r() * 4, t: 7 });
+    var tx = x + lean * k, ty = base - 18 * k;
+    add(g, 'path', { d: 'M' + f(x) + ' ' + f(base) + 'Q' + f(x + lean * k * .4) + ' ' + f(base - 10 * k) + ' ' + f(tx) + ' ' + f(ty) }, { stroke: '--cb-thanks-twine', sw: at(.6 * k, .4) });
+    for (var j = 0; j < 4; j++) {
+      var gy = ty + j * 1.9 * k;
+      add(g, 'ellipse', { cx: f(tx - 1.2 * k), cy: f(gy), rx: f(1 * k), ry: f(1.7 * k), transform: 'rotate(-25 ' + f(tx - 1.2 * k) + ' ' + f(gy) + ')' }, { fill: '--cb-thanks-wheat' });
+      add(g, 'ellipse', { cx: f(tx + 1.2 * k), cy: f(gy), rx: f(1 * k), ry: f(1.7 * k), transform: 'rotate(25 ' + f(tx + 1.2 * k) + ' ' + f(gy) + ')' }, { fill: '--cb-thanks-wheat' });
+    }
+    add(g, 'ellipse', { cx: f(tx), cy: f(ty - 1.6 * k), rx: f(.9 * k), ry: f(1.6 * k) }, { fill: '--cb-thanks-wheat' });
+  }
+  function thApple(svg, x, base, k) {
+    add(svg, 'path', { d: 'M' + f(x) + ' ' + f(base - 7 * k) + 'C' + f(x - 5 * k) + ' ' + f(base - 9 * k) + ' ' + f(x - 5.6 * k) + ' ' + f(base) + ' ' + f(x) + ' ' + f(base) + 'C' + f(x + 5.6 * k) + ' ' + f(base) + ' ' + f(x + 5 * k) + ' ' + f(base - 9 * k) + ' ' + f(x) + ' ' + f(base - 7 * k) + 'Z' }, { fill: '--cb-thanks-apple' });
+    add(svg, 'path', { d: 'M' + f(x) + ' ' + f(base - 7 * k) + 'l' + f(.6 * k) + ' ' + f(-2.4 * k) }, { stroke: '--cb-thanks-twine', sw: at(.6 * k, .4) });
+    add(svg, 'path', { d: 'M' + f(x + .6 * k) + ' ' + f(base - 8.6 * k) + 'q' + f(2.6 * k) + ' ' + f(-1.6 * k) + ' ' + f(3.6 * k) + ' ' + f(.2 * k) + 'q' + f(-2.2 * k) + ' ' + f(1 * k) + ' ' + f(-3.6 * k) + ' ' + f(-.2 * k) + 'Z' }, { fill: '--cb-thanks-gourd' });
+  }
+  function thSquash(svg, x, base, k, ink) {
+    add(svg, 'ellipse', { cx: f(x - 2.6 * k), cy: f(base - 4 * k), rx: f(3.6 * k), ry: f(4 * k) }, { fill: ink, stroke: '--cb-steel-2', sw: at(.35 * k, .3) });
+    add(svg, 'ellipse', { cx: f(x + 2.6 * k), cy: f(base - 4 * k), rx: f(3.6 * k), ry: f(4 * k) }, { fill: ink, stroke: '--cb-steel-2', sw: at(.35 * k, .3) });
+    add(svg, 'ellipse', { cx: f(x), cy: f(base - 4.2 * k), rx: f(3.4 * k), ry: f(4.2 * k) }, { fill: ink, stroke: '--cb-steel-2', sw: at(.35 * k, .3) });
+    add(svg, 'path', { d: 'M' + f(x) + ' ' + f(base - 8 * k) + 'q' + f(-.3 * k) + ' ' + f(-2 * k) + ' ' + f(1.4 * k) + ' ' + f(-2.6 * k) }, { stroke: '--cb-thanks-twine', sw: at(.9 * k, .5) });
+  }
+  function thPie(svg, x, base, k) {
+    add(svg, 'path', { d: 'M' + f(x - 12 * k) + ' ' + f(base - 4 * k) + 'L' + f(x - 10 * k) + ' ' + f(base) + 'H' + f(x + 10 * k) + 'L' + f(x + 12 * k) + ' ' + f(base - 4 * k) + 'Z' }, { fill: '--cb-thanks-crust' });
+    add(svg, 'ellipse', { cx: f(x), cy: f(base - 4 * k), rx: f(12 * k), ry: f(3 * k) }, { fill: '--cb-thanks-pie', stroke: '--cb-thanks-crust', sw: at(1.2 * k, .6) });
+    for (var j = -9; j <= 9; j += 3) add(svg, 'circle', { cx: f(x + j * k), cy: f(base - 4 * k + (Math.abs(j) > 6 ? -.3 : 2.4) * k), r: f(1 * k) }, { fill: '--cb-thanks-crust' });
+  }
+  T.thanks = {
+    band: function (c, r) {
+      var h = c.h, w = c.w, x, i, tall = h >= 60, divider = c.kind === 'divider';
+      var k = Math.min(h / (tall ? 34 : 24), 2.6);
+      if (!divider) {
+        add(c.svg, 'path', { d: wave(w, h * .08, h * .03, 40, 0) }, { stroke: '--cb-thanks-twine', sw: at(.6 * c.s, .4) });
+        for (x = 6 + r() * 8, i = 0; x < w; x += 12 * Math.min(k, 1.6) + r() * 6, i++) {
+          var ly = h * .08 + h * .03 * Math.sin(x / 40), lk = Math.min(k, 1.6) * .85;
+          var lg = group(c.svg, { transform: 'translate(' + f(x) + ' ' + f(ly) + ') rotate(' + f(160 + r() * 40) + ') scale(' + lk.toFixed(2) + ')' }, { cls: i % 4 ? '' : 'art-sway', d: r() * 4, t: 6 });
+          add(lg, 'path', { d: 'M0 0Q4 -3 2 -8Q0 -11 0 -12Q0 -11 -2 -8Q-4 -3 0 0Z' }, { fill: TH_LEAVES[i % 4] });
+          add(lg, 'path', { d: 'M0 0V-10' }, { stroke: '--cb-thanks-cranberry', sw: .5 });
+        }
+      }
+      var base = h * .98, dk = divider ? h / 18 : k * .8;
+      for (x = 8 + r() * 8, i = 0; x < w; i++) {
+        var pick = i % 6;
+        if (pick === 0 || pick === 3) { thWheat(c.svg, x, base, dk, -3 + r() * 6, r); thWheat(c.svg, x + 3 * dk, base, dk, 2 + r() * 4, r); x += 10 * dk; }
+        else if (pick === 1) { thCorn(c.svg, x, base, dk, -20); x += 10 * dk; }
+        else if (pick === 2) { thSquash(c.svg, x, base, dk, r() < .5 ? '--cb-thanks-squash' : '--cb-thanks-gourd'); x += 12 * dk; }
+        else if (pick === 4 && tall) { thPie(c.svg, x + 10 * dk, base, dk * .9); x += 26 * dk; }
+        else { thApple(c.svg, x, base, dk); x += 10 * dk; }
+        x += r() * 6 * dk;
+      }
+    }
+  };
+
+  /* HANUKKAH: on a tall strip a hanukkiah with its eight candles and the
+     shamash all lit, as on the eighth night; along every strip dreidels, gelt
+     and stars of David, and a little hanukkiah now and then where there is
+     room. Its flames breathe and never flicker. */
+  function hkStar(svg, x, y, R, o) {
+    var tri = function (a0) {
+      var d = '';
+      for (var j = 0; j < 3; j++) { var a = a0 + j * Math.PI * 2 / 3; d += (j ? 'L' : 'M') + f(x + R * Math.cos(a)) + ' ' + f(y + R * Math.sin(a)); }
+      return d + 'Z';
+    };
+    add(svg, 'path', { d: tri(-Math.PI / 2) + tri(Math.PI / 2) }, { stroke: '--cb-steel-2', sw: at(R * .14, .4), cls: o && o.cls, d: o && o.d, t: o && o.t });
+  }
+  function hkDreidel(svg, x, base, k, rot) {
+    var g = group(svg, { transform: 'rotate(' + f(rot) + ' ' + f(x) + ' ' + f(base - 6 * k) + ')' });
+    add(g, 'rect', { x: f(x - .7 * k), y: f(base - 14 * k), width: f(1.4 * k), height: f(3 * k), rx: f(.5 * k) }, { fill: '--cb-hanukkah-silver' });
+    add(g, 'path', { d: 'M' + f(x - 4 * k) + ' ' + f(base - 11 * k) + 'H' + f(x + 4 * k) + 'V' + f(base - 4.4 * k) + 'L' + f(x) + ' ' + f(base) + 'L' + f(x - 4 * k) + ' ' + f(base - 4.4 * k) + 'Z' }, { fill: '--cb-hanukkah-dreidel' });
+    add(g, 'path', { d: 'M' + f(x + 1 * k) + ' ' + f(base - 11 * k) + 'H' + f(x + 4 * k) + 'V' + f(base - 4.4 * k) + 'L' + f(x) + ' ' + f(base) + 'L' + f(x + 1 * k) + ' ' + f(base - 4.6 * k) + 'Z', 'fill-opacity': '.5' }, { fill: '--cb-hanukkah-dreidel-2' });
+  }
+  function hkGelt(svg, x, base, k) {
+    add(svg, 'ellipse', { cx: f(x), cy: f(base - 1.6 * k), rx: f(4 * k), ry: f(1.8 * k) }, { fill: '--cb-hanukkah-gelt', stroke: '--cb-hanukkah-gelt-2', sw: at(.5 * k, .4) });
+    add(svg, 'ellipse', { cx: f(x), cy: f(base - 1.8 * k), rx: f(2.6 * k), ry: f(1 * k) }, { stroke: '--cb-hanukkah-gelt-2', sw: at(.3 * k, .3) });
+  }
+  // A hanukkiah, its middle at x and its foot at base, k across in tens:
+  // eight candles in a row and the shamash raised above them in the middle.
+  function hkHanukkiah(svg, x, base, k, r) {
+    var arm = 2.6 * k, stem = '--cb-hanukkah-silver';
+    add(svg, 'path', { d: 'M' + f(x - 6 * k) + ' ' + f(base) + 'H' + f(x + 6 * k) + 'L' + f(x + 2 * k) + ' ' + f(base - 3 * k) + 'H' + f(x - 2 * k) + 'Z' }, { fill: '--cb-hanukkah-silver-2' });
+    add(svg, 'path', { d: 'M' + f(x) + ' ' + f(base - 3 * k) + 'V' + f(base - 22 * k) }, { stroke: stem, sw: at(1.2 * k, .6) });
+    for (var j = 1; j <= 4; j++) {
+      var rx = j * arm, top = base - 18 * k;
+      add(svg, 'path', { d: 'M' + f(x - rx) + ' ' + f(top) + 'V' + f(base - 18 * k + rx * .2) + 'Q' + f(x - rx) + ' ' + f(base - 8 * k) + ' ' + f(x) + ' ' + f(base - 8 * k) + 'Q' + f(x + rx) + ' ' + f(base - 8 * k) + ' ' + f(x + rx) + ' ' + f(base - 18 * k + rx * .2) + 'V' + f(top) },
+        { stroke: stem, sw: at(.7 * k, .4) });
+    }
+    var holders = [];
+    for (j = -4; j <= 4; j++) if (j) holders.push([x + j * arm, base - 18 * k]);
+    holders.push([x, base - 22 * k]);
+    holders.forEach(function (hp, n) {
+      add(svg, 'rect', { x: f(hp[0] - 1.6 * k), y: f(hp[1] - .8 * k), width: f(3.2 * k), height: f(.9 * k) }, { fill: stem });
+      add(svg, 'rect', { x: f(hp[0] - .7 * k), y: f(hp[1] - 5 * k), width: f(1.4 * k), height: f(4.2 * k) }, { fill: n === 8 ? '--cb-hanukkah-candle-2' : (n % 2 ? '--cb-hanukkah-candle' : '--cb-hanukkah-candle-2') });
+      hdFlame(svg, hp[0], hp[1] - 5.1 * k, k * .32, ['--cb-hanukkah-flame', '--cb-hanukkah-flame-2', '--cb-hanukkah-glow'], r);
+    });
+  }
+  T.hanukkah = {
+    band: function (c, r) {
+      var h = c.h, w = c.w, x, i, tall = h >= 60, divider = c.kind === 'divider';
+      for (x = 10 + r() * 20; x < w; x += 34 + r() * 50) hkStar(c.svg, x, h * (divider ? .5 : .14 + r() * .2), Math.max(1.6, h * (tall ? .05 : .1)), { cls: r() < .4 ? 'art-twinkle' : '', d: r() * 4, t: 5 });
+      if (divider) return;
+      var base = h * .97, k = Math.min(h / (tall ? 40 : 26), 2.4);
+      for (x = 20 + r() * 20, i = 0; x < w; i++) {
+        if (tall && i % 5 === 2) { hkHanukkiah(c.svg, x + 12 * k, base, k * 1.05, r); x += 30 * k; }
+        else if (!tall && h >= 24 && i % 7 === 3) { hkHanukkiah(c.svg, x + 6 * k, base, k * .52, r); x += 16 * k; }
+        else if (i % 2) { hkDreidel(c.svg, x, base, k * .8, r() * 30 - 15); x += 12 * k; }
+        else { hkGelt(c.svg, x, base, k * .8); hkGelt(c.svg, x + 4 * k, base - 1.4 * k, k * .7); x += 14 * k; }
+        x += r() * 10 * k;
+      }
+    }
+  };
+
+  /* CHRISTMAS: a string of lights swagged along the top in five colours with
+     holly at its hooks, and along the foot little trees with their baubles and
+     a star, gifts and gingerbread on the snow, and on a tall strip a big tree
+     and snow falling. The lights breathe slowly, never chase or flash. */
+  var XM_BULBS = ['--cb-christmas-red', '--cb-christmas-gold', '--cb-christmas-blue', '--cb-christmas-green', '--cb-christmas-pink'];
+  function xmHolly(svg, x, y, k) {
+    [-1, 1].forEach(function (sd) {
+      add(svg, 'path', { d: 'M' + f(x) + ' ' + f(y) + 'q' + f(sd * 3 * k) + ' ' + f(-3 * k) + ' ' + f(sd * 7 * k) + ' ' + f(-1 * k) + 'l' + f(-sd * 1 * k) + ' ' + f(1.4 * k) + 'l' + f(sd * 1 * k) + ' ' + f(1.2 * k) + 'q' + f(-sd * 4 * k) + ' ' + f(2 * k) + ' ' + f(-sd * 7 * k) + ' ' + f(-1.6 * k) + 'Z' }, { fill: '--cb-christmas-holly' });
+    });
+    [[-1, 0], [1, 0], [0, -1.6]].forEach(function (b) { add(svg, 'circle', { cx: f(x + b[0] * 1.3 * k), cy: f(y + b[1] * k), r: f(1.3 * k) }, { fill: '--cb-christmas-berry' }); });
+  }
+  function xmTree(svg, x, base, k, r) {
+    add(svg, 'rect', { x: f(x - 1.4 * k), y: f(base - 3 * k), width: f(2.8 * k), height: f(3 * k) }, { fill: '--cb-christmas-trunk' });
+    [[0, 9, 7], [5, 7.4, 5.4], [9.4, 5.6, 3.8]].forEach(function (t, j) {
+      var y0 = base - 3 * k - t[0] * k;
+      add(svg, 'path', { d: 'M' + f(x - t[1] * k) + ' ' + f(y0) + 'L' + f(x) + ' ' + f(y0 - t[2] * 1.4 * k) + 'L' + f(x + t[1] * k) + ' ' + f(y0) + 'Z' }, { fill: j % 2 ? '--cb-christmas-tree-2' : '--cb-christmas-tree' });
+    });
+    for (var j = 0; j < 6; j++) {
+      add(svg, 'circle', { cx: f(x + (r() - .5) * 9 * k * (1 - j / 6.4)), cy: f(base - 4.4 * k - j * 2.4 * k), r: f(.9 * k) }, { fill: XM_BULBS[Math.floor(r() * 5)], cls: r() < .4 ? 'art-glow' : '', d: r() * 4, t: 5 });
+    }
+    var st = group(svg, {}, { cls: 'art-glow', d: r() * 3, t: 6 });
+    add(st, 'path', { d: sparkle(x, base - 19.6 * k, 2.4 * k) }, { fill: '--cb-christmas-gold' });
+  }
+  function xmGift(svg, x, base, k, ink) {
+    add(svg, 'rect', { x: f(x - 4 * k), y: f(base - 7 * k), width: f(8 * k), height: f(7 * k) }, { fill: ink });
+    add(svg, 'path', { d: 'M' + f(x) + ' ' + f(base - 7 * k) + 'V' + f(base) + 'M' + f(x - 4 * k) + ' ' + f(base - 3.6 * k) + 'H' + f(x + 4 * k) }, { stroke: '--cb-christmas-gold', sw: at(1 * k, .5) });
+    add(svg, 'path', { d: 'M' + f(x) + ' ' + f(base - 7 * k) + 'q' + f(-3 * k) + ' ' + f(-3 * k) + ' ' + f(-3 * k) + ' 0Zq' + f(3 * k) + ' ' + f(-3 * k) + ' ' + f(3 * k) + ' 0Z' }, { fill: '--cb-christmas-gold' });
+  }
+  function xmGinger(svg, x, base, k) {
+    add(svg, 'path', { d: 'M' + f(x) + ' ' + f(base - 8.8 * k) + 'a' + f(2.4 * k) + ' ' + f(2.4 * k) + ' 0 1 1 0.01 0Z' +
+      'M' + f(x - 2.4 * k) + ' ' + f(base - 6.4 * k) + 'h' + f(4.8 * k) + 'l' + f(2.6 * k) + ' ' + f(1.4 * k) + 'l' + f(-.6 * k) + ' ' + f(1.2 * k) + 'l' + f(-2 * k) + ' ' + f(-.8 * k) + 'v' + f(2 * k) + 'l' + f(1.6 * k) + ' ' + f(3.6 * k) + 'h' + f(-2 * k) + 'l' + f(-1.4 * k) + ' ' + f(-2.6 * k) + 'l' + f(-1.4 * k) + ' ' + f(2.6 * k) + 'h' + f(-2 * k) + 'l' + f(1.6 * k) + ' ' + f(-3.6 * k) + 'v' + f(-2 * k) + 'l' + f(-2 * k) + ' ' + f(.8 * k) + 'l' + f(-.6 * k) + ' ' + f(-1.2 * k) + 'Z' },
+      { fill: '--cb-christmas-gingerbread' });
+    add(svg, 'path', { d: 'M' + f(x - 3.4 * k) + ' ' + f(base - 5 * k) + 'l' + f(1 * k) + ' ' + f(.6 * k) + 'M' + f(x + 3.4 * k) + ' ' + f(base - 5 * k) + 'l' + f(-1 * k) + ' ' + f(.6 * k) }, { stroke: '--cb-christmas-icing', sw: at(.4 * k, .3) });
+    [-4.4, -3].forEach(function (yy) { add(svg, 'circle', { cx: f(x), cy: f(base + yy * k), r: f(.4 * k) }, { fill: '--cb-christmas-red' }); });
+    add(svg, 'path', { d: 'M' + f(x - 1 * k) + ' ' + f(base - 11 * k) + 'h.01M' + f(x + 1 * k) + ' ' + f(base - 11 * k) + 'h.01' }, { stroke: '--cb-christmas-icing', sw: at(.7 * k, .4) });
+  }
+  T.christmas = {
+    band: function (c, r) {
+      var h = c.h, w = c.w, x, i, tall = h >= 60, divider = c.kind === 'divider';
+      var k = Math.min(h / (tall ? 40 : 26), 2.4), lk = Math.min(k, 1.6);
+      if (divider) {
+        for (x = 10 + r() * 10; x < w; x += 40 + r() * 30) xmHolly(c.svg, x, h * .6, h / 14);
+        return;
+      }
+      // the string of lights, swagged from hook to hook, holly at each hook
+      var span = 60 * Math.max(lk, .7), sag = h * (tall ? .1 : .22), y0 = h * .05;
+      for (x = 0, i = 0; x < w; x += span) {
+        add(c.svg, 'path', { d: 'M' + f(x) + ' ' + f(y0) + 'Q' + f(x + span / 2) + ' ' + f(y0 + sag * 2) + ' ' + f(x + span) + ' ' + f(y0) }, { stroke: '--cb-christmas-wire', sw: at(.6 * c.s, .4) });
+        for (var t = .14; t < 1; t += .18, i++) {
+          var bx = x + span * t, by = y0 + sag * 2 * 2 * t * (1 - t) * 1;
+          add(c.svg, 'rect', { x: f(bx - .9 * lk), y: f(by), width: f(1.8 * lk), height: f(1.4 * lk) }, { fill: '--cb-christmas-wire' });
+          add(c.svg, 'ellipse', { cx: f(bx), cy: f(by + 3.6 * lk), rx: f(1.8 * lk), ry: f(2.8 * lk) }, { fill: XM_BULBS[i % 5], cls: 'art-glow', d: (i * .37) % 5, t: 5 });
+        }
+        xmHolly(c.svg, x, y0 + 1, lk * .8);
+      }
+      if (tall) {
+        for (x = r() * 20; x < w; x += 18 + r() * 24) add(c.svg, 'circle', { cx: f(x), cy: f(h * (.3 + r() * .3)), r: f(.6 + r() * .8) }, { fill: '--cb-christmas-snow', cls: 'art-fall', d: r() * 6, t: 8 + r() * 4, run: Math.round(h * .25) });
+      }
+      // the snow along the foot, and on it trees, gifts and gingerbread
+      var base = h * .94;
+      add(c.svg, 'path', { d: wave(w, base, h * .015, 30, 0) + 'L' + (w + 10) + ' ' + h + 'L-10 ' + h + 'Z' }, { fill: '--cb-christmas-snow' });
+      for (x = 14 + r() * 14, i = 0; x < w; i++) {
+        var pick = i % 5;
+        if (pick === 0 || (tall && pick === 3)) { xmTree(c.svg, x, base, k * (tall && pick === 0 ? 1.6 : .9), r); x += (tall && pick === 0 ? 26 : 16) * k; }
+        else if (pick === 1 || pick === 3) { xmGift(c.svg, x, base, k * .8, r() < .5 ? '--cb-christmas-red' : '--cb-christmas-blue'); x += 12 * k; }
+        else if (pick === 2 && h >= 24) { xmGinger(c.svg, x, base, k * .9); x += 12 * k; }
+        else { xmGift(c.svg, x, base, k * .6, '--cb-christmas-green'); x += 10 * k; }
+        x += r() * 14 * k;
+      }
+    }
+  };
+
+  /* KWANZAA: a mkeka mat woven in red, black, green and gold along the foot,
+     and on it a kinara with its seven candles, three red, the black in the
+     middle and three green, all lit, as on the last night; ears of corn, the
+     muhindi, one for each child of a family; the unity cup; and fruit of the
+     harvest. Its flames breathe and never flicker. */
+  var KW_CANDLES = ['--cb-kwanzaa-red', '--cb-kwanzaa-red', '--cb-kwanzaa-red', '--cb-kwanzaa-black', '--cb-kwanzaa-green', '--cb-kwanzaa-green', '--cb-kwanzaa-green'];
+  // The mkeka: bands of red, black and green, woven with gold across them.
+  function kwMat(c, top) {
+    var h = c.h, bh = (h - top) / 3, x, j;
+    for (j = 0; j < 3; j++) add(c.svg, 'rect', { x: -2, y: f(top + j * bh), width: c.w + 4, height: f(bh + .3) }, { fill: ['--cb-kwanzaa-red', '--cb-kwanzaa-black', '--cb-kwanzaa-green'][j] });
+    var step = Math.max(4, bh * 1.6), d = '';
+    for (x = step / 2; x < c.w; x += step) d += 'M' + f(x) + ' ' + f(top) + 'V' + f(h);
+    add(c.svg, 'path', { d: d }, { stroke: '--cb-kwanzaa-gold', sw: at(bh * .22, .5) });
+    add(c.svg, 'path', { d: 'M-2 ' + f(top) + 'H' + (c.w + 2) }, { stroke: '--cb-kwanzaa-gold', sw: at(.8 * c.s, .5) });
+  }
+  function kwKinara(svg, x, base, k, r) {
+    add(svg, 'path', { d: 'M' + f(x - 13 * k) + ' ' + f(base) + 'L' + f(x - 12 * k) + ' ' + f(base - 3 * k) + 'H' + f(x + 12 * k) + 'L' + f(x + 13 * k) + ' ' + f(base) + 'Z' }, { fill: '--cb-kwanzaa-wood', stroke: '--cb-kwanzaa-wood-2', sw: at(.4 * k, .3) });
+    for (var j = 0; j < 7; j++) {
+      var cx = x + (j - 3) * 3.6 * k, ch = 7 * k + (3 - Math.abs(j - 3)) * .6 * k;
+      add(svg, 'rect', { x: f(cx - 1.4 * k), y: f(base - 4.4 * k), width: f(2.8 * k), height: f(1.6 * k) }, { fill: '--cb-kwanzaa-wood-2' });
+      add(svg, 'rect', { x: f(cx - .9 * k), y: f(base - 4.4 * k - ch), width: f(1.8 * k), height: f(ch) }, { fill: KW_CANDLES[j], stroke: j === 3 ? '--cb-steel' : null, sw: at(.3 * k, .3) });
+      hdFlame(svg, cx, base - 4.6 * k - ch, k * .32, ['--cb-kwanzaa-flame', '--cb-kwanzaa-fruit', '--cb-kwanzaa-glow'], r);
+    }
+  }
+  function kwCorn(svg, x, base, k, rot) {
+    var g = group(svg, { transform: 'rotate(' + f(rot) + ' ' + f(x) + ' ' + f(base) + ')' });
+    add(g, 'path', { d: 'M' + f(x) + ' ' + f(base) + 'q' + f(-5 * k) + ' ' + f(-3 * k) + ' ' + f(-4 * k) + ' ' + f(-8 * k) + 'q' + f(2 * k) + ' ' + f(4 * k) + ' ' + f(4 * k) + ' ' + f(8 * k) + 'Z' }, { fill: '--cb-kwanzaa-husk' });
+    add(g, 'path', { d: 'M' + f(x) + ' ' + f(base) + 'q' + f(5 * k) + ' ' + f(-3 * k) + ' ' + f(4 * k) + ' ' + f(-8 * k) + 'q' + f(-2 * k) + ' ' + f(4 * k) + ' ' + f(-4 * k) + ' ' + f(8 * k) + 'Z' }, { fill: '--cb-kwanzaa-husk' });
+    add(g, 'ellipse', { cx: f(x), cy: f(base - 7 * k), rx: f(2.2 * k), ry: f(6 * k) }, { fill: '--cb-kwanzaa-corn', stroke: '--cb-kwanzaa-husk', sw: at(.3 * k, .3) });
+    for (var ky = -11.6; ky < -2.4; ky += 1.8) add(g, 'path', { d: 'M' + f(x - 1.8 * k) + ' ' + f(base + ky * k) + 'h' + f(3.6 * k) }, { stroke: '--cb-kwanzaa-husk', sw: at(.25 * k, .25) });
+  }
+  function kwCup(svg, x, base, k) {
+    add(svg, 'path', { d: 'M' + f(x - 4 * k) + ' ' + f(base - 11 * k) + 'Q' + f(x - 4 * k) + ' ' + f(base - 5 * k) + ' ' + f(x) + ' ' + f(base - 5 * k) + 'Q' + f(x + 4 * k) + ' ' + f(base - 5 * k) + ' ' + f(x + 4 * k) + ' ' + f(base - 11 * k) + 'Z' +
+      'M' + f(x - .8 * k) + ' ' + f(base - 5 * k) + 'H' + f(x + .8 * k) + 'V' + f(base - 1.4 * k) + 'H' + f(x - .8 * k) + 'Z' +
+      'M' + f(x - 3 * k) + ' ' + f(base) + 'Q' + f(x) + ' ' + f(base - 2.4 * k) + ' ' + f(x + 3 * k) + ' ' + f(base) + 'Z' }, { fill: '--cb-kwanzaa-gold' });
+  }
+  T.kwanzaa = {
+    band: function (c, r) {
+      var h = c.h, w = c.w, x, i, tall = h >= 60, divider = c.kind === 'divider';
+      if (divider) { kwMat(c, h * .3); return; }
+      if (tall) hdStars(c, r, '--cb-steel', .3);
+      var matTop = h * (tall ? .82 : .78);
+      kwMat(c, matTop);
+      var k = Math.min(h / (tall ? 34 : 26), 2.6);
+      for (x = 20 + r() * 20, i = 0; x < w; i++) {
+        var pick = i % 5;
+        if (pick === 0) { kwKinara(c.svg, x + 13 * k, matTop + .4, k * (tall ? 1.2 : .8), r); x += 30 * k; }
+        else if (pick === 1 || pick === 3) { kwCorn(c.svg, x, matTop + .4, k * .8, -24); kwCorn(c.svg, x + 3 * k, matTop + .4, k * .8, 14); x += 10 * k; }
+        else if (pick === 2) { kwCup(c.svg, x, matTop + .4, k * .8); x += 10 * k; }
+        else { add(c.svg, 'circle', { cx: f(x), cy: f(matTop - 2.6 * k), r: f(2.6 * k) }, { fill: '--cb-kwanzaa-fruit' }); add(c.svg, 'circle', { cx: f(x + 4 * k), cy: f(matTop - 2.2 * k), r: f(2.2 * k) }, { fill: '--cb-kwanzaa-red' }); x += 10 * k; }
+        x += r() * 16 * k;
+      }
+    }
+  };
+
+  /* NEW YEAR'S: fireworks blooming over the strip, each a burst of one colour
+     whose light breathes slowly and never flashes, and nothing bangs:
+     confetti falling and lying, streamers curling down from the top, and on a
+     tall strip a clock at midnight. */
+  var NY_FIRE = ['--cb-newyear-pink', '--cb-newyear-cyan', '--cb-newyear-violet', '--cb-newyear-green', '--cb-newyear-orange', '--cb-newyear-gold'];
+  function nyBurst(svg, x, y, R, ink, r) {
+    var g = group(svg, {}, { cls: 'art-twinkle', d: r() * 6, t: 6 + r() * 3 });
+    var n = 12, d = '';
+    for (var j = 0; j < n; j++) {
+      var a = j * Math.PI * 2 / n;
+      d += 'M' + f(x + R * .3 * Math.cos(a)) + ' ' + f(y + R * .3 * Math.sin(a)) + 'L' + f(x + R * .86 * Math.cos(a)) + ' ' + f(y + R * .86 * Math.sin(a));
+      add(g, 'circle', { cx: f(x + R * Math.cos(a)), cy: f(y + R * Math.sin(a)), r: f(Math.max(.5, R * .07)) }, { fill: ink });
+    }
+    add(g, 'path', { d: d }, { stroke: ink, sw: at(R * .05, .4) });
+  }
+  function nyConfetti(svg, x, y, k, r, cls) {
+    var rot = r() * 180, ink = NY_FIRE[Math.floor(r() * 6)];
+    var g = cls ? group(svg, {}, { cls: cls, d: r() * 6, t: 7 + r() * 4, run: 12 }) : svg;
+    add(g, 'rect', { x: f(x - 1.2 * k), y: f(y - .6 * k), width: f(2.4 * k), height: f(1.2 * k), transform: 'rotate(' + f(rot) + ' ' + f(x) + ' ' + f(y) + ')' }, { fill: ink });
+  }
+  function nyClock(svg, x, y, R) {
+    add(svg, 'circle', { cx: f(x), cy: f(y), r: f(R) }, { fill: '--cb-newyear-silver', stroke: '--cb-newyear-rim', sw: R * .12 });
+    var d = '';
+    for (var j = 0; j < 12; j++) { var a = j * Math.PI / 6; d += 'M' + f(x + R * .72 * Math.sin(a)) + ' ' + f(y - R * .72 * Math.cos(a)) + 'L' + f(x + R * .86 * Math.sin(a)) + ' ' + f(y - R * .86 * Math.cos(a)); }
+    add(svg, 'path', { d: d }, { stroke: '--cb-newyear-hand', sw: R * .06 });
+    add(svg, 'path', { d: 'M' + f(x) + ' ' + f(y) + 'V' + f(y - R * .66) + 'M' + f(x) + ' ' + f(y) + 'L' + f(x + R * .06) + ' ' + f(y - R * .46) }, { stroke: '--cb-newyear-hand', sw: R * .09 });
+    add(svg, 'circle', { cx: f(x), cy: f(y), r: f(R * .08) }, { fill: '--cb-newyear-rim' });
+  }
+  T.newyear = {
+    band: function (c, r) {
+      var h = c.h, w = c.w, x, i, tall = h >= 60, divider = c.kind === 'divider';
+      if (tall) hdStars(c, r, '--cb-steel', .5);
+      // streamers curling down from the top
+      if (!divider) {
+        for (x = 8 + r() * 20, i = 0; x < w; x += 30 + r() * 40, i++) {
+          var len = h * (.3 + r() * .25), d = 'M' + f(x) + ' 0';
+          for (var t = 1; t <= 6; t++) d += 'Q' + f(x + (t % 2 ? 4 : -4) * Math.min(c.s, 1.6)) + ' ' + f(len * (t - .5) / 6) + ' ' + f(x) + ' ' + f(len * t / 6);
+          add(c.svg, 'path', { d: d }, { stroke: NY_FIRE[i % 6], sw: at(1.1 * Math.min(c.s, 1.6), .6), cls: i % 3 ? '' : 'art-sway', d: r() * 4, t: 6 });
+        }
+      }
+      // fireworks, in the space above the confetti
+      for (x = 40 + r() * 60, i = 0; x < w; x += (tall ? 90 : 70) + r() * 80, i++) {
+        nyBurst(c.svg, x, h * (divider ? .5 : tall ? .2 + r() * .25 : .45), Math.min(h * (divider ? .45 : tall ? .16 : .3), 22), NY_FIRE[i % 6], r);
+      }
+      if (tall) for (x = 140 + r() * 120; x < w - 20; x += 340 + r() * 200) nyClock(c.svg, x, h * .56, h * .2);
+      // confetti, some still falling
+      for (x = r() * 6; x < w; x += 4 + r() * 8) nyConfetti(c.svg, x, h * (divider ? .3 + r() * .5 : .82 + r() * .14), Math.min(c.s, 1.8), r, !divider && r() < .2 ? 'art-fall' : '');
     }
   };
 

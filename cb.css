@@ -160,6 +160,20 @@
   --cb-display: 'Caprasimo'; --cb-display-scale: 1.05; --cb-display-track: .01em; --cb-display-case: none; }
 :host([data-scheme="sweater"]) { --cb-case: var(--cb-sweater-case); --cb-bar: var(--cb-sweater-bar); --cb-steel: var(--cb-sweater-steel); --cb-steel-2: var(--cb-sweater-steel-2); --cb-lcd: var(--cb-sweater-lcd); --cb-amber: var(--cb-sweater-amber); --cb-amber-2: var(--cb-sweater-amber-2);
   --cb-display: 'Fuzzy Bubbles'; --cb-display-scale: 1.1; --cb-display-track: .01em; --cb-display-case: none; }
+:host([data-scheme="muertos"]) { --cb-case: var(--cb-muertos-case); --cb-bar: var(--cb-muertos-bar); --cb-steel: var(--cb-muertos-steel); --cb-steel-2: var(--cb-muertos-steel-2); --cb-lcd: var(--cb-muertos-lcd); --cb-amber: var(--cb-muertos-amber); --cb-amber-2: var(--cb-muertos-amber-2);
+  --cb-display: 'Oleo Script'; --cb-display-scale: 1.2; --cb-display-track: .01em; --cb-display-case: none; }
+:host([data-scheme="diwali"]) { --cb-case: var(--cb-diwali-case); --cb-bar: var(--cb-diwali-bar); --cb-steel: var(--cb-diwali-steel); --cb-steel-2: var(--cb-diwali-steel-2); --cb-lcd: var(--cb-diwali-lcd); --cb-amber: var(--cb-diwali-amber); --cb-amber-2: var(--cb-diwali-amber-2);
+  --cb-display: 'Eczar'; --cb-display-scale: 1.15; --cb-display-track: .03em; --cb-display-case: none; }
+:host([data-scheme="thanks"]) { --cb-case: var(--cb-thanks-case); --cb-bar: var(--cb-thanks-bar); --cb-steel: var(--cb-thanks-steel); --cb-steel-2: var(--cb-thanks-steel-2); --cb-lcd: var(--cb-thanks-lcd); --cb-amber: var(--cb-thanks-amber); --cb-amber-2: var(--cb-thanks-amber-2);
+  --cb-display: 'Young Serif'; --cb-display-scale: 1.1; --cb-display-track: .01em; --cb-display-case: none; }
+:host([data-scheme="hanukkah"]) { --cb-case: var(--cb-hanukkah-case); --cb-bar: var(--cb-hanukkah-bar); --cb-steel: var(--cb-hanukkah-steel); --cb-steel-2: var(--cb-hanukkah-steel-2); --cb-lcd: var(--cb-hanukkah-lcd); --cb-amber: var(--cb-hanukkah-amber); --cb-amber-2: var(--cb-hanukkah-amber-2);
+  --cb-display: 'Bellefair'; --cb-display-scale: 1.25; --cb-display-track: .04em; --cb-display-case: none; }
+:host([data-scheme="christmas"]) { --cb-case: var(--cb-christmas-case); --cb-bar: var(--cb-christmas-bar); --cb-steel: var(--cb-christmas-steel); --cb-steel-2: var(--cb-christmas-steel-2); --cb-lcd: var(--cb-christmas-lcd); --cb-amber: var(--cb-christmas-amber); --cb-amber-2: var(--cb-christmas-amber-2);
+  --cb-display: 'Yeseva One'; --cb-display-scale: 1.1; --cb-display-track: .02em; --cb-display-case: none; }
+:host([data-scheme="kwanzaa"]) { --cb-case: var(--cb-kwanzaa-case); --cb-bar: var(--cb-kwanzaa-bar); --cb-steel: var(--cb-kwanzaa-steel); --cb-steel-2: var(--cb-kwanzaa-steel-2); --cb-lcd: var(--cb-kwanzaa-lcd); --cb-amber: var(--cb-kwanzaa-amber); --cb-amber-2: var(--cb-kwanzaa-amber-2);
+  --cb-display: 'Agbalumo'; --cb-display-scale: 1.1; --cb-display-track: .01em; --cb-display-case: none; }
+:host([data-scheme="newyear"]) { --cb-case: var(--cb-newyear-case); --cb-bar: var(--cb-newyear-bar); --cb-steel: var(--cb-newyear-steel); --cb-steel-2: var(--cb-newyear-steel-2); --cb-lcd: var(--cb-newyear-lcd); --cb-amber: var(--cb-newyear-amber); --cb-amber-2: var(--cb-newyear-amber-2);
+  --cb-display: 'Limelight'; --cb-display-scale: 1.1; --cb-display-track: .06em; --cb-display-case: none; }
 :host([data-scheme="mordor"]) { --cb-case: var(--cb-mordor-case); --cb-bar: var(--cb-mordor-bar); --cb-steel: var(--cb-mordor-steel); --cb-steel-2: var(--cb-mordor-steel-2); --cb-lcd: var(--cb-mordor-lcd); --cb-amber: var(--cb-mordor-amber); --cb-amber-2: var(--cb-mordor-amber-2);
   --cb-display: 'Eczar'; --cb-display-scale: 1.15; --cb-display-track: .04em; --cb-display-case: none; }
 :host([data-scheme="crashers"]) .cb-radio { border: 3px solid var(--cb-steel); border-radius: 16px; }
@@ -194,6 +208,18 @@
 :host([data-scheme="maple"]) .cb-radio { border-color: var(--cb-amber); border-radius: 4px 22px 4px 22px; }
 :host([data-scheme="sweater"]) .cb-radio { border: 4px double var(--cb-amber); border-radius: 14px; }
 :host([data-scheme="sweater"]) .cb-btn { border-radius: 10px; }
+/* The holidays (2026-10-30). Día de Muertos has a cut flag's zigzag feel in a
+   pink rim; Diwali a diya's round bowl in marigold; Thanksgiving a pie tin's
+   double rim; Hanukkah a deep blue box with a silver rim; Christmas a wrapped
+   gift with a gold rim; Kwanzaa a mat's square edge in green; New Year's a
+   midnight box with a gold double rim. */
+:host([data-scheme="muertos"]) .cb-radio { border-color: var(--cb-steel-2); border-radius: 6px 18px 6px 18px; }
+:host([data-scheme="diwali"]) .cb-radio { border-color: var(--cb-amber); border-radius: 12px 12px 34px 34px; }
+:host([data-scheme="thanks"]) .cb-radio { border: 4px double var(--cb-amber); border-radius: 18px; }
+:host([data-scheme="hanukkah"]) .cb-radio { border-color: var(--cb-steel-2); border-radius: 10px; }
+:host([data-scheme="christmas"]) .cb-radio { border-color: var(--cb-amber); border-radius: 8px; }
+:host([data-scheme="kwanzaa"]) .cb-radio { border-color: var(--cb-steel-2); border-radius: 3px; }
+:host([data-scheme="newyear"]) .cb-radio { border: 4px double var(--cb-amber); border-radius: 12px; }
 /* A readout the case's own black has its edge drawn in the case's rim instead
    of the readout's black edge: High contrast's, LCARS', ASCII-Amp's and Paula's. */
 :host([data-scheme="high"]) .cb-lcd, :host([data-scheme="lcars"]) .cb-lcd, :host([data-scheme="ascii"]) .cb-lcd,
@@ -1644,6 +1670,31 @@ a.cb-now-go { text-decoration: none; display: inline-flex; align-items: center; 
 }
 @keyframes cb-mo-gh-big { 0%, 2% { opacity: 0; transform: translate(-50%, 30%); } 6.5% { opacity: .95; transform: translate(-50%, 0); } 12.5% { opacity: .95; transform: translate(-50%, -3%); } 15.5%, 100% { opacity: 0; transform: translate(-50%, -8%); } }
 @keyframes cb-mo-gh-wave { 0%, 6.5% { transform: rotate(0); } 7.5% { transform: rotate(-18deg); } 8.5% { transform: rotate(10deg); } 9.5% { transform: rotate(-18deg); } 10.5% { transform: rotate(10deg); } 11.5%, 100% { transform: rotate(0); } }
+/* THE FALL AND WINTER HOLIDAYS' OPENINGS (2026-10-30) are made of the same
+   few parts, each dressed in its own holiday's things in profile.js: a sky
+   that comes up, a band along the top that comes down, a band along the foot
+   that comes up, a big thing in the middle that rises, lights that come on
+   one after another over a second and a half each, things that float up or
+   fall, a rangoli that opens ring by ring, and New Year's fireworks, which
+   bloom over a second and a half and fade over two, one at a time, and never
+   flash. Nothing jumps out, and it is all gone after about nine seconds. */
+.pf-fx__hd-sky { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 0; }
+.pf-fx__hd-top { position: absolute; left: 0; top: 0; display: block; width: 100%; height: 26%; overflow: visible; opacity: 0; }
+.pf-fx__hd-foot { position: absolute; left: 0; bottom: 0; display: block; width: 100%; height: 36%; overflow: visible; opacity: 0; }
+.pf-fx__hd-mid { position: absolute; left: 50%; bottom: 4%; display: block; height: 76%; width: auto; aspect-ratio: 200 / 240; max-width: 90%; overflow: visible; opacity: 0; transform: translate(-50%, 30%); }
+.pf-fx__hd-up, .pf-fx__hd-burst { position: absolute; display: block; line-height: 0; opacity: 0; }
+.pf-fx__hd-burst { transform: translate(-50%, -50%); }
+:host([data-motion="on"]) .pf-fx__hd-sky { animation: cb-mo-fx-wash 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__hd-top { animation: cb-mo-hd-drop 60s ease-out infinite both; }
+:host([data-motion="on"]) .pf-fx__hd-foot { animation: cb-mo-pk-patch 60s ease-out infinite both; }
+:host([data-motion="on"]) .pf-fx__hd-mid { animation: cb-mo-gh-big 60s ease-out infinite both; }
+:host([data-motion="on"]) .fx-mo-hd-lit { animation: cb-mo-pk-lit 60s ease-in-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .pf-fx__hd-up { animation: cb-mo-pk-up 60s ease-in-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-mo-hd-bloom { transform-box: fill-box; transform-origin: center; animation: cb-mo-hd-bloom 60s ease-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .pf-fx__hd-burst { animation: cb-mo-hd-burst 60s ease-out var(--d, 0s) infinite both; }
+@keyframes cb-mo-hd-drop { 0%, 1.5% { opacity: 0; transform: translateY(-30%); } 5% { opacity: 1; transform: translateY(0); } 12.5% { opacity: 1; } 15.5%, 100% { opacity: 0; transform: translateY(0); } }
+@keyframes cb-mo-hd-bloom { 0%, 5% { opacity: 0; transform: scale(.3); } 8% { opacity: 1; transform: scale(1); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes cb-mo-hd-burst { 0%, 5% { opacity: 0; transform: translate(-50%, -50%) scale(.2); } 7.5% { opacity: .95; transform: translate(-50%, -50%) scale(1); } 9.5% { opacity: .85; } 13% { opacity: 0; transform: translate(-50%, -50%) scale(1.12); } 100% { opacity: 0; } }
 /* An effect after somebody's work says whose, at the foot of the card. */
 .pf-credit { margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--cb-amber-2); }
 

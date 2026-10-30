@@ -265,6 +265,13 @@ def main():
         "muchness": ("--much-", "Bring Your Muchness", "the MAX GLITTER fanfare's"),
         "pumpkinpatch": ("--cb-pumpkin-", "Pumpkin Patch", "the Pumpkin Patch theme's"),
         "ghosts": ("--cb-ghosts-", "Friendly Ghosts", "the Friendly Ghosts theme's"),
+        "muertos": ("--cb-muertos-", "Día de Muertos", "the Día de Muertos theme's"),
+        "diwali": ("--cb-diwali-", "Diwali", "the Diwali theme's"),
+        "thanksgiving": ("--cb-thanks-", "Thanksgiving", "the Thanksgiving theme's"),
+        "hanukkah": ("--cb-hanukkah-", "Hanukkah", "the Hanukkah theme's"),
+        "christmas": ("--cb-christmas-", "Christmas", "the Christmas theme's"),
+        "kwanzaa": ("--cb-kwanzaa-", "Kwanzaa", "the Kwanzaa theme's"),
+        "newyear": ("--cb-newyear-", "New Year's", "the New Year's theme's"),
     }
     blocks = {k: between(src, f"/* effect:{k}:begin */", f"/* effect:{k}:end */", "profile.js") for k in EFFECT_INKS}
     rest_src = src
@@ -345,6 +352,25 @@ def main():
     if m:
         refuse(f"a Halloween effect says {m.group(0)!r}. Halloween on the CB is friendly: pumpkins, bats and ghosts "
                "with pink cheeks, and nothing gory, the Haunted House's rule.")
+    # THE HOLIDAYS ARE THEIR OWN. Día de Muertos is a remembering and a welcome
+    # home and not Halloween, so its effect and its theme's line never call it
+    # that; and Thanksgiving draws the harvest and nobody, because for many
+    # Indigenous people the day is a National Day of Mourning, so neither its
+    # effect nor its theme's line draws or names the school play.
+    def holiday_line(key):
+        m = re.search(r"\['" + key + r"', '[^']*', 'holiday', '([^']*)'", CALL.read_text())
+        return m.group(1) if m else ""
+    for key, theme, pat, why in (
+            ("muertos", "muertos", r"\bhalloween\b|\bspooky\b|\bscary\b|\bcostumes?\b",
+             "Día de Muertos is a remembering and a welcome home, and not Halloween"),
+            ("thanksgiving", "thanks", r"\bpilgrims?\b|\bindians?\b|\bsavages?\b|\bheaddress\w*|\bteepees?\b|\btipis?\b|\bwar ?paint\b",
+             "Thanksgiving draws the harvest and nobody, for the day of mourning it is to many Indigenous people")):
+        said = uncomment(blocks[key]) + " " + re.sub(r"Nobody is drawn, pilgrims included|\bnot Halloween\b", "", holiday_line(theme))
+        m = re.search(pat, said, re.I)
+        if m:
+            refuse(f"{EFFECT_INKS[key][1]} says {m.group(0)!r}. {why}.")
+        if not holiday_line(theme):
+            refuse(f"call.js has no {EFFECT_INKS[key][1]} theme, which its effect is drawn in.")
     cbcss = re.sub(r"/\*.*?\*/", "", (ROOT / "cb.css").read_text(), flags=re.S)
     # The pass and the Lagoon's big moment cross words, so each is display: none
     # and only its data-motion rule shows it; and nothing an effect does moves
@@ -367,7 +393,8 @@ def main():
     for key, fn in (("lagoon", "lagoonMoment()"), ("otters", "otterMoment()"), ("fairy", "fairyMoment()"),
                     ("wolf", "wolfMoment()"), ("starward", "swMoment()"), ("dolphins", "dpMoment()"), ("autumn", "auMoment()"),
                     ("cloudcity", "ccMoment()"), ("muchness", "muMoment()"), ("pumpkinpatch", "pkMoment()"),
-                    ("ghosts", "ghMoment()")):
+                    ("ghosts", "ghMoment()"), ("muertos", "mdMoment()"), ("diwali", "dwMoment()"), ("thanksgiving", "thMoment()"),
+                    ("hanukkah", "hkMoment()"), ("christmas", "xmMoment()"), ("kwanzaa", "kwMoment()"), ("newyear", "nyMoment()")):
         if f"appendChild({fn})" not in uncomment(blocks[key]) or "pf-fx__moment" not in blocks[key]:
             refuse(f"{EFFECT_INKS[key][1]} has lost its opening across the profile, which Ryan asked for.")
     # STARWARD DREAMING'S FIRE IS HELD UNDER THE FLASH LINE, the cabin's

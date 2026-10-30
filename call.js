@@ -249,6 +249,15 @@
     ['ghosts', 'Friendly Ghosts', 'season', 'little sheet ghosts with pink cheeks, hovering over a misty field with a few plain stones in it, under a crescent moon. Nobody is frightened and nothing jumps out. It pairs with the profile effect of the same name', 'moves'],
     ['maple', 'Maple Grove', 'season', 'a maple branch turning red, orange and gold, its leaves falling slowly and lying in drifts with acorns among them', 'moves'],
     ['sweater', 'Sweater Weather', 'season', 'a sweater knitted for the cold: its stitches row on row, a cable, a band of diamonds and hearts in cranberry and pine, and a mug of cocoa steaming', 'moves'],
+    /* THE FALL AND WINTER HOLIDAYS celebrated in our community (Ryan,
+       2026-10-30), in the order they come. Every drawing is ours. */
+    ['muertos', 'D\u00eda de Muertos', 'holiday', 'D\u00eda de Muertos, the Days of the Dead of 1 and 2 November, kept in Mexico and by Mexican and Mexican American families and many others: papel picado strung across, cempasúchil marigolds, candles for an ofrenda, and calaveras smiling. A remembering and a welcome home, and not Halloween. It pairs with the profile effect of the same name', 'moves'],
+    ['diwali', 'Diwali', 'holiday', 'Diwali, the festival of lights kept by Hindus, Jains and Sikhs and many others: rows of clay diyas lit, a rangoli at the door, lanterns hung and a toran of marigolds and mango leaves. It pairs with the profile effect of the same name', 'moves'],
+    ['thanks', 'Thanksgiving', 'holiday', 'Thanksgiving, the harvest holiday of the United States and Canada: a garland of autumn leaves and a harvest of wheat, corn, squash, gourds, apples and pie, for gratitude. Nobody is drawn, pilgrims included: for many Indigenous people the day in the United States is a National Day of Mourning, kept since 1970. It pairs with the profile effect of the same name', 'moves'],
+    ['hanukkah', 'Hanukkah', 'holiday', 'Hanukkah, the Jewish festival of lights: a hanukkiah with its eight candles and the shamash lit, dreidels, gelt and stars of David. It pairs with the profile effect of the same name', 'moves'],
+    ['christmas', 'Christmas', 'holiday', 'Christmas: a string of lights, holly and its berries, trees with their baubles and a star, gifts, gingerbread and snow. It pairs with the profile effect of the same name', 'moves'],
+    ['kwanzaa', 'Kwanzaa', 'holiday', 'Kwanzaa, the African American celebration of family, community and culture from 26 December to 1 January: a kinara of seven candles, three red, one black and three green, on a mkeka mat, with ears of corn, the unity cup and the harvest. It pairs with the profile effect of the same name', 'moves'],
+    ['newyear', 'New Year\u2019s', 'holiday', 'New Year\u2019s Eve: a clock at midnight, fireworks that bloom slowly and fade with no bang and no flash, confetti and streamers. It pairs with the profile effect of the same name', 'moves'],
     /* THE WINAMP SKINS (Ryan, 2026-10-17): after skins in the Winamp
        Skin Museum, each credited to whoever its readme says made it, or saying
        that it names nobody. Every drawing is ours and copies no bitmap of a
