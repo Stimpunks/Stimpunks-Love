@@ -4778,6 +4778,20 @@ declared twice with `var` in one script's scope is the silent last-wins of `chec
 dial's `NOTES` and the Playhouse's toys' `NOTES` shared love.js's scope from 2026-09-21, and the dial's line under
 its buttons was blank on every page until this change renamed the dial's to `LEVEL_NOTES`.
 
+**BRING YOUR MUCHNESS PLAYS WHEN SOMEBODY TURNS THE DIAL UP TO MAX, AND ESMX IN IT IS KAYA'S OWN DRAWING.** Ryan's
+ask, 2026-10-29: Esmx rising from the foot of the screen in an aura of glitter under "Bring Your Muchness" (Infodumplings'
+tagline). **Ryan's call, the same day: Kaya Oldaker's original art, not the Arcade's redrawing**, so `art/esmx-leaping.webp`
+is her Rainbow Leaping off Esmx's page, cropped and scaled with no metadata and nothing redrawn, carrying her name and her
+alt text; the raised fist is the wave, and the arm does not move because it is not a layer of its own. `muchness.js` and
+`muchness.css` are furniture (a shadow root, §2's `--much-*`, measured), and `love.js` loads the script only from
+`setLevel`, only when the level goes up to MAX (or out of a low-stimulation mode into it), never on a page that opens at
+MAX, never on a `data-cb="off"` page (Stay Frosty says nothing moves at any setting) and never in a frame. It is silent,
+aria-hidden and pressable by nothing, a spark goes out over `FADE_FLOOR` at least so nothing flashes, it moves by
+translate and scale only, and Escape, any press, a hidden tab or turning down ends it; the dial's MAX line says "Bring
+your muchness" so the words are heard. `tools/check-muchness.py` holds all of it. The friendly edits are **a chime with
+it**, **playing it on arrival at MAX "so people see it"**, **a twinkle that blinks** and **an Esmx redrawn to wave**
+"since the art cannot", which is Ryan's call against his own: ask him, and Kaya's name stays on whatever is drawn.
+
 **PLURAL MURAL'S CHALKBOARD IS THE CB'S, AND IT IS THE ONE PUBLIC THING THE CB HOLDS.** Helen Edgar's
 idea, after the board at her floatation tank place. Ryan's call, 2026-09-25: **anybody reads it, only a CB
 pass writes on it, and a note stays seven days**, thirty at most. Those two differences from the channel

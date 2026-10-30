@@ -250,6 +250,12 @@ BBR = {
     "mist": dict(g="#E3EBE5", plate="#D3DFD7", ink="#1B2922", quiet="#3D5146", leaf="#2B5D44",
                  far="#D6E1D9", near="#C9D7CD"),
 }
+# Bring Your Muchness (muchness.js, muchness.css), furniture again: the
+# fanfare for turning up to MAX GLITTER, laid over whichever room it happens
+# in. Read the note beside --much-night in love.css §2.
+MUCH = {"night": "#1D0B33", "gold": "#FFD447", "gold-2": "#FFF3C4", "lilac": "#E9D5FF",
+        "pink": "#FF6FCF", "sky": "#7FD4FF", "mint": "#7CF2C0", "violet": "#B48CFF",
+        "white": "#FFFFFF", "aura": "#C08CFF"}
 SKY_H, SKY_2 = "#BCDDEA", "#E4F0F1"   # --daysky, --daysky-2
 FURROW, FURROW2 = "#16291C", "#34483A"
 SPROUT, SPROUT2, BLOOM = "#2C6B45", "#1D4D30", "#B5760A"   # --sprout, --sprout-2
@@ -3907,6 +3913,14 @@ PAIRS = [
     (BBR["mist"]["quiet"], BBR["mist"]["near"], False, "bodymind break (light devices): the quiet lines, the credit and the runtime, on the near trees"),
     (BBR["mist"]["leaf"], BBR["mist"]["near"], False, "bodymind break (light devices): the links, the focus ring and every button's edge, on the near trees"),
     (BBR["mist"]["g"], BBR["mist"]["leaf"], False, "bodymind break (light devices): I'm back, the ground on a leaf button"),
+    # Bring Your Muchness (muchness.css), the fanfare for turning up to MAX
+    # GLITTER: every word on the sign's night. The letters' shine passes
+    # between the two golds and white, so all three are held as the words.
+    (MUCH["gold"], MUCH["night"], False, "bring your muchness: the words, in gold, on the sign's night"),
+    (MUCH["gold-2"], MUCH["night"], False, "bring your muchness: the words where the shine passes, pale gold, on the sign's night"),
+    (MUCH["white"], MUCH["night"], False, "bring your muchness: the words at the shine's brightest, on the sign's night"),
+    (MUCH["lilac"], MUCH["night"], False, "bring your muchness: MAX GLITTER over the words, on the sign's night"),
+    (MUCH["gold"], MUCH["night"], True, "bring your muchness: the sign's gold edge, on its night (3:1)"),
     (CB_STEEL2, CB_CASE,  False, "cb: every button's border and the case's rim, held to the body "
                                  "threshold because a button you cannot find the edge of is a "
                                  "button you cannot find; and the heading over each part of the "
@@ -4284,6 +4298,11 @@ ORNAMENT = {
     "#d98a2b": "myths and legends: --myth-amber, the amber stones in the arch, the panels' left edges and the dawn, 6.59 on the wall. It carries no word; the job marker drawn in it has its own pair.",
     "#f6c46a": "myths and legends: --myth-amber-2, the sun and the light through the amber, 11.26 on the wall. It carries no word.",
     "#cfc6b4": "myths and legends: --myth-chalk, the stone of the arch and its keystone, drawn at under half strength over the wall. It carries no word.",
+    "#ff6fcf": "bring your muchness: --much-pink, a spark of glitter and the glow round the sign, 7.34 on the sign's night and 2.49 on white; outlined in the night so it shows on any room, aria-hidden, and it carries no word.",
+    "#7fd4ff": "bring your muchness: --much-sky, a spark of glitter, 11.12 on the night and 1.65 on white; outlined in the night, aria-hidden, and it carries no word.",
+    "#7cf2c0": "bring your muchness: --much-mint, a spark of glitter, 13.35 on the night and 1.37 on white; outlined in the night, aria-hidden, and it carries no word.",
+    "#b48cff": "bring your muchness: --much-violet, a spark of glitter, 7.09 on the night and 2.58 on white; outlined in the night, aria-hidden, and it carries no word.",
+    "#c08cff": "bring your muchness: --much-aura, the glow behind Esmx, at under two thirds strength over whatever room; aria-hidden, and it carries no word.",
     "#1a2722": "bodymind break: --bbr-dusk-far, the far treeline in the dusk, 1.07 on its ground; barely there on purpose, aria-hidden, and it carries no word (the words are held against it in PAIRS).",
     "#1f2e28": "bodymind break: --bbr-dusk-near, the near treeline in the dusk, 1.17 on its ground; barely there on purpose, aria-hidden, and it carries no word (the words are held against it in PAIRS).",
     "#d6e1d9": "bodymind break: --bbr-mist-far, the far treeline in the mist, 1.11 on its ground; barely there on purpose, aria-hidden, and it carries no word (the words are held against it in PAIRS).",

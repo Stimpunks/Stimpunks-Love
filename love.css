@@ -1751,6 +1751,16 @@
   --bbr-mist: #E3EBE5;  --bbr-mist-plate: #D3DFD7;  --bbr-mist-ink: #1B2922;  --bbr-mist-quiet: #3D5146;
   --bbr-mist-leaf: #2B5D44;  --bbr-mist-far: #D6E1D9;  --bbr-mist-near: #C9D7CD;
 
+  /* Bring Your Muchness (muchness.js, muchness.css), the fanfare for turning up
+     to MAX GLITTER. NOT A ROOM'S PALETTE: laid over whichever room somebody
+     turns the dial up in, so it keeps its own clothes. Every word is gold or
+     lilac on the sign's night; the glitter and the aura carry no word, and each
+     spark is outlined in the night so it shows on a pale room too (measured in
+     check-contrast.py). Esmx is Kaya Oldaker's drawing in her own colours. */
+  --much-night: #1D0B33;  --much-gold: #FFD447;  --much-gold-2: #FFF3C4;  --much-lilac: #E9D5FF;
+  --much-pink: #FF6FCF;  --much-sky: #7FD4FF;  --much-mint: #7CF2C0;  --much-violet: #B48CFF;
+  --much-white: #FFFFFF;  --much-aura: #C08CFF;
+
   /* THE LOW-STIMULATION MODES (§3). Four palettes a visitor can escape into
      from the dial, laid over every room and the CB alike: a ground, a plate
      a step off it for anything pressed, an ink, a quieter ink, a link and a

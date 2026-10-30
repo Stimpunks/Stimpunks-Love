@@ -17,7 +17,7 @@
   var LEVEL_NOTES = {
     gentle:  'Gentle: no wobble, no sparkle, no drifting marquee. Same rooms, same colours, same words — nothing is hidden at this setting.',
     regular: 'Regular: full colour and full type play. Things move when you point at them and not before. Most people land here.',
-    max:     'MAX GLITTER: every room turned all the way up — sparkle, marquee, the wobble on the toys. Nobody arrives here by accident.'
+    max:     'MAX GLITTER: every room turned all the way up — sparkle, marquee, the wobble on the toys. Nobody arrives here by accident. Bring your muchness.'
   };
 
   function store(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* private window */ } }
@@ -63,10 +63,32 @@
   }
   function setLevel(level) {
     if (LEVELS.indexOf(level) < 0) level = 'regular';
+    var up = level === 'max' && (levelNow() !== 'max' || !!lowNow());
     if (lowNow()) setLow(null, true);
     document.documentElement.setAttribute('data-intensity', level);
     store(KEY, level);
     try { document.dispatchEvent(new CustomEvent('love-intensity', { detail: { level: level } })); } catch (e) { /* an old browser */ }
+    if (up) muchness();
+  }
+
+  /* BRING YOUR MUCHNESS (muchness.js), Ryan's ask, 2026-10-29: Kaya Oldaker's
+     Esmx rising in glitter under "Bring Your Muchness", when somebody turns the
+     dial up to MAX GLITTER, here or on the CB's Glitter dial, and only then:
+     never when a page opens at MAX, which would be every page playing it by
+     itself. Not on a page whose <body> says data-cb="off" (Stay Frosty says
+     nothing moves there at any setting), nor in a frame. The file is not
+     downloaded until the first press. */
+  function muchness() {
+    var b = document.body;
+    if (!b || b.getAttribute('data-cb') === 'off' || document.hidden) return;
+    try { if (window.top !== window.self) return; } catch (e) { return; }
+    if (window.loveMuchness) { window.loveMuchness.play(); return; }
+    if (document.querySelector('script[data-love-muchness]')) return;
+    var s = document.createElement('script');
+    s.src = '/muchness.js';
+    s.setAttribute('data-love-muchness', '');
+    s.addEventListener('load', function () { if (window.loveMuchness) window.loveMuchness.play(); });
+    document.head.appendChild(s);
   }
   // What the setting now does, in the dial's own words.
   function noteNow() { var low = lowNow(); return low ? LOW_NOTES[low] : LEVEL_NOTES[levelNow()]; }

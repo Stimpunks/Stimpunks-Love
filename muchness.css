@@ -1,0 +1,139 @@
+/* =============================================================================
+   Bring Your Muchness (muchness.js): the fanfare for turning up to MAX GLITTER.
+
+   Furniture, in its own shadow root and its own colours (§2's --much-*, each
+   measured in check-contrast.py), the same in every room. Every word stands on
+   the sign's night; the glitter and the aura carry no word. Everything moves by
+   translate, scale and opacity, never a rotation or a skew, and no spark goes
+   out faster than muchness.js's FADE_FLOOR, so nothing flashes.
+
+   The faces are the street's own wordmark's, Bungee and Shrikhand, which
+   love.css declares for the document; a shadow root uses them as they are.
+   ============================================================================= */
+:host { all: initial; }
+
+.much {
+  position: fixed; inset: 0; z-index: 2147483647;
+  pointer-events: none; overflow: hidden;
+  opacity: 0;
+}
+.much.is-on { opacity: 1; }
+.much.is-leaving { opacity: 0; transition: opacity 420ms ease-in; }
+
+/* The aura: a soft glow coming up behind Esmx and going again. */
+.much-aura {
+  position: absolute; left: 50%; bottom: -14vh;
+  width: min(140vw, 1200px); height: 78vh;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side,
+    color-mix(in srgb, var(--much-aura) 78%, transparent),
+    color-mix(in srgb, var(--much-pink) 42%, transparent) 55%,
+    transparent);
+  opacity: 0;
+}
+.is-on .much-aura { animation: much-aura 4600ms ease-out both; }
+@keyframes much-aura {
+  0%   { opacity: 0; transform: scale(.7); }
+  22%  { opacity: 1; transform: scale(1); }
+  76%  { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 0; transform: scale(1.04); }
+}
+
+/* The glitter. Each spark's place, size and clock are its own custom
+   properties, set by muchness.js. */
+.much-sparks { position: absolute; inset: 0; }
+.much-spark {
+  position: absolute; left: var(--x); bottom: var(--y);
+  width: var(--s); height: var(--s);
+  opacity: 0;
+}
+.much-spark svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.much-spark path { stroke: var(--much-night); stroke-width: 1.4; stroke-linejoin: round; }
+.much-spark--1 path { fill: var(--much-gold); }
+.much-spark--2 path { fill: var(--much-pink); }
+.much-spark--3 path { fill: var(--much-sky); }
+.much-spark--4 path { fill: var(--much-mint); }
+.much-spark--5 path { fill: var(--much-violet); }
+.much-spark--6 path { fill: var(--much-white); }
+.is-on .much-spark { animation: much-spark var(--t) ease-out var(--d) both; }
+@keyframes much-spark {
+  0%   { opacity: 0; transform: translateY(0) scale(.45); }
+  25%  { opacity: 1; transform: translateY(calc(var(--rise) * -.3)) scale(1); }
+  100% { opacity: 0; transform: translateY(calc(var(--rise) * -1)) scale(.7); }
+}
+
+/* The sign above Esmx, and Esmx under it, standing at the foot of the screen. */
+.much-col {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  display: flex; flex-direction: column; align-items: center;
+  gap: clamp(8px, 2vh, 22px);
+}
+
+.much-sign {
+  display: flex; flex-direction: column; align-items: center;
+  margin: 0 16px;
+  padding: clamp(10px, 2vh, 18px) clamp(18px, 4vw, 34px) clamp(12px, 2.2vh, 20px);
+  background: var(--much-night);
+  border: 3px solid var(--much-gold);
+  border-radius: 20px;
+  box-shadow: 0 0 0 5px var(--much-night), 0 0 34px 8px color-mix(in srgb, var(--much-pink) 55%, transparent);
+  text-align: center;
+  opacity: 0;
+}
+.is-on .much-sign { animation: much-sign 4600ms cubic-bezier(.2, .9, .3, 1.2) both; }
+@keyframes much-sign {
+  0%, 14% { opacity: 0; transform: translateY(24px) scale(.82); }
+  30%     { opacity: 1; transform: translateY(0) scale(1); }
+  80%     { opacity: 1; transform: translateY(0) scale(1); }
+  100%    { opacity: 0; transform: translateY(-16px) scale(1); }
+}
+.much-kicker {
+  font: 400 clamp(12px, 1.6vw, 16px)/1.2 'Bungee', system-ui, sans-serif;
+  letter-spacing: .14em;
+  color: var(--much-lilac);
+}
+.much-words {
+  font: 400 clamp(30px, 6.4vw, 68px)/1.05 'Shrikhand', Georgia, serif;
+  color: var(--much-gold);
+  padding: .04em .06em .1em;
+}
+/* The letters glitter by a shine passing across them, between two golds that
+   each clear the night many times over; nothing sits on top of a letter. */
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .much-words {
+    background: linear-gradient(100deg,
+      var(--much-gold) 0 38%, var(--much-gold-2) 48%, var(--much-white) 50%,
+      var(--much-gold-2) 52%, var(--much-gold) 62% 100%);
+    background-size: 280% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+  }
+  .is-on .much-words { animation: much-shine 1500ms ease-in-out 1300ms 2 both; }
+}
+@keyframes much-shine {
+  from { background-position: 100% 0; }
+  to   { background-position: 0 0; }
+}
+
+/* Esmx, Kaya Oldaker's Rainbow Leaping, two fifths of the screen high at
+   most, rising, hopping twice, and going back down. */
+.much-fig {
+  width: min(94vw, calc(min(40vh, 440px) * 1.44));
+  transform: translateY(115%);
+}
+.is-on .much-fig { animation: much-rise 4600ms both; }
+@keyframes much-rise {
+  0%   { transform: translateY(115%); animation-timing-function: cubic-bezier(.2, .9, .25, 1.15); }
+  26%  { transform: translateY(0); }
+  80%  { transform: translateY(0); animation-timing-function: cubic-bezier(.5, 0, .8, .4); }
+  100% { transform: translateY(118%); }
+}
+.much-esmx { display: block; width: 100%; height: auto; }
+.is-on .much-esmx { animation: much-hop 520ms ease-in-out 1300ms 4 alternate both; }
+@keyframes much-hop {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-5%); }
+}
+.much-fig[hidden] { display: none; }
