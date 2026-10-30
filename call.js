@@ -49,6 +49,10 @@
      guest in a call never loads cb.js; the radio draws its own from here, as
      loveCall.barIcon, so the two bars cannot drift apart. */
   var SVGNS = 'http://www.w3.org/2000/svg';
+  // A phone's width, where a call at Regular puts its name on a row of its own
+  // and its buttons on the row under it, Leave saying only Leave (cb.css).
+  var CALL_NARROW = window.matchMedia ? window.matchMedia('(max-width: 599.98px)') : null;
+
   function barIcon(kind) {
     var svg = document.createElementNS(SVGNS, 'svg');
     svg.setAttribute('viewBox', '0 0 20 20');
@@ -69,6 +73,12 @@
     } else if (kind === 'inbox') {
       // A tray with a dip in its front, Discord's Inbox (2026-10-29).
       add('path', { d: 'M3.5 11V5.5a1.5 1.5 0 0 1 1.5-1.5h10a1.5 1.5 0 0 1 1.5 1.5V11m-13 0v3.5A1.5 1.5 0 0 0 5 16h10a1.5 1.5 0 0 0 1.5-1.5V11m-13 0h3.6l1.4 2h3l1.4-2h3.6', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linejoin': 'round' });
+    } else if (kind === 'chat') {
+      // A speech bubble, the chat page's own (2026-10-30), as on its Chat tab.
+      add('path', { d: 'M3.5 4.5h13v9H9.5l-4 3.2v-3.2h-2z', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linejoin': 'round' });
+    } else if (kind === 'fold') {
+      // Fold away (2026-10-30, the word made room for Chat): folding down onto a line.
+      add('path', { d: 'M5 6.5l5 5 5-5M4 15.5h12', fill: 'none', stroke: 'currentColor', 'stroke-width': '2.4', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
     } else if (kind === 'back' || kind === 'forward') {
       add('path', { d: kind === 'back' ? 'M16 10H4.5M9.5 5 4.5 10l5 5' : 'M4 10h11.5M10.5 5l5 5-5 5', fill: 'none', stroke: 'currentColor', 'stroke-width': '2.4', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
     } else {
@@ -346,6 +356,8 @@
     var name = el('p', 'cb-call-name');
     name.appendChild(el('span', 'cb-brand', 'CALL'));
     name.appendChild(document.createTextNode(' ' + here.name));
+    // Cut short on one row where the buttons need the room; the whole name on hover.
+    name.title = here.name;
     bar.appendChild(name);
     /* FOUR SIZES, and the frame is only ever resized, never rebuilt, so the
        call carries on through every change. Stamp is a postage stamp in the
@@ -385,7 +397,8 @@
       larger.setAttribute('aria-label', i < top ? 'Larger: ' + CALL_SAYS[CALL_SIZES[i + 1]] : 'Larger: already the whole window');
       smaller.setAttribute('aria-disabled', String(i === 0));
       larger.setAttribute('aria-disabled', String(i === top));
-      leave.textContent = to === 'stamp' || to === 'small' ? 'Leave' : 'Leave the call';
+      // Leave alone where the bar is narrow, so it stays on the buttons' row (Ryan, 2026-10-30).
+      leave.textContent = to === 'stamp' || to === 'small' || (to === 'regular' && CALL_NARROW && CALL_NARROW.matches) ? 'Leave' : 'Leave the call';
       // Placed again at once, not only when the ResizeObserver gets round to
       // it: a call moved to a corner and made Large hung off the screen until
       // then, and a hidden tab never gets round to it at all.
@@ -398,6 +411,7 @@
       unsay();
       size(CALL_SIZES[j]);
     }
+    if (CALL_NARROW && CALL_NARROW.addEventListener) CALL_NARROW.addEventListener('change', function () { size(now); });
     smaller.type = larger.type = leave.type = 'button';
     leave.setAttribute('aria-label', 'Leave the call');
     smaller.addEventListener('click', function () { step(-1); });

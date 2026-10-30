@@ -1326,6 +1326,19 @@
     ib.setAttribute('aria-controls', 'cb-ib-panel');
     ib.addEventListener('click', function () { me.setInbox(me.ibPanel.hidden); });
     name.appendChild(ib);
+    /* CHAT (Ryan's proposal, 2026-10-30): a speech bubble beside the Inbox
+       that opens the chat page on this room's channel, or on World where the
+       page is no room or one that keeps to itself (hereShown sets where, as
+       for Open in Chat). It is a link, so it sends nothing; not on the chat
+       page itself, and hidden while folded, like Teleport and the Inbox. Fold
+       away became a picture to make the room for it. */
+    var toChatBar = this.chatBarLink = el('a', 'cb-tp cb-tp--icon cb-chat-bar');
+    toChatBar.href = '/' + CHAT_PAGE + '.html';
+    toChatBar.setAttribute('aria-label', 'Chat');
+    toChatBar.title = 'Chat: every room’s channel on one page';
+    toChatBar.appendChild(barIcon('chat'));
+    toChatBar.hidden = chat;
+    name.appendChild(toChatBar);
     bar.appendChild(name);
 
     /* MOVE IS A GRIP AND THE SIZE IS MINUS AND PLUS (Ryan, 2026-10-17: Size then
@@ -3446,7 +3459,17 @@
     if (folded && !this.acctPanel.hidden) this.setAccount(false);
     if (folded && !this.screenPanel.hidden) this.setScreenPanel(false);
     this.foldBtn.setAttribute('aria-expanded', String(!folded));
-    this.foldBtn.textContent = folded ? 'Switch on' : 'Fold away';
+    // Folded, the words, because Switch on is the one thing the bar then offers;
+    // open, a picture named Fold away, which made room for Chat (2026-10-30).
+    this.foldBtn.textContent = folded ? 'Switch on' : '';
+    this.foldBtn.classList.toggle('cb-icon-btn', !folded);
+    if (folded) { this.foldBtn.removeAttribute('aria-label'); this.foldBtn.removeAttribute('title'); }
+    else {
+      this.foldBtn.appendChild(barIcon('fold'));
+      this.foldBtn.setAttribute('aria-label', 'Fold away');
+      this.foldBtn.title = 'Fold away';
+    }
+    if (this.chatBarLink) this.chatBarLink.hidden = folded || inChat();
     if (folded) this.hush();
     // Folded sends nothing, so a beacon cannot say it has stopped: it goes
     // quiet, and every radio stops showing it within seventy-five seconds.
@@ -5273,8 +5296,31 @@
     /* The screen's own height, less the keyboard where a browser shows the
        page under it (iOS), so the message box stays above the keyboard. */
     var vv = window.visualViewport, dock = chatDock();
-    function fit() { dock.style.height = Math.round(vv.height) + 'px'; dock.style.top = Math.round(vv.offsetTop) + 'px'; }
+    function fit() {
+      dock.style.height = Math.round(vv.height) + 'px';
+      dock.style.top = Math.round(vv.offsetTop) + 'px';
+      requestAnimationFrame(function () { me.appSettle(); });
+    }
     if (vv && dock) { vv.addEventListener('resize', fit); vv.addEventListener('scroll', fit); fit(); }
+    // The keyboard going away, from the message box or a call's own window.
+    this.box.addEventListener('focusout', function () { setTimeout(function () { me.appSettle(); }, 400); });
+    window.addEventListener('focus', function () { me.appSettle(); });
+  };
+  /* WHERE THE SCREEN GREW BACK, NOTHING STAYS SCROLLED PAST ITS END. A phone's
+     keyboard makes the chat shorter, and the part you are in scrolls to keep
+     the message box in sight; on an iPhone (Ryan, 2026-10-30, after a call)
+     it stayed scrolled when the keyboard went, leaving the messages under the
+     bar and a band of nothing over the tabs. Each column, the set and the
+     page are put back within their ends, which a browser that does this
+     itself has already done. */
+  Radio.prototype.appSettle = function () {
+    var them = [].slice.call(this.box.querySelectorAll('.cb-set, .cb-col'));
+    them.push(chatDock(), document.scrollingElement);
+    them.forEach(function (c) {
+      if (!c) return;
+      var most = Math.max(0, c.scrollHeight - c.clientHeight);
+      if (c.scrollTop > most) c.scrollTop = most;
+    });
   };
   Radio.prototype.appTo = function (pane) {
     if (!this.appTabs || !this.appTabs[pane]) return;
@@ -13942,6 +13988,7 @@
     this.hereName.classList.toggle('cb-here-name--off', !here && known);
     var tag = here && !here.quiet && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(here.tag) ? here.tag : WORLD_CALL;
     this.toChatLink.href = '/' + CHAT_PAGE + '.html#' + tag;
+    if (this.chatBarLink) this.chatBarLink.href = this.toChatLink.href;
     this.toChatLink.hidden = inChat() || offList() || (inWindow() && !streetDoc());
     this.dialShown();
   };

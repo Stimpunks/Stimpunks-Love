@@ -468,6 +468,10 @@
 .cb-tp--icon .cb-icon-btn__art { width: 18px; height: 18px; }
 .cb-tp--icon > .cb-new { position: absolute; margin: 0; top: 5px; right: 5px; width: 7px; height: 7px; }
 .cb-ib-btn { position: relative; }
+/* Chat (2026-10-30) is a link dressed as the same piece of readout. */
+a.cb-chat-bar { text-decoration: none; }
+a.cb-chat-bar:hover { border-color: var(--cb-amber); }
+a.cb-chat-bar[hidden] { display: none; }
 /* THE INBOX drops down from the bar like the teleporter: a heading, four tabs
    and what the open one holds, scrolling by itself so the bar stays put. */
 .cb-ib-panel { padding: 10px 12px 0; display: grid; gap: 8px; max-height: min(70vh, 560px); overflow-y: auto; grid-template-columns: minmax(0, 1fr); }
@@ -2239,8 +2243,10 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
 }
 @media (max-width: 999.98px) {
   .cb-radio--app .cb-trim, .cb-radio--app .cb-big-btn { display: none; }
+  /* clip, not hidden: a box that is hidden can still be scrolled by a
+     browser bringing something into view, and this one must never move. */
   .cb-radio--app.cb-radio--full:not(.cb-radio--folded) .cb-set--parts {
-    display: flex; flex-direction: column; gap: 0; padding: 0; overflow: hidden;
+    display: flex; flex-direction: column; gap: 0; padding: 0; overflow: hidden; overflow: clip;
   }
   .cb-radio--app .cb-set--parts > .cb-col { display: none; }
   .cb-radio--app[data-pane="chans"] .cb-set--parts > .cb-col--a,
@@ -2401,7 +2407,18 @@ button.cb-ev-link {
   cursor: grab; touch-action: none; user-select: none;
 }
 .cb-call--held .cb-call-bar { cursor: grabbing; }
-.cb-call-name { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+/* ONE ROW AT EVERY SIZE (Ryan, 2026-10-30: Leave the call wrapped onto a row
+   of its own in rooms with longer names): the name is cut short rather than
+   pushing a button down, and the window's label and the name's title say it
+   whole. On a phone at Regular the buttons do not fit beside any name, so the
+   name has the first row to itself and every button is on the second, with
+   Leave saying only Leave (call.js, CALL_NARROW). */
+.cb-call-bar { flex-wrap: nowrap; }
+.cb-call-name { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 599.98px) {
+  .cb-call:not(.cb-call--small):not(.cb-call--stamp) .cb-call-bar { flex-wrap: wrap; row-gap: 6px; }
+  .cb-call:not(.cb-call--small):not(.cb-call--stamp) .cb-call-name { flex: 1 0 100%; white-space: normal; overflow-wrap: anywhere; }
+}
 .cb-call-note { flex: none; padding: 4px 12px; font-size: 13px; }
 .cb-call-screen { flex: 1 1 auto; min-height: 0; aspect-ratio: 16 / 10; background: #000; border-radius: 0 0 8px 8px; overflow: hidden; }
 .cb-call-screen iframe { display: block; width: 100%; height: 100%; border: 0; }
@@ -2463,7 +2480,7 @@ body.cb-callwin :focus-visible, body.cb-cbwin :focus-visible { outline: 3px soli
    of what is shown above a phone's keyboard (appMake). */
 html:has(> body.cb-appwin) { height: 100%; overflow: hidden; }
 body.cb-appwin {
-  margin: 0; height: 100%; overflow: hidden; background: var(--cb-case); color: var(--cb-steel);
+  margin: 0; height: 100%; overflow: hidden; overflow: clip; background: var(--cb-case); color: var(--cb-steel);
   font: 16px/1.5 'Atkinson Hyperlegible', system-ui, sans-serif;
 }
 /* The dock is the screen and has the case's ground of its own, so a

@@ -4292,7 +4292,9 @@ into: **Show every column**); on a phone one part at a time, **Channels**, **Cha
 (`APP_TABS`, `appMake`, `appTo`), shown by the box's `data-pane` in `cb.css`, from tabs along its foot. Picking a channel,
 a conversation or Events goes to Chat (`chatTake`, the `chatView*` functions); a search's results go to Search. Which tab
 is shown is kept nowhere. The dock is kept the height of the visual viewport, so the message box clears an iPhone's
-keyboard. **It has no sign-off and no fractal switch** (`APPS` in `tools/windows.py`, read by `make-signoff.py` and
+keyboard; where it grows back, `appSettle` puts every column back within its end, because an
+iPhone left the messages scrolled up after a call with a band of nothing over the tabs (Ryan,
+2026-10-30). **It has no sign-off and no fractal switch** (`APPS` in `tools/windows.py`, read by `make-signoff.py` and
 `fractals.py`) but keeps its card, sitemap entry and place on the Map. `/app` and `/mobile` redirect to `/chat`. The
 friendly edits are the page's heading and footer back "so it explains itself" (that is the second scroll; the
 explanation is the dock's text for anybody not signed on), and a tab remembered in `love-cb`, which `CHAT_OWN` exists
@@ -4513,11 +4515,15 @@ and Move is a six-dot grip; both are icons, because the bar is full.
 was decoration, so the bar's readout became a button that opens a filterable list of every room on
 the street, out of the same `/cb-rooms.json` as the #tags, and goes there. Going is ordinary
 navigation: nothing reaches the channel and nobody learns where you went. It hides while folded,
-like − and +, because folded sends nothing and the list is a fetch. **The bar is full**: CB,
-Teleport, the grip, − and + and Fold away fit on one row in every theme (2026-10-17), with six
-pixels to spare in the tightest at desktop width and none at 360px, where the bar's spaces close
-up, because the grip and − and + are 32px icons and a theme's name is set no larger than 1.1 times. A theme with a wider face, or another thing on the bar, wraps the row,
-which the bar allows on a phone and should not need anywhere else: measure every theme.
+like − and +, because folded sends nothing and the list is a fetch. **The bar is full**: Home,
+Teleport, the Inbox, Chat, the grip, − and + and Fold away fit on one row in every theme, at least
+8px to spare at 360px (measured 2026-10-30, when Fold away became a 32px picture to make room for
+Chat, Ryan's proposal; folded it still says Switch on in words). Every one of them is a picture
+now, so a theme's face no longer reaches the bar's width; another thing on the bar still wraps the
+row, which the bar allows on a phone and should not need anywhere else: measure every theme.
+**A call's bar is one row too** (Ryan, 2026-10-30, after Leave the call wrapped in rooms with long
+names): the name is cut short with its whole self in a title, and on a phone at Regular the name has
+the first row and every button the second, Leave saying only Leave (`CALL_NARROW` in `call.js`).
 
 **IT SEARCHES NAMES AND DESCRIPTIONS, AND NOBODY KEEPS A KEYWORD LIST.** Helen Edgar's asks,
 2026-10-01: "fire" finds The Campfire (inside a word of a name), and a keyword finds the rooms it
