@@ -90,7 +90,7 @@
    "channel_id": "UCgscS8mBsQZ5sFRkJIFWD7Q"
   }
  ],
- "set": "2026-10-29T15:51Z",
+ "set": "2026-10-30T11:25Z",
  "log": [
   {
    "id": "mn0agTT8lG8",
@@ -306,7 +306,7 @@
    "id": "AtjFk9f44HE",
    "source": "matt-wolfe",
    "form": "long",
-   "title": "He Breaks Down His 3 Most Insane AI Automations",
+   "title": "Nate Herk Breaks Down His 3 Most Powerful AI Automations",
    "published": "2026-10-28T19:25:38Z",
    "state": "screen",
    "runs": 2289,
@@ -833,14 +833,14 @@
    "channel": "Less Bitter"
   },
   {
-   "id": "vu8X3YroB-w",
-   "source": "theo",
-   "form": "long",
-   "title": "OpenAI fights back",
-   "published": "2026-09-29T17:44:20Z",
+   "id": "dhB_bL8MTRQ",
+   "source": "less-bitter",
+   "form": "short",
+   "title": "Why aren't you rich?",
+   "published": "2026-10-29T23:25:57Z",
    "state": "screen",
-   "runs": 1858,
-   "channel": "Theo - t3․gg"
+   "runs": 21,
+   "channel": "Less Bitter"
   },
   {
    "id": "D8PikZ1KhUo",
@@ -1000,6 +1000,16 @@
    "published": "2026-10-28T19:05:28Z",
    "state": "screen",
    "runs": 2327,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "uLGxb4F3SyI",
+   "source": "theo",
+   "form": "long",
+   "title": "T3 Code broke me",
+   "published": "2026-10-29T17:34:08Z",
+   "state": "screen",
+   "runs": 2509,
    "channel": "Theo - t3․gg"
   },
   {
@@ -1183,6 +1193,16 @@
    "channel": "Paul J Lipsky"
   },
   {
+   "id": "F3MEjYzc1OY",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Starting a Solo AI Business Using The New X Subscription",
+   "published": "2026-10-29T19:59:05Z",
+   "state": "screen",
+   "runs": 999,
+   "channel": "Paul J Lipsky"
+  },
+  {
    "id": "hsbr0IoFZJ8",
    "source": "austin-marchese",
    "form": "long",
@@ -1306,7 +1326,7 @@
    "id": "UFa8pXW9A3k",
    "source": "riley-brown",
    "form": "long",
-   "title": "All of Claude and Grok Bot's New Updates (Insane)",
+   "title": "All of Claude and Grok Bot's New Features (Insane)",
    "published": "2026-10-10T20:03:25Z",
    "state": "screen",
    "runs": 1250,
@@ -1573,13 +1593,13 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
-   "id": "iafsAWrB8GQ",
+   "id": "DByAR5Su1Yw",
    "source": "nate-herk",
-   "form": "short",
-   "title": "Claude Can Now Run Your Entire Email Platform",
-   "published": "2026-09-29T19:00:14Z",
+   "form": "long",
+   "title": "I Told Claude to \"Make it better\" 100 Times (It Went Too Far)",
+   "published": "2026-10-30T00:45:46Z",
    "state": "screen",
-   "runs": 46,
+   "runs": 830,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -1813,26 +1833,6 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
-   "id": "D2L22EbGa7s",
-   "source": "chase-ai",
-   "form": "long",
-   "title": "I Got Early Access To ChatGPT Dots: Here's Everything You Need To Know",
-   "published": "2026-09-29T22:19:34Z",
-   "state": "screen",
-   "runs": 1086,
-   "channel": "Chase AI"
-  },
-  {
-   "id": "pVAxEpP79v0",
-   "source": "chase-ai",
-   "form": "long",
-   "title": "The Sol 6.1 Benchmarks Are STUPID, So I Tested It vs Sonnet 5.5",
-   "published": "2026-09-30T05:33:44Z",
-   "state": "screen",
-   "runs": 924,
-   "channel": "Chase AI"
-  },
-  {
    "id": "1M-z8O29ML8",
    "source": "chase-ai",
    "form": "long",
@@ -1920,16 +1920,6 @@
    "published": "2026-10-21T21:43:50Z",
    "state": "screen",
    "runs": 301,
-   "channel": "Chase AI"
-  },
-  {
-   "id": "C0JN0-sNPXQ",
-   "source": "chase-ai",
-   "form": "short",
-   "title": "OpenAI Just Gave Astra Its Own Virtual Computer With Dots",
-   "published": "2026-09-29T18:10:03Z",
-   "state": "screen",
-   "runs": 72,
    "channel": "Chase AI"
   },
   {
@@ -2053,16 +2043,6 @@
    "channel": "Chase AI"
   },
   {
-   "id": "Y_RevX5yMq8",
-   "source": "greg-isenberg",
-   "form": "long",
-   "title": "OpenAI DevDay: Dots, Agents & $100B Opportunities",
-   "published": "2026-09-29T21:25:07Z",
-   "state": "screen",
-   "runs": 1136,
-   "channel": "Greg Isenberg"
-  },
-  {
    "id": "1a5HxU52vCQ",
    "source": "greg-isenberg",
    "form": "long",
@@ -2140,6 +2120,16 @@
    "published": "2026-10-28T17:40:18Z",
    "state": "screen",
    "runs": 2961,
+   "channel": "Greg Isenberg"
+  },
+  {
+   "id": "AqqjH_uv-_w",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "SaaS is dead?",
+   "published": "2026-10-29T19:25:16Z",
+   "state": "screen",
+   "runs": 672,
    "channel": "Greg Isenberg"
   },
   {
@@ -2418,13 +2408,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ]
   },
@@ -2432,13 +2422,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ]
   },
@@ -2446,13 +2436,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ]
   },
@@ -2460,13 +2450,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ]
   },
@@ -2474,13 +2464,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ]
   },
@@ -2488,13 +2478,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ]
   },
@@ -2502,13 +2492,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ]
   },
@@ -2516,13 +2506,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ]
   },
@@ -2530,13 +2520,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ]
   },
@@ -2544,13 +2534,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ]
   },
@@ -2558,13 +2548,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ]
   },
@@ -2572,13 +2562,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ]
   },
@@ -2586,13 +2576,13 @@
    "long": [
     [
      "2026-08-28T09:44:44Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:12:16Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ]
   },
@@ -2600,13 +2590,13 @@
    "long": [
     [
      "2026-09-23T01:33:56Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ],
    "short": [
     [
      "2026-09-25T03:00:26Z",
-     "2026-10-29T15:51:57Z"
+     "2026-10-30T11:25:11Z"
     ]
    ]
   }
