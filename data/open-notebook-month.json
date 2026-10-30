@@ -174,7 +174,7 @@
    "channel_id": "UChl5ao9UL_LwHngOMSpkkmg"
   }
  ],
- "set": "2026-10-29T11:21Z",
+ "set": "2026-10-30T11:23Z",
  "log": [
   {
    "id": "suuhxydi6Kk",
@@ -194,16 +194,6 @@
    "published": "2026-10-16T11:00:25Z",
    "state": "screen",
    "runs": 454,
-   "channel": "Bullet Journal"
-  },
-  {
-   "id": "0AVfMRCt97Y",
-   "source": "bullet-journal",
-   "form": "short",
-   "title": "How To Start Bullet Journaling (in 60 seconds)",
-   "published": "2026-09-30T11:00:03Z",
-   "state": "screen",
-   "runs": 60,
    "channel": "Bullet Journal"
   },
   {
@@ -254,6 +244,16 @@
    "published": "2026-10-22T18:00:25Z",
    "state": "screen",
    "runs": 563,
+   "channel": "Novie by the Sea"
+  },
+  {
+   "id": "zOTFhbUL_8Y",
+   "source": "novie-by-the-sea",
+   "form": "short",
+   "title": "Switch up your planning systems and notebooks #journaling #productivity",
+   "published": "2026-10-29T18:00:08Z",
+   "state": "screen",
+   "runs": 55,
    "channel": "Novie by the Sea"
   },
   {
@@ -387,6 +387,16 @@
    "channel": "Margarete Miller"
   },
   {
+   "id": "XemYfBRwRuE",
+   "source": "margarete-miller",
+   "form": "short",
+   "title": "Thank you, Captain Picard ❤️",
+   "published": "2026-10-30T07:19:38Z",
+   "state": "screen",
+   "runs": 34,
+   "channel": "Margarete Miller"
+  },
+  {
    "id": "dkLJZKs61Rw",
    "source": "journalwithker",
    "form": "long",
@@ -514,6 +524,16 @@
    "published": "2026-10-24T13:18:06Z",
    "state": "screen",
    "runs": 1152,
+   "channel": "Amanda Close"
+  },
+  {
+   "id": "WPrB5eBsHpg",
+   "source": "amanda-close",
+   "form": "short",
+   "title": "Oddly satisfying to package up my zine  #art #artjournaling #fillyournotebookwithme",
+   "published": "2026-10-29T16:43:59Z",
+   "state": "screen",
+   "runs": 30,
    "channel": "Amanda Close"
   },
   {
@@ -687,16 +707,6 @@
    "state": "screen",
    "runs": 1418,
    "channel": "julia here."
-  },
-  {
-   "id": "FR2XjxAQEq8",
-   "source": "bookish-mandy",
-   "form": "long",
-   "title": "September 2026 Currently Inked Review | What worked on this super successful month!",
-   "published": "2026-09-29T18:18:49Z",
-   "state": "screen",
-   "runs": 5130,
-   "channel": "Bookish Artist | Mandy"
   },
   {
    "id": "CBu3ILUZF80",
@@ -1039,6 +1049,16 @@
    "channel": "Apple Cheeks"
   },
   {
+   "id": "EopdC6vrrmE",
+   "source": "apple-cheeks",
+   "form": "long",
+   "title": "Preparing for My Biggest Shop Update + Come Table With Me at a Local Event ★✧*",
+   "published": "2026-10-29T16:32:12Z",
+   "state": "screen",
+   "runs": 2088,
+   "channel": "Apple Cheeks"
+  },
+  {
    "id": "-0JnEDmtvFA",
    "source": "apple-cheeks",
    "form": "short",
@@ -1077,16 +1097,6 @@
    "state": "screen",
    "runs": 1277,
    "channel": "Darrell Fitch"
-  },
-  {
-   "id": "4bDEbbiouEo",
-   "source": "sam-mas",
-   "form": "long",
-   "title": "Why You Never Finish What You Start",
-   "published": "2026-09-29T23:52:01Z",
-   "state": "screen",
-   "runs": 641,
-   "channel": "Sam Mas"
   },
   {
    "id": "DjUuoGJIqSc",
@@ -1136,6 +1146,16 @@
    "published": "2026-10-25T17:19:13Z",
    "state": "screen",
    "runs": 2804,
+   "channel": "Tess | Pixiedust Press"
+  },
+  {
+   "id": "brxHXhpSDZU",
+   "source": "pixiedust-press",
+   "form": "long",
+   "title": "Unboxing the NEW TWSBI Jade Jelly! ✨ Finding the Perfect Ink Match",
+   "published": "2026-10-29T15:46:22Z",
+   "state": "screen",
+   "runs": 1002,
    "channel": "Tess | Pixiedust Press"
   },
   {
@@ -1359,13 +1379,13 @@
    "channel": "JetPens"
   },
   {
-   "id": "nPAQiNH2MZQ",
+   "id": "82fBM8hAdB0",
    "source": "jetpens",
-   "form": "short",
-   "title": "The BEST Stationery of September 2026 ✨🥰",
-   "published": "2026-09-29T16:52:19Z",
+   "form": "long",
+   "title": "Best New Stationery of OCTOBER 2026 at JetPens | New Stickers, Washi Tapes, & Fountain Pens! ✨👻",
+   "published": "2026-10-29T23:00:14Z",
    "state": "screen",
-   "runs": 50,
+   "runs": 304,
    "channel": "JetPens"
   },
   {
@@ -1709,6 +1729,16 @@
    "channel": "The Desk Standard"
   },
   {
+   "id": "fheFgrZXo2o",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "7 Walmart Gel Pens Everyone Ignores (But They’re Absolute GOLDMINES)",
+   "published": "2026-10-29T18:29:24Z",
+   "state": "screen",
+   "runs": 1275,
+   "channel": "The Desk Standard"
+  },
+  {
    "id": "6ZxRIOk0tzE",
    "source": "goulet-pens",
    "form": "long",
@@ -1977,6 +2007,26 @@
    "state": "screen",
    "runs": 36,
    "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "x2TxVoz1Yo8",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "starting with a dotted grid and making magic 🤗 #doodleart",
+   "published": "2026-10-29T12:16:06Z",
+   "state": "screen",
+   "runs": 172,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "B3lG2h_mdzk",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "Full talk through tutorial is already posted 🤗 This one is just for vibes ✨️#relaxingvideo #therapy",
+   "published": "2026-10-29T20:42:29Z",
+   "state": "screen",
+   "runs": 43,
+   "channel": "Doodlewithrachel"
   }
  ],
  "covered": {
@@ -1984,13 +2034,13 @@
    "long": [
     [
      "2026-02-25T12:01:38Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-05-23T13:01:11Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -1998,13 +2048,13 @@
    "long": [
     [
      "2026-03-31T18:00:00Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2025-11-26T18:00:24Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2012,13 +2062,13 @@
    "long": [
     [
      "2025-04-23T20:59:59Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2026,13 +2076,13 @@
    "long": [
     [
      "2026-05-09T13:15:14Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-08-11T18:31:31Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2040,13 +2090,13 @@
    "long": [
     [
      "2025-12-23T01:30:17Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-07-06T18:30:31Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2054,13 +2104,13 @@
    "long": [
     [
      "2026-06-21T15:00:05Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2068,13 +2118,13 @@
    "long": [
     [
      "2026-01-13T17:46:02Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2025-07-05T01:57:47Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2082,13 +2132,13 @@
    "long": [
     [
      "2026-05-13T15:00:36Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2025-05-23T15:01:39Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2096,13 +2146,13 @@
    "long": [
     [
      "2025-12-16T18:34:18Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2025-12-28T22:47:07Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2110,13 +2160,13 @@
    "long": [
     [
      "2026-05-23T23:39:19Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-07-08T13:11:24Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2124,13 +2174,13 @@
    "long": [
     [
      "2026-06-26T15:00:10Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2025-06-03T14:46:05Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2138,13 +2188,13 @@
    "long": [
     [
      "2026-09-10T20:18:43Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-07-13T04:01:07Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2152,13 +2202,13 @@
    "long": [
     [
      "2026-05-30T11:30:33Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2166,13 +2216,13 @@
    "long": [
     [
      "2026-08-10T13:30:06Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2025-08-19T14:37:02Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2180,13 +2230,13 @@
    "long": [
     [
      "2026-03-30T13:14:26Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2023-12-04T02:58:57Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2194,13 +2244,13 @@
    "long": [
     [
      "2026-01-22T17:31:11Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2025-07-21T17:45:47Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2208,13 +2258,13 @@
    "long": [
     [
      "2026-02-19T00:28:45Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2222,13 +2272,13 @@
    "long": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2024-09-07T00:14:00Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2236,13 +2286,13 @@
    "long": [
     [
      "2025-08-02T00:06:33Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2250,13 +2300,13 @@
    "long": [
     [
      "2026-07-15T03:00:21Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2264,13 +2314,13 @@
    "long": [
     [
      "2026-03-03T07:32:57Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-04-30T04:08:40Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2278,13 +2328,13 @@
    "long": [
     [
      "2026-08-12T19:29:13Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T14:30:53Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2292,13 +2342,13 @@
    "long": [
     [
      "2026-06-04T23:00:22Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T15:00:22Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2306,13 +2356,13 @@
    "long": [
     [
      "2026-06-19T13:16:14Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T22:28:36Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2320,13 +2370,13 @@
    "long": [
     [
      "2026-07-03T14:00:00Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-07-21T22:16:43Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2334,13 +2384,13 @@
    "long": [
     [
      "2026-10-11T18:17:54Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-26T09:56:33Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2348,13 +2398,13 @@
    "long": [
     [
      "2026-08-26T19:13:05Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2025-10-29T12:41:34Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   },
@@ -2362,13 +2412,13 @@
    "long": [
     [
      "2025-02-09T13:41:25Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ],
    "short": [
     [
      "2026-10-12T10:07:54Z",
-     "2026-10-29T11:21:42Z"
+     "2026-10-30T11:23:07Z"
     ]
    ]
   }
