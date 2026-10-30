@@ -403,6 +403,17 @@
     this.whoseP = el('p', 'fam__whose');
     this.wordsP = el('p', 'fam__words');
     this.saysP = el('p', 'fam__says');
+    /* SOMEBODY ELSE'S FAMILIAR IS DRAWN LARGE ON ITS CARD (Ryan, 2026-10-30,
+       for eyes that cannot make out its parts at the size it walks about
+       at). Only theirs: yours is in your own Profile and on the table in
+       Chimera Obscura, and its card is long enough already. It is the same
+       drawing on the table's white, aria-hidden like the small one, because
+       the words under it say what it is made of. */
+    if (!this.own) {
+      this.big = el('div', 'fam__big');
+      this.big.setAttribute('aria-hidden', 'true');
+      menu.appendChild(this.big);
+    }
     menu.appendChild(this.nameP);
     if (!this.own) menu.appendChild(this.whoseP);
     menu.appendChild(this.wordsP);
@@ -519,6 +530,11 @@
     this.art.textContent = '';
     var svg = C.draw(st.parts, { prefix: 'fam' + (this.own ? '' : 'v'), cls: 'fam__svg' });
     if (svg) this.art.appendChild(svg);
+    if (this.big) {
+      this.big.textContent = '';
+      var large = C.draw(st.parts, { prefix: 'famvb', cls: 'fam__bigsvg', ground: true });
+      if (large) this.big.appendChild(large);
+    }
     this.btn.setAttribute('aria-label', this.own ? 'Your familiar, ' + st.name : st.name + ', ' + this.whose + '’s familiar');
     this.nameP.textContent = st.name;
     this.whoseP.textContent = this.whose + '’s familiar';

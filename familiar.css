@@ -47,6 +47,11 @@
   background: var(--chm-room); color: var(--chm-text); border: 2px solid var(--chm-link); border-radius: 14px;
   font: 400 15px/1.45 'Gantari', system-ui, sans-serif; font-synthesis: none; text-align: left;
 }
+/* Somebody else's familiar, drawn large at the top of its card on the
+   table's white (--chm-table on --chm-room, the pair its name is already
+   in), never taller than most of the window so the card still fits. */
+.fam__big { margin: 0 0 10px; }
+.fam__bigsvg { display: block; width: 100%; height: auto; max-height: 42vh; }
 .fam__name { margin: 0 0 4px; font: 400 24px/1.15 'Gilda Display', Georgia, serif; color: var(--chm-table); overflow-wrap: anywhere; }
 .fam__whose { margin: 0 0 6px; font-weight: 700; color: var(--chm-text); }
 .fam__words, .fam__note, .fam__line { margin: 0 0 10px; color: var(--chm-dim); }
