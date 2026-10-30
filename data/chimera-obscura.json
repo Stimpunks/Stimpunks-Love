@@ -22,7 +22,9 @@
   {"key": "reptile",      "legend": "Reptiles"},
   {"key": "amphibian",    "legend": "Amphibians"},
   {"key": "fish",         "legend": "Fish"},
-  {"key": "invertebrate", "legend": "Invertebrates"}
+  {"key": "insect",       "legend": "Insects"},
+  {"key": "arachnid",     "legend": "Arachnids"},
+  {"key": "invertebrate", "legend": "Other invertebrates"}
  ],
  "animals": {
   "armadillo": {
@@ -91,6 +93,28 @@
    "back": null,
    "markings": {"belly": true}
   },
+  "beetle": {
+   "group": "insect", "a": "a", "say": ["Beetle", "beetle"],
+   "colours": {"fur": "#2E6E50", "light": "#8FD3AE", "dark": "#163424", "skin": "#6A4A2E", "nose": "#163424"},
+   "body": {"w": 176, "h": 170, "top": 0.8, "arms": "legs", "feet": "legs"},
+   "head": {"r": 60, "sx": 1.12, "sy": 0.86, "shape": "round", "muz": {"none": true, "y": 0.4, "rx": 0.2, "ry": 0.16}, "nose": "none", "eyes": {"x": 0.5, "y": -0.1, "big": "compound"}},
+   "ears": {"a": 34, "type": "antennae", "s": 0.6},
+   "mouth": "mandibles",
+   "tail": {"none": true},
+   "back": {"kind": "elytra", "word": "a beetle's wing cases", "plate": "#2F8E62", "band": "#12382A", "tip": "#B9F0D2"},
+   "markings": {"gloss": true}
+  },
+  "bluemorpho": {
+   "word": "blue morpho butterfly", "group": "insect", "a": "a", "say": ["Morpho", "morpho"],
+   "colours": {"fur": "#4A3A2E", "light": "#D8C6A6", "dark": "#241A14", "skin": "#8FC8F2", "nose": "#241A14"},
+   "body": {"w": 124, "h": 170, "top": 0.6, "arms": "legs", "feet": "legs"},
+   "head": {"r": 58, "sx": 1.0, "sy": 0.96, "shape": "round", "muz": {"none": true, "y": 0.4, "rx": 0.2, "ry": 0.16}, "nose": "none", "eyes": {"x": 0.4, "y": -0.04, "big": "compound"}},
+   "ears": {"a": 22, "type": "clubs", "s": 0.9},
+   "mouth": "proboscis",
+   "tail": {"none": true},
+   "back": {"kind": "butterfly", "word": "a blue morpho's wings", "plate": "#2F86E6", "band": "#14243F", "tip": "#F7F3E8"},
+   "markings": {"segments": true}
+  },
   "camel": {
    "group": "mammal", "a": "a", "say": ["Camel", "camel"],
    "colours": {"fur": "#C9A06A", "light": "#EBD7B0", "dark": "#7E5A30", "skin": "#A57E58", "nose": "#4A3424"},
@@ -124,6 +148,17 @@
    "back": null,
    "markings": {"stripes": "tabby", "belly": true}
   },
+  "caterpillar": {
+   "group": "insect", "a": "a", "say": ["Caterpillar", "pillar"],
+   "colours": {"fur": "#F4F1E6", "light": "#F5CF35", "dark": "#1D1919", "skin": "#1D1919", "nose": "#1D1919"},
+   "body": {"w": 136, "h": 196, "top": 0.66, "arms": "stubs", "feet": "prolegs"},
+   "head": {"r": 62, "sx": 1.04, "sy": 0.96, "shape": "round", "muz": {"none": true, "y": 0.4, "rx": 0.2, "ry": 0.16}, "nose": "none", "eyes": {"x": 0.3, "y": 0.04}},
+   "ears": {"a": 24, "type": "antennae", "s": 0.55},
+   "mouth": "mandibles",
+   "tail": {"d": "M-6,6 C26,24 60,28 92,12 C104,6 112,-4 116,-14", "whip": [34, 26], "fill": "fur", "end": [116, -14]},
+   "back": null,
+   "markings": {"hoops": true, "rings": true, "darkEars": true}
+  },
   "chameleon": {
    "group": "reptile", "a": "a", "say": ["Chameleon", "meleon"],
    "colours": {"fur": "#69B04A", "light": "#D9EA8A", "dark": "#2E6A2E", "skin": "#4E8F3A", "nose": "#2A4A22"},
@@ -135,6 +170,17 @@
    "back": {"kind": "crest", "word": "a chameleon's casque", "plate": "#4E9A3C", "band": "#2E6A2E"},
    "markings": {"stripes": "tabby", "belly": true}
   },
+  "cheetah": {
+   "group": "mammal", "a": "a", "say": ["Cheetah", "cheetah"],
+   "colours": {"fur": "#E2B35E", "light": "#FAF1DE", "dark": "#2A211C", "skin": "#E3A69A", "nose": "#3A2A24"},
+   "body": {"w": 168, "h": 186, "top": 0.7, "arms": "thin", "feet": "pads"},
+   "head": {"r": 66, "sx": 1.04, "sy": 0.96, "shape": "round", "muz": {"y": 0.42, "rx": 0.3, "ry": 0.24}, "nose": "tri", "eyes": {"x": 0.36, "y": -0.06}, "whiskers": true},
+   "ears": {"a": 50, "type": "round", "s": 0.24},
+   "mouth": "w",
+   "tail": {"d": "M-6,0 C36,0 66,-20 70,-66 C72,-92 82,-108 94,-110", "whip": [15, 10], "fill": "fur", "end": [94, -110]},
+   "back": null,
+   "markings": {"spots": true, "tears": true, "lowerFace": true, "rings": true, "tailTip": true}
+  },
   "chicken": {
    "group": "bird", "a": "a", "say": ["Chicken", "chicken"],
    "colours": {"fur": "#C2662E", "light": "#F0C38E", "dark": "#7A3A18", "skin": "#F2B33A", "nose": "#F0A830"},
@@ -145,6 +191,17 @@
    "tail": {"d": "M-8,-14 C10,-40 30,-74 52,-84 C46,-62 48,-46 60,-36 C70,-60 84,-72 98,-72 C84,-50 78,-24 60,-8 C40,8 16,14 -8,14 Z", "fill": "dark"},
    "back": {"kind": "wings", "word": "a chicken's wings", "plate": "#C2662E", "band": "#7A3A18", "tip": "#8E4420"},
    "markings": {"chevrons": true, "belly": true}
+  },
+  "cricket": {
+   "group": "insect", "a": "a", "say": ["Cricket", "cricket"],
+   "colours": {"fur": "#6E4C2C", "light": "#B98E5C", "dark": "#3A2716", "skin": "#8E6A44", "nose": "#3A2716"},
+   "body": {"w": 150, "h": 180, "top": 0.68, "arms": "legs", "feet": "hoppers"},
+   "head": {"r": 64, "sx": 0.96, "sy": 1.04, "shape": "round", "muz": {"none": true, "y": 0.4, "rx": 0.2, "ry": 0.16}, "nose": "none", "eyes": {"x": 0.42, "y": -0.12, "big": "compound"}},
+   "ears": {"a": 10, "type": "antennae", "s": 1.3},
+   "mouth": "mandibles",
+   "tail": {"none": true},
+   "back": null,
+   "markings": {"segments": true, "lowerFace": true}
   },
   "crow": {
    "group": "bird", "a": "a", "say": ["Crow", "crow", "Cro"],
@@ -190,6 +247,17 @@
    "back": null,
    "markings": {}
   },
+  "ferret": {
+   "group": "mammal", "a": "a", "say": ["Ferret", "ferret"],
+   "colours": {"fur": "#E6CFA2", "light": "#FAF3E4", "dark": "#4A3628", "skin": "#E8A9A0", "nose": "#D98A8C"},
+   "body": {"w": 140, "h": 190, "top": 0.7, "arms": "thin", "feet": "small"},
+   "head": {"r": 62, "sx": 1.02, "sy": 0.9, "shape": "wedge", "muz": {"y": 0.44, "rx": 0.26, "ry": 0.2}, "nose": "tri", "eyes": {"x": 0.36, "y": -0.06, "big": "dark"}, "whiskers": true},
+   "ears": {"a": 46, "type": "round", "s": 0.26},
+   "mouth": "tiny",
+   "tail": {"d": "M-6,0 C30,6 56,-6 70,-34 C78,-52 74,-68 66,-76", "whip": [20, 14], "fill": "dark", "end": [66, -76]},
+   "back": null,
+   "markings": {"mask": true, "darkLimbs": true, "lowerFace": true}
+  },
   "fox": {
    "group": "mammal", "a": "a", "say": ["Fox", "fox"],
    "colours": {"fur": "#D9692B", "light": "#F7EFE4", "dark": "#2E211B", "skin": "#2E211B", "nose": "#1E1612"},
@@ -211,6 +279,17 @@
    "tail": {"none": true},
    "back": null,
    "markings": {"belly": true, "spots": true}
+  },
+  "goat": {
+   "group": "mammal", "a": "a", "say": ["Goat", "goat"],
+   "colours": {"fur": "#A8794E", "light": "#F2EADB", "dark": "#4E3422", "skin": "#E3B3A0", "nose": "#5A3E2E"},
+   "body": {"w": 176, "h": 184, "top": 0.74, "arms": "thin", "feet": "hooves"},
+   "head": {"r": 70, "sx": 0.9, "sy": 1.08, "shape": "round", "muz": {"y": 0.48, "rx": 0.3, "ry": 0.26}, "nose": "y", "eyes": {"x": 0.4, "y": -0.1, "big": "bar"}},
+   "ears": {"a": 20, "type": "swept", "s": 0.6},
+   "mouth": "beard",
+   "tail": {"d": "M-6,-4 C6,-14 14,-30 12,-44 C22,-36 24,-16 8,4 Z", "fill": "fur"},
+   "back": null,
+   "markings": {"lowerFace": true, "chest": true}
   },
   "highlandcow": {
    "group": "mammal", "a": "a", "word": "Highland cow", "say": ["Coo", "coo"],
@@ -256,6 +335,17 @@
    "back": null,
    "markings": {"blotches": true}
   },
+  "leopard": {
+   "group": "mammal", "a": "a", "say": ["Leopard", "leopard"],
+   "colours": {"fur": "#D9A54E", "light": "#F7ECD6", "dark": "#2E241D", "skin": "#E0A196", "nose": "#C27A72"},
+   "body": {"w": 182, "h": 182, "top": 0.76, "arms": "thick", "feet": "pads"},
+   "head": {"r": 72, "sx": 1.08, "sy": 0.96, "shape": "round", "muz": {"y": 0.42, "rx": 0.32, "ry": 0.26}, "nose": "tri", "eyes": {"x": 0.36, "y": -0.06}, "whiskers": true},
+   "ears": {"a": 44, "type": "round", "s": 0.28},
+   "mouth": "w",
+   "tail": {"d": "M-6,0 C34,-4 62,-30 58,-80 C56,-104 70,-118 84,-114", "whip": [16, 11], "fill": "fur", "end": [84, -114]},
+   "back": null,
+   "markings": {"rosettes": true, "lowerFace": true, "rings": true}
+  },
   "lion": {
    "group": "mammal", "a": "a", "say": ["Lion", "lion"],
    "colours": {"fur": "#D4A25C", "light": "#F3E0B8", "dark": "#7A4A22", "skin": "#C98E72", "nose": "#A0594E"},
@@ -267,6 +357,17 @@
    "back": {"kind": "ruff", "word": "a lion's mane", "plate": "#A8622A", "band": "#6E3A14"},
    "markings": {"belly": true}
   },
+  "mantis": {
+   "group": "insect", "a": "a", "say": ["Mantis", "mantis"],
+   "colours": {"fur": "#7DBB4C", "light": "#CDE88E", "dark": "#3E6E24", "skin": "#A8D468", "nose": "#3E6E24"},
+   "body": {"w": 128, "h": 196, "top": 0.58, "arms": "raptorial", "feet": "legs"},
+   "head": {"r": 64, "sx": 1.16, "sy": 0.86, "shape": "tri", "muz": {"none": true, "y": 0.4, "rx": 0.2, "ry": 0.16}, "nose": "none", "eyes": {"x": 0.62, "y": -0.36, "big": "compound"}},
+   "ears": {"a": 16, "type": "antennae", "s": 1.1},
+   "mouth": "mandibles",
+   "tail": {"none": true},
+   "back": null,
+   "markings": {"segments": true}
+  },
   "meerkat": {
    "group": "mammal", "a": "a", "say": ["Meerkat", "meerkat", "Meer"],
    "colours": {"fur": "#BF9A6C", "light": "#EBDDC2", "dark": "#3A2B20", "skin": "#8A6A52", "nose": "#2A1E16"},
@@ -277,6 +378,17 @@
    "tail": {"d": "M-6,0 C24,-6 40,-30 44,-70 C46,-90 48,-104 52,-116", "whip": [12, 7], "fill": "fur", "tuft": [52, -120, 12]},
    "back": null,
    "markings": {"patches": true, "darkEars": true, "belly": true}
+  },
+  "monarch": {
+   "word": "monarch butterfly", "group": "insect", "a": "a", "say": ["Monarch", "monarch"],
+   "colours": {"fur": "#2A2220", "light": "#F4EFE6", "dark": "#14100F", "skin": "#E58A2E", "nose": "#14100F"},
+   "body": {"w": 124, "h": 170, "top": 0.6, "arms": "legs", "feet": "legs"},
+   "head": {"r": 58, "sx": 1.0, "sy": 0.96, "shape": "round", "muz": {"none": true, "y": 0.4, "rx": 0.2, "ry": 0.16}, "nose": "none", "eyes": {"x": 0.4, "y": -0.04, "big": "compound"}},
+   "ears": {"a": 22, "type": "clubs", "s": 0.9},
+   "mouth": "proboscis",
+   "tail": {"none": true},
+   "back": {"kind": "butterfly", "word": "a monarch's wings", "plate": "#EE8A2A", "band": "#1A1412", "tip": "#FFFFFF", "veins": true},
+   "markings": {"dots": true}
   },
   "mouse": {
    "group": "mammal", "a": "a", "say": ["Mouse", "mouse"],
@@ -321,6 +433,17 @@
    "tail": {"d": "M-6,0 C30,8 62,-4 64,-40 C66,-70 40,-82 32,-62 C26,-48 42,-40 50,-52", "whip": [14, 9], "fill": "skin", "end": [50, -52]},
    "back": null,
    "markings": {"lightHead": true, "darkEars": true, "darkLimbs": true}
+  },
+  "orca": {
+   "group": "mammal", "a": "an", "say": ["Orca", "orca"],
+   "colours": {"fur": "#1F2226", "light": "#F6F7F8", "dark": "#0F1012", "skin": "#E8B0B8", "nose": "#0F1012"},
+   "body": {"w": 184, "h": 196, "top": 0.66, "arms": "flippers", "feet": "fins"},
+   "head": {"r": 76, "sx": 1.04, "sy": 0.94, "shape": "round", "muz": {"none": true, "y": 0.42, "rx": 0.3, "ry": 0.2}, "nose": "blowhole", "eyes": {"x": 0.38, "y": -0.02}},
+   "ears": {"a": 40, "type": "none", "s": 0.2},
+   "mouth": "smile",
+   "tail": {"d": "M-6,-14 C24,-18 50,-34 64,-52 C58,-66 56,-78 58,-88 C70,-74 78,-60 80,-50 C92,-44 104,-36 106,-20 C92,-22 80,-26 72,-36 C52,-10 26,8 -6,14 Z", "fill": "fur"},
+   "back": {"kind": "fin", "word": "an orca's fin", "plate": "#1F2226", "band": "#4A4F57"},
+   "markings": {"eyeSpots": true, "chest": true}
   },
   "otter": {
    "group": "mammal", "a": "an", "say": ["Otter", "otter"],
@@ -487,6 +610,39 @@
    "back": {"kind": "wings", "word": "a roadrunner's wings", "plate": "#8A6B4C", "band": "#3A2C20", "tip": "#EDE4D3"},
    "markings": {"chevrons": true, "belly": true}
   },
+  "scorpion": {
+   "group": "arachnid", "a": "a", "say": ["Scorpion", "scorpion"],
+   "colours": {"fur": "#C99A4C", "light": "#EBD39A", "dark": "#6E4A1E", "skin": "#A07434", "nose": "#6E4A1E"},
+   "body": {"w": 160, "h": 170, "top": 0.7, "arms": "pincers", "feet": "legs"},
+   "head": {"r": 62, "sx": 1.1, "sy": 0.86, "shape": "round", "muz": {"none": true, "y": 0.4, "rx": 0.2, "ry": 0.16}, "nose": "none", "eyes": {"x": 0.2, "y": -0.2}},
+   "ears": {"a": 40, "type": "none", "s": 0.2},
+   "mouth": "chelicerae",
+   "tail": {"d": "M-6,0 C34,-6 86,-60 84,-140 C82,-210 34,-252 -26,-246", "whip": [22, 15], "fill": "fur", "end": [-26, -246], "sting": true},
+   "back": null,
+   "markings": {"segments": true, "rings": true}
+  },
+  "shark": {
+   "group": "fish", "a": "a", "say": ["Shark", "shark"],
+   "colours": {"fur": "#7A8A99", "light": "#EEF1F3", "dark": "#4A5866", "skin": "#E6A0A8", "nose": "#3A4652"},
+   "body": {"w": 170, "h": 200, "top": 0.62, "arms": "flippers", "feet": "fins"},
+   "head": {"r": 74, "sx": 1.04, "sy": 0.92, "shape": "wedge", "muz": {"none": true, "y": 0.46, "rx": 0.3, "ry": 0.2}, "nose": "nostrils", "eyes": {"x": 0.44, "y": -0.08, "big": "dark"}},
+   "ears": {"a": 40, "type": "none", "s": 0.2},
+   "mouth": "jaws",
+   "tail": {"d": "M-6,-14 C20,-18 40,-30 52,-46 C62,-70 74,-96 92,-112 C86,-80 84,-56 88,-40 C100,-30 112,-14 118,4 C96,0 76,-4 62,-12 C42,4 20,12 -6,14 Z", "fill": "fur"},
+   "back": {"kind": "fin", "word": "a shark's fin", "plate": "#6A7A89", "band": "#4A5866"},
+   "markings": {"chest": true, "slits": true}
+  },
+  "sheep": {
+   "group": "mammal", "a": "a", "say": ["Sheep", "sheep"],
+   "colours": {"fur": "#F3EDE0", "light": "#FBF8F1", "dark": "#3B312D", "skin": "#4A3E38", "nose": "#A2827A"},
+   "body": {"w": 196, "h": 176, "top": 0.82, "arms": "thin", "feet": "hooves"},
+   "head": {"r": 64, "sx": 0.92, "sy": 1.06, "shape": "round", "muz": {"none": true, "y": 0.5, "rx": 0.3, "ry": 0.22}, "nose": "y", "eyes": {"x": 0.4, "y": -0.08, "big": "bar"}},
+   "ears": {"a": 80, "type": "oval", "s": 0.35},
+   "mouth": "w",
+   "tail": {"d": "@circle 14 -6 18", "fill": "fur", "at": 0.44},
+   "back": {"kind": "fleece", "word": "a sheep's fleece", "plate": "#F3EDE0", "band": "#D9CDB8"},
+   "markings": {"bareHead": true, "darkEars": true, "darkLimbs": true, "wool": true}
+  },
   "snake": {
    "group": "reptile", "a": "a", "say": ["Snake", "snake"],
    "colours": {"fur": "#6FA33C", "light": "#E3DE8C", "dark": "#3B6222", "skin": "#5E8C32", "nose": "#26391A"},
@@ -497,6 +653,17 @@
    "tail": {"d": "M-6,-14 C30,-10 54,30 90,34 C106,36 118,30 126,18 C122,38 106,48 88,48 C50,46 30,24 -6,14 Z", "fill": "fur"},
    "back": null,
    "markings": {"coils": true}
+  },
+  "spider": {
+   "group": "arachnid", "a": "a", "say": ["Spider", "spider"],
+   "colours": {"fur": "#2E2826", "light": "#F1ECE4", "dark": "#151211", "skin": "#C9A27A", "nose": "#151211"},
+   "body": {"w": 168, "h": 150, "top": 0.84, "arms": "spider", "feet": "legs"},
+   "head": {"r": 70, "sx": 1.08, "sy": 0.96, "shape": "round", "muz": {"none": true, "y": 0.4, "rx": 0.2, "ry": 0.16}, "nose": "none", "eyes": {"x": 0.26, "y": 0.06, "big": "many"}},
+   "ears": {"a": 40, "type": "none", "s": 0.2},
+   "mouth": "chelicerae",
+   "tail": {"none": true},
+   "back": null,
+   "markings": {"chevrons": true}
   },
   "squirrel": {
    "group": "mammal", "a": "a", "say": ["Squirrel", "squirrel"],
@@ -553,6 +720,17 @@
    "back": {"kind": "scutes", "word": "a turtle's shell", "plate": "#8A7A42", "band": "#4E4422", "speck": "#B3A05E"},
    "markings": {"chest": true}
   },
+  "whale": {
+   "group": "mammal", "a": "a", "say": ["Whale", "whale"],
+   "colours": {"fur": "#5C7C9A", "light": "#D9E3EC", "dark": "#34506A", "skin": "#C9D4DE", "nose": "#2C4258"},
+   "body": {"w": 224, "h": 200, "top": 0.74, "arms": "flippers", "feet": "fins"},
+   "head": {"r": 86, "sx": 1.12, "sy": 0.9, "shape": "round", "muz": {"none": true, "y": 0.44, "rx": 0.3, "ry": 0.2}, "nose": "blowhole", "eyes": {"x": 0.5, "y": 0.1}},
+   "ears": {"a": 40, "type": "none", "s": 0.2},
+   "mouth": "grin",
+   "tail": {"d": "M-6,-14 C24,-18 50,-34 64,-52 C58,-66 56,-78 58,-88 C70,-74 78,-60 80,-50 C92,-44 104,-36 106,-20 C92,-22 80,-26 72,-36 C52,-10 26,8 -6,14 Z", "fill": "fur"},
+   "back": null,
+   "markings": {"grooves": true}
+  },
   "zebra": {
    "group": "mammal", "a": "a", "say": ["Zebra", "zebra"],
    "colours": {"fur": "#F4F2EE", "light": "#FFFFFF", "dark": "#1E1E22", "skin": "#3A3A3E", "nose": "#8C8C93"},
@@ -566,10 +744,13 @@
   }
  },
  "known": {
-  "_note": "Names somebody chose, used instead of the made-up one for exactly that body and second animal. Pandillo is the name Chelsea chose for hers. Porkypine is a name Randimals and Stimpunks made together and both use, and it is what a pig with the most of its other parts from a porcupine is called. Liger and tigon are the names English already has for a lion and a tiger together, the lion first in a liger and the tiger first in a tigon.",
+  "_note": "Names somebody chose, used instead of the made-up one for exactly that body and second animal. Pandillo is the name Chelsea chose for hers. Porkypine is a name Randimals and Stimpunks made together and both use, and it is what a pig with the most of its other parts from a porcupine is called. Liger and tigon are the names English already has for a lion and a tiger together, the lion first in a liger and the tiger first in a tigon. A geep is what English calls a chimera of a sheep and a goat, whichever comes first, and a leopon is a leopard with a lion.",
+  "goat+sheep": "Geep",
+  "leopard+lion": "Leopon",
   "lion+tiger": "Liger",
   "panda+armadillo": "Pandillo",
   "pig+porcupine": "Porkypine",
+  "sheep+goat": "Geep",
   "tiger+lion": "Tigon"
  },
  "randimals": {

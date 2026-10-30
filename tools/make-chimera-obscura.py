@@ -116,29 +116,33 @@ SLOTS = ["body", "head", "ears", "mouth", "arms", "feet", "tail", "back", "colou
 DEFAULTS = {"arms": "body", "feet": "body"}
 # Every kind of part chimera.js has a drawing for. A new kind is a drawing
 # there and a word here, in the same commit.
-ARMS = {"thick", "thin", "hands", "wings", "flippers", "tentacles", "membrane", "none"}
+ARMS = {"thick", "thin", "hands", "wings", "flippers", "tentacles", "membrane", "legs", "spider", "raptorial",
+        "pincers", "stubs", "none"}
 FEET = {"pads", "small", "claws", "big", "webbed", "hooves", "toes", "talons", "paddles", "fins", "tentacles",
-        "streamers", "none"}
-SHAPES = {"round", "wedge", "block", "bell"}
+        "streamers", "legs", "hoppers", "prolegs", "none"}
+SHAPES = {"round", "wedge", "block", "bell", "tri"}
 NOSES = {"round", "tri", "small", "y", "wide", "snout", "beak", "nostrils", "trunk", "bill", "hook", "duckbill",
          "flatbill", "blowhole", "horn", "none"}
-EYES = (False, True, "dark", "slit", "turret", "bulge", "lashes")
+EYES = (False, True, "dark", "slit", "turret", "bulge", "lashes", "compound", "many", "bar")
 EARS = {"round", "semi", "long", "oval", "tri", "none", "flop", "fan", "tufts", "leaf", "comb", "crest", "plume",
-        "gills", "horns"}
+        "gills", "horns", "antennae", "clubs", "swept"}
 MOUTHS = {"smile", "buck", "bunny", "w", "tiny", "fierce", "open", "smirk", "none", "tusks", "chisel", "grin",
-          "pout", "wattle", "tongue", "spiral", "fangs", "pegs"}
+          "pout", "wattle", "tongue", "spiral", "fangs", "pegs", "mandibles", "proboscis", "jaws", "beard",
+          "chelicerae"}
 FILLS = {"fur", "light", "skin", "dark"}
 MARKS = {"belly", "chest", "band", "patches", "darkEars", "darkLimbs", "darkPaws", "rimEars",
          "lightHead", "lowerFace", "bands", "mask", "rings", "tailTip", "tux", "stripes", "chevrons",
          "disc", "eyePatch", "darkMuzzle", "spots", "blotches", "coils", "facePatch", "bareHead", "ribbons",
-         "folds", "gloss"}
+         "folds", "gloss", "tears", "rosettes", "eyeSpots", "grooves", "slits", "segments", "hoops", "wool",
+         "dots"}
 STRIPES = {"bold", "tabby", "tiger"}
 # What each kind of back is drawn in.
 BACKS = {"shell": ("plate", "band", "speck"), "scutes": ("plate", "band", "speck"),
          "quills": ("quill", "tip"), "mane": ("plate", "band"), "fan": ("quill", "band", "tip"),
          "train": ("plate", "ring", "eye"), "shag": ("plate", "band"), "crest": ("plate", "band"),
          "wings": ("plate", "band", "tip"), "ruff": ("plate", "band"), "humps": ("plate", "band"),
-         "membrane": ("plate", "band")}
+         "membrane": ("plate", "band"), "butterfly": ("plate", "band", "tip"), "fin": ("plate", "band"),
+         "fleece": ("plate", "band"), "elytra": ("plate", "band", "tip")}
 # A neck holds the head up; any longer and a tall pair of ears leaves the rig.
 NECK_MAX = 40
 COLOURS = {"fur", "light", "dark", "skin", "nose"}
