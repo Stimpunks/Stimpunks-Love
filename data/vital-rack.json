@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-10-29T11:20Z",
+ "set": "2026-10-30T11:22Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2024-05-03T15:53:16Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ]
   },
@@ -218,28 +218,18 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-10-29T11:20:09Z"
+     "2026-10-30T11:22:28Z"
     ]
    ]
   }
  },
  "telly": [
-  {
-   "id": "kpGsJFehkts",
-   "source": "derek-sarno",
-   "form": "long",
-   "title": "The Most Exciting Ingredient In The Monastery Right Now",
-   "published": "2026-09-29T19:59:03Z",
-   "state": "screen",
-   "runs": 1207,
-   "channel": "Derek Sarno"
-  },
   {
    "id": "lXfi_iQib3A",
    "source": "derek-sarno",
@@ -401,6 +391,16 @@
    "channel": "Sarah's Vegan Kitchen"
   },
   {
+   "id": "elW3_w74oUQ",
+   "source": "sarahs-vegan-kitchen",
+   "form": "short",
+   "title": "Loaded Baked Potato Soup & Tofu Bacon 🥔🍲🥓",
+   "published": "2026-10-29T19:29:00Z",
+   "state": "screen",
+   "runs": 162,
+   "channel": "Sarah's Vegan Kitchen"
+  },
+  {
    "id": "O3mNNBvc7Yo",
    "source": "ahmad-noori",
    "form": "long",
@@ -461,13 +461,13 @@
    "channel": "Ahmad Noori"
   },
   {
-   "id": "CMhl4tNPc0s",
+   "id": "Mz8bSdU5luU",
    "source": "ahmad-noori",
-   "form": "short",
-   "title": "Roasted Eggplant Dip — So Creamy, No Blender Needed",
-   "published": "2026-09-29T16:17:58Z",
+   "form": "long",
+   "title": "3 Cozy Vegan Dinners That Make Vegetables the Star",
+   "published": "2026-10-30T01:30:14Z",
    "state": "screen",
-   "runs": 26,
+   "runs": 71,
    "channel": "Ahmad Noori"
   },
   {
@@ -611,6 +611,16 @@
    "channel": "VeganProteins"
   },
   {
+   "id": "x8jNFL7fml4",
+   "source": "veganproteins",
+   "form": "long",
+   "title": "Dr. Mike Israetel’s \"Fake Protein\" Argument Falls Apart?",
+   "published": "2026-10-29T15:45:10Z",
+   "state": "screen",
+   "runs": 2444,
+   "channel": "VeganProteins"
+  },
+  {
    "id": "3dpIAegoG0U",
    "source": "pb-with-j",
    "form": "long",
@@ -698,16 +708,6 @@
    "published": "2026-10-28T15:00:08Z",
    "state": "screen",
    "runs": 789,
-   "channel": "PB with J"
-  },
-  {
-   "id": "B7GpqxJIG6U",
-   "source": "pb-with-j",
-   "form": "short",
-   "title": "Boost Gut Health: Eat 30+ Plants Weekly! #shorts",
-   "published": "2026-09-29T12:54:25Z",
-   "state": "screen",
-   "runs": 58,
    "channel": "PB with J"
   },
   {
@@ -908,6 +908,16 @@
    "published": "2026-10-27T17:57:29Z",
    "state": "screen",
    "runs": 45,
+   "channel": "Carleigh Bodrug"
+  },
+  {
+   "id": "H82ip7io9mA",
+   "source": "carleigh-bodrug",
+   "form": "short",
+   "title": "I can’t stop eating these #recipe",
+   "published": "2026-10-29T16:15:21Z",
+   "state": "screen",
+   "runs": 11,
    "channel": "Carleigh Bodrug"
   },
   {
