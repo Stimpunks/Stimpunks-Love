@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-10-29T11:30Z",
+ "set": "2026-10-30T11:32Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-29T11:30:25Z"
+     "2026-10-30T11:32:52Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-29T11:30:25Z"
+     "2026-10-30T11:32:52Z"
     ]
    ]
   }
@@ -145,26 +145,6 @@
    "published": "2026-10-29T09:57:37Z",
    "state": "screen",
    "runs": 280,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "1lLMKo3av3Q",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Standing on the shoulders of your ancestors ￼does not make you a giant",
-   "published": "2026-09-29T19:22:21Z",
-   "state": "screen",
-   "runs": 116,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "grMLyFXBXiI",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Capitalism isn’t why I’m successful. It’s why my success is so out of proportion to how hard I work",
-   "published": "2026-09-30T00:03:28Z",
-   "state": "screen",
-   "runs": 100,
    "channel": "Farming While Beige"
   },
   {
@@ -575,6 +555,26 @@
    "published": "2026-10-28T23:16:33Z",
    "state": "screen",
    "runs": 75,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "TSbpObnSd-A",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Bruh… do you want some oil and to be alone? 😂",
+   "published": "2026-10-29T13:03:51Z",
+   "state": "screen",
+   "runs": 144,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "4ZUBV0s7mvU",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "My wife put her scary ahh art on clothes at bogwitchandbeige.com and now I feel like I’m in trouble.",
+   "published": "2026-10-29T20:52:11Z",
+   "state": "screen",
+   "runs": 69,
    "channel": "Farming While Beige"
   }
  ]
