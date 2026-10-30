@@ -1689,6 +1689,33 @@
   --cb-cloud-glow: #FFDCC8; --cb-cloud-puff: #E7A3AE; --cb-cloud-shade: #9A7BA8; --cb-cloud-deep: #5B4F8C;
   --cb-cloud-tower: #F6EEE6; --cb-cloud-tower-2: #B7B3D3; --cb-cloud-line: #2A3263; --cb-cloud-window: #FFE7A0;
   --cb-cloud-stalk: #6E6A9C; --cb-cloud-car: #E06A3A; --cb-cloud-car-2: #A84A2A; --cb-cloud-glass: #A8D4F0;
+  /* HALLOWEEN AND AUTUMN (2026-10-30, for the street's Halloween party): the
+     radio themes with drawings, and the inks they and their profile
+     effects are drawn in. PUMPKIN PATCH is a vine of pumpkins under a harvest
+     moon on a plum night, FRIENDLY GHOSTS little sheet ghosts over a misty
+     field at midnight, MAPLE GROVE a maple dropping red, orange and gold leaves
+     on dark bark, and SWEATER WEATHER a knitted sweater in oatmeal, cranberry
+     and pine, the one light theme among them. None of the drawing inks
+     carries a word. */
+  --cb-pumpkin-case: #1E1226; --cb-pumpkin-bar: #150B1B; --cb-pumpkin-steel: #FFF1DE; --cb-pumpkin-steel-2: #C9B3D6;
+  --cb-pumpkin-lcd: #0F0814; --cb-pumpkin-amber: #FF9A2E; --cb-pumpkin-amber-2: #A7D86B;
+  --cb-pumpkin-orange: #F2781E; --cb-pumpkin-rib: #C2550F; --cb-pumpkin-line: #5A2406; --cb-pumpkin-stem: #6B7A2E;
+  --cb-pumpkin-glow: #FFD86B; --cb-pumpkin-bat: #120914; --cb-pumpkin-moon: #F7E6B8; --cb-pumpkin-crater: #C9A86A;
+  --cb-pumpkin-vine: #5E8F33; --cb-pumpkin-leaf: #4F7F2C; --cb-pumpkin-sky: #2E1B45; --cb-pumpkin-dusk: #4E2452;
+  --cb-pumpkin-soil: #23121A; --cb-pumpkin-fence: #6B4A3A;
+  --cb-ghosts-case: #10202A; --cb-ghosts-bar: #0A161D; --cb-ghosts-steel: #F2FAFB; --cb-ghosts-steel-2: #A9C6CF;
+  --cb-ghosts-lcd: #071117; --cb-ghosts-amber: #B8F2E6; --cb-ghosts-amber-2: #F5B8D4;
+  --cb-ghosts-sheet: #F3FAFF; --cb-ghosts-shade: #B8CDDC; --cb-ghosts-eye: #14222C; --cb-ghosts-cheek: #F59AC0;
+  --cb-ghosts-stone: #4A5C66; --cb-ghosts-crack: #2A383F; --cb-ghosts-moon: #FFF2C4; --cb-ghosts-mist: #9DB8C4;
+  --cb-ghosts-sky: #1C3646; --cb-ghosts-field: #142A33;
+  --cb-maple-case: #2B1610; --cb-maple-bar: #1F0F0A; --cb-maple-steel: #FFF3E2; --cb-maple-steel-2: #E3BFA0;
+  --cb-maple-lcd: #170A06; --cb-maple-amber: #FFC04A; --cb-maple-amber-2: #FF8A5C;
+  --cb-maple-red: #D93A2B; --cb-maple-orange: #F07A22; --cb-maple-gold: #F2B632; --cb-maple-yellow: #F6DA5E;
+  --cb-maple-vein: #7A2A12; --cb-maple-acorn: #B0743A; --cb-maple-cap: #6E4626; --cb-maple-branch: #7A4A2C;
+  --cb-sweater-case: #F3E9DA; --cb-sweater-bar: #E5D6C0; --cb-sweater-steel: #3A2418; --cb-sweater-steel-2: #6B4A36;
+  --cb-sweater-lcd: #FFF8EE; --cb-sweater-amber: #8A2A1A; --cb-sweater-amber-2: #2F5A3A;
+  --cb-sweater-knit: #FBF4E8; --cb-sweater-shade: #D3BE9E; --cb-sweater-cable: #BE9A6E; --cb-sweater-berry: #A8322A;
+  --cb-sweater-pine: #2F6B45; --cb-sweater-mug: #C24A3A; --cb-sweater-cocoa: #6A3A22;
   --cb-mordor-lava: #FF5A1E; --cb-mordor-glow: #FFB040; --cb-mordor-rock: #2A2626; --cb-mordor-ash: #6A625E; --cb-mordor-wraith: #CFE8FF; --cb-mordor-rune: #C9A54A; --cb-mordor-blue: #6FA8D8;
 
   /* PROFILE EFFECTS IN PALETTES OF THEIR OWN (Ryan, 2026-10-19): Howling
@@ -4714,39 +4741,55 @@ html[data-low] {
   --cb-cloud-rose: var(--low-line); --cb-cloud-glow: var(--low-line); --cb-cloud-puff: var(--low-line); --cb-cloud-shade: var(--low-line);
   --cb-cloud-deep: var(--low-line); --cb-cloud-tower: var(--low-line); --cb-cloud-tower-2: var(--low-line); --cb-cloud-line: var(--low-line);
   --cb-cloud-window: var(--low-line); --cb-cloud-stalk: var(--low-line); --cb-cloud-car: var(--low-line); --cb-cloud-car-2: var(--low-line);
-  --cb-cloud-glass: var(--low-line); --cb-mordor-lava: var(--low-line); --cb-mordor-glow: var(--low-line); --cb-mordor-rock: var(--low-line);
-  --cb-mordor-ash: var(--low-line); --cb-mordor-wraith: var(--low-line); --cb-mordor-rune: var(--low-line); --cb-mordor-blue: var(--low-line);
-  --pfx-wolf-night: var(--low-line); --pfx-wolf-dusk: var(--low-line); --pfx-wolf-moon: var(--low-line); --pfx-wolf-mare: var(--low-line);
-  --pfx-wolf-halo: var(--low-line); --pfx-wolf-star: var(--low-line); --pfx-wolf-cloud: var(--low-line); --pfx-wolf-ridge: var(--low-line);
-  --pfx-wolf-rock: var(--low-line); --pfx-wolf-pine: var(--low-line); --pfx-wolf-fur: var(--low-line); --pfx-wolf-fur-2: var(--low-line);
-  --pfx-wolf-rim: var(--low-line); --pfx-star-sky: var(--low-line); --pfx-star-deep: var(--low-line); --pfx-star-milky: var(--low-line);
-  --pfx-star-milky-2: var(--low-line); --pfx-star-star: var(--low-line); --pfx-star-star-2: var(--low-line); --pfx-star-star-3: var(--low-line);
-  --pfx-star-tree: var(--low-line); --pfx-star-trunk: var(--low-line); --pfx-star-lit: var(--low-line); --pfx-star-lit-2: var(--low-line);
-  --pfx-star-flame: var(--low-line); --pfx-star-flame-2: var(--low-line); --pfx-star-flame-3: var(--low-line); --pfx-star-ember: var(--low-line);
-  --pfx-star-glow: var(--low-line); --pfx-dolphin-high: var(--low-line); --pfx-dolphin-rose: var(--low-line); --pfx-dolphin-glow: var(--low-line);
-  --pfx-dolphin-sun: var(--low-line); --pfx-dolphin-sun-2: var(--low-line); --pfx-dolphin-sea: var(--low-line); --pfx-dolphin-sea-2: var(--low-line);
-  --pfx-dolphin-dapple: var(--low-line); --pfx-dolphin-dapple-2: var(--low-line); --pfx-dolphin-body: var(--low-line); --pfx-dolphin-belly: var(--low-line);
-  --pfx-dolphin-line: var(--low-line); --pfx-dolphin-spray: var(--low-line); --pfx-dolphin-gull: var(--low-line); --pfx-autumn-sky: var(--low-line);
-  --pfx-autumn-haze: var(--low-line); --pfx-autumn-bark: var(--low-line); --pfx-autumn-bark-2: var(--low-line); --pfx-autumn-red: var(--low-line);
-  --pfx-autumn-orange: var(--low-line); --pfx-autumn-gold: var(--low-line); --pfx-autumn-yellow: var(--low-line); --pfx-autumn-rust: var(--low-line);
-  --pfx-autumn-brown: var(--low-line); --pfx-autumn-grass: var(--low-line); --pfx-autumn-line: var(--low-line); --pfx-autumn-light: var(--low-line);
-  --pfx-autumn-skin-1: var(--low-line); --pfx-autumn-skin-2: var(--low-line); --pfx-autumn-skin-3: var(--low-line); --pfx-autumn-skin-4: var(--low-line);
-  --pfx-autumn-skin-5: var(--low-line); --pfx-autumn-hair-1: var(--low-line); --pfx-autumn-hair-2: var(--low-line); --pfx-autumn-hair-3: var(--low-line);
-  --pfx-autumn-hair-4: var(--low-line); --pfx-autumn-jumper-1: var(--low-line); --pfx-autumn-jumper-2: var(--low-line); --pfx-autumn-jumper-3: var(--low-line);
-  --pfx-autumn-jumper-4: var(--low-line); --pfx-autumn-chair: var(--low-line); --bj-denim: var(--low-line); --bj-seam: var(--low-line);
-  --bj-stitch: var(--low-line); --fx-case: var(--low-g); --fx-bar: var(--low-plate); --fx-text: var(--low-ink);
-  --fx-dim: var(--low-quiet); --fx-lit: var(--low-link); --fx-on: var(--low-g); --bbr-dusk: var(--low-g);
-  --bbr-dusk-plate: var(--low-plate); --bbr-dusk-ink: var(--low-ink); --bbr-dusk-quiet: var(--low-quiet); --bbr-dusk-leaf: var(--low-link);
-  --bbr-dusk-far: var(--low-plate); --bbr-dusk-near: var(--low-plate); --bbr-mist: var(--low-g); --bbr-mist-plate: var(--low-plate);
-  --bbr-mist-ink: var(--low-ink); --bbr-mist-quiet: var(--low-quiet); --bbr-mist-leaf: var(--low-link); --bbr-mist-far: var(--low-plate);
-  --bbr-mist-near: var(--low-plate); --cb-warmlight-case: var(--low-g); --cb-warmlight-bar: var(--low-plate); --cb-warmlight-steel: var(--low-ink);
-  --cb-warmlight-steel-2: var(--low-quiet); --cb-warmlight-lcd: var(--low-plate); --cb-warmlight-amber: var(--low-ink); --cb-warmlight-amber-2: var(--low-quiet);
-  --cb-cooldark-case: var(--low-g); --cb-cooldark-bar: var(--low-plate); --cb-cooldark-steel: var(--low-ink); --cb-cooldark-steel-2: var(--low-quiet);
-  --cb-cooldark-lcd: var(--low-plate); --cb-cooldark-amber: var(--low-ink); --cb-cooldark-amber-2: var(--low-quiet); --cb-plantgreen-case: var(--low-g);
-  --cb-plantgreen-bar: var(--low-plate); --cb-plantgreen-steel: var(--low-ink); --cb-plantgreen-steel-2: var(--low-quiet); --cb-plantgreen-lcd: var(--low-plate);
-  --cb-plantgreen-amber: var(--low-ink); --cb-plantgreen-amber-2: var(--low-quiet); --cb-redlight-case: var(--low-g); --cb-redlight-bar: var(--low-plate);
-  --cb-redlight-steel: var(--low-ink); --cb-redlight-steel-2: var(--low-quiet); --cb-redlight-lcd: var(--low-plate); --cb-redlight-amber: var(--low-ink);
-  --cb-redlight-amber-2: var(--low-quiet);
+  --cb-cloud-glass: var(--low-line); --cb-pumpkin-case: var(--low-g); --cb-pumpkin-bar: var(--low-plate); --cb-pumpkin-steel: var(--low-ink);
+  --cb-pumpkin-steel-2: var(--low-quiet); --cb-pumpkin-lcd: var(--low-plate); --cb-pumpkin-amber: var(--low-ink); --cb-pumpkin-amber-2: var(--low-quiet);
+  --cb-pumpkin-orange: var(--low-line); --cb-pumpkin-rib: var(--low-line); --cb-pumpkin-line: var(--low-line); --cb-pumpkin-stem: var(--low-line);
+  --cb-pumpkin-glow: var(--low-line); --cb-pumpkin-bat: var(--low-line); --cb-pumpkin-moon: var(--low-line); --cb-pumpkin-crater: var(--low-line);
+  --cb-pumpkin-vine: var(--low-line); --cb-pumpkin-leaf: var(--low-line); --cb-pumpkin-sky: var(--low-line); --cb-pumpkin-dusk: var(--low-line);
+  --cb-pumpkin-soil: var(--low-line); --cb-pumpkin-fence: var(--low-line); --cb-ghosts-case: var(--low-g); --cb-ghosts-bar: var(--low-plate);
+  --cb-ghosts-steel: var(--low-ink); --cb-ghosts-steel-2: var(--low-quiet); --cb-ghosts-lcd: var(--low-plate); --cb-ghosts-amber: var(--low-ink);
+  --cb-ghosts-amber-2: var(--low-quiet); --cb-ghosts-sheet: var(--low-line); --cb-ghosts-shade: var(--low-line); --cb-ghosts-eye: var(--low-line);
+  --cb-ghosts-cheek: var(--low-line); --cb-ghosts-stone: var(--low-line); --cb-ghosts-crack: var(--low-line); --cb-ghosts-moon: var(--low-line);
+  --cb-ghosts-mist: var(--low-line); --cb-ghosts-sky: var(--low-line); --cb-ghosts-field: var(--low-line); --cb-maple-case: var(--low-g);
+  --cb-maple-bar: var(--low-plate); --cb-maple-steel: var(--low-ink); --cb-maple-steel-2: var(--low-quiet); --cb-maple-lcd: var(--low-plate);
+  --cb-maple-amber: var(--low-ink); --cb-maple-amber-2: var(--low-quiet); --cb-maple-red: var(--low-line); --cb-maple-orange: var(--low-line);
+  --cb-maple-gold: var(--low-line); --cb-maple-yellow: var(--low-line); --cb-maple-vein: var(--low-line); --cb-maple-acorn: var(--low-line);
+  --cb-maple-cap: var(--low-line); --cb-maple-branch: var(--low-line); --cb-sweater-case: var(--low-g); --cb-sweater-bar: var(--low-plate);
+  --cb-sweater-steel: var(--low-ink); --cb-sweater-steel-2: var(--low-quiet); --cb-sweater-lcd: var(--low-plate); --cb-sweater-amber: var(--low-ink);
+  --cb-sweater-amber-2: var(--low-quiet); --cb-sweater-knit: var(--low-line); --cb-sweater-shade: var(--low-line); --cb-sweater-cable: var(--low-line);
+  --cb-sweater-berry: var(--low-line); --cb-sweater-pine: var(--low-line); --cb-sweater-mug: var(--low-line); --cb-sweater-cocoa: var(--low-line);
+  --cb-mordor-lava: var(--low-line); --cb-mordor-glow: var(--low-line); --cb-mordor-rock: var(--low-line); --cb-mordor-ash: var(--low-line);
+  --cb-mordor-wraith: var(--low-line); --cb-mordor-rune: var(--low-line); --cb-mordor-blue: var(--low-line); --pfx-wolf-night: var(--low-line);
+  --pfx-wolf-dusk: var(--low-line); --pfx-wolf-moon: var(--low-line); --pfx-wolf-mare: var(--low-line); --pfx-wolf-halo: var(--low-line);
+  --pfx-wolf-star: var(--low-line); --pfx-wolf-cloud: var(--low-line); --pfx-wolf-ridge: var(--low-line); --pfx-wolf-rock: var(--low-line);
+  --pfx-wolf-pine: var(--low-line); --pfx-wolf-fur: var(--low-line); --pfx-wolf-fur-2: var(--low-line); --pfx-wolf-rim: var(--low-line);
+  --pfx-star-sky: var(--low-line); --pfx-star-deep: var(--low-line); --pfx-star-milky: var(--low-line); --pfx-star-milky-2: var(--low-line);
+  --pfx-star-star: var(--low-line); --pfx-star-star-2: var(--low-line); --pfx-star-star-3: var(--low-line); --pfx-star-tree: var(--low-line);
+  --pfx-star-trunk: var(--low-line); --pfx-star-lit: var(--low-line); --pfx-star-lit-2: var(--low-line); --pfx-star-flame: var(--low-line);
+  --pfx-star-flame-2: var(--low-line); --pfx-star-flame-3: var(--low-line); --pfx-star-ember: var(--low-line); --pfx-star-glow: var(--low-line);
+  --pfx-dolphin-high: var(--low-line); --pfx-dolphin-rose: var(--low-line); --pfx-dolphin-glow: var(--low-line); --pfx-dolphin-sun: var(--low-line);
+  --pfx-dolphin-sun-2: var(--low-line); --pfx-dolphin-sea: var(--low-line); --pfx-dolphin-sea-2: var(--low-line); --pfx-dolphin-dapple: var(--low-line);
+  --pfx-dolphin-dapple-2: var(--low-line); --pfx-dolphin-body: var(--low-line); --pfx-dolphin-belly: var(--low-line); --pfx-dolphin-line: var(--low-line);
+  --pfx-dolphin-spray: var(--low-line); --pfx-dolphin-gull: var(--low-line); --pfx-autumn-sky: var(--low-line); --pfx-autumn-haze: var(--low-line);
+  --pfx-autumn-bark: var(--low-line); --pfx-autumn-bark-2: var(--low-line); --pfx-autumn-red: var(--low-line); --pfx-autumn-orange: var(--low-line);
+  --pfx-autumn-gold: var(--low-line); --pfx-autumn-yellow: var(--low-line); --pfx-autumn-rust: var(--low-line); --pfx-autumn-brown: var(--low-line);
+  --pfx-autumn-grass: var(--low-line); --pfx-autumn-line: var(--low-line); --pfx-autumn-light: var(--low-line); --pfx-autumn-skin-1: var(--low-line);
+  --pfx-autumn-skin-2: var(--low-line); --pfx-autumn-skin-3: var(--low-line); --pfx-autumn-skin-4: var(--low-line); --pfx-autumn-skin-5: var(--low-line);
+  --pfx-autumn-hair-1: var(--low-line); --pfx-autumn-hair-2: var(--low-line); --pfx-autumn-hair-3: var(--low-line); --pfx-autumn-hair-4: var(--low-line);
+  --pfx-autumn-jumper-1: var(--low-line); --pfx-autumn-jumper-2: var(--low-line); --pfx-autumn-jumper-3: var(--low-line); --pfx-autumn-jumper-4: var(--low-line);
+  --pfx-autumn-chair: var(--low-line); --bj-denim: var(--low-line); --bj-seam: var(--low-line); --bj-stitch: var(--low-line);
+  --fx-case: var(--low-g); --fx-bar: var(--low-plate); --fx-text: var(--low-ink); --fx-dim: var(--low-quiet);
+  --fx-lit: var(--low-link); --fx-on: var(--low-g); --bbr-dusk: var(--low-g); --bbr-dusk-plate: var(--low-plate);
+  --bbr-dusk-ink: var(--low-ink); --bbr-dusk-quiet: var(--low-quiet); --bbr-dusk-leaf: var(--low-link); --bbr-dusk-far: var(--low-plate);
+  --bbr-dusk-near: var(--low-plate); --bbr-mist: var(--low-g); --bbr-mist-plate: var(--low-plate); --bbr-mist-ink: var(--low-ink);
+  --bbr-mist-quiet: var(--low-quiet); --bbr-mist-leaf: var(--low-link); --bbr-mist-far: var(--low-plate); --bbr-mist-near: var(--low-plate);
+  --cb-warmlight-case: var(--low-g); --cb-warmlight-bar: var(--low-plate); --cb-warmlight-steel: var(--low-ink); --cb-warmlight-steel-2: var(--low-quiet);
+  --cb-warmlight-lcd: var(--low-plate); --cb-warmlight-amber: var(--low-ink); --cb-warmlight-amber-2: var(--low-quiet); --cb-cooldark-case: var(--low-g);
+  --cb-cooldark-bar: var(--low-plate); --cb-cooldark-steel: var(--low-ink); --cb-cooldark-steel-2: var(--low-quiet); --cb-cooldark-lcd: var(--low-plate);
+  --cb-cooldark-amber: var(--low-ink); --cb-cooldark-amber-2: var(--low-quiet); --cb-plantgreen-case: var(--low-g); --cb-plantgreen-bar: var(--low-plate);
+  --cb-plantgreen-steel: var(--low-ink); --cb-plantgreen-steel-2: var(--low-quiet); --cb-plantgreen-lcd: var(--low-plate); --cb-plantgreen-amber: var(--low-ink);
+  --cb-plantgreen-amber-2: var(--low-quiet); --cb-redlight-case: var(--low-g); --cb-redlight-bar: var(--low-plate); --cb-redlight-steel: var(--low-ink);
+  --cb-redlight-steel-2: var(--low-quiet); --cb-redlight-lcd: var(--low-plate); --cb-redlight-amber: var(--low-ink); --cb-redlight-amber-2: var(--low-quiet);
 }
 /* low:remap:end */
 

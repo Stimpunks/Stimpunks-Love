@@ -243,6 +243,12 @@
     ['kelp', 'Kelp Forest', 'world', 'a kelp forest with sea otters floating in it, after the Arcade\u2019s Otterly Adorbs, which is built on Helen Edgar\u2019s Stimpunks Solidarity and Otters and Star Stuff\u2019s zine No. 58, The Stone You Keep. Floating fills nothing. It pairs with the profile effect Otters in the kelp', 'moves'],
     ['fairy', 'Fairy Lights', 'world', 'the Fairy lights frame for profiles: strings of bulbs swagged across a plum night in gold, rose, mint, sky, lilac and peach, with stars between them, twinkling and never flashing. It pairs with the profile effect Flying Fairy, after Helen Edgar’s Faery Yurt', 'moves'],
     ['cloud', 'Cloud City', 'world', 'Cloud City, the city in the clouds of Bespin in The Empire Strikes Back (1980): a striped sun going down behind a sea of cloud, the city standing out of it on its stalk with its windows lit, and cloud cars holding station. Star Wars is a trade mark of Lucasfilm, and the drawing is ours, with nobody from the films and no emblem of theirs. It pairs with the profile effect of the same name', 'moves'],
+    /* HALLOWEEN AND AUTUMN (Ryan, 2026-10-30, for the Halloween party the
+       next day). Every drawing is ours, after nobody's picture. */
+    ['pumpkin', 'Pumpkin Patch', 'season', 'a pumpkin patch at night: a vine running along the foot with pumpkins on it, some carved and glowing from inside, and a harvest moon with bats going over it. It pairs with the profile effect of the same name', 'moves'],
+    ['ghosts', 'Friendly Ghosts', 'season', 'little sheet ghosts with pink cheeks, hovering over a misty field with a few plain stones in it, under a crescent moon. Nobody is frightened and nothing jumps out. It pairs with the profile effect of the same name', 'moves'],
+    ['maple', 'Maple Grove', 'season', 'a maple branch turning red, orange and gold, its leaves falling slowly and lying in drifts with acorns among them', 'moves'],
+    ['sweater', 'Sweater Weather', 'season', 'a sweater knitted for the cold: its stitches row on row, a cable, a band of diamonds and hearts in cranberry and pine, and a mug of cocoa steaming', 'moves'],
     /* THE WINAMP SKINS (Ryan, 2026-10-17): after skins in the Winamp
        Skin Museum, each credited to whoever its readme says made it, or saying
        that it names nobody. Every drawing is ours and copies no bitmap of a

@@ -2185,7 +2185,7 @@
     /* In three groups, each under its own heading: the everyday ones, the
        radio faceplates, and the worlds, which Ryan asked for on 2026-10-17 and
        which have nothing to do with radios. */
-    [['every', 'Everyday'], ['low', 'Low stimulation'], ['radio', 'Radio faceplates'], ['world', 'Worlds, with drawings'], ['skin', 'Winamp skins'], ['geo', 'GeoCities pages'], ['game', 'Ryan\u2019s favourite games']].forEach(function (g) {
+    [['every', 'Everyday'], ['low', 'Low stimulation'], ['radio', 'Radio faceplates'], ['world', 'Worlds, with drawings'], ['season', 'Halloween and autumn'], ['skin', 'Winamp skins'], ['geo', 'GeoCities pages'], ['game', 'Ryan\u2019s favourite games']].forEach(function (g) {
       scp.appendChild(el('h3', 'cb-h3', g[1]));
       /* The low-stimulation modes as themes (2026-10-24, by request): the
          dial's own, on the radio alone, which the line says so nobody takes
@@ -8155,7 +8155,7 @@
      Who's online would show it. Nothing is kept until Save my card; Cancel,
      Escape or a press outside leaves the card as it was, and asks first when
      anything has changed since it was opened or last saved (pfGuard). */
-  var PF_GROUPS = [['every', 'Everyday'], ['low', 'Low stimulation'], ['radio', 'Radio faceplates'], ['world', 'Worlds'], ['skin', 'Winamp skins'], ['geo', 'GeoCities pages'], ['game', 'Ryan’s favourite games']];
+  var PF_GROUPS = [['every', 'Everyday'], ['low', 'Low stimulation'], ['radio', 'Radio faceplates'], ['world', 'Worlds'], ['season', 'Halloween and autumn'], ['skin', 'Winamp skins'], ['geo', 'GeoCities pages'], ['game', 'Ryan’s favourite games']];
   function pfField(form, label, id, input, hint) {
     var wrap = el('div', 'pf-field');
     var lab = el('label', 'cb-lab', label);

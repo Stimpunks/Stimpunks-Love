@@ -72,6 +72,13 @@ WHAT IT REFUSES, and why each one is here:
     films' people and things are refused by name in its code, its credit and
     the theme's line, because the friendly edit, a caped figure on the deck,
     is the one that would arrive.
+  · PUMPKIN PATCH AND FRIENDLY GHOSTS (Ryan, 2026-10-30, for the Halloween
+    party) are drawn in their themes' declared --cb-pumpkin-* and --cb-ghosts-*
+    inks between their own markers. HALLOWEEN HERE IS FRIENDLY: lit pumpkins,
+    bats and ghosts with pink cheeks, and nothing gory, the Haunted House's
+    rule that its people are ours. The vocabulary of gore and of the asylum is
+    refused in their code and their themes' lines, because the friendly edit
+    for a Halloween party is a skull or a zombie "to make it scarier".
   · STARWARD DREAMING'S FIRE SHOWN OVER THE FLASH LINE. The cabin's candles'
     rule: every flame sways on a time of its own out of SW_FLICKER, each half of
     a sway at least four tenths of a second and no two alike, and the flames'
@@ -256,6 +263,8 @@ def main():
         "autumn": ("--pfx-autumn-", "Autumn Falls", "its own"),
         "cloudcity": ("--cb-cloud-", "Cloud City", "the Cloud City theme's"),
         "muchness": ("--much-", "Bring Your Muchness", "the MAX GLITTER fanfare's"),
+        "pumpkinpatch": ("--cb-pumpkin-", "Pumpkin Patch", "the Pumpkin Patch theme's"),
+        "ghosts": ("--cb-ghosts-", "Friendly Ghosts", "the Friendly Ghosts theme's"),
     }
     blocks = {k: between(src, f"/* effect:{k}:begin */", f"/* effect:{k}:end */", "profile.js") for k in EFFECT_INKS}
     rest_src = src
@@ -328,6 +337,14 @@ def main():
                "nothing else from the films, the rule the games' themes keep.")
     if not cloud_line:
         refuse("call.js has no Cloud City theme, which the Cloud City effect is drawn in.")
+    # HALLOWEEN IS FRIENDLY: no gore and no asylum in the two Halloween effects
+    # or their themes' lines.
+    lines = " ".join(m.group(1) for m in re.finditer(r"\['(?:pumpkin|ghosts)', '[^']*', 'season', '([^']*)'", CALL.read_text()))
+    said = uncomment(blocks["pumpkinpatch"]) + " " + uncomment(blocks["ghosts"]) + " " + lines
+    m = re.search(r"\b(?:blood\w*|gore|gory|corpses?|zombies?|skulls?|skeletons?|severed|asylums?|straitjackets?|screams?|terrif\w*)\b", said, re.I)
+    if m:
+        refuse(f"a Halloween effect says {m.group(0)!r}. Halloween on the CB is friendly: pumpkins, bats and ghosts "
+               "with pink cheeks, and nothing gory, the Haunted House's rule.")
     cbcss = re.sub(r"/\*.*?\*/", "", (ROOT / "cb.css").read_text(), flags=re.S)
     # The pass and the Lagoon's big moment cross words, so each is display: none
     # and only its data-motion rule shows it; and nothing an effect does moves
@@ -349,7 +366,8 @@ def main():
             refuse(f"cb.css moves an effect at {sel.strip()!r}, outside data-motion.")
     for key, fn in (("lagoon", "lagoonMoment()"), ("otters", "otterMoment()"), ("fairy", "fairyMoment()"),
                     ("wolf", "wolfMoment()"), ("starward", "swMoment()"), ("dolphins", "dpMoment()"), ("autumn", "auMoment()"),
-                    ("cloudcity", "ccMoment()"), ("muchness", "muMoment()")):
+                    ("cloudcity", "ccMoment()"), ("muchness", "muMoment()"), ("pumpkinpatch", "pkMoment()"),
+                    ("ghosts", "ghMoment()")):
         if f"appendChild({fn})" not in uncomment(blocks[key]) or "pf-fx__moment" not in blocks[key]:
             refuse(f"{EFFECT_INKS[key][1]} has lost its opening across the profile, which Ryan asked for.")
     # STARWARD DREAMING'S FIRE IS HELD UNDER THE FLASH LINE, the cabin's

@@ -152,6 +152,14 @@
   --cb-display: 'Leckerli One'; --cb-display-scale: 1.1; --cb-display-track: .01em; --cb-display-case: none; }
 :host([data-scheme="cloud"]) { --cb-case: var(--cb-cloud-case); --cb-bar: var(--cb-cloud-bar); --cb-steel: var(--cb-cloud-steel); --cb-steel-2: var(--cb-cloud-steel-2); --cb-lcd: var(--cb-cloud-lcd); --cb-amber: var(--cb-cloud-amber); --cb-amber-2: var(--cb-cloud-amber-2);
   --cb-display: 'Jost'; --cb-display-scale: 1.15; --cb-display-track: .16em; --cb-display-case: uppercase; }
+:host([data-scheme="pumpkin"]) { --cb-case: var(--cb-pumpkin-case); --cb-bar: var(--cb-pumpkin-bar); --cb-steel: var(--cb-pumpkin-steel); --cb-steel-2: var(--cb-pumpkin-steel-2); --cb-lcd: var(--cb-pumpkin-lcd); --cb-amber: var(--cb-pumpkin-amber); --cb-amber-2: var(--cb-pumpkin-amber-2);
+  --cb-display: 'Creepster'; --cb-display-scale: 1.05; --cb-display-track: .04em; --cb-display-case: none; }
+:host([data-scheme="ghosts"]) { --cb-case: var(--cb-ghosts-case); --cb-bar: var(--cb-ghosts-bar); --cb-steel: var(--cb-ghosts-steel); --cb-steel-2: var(--cb-ghosts-steel-2); --cb-lcd: var(--cb-ghosts-lcd); --cb-amber: var(--cb-ghosts-amber); --cb-amber-2: var(--cb-ghosts-amber-2);
+  --cb-display: 'Mystery Quest'; --cb-display-scale: 1.1; --cb-display-track: .02em; --cb-display-case: none; }
+:host([data-scheme="maple"]) { --cb-case: var(--cb-maple-case); --cb-bar: var(--cb-maple-bar); --cb-steel: var(--cb-maple-steel); --cb-steel-2: var(--cb-maple-steel-2); --cb-lcd: var(--cb-maple-lcd); --cb-amber: var(--cb-maple-amber); --cb-amber-2: var(--cb-maple-amber-2);
+  --cb-display: 'Caprasimo'; --cb-display-scale: 1.05; --cb-display-track: .01em; --cb-display-case: none; }
+:host([data-scheme="sweater"]) { --cb-case: var(--cb-sweater-case); --cb-bar: var(--cb-sweater-bar); --cb-steel: var(--cb-sweater-steel); --cb-steel-2: var(--cb-sweater-steel-2); --cb-lcd: var(--cb-sweater-lcd); --cb-amber: var(--cb-sweater-amber); --cb-amber-2: var(--cb-sweater-amber-2);
+  --cb-display: 'Fuzzy Bubbles'; --cb-display-scale: 1.1; --cb-display-track: .01em; --cb-display-case: none; }
 :host([data-scheme="mordor"]) { --cb-case: var(--cb-mordor-case); --cb-bar: var(--cb-mordor-bar); --cb-steel: var(--cb-mordor-steel); --cb-steel-2: var(--cb-mordor-steel-2); --cb-lcd: var(--cb-mordor-lcd); --cb-amber: var(--cb-mordor-amber); --cb-amber-2: var(--cb-mordor-amber-2);
   --cb-display: 'Eczar'; --cb-display-scale: 1.15; --cb-display-track: .04em; --cb-display-case: none; }
 :host([data-scheme="crashers"]) .cb-radio { border: 3px solid var(--cb-steel); border-radius: 16px; }
@@ -177,6 +185,15 @@
    the sunset's peach, and buttons rounded like its corridors. */
 :host([data-scheme="cloud"]) .cb-radio { border-color: var(--cb-amber-2); border-radius: 30px 30px 12px 12px / 22px 22px 12px 12px; }
 :host([data-scheme="cloud"]) .cb-btn { border-radius: 12px; }
+/* Halloween and autumn (2026-10-30). Pumpkin Patch is round like a pumpkin,
+   its rim the vine's green; Friendly Ghosts is a sheet over the top with its
+   rim in the ghosts' mint; Maple Grove has a leaf's soft corners and a gold
+   rim; Sweater Weather is a knitted thing with a ribbed cranberry edge. */
+:host([data-scheme="pumpkin"]) .cb-radio { border-color: var(--cb-amber-2); border-radius: 26px; }
+:host([data-scheme="ghosts"]) .cb-radio { border-color: var(--cb-amber); border-radius: 40px 40px 10px 10px / 30px 30px 10px 10px; }
+:host([data-scheme="maple"]) .cb-radio { border-color: var(--cb-amber); border-radius: 4px 22px 4px 22px; }
+:host([data-scheme="sweater"]) .cb-radio { border: 4px double var(--cb-amber); border-radius: 14px; }
+:host([data-scheme="sweater"]) .cb-btn { border-radius: 10px; }
 /* A readout the case's own black has its edge drawn in the case's rim instead
    of the readout's black edge: High contrast's, LCARS', ASCII-Amp's and Paula's. */
 :host([data-scheme="high"]) .cb-lcd, :host([data-scheme="lcars"]) .cb-lcd, :host([data-scheme="ascii"]) .cb-lcd,
@@ -1590,6 +1607,43 @@ a.cb-now-go { text-decoration: none; display: inline-flex; align-items: center; 
 @keyframes cb-mo-mu-sign { 0%, 4% { opacity: 0; transform: translateY(14px) scale(.85); } 6.5%, 12.5% { opacity: 1; transform: translateY(0) scale(1); } 15%, 100% { opacity: 0; transform: translateY(-10px) scale(1); } }
 @keyframes cb-mo-mu-shine { 0%, 6.5% { background-position: 100% 0; } 9.5%, 100% { background-position: 0 0; } }
 @keyframes cb-mo-mu-spark { 0%, 2% { opacity: 0; transform: translateY(0) scale(.5); } 3.2% { opacity: 1; transform: translateY(-6cqh) scale(1); } 6.5%, 100% { opacity: 0; transform: translateY(-26cqh) scale(.7); } }
+/* PUMPKIN PATCH AND FRIENDLY GHOSTS (2026-10-30, for the Halloween party).
+   In the banners the bats and the ghosts hold station, a little up and down
+   and never round a loop, and one ghost waves. In Pumpkin Patch's opening the
+   night comes up, the harvest moon rises at the right, the patch comes up
+   along the foot and its carved faces light one after another, each over a
+   second and a half, and a flight of bats goes up and away. In Friendly
+   Ghosts' the mist comes up along the foot, a big ghost rises slowly out of it
+   and waves, and little ghosts float up round it. Nothing jumps out and
+   nothing flashes, and it is all gone after about nine seconds of sixty. */
+:host([data-motion="on"]) .fx-pk-hold, :host([data-motion="on"]) .fx-gh-hover { animation: cb-fx-float var(--t, 6s) ease-in-out var(--d, 0s) infinite alternate; }
+@keyframes cb-fx-float { from { transform: translate(-3px, 3px); } to { transform: translate(3px, -3px); } }
+:host([data-motion="on"]) .fx-gh-wave { transform-box: fill-box; transform-origin: center; animation: cb-fx-gh-wave 4s ease-in-out var(--d, 0s) infinite; }
+@keyframes cb-fx-gh-wave { 0%, 40%, 100% { transform: rotate(0); } 55% { transform: rotate(-16deg); } 70% { transform: rotate(10deg); } 85% { transform: rotate(-12deg); } }
+.pf-fx__pk-sky, .pf-fx__gh-sky { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 0; }
+.pf-fx__pk-moon { position: absolute; right: 4%; top: 6%; display: block; width: min(38cqw, 56cqh); height: auto; aspect-ratio: 1; overflow: visible; opacity: 0; }
+.pf-fx__pk-patch { position: absolute; left: 0; bottom: 0; display: block; width: 100%; height: 48%; overflow: visible; opacity: 0; }
+.pf-fx__gh-mist { position: absolute; left: 0; bottom: 0; display: block; width: 100%; height: 40%; opacity: 0; }
+.pf-fx__gh-big { position: absolute; left: 50%; bottom: 6%; display: block; height: 72%; width: auto; aspect-ratio: 200 / 240; max-width: 90%; overflow: visible; opacity: 0; transform: translate(-50%, 30%); }
+.pf-fx__pk-bat, .pf-fx__gh-small { position: absolute; display: block; line-height: 0; opacity: 0; }
+:host([data-motion="on"]) .pf-fx__pk-sky, :host([data-motion="on"]) .pf-fx__gh-sky, :host([data-motion="on"]) .pf-fx__gh-mist { animation: cb-mo-fx-wash 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__pk-moon { animation: cb-mo-pk-moon 60s ease-out infinite both; }
+:host([data-motion="on"]) .pf-fx__pk-patch { animation: cb-mo-pk-patch 60s ease-out infinite both; }
+:host([data-motion="on"]) .fx-mo-pk-lit { animation: cb-mo-pk-lit 60s ease-in-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .pf-fx__pk-bat, :host([data-motion="on"]) .pf-fx__gh-small { animation: cb-mo-pk-up 60s ease-in-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .pf-fx__gh-big { animation: cb-mo-gh-big 60s ease-out infinite both; }
+:host([data-motion="on"]) .fx-mo-gh-wave { transform-box: fill-box; transform-origin: center; animation: cb-mo-gh-wave 60s ease-in-out infinite both; }
+@keyframes cb-mo-pk-moon { 0%, 1% { opacity: 0; transform: translateY(30%); } 5.5% { opacity: 1; transform: translateY(4%); } 12.5% { opacity: 1; transform: translateY(0); } 15.5%, 100% { opacity: 0; transform: translateY(0); } }
+@keyframes cb-mo-pk-patch { 0%, 1.5% { opacity: 0; transform: translateY(24%); } 5% { opacity: 1; transform: translateY(0); } 12.5% { opacity: 1; } 15.5%, 100% { opacity: 0; transform: translateY(0); } }
+@keyframes cb-mo-pk-lit { 0%, 5% { opacity: 0; } 7.5%, 100% { opacity: 1; } }
+@keyframes cb-mo-pk-up {
+  0%, 6.5% { opacity: 0; transform: translate(0, 0); }
+  8% { opacity: .95; }
+  13% { opacity: .9; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)); }
+  14.8%, 100% { opacity: 0; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)); }
+}
+@keyframes cb-mo-gh-big { 0%, 2% { opacity: 0; transform: translate(-50%, 30%); } 6.5% { opacity: .95; transform: translate(-50%, 0); } 12.5% { opacity: .95; transform: translate(-50%, -3%); } 15.5%, 100% { opacity: 0; transform: translate(-50%, -8%); } }
+@keyframes cb-mo-gh-wave { 0%, 6.5% { transform: rotate(0); } 7.5% { transform: rotate(-18deg); } 8.5% { transform: rotate(10deg); } 9.5% { transform: rotate(-18deg); } 10.5% { transform: rotate(10deg); } 11.5%, 100% { transform: rotate(0); } }
 /* An effect after somebody's work says whose, at the foot of the card. */
 .pf-credit { margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--cb-amber-2); }
 

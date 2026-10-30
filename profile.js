@@ -44,11 +44,13 @@
     ['Bowlby One SC', 1.05, .04, 'uppercase', 400],
     ['Bungee', 1, .08, 'none', 400],
     ['Bungee Shade', 1, .04, 'none', 400],
+    ['Caprasimo', 1.1, .01, 'none', 400],
     ['Caveat', 1.6, 0, 'none', 400],
     ['Chakra Petch', 1.1, .06, 'uppercase', 400],
     ['Cherry Bomb One', 1.15, 0, 'none', 400],
     ['Cinzel', 1.1, .1, 'uppercase', 400],
     ['Courier Prime', 1.1, .04, 'none', 400],
+    ['Creepster', 1.1, .04, 'none', 400],
     ['Della Respira', 1.2, .04, 'none', 400],
     ['Doto', 1.3, .06, 'uppercase', 900],
     ['DynaPuff', 1.15, 0, 'none', 400],
@@ -57,6 +59,7 @@
     ['Forum', 1.25, .1, 'uppercase', 400],
     ['Fraunces', 1.3, 0, 'none', 400],
     ['Fredoka', 1.15, 0, 'none', 400],
+    ['Fuzzy Bubbles', 1.15, 0, 'none', 700],
     ['Gloria Hallelujah', 1.2, 0, 'none', 400],
     ['Gravitas One', .95, .04, 'uppercase', 400],
     ['Inter', 1.05, .12, 'uppercase', 400],
@@ -71,6 +74,7 @@
     ['Martian Mono', 1, .06, 'uppercase', 400],
     ['Michroma', .9, .08, 'uppercase', 400],
     ['Monoton', 1, .04, 'none', 400],
+    ['Mystery Quest', 1.15, .02, 'none', 400],
     ['Oxanium', 1.2, .1, 'uppercase', 400],
     ['Permanent Marker', 1.15, .02, 'none', 400],
     ['Playfair Display', 1.15, .06, 'uppercase', 400],
@@ -100,7 +104,7 @@
     ['bubbles', 'Bubbles'], ['snow', 'Snowflakes'], ['flames', 'Flames'], ['moons', 'Moons'],
     ['notes', 'Music notes'], ['paws', 'Paw prints'], ['halo', 'Halo'], ['circuit', 'Circuit'],
     ['butterflies', 'Butterflies'], ['crystals', 'Crystals'], ['lanterns', 'Jack-o’-lanterns'], ['otterring', 'Otters in kelp'],
-    ['cloudcars', 'Cloud cars']
+    ['cloudcars', 'Cloud cars'], ['ghostring', 'Little ghosts'], ['candycorn', 'Candy corn'], ['acorns', 'Acorns']
   ];
   /* profile:decorations:end */
 
@@ -116,7 +120,7 @@
     ['briar', 'Briar'], ['ivy', 'Ivy'], ['brass', 'Brass and rivets'], ['lights', 'Fairy lights'],
     ['stitches', 'Stitched patch'], ['film', 'Film strip'], ['circuit', 'Circuit board'], ['crystals', 'Crystals'],
     ['garland', 'Flower garland'], ['starry', 'Starry night'], ['gate', 'Graveyard gate'], ['fronds', 'Kelp fronds'],
-    ['portholes', 'Portholes']
+    ['portholes', 'Portholes'], ['pumpkinvine', 'Pumpkin vine'], ['knit', 'Cable knit'], ['maple', 'Maple leaves']
   ];
   /* profile:frames:end */
   /* profile:effects:begin */
@@ -125,7 +129,8 @@
     ['snow', 'Snowfall'], ['bubbles', 'Bubbles'], ['sparkles', 'Sparkles'], ['shooting', 'Shooting stars'],
     ['notes', 'Music notes'], ['hearts', 'Hearts'], ['lagoon', 'Black Leather Lagoon'], ['otters', 'Otters in the kelp'],
     ['fairy', 'Flying Fairy'], ['wolf', 'Howling Wolf'], ['starward', 'Starward Dreaming'], ['dolphins', 'Leaping Dolphins'],
-    ['autumn', 'Autumn Falls'], ['cloudcity', 'Cloud City'], ['muchness', 'Bring Your Muchness']
+    ['autumn', 'Autumn Falls'], ['cloudcity', 'Cloud City'], ['muchness', 'Bring Your Muchness'],
+    ['pumpkinpatch', 'Pumpkin Patch'], ['ghosts', 'Friendly Ghosts'], ['bats', 'Bats']
   ];
   /* profile:effects:end */
   /* AN EFFECT AFTER SOMEBODY ELSE'S WORK SAYS WHOSE, on the card it is on and
@@ -570,6 +575,85 @@
     cardCar(g, c2[0], c2[1], 28, .84, 1);
   };
 
+  /* HALLOWEEN AND AUTUMN (2026-10-30, for the Halloween party). LITTLE GHOSTS
+     hover round the avatar in a ring, one waving; CANDY CORN rings it kernel by
+     kernel, every kernel pointing out; ACORNS is an oak twig round the foot
+     with its leaves and acorns. In the card's own inks, like every decoration:
+     in the Pumpkin Patch theme the candy corn is pumpkin and vine, and in
+     Friendly Ghosts the ghosts are mint. */
+  function cardGhost(g, x, y, k, i, waving) {
+    var hold = svgEl('g', {}, { cls: 'art-hover', d: i * 1.1, t: 6 + i % 3 });
+    hold.style.removeProperty('fill');
+    at(g, x, y).appendChild(hold);
+    var c = group(hold, 'scale(' + k3(k) + ')');
+    c.appendChild(svgEl('path', { d: 'M-8 -4C-8 -14 8 -14 8 -4L8 9Q6 12 4 9Q2 6 0 9Q-2 12 -4 9Q-6 6 -8 9Z' }, { fill: '--cb-steel', stroke: '--cb-case', sw: 1 }));
+    if (waving) c.appendChild(svgEl('path', { d: 'M-7.6 0Q-12 -2 -12 -6Q-10 -6.6 -9 -3.6' }, { fill: '--cb-steel', stroke: '--cb-case', sw: 1 }));
+    c.appendChild(svgEl('ellipse', { cx: -2.8, cy: -4.6, rx: 1.2, ry: 1.8 }, { fill: '--cb-case' }));
+    c.appendChild(svgEl('ellipse', { cx: 2.8, cy: -4.6, rx: 1.2, ry: 1.8 }, { fill: '--cb-case' }));
+    c.appendChild(svgEl('circle', { cx: -5, cy: -1.4, r: 1.4 }, { fill: '--cb-amber-2' }));
+    c.appendChild(svgEl('circle', { cx: 5, cy: -1.4, r: 1.4 }, { fill: '--cb-amber-2' }));
+    c.appendChild(svgEl('path', { d: 'M-1.6 -1.2Q0 .6 1.6 -1.2' }, { stroke: '--cb-case', sw: .9 }));
+  }
+  D.ghostring = function (g) {
+    var d = '', i;
+    for (i = 0; i <= 72; i++) { var p = polar(56 + 2 * Math.sin(i * .9), i * 5); d += (i ? 'L' : 'M') + f(p[0]) + ' ' + f(p[1]); }
+    var wisp = svgEl('path', { d: d }, { stroke: '--cb-steel-2', sw: 1.4 });
+    wisp.style.setProperty('stroke-dasharray', '2 5');
+    g.appendChild(wisp);
+    around(6, function (a, j) {
+      var p = polar(j % 2 ? 60 : 57, a);
+      cardGhost(g, p[0], p[1], j % 2 ? .78 : .95, j, j === 1);
+    }, 30);
+    around(6, function (a, j) {
+      var p = polar(64, a);
+      at(g, p[0], p[1]).appendChild(svgEl('path', { d: sparkle(2.6) }, { fill: '--cb-amber', cls: 'art-twinkle', d: j * .7, t: 4 }));
+    }, 0);
+  };
+  // A kernel of candy corn, its wide end in at the avatar and its tip out:
+  // three bands from the base, amber, the second amber and the light.
+  function kernel(g, x, y, rot, k, i) {
+    var q = at(g, x, y, rot), c = group(q, 'scale(' + k3(k) + ')');
+    function w(yy) { return 4.6 * (yy + 7) / 12; }
+    function band(y0, y1, ink) {
+      c.appendChild(svgEl('path', { d: 'M' + f(-w(y1)) + ' ' + f(y1) + 'L' + f(-w(y0)) + ' ' + f(y0) + 'L' + f(w(y0)) + ' ' + f(y0) + 'L' + f(w(y1)) + ' ' + f(y1) + 'Z' }, { fill: ink }));
+    }
+    band(-7, -2.4, '--cb-steel');
+    band(-2.4, 1.8, '--cb-amber-2');
+    c.appendChild(svgEl('path', { d: 'M' + f(-w(1.8)) + ' 1.8L' + f(-w(5)) + ' 5Q0 7.2 ' + f(w(5)) + ' 5L' + f(w(1.8)) + ' 1.8Z' }, { fill: '--cb-amber' }));
+    c.appendChild(svgEl('path', { d: 'M0 -7L' + f(-w(5)) + ' 5Q0 7.2 ' + f(w(5)) + ' 5Z' }, { stroke: '--cb-case', sw: .8, cls: i % 4 ? '' : 'art-breathe', d: i * .4, t: 5 }));
+  }
+  D.candycorn = function (g) {
+    around(12, function (a, i) {
+      var p = polar(i % 2 ? 61 : 58, a);
+      kernel(g, p[0], p[1], a + (i % 2 ? 8 : -8), i % 2 ? 1.25 : 1.45, i);
+    }, 0);
+  };
+  // An oak leaf: rounded lobes down each side of its midrib, and a round tip.
+  function oakLeaf(l, k, ink) {
+    [[0, -7, 2.6], [-2.8, -4, 2.4], [2.8, -4, 2.4], [-3, .2, 2.6], [3, .2, 2.6], [-2.2, 4, 2.2], [2.2, 4, 2.2], [0, -2, 3]].forEach(function (c) {
+      l.appendChild(svgEl('circle', { cx: f(c[0] * k), cy: f(c[1] * k), r: f(c[2] * k) }, { fill: ink }));
+    });
+    l.appendChild(svgEl('path', { d: 'M0 ' + f(-7 * k) + 'L0 ' + f(8.4 * k) }, { stroke: '--cb-case', sw: .8 }));
+  }
+  D.acorns = function (g) {
+    var d = '', i;
+    for (i = 0; i <= 40; i++) { var p = polar(57 + 2.2 * Math.sin(i * .7), 100 + i * 4); d += (i ? 'L' : 'M') + f(p[0]) + ' ' + f(p[1]); }
+    g.appendChild(svgEl('path', { d: d, pathLength: 1 }, { stroke: '--cb-steel-2', sw: 2, cls: 'art-grow', t: 5 }));
+    [[106, 62, 60, 1], [134, 52, 130, 0], [168, 63, 190, 1], [196, 52, 220, 0], [226, 62, 290, 1], [252, 54, 300, 0]].forEach(function (lf, j) {
+      var p = polar(lf[1], lf[0]);
+      var l = svgEl('g', { transform: 'translate(' + f(p[0]) + ' ' + f(p[1]) + ') rotate(' + lf[2] + ')' }, { cls: 'art-sway', d: j * .6, t: 6 });
+      l.style.removeProperty('fill');
+      oakLeaf(l, 1.05, lf[3] ? '--cb-amber' : '--cb-amber-2');
+      g.appendChild(l);
+    });
+    [[150, 60], [180, 58], [210, 60]].forEach(function (ac) {
+      var p = polar(ac[1], ac[0]), q = group(at(g, p[0], p[1], ac[0] - 180), 'scale(1.35)');
+      q.appendChild(svgEl('ellipse', { cx: 0, cy: 3, rx: 3.6, ry: 4.6 }, { fill: '--cb-steel-2', stroke: '--cb-case', sw: .7 }));
+      q.appendChild(svgEl('path', { d: 'M-4.4 1Q0 -4.6 4.4 1Z' }, { fill: '--cb-bar', stroke: '--cb-steel-2', sw: .7 }));
+      q.appendChild(svgEl('path', { d: 'M0 -1.8L.8 -4' }, { stroke: '--cb-steel-2', sw: 1 }));
+    });
+  };
+
   function decoration(key) {
     if (!D[key]) return null;
     var s = document.createElementNS(NS, 'svg');
@@ -898,6 +982,91 @@
     }
   };
 
+  /* PUMPKIN VINE, CABLE KNIT AND MAPLE LEAVES (2026-10-30, for the Halloween
+     party and the autumn): a vine round the profile with little pumpkins on
+     it and a carved one glowing in every corner; a band of knitting with a
+     cable twisting along it and a button in every corner; and a maple twig
+     with its leaves turning and a cluster of them in every corner. In the
+     card's own inks. */
+  function vinePumpkin(g, x, y, R, carved, i) {
+    g.appendChild(svgEl('ellipse', { cx: f(x - R * .42), cy: f(y), rx: f(R * .58), ry: f(R * .74) }, { fill: '--cb-amber', stroke: '--cb-case', sw: .7 }));
+    g.appendChild(svgEl('ellipse', { cx: f(x + R * .42), cy: f(y), rx: f(R * .58), ry: f(R * .74) }, { fill: '--cb-amber', stroke: '--cb-case', sw: .7 }));
+    g.appendChild(svgEl('ellipse', { cx: f(x), cy: f(y), rx: f(R * .56), ry: f(R * .76) }, { fill: '--cb-amber', stroke: '--cb-case', sw: .7 }));
+    g.appendChild(svgEl('path', { d: 'M' + f(x) + ' ' + f(y - R * .7) + 'q' + f(-R * .1) + ' ' + f(-R * .4) + ' ' + f(R * .25) + ' ' + f(-R * .5) }, { stroke: '--cb-amber-2', sw: f(Math.max(.8, R * .18)) }));
+    if (!carved) return;
+    var face = svgEl('g', {}, { cls: 'art-glow', d: (i || 0) * .7 % 4, t: 5 });
+    face.style.removeProperty('fill');
+    var e = R * .18;
+    face.appendChild(svgEl('path', { d: 'M' + f(x - R * .36) + ' ' + f(y - R * .04) + 'l' + f(e) + ' ' + f(-e * 1.5) + 'l' + f(e) + ' ' + f(e * 1.5) + 'ZM' + f(x) + ' ' + f(y - R * .04) + 'l' + f(e) + ' ' + f(-e * 1.5) + 'l' + f(e) + ' ' + f(e * 1.5) + 'Z' }, { fill: '--cb-case' }));
+    face.appendChild(svgEl('path', { d: 'M' + f(x - R * .4) + ' ' + f(y + R * .18) + 'Q' + f(x) + ' ' + f(y + R * .64) + ' ' + f(x + R * .4) + ' ' + f(y + R * .18) + 'L' + f(x + R * .14) + ' ' + f(y + R * .3) + 'L' + f(x) + ' ' + f(y + R * .18) + 'L' + f(x - R * .14) + ' ' + f(y + R * .3) + 'Z' }, { fill: '--cb-case' }));
+    g.appendChild(face);
+  }
+  F.pumpkinvine = {
+    side: function (g, L) {
+      g.appendChild(svgEl('path', { d: wave(L, 11, 3, 20) }, { stroke: '--cb-amber-2', sw: 1.6 }));
+      for (var x = 10, i = 0; x < L; x += 15, i++) {
+        var y = 11 + 3 * Math.sin(x / 20);
+        if (i % 4 === 1) { vinePumpkin(g, x, y + .5, 5.2, false, i); continue; }
+        if (i % 2 === 0) {
+          var l = at(g, x, y, i % 4 ? 160 : 20);
+          l.appendChild(svgEl('path', { d: leaf(4.4, 3.4) }, { fill: '--cb-amber-2', cls: i % 6 ? '' : 'art-sway', d: i * .3 % 4, t: 6 }));
+        } else {
+          g.appendChild(svgEl('path', { d: 'M' + f(x) + ' ' + f(y) + 'q2 -4 4 -2.4q1.4 1.6 -.4 2.6q-1.4 .4 -1.2 -1' }, { stroke: '--cb-amber-2', sw: .8 }));
+        }
+      }
+    },
+    corner: function (g, which) {
+      var up = UPRIGHT[which];
+      var q = up ? group(g, 'translate(15 15) matrix(' + up.split(' ').join(',') + ',0,0) translate(-15 -15)') : g;
+      vinePumpkin(q, 15, 16, 11, true, 0);
+    }
+  };
+  F.knit = {
+    side: function (g, L) {
+      g.appendChild(svgEl('rect', { x: 0, y: 1, width: L, height: 16 }, { fill: '--cb-bar' }));
+      var d = '', x, y;
+      for (y = 3; y < 17; y += 4) for (x = (y % 8 === 3 ? 0 : 2); x < L; x += 4) d += 'M' + f(x - 1.6) + ' ' + f(y - 1.4) + 'L' + f(x) + ' ' + f(y + 1.4) + 'L' + f(x + 1.6) + ' ' + f(y - 1.4);
+      g.appendChild(svgEl('path', { d: d }, { stroke: '--cb-steel-2', sw: .6 }));
+      // the cable: a rope of twists, each a slanted lozenge
+      g.appendChild(svgEl('rect', { x: 0, y: 4.4, width: L, height: 9.2 }, { fill: '--cb-case' }));
+      for (x = 0, y = 0; x < L + 6; x += 4.6, y++) {
+        g.appendChild(svgEl('ellipse', { cx: f(x), cy: 9, rx: 2.4, ry: 4.6, transform: 'rotate(35 ' + f(x) + ' 9)' }, { fill: y % 2 ? '--cb-amber' : '--cb-amber-2', stroke: '--cb-case', sw: .6 }));
+      }
+      g.appendChild(svgEl('path', { d: 'M0 1.4H' + L + 'M0 16.6H' + L }, { stroke: '--cb-steel-2', sw: 1 }));
+    },
+    corner: function (g) {
+      g.appendChild(svgEl('path', { d: 'M1 26V12Q1 1 12 1H26V18H18V26Z' }, { fill: '--cb-bar' }));
+      g.appendChild(svgEl('circle', { cx: 13, cy: 13, r: 7.4 }, { fill: '--cb-amber', stroke: '--cb-case', sw: 1 }));
+      g.appendChild(svgEl('circle', { cx: 13, cy: 13, r: 5.2 }, { stroke: '--cb-case', sw: .6 }));
+      [[11, 11], [15, 11], [11, 15], [15, 15]].forEach(function (h) { g.appendChild(svgEl('circle', { cx: h[0], cy: h[1], r: .9 }, { fill: '--cb-case' })); });
+      g.appendChild(svgEl('path', { d: 'M11 11L15 15M15 11L11 15' }, { stroke: '--cb-steel', sw: .7 }));
+    }
+  };
+  // A maple leaf, its five lobes pointed, about twenty tall at s 1.
+  var MAPLE_LEAF = 'M0 -10L2 -6L5 -7.4L4.2 -3L9 -4.4L7.4 -.6L9.4 .8L4.2 3L5.2 5.4L1 4.2L.6 8L-.6 8L-1 4.2L-5.2 5.4L-4.2 3L-9.4 .8L-7.4 -.6L-9 -4.4L-4.2 -3L-5 -7.4L-2 -6Z';
+  function mapleAt(g, x, y, rot, k, ink, o) {
+    var l = svgEl('g', { transform: 'translate(' + f(x) + ' ' + f(y) + ') rotate(' + f(rot) + ') scale(' + k3(k) + ')' }, o || {});
+    l.style.removeProperty('fill');
+    l.appendChild(svgEl('path', { d: MAPLE_LEAF }, { fill: ink, stroke: '--cb-case', sw: .8 }));
+    l.appendChild(svgEl('path', { d: 'M0 8L0 -6M0 1L-5 -2M0 1L5 -2' }, { stroke: '--cb-case', sw: .7 }));
+    g.appendChild(l);
+  }
+  F.maple = {
+    side: function (g, L) {
+      g.appendChild(svgEl('path', { d: wave(L, 6, 1.6, 30) }, { stroke: '--cb-steel-2', sw: 1.4 }));
+      for (var x = 9, i = 0; x < L; x += 14, i++) {
+        mapleAt(g, x, 11, i % 2 ? 165 : 195, .52, i % 3 ? '--cb-amber' : '--cb-amber-2', i % 5 ? null : { cls: 'art-sway', d: i * .4 % 5, t: 6 });
+      }
+    },
+    corner: function (g) {
+      mapleAt(g, 12, 13, -30, .9, '--cb-amber');
+      mapleAt(g, 24, 9, 40, .6, '--cb-amber-2');
+      mapleAt(g, 9, 26, 120, .6, '--cb-amber-2');
+      g.appendChild(svgEl('ellipse', { cx: 25, cy: 25, rx: 2.8, ry: 3.4 }, { fill: '--cb-steel-2', stroke: '--cb-case', sw: .6 }));
+      g.appendChild(svgEl('path', { d: 'M21.8 23.4Q25 19.6 28.2 23.4Z' }, { fill: '--cb-bar', stroke: '--cb-steel-2', sw: .6 }));
+    }
+  };
+
   function stripLength() {
     var s = window.screen || {};
     return Math.max(1400, (s.width || 0) + 200, (s.height || 0) + 200);
@@ -1040,6 +1209,24 @@
     pass: { motif: 'note', from: 'left', n: 5, size: 18, t: 26, drift: 12 } };
   E.hearts = { edge: [['heart', 'tl', 0, 22, -15], ['heart', 'top', .24, 12, 10], ['heart', 'left', .6, 14], ['heart', 'bl', 0, 20, 15], ['heart', 'br', 0, 20, -15], ['heart', 'bottom', .4, 12]],
     pass: { motif: 'heart', from: 'bottom', n: 7, size: 16, t: 26, drift: 12 } };
+  /* BATS (2026-10-30, for the Halloween party): bats roosting along the edges
+     and a crescent moon in a corner, and bats flapping across the profile. In
+     the card's own inks, every bat outlined so it shows on a dark card. */
+  M.cardbat = function (g, moving) {
+    var w = svgEl('g', {}, { cls: moving ? 'fx-batflap' : 'art-breathe', t: 4 });
+    w.style.removeProperty('fill');
+    w.appendChild(svgEl('path', { d: 'M0 -1C-3 -4 -6 -5 -11 -3C-9 -1 -9 1 -10 3C-7 2 -4 3 0 2C4 3 7 2 10 3C9 1 9 -1 11 -3C6 -5 3 -4 0 -1Z' }, { fill: '--cb-bar', stroke: '--cb-steel-2', sw: 1 }));
+    w.appendChild(svgEl('path', { d: 'M-1.6 -1.6L-2.2 -3.6L-.6 -2.2M1.6 -1.6L2.2 -3.6L.6 -2.2' }, { fill: '--cb-bar', stroke: '--cb-steel-2', sw: .7 }));
+    w.appendChild(svgEl('circle', { cx: -.9, cy: -.4, r: .7 }, { fill: '--cb-amber' }));
+    w.appendChild(svgEl('circle', { cx: .9, cy: -.4, r: .7 }, { fill: '--cb-amber' }));
+    g.appendChild(w);
+  };
+  M.batmoon = function (g) {
+    g.appendChild(svgEl('circle', { r: 10, 'fill-opacity': '.18' }, { fill: '--cb-amber', cls: 'art-glow', t: 6 }));
+    g.appendChild(svgEl('path', { d: crescent(8) }, { fill: '--cb-amber' }));
+  };
+  E.bats = { edge: [['batmoon', 'tl', 0, 26, 0, [18, 16]], ['cardbat', 'top', .3, 22], ['cardbat', 'top', .62, 17, 8], ['cardbat', 'left', .55, 18, -10], ['cardbat', 'br', 0, 24, 10, [-18, -16]], ['cardbat', 'right', .4, 18]],
+    pass: { motif: 'cardbat', from: 'right', n: 6, size: 26, t: 24, drift: 18 } };
 
   /* effect:lagoon:begin */
   /* THE BLACK LEATHER LAGOON, after the street's room and The Cramps (Ryan,
@@ -3263,6 +3450,281 @@
     pass: { motif: 'ccar', from: 'left', n: 3, size: 26, t: 32, drift: 10 }
   };
   /* effect:cloudcity:end */
+
+  /* effect:pumpkinpatch:begin */
+  /* PUMPKIN PATCH (Ryan, 2026-10-30, for the street's Halloween party: "a
+     couple of big profile effects"). Drawn in the Pumpkin Patch theme's
+     declared --cb-pumpkin-* inks, and make-profile.py holds this block to
+     them: a harvest moon over a lit pumpkin is a light no card's seven inks
+     can be relied on for. Every drawing is ours. NOTHING JUMPS OUT AT ANYBODY
+     and nothing flashes: a carved face comes up over a second and a half and
+     glows, it never flickers, and nothing makes a sound.
+
+     The still part is a night over the banner's right-hand part: a harvest
+     moon with bats going over it, a fence, and a vine along a dark hill with
+     pumpkins on it, two of them carved and lit. Where drawings move, the
+     pumpkins' glow breathes, the bats beat their wings and hold station, and
+     the moon's halo breathes. The opening, on the Lagoon's sixty-second clock:
+     night comes up over the profile, the harvest moon rises at the right, a
+     whole patch of pumpkins comes up along the foot, their carved faces light
+     one after another from the left, and a flight of bats goes up out of the
+     patch and away, about nine seconds of every sixty. The pass is bats. */
+  function pkGourd(g, x, base, R, carved, o) {
+    o = o || {};
+    var ry = R * .74, cy = base - ry, lw = Math.max(.4, R * .06);
+    if (carved) {
+      var halo = svgEl('circle', { cx: f(x), cy: f(cy), r: f(R * 1.45), 'fill-opacity': '.16' }, { fill: '--cb-pumpkin-glow', cls: o.lit || 'fx-breathe', d: o.d || 0, t: o.lit ? null : 7 });
+      g.appendChild(halo);
+    }
+    g.appendChild(svgEl('ellipse', { cx: f(x - R * .42), cy: f(cy), rx: f(R * .58), ry: f(ry) }, { fill: '--cb-pumpkin-rib', stroke: '--cb-pumpkin-line', sw: lw }));
+    g.appendChild(svgEl('ellipse', { cx: f(x + R * .42), cy: f(cy), rx: f(R * .58), ry: f(ry) }, { fill: '--cb-pumpkin-rib', stroke: '--cb-pumpkin-line', sw: lw }));
+    g.appendChild(svgEl('ellipse', { cx: f(x), cy: f(cy), rx: f(R * .56), ry: f(ry * 1.03) }, { fill: '--cb-pumpkin-orange', stroke: '--cb-pumpkin-line', sw: lw }));
+    g.appendChild(svgEl('path', { d: 'M' + f(x - R * .06) + ' ' + f(cy - ry * .92) + 'Q' + f(x - R * .1) + ' ' + f(cy - ry * 1.3) + ' ' + f(x + R * .18) + ' ' + f(cy - ry * 1.42) }, { stroke: '--cb-pumpkin-stem', sw: f(Math.max(.8, R * .16)) }));
+    if (!carved) return;
+    var face = svgEl('g', {}, { cls: o.lit || 'fx-breathe', d: o.d || 0, t: o.lit ? null : 7 });
+    face.style.removeProperty('fill');
+    var e = R * .16;
+    face.appendChild(svgEl('path', { d: 'M' + f(x - R * .34) + ' ' + f(cy - ry * .08) + 'l' + f(e) + ' ' + f(-e * 1.5) + 'l' + f(e) + ' ' + f(e * 1.5) + 'ZM' + f(x + R * .02) + ' ' + f(cy - ry * .08) + 'l' + f(e) + ' ' + f(-e * 1.5) + 'l' + f(e) + ' ' + f(e * 1.5) + 'Z' }, { fill: '--cb-pumpkin-glow' }));
+    face.appendChild(svgEl('path', { d: 'M' + f(x - R * .4) + ' ' + f(cy + ry * .2) + 'Q' + f(x) + ' ' + f(cy + ry * .78) + ' ' + f(x + R * .4) + ' ' + f(cy + ry * .2) +
+      'L' + f(x + R * .22) + ' ' + f(cy + ry * .34) + 'L' + f(x + R * .1) + ' ' + f(cy + ry * .22) + 'L' + f(x - R * .04) + ' ' + f(cy + ry * .38) + 'L' + f(x - R * .18) + ' ' + f(cy + ry * .24) + 'Z' }, { fill: '--cb-pumpkin-glow' }));
+    g.appendChild(face);
+  }
+  function pkMoon(g, x, y, R, still) {
+    var halo = svgEl('g', {}, { cls: still ? '' : 'fx-breathe', t: 9 });
+    halo.style.removeProperty('fill');
+    halo.appendChild(svgEl('circle', { cx: f(x), cy: f(y), r: f(R * 1.7), 'fill-opacity': '.12' }, { fill: '--cb-pumpkin-moon' }));
+    halo.appendChild(svgEl('circle', { cx: f(x), cy: f(y), r: f(R * 1.3), 'fill-opacity': '.16' }, { fill: '--cb-pumpkin-moon' }));
+    g.appendChild(halo);
+    g.appendChild(svgEl('circle', { cx: f(x), cy: f(y), r: f(R) }, { fill: '--cb-pumpkin-moon' }));
+    [[.3, -.25, .2], [-.38, .22, .14], [.1, .42, .1]].forEach(function (c) {
+      g.appendChild(svgEl('circle', { cx: f(x + c[0] * R), cy: f(y + c[1] * R), r: f(c[2] * R), 'fill-opacity': '.4' }, { fill: '--cb-pumpkin-crater' }));
+    });
+  }
+  // A bat, wings out, about twenty-two across at k 1, its wings beating where
+  // drawings move.
+  function pkBat(g, x, y, k, flap) {
+    var c = scaled(g, x, y, k);
+    var w = svgEl('g', {}, { cls: flap ? 'fx-batflap' : '' });
+    w.style.removeProperty('fill');
+    w.appendChild(svgEl('path', { d: 'M0 -1C-3 -4 -6 -5 -11 -3C-9 -1 -9 1 -10 3C-7 2 -4 3 0 2C4 3 7 2 10 3C9 1 9 -1 11 -3C6 -5 3 -4 0 -1Z' }, { fill: '--cb-pumpkin-bat', stroke: '--cb-pumpkin-steel-2', sw: .8 }));
+    w.appendChild(svgEl('circle', { cx: -.9, cy: -.4, r: .7 }, { fill: '--cb-pumpkin-glow' }));
+    w.appendChild(svgEl('circle', { cx: .9, cy: -.4, r: .7 }, { fill: '--cb-pumpkin-glow' }));
+    c.appendChild(w);
+    return c;
+  }
+  // The vine along a hill top, its leaves, and a fence behind, w across.
+  function pkHill(g, w, top, h, k, fence) {
+    g.appendChild(svgEl('path', { d: 'M-10 ' + f(top + 4 * k) + 'Q' + f(w * .3) + ' ' + f(top - 4 * k) + ' ' + f(w * .6) + ' ' + f(top + 2 * k) + 'T' + f(w + 10) + ' ' + f(top) + 'V' + f(h + 10) + 'H-10Z' }, { fill: '--cb-pumpkin-soil' }));
+    if (fence) {
+      for (var x = fence[0]; x < fence[1]; x += 16 * k) {
+        g.appendChild(svgEl('rect', { x: f(x - 1.4 * k), y: f(top - 16 * k), width: f(2.8 * k), height: f(18 * k) }, { fill: '--cb-pumpkin-fence' }));
+      }
+      g.appendChild(svgEl('path', { d: 'M' + f(fence[0] - 4 * k) + ' ' + f(top - 12 * k) + 'H' + f(fence[1]) + 'M' + f(fence[0] - 4 * k) + ' ' + f(top - 6 * k) + 'H' + f(fence[1]) }, { stroke: '--cb-pumpkin-fence', sw: f(1.6 * k) }));
+    }
+    g.appendChild(svgEl('path', { d: wave(w, top + 3 * k, 1.6 * k, 18 * k) }, { stroke: '--cb-pumpkin-vine', sw: f(1.4 * k) }));
+    for (var lx = 6 * k, i = 0; lx < w; lx += 17 * k, i++) {
+      var q = scaled(g, lx, top + 2 * k, k * (i % 2 ? .8 : 1));
+      var l = svgEl('g', {}, { cls: i % 3 ? '' : 'art-sway', d: i * .5 % 5, t: 6 });
+      l.style.removeProperty('fill');
+      [[-2.6, -3.4, 2.8], [2.6, -3.4, 2.8], [0, -6, 3]].forEach(function (c) { l.appendChild(svgEl('circle', { cx: c[0], cy: c[1], r: c[2] }, { fill: '--cb-pumpkin-leaf' })); });
+      l.appendChild(svgEl('path', { d: 'M0 0L0 -6M0 -2.6L-2.6 -3.6M0 -2.6L2.6 -3.6' }, { stroke: '--cb-pumpkin-vine', sw: .6 }));
+      q.appendChild(l);
+    }
+  }
+  function pkScene() {
+    var s = fxSvg(380, 112, 'pf-fx__scene'), defs = fxDefs(s), g = group(s), i;
+    g.setAttribute('mask', fxFade(defs, 132, 196, 380, 112));
+    g.appendChild(paint(svgEl('rect', { x: 130, y: 0, width: 250, height: 112 }, {}),
+      fxGrad(defs, [0, 0, 0, 1], [[0, 1, { stop: '--cb-pumpkin-bar' }], [.5, 1, { stop: '--cb-pumpkin-sky' }], [1, 1, { stop: '--cb-pumpkin-dusk' }]])));
+    for (i = 0; i < 16; i++) {
+      g.appendChild(svgEl('circle', { cx: f(140 + rnd(i + 810) * 236), cy: f(3 + rnd(i + 840) * 34), r: f(.45 + rnd(i + 870) * .7) }, { fill: '--cb-pumpkin-steel', cls: i % 3 ? '' : 'art-twinkle', d: i * .6 % 5, t: 5 }));
+    }
+    pkMoon(g, 318, 32, 17);
+    [[268, 24, .55, 0], [350, 60, .42, 1.6], [292, 52, .36, 3]].forEach(function (b) {
+      var hold = svgEl('g', {}, { cls: 'fx-pk-hold', d: b[3], t: 6 });
+      hold.style.removeProperty('fill');
+      pkBat(hold, b[0], b[1], b[2], true);
+      g.appendChild(hold);
+    });
+    pkHill(g, 380, 92, 112, .8, [150, 250]);
+    [[204, 100, 9, false], [246, 103, 13, true], [302, 105, 17, true], [356, 101, 11, false]].forEach(function (p, j) {
+      pkGourd(g, p[0], p[1], p[2], p[3], { d: j * 1.4 });
+    });
+    return s;
+  }
+  function pkMoment() {
+    var box = el('div', 'pf-fx__moment');
+    var sky = fxSvg(100, 100, 'pf-fx__pk-sky', 'none'), sd = fxDefs(sky), i;
+    sky.appendChild(paint(svgEl('rect', { x: 0, y: 0, width: 100, height: 100 }, {}),
+      fxGrad(sd, [0, 0, 0, 1], [[0, .95, { stop: '--cb-pumpkin-bar' }], [.55, .92, { stop: '--cb-pumpkin-sky' }], [1, .9, { stop: '--cb-pumpkin-dusk' }]])));
+    for (i = 0; i < 26; i++) sky.appendChild(svgEl('circle', { cx: f(rnd(i + 900) * 100), cy: f(rnd(i + 930) * 50), r: f(.18 + rnd(i + 960) * .3) }, { fill: '--cb-pumpkin-steel' }));
+    box.appendChild(sky);
+    // the harvest moon, rising at the right
+    var moon = fxSvg(100, 100, 'pf-fx__pk-moon');
+    pkMoon(group(moon), 50, 50, 28, true);
+    box.appendChild(moon);
+    // the patch along the foot, its faces lighting one after another
+    var patch = fxSvg(400, 130, 'pf-fx__pk-patch', 'xMidYMax slice');
+    var pg = group(patch);
+    pkHill(pg, 400, 74, 130, 1.4);
+    [[34, 118, 24, true], [96, 124, 30, true], [158, 112, 18, false], [214, 122, 32, true], [276, 114, 20, true], [334, 124, 28, true], [388, 116, 19, false]].forEach(function (p, j) {
+      pkGourd(pg, p[0], p[1], p[2], p[3], { lit: 'fx-mo-pk-lit', d: j * .45 });
+    });
+    box.appendChild(patch);
+    // a flight of bats going up out of the patch and away
+    [[24, 70, -18, -70, 0], [46, 74, 10, -78, .4], [62, 68, -26, -64, .8], [78, 72, 6, -74, 1.2], [36, 78, 30, -80, 1.6], [56, 76, -40, -72, 2]].forEach(function (b, j) {
+      var sp = fxSpan(box, 'pf-fx__pk-bat', b[0], b[1], b[4]);
+      sp.style.setProperty('--px', f(b[2]));
+      sp.style.setProperty('--py', f(b[3]));
+      var t = tiny(26 + j % 3 * 6);
+      pkBat(t, 0, 0, 1, true);
+      sp.appendChild(t);
+    });
+    return box;
+  }
+  M.pkgourd = function (g) { pkGourd(g, 0, 9, 10, true); };
+  M.pkleaf = function (g) {
+    var v = svgEl('path', { d: 'M-10 8Q-4 2 0 6T10 2' }, { stroke: '--cb-pumpkin-vine', sw: 1.4 });
+    g.appendChild(v);
+    [[-2.6, -1.4, 3.4], [2.6, -1.4, 3.4], [0, -4.6, 3.6]].forEach(function (c) { g.appendChild(svgEl('circle', { cx: c[0], cy: c[1], r: c[2] }, { fill: '--cb-pumpkin-leaf' })); });
+    g.appendChild(svgEl('path', { d: 'M5 3q3 -4 5 -2q1 2 -1 2' }, { stroke: '--cb-pumpkin-vine', sw: .9 }));
+  };
+  M.pkmoon = function (g) { pkMoon(g, 0, 0, 7.4); };
+  M.pkbat = function (g, moving) { pkBat(g, 0, 0, .9, moving); };
+  E.pumpkinpatch = {
+    scene: function (box) {
+      box.appendChild(pkScene());
+      box.appendChild(pkMoment());
+    },
+    edge: [['pkleaf', 'tl', 0, 20, -20, [16, 14]], ['pkbat', 'top', .58, 14], ['pkgourd', 'bl', 0, 24, 0, [18, -14]], ['pkgourd', 'br', 0, 20, 0, [-16, -12]], ['pkbat', 'right', .42, 12]],
+    pass: { motif: 'pkbat', from: 'right', n: 5, size: 22, t: 28, drift: 18 }
+  };
+  /* effect:pumpkinpatch:end */
+
+  /* effect:ghosts:begin */
+  /* FRIENDLY GHOSTS (Ryan, 2026-10-30, for the street's Halloween party).
+     Drawn in the Friendly Ghosts theme's declared --cb-ghosts-* inks, and
+     make-profile.py holds this block to them. THE GHOSTS ARE FRIENDLY AND
+     KEEP THEIR DISTANCE: pink cheeks, a smile, one waving, none of them coming
+     at you, nothing jumping out and nothing flashing, the Haunted House's rule
+     that a scare is never sprung on anybody. The stones carry no word, no
+     cross and nobody's name.
+
+     The still part is midnight over the banner's right-hand part: a crescent
+     moon, a misty field with three plain stones in it, and three little ghosts
+     hovering over it, one waving. Where drawings move, they hover up and down,
+     the mist drifts and the waving one waves. The opening, on the Lagoon's
+     sixty-second clock: midnight comes up over the profile with the mist along
+     its foot, a big ghost rises slowly out of the mist in the middle and waves,
+     and little ghosts float up out of the mist round it and away, about nine
+     seconds of every sixty. The pass is little ghosts drifting across. */
+  function ghFigure(g, x, y, k, o) {
+    o = o || {};
+    var c = scaled(g, x, y, k);
+    c.appendChild(svgEl('path', { d: 'M-8 -4C-8 -14 8 -14 8 -4L8 9Q6 12 4 9Q2 6 0 9Q-2 12 -4 9Q-6 6 -8 9Z' }, { fill: '--cb-ghosts-sheet', stroke: '--cb-ghosts-shade', sw: .8 }));
+    c.appendChild(svgEl('path', { d: 'M4 -10C8 -7 8 -3 8 2L8 9Q6 12 4 9C6 4 6 -4 4 -10Z', 'fill-opacity': '.6' }, { fill: '--cb-ghosts-shade' }));
+    if (o.wave) {
+      var arm = o.wave === true ? c : pivot(c, -7.6, -1, 7, o.wave, o.d);
+      arm.appendChild(svgEl('path', { d: 'M-7.6 0Q-12 -2 -12 -6Q-10 -6.6 -9 -3.6' }, { fill: '--cb-ghosts-sheet', stroke: '--cb-ghosts-shade', sw: .8 }));
+    }
+    c.appendChild(svgEl('ellipse', { cx: -2.8, cy: -4.6, rx: 1.2, ry: 1.8 }, { fill: '--cb-ghosts-eye' }));
+    c.appendChild(svgEl('ellipse', { cx: 2.8, cy: -4.6, rx: 1.2, ry: 1.8 }, { fill: '--cb-ghosts-eye' }));
+    c.appendChild(svgEl('circle', { cx: -2.4, cy: -5.3, r: .4 }, { fill: '--cb-ghosts-sheet' }));
+    c.appendChild(svgEl('circle', { cx: 3.2, cy: -5.3, r: .4 }, { fill: '--cb-ghosts-sheet' }));
+    c.appendChild(svgEl('circle', { cx: -5, cy: -1.6, r: 1.3, 'fill-opacity': '.8' }, { fill: '--cb-ghosts-cheek' }));
+    c.appendChild(svgEl('circle', { cx: 5, cy: -1.6, r: 1.3, 'fill-opacity': '.8' }, { fill: '--cb-ghosts-cheek' }));
+    c.appendChild(svgEl('path', { d: 'M-1.6 -1.4Q0 .4 1.6 -1.4' }, { stroke: '--cb-ghosts-eye', sw: .8 }));
+    return c;
+  }
+  function ghStone(g, x, base, k) {
+    g.appendChild(svgEl('path', { d: 'M' + f(x - 5 * k) + ' ' + f(base) + 'V' + f(base - 8 * k) + 'Q' + f(x - 5 * k) + ' ' + f(base - 13 * k) + ' ' + f(x) + ' ' + f(base - 13 * k) +
+      'Q' + f(x + 5 * k) + ' ' + f(base - 13 * k) + ' ' + f(x + 5 * k) + ' ' + f(base - 8 * k) + 'V' + f(base) + 'Z' }, { fill: '--cb-ghosts-stone', stroke: '--cb-ghosts-steel-2', sw: f(Math.max(.4, .5 * k)) }));
+    g.appendChild(svgEl('path', { d: 'M' + f(x + 1.4 * k) + ' ' + f(base - 11 * k) + 'l' + f(-1.2 * k) + ' ' + f(2.6 * k) + 'l' + f(1.4 * k) + ' ' + f(1.6 * k) }, { stroke: '--cb-ghosts-crack', sw: f(Math.max(.35, .5 * k)) }));
+  }
+  function ghMist(g, w, y, k, seed, cls) {
+    for (var x = -20, i = 0; x < w + 20; i++) {
+      var rx = (16 + rnd(seed + i) * 16) * k;
+      g.appendChild(svgEl('ellipse', { cx: f(x), cy: f(y + (rnd(seed + i + 40) - .5) * 4 * k), rx: f(rx), ry: f((3 + rnd(seed + i + 80) * 2.4) * k), 'fill-opacity': '.4' }, { fill: '--cb-ghosts-mist', cls: cls || '', d: i * .7 % 6, t: 30 }));
+      x += rx * 1.1;
+    }
+  }
+  function ghScene() {
+    var s = fxSvg(380, 112, 'pf-fx__scene'), defs = fxDefs(s), g = group(s), i;
+    g.setAttribute('mask', fxFade(defs, 132, 196, 380, 112));
+    g.appendChild(paint(svgEl('rect', { x: 130, y: 0, width: 250, height: 112 }, {}),
+      fxGrad(defs, [0, 0, 0, 1], [[0, 1, { stop: '--cb-ghosts-bar' }], [.65, 1, { stop: '--cb-ghosts-sky' }], [1, 1, { stop: '--cb-ghosts-sky' }]])));
+    for (i = 0; i < 18; i++) {
+      g.appendChild(svgEl('circle', { cx: f(140 + rnd(i + 1010) * 236), cy: f(3 + rnd(i + 1040) * 40), r: f(.45 + rnd(i + 1070) * .7) }, { fill: '--cb-ghosts-steel', cls: i % 3 ? '' : 'art-twinkle', d: i * .6 % 5, t: 5 }));
+    }
+    var mh = svgEl('g', {}, { cls: 'fx-breathe', t: 9 });
+    mh.style.removeProperty('fill');
+    mh.appendChild(svgEl('circle', { cx: 336, cy: 26, r: 22, 'fill-opacity': '.12' }, { fill: '--cb-ghosts-moon' }));
+    g.appendChild(mh);
+    at(g, 336, 26).appendChild(svgEl('path', { d: crescent(12) }, { fill: '--cb-ghosts-moon' }));
+    g.appendChild(svgEl('path', { d: 'M130 98Q250 90 380 96V112H130Z' }, { fill: '--cb-ghosts-field' }));
+    [[214, 104, .8], [262, 106, .95], [356, 104, .75]].forEach(function (st) { ghStone(g, st[0], st[1], st[2]); });
+    var mist = svgEl('g', {}, { cls: 'fx-drift', t: 40 });
+    mist.style.removeProperty('fill');
+    mist.style.setProperty('filter', fxBlur(defs, 1.2));
+    ghMist(mist, 380, 100, .9, 1100);
+    g.appendChild(mist);
+    [[234, 62, 1, 0, 'fx-gh-wave'], [298, 46, 1.25, 1.5, false], [354, 70, .8, 3, false]].forEach(function (gh) {
+      var hold = svgEl('g', {}, { cls: 'fx-gh-hover', d: gh[3], t: 5 + gh[3] });
+      hold.style.removeProperty('fill');
+      ghFigure(hold, gh[0], gh[1], gh[2], { wave: gh[4], d: gh[3] });
+      g.appendChild(hold);
+    });
+    return s;
+  }
+  function ghMoment() {
+    var box = el('div', 'pf-fx__moment');
+    var sky = fxSvg(100, 100, 'pf-fx__gh-sky', 'none'), sd = fxDefs(sky), i;
+    sky.appendChild(paint(svgEl('rect', { x: 0, y: 0, width: 100, height: 100 }, {}),
+      fxGrad(sd, [0, 0, 0, 1], [[0, .95, { stop: '--cb-ghosts-bar' }], [.7, .92, { stop: '--cb-ghosts-sky' }], [1, .92, { stop: '--cb-ghosts-sky' }]])));
+    for (i = 0; i < 28; i++) sky.appendChild(svgEl('circle', { cx: f(rnd(i + 1200) * 100), cy: f(rnd(i + 1230) * 60), r: f(.18 + rnd(i + 1260) * .3) }, { fill: '--cb-ghosts-steel' }));
+    box.appendChild(sky);
+    // the big ghost rising out of the mist and waving
+    var big = fxSvg(200, 240, 'pf-fx__gh-big', 'xMidYMax meet');
+    ghFigure(group(big), 100, 124, 8.6, { wave: 'fx-mo-gh-wave' });
+    box.appendChild(big);
+    // the mist along the foot, a farther bank and a nearer one
+    var mist = fxSvg(400, 120, 'pf-fx__gh-mist', 'xMidYMax slice');
+    mist.appendChild(svgEl('path', { d: 'M-10 86Q200 72 410 84V130H-10Z' }, { fill: '--cb-ghosts-field' }));
+    var soft = fxBlur(fxDefs(mist), 2.4), far = group(mist), near = group(mist);
+    far.style.setProperty('filter', soft);
+    near.style.setProperty('filter', soft);
+    ghMist(far, 400, 78, 1.6, 1300);
+    ghMist(near, 400, 100, 2.2, 1360);
+    box.appendChild(mist);
+    // little ghosts floating up out of the mist round it and away
+    [[14, 78, 6, -60, 0], [30, 84, -8, -70, .5], [70, 82, 10, -66, .9], [86, 76, -4, -58, 1.3], [22, 70, 14, -52, 1.8], [78, 70, -14, -54, 2.2]].forEach(function (b, j) {
+      var sp = fxSpan(box, 'pf-fx__gh-small', b[0], b[1], b[4]);
+      sp.style.setProperty('--px', f(b[2]));
+      sp.style.setProperty('--py', f(b[3]));
+      var t = tiny(28 + j % 3 * 8);
+      ghFigure(t, 0, 0, .95, { wave: j % 3 === 1 });
+      sp.appendChild(t);
+    });
+    return box;
+  }
+  M.ghsmall = function (g) { ghFigure(g, 0, 0, .9, { wave: true }); };
+  M.ghstone = function (g) {
+    g.appendChild(svgEl('ellipse', { cx: 0, cy: 7, rx: 11, ry: 3, 'fill-opacity': '.5' }, { fill: '--cb-ghosts-mist' }));
+    ghStone(g, 0, 8, 1.2);
+  };
+  M.ghmoon = function (g) {
+    g.appendChild(svgEl('circle', { r: 11, 'fill-opacity': '.14' }, { fill: '--cb-ghosts-moon', cls: 'art-glow', t: 6 }));
+    g.appendChild(svgEl('path', { d: crescent(8) }, { fill: '--cb-ghosts-moon' }));
+  };
+  E.ghosts = {
+    scene: function (box) {
+      box.appendChild(ghScene());
+      box.appendChild(ghMoment());
+    },
+    edge: [['ghmoon', 'tl', 0, 20, 0, [16, 14]], ['ghsmall', 'top', .58, 16], ['ghstone', 'bl', 0, 22, 0, [18, -12]], ['ghsmall', 'br', 0, 20, 0, [-16, -14]], ['ghsmall', 'right', .42, 13]],
+    pass: { motif: 'ghsmall', from: 'left', n: 5, size: 22, t: 30, drift: 14 }
+  };
+  /* effect:ghosts:end */
 
   /* effect:muchness:begin */
   /* BRING YOUR MUCHNESS (Ryan, 2026-10-29: "Make the Esmx animation available
