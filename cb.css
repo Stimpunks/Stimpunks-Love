@@ -615,6 +615,14 @@ a.cb-to-chat, a.cb-to-you { display: inline-flex; align-items: center; text-deco
 }
 .cb-earlier { display: block; margin: 0 auto 6px; }
 .cb-radio--small .cb-earlier, .cb-radio--icon .cb-earlier { display: none; }
+/* EVERY SCROLLING LIST OF MESSAGES IS POSITIONED (2026-10-30), so what is
+   absolutely positioned in it, the words a screen reader hears beside a
+   message (.sr), is held in its own scroll box. Unpositioned, each of those
+   was placed against the part the list is in, as far down as its message is
+   in the whole list, and the part scrolled by that much: on the chat app on a
+   phone, World's channel, which holds the most, scrolled up behind the bar
+   and left a band of nothing over the tabs (Ryan found it). */
+.cb-log, .cb-dm-log, .cb-hits { position: relative; }
 .cb-log {
   /* A scroll box clips whatever is drawn outside it, focus rings included, and
      a message fills the log edge to edge: so the log reaches 5px into the
@@ -2285,16 +2293,30 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
   .cb-radio--app .cb-col--b > .cb-sec--events, .cb-radio--app .cb-col--b > .cb-sec--search { flex: none; }
   .cb-radio--app .cb-sec--channel > *, .cb-radio--app .cb-lcd > *, .cb-radio--app .cb-sec--dm > *, .cb-radio--app .cb-dm > *,
   .cb-radio--app .cb-dm-talk > *, .cb-radio--app .cb-sec--searching > *, .cb-radio--app .cb-search-res > * { flex: none; }
-  .cb-radio--app .cb-sec--channel > .cb-lcd { flex: 1 1 0; min-height: 8rem; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
-  .cb-radio--app .cb-lcd > .cb-log { flex: 1 1 0; min-height: 4rem; max-height: none; }
+  .cb-radio--app .cb-sec--channel > .cb-lcd { flex: 1 1 0; min-height: 4rem; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+  .cb-radio--app .cb-lcd > .cb-log { flex: 1 1 0; min-height: 2rem; max-height: none; }
   .cb-radio--app .cb-sec--dm > .cb-dm { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
   .cb-radio--app .cb-dm > .cb-dm-inbox { flex: 1 1 0; min-height: 0; overflow-y: auto; align-content: start; }
   .cb-radio--app .cb-dm > .cb-dm-talk { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; overflow-y: auto; }
   .cb-radio--app .cb-dm-talk > .cb-dm-state, .cb-radio--app .cb-dm-talk > .cb-dm-tx, .cb-radio--app .cb-dm-talk > .cb-dm-go, .cb-radio--app .cb-dm-talk > .cb-dm-block { align-self: stretch; }
-  .cb-radio--app .cb-dm-talk > .cb-dm-lcd { flex: 1 1 0; min-height: 8rem; align-self: stretch; display: flex; flex-direction: column; overflow-y: auto; }
+  .cb-radio--app .cb-dm-talk > .cb-dm-lcd { flex: 1 1 0; min-height: 4rem; align-self: stretch; display: flex; flex-direction: column; overflow-y: auto; }
   .cb-radio--app .cb-dm-lcd > .cb-dm-log { flex: 1 1 0; max-height: none; }
   .cb-radio--app .cb-sec--searching > .cb-search-res { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
   .cb-radio--app .cb-search-res > .cb-hits { flex: 1 1 0; min-height: 8rem; overflow-y: auto; }
+  /* NOTHING TO SCROLL WHEN THE KEYBOARD IS UP. cb.js keeps the radio the
+     height of what is above a phone's keyboard, and a chat whose parts were
+     taller than that scrolled to keep the message box in sight, by about as
+     much as the keyboard is tall; an iPhone kept that scroll when the
+     keyboard went (Ryan, 2026-10-30), a band of nothing over the tabs. So on
+     a short radio what the room is about, Follow, the lines about the forums
+     and the World room, and the box's own hint step aside, and while
+     something in it is being typed in, so do the tabs, as a chat app's do:
+     the messages and the box always fit, and there is nothing to keep. */
+  .cb-radio--app.cb-radio--full:not(.cb-radio--folded) { container: cb-app / size; }
+  @container cb-app (max-height: 560px) {
+    .cb-sec--channel > .cb-chat-head, .cb-sec--channel > .cb-band, .cb-forum-line, .cb-world-line, .cb-tx .cb-help { display: none; }
+    .cb-set:has(textarea:focus, input:focus) ~ .cb-app-tabs { display: none; }
+  }
   /* The tabs, the width of the screen, clear of a phone's home bar. */
   .cb-app-tabs {
     display: flex; flex: none; gap: 2px; padding: 4px 4px calc(4px + env(safe-area-inset-bottom, 0px));
@@ -2418,7 +2440,23 @@ button.cb-ev-link {
 @media (max-width: 599.98px) {
   .cb-call:not(.cb-call--small):not(.cb-call--stamp) .cb-call-bar { flex-wrap: wrap; row-gap: 6px; }
   .cb-call:not(.cb-call--small):not(.cb-call--stamp) .cb-call-name { flex: 1 0 100%; white-space: normal; overflow-wrap: anywhere; }
+  .cb-call.cb-call--app:not(.cb-call--small) .cb-call-bar { flex-wrap: nowrap; }
+  .cb-call.cb-call--app:not(.cb-call--small) .cb-call-name { flex: 1 1 0; white-space: nowrap; overflow-wrap: normal; }
 }
+/* IN THE CHAT APP ON A PHONE (call.js, dockTo; Ryan's ask, 2026-10-30, after
+   Discord's mobile app): the call is the screen between the radio's bar and
+   its tabs, edge to edge, the picture taking the height, and out of sight
+   but still going while another tab is shown. Nothing to move or size. These
+   outrank every size's rules, and the phone's two rows: with no grip and no
+   minus and plus, the name and its buttons are one row again. */
+.cb-call.cb-call--app {
+  top: var(--cb-app-top, 0px); bottom: var(--cb-app-bottom, 0px); left: 0; right: 0;
+  width: auto; height: auto; max-height: none; border-width: 0; border-radius: 0; box-shadow: none;
+}
+.cb-call.cb-call--app.cb-call--behind { visibility: hidden; }
+.cb-call.cb-call--app .cb-move, .cb-call.cb-call--app .cb-sizer { display: none; }
+.cb-call.cb-call--app .cb-call-bar { border-radius: 0; cursor: default; touch-action: auto; }
+.cb-call.cb-call--app .cb-call-screen { aspect-ratio: auto; border-radius: 0; }
 .cb-call-note { flex: none; padding: 4px 12px; font-size: 13px; }
 .cb-call-screen { flex: 1 1 auto; min-height: 0; aspect-ratio: 16 / 10; background: #000; border-radius: 0 0 8px 8px; overflow: hidden; }
 .cb-call-screen iframe { display: block; width: 100%; height: 100%; border: 0; }

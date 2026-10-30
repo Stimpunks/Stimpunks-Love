@@ -4292,9 +4292,18 @@ into: **Show every column**); on a phone one part at a time, **Channels**, **Cha
 (`APP_TABS`, `appMake`, `appTo`), shown by the box's `data-pane` in `cb.css`, from tabs along its foot. Picking a channel,
 a conversation or Events goes to Chat (`chatTake`, the `chatView*` functions); a search's results go to Search. Which tab
 is shown is kept nowhere. The dock is kept the height of the visual viewport, so the message box clears an iPhone's
-keyboard; where it grows back, `appSettle` puts every column back within its end, because an
-iPhone left the messages scrolled up after a call with a band of nothing over the tabs (Ryan,
-2026-10-30). **It has no sign-off and no fractal switch** (`APPS` in `tools/windows.py`, read by `make-signoff.py` and
+keyboard. **On a phone a call in the chat is a Call tab** (Ryan's ask, the same day, after Discord's:
+the call's window over the chat hid the messages): `appCall` shows the tab while `loveCall.isOpen()`,
+opens on it, and `loveCall.dockTo` puts the call between the bar and the tabs (`cb-call--app`, no grip,
+no minus and plus), hidden by `visibility` and still going behind any other tab. The friendly edit is
+`display: none` for a hidden call, which risks the browser stopping its frame. **A band of nothing
+under World's chat was the `.sr` words beside each message**, absolutely positioned inside an
+unpositioned log, so they were placed against the channel part as far down as their message and the
+part scrolled by that much: `.cb-log`, `.cb-dm-log` and `.cb-hits` are positioned now, and a new
+scrolling list of messages must be too. On a short radio (a phone's keyboard up) the lines above the
+messages step aside, and while something is typed in, so do the tabs (`@container cb-app`), so the
+chat always fits and there is nothing to scroll; `appSettle` puts every column back within its end
+anyway. **It has no sign-off and no fractal switch** (`APPS` in `tools/windows.py`, read by `make-signoff.py` and
 `fractals.py`) but keeps its card, sitemap entry and place on the Map. `/app` and `/mobile` redirect to `/chat`. The
 friendly edits are the page's heading and footer back "so it explains itself" (that is the second scroll; the
 explanation is the dock's text for anybody not signed on), and a tab remembered in `love-cb`, which `CHAT_OWN` exists

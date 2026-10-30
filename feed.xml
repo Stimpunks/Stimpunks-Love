@@ -9,17 +9,24 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Fri, 30 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>A call of its own in the chat on a phone</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-30-chat-call</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-30-chat-call</guid>
+      <pubDate>Fri, 30 Oct 2026 12:00:00 GMT</pubDate>
+      <description>On a phone, a call in the chat has its own tab now. Before, a call’s window sat over the chat, and you had to drag it out of the way to see the messages and the box to write in. Now the call opens on a Call tab after Chat, filling the screen between the radio’s bar and the tabs. It goes on while you are on Chat or any other tab. Leaving the call takes the tab away. On a wide window the call is its own window, as everywhere. World’s channel no longer leaves a band of nothing under the chat. The words a screen reader hears beside each message were placed outside the list of messages, as far down as their message, so the busiest channel scrolled up behind the bar. They stay inside the list now, everywhere the radio shows messages. While you type on a phone, the tabs and the lines above the messages step aside, so the messages and the box fit above the keyboard.</description>
+    </item>
+    <item>
       <title>Chat on the radio’s bar</title>
       <link>https://stimpunks.world/changelog.html#2026-10-30-chat-bar</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-30-chat-bar</guid>
-      <pubDate>Fri, 30 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Fri, 30 Oct 2026 11:59:00 GMT</pubDate>
       <description>A speech bubble on the radio’s bar opens the chat on the channel of the room you are in, from any room. Fold away became a picture to make the room for it; folded, the bar still says Switch on in words. A call’s bar stays on one row. In rooms with long names, Leave the call used to drop onto a row of its own. Now a long name is cut short, and shown whole when you point at it. On a phone, the name has the top row and every button is on the row under it, with Leave the call saying just Leave. On a phone, the chat puts its messages back in place when the keyboard goes away. After a call, an iPhone could leave them scrolled up under the bar, with a band of nothing between the message box and the tabs.</description>
     </item>
     <item>
       <title>The chat is an app</title>
       <link>https://stimpunks.world/changelog.html#2026-10-30-chat-app</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-30-chat-app</guid>
-      <pubDate>Fri, 30 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Fri, 30 Oct 2026 11:58:00 GMT</pubDate>
       <description>The chat fills the screen now, with no page round it. The page around the chat meant two things to scroll on a phone, the page and the chat inside it, and nobody liked it. On a phone, one part of the chat fills the screen at a time, the way a chat app has it, chosen from tabs along the foot: Channels, Chat, Search, People and You. The box to write in is always at the foot of Chat, and only the part you are on scrolls. On a wide window it is the three columns, edge to edge, and Enlarge the chat shows the middle alone, filling the window. /app and /mobile bring you to it. The CB guide says how it works.</description>
     </item>
     <item>

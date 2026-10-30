@@ -5272,7 +5272,13 @@
      columns are, as on the chat page. Picking a channel, a conversation or
      Events goes to Chat, and a search's results to Search. Nothing is kept:
      the app opens on Chat, and on Channels when the address names none. */
-  var APP_TABS = [['chans', 'Channels'], ['chat', 'Chat'], ['search', 'Search'], ['people', 'People'], ['you', 'You']];
+  /* AND THE CALL (Ryan's ask, 2026-10-30, after Discord's mobile app, because
+     a call's window over the chat hid the messages and the message box): while
+     a call is open in the chat on a phone, a Call tab after Chat shows it, the
+     screen between the bar and the tabs, and the call goes on behind any other
+     tab (appCall, loveCall.dockTo). It opens on Call and goes back to Chat when
+     the call ends. */
+  var APP_TABS = [['chans', 'Channels'], ['chat', 'Chat'], ['call', 'Call'], ['search', 'Search'], ['people', 'People'], ['you', 'You']];
   Radio.prototype.appMake = function () {
     var me = this, nav = el('nav', 'cb-app-tabs');
     nav.setAttribute('aria-label', 'The chat’s parts');
@@ -5289,9 +5295,14 @@
         if (t[0] === 'search' && me.searchBox) me.searchBox.focus();
       });
       me.appTabs[t[0]] = b;
+      // Call is there only while a call is open in the page.
+      if (t[0] === 'call') b.hidden = true;
       nav.appendChild(b);
     });
+    this.appNav = nav;
     this.box.appendChild(nav);
+    if (window.ResizeObserver) new ResizeObserver(function () { me.appPlaceCall(); }).observe(this.box);
+    if (CHAT_WIDE && CHAT_WIDE.addEventListener) CHAT_WIDE.addEventListener('change', function () { me.appCall(); });
     this.appTo(chatFromHash() || evFromHash() !== null ? 'chat' : 'chans');
     /* The screen's own height, less the keyboard where a browser shows the
        page under it (iOS), so the message box stays above the keyboard. */
@@ -5299,13 +5310,42 @@
     function fit() {
       dock.style.height = Math.round(vv.height) + 'px';
       dock.style.top = Math.round(vv.offsetTop) + 'px';
-      requestAnimationFrame(function () { me.appSettle(); });
+      requestAnimationFrame(function () { me.appSettle(); me.appPlaceCall(); });
     }
     if (vv && dock) { vv.addEventListener('resize', fit); vv.addEventListener('scroll', fit); fit(); }
     // The keyboard going away, from the message box or a call's own window.
     this.box.addEventListener('focusout', function () { setTimeout(function () { me.appSettle(); }, 400); });
     window.addEventListener('focus', function () { me.appSettle(); });
   };
+  /* A call opening or ending in the page: the Call tab shown or not, the
+     call on it when it opens, and Chat again when it ends from Call. Only on
+     a phone; on a wide window the call is its own window, as anywhere. */
+  Radio.prototype.appCall = function () {
+    var tab = this.appTabs && this.appTabs.call;
+    if (!tab) return;
+    var lc = window.loveCall, open = !!(lc && lc.isOpen()) && !(CHAT_WIDE && CHAT_WIDE.matches);
+    tab.hidden = !open;
+    if (open && !this.appCallOn) { this.appCallOn = true; this.appTo('call'); }
+    else if (!open && this.appCallOn) {
+      this.appCallOn = false;
+      // The keyboard was in the call, which has gone: it goes to the channel's name.
+      if (this.appPane === 'call') { this.appTo('chat'); if (this.chanH && !this.chatChan.hidden) this.chanH.focus(); }
+    }
+    this.appPlaceCall();
+  };
+  // The call between the bar and the tabs, seen only on Call.
+  Radio.prototype.appPlaceCall = function () {
+    var lc = window.loveCall;
+    if (!lc || !lc.dockTo || !lc.isOpen()) return;
+    if (!this.appCallOn) { lc.dockTo(null); return; }
+    var set = this.box.querySelector('.cb-set'), nav = this.appNav;
+    lc.dockTo({
+      top: set.getBoundingClientRect().top,
+      bottom: Math.max(0, window.innerHeight - nav.getBoundingClientRect().top),
+      shown: this.appPane === 'call'
+    });
+  };
+
   /* WHERE THE SCREEN GREW BACK, NOTHING STAYS SCROLLED PAST ITS END. A phone's
      keyboard makes the chat shorter, and the part you are in scrolls to keep
      the message box in sight; on an iPhone (Ryan, 2026-10-30, after a call)
@@ -5336,6 +5376,7 @@
       if (k === pane) this.appTabs[k].setAttribute('aria-current', 'true');
       else this.appTabs[k].removeAttribute('aria-current');
     }
+    this.appPlaceCall();
     var was = this.appScroll;
     if (pane === 'chat' && was) {
       this.appScroll = null;
@@ -5359,6 +5400,7 @@
     if (kind === 'chans') add('path', { d: 'M9.5 3.5 7.5 20.5M16.5 3.5l-2 17M4 8.5h17M3 15.5h17' });
     else if (kind === 'chat') add('path', { d: 'M4 5.5h16v10.5H11l-5 4v-4H4z' });
     else if (kind === 'search') { add('circle', { cx: '10.5', cy: '10.5', r: '6' }); add('path', { d: 'm15 15 5.5 5.5' }); }
+    else if (kind === 'call') { add('path', { d: 'M3 7.5h12v9H3zM15 11l6-3.5v9L15 13' }); }
     else if (kind === 'people') {
       add('circle', { cx: '9', cy: '8.5', r: '3.2' }); add('path', { d: 'M3 20c.6-3.6 3-5.6 6-5.6s5.4 2 6 5.6' });
       add('circle', { cx: '16.5', cy: '7.5', r: '2.6' }); add('path', { d: 'M17.5 13c2 .4 3.3 2 3.7 4.5' });
@@ -14410,6 +14452,7 @@
     if (this.present) this.presenceShown();
     // An event's card says when you are in its call (evCallPart).
     if (this.evTray) this.evDraw();
+    if (inApp()) this.appCall();
   };
 
   /* One call at a time: joining the World call leaves this room's, and the
@@ -14460,7 +14503,10 @@
       me.callShown();
       // Said every time, because it is the thing about the World call that
       // nobody would guess: it is not a room's, and it still ends with the page.
-      me.tell(world && r.ok ? r.said + ' Going to another room hangs up, because every room is a page of its own.' : r.said);
+      var said = r.said;
+      // In the chat app on a phone the call is on its own tab, not at the foot of the page.
+      if (r.ok && me.appCallOn) said = said.replace('The call is open at the foot of the page.', 'The call is on the Call tab, and it goes on while another tab is shown.');
+      me.tell(world && r.ok ? said + ' Going to another room hangs up, because every room is a page of its own.' : said);
     });
   };
 

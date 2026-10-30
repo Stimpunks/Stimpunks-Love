@@ -480,9 +480,11 @@
     // Minus and plus change its size, so it is placed again to keep it on the screen.
     var watch = window.ResizeObserver ? new ResizeObserver(put) : null;
     if (watch) watch.observe(box);
+    // Docked into the chat app on a phone (dockTo), it fills its place and does not move.
+    mover.still = function () { return box.classList.contains('cb-call--app'); };
     put();
     leave.focus();
-    return { host: host, room: here.tag, who: who, off: function () { window.removeEventListener('resize', put); if (watch) watch.disconnect(); } };
+    return { host: host, box: box, mover: mover, room: here.tag, who: who, off: function () { window.removeEventListener('resize', put); if (watch) watch.disconnect(); } };
   }
 
   var current = null;
@@ -634,6 +636,25 @@
       .catch(function () { if (opts.whole) say(); return { ok: false, said: 'No signal. The call could not be opened.' }; });
   }
 
+  /* THE CHAT APP'S CALL (cb.js, appCall; Ryan's ask, 2026-10-30, after
+     Discord's mobile app): on a phone the call open in the chat page is not a
+     window over the chat but the screen between the radio's bar and its tabs,
+     shown while the Call tab is and kept going, out of sight, while another
+     tab is. at is { top, bottom, shown } in pixels from the window's edges, or
+     null to put it back as a window. It does not move or change size there,
+     so its grip and its minus and plus are not shown (cb.css). */
+  function dockTo(at) {
+    if (!current || !current.box) return;
+    var b = current.box;
+    b.classList.toggle('cb-call--app', !!at);
+    b.classList.toggle('cb-call--behind', !!at && !at.shown);
+    if (at) {
+      b.style.setProperty('--cb-app-top', Math.round(at.top) + 'px');
+      b.style.setProperty('--cb-app-bottom', Math.round(at.bottom) + 'px');
+    }
+    if (current.mover) current.mover.place();
+  }
+
   // The who-is-in-the-call line of the window open for this room, if one is.
   function whoLine(tag) { return current && current.room === tag ? current.who : null; }
 
@@ -641,7 +662,7 @@
   // from another: the radio has this room's and the World's.
   function openRoom() { return current ? current.room : null; }
 
-  window.loveCall = { Mover: Mover, open: open, leave: leave, isOpen: function () { return !!current; }, openRoom: openRoom, whoLine: whoLine,
+  window.loveCall = { Mover: Mover, open: open, leave: leave, isOpen: function () { return !!current; }, openRoom: openRoom, whoLine: whoLine, dockTo: dockTo,
     // popOut: the radio's own window, where the radio is the whole window,
     // sends a call straight into a window of its own (cb.js, setCall).
     away: function () { return away; }, onAway: onAway, showAway: showAway, leaveAway: leaveAway, popOut: popOut,
