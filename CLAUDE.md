@@ -4296,7 +4296,9 @@ keyboard. **On a phone the chat has a Call tab, always** (Ryan's asks, the same 
 the call's window over the chat hid the messages, and Join under People was hard to find). Before a
 call it holds the channel's call part, `callSub`, which `callPlace` moves there on a phone (one part
 moved, never copied, the rule it already kept between In this channel and Happening now), so who is
-in the call follows the radio's rule: names only to a radio seen here. Once `loveCall.isOpen()`,
+in the call follows the radio's rule: names only to a radio seen here. On World, whose call is the
+World call, `callPlace` moves Join World call there too and back beside Who's online for any other
+channel. Once `loveCall.isOpen()`,
 `appCall` opens on the tab and `loveCall.dockTo` puts the call between the bar and the tabs
 (`cb-call--app`, no grip, no minus and plus), hidden by `visibility` and still going behind any other
 tab. **No familiar comes into the chat** (`data-cb-chat` in love.js's `familiar()` and familiar.js's

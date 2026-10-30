@@ -4790,7 +4790,8 @@
     if (t === chatTag && !first) { chatJoin(); return false; }
     chatTag = t;
     if (!first && inApp()) radio.appTo('chat');
-    if (inApp()) radio.appCallShown();
+    // On World the Call tab's Join is Join World call, which callPlace moves there.
+    if (inApp()) radio.callPlace();
     var moved = radio.wasPath !== undefined ? radio.whereNow() : (radio.bandShown(), false);
     if (said) radio.tell(said);
     chatJoin();
@@ -5344,7 +5345,9 @@
       this.appCallOn = false;
       var me = this;
       setTimeout(function () {
-        if (me.appPane === 'call' && !me.host.shadowRoot.activeElement) (me.callBtn.hidden ? me.appTabs.call : me.callBtn).focus();
+        if (me.appPane !== 'call' || me.host.shadowRoot.activeElement) return;
+        var join = worldHere() ? me.worldCallBtn : me.callBtn;
+        (join.hidden ? me.appTabs.call : join).focus();
       }, 0);
     }
     this.appCallShown();
@@ -5355,7 +5358,7 @@
     if (!this.appCallWhere) return;
     var room = chatRoom(), world = room.tag === WORLD_CALL;
     this.appCallWhere.textContent = world ? 'The World call, for the whole street.' : 'The call for #' + room.name + '.';
-    var none = this.callBtn.hidden && this.inCallNow.hidden && this.callOnNow.hidden;
+    var none = this.callBtn.hidden && this.inCallNow.hidden && this.callOnNow.hidden && (!worldHere() || this.worldCallBtn.hidden);
     this.appCallNone.hidden = !none;
     this.appCallNone.textContent = 'Calls are not on just now.';
   };
@@ -14304,9 +14307,21 @@
     var going = inIt || !!this.callFull || listed;
     var to = going ? this.nowSec : this.hereSec, before = going ? this.elseSub : this.famSub;
     // In the chat app on a phone it is on the Call tab, whatever is going.
-    if (this.appCallCol && !this.chatWide()) { to = this.appCallCol.firstChild; before = null; }
+    var onTab = !!(this.appCallCol && !this.chatWide());
+    if (onTab) { to = this.appCallCol.firstChild; before = null; }
     this.elseShown(here);
-    if (this.appCallCol) this.appCallShown();
+    /* World's call is the World call, and its button, Join World call, is
+       beside Who's online. On World's Call tab it is moved there, before the
+       call part, and back beside Who's online for any other channel, so it is
+       never in two places (Ryan, 2026-10-30: the tab had no Join on World). */
+    if (this.appCallCol) {
+      var w = this.worldCallBtn, home = this.onlineBtn.parentNode, wroot = w.getRootNode();
+      var wHad = wroot.activeElement === w;
+      if (onTab && worldHere()) { if (w.parentNode !== to) to.insertBefore(w, this.appCallNone.nextSibling); }
+      else if (w.parentNode !== home) home.insertBefore(w, this.onlineBtn.nextSibling);
+      if (wHad) w.focus();
+      this.appCallShown();
+    }
     if (sub.parentNode === to) return;
     var root = sub.getRootNode(), had = root.activeElement && sub.contains(root.activeElement) ? root.activeElement : null;
     to.insertBefore(sub, before);
