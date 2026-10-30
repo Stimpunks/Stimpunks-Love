@@ -1537,6 +1537,47 @@ a.cb-now-go { text-decoration: none; display: inline-flex; align-items: center; 
   13% { opacity: 1; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)) scale(1.8); }
   14.8%, 100% { opacity: 0; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)) scale(2); }
 }
+/* BRING YOUR MUCHNESS, the MAX GLITTER fanfare on a profile (profile.js's
+   effect:muchness block). Kaya Oldaker's Rainbow Leaping rises into a glow
+   under its gold sign, every sixty seconds, for about nine. Every colour is a
+   --much-* ink, measured in check-contrast.py; every word stands on the sign's
+   night; nothing turns or skews; every spark goes out over at least a second
+   and a half, the fanfare's FADE_FLOOR, so nothing flashes. */
+.pf-fx__mu-aura {
+  position: absolute; left: 50%; bottom: -22%; width: 130%; height: 88%; translate: -50% 0; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--much-aura) 72%, transparent),
+    color-mix(in srgb, var(--much-pink) 36%, transparent) 55%, transparent);
+  opacity: 0;
+}
+.pf-fx__mu-spark { position: absolute; display: block; line-height: 0; opacity: 0; }
+.pf-fx__mu-col { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; gap: 2cqh; }
+.pf-fx__mu-sign {
+  display: flex; flex-direction: column; align-items: center; max-width: 88cqw; margin: 0 6cqw;
+  padding: 8px clamp(12px, 4cqw, 24px) 10px; text-align: center;
+  background: var(--much-night); border: 2px solid var(--much-gold); border-radius: 14px;
+  box-shadow: 0 0 0 3px var(--much-night), 0 0 22px 4px color-mix(in srgb, var(--much-pink) 55%, transparent);
+  opacity: 0;
+}
+.pf-fx__mu-kicker { font: 400 clamp(9px, 2.6cqw, 13px)/1.2 'Bungee', system-ui, sans-serif; letter-spacing: .14em; color: var(--much-lilac); }
+.pf-fx__mu-words { font: 400 clamp(20px, 7.4cqw, 44px)/1.05 'Shrikhand', Georgia, serif; color: var(--much-gold); padding: .04em .06em .1em; }
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .pf-fx__mu-words {
+    background: linear-gradient(100deg, var(--much-gold) 0 38%, var(--much-gold-2) 48%, var(--much-white) 50%, var(--much-gold-2) 52%, var(--much-gold) 62% 100%);
+    background-size: 280% 100%; background-position: 100% 0;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  :host([data-motion="on"]) .pf-fx__mu-words { animation: cb-mo-mu-shine 60s ease-in-out infinite both; }
+}
+.pf-fx__mu-fig { width: min(86cqw, calc(55cqh * 1.44)); opacity: 0; }
+.pf-fx__mu-esmx { display: block; width: 100%; height: auto; }
+:host([data-motion="on"]) .pf-fx__mu-aura { animation: cb-mo-fx-wash 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__mu-fig { animation: cb-mo-mu-rise 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__mu-sign { animation: cb-mo-mu-sign 60s ease-out infinite both; }
+:host([data-motion="on"]) .pf-fx__mu-spark { animation: cb-mo-mu-spark 60s ease-out var(--d, 0s) infinite both; }
+@keyframes cb-mo-mu-rise { 0%, 1% { opacity: 0; transform: translateY(110%); } 1.2% { opacity: 1; transform: translateY(108%); } 5.5%, 12.5% { opacity: 1; transform: translateY(0); } 15.5% { opacity: 1; transform: translateY(110%); } 15.7%, 100% { opacity: 0; transform: translateY(110%); } }
+@keyframes cb-mo-mu-sign { 0%, 4% { opacity: 0; transform: translateY(14px) scale(.85); } 6.5%, 12.5% { opacity: 1; transform: translateY(0) scale(1); } 15%, 100% { opacity: 0; transform: translateY(-10px) scale(1); } }
+@keyframes cb-mo-mu-shine { 0%, 6.5% { background-position: 100% 0; } 9.5%, 100% { background-position: 0 0; } }
+@keyframes cb-mo-mu-spark { 0%, 2% { opacity: 0; transform: translateY(0) scale(.5); } 3.2% { opacity: 1; transform: translateY(-6cqh) scale(1); } 6.5%, 100% { opacity: 0; transform: translateY(-26cqh) scale(.7); } }
 /* An effect after somebody's work says whose, at the foot of the card. */
 .pf-credit { margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--cb-amber-2); }
 

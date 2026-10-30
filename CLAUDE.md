@@ -4788,7 +4788,10 @@ alt text; the raised fist is the wave, and the arm does not move because it is n
 MAX, never on a `data-cb="off"` page (Stay Frosty says nothing moves at any setting) and never in a frame. It is silent,
 aria-hidden and pressable by nothing, a spark goes out over `FADE_FLOOR` at least so nothing flashes, it moves by
 translate and scale only, and Escape, any press, a hidden tab or turning down ends it; the dial's MAX line says "Bring
-your muchness" so the words are heard. `tools/check-muchness.py` holds all of it. The friendly edits are **a chime with
+your muchness" so the words are heard. `tools/check-muchness.py` holds all of it. **It is a profile effect too** (Ryan, the same
+day): `E.muchness` between `effect:muchness` markers in `profile.js`, the same picture, held by `make-profile.py` to the
+`--much-*` inks and a credit naming Kaya and Rainbow Leaping; its picture is `loading="lazy"`, so a profile fetches it only
+where its opening is drawn. The friendly edits are **a chime with
 it**, **playing it on arrival at MAX "so people see it"**, **a twinkle that blinks** and **an Esmx redrawn to wave**
 "since the art cannot", which is Ryan's call against his own: ask him, and Kaya's name stays on whatever is drawn.
 

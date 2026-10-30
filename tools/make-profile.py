@@ -255,6 +255,7 @@ def main():
         "dolphins": ("--pfx-dolphin-", "Leaping Dolphins", "its own"),
         "autumn": ("--pfx-autumn-", "Autumn Falls", "its own"),
         "cloudcity": ("--cb-cloud-", "Cloud City", "the Cloud City theme's"),
+        "muchness": ("--much-", "Bring Your Muchness", "the MAX GLITTER fanfare's"),
     }
     blocks = {k: between(src, f"/* effect:{k}:begin */", f"/* effect:{k}:end */", "profile.js") for k in EFFECT_INKS}
     rest_src = src
@@ -295,6 +296,7 @@ def main():
         "otters": ("Helen Edgar", "Stimpunks Solidarity and Otters", "The Stone You Keep", "fills nothing"),
         "fairy": ("Helen Edgar", "Faery Yurt"),
         "cloudcity": ("Lucasfilm", "nobody from the films"),
+        "muchness": ("Kaya Oldaker", "Rainbow Leaping", "exactly as she drew it"),
     }
     for key, needs in NEEDS.items():
         if key in listed.get("EFFECTS", []):
@@ -347,7 +349,7 @@ def main():
             refuse(f"cb.css moves an effect at {sel.strip()!r}, outside data-motion.")
     for key, fn in (("lagoon", "lagoonMoment()"), ("otters", "otterMoment()"), ("fairy", "fairyMoment()"),
                     ("wolf", "wolfMoment()"), ("starward", "swMoment()"), ("dolphins", "dpMoment()"), ("autumn", "auMoment()"),
-                    ("cloudcity", "ccMoment()")):
+                    ("cloudcity", "ccMoment()"), ("muchness", "muMoment()")):
         if f"appendChild({fn})" not in uncomment(blocks[key]) or "pf-fx__moment" not in blocks[key]:
             refuse(f"{EFFECT_INKS[key][1]} has lost its opening across the profile, which Ryan asked for.")
     # STARWARD DREAMING'S FIRE IS HELD UNDER THE FLASH LINE, the cabin's

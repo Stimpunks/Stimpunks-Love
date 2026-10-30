@@ -125,7 +125,7 @@
     ['snow', 'Snowfall'], ['bubbles', 'Bubbles'], ['sparkles', 'Sparkles'], ['shooting', 'Shooting stars'],
     ['notes', 'Music notes'], ['hearts', 'Hearts'], ['lagoon', 'Black Leather Lagoon'], ['otters', 'Otters in the kelp'],
     ['fairy', 'Flying Fairy'], ['wolf', 'Howling Wolf'], ['starward', 'Starward Dreaming'], ['dolphins', 'Leaping Dolphins'],
-    ['autumn', 'Autumn Falls'], ['cloudcity', 'Cloud City']
+    ['autumn', 'Autumn Falls'], ['cloudcity', 'Cloud City'], ['muchness', 'Bring Your Muchness']
   ];
   /* profile:effects:end */
   /* AN EFFECT AFTER SOMEBODY ELSE'S WORK SAYS WHOSE, on the card it is on and
@@ -134,6 +134,7 @@
     otters: 'Effect after the Arcade\u2019s Otterly Adorbs, which is built on Helen Edgar\u2019s Stimpunks Solidarity and Otters and Star Stuff\u2019s zine No. 58, The Stone You Keep. The kelp does the holding, and floating fills nothing: these otters float because they want to.',
     lagoon: 'Effect after the street\u2019s Black Leather Lagoon and The Cramps, the band of Lux Interior and Poison Ivy. Their world, not them: nobody real is drawn, the creature is our own, and the poison ivy round the edge is a nod to her name.',
     cloudcity: 'Effect after Cloud City, the city in the clouds of Bespin in The Empire Strikes Back (1980). Star Wars is a trade mark of Lucasfilm. The city, its cloud cars and the sunset are drawn here, and nobody from the films is.',
+    muchness: 'Effect after the street\u2019s MAX GLITTER fanfare. Esmx the Porkypine is Kaya Oldaker\u2019s Rainbow Leaping, exactly as she drew it for the Stimpunks Foundation, and \u201cBring Your Muchness\u201d is Infodumplings\u2019 own.',
     fairy: 'Effect after Helen Edgar\u2019s Faery Yurt: its faeries fly here as they fly there, no two dressed alike, dropping petals under its fairy lights. The big fairy with butterfly wings is drawn here, in roses and moss, after the look of Helen\u2019s own profile.'
   };
 
@@ -3262,6 +3263,78 @@
     pass: { motif: 'ccar', from: 'left', n: 3, size: 26, t: 32, drift: 10 }
   };
   /* effect:cloudcity:end */
+
+  /* effect:muchness:begin */
+  /* BRING YOUR MUCHNESS (Ryan, 2026-10-29: "Make the Esmx animation available
+     as a profile effect"), the street's MAX GLITTER fanfare (muchness.js) on a
+     profile. ESMX IS KAYA OLDAKER'S OWN RAINBOW LEAPING, the same file as the
+     fanfare's, exactly as she drew it, with her alt text and her name on it;
+     nothing of hers is redrawn here. Everything this block draws is in the
+     fanfare's own declared --much-* inks, measured in check-contrast.py, and
+     make-profile.py holds it to them. Nothing makes a sound and nothing
+     flashes: every spark comes up over most of a second and goes over a second
+     and a half or more, the fanfare's FADE_FLOOR.
+
+     The still part is glitter: a four-pointed star at each corner and smaller
+     ones along the sides, each outlined in the sign's night so it shows on any
+     theme. The opening, on the Lagoon's sixty-second clock: a glow comes up
+     from the foot of the profile, Esmx rises into it, "Bring Your Muchness"
+     comes up on its sign above them in shining gold, sparks rise all round,
+     and after about nine seconds of every sixty it all goes back down. The
+     picture is loading="lazy", so nobody fetches it until the opening is
+     drawn, which is only where drawings move. The pass is glitter rising
+     across the profile. */
+  var MU_GLINTS = ['--much-gold', '--much-pink', '--much-sky', '--much-mint', '--much-violet', '--much-white'];
+  var MU_ALT = 'A drawing of Esmx - a porkypine (part pig, part porcupine) with a pink and green colour scheme ' +
+    'for the body and a huge, trailing rainbow mohawk/spikes. The spikes trail off and separate, as if they ' +
+    'are made of energy. Esmx is wearing an earring in one ear and is missing a chunk in the other ear. ' +
+    'Esmx is running and punching the air with one fist.';
+  // A FOUR-POINTED STAR, outlined in the night, in one of the glitter's inks.
+  function muStar(g, r, i) {
+    var a = r * .25;
+    g.appendChild(svgEl('path', { d: 'M0 ' + f(-r) + 'L' + f(a) + ' ' + f(-a) + ' ' + f(r) + ' 0 ' + f(a) + ' ' + f(a) + ' 0 ' + f(r) + ' ' + f(-a) + ' ' + f(a) + ' ' + f(-r) + ' 0 ' + f(-a) + ' ' + f(-a) + 'Z' },
+      { fill: MU_GLINTS[i % MU_GLINTS.length], stroke: '--much-night', sw: 1.2 }));
+  }
+  M.mglint = function (g) { muStar(g, 10, 0); };
+  M.mglints = function (g) {
+    muStar(group(g, 'translate(-3 2)'), 7.4, 1);
+    muStar(group(g, 'translate(6 -6)'), 4.4, 2);
+    muStar(group(g, 'translate(5.6 7)'), 3.4, 3);
+  };
+  M.mglint2 = function (g) { muStar(g, 8, 4); };
+  function muMoment() {
+    var box = el('div', 'pf-fx__moment');
+    box.appendChild(el('div', 'pf-fx__mu-aura'));
+    for (var i = 0; i < 18; i++) {
+      var sp = fxSpan(box, 'pf-fx__mu-spark', 4 + 92 * rnd(i + 31), 46 + 50 * rnd(i + 57), f(rnd(i + 11) * 3.6));
+      var t = tiny(10 + rnd(i + 5) * 14);
+      muStar(t, 10, i);
+      sp.appendChild(t);
+    }
+    var sign = el('div', 'pf-fx__mu-sign');
+    sign.appendChild(el('span', 'pf-fx__mu-kicker', 'MAX GLITTER'));
+    sign.appendChild(el('span', 'pf-fx__mu-words', 'Bring Your Muchness'));
+    var col = el('div', 'pf-fx__mu-col');
+    col.appendChild(sign);
+    var fig = el('div', 'pf-fx__mu-fig');
+    var img = el('img', 'pf-fx__mu-esmx');
+    img.alt = MU_ALT;
+    img.setAttribute('data-credit', 'Esmx the Porkypine, Rainbow Leaping, drawn by Kaya Oldaker for the Stimpunks Foundation (CC BY-SA 4.0)');
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.src = '/art/esmx-leaping.webp';
+    fig.appendChild(img);
+    col.appendChild(fig);
+    box.appendChild(col);
+    return box;
+  }
+  E.muchness = {
+    scene: function (box) { box.appendChild(muMoment()); },
+    edge: [['mglints', 'tl', 0, 22, 0, [14, 14]], ['mglint2', 'top', .4, 12], ['mglint', 'tr', 0, 18, 0, [-14, 14]], ['mglint2', 'left', .55, 11],
+      ['mglints', 'bl', 0, 20, 0, [14, -14]], ['mglint2', 'bottom', .62, 12], ['mglints', 'br', 0, 22, 0, [-14, -14]], ['mglint2', 'right', .38, 11]],
+    pass: { motif: 'mglint', from: 'bottom', n: 9, size: 14, t: 24, drift: 10 }
+  };
+  /* effect:muchness:end */
 
   var EDGE_AT = {
     tl: function () { return [0, 0]; }, tr: function () { return [100, 0]; },
