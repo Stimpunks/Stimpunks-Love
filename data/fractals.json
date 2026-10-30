@@ -580,20 +580,6 @@
         "--cyan"
       ]
     },
-    "chat.html": {
-      "kind": "julia",
-      "c": [
-        -0.7269,
-        0.1889
-      ],
-      "orbit": 0.013,
-      "ground": "--ink",
-      "inks": [
-        "--cyan",
-        "--pink",
-        "--green"
-      ]
-    },
     "directory.html": {
       "kind": "julia",
       "c": [

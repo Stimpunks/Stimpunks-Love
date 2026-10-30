@@ -37,3 +37,18 @@ WINDOWS = {"call-window.html", "cb-window.html"}
 
 def is_window(name):
     return name in WINDOWS
+
+
+"""AND A PAGE THAT IS AN APP. chat.html (Ryan, 2026-10-30, after Discord's mobile
+app) is a page on the street, with its sitemap entry, share card and place on
+the Map, whose radio fills the whole screen, so that a phone scrolls only the
+part of the chat it is in and never a page round it. Like a window it has no
+sign-off (make-signoff.py) and so no fractal switch (fractals.py): every link in
+one would leave the chat, and a footer under the screen is the page's scroll
+back again. Its job marker was never there (make-guild.py names it)."""
+
+APPS = {"chat.html"}
+
+
+def no_signoff(name):
+    return name in WINDOWS or name in APPS

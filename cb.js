@@ -169,6 +169,12 @@
      page; its channel is simply not shown. */
   function inYou() { return !inWindow() && !!(document.body && document.body.hasAttribute('data-cb-you') && chatDock()); }
   function docked() { return inChat() || inYou(); }
+  /* THE APP (chat.html, Ryan's ask, 2026-10-30, after Discord's mobile app):
+     the chat page with no page round it, the radio filling the screen, so a
+     phone scrolls one thing at a time and never the page and the chat at
+     once. It is the chat page in every way (inChat), and on a phone one part
+     is shown at a time, chosen from the tabs along its foot (appMake). */
+  function inApp() { return inChat() && document.body.hasAttribute('data-cb-app'); }
   /* Which parts fold (see part()): never Where you are, Channel or Happening
      now; on the chat page not Messages or Events either, which are views in
      its middle, nor its Channels or Search; on Your page not You, which is the
@@ -1253,7 +1259,7 @@
     if ('findable' in state) { delete state.findable; save(state); }
 
     var chat = inChat(), you = inYou();
-    var box = this.box = el('section', 'cb-radio' + (inWindow() ? ' cb-radio--window' : '') + (chat ? ' cb-radio--chat' : you ? ' cb-radio--you' : ''));
+    var box = this.box = el('section', 'cb-radio' + (inWindow() ? ' cb-radio--window' : '') + (chat ? ' cb-radio--chat' : you ? ' cb-radio--you' : '') + (inApp() ? ' cb-radio--app' : ''));
     box.setAttribute('aria-label', 'CB radio');
     // In its own window it is out, and says so for any page opened meanwhile.
     if (inWindow() && !state.popped) { state.popped = true; save(state); }
@@ -2447,6 +2453,7 @@
     box.appendChild(trimFoot);
     box.appendChild(sideL);
     box.appendChild(sideR);
+    if (inApp()) this.appMake();
     if (window.ResizeObserver) new ResizeObserver(function () { me.drawArt(); }).observe(trimTop);
 
     fold.addEventListener('click', function () { me.setFolded(!me.state.folded); });
@@ -2574,6 +2581,7 @@
       var dock = chatDock();
       dock.textContent = '';
       host.classList.add(chat ? 'cb-host--chat' : 'cb-host--you');
+      if (inApp()) host.classList.add('cb-host--app');
       dock.appendChild(host);
     } else document.body.appendChild(host);
     if (inWindow()) {
@@ -4758,6 +4766,7 @@
     }
     if (t === chatTag && !first) { chatJoin(); return false; }
     chatTag = t;
+    if (!first && inApp()) radio.appTo('chat');
     var moved = radio.wasPath !== undefined ? radio.whereNow() : (radio.bandShown(), false);
     if (said) radio.tell(said);
     chatJoin();
@@ -5015,6 +5024,7 @@
     groups.addEventListener('click', function (e) {
       var a = e.target.closest && e.target.closest('.cb-chan');
       if (!a) return;
+      if (inApp()) me.appTo('chat');
       var narrow = !me.chatWide();
       if (narrow) me.chatOpen(false);
       // A conversation, or All messages, which are not in the address.
@@ -5069,7 +5079,11 @@
     head.appendChild(go);
     h.insertAdjacentElement('afterend', head);
     if (window.ResizeObserver) new ResizeObserver(function () { me.chatAboutFit(); }).observe(about);
-    if (CHAT_WIDE && CHAT_WIDE.addEventListener) CHAT_WIDE.addEventListener('change', function () { me.chatOpen(false); });
+    if (CHAT_WIDE && CHAT_WIDE.addEventListener) CHAT_WIDE.addEventListener('change', function () {
+      me.chatOpen(false);
+      // A phone's app is one part at a time already, and has no Enlarge.
+      if (inApp() && !CHAT_WIDE.matches) me.setBig(false);
+    });
     this.chatOpen(false);
   };
 
@@ -5225,6 +5239,87 @@
     }, 700);
   };
 
+  /* THE APP'S TABS (chat.html; Ryan's ask, 2026-10-30, after Discord's
+     mobile app). On a phone one part of the chat fills the screen at a time:
+     Channels (Unreads and every channel), Chat (the channel, a conversation
+     or Events, the message box always at the foot), Search, People (what is
+     in this channel, who is around, what is happening and watching together)
+     and You (You and Your radio). Which is shown is the box's data-pane,
+     which cb.css reads; on a wide window the tabs are not there and the
+     columns are, as on the chat page. Picking a channel, a conversation or
+     Events goes to Chat, and a search's results to Search. Nothing is kept:
+     the app opens on Chat, and on Channels when the address names none. */
+  var APP_TABS = [['chans', 'Channels'], ['chat', 'Chat'], ['search', 'Search'], ['people', 'People'], ['you', 'You']];
+  Radio.prototype.appMake = function () {
+    var me = this, nav = el('nav', 'cb-app-tabs');
+    nav.setAttribute('aria-label', 'The chat’s parts');
+    this.appTabs = {};
+    APP_TABS.forEach(function (t) {
+      var b = el('button', 'cb-app-tab cb-app-tab--' + t[0]);
+      b.type = 'button';
+      b.dataset.label = t[1];
+      b.appendChild(appIcon(t[0]));
+      b.appendChild(el('span', 'cb-app-tab__words', t[1]));
+      b.addEventListener('click', function () {
+        me.appTo(t[0]);
+        // Search's box, ready to type in; anywhere else the keyboard stays on the tab.
+        if (t[0] === 'search' && me.searchBox) me.searchBox.focus();
+      });
+      me.appTabs[t[0]] = b;
+      nav.appendChild(b);
+    });
+    this.box.appendChild(nav);
+    this.appTo(chatFromHash() || evFromHash() !== null ? 'chat' : 'chans');
+    /* The screen's own height, less the keyboard where a browser shows the
+       page under it (iOS), so the message box stays above the keyboard. */
+    var vv = window.visualViewport, dock = chatDock();
+    function fit() { dock.style.height = Math.round(vv.height) + 'px'; dock.style.top = Math.round(vv.offsetTop) + 'px'; }
+    if (vv && dock) { vv.addEventListener('resize', fit); vv.addEventListener('scroll', fit); fit(); }
+  };
+  Radio.prototype.appTo = function (pane) {
+    if (!this.appTabs || !this.appTabs[pane]) return;
+    /* A log out of sight keeps no place, so where Chat's was is kept here
+       while another part is shown, and it is at its newest again if it was. */
+    var log = this.chatView === 'dm' ? this.dmLog : this.log;
+    if (this.appPane === 'chat' && pane !== 'chat' && log) {
+      this.appScroll = { log: log, top: log.scrollTop, foot: log.scrollHeight - log.scrollTop - log.clientHeight < 24 };
+    }
+    this.appPane = pane;
+    this.box.dataset.pane = pane;
+    for (var k in this.appTabs) {
+      if (k === pane) this.appTabs[k].setAttribute('aria-current', 'true');
+      else this.appTabs[k].removeAttribute('aria-current');
+    }
+    var was = this.appScroll;
+    if (pane === 'chat' && was) {
+      this.appScroll = null;
+      if (log) log.scrollTop = was.log === log && !was.foot ? was.top : log.scrollHeight;
+    }
+    this.foldMarks();
+  };
+  function appIcon(kind) {
+    var svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    svg.setAttribute('class', 'cb-app-tab__art');
+    var line = { fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' };
+    function add(tag, at) {
+      var e = document.createElementNS(SVGNS, tag);
+      var all = Object.assign({}, line, at);
+      for (var k in all) e.setAttribute(k, all[k]);
+      svg.appendChild(e);
+    }
+    if (kind === 'chans') add('path', { d: 'M9.5 3.5 7.5 20.5M16.5 3.5l-2 17M4 8.5h17M3 15.5h17' });
+    else if (kind === 'chat') add('path', { d: 'M4 5.5h16v10.5H11l-5 4v-4H4z' });
+    else if (kind === 'search') { add('circle', { cx: '10.5', cy: '10.5', r: '6' }); add('path', { d: 'm15 15 5.5 5.5' }); }
+    else if (kind === 'people') {
+      add('circle', { cx: '9', cy: '8.5', r: '3.2' }); add('path', { d: 'M3 20c.6-3.6 3-5.6 6-5.6s5.4 2 6 5.6' });
+      add('circle', { cx: '16.5', cy: '7.5', r: '2.6' }); add('path', { d: 'M17.5 13c2 .4 3.3 2 3.7 4.5' });
+    } else { add('circle', { cx: '12', cy: '8', r: '3.8' }); add('path', { d: 'M4.5 20.5c.8-4.2 3.8-6.6 7.5-6.6s6.7 2.4 7.5 6.6' }); }
+    return svg;
+  }
+
   // The list open or folded under its button, which only a narrow screen shows.
   Radio.prototype.chatOpen = function (open) {
     this.chatSec.classList.toggle('cb-sec--chans-open', !!open);
@@ -5278,7 +5373,8 @@
     this.big = !!on;
     this.box.classList.toggle('cb-radio--big', this.big);
     this.bigDim.classList.toggle('cb-big-dim--on', this.big);
-    this.bigBtn.textContent = this.big ? 'Back into the page' : 'Enlarge the chat';
+    // In the app there is no page: enlarged is the middle alone, and back is every column.
+    this.bigBtn.textContent = this.big ? (inApp() ? 'Show every column' : 'Back into the page') : 'Enlarge the chat';
     logs.forEach(function (l) { l.scrollTop = l.scrollHeight; });
   };
 
@@ -5300,6 +5396,7 @@
     this.chatView = 'dm';
     this.chatChan.hidden = true;
     this.dmSec.hidden = false;
+    if (inApp()) this.appTo('chat');
     this.chatShown();
   };
   Radio.prototype.chatViewChannel = function () {
@@ -5314,6 +5411,7 @@
     }
     this.chatView = 'channel';
     this.chatChan.hidden = false;
+    if (inApp()) this.appTo('chat');
     this.chatShown();
   };
 
@@ -5334,6 +5432,7 @@
     this.evFocus = id || '';
     if (!this.evShown()) this.setEvents(true);
     else { this.evKey = null; this.evDraw(); }
+    if (inApp()) this.appTo('chat');
     this.chatShown();
   };
   // Out of Events. Into a conversation or a search, the step chatHistStep adds
@@ -5733,6 +5832,7 @@
     this.searchRes.hidden = false;
     this.searchSec.classList.add('cb-sec--searching');
     this.searchShown(false);
+    if (inApp()) this.appTo('search');
     this.chatShown();
   };
   Radio.prototype.searchLeave = function () {
@@ -5758,6 +5858,8 @@
     this.searchQ = null;
     if (this.chatView === 'search') this.chatViewChannel();
     this.searchShown(true);
+    // In the app the box is on Search, which the channel's coming back left.
+    if (fromBox && inApp()) this.appTo('search');
     if (fromBox) this.searchBox.focus(); else this.chanH.focus();
   };
 
@@ -12045,6 +12147,8 @@
       }
       markNew(f.btn, on);
     }
+    // The app's Channels tab, while Unreads has something and it is not shown.
+    if (this.appTabs) markNew(this.appTabs.chans, !!this.newsAny && this.appPane !== 'chans');
   };
 
   /* PROFILE'S SECTIONS ARE FOLDED UP (Ryan's ask, 2026-10-19: the tray was so

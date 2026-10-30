@@ -50,8 +50,9 @@ def main():
     changed = 0
     recipes = fractals.load()
     # A window carries no sign-off (tools/windows.py): every link in one would
-    # take the window, and the call in it, somewhere else.
-    pages = sorted(p for p in ROOT.glob("*.html") if not windows.is_window(p.name))
+    # take the window, and the call in it, somewhere else. Nor does an app, the
+    # chat page, which is the whole screen.
+    pages = sorted(p for p in ROOT.glob("*.html") if not windows.no_signoff(p.name))
     for p in pages:
         src = p.read_text()
         before = src

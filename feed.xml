@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Thu, 29 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The chat is an app</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-30-chat-app</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-30-chat-app</guid>
+      <pubDate>Fri, 30 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The chat fills the screen now, with no page round it. The page around the chat meant two things to scroll on a phone, the page and the chat inside it, and nobody liked it. On a phone, one part of the chat fills the screen at a time, the way a chat app has it, chosen from tabs along the foot: Channels, Chat, Search, People and You. The box to write in is always at the foot of Chat, and only the part you are on scrolls. On a wide window it is the three columns, edge to edge, and Enlarge the chat shows the middle alone, filling the window. /app and /mobile bring you to it. The CB guide says how it works.</description>
+    </item>
     <item>
       <title>Bring Your Muchness, on your profile</title>
       <link>https://stimpunks.world/changelog.html#2026-10-29-muchness-effect</link>

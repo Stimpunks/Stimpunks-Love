@@ -43,3 +43,11 @@ http://stimpunks-love.netlify.app/*   https://stimpunks.world/:splat  301!
 /netlify/*        /404.html   404!
 /package.json     /404.html   404!
 /package-lock.json /404.html  404!
+
+# THE CHAT IS AN APP (Ryan's ask, 2026-10-30): chat.html fills the screen, and
+# /app and /mobile, the names it was asked for by, send their reader there.
+# No force flag: there is no app.html or mobile.html to serve.
+/app      /chat   301
+/app/     /chat   301
+/mobile   /chat   301
+/mobile/  /chat   301

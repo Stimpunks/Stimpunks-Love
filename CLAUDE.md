@@ -4284,6 +4284,20 @@ edits are a second chat in a file of its own** (two copies of the message log, w
 layout into `love-cb`**, and **listening to every channel at once for live dots**: the dots are Unreads', which asks
 nothing new, and a listen per channel would tell us where everybody is reading.
 
+**THE CHAT PAGE IS AN APP, WITH NO PAGE ROUND THE RADIO.** Ryan's ask and call, 2026-10-30, after Discord's mobile app:
+the page around the docked radio was a second scroll on a phone. `chat.html` says `data-cb-app` (`inApp()` in `cb.js`,
+which is `inChat()` and more, held by `make-chat.py`), and the radio is the whole screen: on a wide window the three
+columns edge to edge, with **Enlarge the chat** as the middle alone filling the window (no dim, nothing to go back
+into: **Show every column**); on a phone one part at a time, **Channels**, **Chat**, **Search**, **People** and **You**
+(`APP_TABS`, `appMake`, `appTo`), shown by the box's `data-pane` in `cb.css`, from tabs along its foot. Picking a channel,
+a conversation or Events goes to Chat (`chatTake`, the `chatView*` functions); a search's results go to Search. Which tab
+is shown is kept nowhere. The dock is kept the height of the visual viewport, so the message box clears an iPhone's
+keyboard. **It has no sign-off and no fractal switch** (`APPS` in `tools/windows.py`, read by `make-signoff.py` and
+`fractals.py`) but keeps its card, sitemap entry and place on the Map. `/app` and `/mobile` redirect to `/chat`. The
+friendly edits are the page's heading and footer back "so it explains itself" (that is the second scroll; the
+explanation is the dock's text for anybody not signed on), and a tab remembered in `love-cb`, which `CHAT_OWN` exists
+to keep the chat page from writing.
+
 **THE CHANNELS UNDER TAGS ARE A TO Z, OR IN AN ORDER BY ACTIVITY TAKEN ONLY WHEN ASKED.** Ryan's ask, 2026-10-24:
 `chatSorted` in `cb.js` puts every tag group and More rooms A to Z (a leading The, A or An passed over), or by the
 order the reader chose in **Sort the channels under tags** (kept in `love-cb` as `chatSort`): **Recently active**, newest

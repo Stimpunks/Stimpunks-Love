@@ -83,6 +83,11 @@ noticing:
     ask, 2026-10-23), so a room with that tag would be a channel nobody could
     pick there. And cb.js must still read #events before it reads a channel.
 
+Since 2026-10-30 the chat page is an app (cb.js, inApp; Ryan's ask, after
+Discord's mobile app): no page round the radio, which fills the screen, one part
+at a time on a phone, chosen from tabs along its foot. So its <body> must say
+data-cb-app too, and it has no sign-off (tools/windows.py, APPS).
+
 IF THIS REFUSES: fix the cause. Do not widen a list to make it quiet.
 """
 import html
@@ -299,12 +304,17 @@ fr = re.search(r"export function forumRooms\(.*?\n\}", lib, re.S)
 if not fr or "locked: true" not in fr.group(0):
     refuse(f"{LIB.name}: forumRooms must say which categories are locked, so the chat lists them under Staff.")
 
+begin, end = "<!-- chat:dock:begin -->", "<!-- chat:dock:end -->"
 src = PAGE.read_text()
 if not re.search(r"<body[^>]*\bdata-cb-chat\b", src):
     refuse(f"{PAGE.name}: its <body> must say data-cb-chat, or cb.js floats the radio over it like any page.")
-begin, end = "<!-- chat:dock:begin -->", "<!-- chat:dock:end -->"
+if not re.search(r"<body[^>]*\bdata-cb-app\b", src):
+    refuse(f"{PAGE.name}: its <body> must say data-cb-app, or the radio sits in a page that scrolls round it, "
+           "which is the second scroll the app was made to end.")
 if begin not in src or end not in src:
     refuse(f"{PAGE.name} has no chat:dock markers to write between.")
+if "function inApp() { return inChat() &&" not in cb:
+    refuse("cb.js: inApp() must be the chat page and more, so the app keeps every promise this tool holds the chat page to.")
 
 # THE ORDERS (2026-10-24). By activity: two orders, never a time or a count.
 # My own order: kept under the claimed username, groups and channels and
@@ -353,10 +363,12 @@ groups = json.dumps({"community": community, "staff": staff,
                      "tagged": [dict(v, rooms=tagged[v["key"]]) for v in vocab]},
                     ensure_ascii=False, separators=(",", ":"))
 block = (
-    f'  <div data-cb-dock data-chat-groups="{html.escape(groups, quote=True)}" style="margin-top:24px;">\n'
+    f'  <div data-cb-dock data-chat-groups="{html.escape(groups, quote=True)}">\n'
     '    <p>The chat opens here for anybody signed on to the CB in this browser. Not on the CB yet? It is by invite: '
     '<a href="community-center.html#getting-started">Getting started</a> says how to ask for one, and an invite&rsquo;s '
-    'link brings you to <a href="join.html">Join the CB</a>, where you choose a username and a password of your own.</p>\n'
+    'link brings you to <a href="join.html">Join the CB</a>, where you choose a username and a password of your own. '
+    '<a href="cb-guide.html#chat">How the chat works</a> &middot; <a href="privacy.html#cb">What the CB keeps</a> &middot; '
+    '<a href="index.html">The street</a>.</p>\n'
     '    <noscript><p>The chat is the CB&rsquo;s, and it needs JavaScript to be heard at all.</p></noscript>\n'
     '  </div>'
 )

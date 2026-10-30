@@ -2208,6 +2208,105 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
   .cb-radio--big .cb-bar { border-radius: 0; }
 }
 
+/* THE APP (chat.html, cb.js inApp; Ryan's ask, 2026-10-30, after Discord's
+   mobile app): the chat page with no page round it, because the page round it
+   was a second scroll on a phone that nobody liked. The radio is the whole
+   window, edge to edge, so nothing scrolls but the part you are in. On a wide
+   window it is the three columns, and Enlarge the chat is the middle alone,
+   filling the window rather than lifted over a page; on a phone one part at a
+   time fills the screen, the channel's messages taking what is left over the
+   message box, and the tabs along the foot choose which: Channels (column
+   a), Chat and Search (b), People and You (c, split by part). The theme's
+   trims are off on a phone, where a band of drawing above the tabs is a band
+   of messages gone. Every pair here is one CB_ROLES already holds: steel on
+   the case and on the bar, and amber on the case for the line over the tab
+   you are on. These come after the chat page's and the enlarged chat's
+   rules, and are level with or outrank them. */
+:host(.cb-host--app) { display: block; height: 100%; }
+.cb-radio--app, .cb-radio--app.cb-radio--full:not(.cb-radio--folded) {
+  height: 100%; min-height: 0; border-width: 0; border-radius: 0;
+}
+.cb-radio--app .cb-bar { border-radius: 0; }
+.cb-app-tabs { display: none; }
+.cb-radio--app.cb-radio--big, .cb-radio--app.cb-radio--big.cb-radio--full:not(.cb-radio--folded) {
+  position: relative; z-index: auto; top: auto; bottom: auto; left: auto; right: auto;
+  width: 100%; height: 100%; margin: 0; border-width: 0; border-radius: 0;
+}
+.cb-big-dim--on:has(+ .cb-radio--app) { display: none; }
+.cb-radio--app.cb-radio--big .cb-set--parts > .cb-col--b { width: min(100%, 72rem); margin: 0 auto; box-sizing: border-box; }
+@media (min-width: 1000px) {
+  .cb-radio--app.cb-radio--full:not(.cb-radio--folded) { height: 100%; min-height: 0; }
+}
+@media (max-width: 999.98px) {
+  .cb-radio--app .cb-trim, .cb-radio--app .cb-big-btn { display: none; }
+  .cb-radio--app.cb-radio--full:not(.cb-radio--folded) .cb-set--parts {
+    display: flex; flex-direction: column; gap: 0; padding: 0; overflow: hidden;
+  }
+  .cb-radio--app .cb-set--parts > .cb-col { display: none; }
+  .cb-radio--app[data-pane="chans"] .cb-set--parts > .cb-col--a,
+  .cb-radio--app[data-pane="people"] .cb-set--parts > .cb-col--c,
+  .cb-radio--app[data-pane="you"] .cb-set--parts > .cb-col--c {
+    display: grid; grid-template-columns: minmax(0, 1fr); grid-auto-rows: max-content; align-content: start; gap: 16px;
+    flex: 1 1 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 12px 12px 16px;
+  }
+  .cb-radio--app[data-pane="chat"] .cb-set--parts > .cb-col--b,
+  .cb-radio--app[data-pane="search"] .cb-set--parts > .cb-col--b {
+    display: flex; flex-direction: column; gap: 12px;
+    flex: 1 1 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 10px 12px 8px;
+  }
+  /* People and You share the right-hand column, split by part; Chat is the
+     middle without Search, and Search is Search alone. */
+  .cb-radio--app[data-pane="people"] .cb-col--c > .cb-sec--you,
+  .cb-radio--app[data-pane="people"] .cb-col--c > .cb-sec--yours,
+  .cb-radio--app[data-pane="you"] .cb-col--c > .cb-sec:not(.cb-sec--you):not(.cb-sec--yours),
+  .cb-radio--app[data-pane="chat"] .cb-col--b > .cb-sec--search,
+  .cb-radio--app[data-pane="search"] .cb-col--b > .cb-sec:not(.cb-sec--search) { display: none; }
+  /* Each part's groove is between parts on one screen, never over the first. */
+  .cb-radio--app .cb-col > .cb-sec.cb-sec--after { padding-top: 0; border-top: 0; }
+  .cb-radio--app .cb-col > .cb-sec > .cb-divider { display: none; }
+  .cb-radio--app[data-pane="people"] .cb-col--c > .cb-sec:not(:first-child),
+  .cb-radio--app[data-pane="you"] .cb-col--c > .cb-sec--yours,
+  .cb-radio--app[data-pane="chans"] .cb-col--a > .cb-sec:not(:first-child) { padding-top: 14px; border-top: 2px solid var(--cb-bar); }
+  /* The channels are always out here: the tab is their button. */
+  .cb-radio--app .cb-chans-toggle { display: none; }
+  .cb-radio--app .cb-sec--chans .cb-chans-body { display: block; }
+  .cb-radio--app .cb-sec--chans .cb-chans-groups { max-height: none; overflow: visible; padding: 0; margin: 0; }
+  /* The middle as the enlarged chat has it: what is shown takes the height
+     and its messages the rest of it, the message box always at the foot. */
+  .cb-radio--app .cb-col--b > .cb-sec--channel,
+  .cb-radio--app .cb-col--b > .cb-sec--dm,
+  .cb-radio--app .cb-col--b > .cb-sec--search.cb-sec--searching { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+  .cb-radio--app .cb-col--b > .cb-sec--events, .cb-radio--app .cb-col--b > .cb-sec--search { flex: none; }
+  .cb-radio--app .cb-sec--channel > *, .cb-radio--app .cb-lcd > *, .cb-radio--app .cb-sec--dm > *, .cb-radio--app .cb-dm > *,
+  .cb-radio--app .cb-dm-talk > *, .cb-radio--app .cb-sec--searching > *, .cb-radio--app .cb-search-res > * { flex: none; }
+  .cb-radio--app .cb-sec--channel > .cb-lcd { flex: 1 1 0; min-height: 8rem; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+  .cb-radio--app .cb-lcd > .cb-log { flex: 1 1 0; min-height: 4rem; max-height: none; }
+  .cb-radio--app .cb-sec--dm > .cb-dm { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
+  .cb-radio--app .cb-dm > .cb-dm-inbox { flex: 1 1 0; min-height: 0; overflow-y: auto; align-content: start; }
+  .cb-radio--app .cb-dm > .cb-dm-talk { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; overflow-y: auto; }
+  .cb-radio--app .cb-dm-talk > .cb-dm-state, .cb-radio--app .cb-dm-talk > .cb-dm-tx, .cb-radio--app .cb-dm-talk > .cb-dm-go, .cb-radio--app .cb-dm-talk > .cb-dm-block { align-self: stretch; }
+  .cb-radio--app .cb-dm-talk > .cb-dm-lcd { flex: 1 1 0; min-height: 8rem; align-self: stretch; display: flex; flex-direction: column; overflow-y: auto; }
+  .cb-radio--app .cb-dm-lcd > .cb-dm-log { flex: 1 1 0; max-height: none; }
+  .cb-radio--app .cb-sec--searching > .cb-search-res { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
+  .cb-radio--app .cb-search-res > .cb-hits { flex: 1 1 0; min-height: 8rem; overflow-y: auto; }
+  /* The tabs, the width of the screen, clear of a phone's home bar. */
+  .cb-app-tabs {
+    display: flex; flex: none; gap: 2px; padding: 4px 4px calc(4px + env(safe-area-inset-bottom, 0px));
+    background: var(--cb-case); border-top: 2px solid var(--cb-bar);
+  }
+  .cb-app-tab {
+    flex: 1 1 0; min-width: 0; min-height: 52px; position: relative;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    padding: 5px 2px 4px; border: 0; border-top: 3px solid transparent; border-radius: 0 0 8px 8px;
+    background: none; color: var(--cb-steel); font: inherit; font-size: 12px; line-height: 1.2; cursor: pointer;
+  }
+  .cb-app-tab__art { width: 24px; height: 24px; flex: none; }
+  .cb-app-tab__words { max-width: 100%; overflow-wrap: anywhere; text-align: center; }
+  .cb-app-tab[aria-current="true"] { background: var(--cb-bar); border-top-color: var(--cb-amber); font-weight: 700; }
+  .cb-app-tab:focus-visible { outline: 3px solid var(--cb-amber); outline-offset: -3px; }
+  .cb-app-tab > .cb-new { position: absolute; margin: 0; top: 6px; left: calc(50% + 10px); }
+}
+
 /* EVENTS (cb.js, evMake; Ryan's ask, 2026-10-23, after Discord's Scheduled
    Events): a card for each, and the form to schedule one, in the case's own
    clothes and outlined in its groove, the pets tray's way, so every pair here
@@ -2357,6 +2456,32 @@ body.cb-callwin, body.cb-cbwin {
 .cb-callwin__said, .cb-callwin__more { margin: 0 0 10px; }
 body.cb-callwin a, body.cb-cbwin a { color: var(--cb-amber); }
 body.cb-callwin :focus-visible, body.cb-cbwin :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+
+/* AND THE CHAT'S PAGE (chat.html, an app), which is only seen before the radio is up:
+   the same case and words, and a dock the size of the screen that the radio
+   fills, so the page itself never scrolls. cb.js keeps the dock the height
+   of what is shown above a phone's keyboard (appMake). */
+html:has(> body.cb-appwin) { height: 100%; overflow: hidden; }
+body.cb-appwin {
+  margin: 0; height: 100%; overflow: hidden; background: var(--cb-case); color: var(--cb-steel);
+  font: 16px/1.5 'Atkinson Hyperlegible', system-ui, sans-serif;
+}
+/* The dock is the screen and has the case's ground of its own, so a
+   low-stimulation mode finds it already a ground and covers nothing new. */
+body.cb-appwin [data-cb-dock] {
+  position: fixed; top: 0; left: 0; right: 0; height: 100vh; height: 100dvh; overflow-y: auto;
+  background: var(--cb-case);
+}
+body.cb-appwin [data-cb-dock] > p { max-width: 40em; margin: 0; padding: 24px 16px; }
+/* The page's heading is for a screen reader, the dock being the screen. It is
+   hidden here and not with love.css's .sr, so the share card, which lifts the
+   h1 as it is and has no cb.css, still says Chat. */
+.cb-appwin__h {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+body.cb-appwin a { color: var(--cb-amber); }
+body.cb-appwin :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
 
 @media print { .cb-radio, .cb-call { display: none; } }
 
