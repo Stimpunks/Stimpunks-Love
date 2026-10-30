@@ -132,6 +132,15 @@
    "why": "live, or not out yet"
   },
   {
+   "id": "WO92yJtFx_c",
+   "source": "acl",
+   "form": "long",
+   "title": "Ty Myers - Backstage | Austin City Limits TV",
+   "published": "2026-10-26T18:23:24Z",
+   "state": "pending",
+   "why": "live, or not out yet"
+  },
+  {
    "id": "1qKZ6tihPh4",
    "source": "acl",
    "form": "long",
@@ -330,56 +339,6 @@
    "state": "screen",
    "runs": 57,
    "channel": "Austin City Limits"
-  },
-  {
-   "id": "-wstDCtbPgw",
-   "source": "kexp",
-   "form": "long",
-   "title": "Lástima - Full Performance (Live on KEXP)",
-   "published": "2026-09-29T15:00:29Z",
-   "state": "screen",
-   "runs": 2107,
-   "channel": "KEXP"
-  },
-  {
-   "id": "uyYroYUE5OI",
-   "source": "kexp",
-   "form": "long",
-   "title": "zzzahara - On Fye (Live on KEXP)",
-   "published": "2026-09-30T11:00:09Z",
-   "state": "screen",
-   "runs": 150,
-   "channel": "KEXP"
-  },
-  {
-   "id": "hWFCS0SecII",
-   "source": "kexp",
-   "form": "long",
-   "title": "zzzahara - Chinese Tobacco (Live on KEXP)",
-   "published": "2026-09-30T11:00:17Z",
-   "state": "screen",
-   "runs": 251,
-   "channel": "KEXP"
-  },
-  {
-   "id": "nCM37pRztpc",
-   "source": "kexp",
-   "form": "long",
-   "title": "zzzahara - Speed Racer (Live on KEXP)",
-   "published": "2026-09-30T11:00:17Z",
-   "state": "screen",
-   "runs": 201,
-   "channel": "KEXP"
-  },
-  {
-   "id": "t6ifZ1vo_bM",
-   "source": "kexp",
-   "form": "long",
-   "title": "zzzahara - Tesla (Live on KEXP)",
-   "published": "2026-09-30T11:00:17Z",
-   "state": "screen",
-   "runs": 252,
-   "channel": "KEXP"
   },
   {
    "id": "MjVjGIer-Io",
@@ -1482,6 +1441,66 @@
    "channel": "KEXP"
   },
   {
+   "id": "MJYbHo6VG_c",
+   "source": "kexp",
+   "form": "long",
+   "title": "Basajan - Waas (Live on KEXP)",
+   "published": "2026-10-29T13:00:29Z",
+   "state": "screen",
+   "runs": 251,
+   "channel": "KEXP"
+  },
+  {
+   "id": "YdSY5DPq9n4",
+   "source": "kexp",
+   "form": "long",
+   "title": "Basajan - Full Performance (Live on KEXP)",
+   "published": "2026-10-29T15:00:19Z",
+   "state": "screen",
+   "runs": 1314,
+   "channel": "KEXP"
+  },
+  {
+   "id": "7mMkQXFbMsc",
+   "source": "kexp",
+   "form": "long",
+   "title": "Russian Circles - Eluvial (Live on KEXP)",
+   "published": "2026-10-30T11:00:18Z",
+   "state": "screen",
+   "runs": 532,
+   "channel": "KEXP"
+  },
+  {
+   "id": "_rsT45DtcAI",
+   "source": "kexp",
+   "form": "long",
+   "title": "Russian Circles - Harper Lewis (Live on KEXP)",
+   "published": "2026-10-30T11:00:18Z",
+   "state": "screen",
+   "runs": 464,
+   "channel": "KEXP"
+  },
+  {
+   "id": "FL0SBcKsMqg",
+   "source": "kexp",
+   "form": "long",
+   "title": "Russian Circles - Deficit (Live on KEXP)",
+   "published": "2026-10-30T11:00:19Z",
+   "state": "screen",
+   "runs": 430,
+   "channel": "KEXP"
+  },
+  {
+   "id": "ZLSqIZsRj8M",
+   "source": "kexp",
+   "form": "long",
+   "title": "Russian Circles - Empath (Live on KEXP)",
+   "published": "2026-10-30T11:00:23Z",
+   "state": "screen",
+   "runs": 327,
+   "channel": "KEXP"
+  },
+  {
    "id": "5luZYsQIoAA",
    "source": "kexp",
    "form": "short",
@@ -1672,14 +1691,14 @@
    "channel": "KEXP"
   },
   {
-   "id": "0nJEJlsYc8c",
-   "source": "kcrw",
-   "form": "long",
-   "title": "Jackson Walker Lewis' (Fcukers) Must-Listen Albums",
-   "published": "2026-09-29T14:00:14Z",
+   "id": "qQidG4OpvqU",
+   "source": "kexp",
+   "form": "short",
+   "title": "Basajan performs \"Budak Leutik Bisa Ngapung\" & more Live on KEXP at AXEAN Festival",
+   "published": "2026-10-29T17:11:01Z",
    "state": "screen",
-   "runs": 127,
-   "channel": "KCRW"
+   "runs": 60,
+   "channel": "KEXP"
   },
   {
    "id": "Af59sJxRJwE",
@@ -1782,13 +1801,13 @@
    "channel": "KCRW"
   },
   {
-   "id": "C5LQJwB4oCQ",
+   "id": "GqcyWTBXj54",
    "source": "kcrw",
    "form": "short",
-   "title": "Jackson Walker Lewis' (Fcukers) Must Listen Albums",
-   "published": "2026-09-29T16:00:35Z",
+   "title": "Peter Bjorn & John \"Young Folks\" Live on KCRW",
+   "published": "2026-10-29T14:00:12Z",
    "state": "screen",
-   "runs": 75,
+   "runs": 55,
    "channel": "KCRW"
   }
  ],
@@ -1797,13 +1816,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-29T11:31:25Z"
+     "2026-10-30T11:33:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-29T11:31:25Z"
+     "2026-10-30T11:33:57Z"
     ]
    ]
   },
@@ -1811,13 +1830,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-29T11:31:25Z"
+     "2026-10-30T11:33:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-29T11:31:25Z"
+     "2026-10-30T11:33:57Z"
     ]
    ]
   },
@@ -1825,16 +1844,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-29T11:31:25Z"
+     "2026-10-30T11:33:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-29T11:31:25Z"
+     "2026-10-30T11:33:57Z"
     ]
    ]
   }
  },
- "set": "2026-10-29T11:31Z"
+ "set": "2026-10-30T11:33Z"
 }
