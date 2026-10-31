@@ -6313,6 +6313,22 @@ div.facade--square { border: 0; background: none; }
 .toytheatre:focus-visible { outline-color: var(--ps-ring); }
 .toytheatre__to { display: block; font-family: 'Bungee', var(--sans); font-size: 17px; letter-spacing: 1px; color: var(--ps-link); }
 .toytheatre__why { display: block; margin-top: 7px; font-size: 14.5px; max-width: 70ch; color: var(--ps-cream); }
+/* CEL STREET, A CEL IN THE WINDOW BESIDE THE THEATRE. Street furniture, a
+   glimpse of where it goes the way the theatre is: a cel's flat pale ground
+   inside an inked line, with a band of its sky across the top, and the words
+   in its own print and link, pairs check-contrast.py already holds for §134.
+   Lettered in Rammetto One, the face Cel Street's name is set in, because the
+   theatre has the pavement's. */
+.celwindow { display: block; margin: 0 0 26px; text-decoration: none; }
+.celwindow__front {
+  display: block; padding: 14px 22px 18px;
+  background: var(--cel-page); color: var(--cel-print);
+  border: 4px solid var(--cel-ink); border-top: 16px solid var(--cel-sky); border-radius: 18px;
+}
+.celwindow:hover .celwindow__front { border-color: var(--cel-link); border-top-color: var(--cel-sky); }
+.celwindow:focus-visible { outline-color: var(--cel-sky); }
+.celwindow__to { display: block; font-family: 'Rammetto One', var(--sans); font-size: 17px; letter-spacing: .5px; color: var(--cel-link); }
+.celwindow__why { display: block; margin-top: 7px; font-size: 14.5px; max-width: 70ch; color: var(--cel-print); }
 .finder__lab { display: block; margin-bottom: 8px; font-family: 'Bungee', var(--sans); font-size: 15px;
   letter-spacing: 1px; color: var(--mm-link); }
 .finder__q {
@@ -16157,7 +16173,7 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
 /* A BUILDING. The face carries the name; the top and the side are clipped out
    of rectangles, never skewed; the shadow falls down and to the left, away from
    a lamp off the upper right of the table. */
-.mm-shop, .mm-back, .mm-table, .mm-notice, .mm-brass, .mm-poster, .mm-theatre {
+.mm-shop, .mm-back, .mm-table, .mm-notice, .mm-brass, .mm-poster, .mm-theatre, .mm-cel {
   position: relative; display: block; min-width: 0; max-width: 100%;
   background: var(--mm-face); color: var(--mm-ink); text-decoration: none;
   border: 1.5px solid var(--mm-pencil);
@@ -16178,10 +16194,10 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   clip-path: polygon(0 var(--mm-d), 100% 0, 100% calc(100% - var(--mm-d)), 0 100%);
 }
 .mm-shop > .mm-name, .mm-back > .mm-name { position: relative; }
-.mm-shop:hover, .mm-back:hover, .mm-table:hover, .mm-notice:hover, .mm-brass:hover, .mm-poster:hover, .mm-theatre:hover,
-.mm-shop:focus-visible, .mm-back:focus-visible, .mm-notice:focus-visible, .mm-brass:focus-visible, .mm-poster:focus-visible, .mm-theatre:focus-visible {
+.mm-shop:hover, .mm-back:hover, .mm-table:hover, .mm-notice:hover, .mm-brass:hover, .mm-poster:hover, .mm-theatre:hover, .mm-cel:hover,
+.mm-shop:focus-visible, .mm-back:focus-visible, .mm-notice:focus-visible, .mm-brass:focus-visible, .mm-poster:focus-visible, .mm-theatre:focus-visible, .mm-cel:focus-visible {
   box-shadow: -12px 14px 0 rgba(34, 48, 43, .34); }
-.mm-shop:hover .mm-name, .mm-back:hover .mm-name, .mm-notice:hover .mm-name, .mm-brass:hover .mm-name, .mm-poster:hover .mm-name, .mm-theatre:hover .mm-name,
+.mm-shop:hover .mm-name, .mm-back:hover .mm-name, .mm-notice:hover .mm-name, .mm-brass:hover .mm-name, .mm-poster:hover .mm-name, .mm-theatre:hover .mm-name, .mm-cel:hover .mm-name,
 .mm-tent:hover .mm-name, .mm-sign:hover .mm-name, .mm-tag:hover .mm-name, .mm-gate:hover .mm-name,
 .mm-edge__name:hover .mm-name, .mm-roadname__a:hover .mm-name { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -16227,6 +16243,11 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
    with an arched opening cut in its front. Same white card as everything. */
 .mm-theatre { width: 9rem; padding: 16px 10px 10px; margin-top: 4px; text-align: center;
   border-top: 7px solid var(--mm-face); border-radius: 30px 30px 2px 2px; box-shadow: -6px 7px 0 rgba(34, 48, 43, .24); }
+/* Cel Street's cel, in the window beside the theatre: a flat sheet of card
+   stood on its edge, square, with a strip along the top where its sky is.
+   Same white card as everything. */
+.mm-cel { width: 9rem; padding: 12px 10px 10px; margin-top: 4px; text-align: center;
+  border-top: 9px solid var(--mm-top); border-radius: 4px; box-shadow: -6px 7px 0 rgba(34, 48, 43, .24); }
 
 /* THE GATE. A gap in the wall with an arch over it, and the garden behind is
    the note, because a garden in white card is a thing you have to be told. */
@@ -16250,7 +16271,7 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
    down a pencilled passage from it. Below and outward rather than beside, so a
    room with several behind it reads the same on a phone as on a desk. */
 .mm-behind { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
-/* Paper Street's toy theatre with Cel Street behind it, the dashed line
+/* Paper Street's toy theatre with anything behind it, the dashed line
    running down from the theatre. */
 .mm-stack { display: flex; flex-direction: column; align-items: center; gap: 22px; }
 .mm-lot--e .mm-stack .mm-behind { margin-left: 0; align-items: center; }
@@ -16358,7 +16379,7 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   .mm-lots { --mm-lane: 34px; row-gap: 22px; }
   .mm-lot--w { padding-right: 8px; }
   .mm-lot--e { padding-left: 2px; }
-  .mm-shop, .mm-gate, .mm-plot, .mm-table, .mm-notice, .mm-brass, .mm-lifthead, .mm-theatre { width: 100%; }
+  .mm-shop, .mm-gate, .mm-plot, .mm-table, .mm-notice, .mm-brass, .mm-lifthead, .mm-theatre, .mm-cel { width: 100%; }
   .mm-shop { --mm-d: 8px; padding: 10px 9px 12px; }
   .mm-back { --mm-d: 6px; width: 100%; padding: 7px 8px 9px; }
   .mm-lot--w .mm-behind { margin-right: 0; margin-left: 12px; }

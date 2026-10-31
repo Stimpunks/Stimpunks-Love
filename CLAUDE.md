@@ -4121,8 +4121,11 @@ The stage is sized in `svh` so a phone's address bar does not rebuild the room a
 
 **CEL STREET IS THE FIRST STRETCH OF THE STREET IN WEBGL, AND THREE.JS IS VENDORED AND PINNED.** Ryan's ask, 2026-10-31:
 a WebGL version of the street in a 3D anime style, as a proof of concept beside Paper Street, with solar panels on the roofs;
-he named it Cel Street (Slice of Life was the other name he liked, and may yet be its name). `cel-street.html` (§134) hangs
-off Paper Street, which links to it (`data/map.json` puts it behind the toy theatre). `cel-street.js` is an ES module that
+he named it Cel Street (Slice of Life was the other name he liked, and may yet be its name). `cel-street.html` (§134)
+**stopped being a proof of concept the same evening** (Ryan: "promote this from proof-of-concept to advertised on the home
+page"): it stands by the front door as street furniture of its own, `.celwindow` on index.html under the toy theatre (a cel
+in the window, its own pale ground, inked line and sky band in `--cel-*`, never the theatre's clothes), which `make-map.py`
+reads as furniture and draws as a cel beside the theatre. `cel-street.js` is an ES module that
 imports `vendor/three.module.min.js` (three.js 0.160.0, MIT, its licence beside it) and nothing else; the CSP's
 `script-src 'self'` is why it is a file here and never a CDN, and **`tools/make-cel-street.py` refuses the file if its
 sha256 is not the one recorded in the tool**, so updating three.js is a decision: new file, new VERSION and SHA256, same
@@ -4143,7 +4146,7 @@ friendly edits are drifting clouds or swaying wires "so it feels alive", three.j
 painting the floors above the shops in the doors' colours, which makes the street's shops a house style.
 
 **A ROOM YOU CAN WALK INTO ON CEL STREET IS `cel-in-<page>.js`, AND IT IS THAT ROOM'S WORLD**, Paper Street's walk-*.js
-rule in WebGL (Ryan's ask, 2026-10-31; Pink Pony Club first, Club Chronic second, the Jungle Room third with its page in a leaf; Club Chronic's flyers merged into one mesh per
+rule in WebGL (Ryan's ask, 2026-10-31; Pink Pony Club first, Club Chronic second, the Jungle Room third with its page in a leaf, the Zine Table fourth with its page taped up on the wall, leaning above Gentle and straight at Gentle, its cut-up sheets scattered at angles on a table where Club Chronic's lie flat in layers on a wall; Club Chronic's flyers merged into one mesh per
 paper through `kit.sheet`, because hundreds of separate sheets are hundreds of draws). It registers `window.loveCelRooms['<page>']` with a
 `build(kit)` that draws in the room's own declared colours by name, adds its own lights to `kit.scene`, and returns its
 start, bounds and stops; `make-cel-street.py` writes `ROOMS` between `cel:rooms` markers and refuses a room's file that

@@ -97,7 +97,7 @@ def furniture():
     rather than where they sit, so moving one on the page does not lose it."""
     src = (ROOT / "index.html").read_text()
     out = {}
-    for cls in ("noticeboard", "brasstacks", "postercol", "gardengate", "signpost", "roadout", "liftdown", "toytheatre"):
+    for cls in ("noticeboard", "brasstacks", "postercol", "gardengate", "signpost", "roadout", "liftdown", "toytheatre", "celwindow"):
         m = re.search(rf'<a class="{cls}" href="([^"]+)"', src)
         if not m:
             raise SystemExit(f"REFUSING: index.html has lost its {cls}, and the model stands one where it goes.")
@@ -267,8 +267,8 @@ def behind_lot(page):
 
 
 def behind_list(page):
-    """The rooms behind a piece of furniture: Cel Street is through a link on
-    Paper Street, which stands in the toy theatre by the front door."""
+    """The rooms behind a piece of furniture, such as anything reached only
+    through Paper Street, which stands in the toy theatre by the front door."""
     kids = children.get(page, [])
     if not kids:
         return ""
@@ -309,6 +309,7 @@ def gate_lot(side):
 
 
 THEATRE_NOTE = '<span class="mm-note">a toy theatre in the window</span>'
+CEL_NOTE = '<span class="mm-note">a cel in the window</span>'
 rows = []
 # The top of the street, at the treeline end: the stoop, which is the front
 # door, and across the pavement from it the table this model stands on, with
@@ -328,6 +329,7 @@ rows.append(f'<li class="mm-lot mm-lot--e mm-lot--furniture">'
             f'<span class="mm-table" id="at-map" aria-current="page">'
             f'<span class="mm-name">The Map</span><span class="mm-note">this table</span></span>'
             f'{theatre()}'
+            f'{link(furn["celwindow"], "mm-cel", None, CEL_NOTE)}'
             f'{link(furn["noticeboard"], "mm-notice")}'
             f'{link(furn["brasstacks"], "mm-brass")}'
             f'{link(furn["postercol"], "mm-poster")}</li>')
