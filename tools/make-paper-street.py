@@ -88,6 +88,76 @@ if re.search(r"rotate|skew|matrix|perspective", code):
 if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", code):
     refuse("paper-street.js writes markup from a string. It copies the front page's own elements and builds the rest.")
 
+if "screen(" not in code or "iframe" not in code:
+    refuse("paper-street.js has lost screen(), the one way a room's page goes up inside its scene.")
+
+# ── The rooms you can walk into, each its own file ───────────────────────────
+# A ROOM'S FILE IS walk-<the room's page>.js AND IS THAT ROOM'S WORLD. It is held
+# to Paper Street's promises (nothing kept, sent, fetched or timed, nothing
+# rotated, no markup from a string), it may not build a frame of its own (its
+# page goes up through Paper Street's screen(), so every room's page arrives the
+# same honest way), it draws only in colours love.css declares, by name, and its
+# classes are styled in its own room's section and nowhere else.
+CSS_SRC = CSS.read_text()
+SECTIONS = [(m.start(), m.group(0)) for m in re.finditer(r"/\* §\d+ ── [^\n]*", CSS_SRC)]
+ROOT_DECL = set(re.findall(r"(--[\w-]+)\s*:", re.sub(r"/\*.*?\*/", " ",
+                CSS_SRC[CSS_SRC.index(":root {"):CSS_SRC.index("\n}", CSS_SRC.index(":root {"))], flags=re.S)))
+
+
+def section_with(selector):
+    for i, (at, head) in enumerate(SECTIONS):
+        end = SECTIONS[i + 1][0] if i + 1 < len(SECTIONS) else len(CSS_SRC)
+        body = CSS_SRC[at:end]
+        if re.search(rf"(^|[\s,}}]){re.escape(selector)}[\s{{:.,\[]", re.sub(r"/\*.*?\*/", "", body, flags=re.S)):
+            return head, body
+    return None, None
+
+
+rooms = {}
+for f in sorted(ROOT.glob("walk-*.js")):
+    page = f.name[len("walk-"):-3] + ".html"
+    src = f.read_text()
+    mod = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
+    mod = re.sub(r"(?m)^\s*//.*$", "", mod)
+    who = f.name
+    if not (ROOT / page).exists():
+        refuse(f"{who} walks into {page}, which is not a page on the street.")
+        continue
+    if f"window.lovePaperRooms['{page}']" not in mod:
+        refuse(f"{who} does not register itself as window.lovePaperRooms['{page}'].")
+    if re.search(r"localStorage|sessionStorage|indexedDB|document\.cookie", mod):
+        refuse(f"{who} touches storage. A room on Paper Street keeps nothing.")
+    if re.search(r"\bfetch\(|XMLHttpRequest|sendBeacon|EventSource|WebSocket|\bimport\(", mod):
+        refuse(f"{who} asks the network for something. Its page arrives through screen(), and that is all.")
+    if re.search(r"\bsetInterval\b|\bsetTimeout\b|requestAnimationFrame", mod):
+        refuse(f"{who} keeps a clock. Nothing in a room moves by itself; Paper Street moves you.")
+    if re.search(r"rotate|skew|matrix|perspective|transform", mod):
+        refuse(f"{who} rotates, skews or transforms something. Work the points out turned and draw them.")
+    if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", mod):
+        refuse(f"{who} writes markup from a string.")
+    if re.search(r"createElement\(\s*['\"]iframe", mod) or "<iframe" in mod:
+        refuse(f"{who} builds a frame of its own. The room's page goes up through kit.screen().")
+    if "kit.screen(kit.page" not in mod:
+        refuse(f"{who} never hangs its own page. Every room on Paper Street has its page inside it.")
+    if re.search(r"#[0-9a-fA-F]{3,8}\b|\brgba?\(|\bhsla?\(", mod):
+        refuse(f"{who} has a literal colour. A room draws in the inks its section declares, by name.")
+    for v in sorted(set(re.findall(r"var\((--[\w-]+)\)", mod)) | set(re.findall(r"ink\('(--[\w-]+)'\)", mod))):
+        if v not in ROOT_DECL:
+            refuse(f"{who} draws in {v}, which love.css's :root does not declare.")
+    body_cls = re.search(r'<body[^>]*class="([^"]+)"', (ROOT / page).read_text())
+    prefix = re.search(r"prefix:\s*'([a-z0-9-]+)'", mod)
+    if not prefix:
+        refuse(f"{who} names no prefix for its classes.")
+    elif body_cls:
+        head, body = section_with("." + body_cls.group(1).split()[0])
+        if not head:
+            refuse(f"{who}: no section of love.css styles {page}'s body class.")
+        else:
+            for c in sorted(set(re.findall(r"'(" + re.escape(prefix.group(1)) + r"[a-z0-9-]*)'", mod))):
+                if not re.search(rf"\.{re.escape(c)}\b", re.sub(r"/\*.*?\*/", "", body, flags=re.S)):
+                    refuse(f"{who} dresses things in .{c}, which {head.split('──')[0].strip(' /*')} (the room's own section) does not style.")
+    rooms[page] = f.name
+
 # ── The page ────────────────────────────────────────────────────────────────
 page = PAGE.read_text()
 if not re.search(r'<body[^>]*\bdata-familiar="walks"', page):
@@ -163,6 +233,16 @@ if problems:
     for p in problems:
         print("REFUSING  " + p)
     sys.exit(1)
+
+# The list of rooms you can walk into, into paper-street.js.
+listed = "  var ROOMS = {" + ", ".join(f"'{p}': '{f}'" for p, f in rooms.items()) + "};"
+js_new = re.sub(r"(  // walk:rooms:begin\n).*?(\n  // walk:rooms:end)", lambda m: m.group(1) + listed + m.group(2), js, flags=re.S)
+if "// walk:rooms:begin" not in js:
+    print("REFUSING  paper-street.js has no walk:rooms markers for the rooms you can walk into.")
+    sys.exit(1)
+if js_new != js:
+    JS.write_text(js_new)
+    print("paper-street.js: rooms you can walk into: " + (", ".join(rooms) or "none"))
 
 new = re.sub(r"(<!-- ps:arch:begin -->).*?(<!-- ps:arch:end -->)",
              lambda m: m.group(1) + "\n    " + arch() + "\n    " + m.group(2), page, flags=re.S)

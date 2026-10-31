@@ -4079,6 +4079,19 @@ own words and not the flats, which are measured where §5 stands them. The frien
 first person is not so empty", a count of doors passed, rotation for turning round, and a copy of the doors written
 in at build time "so it works without the fetch"; a 3D room is built one room at a time in its own world, never from
 one template for all of them, with its page on its wall.
+**A ROOM YOU CAN WALK INTO IS `walk-<page>.js`, AND IT IS THAT ROOM'S WORLD** (Ryan, 2026-10-31; the Jungle Room is the
+first). A door whose room has one says **You can walk in** under its fold, and pressing it goes in on Paper Street
+(`#in=<room>` in the address, so Back comes out); the street's flats are put by and the room's file builds its scene
+from `kit` (place a thing, a stop, the floor), drawn only in its own section's declared inks, its classes (its
+`prefix`) styled in its own section, never in §133. **The room's page goes up only through `kit.screen()`**, an
+iframe of the page itself whose links to other pages take the whole window, full size when you stand at it; the
+keyboard going into it is told to the scene by a `ps-into` event, because a parent never hears focus arrive inside a
+frame. A room's stage clothes are custom properties Paper Street reads (`--ps-frame`, `--ps-back`, `--ps-backcloth`),
+set on the room's own class. `make-paper-street.py` writes the list of rooms into `paper-street.js` between
+`walk:rooms` markers (never hand-edit them) and refuses a room's file that stores, fetches, keeps a clock, transforms,
+writes markup from a string, builds its own frame, never hangs its page, or uses a literal colour or an undeclared
+one. **A new room is a new file and its classes in its own section**; the friendly edits are a shared room template,
+the room drawn in Paper Street's card, and a scene that moves by itself.
 
 **THE ABOUT PAGE'S FILM IS A CLAUDE MOTION FILM, AND THE MP4 IS AN EXPORT OF IT, NOT ITS SOURCE.**
 Ryan, 2026-10-15, for people shown the street who say they do not get it. `about.html` is paperwork
