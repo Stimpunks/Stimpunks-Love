@@ -30,6 +30,8 @@ WHAT IT REFUSES IN cel-street.js:
 AND IN love.css's §134: a keyframe, an animation or a transition.
 """
 import hashlib
+import html
+import json
 import random
 import re
 import sys
@@ -76,12 +78,14 @@ if not row or not re.search(r'<li><a class="door door--[^"]+" href="[^"]+"', row
     refuse('index.html has no <ul class="doors"> of <li><a class="door"> links, and Cel Street builds exactly those.')
 elif 'class="door__awning"' not in row.group(1) or 'class="door__name"' not in row.group(1):
     refuse("index.html's doors have lost .door__awning or .door__name, which Cel Street dresses its shops in.")
+if not re.search(r'<a class="signpost" href="campgrounds\.html">', index) or 'class="signpost__to"' not in index:
+    refuse("index.html has lost its signpost to the campgrounds, which Cel Street stands at the treeline end.")
 
 # ── What cel-street.js promises ─────────────────────────────────────────────
 js = JS.read_text()
 code = re.sub(r"/\*.*?\*/", "", js, flags=re.S)
 code = re.sub(r"(?m)^\s*//.*$", "", code)
-for selector in ("ul.doors", ":scope > li > a.door", ".door__awning", ".door__name"):
+for selector in ("ul.doors", ":scope > li > a.door", ".door__awning", ".door__name", "a.signpost", ".signpost__to"):
     if selector not in code:
         refuse(f"cel-street.js no longer reads {selector!r}; change this tool's list with it, on purpose.")
 imports = re.findall(r"^\s*import\b[^;]*?from\s*'([^']+)'", code, re.M)
@@ -160,6 +164,38 @@ for f in sorted(ROOT.glob("cel-in-*.js")):
         if name not in declared:
             refuse(f"{f.name} draws in {name}, which love.css's :root does not declare.")
     rooms[rpage] = f.name
+
+# ── The campgrounds' pitches, read off its own board ────────────────────────
+# The field on Cel Street stands a post for every pitch on campgrounds.html's
+# board, in its order, with its number, its name and where it goes; written
+# into cel-in-campgrounds.js between cel:pitches markers, never by hand, so a
+# pitch on the board is a post in the field the next run.
+CAMP = ROOT / "cel-in-campgrounds.js"
+pitches = []
+board = (ROOT / "campgrounds.html").read_text()
+for m in re.finditer(r'<li class="pitch( [^"]*)?">(.*?)</li>\s*(?=<li class=|</ul>)', board, re.S):
+    mods, body = m.group(1) or "", m.group(2)
+    no = re.search(r'<span class="pitch__no">([^<]+)</span>', body)
+    h3 = re.search(r"<h3>(.*?)</h3>", body, re.S)
+    if not no or not h3:
+        refuse("a pitch on campgrounds.html's board has no number or no name, and Cel Street letters both on its post.")
+        continue
+    a = re.search(r'<a href="([^"]+)">(.*?)</a>', h3.group(1), re.S)
+    name = re.sub(r"<[^>]+>", "", a.group(2) if a else h3.group(1)).strip()
+    name = html.unescape(name)
+    state = "summit" if "pitch--summit" in mods else "open" if "pitch--open" in mods else "raising" if "pitch--raising" in mods else ""
+    pitches.append({"no": html.unescape(no.group(1)).strip(), "name": name, "page": a.group(1) if a else None, "state": state})
+if not pitches:
+    refuse("campgrounds.html's board has no pitches Cel Street can read.")
+if CAMP.exists():
+    camp = CAMP.read_text()
+    if "// cel:pitches:begin" not in camp:
+        refuse("cel-in-campgrounds.js has lost its cel:pitches markers.")
+    else:
+        pline = "      var PITCHES = " + json.dumps(pitches, ensure_ascii=False) + ";"
+        camp_new = re.sub(r"(// cel:pitches:begin\n).*?(\n\s*// cel:pitches:end)", lambda m: m.group(1) + pline + m.group(2), camp, flags=re.S)
+        if camp_new != camp:
+            CAMP.write_text(camp_new)
 
 if problems:
     print("REFUSING:\n  " + "\n  ".join(problems))

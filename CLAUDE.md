@@ -4146,7 +4146,7 @@ friendly edits are drifting clouds or swaying wires "so it feels alive", three.j
 painting the floors above the shops in the doors' colours, which makes the street's shops a house style.
 
 **A ROOM YOU CAN WALK INTO ON CEL STREET IS `cel-in-<page>.js`, AND IT IS THAT ROOM'S WORLD**, Paper Street's walk-*.js
-rule in WebGL (Ryan's ask, 2026-10-31; Pink Pony Club first, Club Chronic second, the Jungle Room third with its page in a leaf, the Zine Table fourth with its page taped up on the wall, leaning above Gentle and straight at Gentle, its cut-up sheets scattered at angles on a table where Club Chronic's lie flat in layers on a wall; Club Chronic's flyers merged into one mesh per
+rule in WebGL (Ryan's ask, 2026-10-31; Pink Pony Club first, Club Chronic second, the Jungle Room third with its page in a leaf, the Zine Table fourth with its page taped up on the wall, leaning above Gentle and straight at Gentle, its cut-up sheets scattered at angles on a table where Club Chronic's lie flat in layers on a wall; then the Campgrounds through a treeline at the stoop's end, the sign read off the front page's signpost, a post for every pitch written into `cel-in-campgrounds.js` between `cel:pitches` markers by the tool from the board (never by hand), and the Faery Yurt and the Solarpunk Hermitage opening off their posts; Club Chronic's flyers merged into one mesh per
 paper through `kit.sheet`, because hundreds of separate sheets are hundreds of draws). It registers `window.loveCelRooms['<page>']` with a
 `build(kit)` that draws in the room's own declared colours by name, adds its own lights to `kit.scene`, and returns its
 start, bounds and stops; `make-cel-street.py` writes `ROOMS` between `cel:rooms` markers and refuses a room's file that
@@ -4154,7 +4154,7 @@ keeps, sends, times, moves by itself, makes an element, imports, never puts its 
 room's page goes up only through `kit.screen()`**, an iframe stood in the scene by three.js's CSS3D renderer
 (`vendor/CSS3DRenderer.js`, its one change its import line, pinned by hash), so it reads and presses as itself; Enter at
 its stop puts the keyboard in it. Walking in pushes `#in=<room>`, so Back comes out, and the street is kept as you
-left it (`outside`). **Its first build named that `street`, which is also the function that lays the road**, and the
+left it (`outside`). **A room can open off another**: what you came in from is a stack (`behind`), Back out goes one room back and says where, the room you came from keeps its page loaded and hidden, and a room that names `from` (a pitch, `campgrounds.html`) arrived at by its address comes in through that room. **The yurt there is ours, as the field's sign for her pitch is**: drawn only in her declared colours, changing nothing on her page, and hers to keep or send back; a change to how it looks is still hers to ask for. **Its first build named that `street`, which is also the function that lays the road**, and the
 street stopped building: grep a name before reusing it.
 
 **THE ABOUT PAGE'S FILM IS A CLAUDE MOTION FILM, AND THE MP4 IS AN EXPORT OF IT, NOT ITS SOURCE.**

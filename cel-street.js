@@ -42,7 +42,7 @@ function start() {
   // here by tools/make-cel-street.py from the cel-in-*.js files. Do not
   // hand-edit between the markers.
   // cel:rooms:begin
-  var ROOMS = {'club-chronic.html': 'cel-in-club-chronic.js', 'jungle-room.html': 'cel-in-jungle-room.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js', 'zine-table.html': 'cel-in-zine-table.js'};
+  var ROOMS = {'campgrounds.html': 'cel-in-campgrounds.js', 'club-chronic.html': 'cel-in-club-chronic.js', 'faery-yurt.html': 'cel-in-faery-yurt.js', 'jungle-room.html': 'cel-in-jungle-room.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js', 'solarpunk-hermitage.html': 'cel-in-solarpunk-hermitage.js', 'zine-table.html': 'cel-in-zine-table.js'};
   // cel:rooms:end
   var CHUNK = 60;            // the street is drawn in lengths this long
   var VIEW = 300;            // and only the lengths this near you are drawn
@@ -267,7 +267,8 @@ function start() {
   var PARTS = {
     door: { ground: null, stripes: '.door__awning', name: '.door__name' },
     gate: { ground: '.gardengate__arch', stripes: null, name: '.gardengate__to' },
-    lot: { ground: null, stripes: null, name: '.lotgate__name' }
+    lot: { ground: null, stripes: null, name: '.lotgate__name' },
+    post: { ground: '.signpost__arm', stripes: null, name: '.signpost__to' }
   };
   function named(t, kind) {
     t = t.replace(/[\u2190-\u21ff]/g, '').replace(/\s+/g, ' ').trim();
@@ -463,6 +464,28 @@ function start() {
     piece((function () { var b = BOX.clone(); b.scale(L - 0.4, 0.06, 13); return b; })(), new THREE.Matrix4().multiplyMatrices(g, at(0, 0.03, -6.8)), mat, key, false, false);
     tree(new THREE.Vector3(-L / 3, 0, -10).applyMatrix4(g).x, new THREE.Vector3(-L / 3, 0, -10).applyMatrix4(g).z, 1.2);
     hitbox(i, L, 3.5, 3, new THREE.Matrix4().multiplyMatrices(g, at(0, 1.6, 0)));
+  }
+
+  // THE TREELINE, at the stoop's end, where the street runs out into a
+  // field: trees across the road with a gap for the track, and the trail sign
+  // in the signpost's own colours and lettering, as the front page wears it.
+  var TREES = 13;
+  function treeline(d, i) {
+    for (var x = -FRONT - 14; x <= FRONT + 14; x += 2.2) {
+      if (Math.abs(x) < 2.2) continue;
+      tree(x + (hash('tlx' + x) - 0.5) * 0.8, TREES + hash('tlz' + x) * 2.5, 1.1 + hash('tls' + x) * 0.5);
+      tree(x + 1.1, TREES + 3.5 + hash('tlb' + x) * 3, 1.3 + hash('tlt' + x) * 0.6);
+    }
+    var g = at(0, 0, TREES - 1.2, Math.PI);
+    var shop = new THREE.Color(d.ground), mat = toonColor(shop), key = 'c' + shop.getHexString();
+    [-1, 1].forEach(function (k) {
+      piece((function () { var b = BOX.clone(); b.scale(0.22, 2.6, 0.22); return b; })(), new THREE.Matrix4().multiplyMatrices(g, at(k * 1.6, 1.3, 0)), toon('--cel-trunk'), '--cel-trunk');
+    });
+    piece((function () { var b = BOX.clone(); b.scale(3.6, 0.9, 0.12); return b; })(), new THREE.Matrix4().multiplyMatrices(g, at(0, 2.2, 0)), mat, key);
+    signboard(d, 3.3, 0.7, new THREE.Matrix4().multiplyMatrices(g, at(0, 2.2, 0.07)));
+    // The track going off between the trees.
+    box(2.6, 0.04, 9, at(0, 0.02, TREES + 3), '--cel-walk', false, false);
+    hitbox(i, 4, 3, 1, new THREE.Matrix4().multiplyMatrices(g, at(0, 1.5, 0)));
   }
 
   /* ── The street round the shops ──────────────────────────────────────── */
@@ -718,12 +741,12 @@ function start() {
     if (!hereEl) return;
     var s = nearest();
     var words = inside
-      ? (s ? inside.name + ': ' + s.name + '.' : 'In ' + inside.name + '.')
+      ? (s ? inside.name + ': ' + (s.where || s.name) + '.' : 'In ' + inside.name + '.')
       : up ? 'Up over the roofs, looking down on the solar panels.' : s ? 'In front of ' + s.name + '.' : 'Out on Cel Street, in the sun.';
     if (words === said) return;
     said = words;
     hereEl.textContent = words + ' ';
-    if (s && !inside && ROOMS[s.page]) {
+    if (s && ROOMS[s.page] && !(inside && s.page === inside.page)) {
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'cel-walkin';
       b.textContent = 'Walk into ' + s.name;
@@ -734,13 +757,16 @@ function start() {
     if (s && s.page) {
       var a = document.createElement('a');
       a.href = s.page;
-      a.textContent = inside ? 'Open the room\u2019s page \u2192' : ROOMS[s.page] ? 'or open its page \u2192' : 'Go into ' + s.name + ' \u2192';
+      a.textContent = inside && s.page === inside.page ? 'Open the room\u2019s page \u2192' : ROOMS[s.page] ? 'or open its page \u2192' : 'Go into ' + s.name + ' \u2192';
       hereEl.appendChild(a);
     }
   }
 
   /* ── Walking into a room, and out again ───────────────────────────────── */
-  var inside = null, outside = null;
+  // A room can open off another (the campgrounds' pitches), so what you came
+  // in from is a stack: Back out takes you one room back, and the street is
+  // at the bottom of it.
+  var inside = null, behind = [];
   function kit(page, name) {
     return {
       THREE: THREE, scene: scene, page: page, name: name,
@@ -785,20 +811,36 @@ function start() {
     };
   }
   function roomFile(page, then) {
-    if (window.loveCelRooms && window.loveCelRooms[page]) return then(window.loveCelRooms[page]);
+    // A room that letters a sign names its faces, and they are loaded before
+    // the room is built, so the canvas is not lettered in a fallback.
+    function ready(room) {
+      Promise.all((room.faces || []).map(function (f) {
+        return document.fonts ? document.fonts.load('64px ' + f).catch(function () {}) : null;
+      })).then(function () { then(room); });
+    }
+    if (window.loveCelRooms && window.loveCelRooms[page]) return ready(window.loveCelRooms[page]);
     var sc = document.createElement('script');
     sc.src = ROOMS[page];
-    sc.addEventListener('load', function () { if (window.loveCelRooms && window.loveCelRooms[page]) then(window.loveCelRooms[page]); });
+    sc.addEventListener('load', function () { if (window.loveCelRooms && window.loveCelRooms[page]) ready(window.loveCelRooms[page]); });
     sc.addEventListener('error', function () { window.location.href = page; });
     document.head.appendChild(sc);
   }
-  function enter(page, push) {
-    if (inside || !ROOMS[page]) return;
+  function enter(page, push, then) {
+    if (!ROOMS[page] || (inside && inside.page === page)) return;
+    var from = inside;
     roomFile(page, function (room) {
-      if (inside) return;
+      if (inside !== from) return;
+      // Arriving straight at a room that opens off another (by its address),
+      // you come in through the other one, so Back out goes where it should.
+      if (!inside && push === false && room.from && ROOMS[room.from]) {
+        enter(room.from, false, function () { enter(page, false, then); });
+        return;
+      }
       var door = stops.filter(function (t) { return t.page === page; })[0];
-      if (door && !outside) { me.x = door.x; me.z = door.z; me.yaw = door.yaw; }
-      outside = { scene: scene, far: far, stops: stops, bounds: bounds, hits: hits, me: { x: me.x, z: me.z, yaw: me.yaw, pitch: me.pitch } };
+      if (door) { me.x = door.x; me.z = door.z; me.yaw = door.yaw; }
+      behind.push({ inside: inside, scene: scene, far: far, stops: stops, bounds: bounds, hits: hits, me: { x: me.x, z: me.z, yaw: me.yaw, pitch: me.pitch } });
+      // The room you came from keeps its page loaded, out of sight.
+      scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = 'none'; });
       scene = new THREE.Scene(); far = []; hits = []; buckets = {};
       var name = door ? door.name : page;
       var made = room.build(kit(page, name));
@@ -808,12 +850,21 @@ function start() {
       me = { x: made.start.x, z: made.start.z, yaw: made.start.yaw || 0, pitch: 0.05 };
       up = false; glide = null; held = {};
       if (push !== false) history.pushState({ celIn: page }, '', '#in=' + page.replace(/\.html$/, ''));
-      if (outBtn) outBtn.hidden = false;
-      if (climbBtn) climbBtn.hidden = true;
+      wayOut();
       said = '';
       draw(); tell();
       if (list) list.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
+      if (then) then();
     });
+  }
+  // The way out names where it goes: the street, or the room behind this one.
+  function wayOut() {
+    var back = behind.length ? behind[behind.length - 1].inside : null;
+    if (outBtn) {
+      outBtn.hidden = !inside;
+      outBtn.textContent = back ? 'Back out into ' + back.name : 'Back out onto the street';
+    }
+    if (climbBtn) climbBtn.hidden = !!inside;
   }
   function leave() {
     if (!inside) return;
@@ -821,16 +872,19 @@ function start() {
       if (o.geometry) o.geometry.dispose();
       if (o.isCSS3DObject && o.element.parentNode) o.element.parentNode.removeChild(o.element);
     });
-    scene = outside.scene; far = outside.far; stops = outside.stops; bounds = outside.bounds; hits = outside.hits; me = outside.me;
-    inside = null; outside = null; glide = null; held = {};
-    if (outBtn) outBtn.hidden = true;
-    if (climbBtn) climbBtn.hidden = false;
-    if (list) list.querySelectorAll('a').forEach(function (a) { a.removeAttribute('tabindex'); });
+    var was = behind.pop();
+    scene = was.scene; far = was.far; stops = was.stops; bounds = was.bounds; hits = was.hits; me = was.me;
+    inside = was.inside; glide = null; held = {};
+    // The room you came back into shows its own page again.
+    scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = ''; });
+    wayOut();
+    if (!inside && list) list.querySelectorAll('a').forEach(function (a) { a.removeAttribute('tabindex'); });
     said = '';
     draw(); tell();
   }
   function outOfRoom() {
-    if (history.state && history.state.celIn) history.back(); else { leave(); history.replaceState(null, '', location.pathname + location.search); }
+    if (history.state && history.state.celIn) history.back();
+    else { leave(); history.replaceState(inside ? { celIn: inside.page } : null, '', location.pathname + location.search + (inside ? '#in=' + inside.page.replace(/\.html$/, '') : '')); }
   }
   function roomInAddress() {
     var m = /#in=([a-z0-9-]+)/.exec(location.hash);
@@ -838,8 +892,11 @@ function start() {
   }
   window.addEventListener('popstate', function () {
     var want = roomInAddress();
-    if (want && !inside) enter(want, false);
-    else if (!want && inside) leave();
+    if (inside && want === inside.page) return;
+    // Back to a room you came through, or all the way out; otherwise in.
+    if (!want || behind.some(function (b) { return b.inside && b.inside.page === want; })) {
+      while (inside && (!want || inside.page !== want)) leave();
+    } else enter(want, false);
   });
   if (outBtn) outBtn.addEventListener('click', outOfRoom);
 
@@ -920,6 +977,7 @@ function start() {
     var doors = things.filter(function (t) { return t.kind === 'door'; });
     var gate = things.filter(function (t) { return t.kind === 'gate'; })[0];
     var lots = things.filter(function (t) { return t.kind === 'lot'; });
+    var field = things.filter(function (t) { return t.kind === 'post'; })[0];
     var along = { '-1': -2, '1': -2 }, placed = [], open = [];
     function stand(d, side, W, make) {
       var zc = along[side] - W / 2;
@@ -942,7 +1000,7 @@ function start() {
     for (var z = -zEnd + 8; z < -zEnd + lots.length * 17.2; z += 6) tree(-(FRONT + 3 + hash('bk' + z) * 6), z, 1.2 + hash('bs' + z) * 0.5);
     [-1, 1].forEach(function (s) {
       box(10, 18, 9, at(s * (FRONT + 4.5), 9, -zEnd - 6), '--cel-wall-1');
-      box(10, 14, 9, at(s * (FRONT + 4.5), 7, 8), '--cel-wall-3');
+      box(10, 14, 9, at(s * (FRONT + 4.5), 7, field ? 6 : 8), '--cel-wall-3');
     });
     var crossings = [];
     for (z = -40; z > -zEnd + 10; z -= 130) crossings.push(z);
@@ -965,14 +1023,17 @@ function start() {
     for (z = -20, k = 0; z > -zEnd + 20; z -= 77, k++) vending((k % 2 ? 1 : -1) * (FRONT - 0.6), z, k % 2 ? 1 : -1);
     for (z = -9.4, k = 0; z > -zEnd + 20; z -= 60, k++) bicycle((k % 2 ? 1 : -1) * (ROAD + 1.0), z);
     for (z = -32, k = 0; z > -zEnd + 20; z -= 71, k++) car((k % 2 ? -1 : 1) * (ROAD - 0.95), z);
+    if (field) treeline(field, -1);
     beyond(zEnd, open);
     sky();
     bake();
+    if (field) hits.forEach(function (h) { h.userData.stop += 1; });
     hits.forEach(function (h) { scene.add(h); h.updateMatrixWorld = function () {}; });
-    bounds.z = [-zEnd - 4, 9];
+    bounds.z = [-zEnd - 4, field ? TREES - 2.5 : 9];
     stops = placed.map(function (p) {
       return { name: p.name, page: p.page, x: -p.side * 1.5, z: p.z, yaw: p.side < 0 ? Math.PI / 2 : -Math.PI / 2 };
     });
+    if (field) stops.unshift({ name: field.name.replace(/^THE /, 'The ').replace(/\B[A-Z]+/g, function (w) { return w.toLowerCase(); }), page: field.page, x: 0, z: TREES - 4, yaw: Math.PI });
 
     // The way in for a keyboard and a screen reader: the doors as links.
     if (list) {
@@ -1010,7 +1071,7 @@ function start() {
     if (e.key === 'Enter') {
       var s = nearest();
       if (s && s.frame) s.frame.focus();
-      else if (s && !inside && ROOMS[s.page]) enter(s.page);
+      else if (s && ROOMS[s.page] && !(inside && s.page === inside.page)) enter(s.page);
       else if (s && s.page) window.location.href = s.page;
       return;
     }
@@ -1077,6 +1138,8 @@ function start() {
       var gate = doc.querySelector('a.gardengate');
       if (gate) items.push({ el: gate, kind: 'gate' });
       Array.prototype.forEach.call(doc.querySelectorAll('div.openground a.lotgate'), function (el) { items.push({ el: el, kind: 'lot' }); });
+      var post = doc.querySelector('a.signpost');
+      if (post) items.push({ el: post, kind: 'post' });
       var worn = wear(items);
       var faces = worn.map(function (d) { return document.fonts ? document.fonts.load(d.weight + ' 64px ' + d.face, d.name).catch(function () {}) : null; });
       return Promise.all(faces).then(function () { build(worn); });
