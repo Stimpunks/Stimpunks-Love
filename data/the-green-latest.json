@@ -68,8 +68,32 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-10-30T11:28Z",
+ "set": "2026-10-31T11:31Z",
  "latest": [
+  {
+   "id": "nsDlikLZ1nI",
+   "title": "What should every home have under the Green Building Policy? | Envoirmental Expert Explains",
+   "channel": "Times of Karachi",
+   "published": "2026-10-31T05:09:21Z",
+   "runs": 214,
+   "search": "green-building"
+  },
+  {
+   "id": "W2jw4hI73IM",
+   "title": "Hounslow Urban Farm, London",
+   "channel": "elenwashere",
+   "published": "2026-10-30T17:40:13Z",
+   "runs": 404,
+   "search": "urban-farms"
+  },
+  {
+   "id": "OV271QS1M64",
+   "title": "Food Forest Tour: Exotic Tropical Plants Garden in Zone 7b Virginia",
+   "channel": "Garden Foraged",
+   "published": "2026-10-30T16:53:20Z",
+   "runs": 1017,
+   "search": "edibles"
+  },
   {
    "id": "PP8rACbOfC0",
    "title": "Green Building in India | Sustainable Architecture, Eco-Friendly Buildings",
@@ -77,6 +101,14 @@
    "published": "2026-10-30T04:03:16Z",
    "runs": 263,
    "search": "green-building"
+  },
+  {
+   "id": "tWs-A3YD53c",
+   "title": "Protecting Green Spaces in the Ottawa River Valley   Oct 27   2026",
+   "channel": "Ottawa Environment Forum",
+   "published": "2026-10-29T22:36:55Z",
+   "runs": 5085,
+   "search": "green-spaces"
   },
   {
    "id": "J14_O2am5fg",
@@ -93,6 +125,30 @@
    "published": "2026-10-29T16:33:14Z",
    "runs": 2365,
    "search": "urban-forests"
+  },
+  {
+   "id": "6MQTTD5H4wk",
+   "title": "Tamarack Webinar: MiniNature Reserve: Guerrilla Gardening and Urban Green Spaces (2026)",
+   "channel": "The Tamarack Institute",
+   "published": "2026-10-29T16:21:52Z",
+   "runs": 3318,
+   "search": "green-spaces"
+  },
+  {
+   "id": "sL1qgHm9eWc",
+   "title": "How Is Burkina’s 2 000-hectare Urban Agriculture Belt Rewriting Trade Rules With the West ?",
+   "channel": "Faso Beacon TV",
+   "published": "2026-10-29T15:19:30Z",
+   "runs": 1358,
+   "search": "urban-farms"
+  },
+  {
+   "id": "K01Qiq0smPA",
+   "title": "I Built a Solarpunk Ocean Outpost",
+   "channel": "frikkster",
+   "published": "2026-10-29T14:48:35Z",
+   "runs": 403,
+   "search": "solarpunk"
   },
   {
    "id": "u3NWjh1PHxA",
@@ -119,6 +175,22 @@
    "search": "solarpunk"
   },
   {
+   "id": "hgIbuqYZAcc",
+   "title": "The Impact Of The Reckless Renewables Rollout - To Save A Beach",
+   "channel": "Backyard Bothy",
+   "published": "2026-10-28T21:35:55Z",
+   "runs": 1666,
+   "search": "renewable-energy"
+  },
+  {
+   "id": "eVB66DoS4Hg",
+   "title": "Urban Farm Model for Food Security",
+   "channel": "Pilgrim Terrace Urban Farm & Kitchen",
+   "published": "2026-10-28T18:36:55Z",
+   "runs": 46,
+   "search": "urban-farms"
+  },
+  {
    "id": "xfESRopxGuM",
    "title": "What does SolarPunk mean?!",
    "channel": "Alex Jurj SolarPunk",
@@ -132,14 +204,6 @@
    "channel": "Green Building Council of Sri Lanka",
    "published": "2026-10-28T15:38:44Z",
    "runs": 15111,
-   "search": "green-building"
-  },
-  {
-   "id": "2bXI8I3viDw",
-   "title": "Il Green Building Forum Italia 2026 a Roma - Unomattina 28/10/2026",
-   "channel": "Rai",
-   "published": "2026-10-28T11:08:26Z",
-   "runs": 359,
    "search": "green-building"
   },
   {
@@ -159,89 +223,16 @@
    "search": "urban-forests"
   },
   {
-   "id": "AstJqX0AUFA",
-   "title": "Harare Gardens, Zimbabwe 🇿🇼 | Walking Through Harare’s Beautiful Green Space",
-   "channel": "Zim POV",
-   "published": "2026-10-27T15:19:28Z",
-   "runs": 381,
-   "search": "green-spaces"
-  },
-  {
    "id": "J_TfCzpu1OU",
    "title": "Rosewood Initiative builds ‘food forest’ to address child hunger in Portland",
    "channel": "KPTV FOX 12 Oregon",
    "published": "2026-10-27T14:23:26Z",
    "runs": 170,
    "search": "edibles"
-  },
-  {
-   "id": "-bxgVb_2Q-0",
-   "title": "PODCAST EP29: Urban Farming in Houston's Second Ward - Tommy Garcia-Prats",
-   "channel": "MicroLife Organic Fertilizer",
-   "published": "2026-10-26T16:47:29Z",
-   "runs": 2797,
-   "search": "urban-farms"
-  },
-  {
-   "id": "EM6sH9TFuP0",
-   "title": "Community Solar Gardens: Who Benefits, Who Pays, Who Decides?",
-   "channel": "emsenn",
-   "published": "2026-10-26T15:00:25Z",
-   "runs": 517,
-   "search": "renewable-energy"
-  },
-  {
-   "id": "FOgQmqHzOX4",
-   "title": "Cool Crop Check At The Community Farm | Lettuce, Collards, & Kale | Urban Farming & Gardening 👩🏾‍🌾🥬💚",
-   "channel": "Let's Talk WILD",
-   "published": "2026-10-26T12:32:25Z",
-   "runs": 658,
-   "search": "urban-farms"
-  },
-  {
-   "id": "iU0sYXcOpyY",
-   "title": "Tokyo 2100: AI-Powered Urban Farming Revolution | How Future Cities Will Grow Their Own Food",
-   "channel": "Future Earth",
-   "published": "2026-10-26T10:00:33Z",
-   "runs": 794,
-   "search": "urban-farms"
-  },
-  {
-   "id": "X0L5PPQcLpQ",
-   "title": "Solarpunk Tribute Airship - Storytelling",
-   "channel": "Little Lilith",
-   "published": "2026-10-25T23:52:32Z",
-   "runs": 220,
-   "search": "solarpunk"
-  },
-  {
-   "id": "7E4iot8mSgs",
-   "title": "I Built a Mango Food Forest in Spring Valley CA, Here's What Grew",
-   "channel": "Tropicali Food Forest",
-   "published": "2026-10-25T23:25:50Z",
-   "runs": 3315,
-   "search": "edibles"
-  },
-  {
-   "id": "m2I9zbHybJ0",
-   "title": "Beautiful Street Garden 🌿🌸 | Urban Nature & Peaceful Green Spaces",
-   "channel": "DJS Linu",
-   "published": "2026-10-25T21:13:20Z",
-   "runs": 19,
-   "search": "green-spaces"
   }
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
  "seen": [
-  {
-   "id": "BPPK6jrA63k",
-   "search": "green-spaces",
-   "title": "Detailed 3D Urban City Environment | Buildings, Roads & Green Spaces | Unity 3D",
-   "channel": "usama ali",
-   "published": "2026-10-24T09:32:10Z",
-   "runs": 201,
-   "state": "screen"
-  },
   {
    "id": "Zb6X2Wo9w28",
    "search": "green-spaces",
@@ -299,12 +290,21 @@
    "state": "screen"
   },
   {
-   "id": "r5MQYpDi-AI",
-   "search": "green-building",
-   "title": "From Luxury to Lifeline: How Green Buildings Can Serve Under‑Resourced Communities",
-   "channel": "GreenCE Education",
-   "published": "2026-10-23T21:05:05Z",
-   "runs": 100,
+   "id": "6MQTTD5H4wk",
+   "search": "green-spaces",
+   "title": "Tamarack Webinar: MiniNature Reserve: Guerrilla Gardening and Urban Green Spaces (2026)",
+   "channel": "The Tamarack Institute",
+   "published": "2026-10-29T16:21:52Z",
+   "runs": 3318,
+   "state": "screen"
+  },
+  {
+   "id": "tWs-A3YD53c",
+   "search": "green-spaces",
+   "title": "Protecting Green Spaces in the Ottawa River Valley   Oct 27   2026",
+   "channel": "Ottawa Environment Forum",
+   "published": "2026-10-29T22:36:55Z",
+   "runs": 5085,
    "state": "screen"
   },
   {
@@ -407,32 +407,13 @@
    "state": "screen"
   },
   {
-   "id": "pQo3jDh_arI",
-   "search": "urban-forests",
-   "title": "Regular Meeting of the Urban Forest Advisory Committee 10/22/2026",
-   "channel": "City of Encinitas",
-   "published": "2026-10-23T16:12:29Z",
-   "runs": 5868,
+   "id": "nsDlikLZ1nI",
+   "search": "green-building",
+   "title": "What should every home have under the Green Building Policy? | Envoirmental Expert Explains",
+   "channel": "Times of Karachi",
+   "published": "2026-10-31T05:09:21Z",
+   "runs": 214,
    "state": "screen"
-  },
-  {
-   "id": "o4GDTGevBxc",
-   "search": "urban-forests",
-   "title": "From Ideas to Action: Regional Perspectives on the Future of Urban Forestry in Canada",
-   "channel": "CIF IFC",
-   "published": "2026-10-23T17:34:35Z",
-   "runs": 5356,
-   "state": "screen"
-  },
-  {
-   "id": "8XdyphkWy2o",
-   "search": "urban-forests",
-   "title": "Urban Forest",
-   "channel": "BARACOTA - Topic",
-   "published": "2026-10-24T10:02:35Z",
-   "runs": 155,
-   "state": "left",
-   "why": "filed under Music"
   },
   {
    "id": "ZMqW0bIZnxo",
@@ -517,15 +498,6 @@
    "why": "no embedding"
   },
   {
-   "id": "dlwl0sYk9IU",
-   "search": "urban-farms",
-   "title": "Karachi Farmhouse Promotes Urban Farming and Food Security | Asia One Diaries",
-   "channel": "Asia One News",
-   "published": "2026-10-23T15:27:29Z",
-   "runs": 1914,
-   "state": "screen"
-  },
-  {
    "id": "4TXFlxg8syM",
    "search": "urban-farms",
    "title": "Who Gets to Grow? Zoning, Water, and Urban Farm Equity",
@@ -580,6 +552,42 @@
    "state": "screen"
   },
   {
+   "id": "uWJL79RDlUk",
+   "search": "urban-farms",
+   "title": "March 2021 We're Sowing Seeds, LLC Urban Agriculture Part 2   Small Farms Research Center AAMU 1080p",
+   "channel": "Alabama A&M Small Farms Research Center",
+   "published": "2026-10-27T01:45:40Z",
+   "runs": 7410,
+   "state": "screen"
+  },
+  {
+   "id": "eVB66DoS4Hg",
+   "search": "urban-farms",
+   "title": "Urban Farm Model for Food Security",
+   "channel": "Pilgrim Terrace Urban Farm & Kitchen",
+   "published": "2026-10-28T18:36:55Z",
+   "runs": 46,
+   "state": "screen"
+  },
+  {
+   "id": "sL1qgHm9eWc",
+   "search": "urban-farms",
+   "title": "How Is Burkina’s 2 000-hectare Urban Agriculture Belt Rewriting Trade Rules With the West ?",
+   "channel": "Faso Beacon TV",
+   "published": "2026-10-29T15:19:30Z",
+   "runs": 1358,
+   "state": "screen"
+  },
+  {
+   "id": "W2jw4hI73IM",
+   "search": "urban-farms",
+   "title": "Hounslow Urban Farm, London",
+   "channel": "elenwashere",
+   "published": "2026-10-30T17:40:13Z",
+   "runs": 404,
+   "state": "screen"
+  },
+  {
    "id": "ZiWzEvVeymM",
    "search": "edibles",
    "title": "How to Grow a Food Forest in Pots | Small Space Gardening",
@@ -625,14 +633,20 @@
    "state": "screen"
   },
   {
-   "id": "FuR5j7cW5c0",
+   "id": "OV271QS1M64",
+   "search": "edibles",
+   "title": "Food Forest Tour: Exotic Tropical Plants Garden in Zone 7b Virginia",
+   "channel": "Garden Foraged",
+   "published": "2026-10-30T16:53:20Z",
+   "runs": 1017,
+   "state": "screen"
+  },
+  {
+   "id": "hAR6B8mo9rs",
    "search": "solarpunk",
-   "title": "Solarpunk – A Cozy & Relaxing Experience",
-   "channel": "Felipe832",
-   "published": "2026-10-24T06:34:39Z",
-   "runs": 304,
-   "state": "left",
-   "why": "filed under Gaming"
+   "title": "Solarpunk Ambient LIVESTREAM",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
    "id": "kyQHRTAkCoE",
@@ -858,6 +872,16 @@
    "why": "filed under Gaming"
   },
   {
+   "id": "ZXwyoFz9zeA",
+   "search": "solarpunk",
+   "title": "Solarpunk Dream — 20 Cinematic Worlds of Hope | Epic Ambient Journey",
+   "channel": "IYAC1811",
+   "published": "2026-10-27T11:27:38Z",
+   "runs": 6159,
+   "state": "left",
+   "why": "filed under Music"
+  },
+  {
    "id": "cqNnjJeN3hA",
    "search": "solarpunk",
    "title": "EXPLORING NEW FLOATING ISLANDS! - Solarpunk - Ep. 7",
@@ -906,6 +930,15 @@
    "state": "screen"
   },
   {
+   "id": "K01Qiq0smPA",
+   "search": "solarpunk",
+   "title": "I Built a Solarpunk Ocean Outpost",
+   "channel": "frikkster",
+   "published": "2026-10-29T14:48:35Z",
+   "runs": 403,
+   "state": "screen"
+  },
+  {
    "id": "SID5-iOo7OA",
    "search": "solarpunk",
    "title": "Moving Our Solarpunk Base & Building a New Home #06",
@@ -936,6 +969,16 @@
    "why": "filed under Gaming"
   },
   {
+   "id": "x1KctdmpMUU",
+   "search": "solarpunk",
+   "title": "Solarpunk",
+   "channel": "HoodWinker",
+   "published": "2026-10-30T04:25:48Z",
+   "runs": 2215,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
    "id": "3X7Re7ZqcRQ",
    "search": "solarpunk",
    "title": "SOLARPUNK - [4K 60FPS] - GAMEPLAY PARTE 33",
@@ -946,13 +989,24 @@
    "why": "filed under Gaming"
   },
   {
-   "id": "E3f1iqHHkL0",
-   "search": "renewable-energy",
-   "title": "TurningPoint Energy - SU165 Delaware Community Solar Project",
-   "channel": "TurningPoint Energy",
-   "published": "2026-10-23T16:00:32Z",
-   "runs": 172,
-   "state": "screen"
+   "id": "sTGaO6vyMXg",
+   "search": "solarpunk",
+   "title": "Solarpunk",
+   "channel": "HoodWinker",
+   "published": "2026-10-30T10:20:14Z",
+   "runs": 8995,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "-lhUneAgv4o",
+   "search": "solarpunk",
+   "title": "Solarpunk",
+   "channel": "THEbetterNUT gaming and ParchedEmu",
+   "published": "2026-10-30T12:00:09Z",
+   "runs": 1815,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
    "id": "2x4MRDGVL8o",
@@ -989,6 +1043,24 @@
    "channel": "emsenn",
    "published": "2026-10-26T15:00:25Z",
    "runs": 517,
+   "state": "screen"
+  },
+  {
+   "id": "kRL38IaMpnY",
+   "search": "renewable-energy",
+   "title": "Stregthenin Livelihood and Economies through Community Based Renewable Energy Systems",
+   "channel": "Right Energy Partnership with Indigenous Peoples",
+   "published": "2026-10-27T07:07:26Z",
+   "runs": 362,
+   "state": "screen"
+  },
+  {
+   "id": "hgIbuqYZAcc",
+   "search": "renewable-energy",
+   "title": "The Impact Of The Reckless Renewables Rollout - To Save A Beach",
+   "channel": "Backyard Bothy",
+   "published": "2026-10-28T21:35:55Z",
+   "runs": 1666,
    "state": "screen"
   },
   {

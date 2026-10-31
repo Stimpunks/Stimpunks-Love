@@ -9,19 +9,19 @@
    "channel_id": "UCj0VqueTI8SeTUS4rykh7Pw"
   }
  ],
- "set": "2026-10-30T11:29Z",
+ "set": "2026-10-31T11:32Z",
  "covered": {
   "future-in-bloom": {
    "long": [
     [
      "2026-09-29T14:14:21Z",
-     "2026-10-30T11:29:29Z"
+     "2026-10-31T11:32:22Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:14:21Z",
-     "2026-10-30T11:29:29Z"
+     "2026-10-31T11:32:22Z"
     ]
    ]
   }
@@ -75,6 +75,16 @@
    "published": "2026-10-28T12:00:00Z",
    "state": "screen",
    "runs": 158,
+   "channel": "Future in Bloom with Steph Speirs"
+  },
+  {
+   "id": "cKLqWNP0Q80",
+   "source": "future-in-bloom",
+   "form": "short",
+   "title": "What's Driving Up The Cost Of Fresh Flowers?",
+   "published": "2026-10-30T12:00:03Z",
+   "state": "screen",
+   "runs": 127,
    "channel": "Future in Bloom with Steph Speirs"
   }
  ]
