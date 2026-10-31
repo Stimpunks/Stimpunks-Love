@@ -9053,7 +9053,7 @@ html[data-intensity="max"] .cam__dot { animation: jungle-blink 3.4s ease-in-out 
    scene that takes a pointer. Nothing here moves, at any setting. */
 .jr-walk { --ps-frame: var(--buttress); --ps-back: var(--canopy); --ps-backcloth: none; }
 .jr-walk-screen {
-  pointer-events: auto; overflow: hidden; background: var(--canopy);
+  --ps-takes: auto; overflow: hidden; background: var(--canopy);
   border-radius: 56px 8px 56px 8px; box-shadow: 0 0 0 6px var(--buttress), 0 0 0 9px var(--palm);
 }
 .jr-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--canopy); }
@@ -28745,8 +28745,11 @@ body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-fami
 .ps-flat > * { margin: 0; }
 /* A thing a room stands in its scene. A room's file makes these and dresses
    them in its own section; here it is only placed, and catches no pointer
-   unless its room says it should. */
-.ps-thing { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: none; }
+   unless its room says it should, by setting --ps-takes on it. A room's own
+   pointer-events would lose to this rule, which comes later in the file; it
+   did, and the Jungle Room's page on its screen could not be scrolled or
+   pressed until somebody tried it with a mouse. */
+.ps-thing { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: var(--ps-takes, none); }
 .ps-thing svg { display: block; overflow: visible; }
 /* A door whose room you can walk into says so under its fold, in words, on
    the theatre's own cream card. */

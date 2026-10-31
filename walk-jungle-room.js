@@ -105,27 +105,30 @@
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 1100), sh = kit.H - 24;
       var END = 3600 + F;                       // where the screen stands
-      var clear = function (x, z) { return z < END - F * 1.1 || Math.abs(x) > sw / 2 + 40; };
+      // Nothing stands between you and the screen once you are at it: a thing
+      // nearer than the screen keeps its whole width clear of the screen's
+      // edges, or it is not put there.
+      var clear = function (x, z, w) { return z < END - F * 1.1 || Math.abs(x) - w / 2 > sw / 2 + 30; };
       var decor = [], pools = [];
 
       for (var z = 500; z < END + 400; z += 520) {
         [-1, 1].forEach(function (side) {
-          var x = side * (430 + r() * 160);
-          if (clear(x, z)) decor.push(kit.item(trunk(130, 980), { x: x, z: z + r() * 200, w: 130, h: 980 }));
+          var x = side * (430 + r() * 160), tz = z + r() * 200;
+          if (clear(x, tz, 130)) decor.push(kit.item(trunk(130, 980), { x: x, z: tz, w: 130, h: 980 }));
         });
       }
       for (z = 260; z < END + 300; z += 150) {
         var cw = 260 + r() * 200, ch = 200 + r() * 120, cx = -760 + r() * 1520;
-        if (clear(cx, z)) decor.push(kit.item(canopy(r, cw, ch), { x: cx, z: z, w: cw, h: ch, y: sh * 0.62 + r() * 160 }));
+        if (clear(cx, z, cw)) decor.push(kit.item(canopy(r, cw, ch), { x: cx, z: z, w: cw, h: ch, y: sh * 0.62 + r() * 160 }));
       }
       for (z = 300; z < END; z += 130) {
         var side = r() < 0.5 ? -1 : 1, fw = 170 + r() * 120, fh = 120 + r() * 110;
         var fx = side * (300 + r() * 380);
-        if (clear(fx, z)) decor.push(kit.item(fronds(r, fw, fh), { x: fx, z: z, w: fw, h: fh }));
+        if (clear(fx, z, fw)) decor.push(kit.item(fronds(r, fw, fh), { x: fx, z: z, w: fw, h: fh }));
       }
       for (var i = 0; i < 6; i++) {
         var sz = 700 + i * 480 + r() * 200, sx = -260 + r() * 520;
-        if (!clear(sx, sz)) continue;
+        if (!clear(sx, sz, 220)) continue;
         decor.push(kit.item(shaft(220, sh * 0.62 + 200), { x: sx, z: sz, w: 220, h: sh * 0.62 + 200 }));
         pools.push([sx - 40, sz]);
       }
