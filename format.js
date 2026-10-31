@@ -139,7 +139,7 @@
     wlab.htmlFor = words.id;
     var wrapWords = el('div', p + '-fmtlink__field'); wrapWords.appendChild(wlab); wrapWords.appendChild(words);
     var wrapAddr = el('div', p + '-fmtlink__field'); wrapAddr.appendChild(lab); wrapAddr.appendChild(addr);
-    var note = el('p', 'cb-quiet ' + p + '-fmtlink__note', 'To link a task, a forum topic or a record of the office, type [[ in the box instead.');
+    var note = el('p', 'cb-quiet ' + p + '-fmtlink__note', 'To link a task, a forum topic or a record of the office, press Cancel and type [[ where you are writing, not in these fields.');
     var wrong = el('p', p + '-fmtlink__wrong');
     wrong.setAttribute('role', 'alert');
     var row = el('div', p + '-fmtlink__row');
