@@ -132,15 +132,6 @@
    "why": "live, or not out yet"
   },
   {
-   "id": "WO92yJtFx_c",
-   "source": "acl",
-   "form": "long",
-   "title": "Ty Myers - Backstage | Austin City Limits TV",
-   "published": "2026-10-26T18:23:24Z",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
    "id": "1qKZ6tihPh4",
    "source": "acl",
    "form": "long",
@@ -178,6 +169,16 @@
    "published": "2026-10-29T10:45:08Z",
    "state": "screen",
    "runs": 148,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "WO92yJtFx_c",
+   "source": "acl",
+   "form": "long",
+   "title": "Ty Myers - Backstage | Austin City Limits TV",
+   "published": "2026-10-30T23:00:07Z",
+   "state": "screen",
+   "runs": 144,
    "channel": "Austin City Limits"
   },
   {
@@ -341,14 +342,24 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "MjVjGIer-Io",
-   "source": "kexp",
-   "form": "long",
-   "title": "zzzahara - Full Performance (Live on KEXP)",
-   "published": "2026-09-30T15:00:12Z",
+   "id": "ZTTgp5JIckA",
+   "source": "acl",
+   "form": "short",
+   "title": "Watch Ty Myers on ACL TV This Weekend",
+   "published": "2026-10-30T17:12:25Z",
    "state": "screen",
-   "runs": 1202,
-   "channel": "KEXP"
+   "runs": 15,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "Wo-Kaz0UA7U",
+   "source": "acl",
+   "form": "short",
+   "title": "Ty Myers - Backstage clip | Austin City Limits TV",
+   "published": "2026-10-30T23:39:27Z",
+   "state": "screen",
+   "runs": 26,
+   "channel": "Austin City Limits"
   },
   {
    "id": "aBr7iaS_Y64",
@@ -1501,13 +1512,13 @@
    "channel": "KEXP"
   },
   {
-   "id": "5luZYsQIoAA",
+   "id": "egDlxXlgfH8",
    "source": "kexp",
-   "form": "short",
-   "title": "zzzahara performs \"On Fye\" & more Live on KEXP",
-   "published": "2026-09-30T17:06:18Z",
+   "form": "long",
+   "title": "Russian Circles - Full Performance (Live on KEXP)",
+   "published": "2026-10-30T15:13:27Z",
    "state": "screen",
-   "runs": 55,
+   "runs": 2335,
    "channel": "KEXP"
   },
   {
@@ -1701,14 +1712,14 @@
    "channel": "KEXP"
   },
   {
-   "id": "Af59sJxRJwE",
-   "source": "kcrw",
-   "form": "long",
-   "title": "Croz Boyce: Live on KCRW",
-   "published": "2026-09-30T14:00:15Z",
+   "id": "GefvKVW2-ig",
+   "source": "kexp",
+   "form": "short",
+   "title": "Russian Circles performs \"Eluvial\" & more Live on KEXP",
+   "published": "2026-10-30T17:05:08Z",
    "state": "screen",
-   "runs": 1739,
-   "channel": "KCRW"
+   "runs": 60,
+   "channel": "KEXP"
   },
   {
    "id": "Y1kDvjSz-H4",
@@ -1809,6 +1820,16 @@
    "state": "screen",
    "runs": 55,
    "channel": "KCRW"
+  },
+  {
+   "id": "X5rbuIM5NXg",
+   "source": "kcrw",
+   "form": "short",
+   "title": "Sébastien Tellier \"La Ritournelle\" Live On KCRW",
+   "published": "2026-10-30T14:00:31Z",
+   "state": "screen",
+   "runs": 54,
+   "channel": "KCRW"
   }
  ],
  "covered": {
@@ -1816,13 +1837,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-30T11:33:57Z"
+     "2026-10-31T11:38:22Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-30T11:33:57Z"
+     "2026-10-31T11:38:22Z"
     ]
    ]
   },
@@ -1830,13 +1851,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-30T11:33:57Z"
+     "2026-10-31T11:38:22Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-30T11:33:57Z"
+     "2026-10-31T11:38:22Z"
     ]
    ]
   },
@@ -1844,16 +1865,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-30T11:33:57Z"
+     "2026-10-31T11:38:22Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-30T11:33:57Z"
+     "2026-10-31T11:38:22Z"
     ]
    ]
   }
  },
- "set": "2026-10-30T11:33Z"
+ "set": "2026-10-31T11:38Z"
 }
