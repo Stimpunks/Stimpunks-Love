@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-10-30T11:22Z",
+ "set": "2026-10-31T11:21Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2024-05-03T15:53:16Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-10-30T11:22:28Z"
+     "2026-10-31T11:21:34Z"
     ]
    ]
   }
@@ -311,6 +311,16 @@
    "channel": "Andrew Bernard | The Nard Dog Cooks"
   },
   {
+   "id": "MSTj2ZL0Rsk",
+   "source": "nard-dog-cooks",
+   "form": "short",
+   "title": "There is no way you tasted this before 🤔",
+   "published": "2026-10-30T19:52:03Z",
+   "state": "screen",
+   "runs": 27,
+   "channel": "Andrew Bernard | The Nard Dog Cooks"
+  },
+  {
    "id": "EW6iZwz8SR0",
    "source": "sarahs-vegan-kitchen",
    "form": "long",
@@ -328,16 +338,6 @@
    "published": "2026-10-24T13:54:41Z",
    "state": "screen",
    "runs": 1670,
-   "channel": "Sarah's Vegan Kitchen"
-  },
-  {
-   "id": "oPTQSdBi3Hs",
-   "source": "sarahs-vegan-kitchen",
-   "form": "short",
-   "title": "Chocolate Chip Cookies (but make it fall 🍂)",
-   "published": "2026-09-30T23:28:43Z",
-   "state": "screen",
-   "runs": 18,
    "channel": "Sarah's Vegan Kitchen"
   },
   {
@@ -471,13 +471,13 @@
    "channel": "Ahmad Noori"
   },
   {
-   "id": "6EBwyBkclKk",
+   "id": "jsYM8Ku2R9s",
    "source": "ahmad-noori",
-   "form": "short",
-   "title": "Vegan Lasagna Soup — No Oven, No Layers, Just One Pot",
-   "published": "2026-09-30T18:18:29Z",
+   "form": "long",
+   "title": "3 Loaded Potato Recipes You’ll Want on Repeat",
+   "published": "2026-10-31T01:30:08Z",
    "state": "screen",
-   "runs": 26,
+   "runs": 90,
    "channel": "Ahmad Noori"
   },
   {
@@ -621,16 +621,6 @@
    "channel": "VeganProteins"
   },
   {
-   "id": "3dpIAegoG0U",
-   "source": "pb-with-j",
-   "form": "long",
-   "title": "4 Plant-Based Soups That Actually Passed the Family Taste Test",
-   "published": "2026-09-30T15:00:09Z",
-   "state": "screen",
-   "runs": 1063,
-   "channel": "PB with J"
-  },
-  {
    "id": "mFmIzfxT3JQ",
    "source": "pb-with-j",
    "form": "long",
@@ -699,6 +689,15 @@
    "state": "screen",
    "runs": 572,
    "channel": "PB with J"
+  },
+  {
+   "id": "tdg1mG__ydE",
+   "source": "pb-with-j",
+   "form": "long",
+   "title": "Plant Magic Cookbook Review: Is It Worth Buying? Honest Family Review!",
+   "published": "2026-10-26T22:31:48Z",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
    "id": "L9n4shonC6U",
@@ -809,16 +808,6 @@
    "state": "screen",
    "runs": 49,
    "channel": "PB with J"
-  },
-  {
-   "id": "2k7plGJIN2U",
-   "source": "carleigh-bodrug",
-   "form": "short",
-   "title": "A week of plant-based dinners #recipe",
-   "published": "2026-09-30T22:28:06Z",
-   "state": "screen",
-   "runs": 26,
-   "channel": "Carleigh Bodrug"
   },
   {
    "id": "7-Sn1XnmSHY",
@@ -959,16 +948,6 @@
    "state": "screen",
    "runs": 111,
    "channel": "Yeung Man Cooking"
-  },
-  {
-   "id": "znIQX79weos",
-   "source": "merle-oneal",
-   "form": "long",
-   "title": "How I Feed Myself on $50 For A Week (Cozy Fall Edition)",
-   "published": "2026-09-30T18:08:32Z",
-   "state": "screen",
-   "runs": 1025,
-   "channel": "Merle O'Neal"
   },
   {
    "id": "wv-rNJCcSLs",
