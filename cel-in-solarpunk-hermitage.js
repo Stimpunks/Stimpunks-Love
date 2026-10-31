@@ -245,7 +245,7 @@
       // The coffee table, its top the page's own with the remote on it.
       box(1.5, 0.3, 0.7, at(0, FL + 0.15, -16.9), '--cedar');
       var remote = kit.lift(frame, '.coffee', { bare: true, w: 560, ww: 1.3, m: at(0, FL + 0.31, -16.7, 0, -0.5), drop: '.coffee__legs', zone: MAIN });
-      var guide = kit.lift(frame, '.guide', { w: 560, ww: 1.4, m: at(2.9, FL + 0.5, ZB + 0.25), zone: MAIN });
+      var guide = kit.lift(frame, '.guide', { w: 560, h: 760, ww: 1.4, m: at(2.9, FL + 0.5, ZB + 0.25), zone: MAIN });
       var hifi = kit.lift(frame, '.hifi', { bare: true, w: 1100, ww: 3.0, m: at(-0.6, FL + 0.05, ZF - 0.2, Math.PI), zone: MAIN });
       kit.wire(frame, 'hermitage.js');
 
