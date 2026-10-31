@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-10-30T11:16Z",
+  "set": "2026-10-31T11:16Z",
   "springs": [
     {
       "id": "starstuff",
@@ -12,6 +12,26 @@
       "feed": "https://github.com/Stimpunks/Star-Stuff/commits/main.atom",
       "note": "Every zine, field guide, broadside and working paper on starstuff.earth, and the tools that check each one before it goes up.",
       "items": [
+        {
+          "title": "Regenerate the derived files for Glimmer Wire edition ten, and repair…",
+          "url": "https://github.com/Stimpunks/Star-Stuff/commit/29ec841be728a7e3fc745381e84c2da0f3a6b134",
+          "date": "2026-10-30T13:04:21Z",
+          "sha": "29ec841",
+          "by": [
+            "claude",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Glimmer Wire, edition ten: eight filed, six held, and the archive tha…",
+          "url": "https://github.com/Stimpunks/Star-Stuff/commit/5c48a735661d2aaf2e7c2d0c0591c54f2064e3a8",
+          "date": "2026-10-30T12:49:36Z",
+          "sha": "5c48a73",
+          "by": [
+            "claude",
+            "Claude Opus 5"
+          ]
+        },
         {
           "title": "Regenerate the derived files for Glimmer Wire edition nine",
           "url": "https://github.com/Stimpunks/Star-Stuff/commit/c29b3c69da81e9cea6e8ce6c34c5dcf0c740e518",
@@ -51,29 +71,9 @@
             "Claude Opus 5"
           ],
           "anon": true
-        },
-        {
-          "title": "Regenerate the derived files for Glimmer Wire edition seven",
-          "url": "https://github.com/Stimpunks/Star-Stuff/commit/144a313757d613dc862abf9cc565f234552e2123",
-          "date": "2026-10-09T13:05:19Z",
-          "sha": "144a313",
-          "by": [
-            "Claude Opus 5"
-          ],
-          "anon": true
-        },
-        {
-          "title": "Glimmer Wire, edition seven: six filed, six held, five papers read en…",
-          "url": "https://github.com/Stimpunks/Star-Stuff/commit/944396f385c849c40c9a6346f45c0174e42d807d",
-          "date": "2026-10-09T12:59:59Z",
-          "sha": "944396f",
-          "by": [
-            "Claude Opus 5"
-          ],
-          "anon": true
         }
       ],
-      "read": "2026-10-30T11:16Z"
+      "read": "2026-10-31T11:16Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-10-30T11:16Z"
+      "read": "2026-10-31T11:16Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-10-30T11:16Z"
+      "read": "2026-10-31T11:16Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-10-30T11:16Z"
+      "read": "2026-10-31T11:16Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-10-30T11:16Z"
+      "read": "2026-10-31T11:16Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-10-30T11:16Z"
+      "read": "2026-10-31T11:16Z"
     },
     {
       "id": "love",
@@ -439,67 +439,67 @@
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
         {
-          "title": "Join World call on World's Call tab",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/0425eb5ef42392d9770ef4ef03a5cc6ce34968c4",
-          "date": "2026-10-30T11:08:53Z",
-          "sha": "0425eb5",
+          "title": "Paper Street: walk into the Arcade",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/b6a4490273bf16708f72b8b4f40b14f829887418",
+          "date": "2026-10-31T08:24:37Z",
+          "sha": "b6a4490",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "The chat's Call tab is always there; no familiar in the chat",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/7dbba7d40685ca39e169756ec89181efcdb0a5ac",
-          "date": "2026-10-30T10:48:14Z",
-          "sha": "7dbba7d",
+          "title": "Paper Street: walk into the Mopery",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/7004c6ca9a7ff46daeac506af02e5fdff5116955",
+          "date": "2026-10-31T07:36:52Z",
+          "sha": "7004c6c",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "A call of its own tab in the chat on a phone; World's blank band",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/f8562956cbd4143af8fe651edf4eb80a27c60657",
-          "date": "2026-10-30T10:20:51Z",
-          "sha": "f856295",
+          "title": "Paper Street: look around, and your companions walk where you can see…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/895867182a0bba505cba154bf8539f5b5945c40b",
+          "date": "2026-10-31T07:14:28Z",
+          "sha": "8958671",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Chat on the radio's bar; a call's bar on one row",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/044bb609ca61eb2a44f66c7fa003ecbe59d5321d",
-          "date": "2026-10-30T09:49:57Z",
-          "sha": "044bb60",
+          "title": "Paper Street: the Jungle Room's page takes the pointer, and no leaf s…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/70a1f191e35b7218ca6efa67c1baa6316faf425d",
+          "date": "2026-10-31T07:01:04Z",
+          "sha": "70a1f19",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "The chat is an app: no page round the radio",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/2fd9950bf38b8e1fd5b614d1ccc14db47385bfce",
-          "date": "2026-10-30T09:19:21Z",
-          "sha": "2fd9950",
+          "title": "Paper Street: read a door's address in either form, so the Jungle Roo…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/31a497dee7e65cf296d898d993579a367e2d6215",
+          "date": "2026-10-31T06:39:49Z",
+          "sha": "31a497d",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Bring Your Muchness as a profile effect",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/8800e3e485d1097ee5a4a3bef44a2e081945b687",
-          "date": "2026-10-30T05:09:32Z",
-          "sha": "8800e3e",
+          "title": "Paper Street: walk into the Jungle Room",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/3ce4a074947f73c79213f3d673e8e4e1b1c6497a",
+          "date": "2026-10-31T06:18:25Z",
+          "sha": "3ce4a07",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         }
       ],
-      "read": "2026-10-30T11:16Z"
+      "read": "2026-10-31T11:16Z"
     },
     {
       "id": "garden",
@@ -568,7 +568,7 @@
           "anon": true
         }
       ],
-      "read": "2026-10-30T11:16Z"
+      "read": "2026-10-31T11:16Z"
     }
   ]
 }
