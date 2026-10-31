@@ -88,6 +88,36 @@
     return s;
   }
 
+  // A passage wall: plaster above a beam rail, earth-dark below it, and pegs
+  // with coats on them where somebody came in out of the weather.
+  function sideWall(w, h, coats) {
+    var s = svg(w, h), rail = h - 220;
+    s.appendChild(el('rect', { x: 0, y: 0, width: w, height: h, fill: 'var(--plaster-2)' }));
+    s.appendChild(el('rect', { x: 0, y: rail, width: w, height: h - rail, fill: 'var(--umber-2)' }));
+    s.appendChild(el('rect', { x: 0, y: rail - 14, width: w, height: 18, fill: 'var(--beam)' }));
+    if (coats) {
+      s.appendChild(el('rect', { x: 40, y: rail - 470, width: w - 80, height: 16, fill: 'var(--beam)' }));
+      for (var x = 90, k = 0; x < w - 60; x += 150, k++) {
+        s.appendChild(el('circle', { cx: x, cy: rail - 450, r: 8, fill: 'var(--brass)' }));
+        if (k % 2 === 0) s.appendChild(el('path', { fill: k % 4 ? 'var(--door)' : 'var(--rust)',
+          d: 'M' + (x - 10) + ' ' + (rail - 446) + ' L' + (x - 52) + ' ' + (rail - 180) + ' H' + (x + 52) + ' L' + (x + 10) + ' ' + (rail - 446) + ' Z' }));
+      }
+    }
+    return s;
+  }
+
+  // A deep armchair by the lamp, upholstered in the room's oat.
+  function armchair(w, h) {
+    var s = svg(w, h);
+    s.appendChild(el('rect', { x: w * 0.1, y: 0, width: w * 0.8, height: h * 0.64, rx: 40, fill: 'var(--oat-2)' }));
+    s.appendChild(el('rect', { x: 0, y: h * 0.3, width: w * 0.22, height: h * 0.56, rx: 30, fill: 'var(--plaster-2)' }));
+    s.appendChild(el('rect', { x: w * 0.78, y: h * 0.3, width: w * 0.22, height: h * 0.56, rx: 30, fill: 'var(--plaster-2)' }));
+    s.appendChild(el('rect', { x: w * 0.16, y: h * 0.56, width: w * 0.68, height: h * 0.26, rx: 16, fill: 'var(--oat)' }));
+    s.appendChild(el('rect', { x: w * 0.14, y: h * 0.86, width: 16, height: h * 0.14, fill: 'var(--beam)' }));
+    s.appendChild(el('rect', { x: w * 0.86 - 16, y: h * 0.86, width: 16, height: h * 0.14, fill: 'var(--beam)' }));
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['latibulum.html'] = {
     prefix: 'lat-walk',
@@ -105,6 +135,14 @@
         decor.push(kit.item(arch(AW, AH, OW, OH, 1500), { x: 0, z: z, w: AW, h: AH }));
         LAST = z;
       }
+      // The passage's walls between the round door and the last arch, plastered,
+      // with coats on pegs along the left one.
+      var WH = Math.max(OH + 260, eye * 2.4);
+      [-1, 1].forEach(function (side) {
+        var len = LAST - 640;
+        decor.push(kit.item(sideWall(len, WH, side < 0), { x: side * (OW / 2 + 20), z: 640 + len / 2, w: len, h: WH,
+          turn: side < 0 ? kit.LEFT : kit.RIGHT }));
+      });
       var WW = 3600, WH = Math.max(1600, sh + 700);
       decor.push(kit.item(wall(WW, WH, sw, sh), { x: 0, z: END + 20, w: WW, h: WH }));
       decor.push(kit.item(lamp(260, 360), { x: sw / 2 + 200, z: END - 80, w: 260, h: 360 }));
@@ -120,13 +158,9 @@
       var telly = kit.lift(page, '.thing.telly', { x: HOLLOW, z: END - 120, w: TW });
       // From an eye halfway up the stage, the set's top and its plate's foot
       // both on the stage, and never nearer than the set's own size.
-      var at = function (it) {
-        return function () {
-          var room = kit.H / 2 - 10;
-          var fit = Math.min(1, room / Math.max(it.h - eye, 1), room / eye, (kit.W - 40) / it.w);
-          return { x: it.x, z: it.z - F / fit };
-        };
-      };
+      var at = function (it) { return kit.front(it); };
+      // A deep armchair beside the lamp, turned to the room.
+      decor.push(kit.item(armchair(360, 330), { x: sw / 2 + 520, z: END - 420, w: 360, h: 330, turn: kit.RIGHT }));
       // In steps the keyboard goes with you; at a set, to its own play button,
       // found once the set has arrived off the page.
       var button = function (it) {
@@ -157,7 +191,14 @@
         },
         ground: function (g, from, to) {
           kit.quad(g, -4000, 4000, from, to, kit.ink('--umber'));
+          // Floorboards, the long way down the passage and across the hollow.
+          var seam = kit.ink('--umber-2');
+          for (var bx = -1800; bx < 1800; bx += 90) kit.quad(g, bx, bx + 3, Math.max(from, 0), Math.min(to, END + 40), seam, 0.8);
           kit.quad(g, -150, 150, Math.max(from, 0), Math.min(to, END), kit.ink('--rust'));
+          // A braided rug in the hollow, rings of the room's rust, oat and door green.
+          [['--rust', 620, 330], ['--oat-2', 540, 280], ['--door', 440, 220], ['--rust', 320, 160], ['--oat-2', 180, 90]].forEach(function (ring) {
+            kit.oval(g, 0, END - F * 0.9, ring[1], ring[2], kit.ink(ring[0]), 1);
+          });
           kit.oval(g, sw / 2 + 200, END - 140, 520, 260, kit.ink('--lamp'), 0.16);
         }
       };

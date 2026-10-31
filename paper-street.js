@@ -12,12 +12,16 @@
    tools/make-paper-street.py refuses this file if index.html stops having the
    parts it reads.
 
-   A TOY THEATRE, NOT A CAMERA. Every flat faces you, the way the wings of a toy
-   theatre do, and stands further back the further down the street it is. You
-   walk forward and back and cross the road; you never turn. So nothing here is
-   rotated or skewed: each flat is placed with a translate and a scale worked
-   out from where you stand, which is all check-gentle.py has to see, and the
-   road is drawn on a canvas behind them with the same arithmetic.
+   A STREET IN REAL 3D, AND THE BROWSER DOES THE SEEING (Ryan's call,
+   2026-10-31, reversing the first build's rule that nothing here is rotated:
+   flats that always turned to face you were more disorienting than a world
+   that stays where it is). The stage holds the perspective, one rig carries the
+   whole world and is moved and turned by where you stand and which way you
+   face, and every thing in it keeps its own place and its own facing: the
+   shopfronts are two rows facing each other across the road, and standing at a
+   door turns you to face it. check-gentle.py cannot see any of it, because its
+   probes load pages from disk, where the street cannot be read; what it was
+   standing guard over is held here instead: nothing moves by itself.
 
    A ROOM YOU CAN WALK INTO IS A SCENE OF ITS OWN, IN A FILE OF ITS OWN (Ryan,
    2026-10-31). A door whose room has a walk-<room>.js goes in here rather than
@@ -37,15 +41,10 @@
    switch overrides either, for this visit only. Tab moves you down the street:
    the keyboard going to a door stands you in front of it.
 
-   LOOKING AROUND IS ARITHMETIC TOO (Ryan, 2026-10-31). Turning works out where
-   everything stands from the way you are facing, and every flat goes on facing
-   you, the way a cut-out in a toy theatre is turned to the audience: so a turn
-   is still only a translate and a scale on each thing, and nothing is rotated.
-   Looking up and down slides the horizon, the way the old games did it, so the
-   floor drops away and the roof comes into view. In Steps a turn is a jump of a
-   twelfth of the way round with nothing moving between; gliding, it turns while
-   you hold a key or drag. Standing at a door or a screen faces you square on to
-   it again.
+   LOOKING AROUND turns the rig, and looking up and down slides the horizon,
+   the way the old games did it, so the floor drops away and the roof comes
+   into view. In Steps a turn is a jump of a twelfth of the way round with
+   nothing moving between; gliding, it turns while you hold a key or drag.
 
    YOUR COMPANIONS COME ALONG, AND NOBODY IS HANDED A BODY. Your familiar walks
    with you if you have one (read from love-familiar, which familiar.js keeps;
@@ -64,12 +63,11 @@
   if (!stage) return;
   var flatsEl = stage.querySelector('[data-ps-flats]');
   var folkEl = stage.querySelector('[data-ps-folk]');
-  var canvas = stage.querySelector('[data-ps-ground]');
   var here = document.querySelector('[data-ps-here]');
   var said = document.querySelector('[data-ps-said]');
   var controls = document.querySelector('[data-ps-controls]');
   var failed = document.querySelector('[data-ps-failed]');
-  if (!flatsEl || !folkEl || !canvas || !here || !controls) return;
+  if (!flatsEl || !folkEl || !here || !controls) return;
 
   /* The rooms you can walk into, each its own file. Written by
      tools/make-paper-street.py from the walk-*.js files there are; do not
@@ -80,14 +78,14 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
 
   /* ── The street's measurements, in the street's own units ─────────────── */
-  var ROAD = 230;        // half the road's width
+  var ROAD = 420;        // half the road's width: wide enough to stand back from a door without backing into the fronts opposite
   var KERB = 34;         // between the road's edge and a flat
-  var WALK = 380;        // how far past the kerb you can walk on the pavement
   var GAP = 330;         // between one stop and the next, down the street
   var SPEED = 620;       // gliding forward, units a second
   var SIDEWAYS = 420;    // gliding across
-  var NEAR = 0.5;        // a thing nearer than this many focal lengths is folded away
-  var FAR = 15;          // and one further than this many
+  var NEAR = 0.15;       // a thing wholly nearer than this many focal lengths is put away
+  var FAR = 15;          // and one wholly further than this many
+  var LEFT = Math.PI / 2, RIGHT = -Math.PI / 2;   // the facings of the two rows of fronts
 
   var street = null;     // the street scene, kept while you are in a room
   var scene = null;      // { stops, decor, bounds, ground, eye, horizon, sides, room }
@@ -102,6 +100,7 @@
   var mode = null, chosen = false;
   var me = null, fam = null;
   var byEl = new WeakMap();  // a placed element, to the stop it belongs to
+  var wired = 0;             // how many times a room's own script has been run against its lifts
 
   function level() { return document.documentElement.getAttribute('data-intensity') || 'regular'; }
   function steps() { return mode === 'steps'; }
@@ -147,7 +146,7 @@
     wrap.appendChild(copy);
     flatsEl.appendChild(wrap);
     var links = wrap.querySelectorAll('a[href]');
-    var s = { el: wrap, side: side, w: width, h: 0, x: 0, z: 0, y: 0, name: nameOf(copy), pool: null, link: links[0] || null };
+    var s = { el: wrap, side: side, w: width, h: 0, x: 0, z: 0, y: 0, turn: 0, name: nameOf(copy), pool: null, link: links[0] || null };
     byEl.set(wrap, s);
     // A door whose room you can walk into says so, under its fold, in words.
     Array.prototype.forEach.call(links, function (a) {
@@ -191,28 +190,66 @@
     var ground = pick('div.openground');
     if (ground) order.push([ground, 620, side, 'lots']);
 
-    order.forEach(function (o, i) {
+    // Two rows of fronts facing each other across the road, shoulder to
+    // shoulder, each side in its own order down the street.
+    var along = { left: 600, right: 600 };
+    order.forEach(function (o) {
       var s = flat(o[0], o[1], o[2], o[3]);
-      s.z = 900 + i * GAP;
+      s.z = along[o[2]] + o[1] / 2;
+      along[o[2]] += o[1] + 40;
+      s.turn = o[2] === 'left' ? LEFT : RIGHT;
       stops.push(s);
     });
+    var end = Math.max(along.left, along.right);
 
-    // The far end of the road, standing across it like a toy theatre's
-    // backcloth: the way out to The Outskirts.
+    // The far end of the road, standing across it: the way out to The Outskirts.
     var out = pick('a.roadout');
     if (out) {
       var b = flat(out, 360, 'middle', 'backcloth');
-      b.z = 900 + order.length * GAP + 500;
+      b.z = end + 700;
       stops.push(b);
     }
+    var far = out ? end + 700 : end;
     return {
-      stops: stops, decor: [], sides: true, eye: 165, horizon: 0.4, room: null,
+      stops: stops, decor: bunting(far), sides: true, eye: 165, horizon: 0.4, room: null,
+      // The road and the pavements, and never through a front or behind one.
       bounds: function () {
-        var lim = ROAD + KERB + WALK;
-        return { x: [-lim, lim], z: [0, stops[stops.length - 1].z - F * 0.6] };
+        var lim = ROAD + KERB - 40;
+        return { x: [-lim, lim], z: [-200, far - 260] };
       },
       ground: streetGround
     };
+  }
+
+  // Card bunting strung across the road, in the street's own inks, as the
+  // front page has it over its doors. It lights nothing and nothing moves it.
+  var BUNT = ['--hot', '--cyan', '--yellow', '--green', '--violet', '--orange'];
+  function bunting(far) {
+    var out = [], NS = 'http://www.w3.org/2000/svg', w = 2 * (ROAD + KERB) + 40;
+    for (var z = 900, n = 0; z < far - 300; z += 1100, n++) {
+      var svg = document.createElementNS(NS, 'svg');
+      svg.setAttribute('viewBox', '0 0 ' + w + ' 90');
+      svg.setAttribute('width', w); svg.setAttribute('height', 90);
+      svg.setAttribute('aria-hidden', 'true');
+      var line = document.createElementNS(NS, 'path');
+      line.setAttribute('d', 'M0 6 Q' + w / 2 + ' 46 ' + w + ' 6');
+      line.setAttribute('fill', 'none'); line.setAttribute('stroke', 'var(--ps-kerb)'); line.setAttribute('stroke-width', 3);
+      svg.appendChild(line);
+      for (var i = 0, k = 0; i < w - 40; i += 46, k++) {
+        var t = (i + 23) / w, y = 6 + 160 * t * (1 - t) * 0.5;
+        var tri = document.createElementNS(NS, 'path');
+        tri.setAttribute('d', 'M' + (i + 4) + ' ' + y + ' L' + (i + 42) + ' ' + y + ' L' + (i + 23) + ' ' + (y + 38) + ' Z');
+        tri.setAttribute('fill', 'var(' + BUNT[(k + n) % BUNT.length] + ')');
+        svg.appendChild(tri);
+      }
+      var wrap = document.createElement('div');
+      wrap.className = 'ps-thing';
+      wrap.style.width = w + 'px'; wrap.style.height = '90px';
+      wrap.appendChild(svg);
+      flatsEl.appendChild(wrap);
+      out.push({ el: wrap, x: 0, y: 440, z: z, w: w, h: 90, turn: 0 });
+    }
+    return out;
   }
 
   // Sizes are only known once the copies are in the page and their faces load.
@@ -221,12 +258,19 @@
     street.stops.forEach(function (s) {
       s.el.style.transform = 'none';
       s.h = s.el.offsetHeight || 280;
-      var half = s.w / 2;
-      s.x = s.side === 'left' ? -(ROAD + KERB + half) : s.side === 'right' ? (ROAD + KERB + half) : 0;
+      s.x = s.side === 'left' ? -(ROAD + KERB) : s.side === 'right' ? (ROAD + KERB) : 0;
+      // Where you stand to look at it: across the road from it, far enough
+      // back that the whole front is on the stage, turned to face it.
+      var fit = Math.min(2.2, (W - 40) / s.w, (BASE - 10) / Math.max(s.h - EYE, 1), (H - BASE - 10) / EYE);
+      var back = Math.min(F / Math.max(fit, 0.2), 2 * (ROAD + KERB) - 80);
+      s.spot = s.side === 'left' ? { x: s.x + back, z: s.z, yaw: RIGHT }
+             : s.side === 'right' ? { x: s.x - back, z: s.z, yaw: LEFT }
+             : { x: 0, z: s.z - back, yaw: 0 };
       // The light a front throws onto the road in front of it, in its own colour.
       var c = getComputedStyle(s.el.firstElementChild).backgroundColor;
       s.pool = (c && c !== 'transparent' && !/rgba\([^)]*,\s*0\)$/.test(c)) ? c : null;
     });
+    floorUp();
   }
 
   /* ── Where things land on the screen ──────────────────────────────────── */
@@ -237,10 +281,7 @@
     EYE = scene ? scene.eye : 165;
     BASE = H * (scene ? scene.horizon : 0.4);
     lookAt();
-    var dpr = window.devicePixelRatio || 1;
-    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
-    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
-    canvas.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+    stage.style.perspective = F + 'px';
   }
 
   // Looking up slides the horizon down the stage, so the roof comes in from
@@ -249,6 +290,7 @@
     var lim = H * 0.36;
     pitch = Math.max(-lim, Math.min(lim, pitch));
     HORIZON = BASE + pitch;
+    stage.style.perspectiveOrigin = (W / 2) + 'px ' + HORIZON + 'px';
   }
 
   // Where you see a point from: across (rx) and away (rz), turned to the way
@@ -267,44 +309,51 @@
     return screenAt(v.rx, y, v.rz);
   }
 
+  // The rig: the whole world, moved by where you stand and turned by which way
+  // you face. A point in the world (x across, y up, z away) is (x, -y, -z) in
+  // the page's own axes, so this puts your eye at the stage's perspective.
+  function rig() {
+    flatsEl.style.transform = 'translate3d(' + (W / 2).toFixed(1) + 'px,' + HORIZON.toFixed(1) + 'px,' + F.toFixed(1) + 'px) rotateY(' +
+      yaw.toFixed(5) + 'rad) translate3d(' + (-cam.x).toFixed(1) + 'px,' + EYE.toFixed(1) + 'px,' + cam.z.toFixed(1) + 'px)';
+  }
+
+  // A thing in the world keeps its own place and facing; it is put away only
+  // when it is wholly behind you or wholly too far to matter. Your companions
+  // (mine) are drawn from where you look, on their own layer, as before.
   function place(item) {
     if (!item.el) return;
-    // A thing's middle is found from where you face and its width laid out
-    // flat across your view, so a flat always faces you.
-    var v = item.mine ? { rx: item.x, rz: item.z } : seen(item.x, item.z);
-    var p = screenAt(v.rx - item.w / 2, (item.y || 0) + item.h, v.rz);
-    var on = p && p.dz > F * (item.near || NEAR) && p.dz < F * FAR;
-    if (!on) {
-      item.el.classList.add('ps-off');
-      item.el.style.transform = 'translate(-100000px, 0)';
+    if (item.mine) {
+      var p = screenAt(item.x - item.w / 2, (item.y || 0) + item.h, item.z);
+      if (!p) { item.el.classList.add('ps-off'); return; }
+      item.el.classList.remove('ps-off');
+      item.el.style.transform = 'translate(' + p.x.toFixed(1) + 'px,' + p.y.toFixed(1) + 'px) scale(' + p.s.toFixed(4) + ')';
+      item.el.style.zIndex = String(Math.max(1, Math.round(100000 - p.dz)));
       return;
     }
-    item.el.classList.remove('ps-off');
-    item.el.style.transform = 'translate(' + p.x.toFixed(1) + 'px,' + p.y.toFixed(1) + 'px) scale(' + p.s.toFixed(4) + ')';
-    item.el.style.zIndex = String(Math.max(1, Math.round(100000 - p.dz)));
+    var t = item.turn || 0, c = Math.cos(t), n = Math.sin(t);
+    var x0 = item.x - item.w / 2 * c, z0 = item.z - item.w / 2 * n;
+    var a = seen(x0, z0), b = seen(x0 + item.w * c, z0 + item.w * n);
+    var on = Math.max(a.rz, b.rz) > F * (item.near || NEAR) && Math.min(a.rz, b.rz) < F * FAR;
+    item.el.classList.toggle('ps-off', !on);
+    item.el.style.transform = 'translate3d(' + x0.toFixed(1) + 'px,' + (-((item.y || 0) + item.h)).toFixed(1) + 'px,' + (-z0).toFixed(1) +
+      'px) rotateY(' + t.toFixed(5) + 'rad)';
   }
 
   function ink(name) { return getComputedStyle(stage).getPropertyValue(name).trim() || '#000'; }
 
-  // A patch of floor, from where you stand and the way you face. Turned, part
-  // of a patch can be behind you, so it is cut where it passes beside your eye
-  // and only the part in front is drawn.
-  var CLIP = 8;
+  // THE FLOOR IS A PLANE IN THE WORLD, drawn once from above onto a canvas and
+  // laid down flat, rather than worked out again every time you move. A room's
+  // ground() draws on it in the world's own units with quad() and oval().
+  var map = null;
   function floor(g, pts, fill, alpha) {
-    var cam2 = pts.map(function (q) { return seen(q[0], q[1]); }), kept = [];
-    for (var i = 0; i < cam2.length; i++) {
-      var a = cam2[i], b = cam2[(i + 1) % cam2.length];
-      if (a.rz >= CLIP) kept.push(a);
-      if ((a.rz >= CLIP) !== (b.rz >= CLIP)) {
-        var t = (CLIP - a.rz) / (b.rz - a.rz);
-        kept.push({ rx: a.rx + (b.rx - a.rx) * t, rz: CLIP });
-      }
-    }
-    if (kept.length < 3) return;
+    if (!map) return;
     g.globalAlpha = alpha == null ? 1 : alpha;
     g.fillStyle = fill;
     g.beginPath();
-    kept.forEach(function (q, j) { var p = screenAt(q.rx, 0, q.rz); if (j) g.lineTo(p.x, p.y); else g.moveTo(p.x, p.y); });
+    pts.forEach(function (q, j) {
+      var u = (q[0] - map.x0) / map.k, v = (map.z1 - q[1]) / map.k;
+      if (j) g.lineTo(u, v); else g.moveTo(u, v);
+    });
     g.closePath(); g.fill();
     g.globalAlpha = 1;
   }
@@ -317,6 +366,42 @@
     }
     floor(g, pts, fill, alpha);
   }
+  // Laid in tiles: one plane the length of the street is a layer too big for
+  // the browser to draw in 3D, and it quietly draws nothing.
+  var TILE = 2000, TK = 6;
+  function floorUp() {
+    if (!scene) return;
+    (scene.floorEls || []).forEach(function (t) { t.el.remove(); });
+    scene.floorEls = [];
+    var b = scene.bounds({ x: 0, z: 1e9 });
+    var z0 = b.z[0] - 2000, z1 = b.z[1] + F * 3 + 2000;
+    for (var tz = z0; tz < z1; tz += TILE) {
+      for (var tx = -3000; tx < 3000; tx += TILE) {
+        var c = document.createElement('canvas');
+        c.width = c.height = Math.ceil(TILE / TK);
+        c.className = 'ps-floor';
+        c.setAttribute('aria-hidden', 'true');
+        c.style.width = c.style.height = TILE + 'px';
+        c.style.transform = 'translate3d(' + tx + 'px,0px,' + (-(tz + TILE)) + 'px) rotateX(90deg)';
+        map = { x0: tx, z1: tz + TILE, k: TK };
+        scene.ground(c.getContext('2d'), tz, tz + TILE);
+        flatsEl.insertBefore(c, flatsEl.firstChild);
+        scene.floorEls.push({ el: c, x0: tx, z0: tz });
+      }
+    }
+    map = null;
+  }
+  // A floor tile wholly behind you is put away, as anything else is.
+  function placeFloor() {
+    (scene.floorEls || []).forEach(function (t) {
+      var far = -Infinity;
+      [[t.x0, t.z0], [t.x0 + TILE, t.z0], [t.x0, t.z0 + TILE], [t.x0 + TILE, t.z0 + TILE]].forEach(function (q) {
+        far = Math.max(far, seen(q[0], q[1]).rz);
+      });
+      t.el.classList.toggle('ps-off', far < 10);
+    });
+  }
+
 
   function streetGround(g, near, far) {
     var edge = ROAD + KERB + 4000;   // the floor runs out to the horizon whichever way you face
@@ -327,16 +412,24 @@
     // The centre line, painted on the card in dashes.
     var dash = ink('--ps-line');
     for (var z = Math.ceil(near / 200) * 200; z < far; z += 200) quad(g, -5, 5, z, z + 90, dash);
+    // Paving slabs on the pavements, scored into the card.
+    var seam = ink('--ps-road');
+    for (z = Math.ceil(near / 160) * 160; z < far; z += 160) {
+      quad(g, -ROAD - KERB - 600, -ROAD - 6, z, z + 3, seam, 0.6);
+      quad(g, ROAD + 6, ROAD + KERB + 600, z, z + 3, seam, 0.6);
+    }
     // Pools of each front's own light on the road in front of it.
     street.stops.forEach(function (s) {
-      if (s.pool && !s.el.classList.contains('ps-off')) oval(g, s.x, s.z - 40, s.w * 0.62, s.w * 0.34, s.pool, 0.22);
+      if (!s.pool) return;
+      var into = s.side === 'left' ? 1 : s.side === 'right' ? -1 : 0;
+      if (into) oval(g, s.x + into * 150, s.z, s.w * 0.34, s.w * 0.62, s.pool, 0.22);
+      else oval(g, s.x, s.z - 150, s.w * 0.62, s.w * 0.34, s.pool, 0.22);
     });
   }
 
   function draw() {
-    var g = canvas.getContext('2d');
-    g.clearRect(0, 0, W, H);
-    scene.ground(g, cam.z - F * FAR, cam.z + F * FAR);
+    rig();
+    placeFloor();
     scene.decor.forEach(place);
     scene.stops.forEach(place);
     placeFolk();
@@ -354,14 +447,15 @@
     var best = null, d = Infinity;
     scene.stops.forEach(function (s) {
       var sp = spotFor(s);
-      var k = Math.abs(sp.z - cam.z) + Math.abs(sp.x - cam.x) * 0.5;
+      var k = Math.abs(sp.z - cam.z) + Math.abs(sp.x - cam.x) * 0.5 + Math.abs(towards(yaw, sp.yaw || 0)) * 120;
       if (k < d) { d = k; best = s; }
     });
     return best;
   }
   function whereWords(s) {
     if (!s) return '';
-    if (scene.room) return 'In ' + scene.room.name + ': ' + s.name + '.';
+    var name = typeof s.name === 'function' ? s.name() : s.name;
+    if (scene.room) return 'In ' + scene.room.name + ': ' + name + '.';
     return 'Standing by: ' + s.name + (s.side === 'middle' ? ', across the end of the road.' : ', on the ' + s.side + '.');
   }
   function noteWhere() {
@@ -384,8 +478,9 @@
 
   function standAt(s) {
     var spot = spotFor(s);
-    if (steps()) { goal = null; cam.x = spot.x; cam.z = spot.z; yaw = 0; pitch = 0; lookAt(); clamp(); draw(); return; }
-    goal = { x: spot.x, z: spot.z, yaw: 0, pitch: 0 };
+    var face = spot.yaw || 0;
+    if (steps()) { goal = null; cam.x = spot.x; cam.z = spot.z; yaw = face; pitch = 0; lookAt(); clamp(); draw(); return; }
+    goal = { x: spot.x, z: spot.z, yaw: face, pitch: 0 };
     go();
   }
   function faceAhead() {
@@ -557,7 +652,11 @@
     setMode(steps() ? 'glide' : 'steps', true);
     speak(said, steps() ? 'You move in steps now, one stop at a time.' : 'You glide now, for as long as you hold a key or a button.');
   });
-  window.addEventListener('love-intensity', function () { if (!chosen) setMode(level() === 'gentle' ? 'steps' : 'glide'); });
+  window.addEventListener('love-intensity', function () {
+    if (!chosen) setMode(level() === 'gentle' ? 'steps' : 'glide');
+    // A room's light on its floor can follow the dial, so the floor is drawn again.
+    if (scene) floorUp();
+  });
 
   /* ── Rooms ────────────────────────────────────────────────────────────── */
   var outBtn = controls.querySelector('[data-ps-out]');
@@ -605,6 +704,23 @@
   function kit(page, name) {
     return {
       W: W, H: H, F: F, page: page, name: name,
+      // The two facings a thing along a wall can have: turned to face across
+      // the room from the left wall, and from the right.
+      LEFT: LEFT, RIGHT: RIGHT,
+      // Where to stand to look at a thing square on, whichever way it faces:
+      // out in front of it, far enough back that all of it is on the stage, and
+      // turned to it. Worked out when it is asked for, so a thing lifted off a
+      // page is stood back from at its real size, and from this scene's eye.
+      front: function (it, most) {
+        return function () {
+          var top = (it.y || 0) + it.h;
+          var fit = Math.min(2, (W - 40) / it.w, (BASE - 10) / Math.max(top - EYE, 1), (H - BASE - 10) / Math.max(EYE - (it.y || 0), 1));
+          var back = F / Math.max(fit, 0.15);
+          if (most) back = Math.min(back, most);
+          var t = it.turn || 0;
+          return { x: it.x + Math.sin(t) * back, z: it.z - Math.cos(t) * back, yaw: -t };
+        };
+      },
       item: function (node, o) {
         var wrap = document.createElement('div');
         wrap.className = 'ps-thing' + (o.cls ? ' ' + o.cls : '');
@@ -612,12 +728,12 @@
         wrap.style.height = o.h + 'px';
         if (node) wrap.appendChild(node);
         flatsEl.appendChild(wrap);
-        var it = { el: wrap, x: o.x || 0, y: o.y || 0, z: o.z || 0, w: o.w, h: o.h, near: o.near };
+        var it = { el: wrap, x: o.x || 0, y: o.y || 0, z: o.z || 0, w: o.w, h: o.h, near: o.near, turn: o.turn || 0 };
         return it;
       },
       stop: function (o, it) {
-        var s = { el: it ? it.el : null, x: it ? it.x : (o.x || 0), z: it ? it.z : (o.z || 0), y: 0, w: it ? it.w : 0,
-                  h: it ? it.h : 0, name: o.name, spot: o.spot, link: o.link || null, side: 'middle' };
+        var s = { el: it ? it.el : null, x: it ? it.x : (o.x || 0), z: it ? it.z : (o.z || 0), y: it ? it.y : 0, w: it ? it.w : 0,
+                  h: it ? it.h : 0, turn: it ? it.turn : 0, name: o.name, spot: o.spot, link: o.link || null, side: 'middle' };
         if (it) { byEl.set(it.el, s); (it.stops = it.stops || []).push(s); }
         return s;
       },
@@ -634,16 +750,21 @@
         wrap.className = 'ps-thing ps-lifted' + (o.cls ? ' ' + o.cls : '');
         wrap.style.width = o.w + 'px';
         flatsEl.appendChild(wrap);
-        var it = { el: wrap, x: o.x || 0, y: o.y || 0, z: o.z || 0, w: o.w, h: o.h || 1, near: o.near };
+        var it = { el: wrap, x: o.x || 0, y: o.y || 0, z: o.z || 0, w: o.w, h: o.h || 1, near: o.near, turn: o.turn || 0 };
         var put = function () {
           var d = null;
           try { d = frame.contentDocument; } catch (x) { return; }
-          var node = d && d.querySelector(sel);
+          var all = d ? d.querySelectorAll(sel) : [];
+          var node = all[o.n || 0];
           if (!node || wrap.firstChild || !wrap.isConnected) return;
           var dress = document.createElement('div');
           dress.className = d.body.className;
           dress.style.minHeight = '0';
-          dress.appendChild(document.importNode(node, true));
+          var copy = document.importNode(node, true);
+          // Parts that only another of the room's own scripts can work, which is
+          // not here, are left out rather than left dead (o.drop).
+          if (o.drop) Array.prototype.forEach.call(copy.querySelectorAll(o.drop), function (n) { n.remove(); });
+          dress.appendChild(copy);
           wrap.appendChild(dress);
           // Its size is known only now, so the stops standing at it learn it too.
           it.h = wrap.offsetHeight;
@@ -653,6 +774,22 @@
         frame.addEventListener('load', put);
         put();
         return it;
+      },
+      // The room's own script, run against what was lifted, once it has all
+      // arrived: the Mopery's parlour plays its cellos because mopery.js finds
+      // the copies here as it finds the originals there. Only a script the
+      // room's own page loads (make-paper-street.py holds that), and loaded
+      // afresh each time the room is built, because it finds its parts once,
+      // when it runs.
+      wire: function (frame, src) {
+        var run = function () {
+          setTimeout(function () {
+            var s = document.createElement('script');
+            s.src = src + '?walk=' + (++wired);
+            document.head.appendChild(s);
+          }, 0);
+        };
+        frame.addEventListener('load', run);
       },
       screen: screen, project: project, quad: quad, oval: oval, ink: ink
     };
@@ -683,8 +820,9 @@
       };
       if (scene.cls) stage.classList.add(scene.cls);
       size();
+      floorUp();
       var start = built.start || { x: 0, z: 0 };
-      if (!keep) { cam.x = start.x; cam.z = start.z; yaw = 0; pitch = 0; lookAt(); }
+      if (!keep) { cam.x = start.x; cam.z = start.z; yaw = start.yaw || 0; pitch = 0; lookAt(); }
       goal = null; held = {};
       clamp();
       lastNear = keep ? nearest() : null;

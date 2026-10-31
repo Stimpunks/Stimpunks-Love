@@ -7,7 +7,8 @@
    catches the light, the room's own plum for everything that does not, and a
    mirrorball. The floor is lit tiles in the room's pink and cream with plum
    grout; the ball hangs over the middle of it; the decks stand on a table to
-   one side; and at the far end, between two speakers, is the jukebox's cream
+   one side, the page's own, lifted onto it, to put on where they stand; and at
+   the far end, between two speakers, is the jukebox's cream
    tray with the room's own page in it, full size once you stand at it.
 
    THE BALL DOES NOT TURN, AND ITS LIGHT ON THE FLOOR FOLLOWS THE DIAL: the
@@ -54,15 +55,12 @@
     return s;
   }
 
-  // The decks on their table: two records, nothing on them spinning.
-  function decks(w, h) {
+  // The table the decks stand on. The decks themselves are the page's own,
+  // lifted onto it, so they are not drawn here.
+  function table(w, h) {
     var s = svg(w, h);
-    s.appendChild(el('rect', { x: 0, y: h * 0.32, width: w, height: h * 0.68, fill: 'var(--pony-ink)' }));
-    s.appendChild(el('rect', { x: 0, y: h * 0.32, width: w, height: 10, fill: 'var(--cream)' }));
-    [0.27, 0.73].forEach(function (k) {
-      s.appendChild(el('ellipse', { cx: w * k, cy: h * 0.22, rx: w * 0.2, ry: h * 0.16, fill: 'var(--pony-ink)', stroke: 'var(--cream)', 'stroke-width': 6 }));
-      s.appendChild(el('ellipse', { cx: w * k, cy: h * 0.22, rx: w * 0.06, ry: h * 0.05, fill: 'var(--hot)' }));
-    });
+    s.appendChild(el('rect', { x: 0, y: 0, width: w, height: h, fill: 'var(--pony-ink)' }));
+    s.appendChild(el('rect', { x: 0, y: 0, width: w, height: 10, fill: 'var(--cream)' }));
     return s;
   }
 
@@ -78,6 +76,17 @@
     return s;
   }
 
+  // A banquette along the side of the floor: a plum back, a cream seat, for
+  // sitting one out.
+  function banquette(w, h) {
+    var s = svg(w, h);
+    s.appendChild(el('rect', { x: 0, y: 0, width: w, height: h * 0.62, rx: 26, fill: 'var(--pony-ink)' }));
+    for (var x = 40; x < w - 40; x += 120) s.appendChild(el('rect', { x: x, y: 18, width: 6, height: h * 0.44, fill: 'var(--hot)' }));
+    s.appendChild(el('rect', { x: 0, y: h * 0.56, width: w, height: h * 0.26, rx: 14, fill: 'var(--cream)' }));
+    s.appendChild(el('rect', { x: 10, y: h * 0.82, width: w - 20, height: h * 0.18, fill: 'var(--pony-ink)' }));
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['pink-pony-club.html'] = {
     prefix: 'pony-walk',
@@ -90,18 +99,27 @@
 
       var ball = kit.item(mirrorball(320, 900), { x: 0, z: 1700, w: 320, h: 900, y: eye + 160 });
       decor.push(ball);
-      var deck = kit.item(decks(440, 260), { x: 560, z: 1200, w: 440, h: 260 });
-      decor.push(deck);
+      decor.push(kit.item(table(560, 200), { x: 560, z: 1200, w: 560, h: 200 }));
       [-1, 1].forEach(function (side) {
         decor.push(kit.item(speaker(240, 560), { x: side * (sw / 2 + 170), z: END + 20, w: 240, h: 560 }));
+      });
+      // Banquettes down both sides of the floor, facing it.
+      [[-1, 700], [-1, 2000], [1, 2100], [1, 300]].forEach(function (b) {
+        decor.push(kit.item(banquette(900, 280), { x: b[0] * 900, z: b[1] + 450, w: 900, h: 280, turn: b[0] < 0 ? kit.LEFT : kit.RIGHT }));
       });
 
       var page = kit.screen(kit.page, 'Pink Pony Club’s own page, in the jukebox’s tray');
       var tray = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'pony-walk-tray' });
 
+      // THE DECKS ARE THE PAGE'S OWN, lifted onto the table: two whole
+      // playlists to put on and leave running, which play where they stand.
+      var decks = kit.lift(page, '.decks', { x: 560, z: 1195, y: 200, w: 520, cls: 'pony-walk-decks' });
+      var at = function (it) { return kit.front(it); };
+      var first = { focus: function (o) { var b = decks.el.querySelector('button.facade'); if (b) b.focus(o); } };
+
       var stops = [
         kit.stop({ name: 'at the edge of the dancefloor', spot: { x: 0, z: 0 } }),
-        kit.stop({ name: 'by the decks', spot: { x: 560, z: 1200 - F * 0.9 } }),
+        kit.stop({ name: 'at the decks, with two whole playlists to put on', spot: at(decks), link: first }, decks),
         kit.stop({ name: 'under the mirrorball', spot: { x: 0, z: 1700 - F * 0.5 } }),
         kit.stop({ name: 'at the jukebox, with the room’s own page in its tray', spot: { x: 0, z: END - F }, link: page }, tray)
       ];
@@ -114,7 +132,7 @@
         stops: stops,
         decor: decor,
         arrive: 'Its own page is in the jukebox’s tray at the far end of the floor.',
-        bounds: function () { return { x: [-760, 760], z: [0, END - F] }; },
+        bounds: function () { return { x: [-820, 820], z: [0, END - F] }; },
         ground: function (g, from, to) {
           var cz = (from + to) / 2;
           kit.quad(g, -4000, 4000, from, to, kit.ink('--hot'));

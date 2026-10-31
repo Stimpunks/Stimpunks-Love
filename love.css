@@ -6392,6 +6392,9 @@ div.facade--square { border: 0; background: none; }
   border-radius: 16px; box-shadow: 0 0 0 10px var(--cream), 0 0 0 14px var(--pony-ink);
 }
 .pony-walk-tray iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--hot); }
+/* The decks, lifted onto the table, in the jukebox's own cream tray: the
+   room's materials, so nothing here is a pair §6 has not measured. */
+.pony-walk-decks > div { padding: 16px; background: var(--cream); border: 4px solid var(--pony-ink); border-radius: 16px; }
 
 /* §7 ── ROOM: The Zine Table ─────────────────────────────────────────────────
    Photocopier grain, ransom-note headline, two columns of typewriter.
@@ -9105,6 +9108,7 @@ html[data-intensity="max"] .cam__dot { animation: jungle-blink 3.4s ease-in-out 
   border-radius: 56px 8px 56px 8px; box-shadow: 0 0 0 6px var(--buttress), 0 0 0 9px var(--palm);
 }
 .jr-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--canopy); }
+.jr-walk-cam > div { padding: 14px; background: var(--understory); border-radius: 16px 3px 16px 3px; }
 
 /* §18 ── SUBROOM: The Den (off the Jungle Room) ──────────────────────────────
    GRACELAND'S JUNGLE ROOM, WHICH IS WHY THERE IS A DOOR AT THE BACK OF OURS.
@@ -10761,6 +10765,11 @@ html[data-intensity="max"] .mop-drip::before { animation: mop-flicker 3.1s ease-
   border-radius: 2px; box-shadow: 0 0 0 3px var(--mop-gilt), 0 0 0 12px var(--mop-shelf);
 }
 .mop-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--mop-night); }
+/* The parlour's set and the list of cellos, lifted into the reading room. The
+   list is long, so it scrolls in a frame of its own rather than standing taller
+   than the room. */
+.mop-walk-parlour > div, .mop-walk-cuts > div { padding: 16px; background: var(--mop-night); }
+.mop-walk-cuts { max-height: 620px; overflow-y: auto; box-shadow: 0 0 0 3px var(--mop-gilt); }
 
 /* §23 ── SUBROOM: The Oracle Deck (off the Mopery's parlour) ─────────────────
    Thirteen old engravings, and a question on the back of each one.
@@ -28719,10 +28728,10 @@ html[data-intensity="max"] .ppd-lamp[data-lamp="on"] .ppd-scene__glow { animatio
    card; tools/make-paper-street.py draws the theatre's front over the name
    and holds the page to its promises.
 
-   A TOY THEATRE AT NIGHT, LIT BY THE STREET ITSELF. The flats are the wings:
-   every one faces you, the further down the road the further back, and you
-   walk between them; nothing turns, so nothing here is rotated. Nothing
-   lights the street from above. Every front throws a pool of its own colour
+   A STREET OF CARD AT NIGHT, LIT BY THE STREET ITSELF. The flats stand in two
+   rows facing each other across the road, in real 3D since 2026-10-31 (Ryan's
+   call): you walk between them and turn to face them. Nothing lights the
+   street from above. Every front throws a pool of its own colour
    onto the road in front of it (paper-street.js reads the door's own ground
    for it), so the road is lit in patches all the way down. The backcloth is
    a printed night and its stars are paint, lighting nothing.
@@ -28804,9 +28813,16 @@ body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-fami
     radial-gradient(circle at 45% 34%, var(--ps-bill) 0 1.2px, transparent 2px));
   border: 8px solid var(--ps-frame, var(--ps-bill)); border-radius: 64px 64px 6px 6px;
 }
-.ps-ground { position: absolute; inset: 0; display: block; }
-.ps-flats, .ps-folk { position: absolute; inset: 0; pointer-events: none; }
-.ps-flat { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: auto; }
+.ps-folk { position: absolute; inset: 0; pointer-events: none; }
+/* THE RIG: the whole world, in the stage's perspective, moved and turned by
+   paper-street.js from where you stand. Every thing in it keeps its own place
+   and facing, and the browser sees it from your eye. */
+.ps-flats { position: absolute; left: 0; top: 0; width: 0; height: 0; transform-origin: 0 0; transform-style: preserve-3d; pointer-events: none; }
+.ps-floor { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: none; }
+.ps-flat { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: auto; transform-style: preserve-3d; }
+/* A front seen from behind is the back of the card it is cut from. */
+.ps-flat > * { backface-visibility: hidden; }
+.ps-flat::before { content: ''; position: absolute; inset: 0; background: var(--ps-tab); transform: rotateY(180deg); backface-visibility: hidden; }
 .ps-flat::after {
   content: ''; position: absolute; left: 6%; right: 6%; top: 100%; height: 16px;
   background: var(--ps-tab); clip-path: polygon(0 0, 100% 0, 92% 100%, 8% 100%);
@@ -28823,6 +28839,8 @@ body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-fami
    did, and the Jungle Room's page on its screen could not be scrolled or
    pressed until somebody tried it with a mouse. */
 .ps-thing { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: var(--ps-takes, none); }
+/* A page or a thing lifted off one is never read backwards from behind. */
+.ps-lifted, .ps-thing:has(> iframe) { backface-visibility: hidden; }
 .ps-thing svg { display: block; overflow: visible; }
 /* A thing lifted off a room's page takes the pointer, as it does there. */
 .ps-lifted { --ps-takes: auto; }

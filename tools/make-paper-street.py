@@ -22,8 +22,9 @@ WHAT IT REFUSES IN paper-street.js:
   · a timer: nothing moves by itself, so nothing waits on a clock. Movement is
     requestAnimationFrame, and only while a key or button is held or a glide is
     on its way to a door.
-  · a rotation, a skew or a matrix: the street is a toy theatre, every flat
-    faces you, and check-gentle.py sees only translate and scale here.
+  · a skew or a raw matrix. Rotation is allowed since 2026-10-31 (Ryan's
+    call): the street is real 3D and the browser does the seeing. Nothing moves
+    by itself, which is the rule the old refusal stood for.
   · markup written from a string.
 AND IN love.css's section for the room: a keyframe, an animation or a
 transition, because the street stands still until you walk.
@@ -88,8 +89,11 @@ if avatars != -1 and (press == -1 or code.find("data-ps-bring") > press):
     refuse("paper-street.js asks /cb/avatars outside the Bring my avatar press.")
 if re.search(r"\bsetInterval\b", code):
     refuse("paper-street.js keeps a timer running. Nothing on the street moves by itself.")
-if re.search(r"rotate|skew|matrix|perspective", code):
-    refuse("paper-street.js rotates, skews or uses a matrix or perspective. Every flat faces you; translate and scale only.")
+# ROTATION IS ALLOWED SINCE 2026-10-31 (Ryan's call): the street is real 3D,
+# and the browser does the seeing. What the old refusal stood for is the rule
+# below it, which still holds: nothing moves by itself.
+if re.search(r"skew|matrix", code):
+    refuse("paper-street.js skews something or writes a raw matrix. A world is placed and turned, never sheared.")
 if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", code):
     refuse("paper-street.js writes markup from a string. It copies the front page's own elements and builds the rest.")
 
@@ -136,8 +140,8 @@ for f in sorted(ROOT.glob("walk-*.js")):
         refuse(f"{who} asks the network for something. Its page arrives through screen(), and that is all.")
     if re.search(r"\bsetInterval\b|\bsetTimeout\b|requestAnimationFrame", mod):
         refuse(f"{who} keeps a clock. Nothing in a room moves by itself; Paper Street moves you.")
-    if re.search(r"rotate|skew|matrix|perspective|transform", mod):
-        refuse(f"{who} rotates, skews or transforms something. Work the points out turned and draw them.")
+    if re.search(r"skew|matrix|perspective|transform|rotate", mod):
+        refuse(f"{who} transforms something itself. A thing is placed and turned by Paper Street's kit (its turn), never by a room's own transform.")
     if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", mod):
         refuse(f"{who} writes markup from a string.")
     if re.search(r"createElement\(\s*['\"]iframe", mod) or "<iframe" in mod:
@@ -181,6 +185,11 @@ for f in sorted(ROOT.glob("walk-*.js")):
         found = any(set(want) <= set(c.split()) for c in re.findall(r'class="([^"]*)"', page_src))
         if not found:
             refuse(f"{who} lifts {sel} off {page}, which has nothing wearing those classes.")
+    # A room's own script, run against what it lifted, is only ever one the
+    # room's own page loads: never somebody else's script let into Paper Street.
+    for src in re.findall(r"kit\.wire\(\s*\w+\s*,\s*'([^']+)'", mod):
+        if f'<script src="{src}"' not in page_src:
+            refuse(f"{who} runs {src} against its lifts, and {page} does not load {src} itself.")
     rooms[page] = f.name
 
 # ── The page ────────────────────────────────────────────────────────────────
@@ -199,9 +208,9 @@ elif re.search(r"@keyframes|animation\s*:|animation-name|transition\s*:", re.sub
 
 
 # ── The toy theatre's front ─────────────────────────────────────────────────
-# The same arithmetic paper-street.js stands the street up with: every flat
-# faces you, further back the further down the road, so a translate and a
-# scale say where it is. Fixed seed, so it is the same picture every build.
+# A toy theatre's front, which is how Paper Street is shown on its page and its
+# card: flats down both sides of a road, further back the further down it.
+# Fixed seed, so it is the same picture every build.
 def arch():
     hor, cx, f, eye, road = 176, 600, 520, 150, 230
 

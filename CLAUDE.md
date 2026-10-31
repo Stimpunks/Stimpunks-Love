@@ -4068,16 +4068,20 @@ over modelled buildings, other people there later. `paper-street.html` (§133) s
 door beside the Map (`.toytheatre` on index.html, read by `make-map.py` as furniture). `paper-street.js` asks for
 `index.html` when the page opens and stands a copy of each door, the furniture, the gate and the fence up as a flat
 of card, so it can never drift from the street, and `tools/make-paper-street.py` refuses the build if the front page
-loses a part the script reads. **It is a toy theatre, not a camera**: every flat faces you and you never turn, so
-everything is placed by translate and scale and nothing is rotated, which is all `check-gentle.py` has to see; the
-road is a canvas behind the flats drawn with the same arithmetic. **Steps (Gentle's default) jump with no motion;
+loses a part the script reads. **It is real 3D since 2026-10-31, Ryan's call, reversing the first build's rule that
+nothing was rotated** (flats that always turned to face you were more disorienting than a world that stays put): the
+stage holds the perspective, one rig (`rig()`, on `[data-ps-flats]`) is moved and turned by where you stand and which
+way you face, and every thing keeps its own place and facing (`turn`). The shopfronts are two rows facing each other
+across a road wide enough to stand back from a door in, standing at one turns you to it (`spot.yaw`), and nobody walks
+through or behind a front. The floor is canvas tiles laid flat in the world (`floorUp()`), because one plane the length
+of the street is a 3D layer too big to draw, and the browser silently draws nothing. **Steps (Gentle's default) jump with no motion;
 Glide (Regular and MAX) moves only while a key or button is held**; Tab stands you at each door. Your familiar walks
 with you (`data-familiar="walks"` keeps love.js and familiar.js from also putting it on the page), and Bring my
 avatar asks `/cb/avatars` once, on the press; with no avatar you walk with no body, the booth's rule. It keeps and
 counts nothing. **The render probes load from `file://`, where the fetch fails**, so the checkers measure the page's
 own words and not the flats, which are measured where §5 stands them. The friendly edits are a default avatar "so
-first person is not so empty", a count of doors passed, rotation for turning round, and a copy of the doors written
-in at build time "so it works without the fetch"; a 3D room is built one room at a time in its own world, never from
+first person is not so empty", a count of doors passed, flats that turn to face you again "so a door is always
+readable", and a copy of the doors written in at build time "so it works without the fetch"; a 3D room is built one room at a time in its own world, never from
 one template for all of them, with its page on its wall.
 **A ROOM YOU CAN WALK INTO IS `walk-<page>.js`, AND IT IS THAT ROOM'S WORLD** (Ryan, 2026-10-31; the Jungle Room is the
 first). A door whose room has one says **You can walk in** under its fold, and pressing it goes in on Paper Street
@@ -4095,12 +4099,13 @@ the room drawn in Paper Street's card, and a scene that moves by itself. **Netli
 rewritten to clean addresses** (`/jungle-room`, not `jungle-room.html`) and the dev server does not, so `pageOf()` reads
 a door in either form: compared as written, no door on the live street matched a room, every local test passed, and
 Ryan found it on the live site the night it shipped. Anything that reads the front page's hrefs at runtime meets this.
-**LOOKING ROUND IS ARITHMETIC TOO** (Ryan, 2026-10-31): turning works every point out from the way you face (`seen()`) and
-every flat goes on facing you, a cut-out turned to the audience, so a turn is still a translate and a scale and nothing
-is rotated; looking up and down slides the horizon. The floor is cut where it passes beside your eye (`floor()`), because
-turned, part of a patch is behind you. Your companions are placed from where you look (`mine`), far enough off that
-their feet are on the stage. The friendly edit is CSS 3D turns on the flats "so the shopfronts are seen from the side";
-that is the rotation `check-gentle.py` would be asked to take on trust, on a page its probes cannot even render.
+**LOOKING ROUND TURNS THE RIG** (Ryan, 2026-10-31); looking up and down slides the horizon (the perspective origin).
+`check-gentle.py` cannot see any of it, because its probes load pages from disk, where the street cannot be read, so what
+it stood guard over is held in `make-paper-street.py` instead: nothing moves by itself (no timer, no animation), and a
+room's file still never writes a transform of its own; a thing is turned by the kit's `turn`. Your companions are placed
+from where you look (`mine`), on their own 2D layer, far enough off that their feet are on the stage. `kit.front(it)`
+says where to stand to face any thing square on, from this scene's eye, so a room never works that out for itself:
+two rooms got it wrong before it existed.
 **A ROOM CAN LIFT THINGS OFF ITS OWN PAGE INTO ITS SCENE** (Ryan, 2026-10-31, the Latibulum's wireless and television
 first): `kit.lift(page, '.a.b', …)` copies the element out of the page already loaded on the room's screen, so nothing
 more is fetched, wrapped in the page's own body class so the room's own rules dress it, and `paper-street.html` loads
@@ -4108,6 +4113,10 @@ more is fetched, wrapped in the page's own body class so the room's own rules dr
 because it is the page's own markup. A lifted thing learns its size only when it arrives, and tells its stops then.
 `make-paper-street.py` refuses a lift by anything but classes and one whose page has nothing wearing them. The
 friendly edit is redrawing a page's object in the scene "so it matches the room": that is a second copy of it to drift.
+A part of a lifted thing that only another script of the room's can work is left out (`drop`), never left dead, as the
+Jungle Room's cams leave rack.js's "up on the screen" button behind. **`kit.wire(page, 'x.js')` runs the room's own
+script against its lifts** once they arrive (the Mopery's parlour plays and tunes through `mopery.js`), loaded afresh
+each build because such a script finds its parts once, and only a script the room's own page loads.
 The stage is sized in `svh` so a phone's address bar does not rebuild the room and stop what is playing in it.
 
 **THE ABOUT PAGE'S FILM IS A CLAUDE MOTION FILM, AND THE MP4 IS AN EXPORT OF IT, NOT ITS SOURCE.**
