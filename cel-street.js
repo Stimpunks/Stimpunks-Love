@@ -31,12 +31,19 @@
    tools/make-cel-street.py holds each of those.
    ========================================================================== */
 import * as THREE from './vendor/three.module.min.js';
+import { CSS3DRenderer, CSS3DObject } from './vendor/CSS3DRenderer.js';
 
 var stage = document.querySelector('[data-cel-stage]');
 if (stage) start();
 
 function start() {
   'use strict';
+  // The rooms you can walk into, each its own file and its own world, written
+  // here by tools/make-cel-street.py from the cel-in-*.js files. Do not
+  // hand-edit between the markers.
+  // cel:rooms:begin
+  var ROOMS = {'pink-pony-club.html': 'cel-in-pink-pony-club.js'};
+  // cel:rooms:end
   var CHUNK = 60;            // the street is drawn in lengths this long
   var VIEW = 300;            // and only the lengths this near you are drawn
   var FRONT = 6.2;           // half the street, kerb to kerb past the pavements
@@ -51,6 +58,7 @@ function start() {
   var list = document.querySelector('[data-cel-doors]');
   var modeBtn = document.querySelector('[data-cel-mode]');
   var climbBtn = document.querySelector('[data-cel-go="climb"]');
+  var outBtn = document.querySelector('[data-cel-out]');
 
   function fail(words) {
     if (failed) { failed.hidden = false; if (words) failed.firstChild.textContent = words + ' '; }
@@ -71,6 +79,11 @@ function start() {
   canvas.className = 'cel-canvas';
   canvas.setAttribute('aria-hidden', 'true');
   stage.insertBefore(canvas, stage.firstChild);
+  // A room's own page stands in its scene as a page, laid over the canvas in
+  // the same perspective, so it reads and presses as itself.
+  var css3d = new CSS3DRenderer();
+  css3d.domElement.className = 'cel-css3d';
+  stage.insertBefore(css3d.domElement, canvas.nextSibling);
 
   /* ── Colours, by name, out of love.css ────────────────────────────────── */
   var rootStyle = getComputedStyle(document.documentElement);
@@ -686,7 +699,7 @@ function start() {
     sun.target.updateMatrixWorld();
     for (var i = 0; i < far.length; i++) far[i].o.visible = Math.abs(far[i].z - me.z) < VIEW + CHUNK / 2;
   }
-  function draw() { place(); renderer.render(scene, camera); }
+  function draw() { place(); renderer.render(scene, camera); css3d.render(scene, camera); }
   function soon() { if (!frame) frame = requestAnimationFrame(tick); }
 
   function nearest() {
@@ -704,17 +717,120 @@ function start() {
   function tell() {
     if (!hereEl) return;
     var s = nearest();
-    var words = up ? 'Up over the roofs, looking down on the solar panels.' : s ? 'In front of ' + s.name + '.' : 'Out on Cel Street, in the sun.';
+    var words = inside
+      ? (s ? inside.name + ': ' + s.name + '.' : 'In ' + inside.name + '.')
+      : up ? 'Up over the roofs, looking down on the solar panels.' : s ? 'In front of ' + s.name + '.' : 'Out on Cel Street, in the sun.';
     if (words === said) return;
     said = words;
     hereEl.textContent = words + ' ';
-    if (s) {
+    if (s && !inside && ROOMS[s.page]) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'cel-walkin';
+      b.textContent = 'Walk into ' + s.name;
+      b.addEventListener('click', function () { enter(s.page); });
+      hereEl.appendChild(b);
+      hereEl.appendChild(document.createTextNode(' '));
+    }
+    if (s && s.page) {
       var a = document.createElement('a');
       a.href = s.page;
-      a.textContent = 'Go into ' + s.name + ' →';
+      a.textContent = inside ? 'Open the room\u2019s page \u2192' : ROOMS[s.page] ? 'or open its page \u2192' : 'Go into ' + s.name + ' \u2192';
       hereEl.appendChild(a);
     }
   }
+
+  /* ── Walking into a room, and out again ───────────────────────────────── */
+  var inside = null, outside = null;
+  function kit(page, name) {
+    return {
+      THREE: THREE, scene: scene, page: page, name: name,
+      gentle: document.documentElement.getAttribute('data-intensity') === 'gentle',
+      col: col, at: at, box: box, cyl: cyl,
+      piece: function (geo, m, ink, ink2, shadow) { piece(geo, m, toon(ink), ink, ink2, shadow); },
+      facets: function (geo, m, ink) {
+        var mat = new THREE.MeshToonMaterial({ color: col(ink), gradientMap: gradient, flatShading: true });
+        var mesh = put(new THREE.Mesh(geo, mat), m);
+        mesh.castShadow = true;
+        return mesh;
+      },
+      flat: function (geo, m, ink) { return put(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: col(ink) })), m); },
+      // The room's own page, an iframe of it, pw by ph pixels and ww wide in
+      // the world, its links taking the whole window as on Paper Street.
+      screen: function (pw, ph, ww, m, title) {
+        var f = document.createElement('iframe');
+        f.src = page; f.title = title; f.className = 'cel-screen';
+        f.style.width = pw + 'px'; f.style.height = ph + 'px';
+        f.addEventListener('load', function () {
+          try {
+            f.contentDocument.querySelectorAll('a[href]').forEach(function (a) { if (!/^#/.test(a.getAttribute('href'))) a.target = '_top'; });
+          } catch (e) {}
+        });
+        var o = new CSS3DObject(f), p = new THREE.Vector3(), q = new THREE.Quaternion(), sc = new THREE.Vector3();
+        m.decompose(p, q, sc);
+        o.position.copy(p); o.quaternion.copy(q); o.scale.setScalar(ww / pw);
+        scene.add(o);
+        return f;
+      }
+    };
+  }
+  function roomFile(page, then) {
+    if (window.loveCelRooms && window.loveCelRooms[page]) return then(window.loveCelRooms[page]);
+    var sc = document.createElement('script');
+    sc.src = ROOMS[page];
+    sc.addEventListener('load', function () { if (window.loveCelRooms && window.loveCelRooms[page]) then(window.loveCelRooms[page]); });
+    sc.addEventListener('error', function () { window.location.href = page; });
+    document.head.appendChild(sc);
+  }
+  function enter(page, push) {
+    if (inside || !ROOMS[page]) return;
+    roomFile(page, function (room) {
+      if (inside) return;
+      var door = stops.filter(function (t) { return t.page === page; })[0];
+      if (door && !outside) { me.x = door.x; me.z = door.z; me.yaw = door.yaw; }
+      outside = { scene: scene, far: far, stops: stops, bounds: bounds, hits: hits, me: { x: me.x, z: me.z, yaw: me.yaw, pitch: me.pitch } };
+      scene = new THREE.Scene(); far = []; hits = []; buckets = {};
+      var name = door ? door.name : page;
+      var made = room.build(kit(page, name));
+      bake();
+      inside = { page: page, name: name };
+      stops = made.stops; bounds = made.bounds;
+      me = { x: made.start.x, z: made.start.z, yaw: made.start.yaw || 0, pitch: 0.05 };
+      up = false; glide = null; held = {};
+      if (push !== false) history.pushState({ celIn: page }, '', '#in=' + page.replace(/\.html$/, ''));
+      if (outBtn) outBtn.hidden = false;
+      if (climbBtn) climbBtn.hidden = true;
+      said = '';
+      draw(); tell();
+      if (list) list.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
+    });
+  }
+  function leave() {
+    if (!inside) return;
+    scene.traverse(function (o) {
+      if (o.geometry) o.geometry.dispose();
+      if (o.isCSS3DObject && o.element.parentNode) o.element.parentNode.removeChild(o.element);
+    });
+    scene = outside.scene; far = outside.far; stops = outside.stops; bounds = outside.bounds; hits = outside.hits; me = outside.me;
+    inside = null; outside = null; glide = null; held = {};
+    if (outBtn) outBtn.hidden = true;
+    if (climbBtn) climbBtn.hidden = false;
+    if (list) list.querySelectorAll('a').forEach(function (a) { a.removeAttribute('tabindex'); });
+    said = '';
+    draw(); tell();
+  }
+  function outOfRoom() {
+    if (history.state && history.state.celIn) history.back(); else { leave(); history.replaceState(null, '', location.pathname + location.search); }
+  }
+  function roomInAddress() {
+    var m = /#in=([a-z0-9-]+)/.exec(location.hash);
+    return m ? m[1] + '.html' : null;
+  }
+  window.addEventListener('popstate', function () {
+    var want = roomInAddress();
+    if (want && !inside) enter(want, false);
+    else if (!want && inside) leave();
+  });
+  if (outBtn) outBtn.addEventListener('click', outOfRoom);
 
   function clamp() {
     me.x = Math.max(bounds.x[0], Math.min(bounds.x[1], me.x));
@@ -735,6 +851,7 @@ function start() {
   };
   function act(what, k) {
     if (what === 'climb') {
+      if (inside) return;
       up = !up; me.pitch = up ? -0.5 : 0.05;
       if (climbBtn) climbBtn.textContent = up ? 'Climb back down' : 'Climb up over the roofs';
       return;
@@ -857,6 +974,7 @@ function start() {
       list.hidden = false;
     }
     if (controls) controls.hidden = false;
+    if (roomInAddress()) enter(roomInAddress(), false);
     setMode(document.documentElement.getAttribute('data-intensity') !== 'gentle');
     resize();
     tell();
@@ -867,6 +985,7 @@ function start() {
     var w = stage.clientWidth, h = stage.clientHeight;
     if (!w || !h) return;
     renderer.setSize(w, h, false);
+    css3d.setSize(w, h);
     camera.aspect = w / h;
     camera.fov = w < 600 ? 72 : 62;
     camera.updateProjectionMatrix();
@@ -876,7 +995,14 @@ function start() {
 
   stage.addEventListener('keydown', function (e) {
     if (e.target !== stage) return;
-    if (e.key === 'Enter') { var s = nearest(); if (s) window.location.href = s.page; return; }
+    if (e.key === 'Escape' && inside) { e.preventDefault(); outOfRoom(); return; }
+    if (e.key === 'Enter') {
+      var s = nearest();
+      if (s && s.frame) s.frame.focus();
+      else if (s && !inside && ROOMS[s.page]) enter(s.page);
+      else if (s && s.page) window.location.href = s.page;
+      return;
+    }
     var what = KEYS[e.key];
     if (!what) return;
     e.preventDefault();
@@ -944,5 +1070,5 @@ function start() {
       var faces = worn.map(function (d) { return document.fonts ? document.fonts.load(d.weight + ' 64px ' + d.face, d.name).catch(function () {}) : null; });
       return Promise.all(faces).then(function () { build(worn); });
     })
-    .catch(function () { fail(); });
+    .catch(function (e) { fail(); if (window.console) console.error('Cel Street could not be built:', e); });
 }

@@ -42,6 +42,11 @@ CSS = ROOT / "love.css"
 INDEX = ROOT / "index.html"
 THREE = ROOT / "vendor" / "three.module.min.js"
 THREE_LICENCE = ROOT / "vendor" / "three-LICENSE.txt"
+# three.js's CSS3D renderer, which stands a room's own page in its scene. Its
+# one change from the release is the import line, which names the file above
+# rather than the bare 'three'; it says so at its head.
+CSS3D = ROOT / "vendor" / "CSS3DRenderer.js"
+CSS3D_SHA256 = "7e88509c6b5ac7d21d7ffdb607779c61ed7ab6d50568d31c3bc3ecb24075adda"
 VERSION = "0.160.0"
 SHA256 = "3e690ac7d180b0aadf0891bea39eec643e29e2d3e75c99b18689518665f69ba6"
 
@@ -58,6 +63,9 @@ if not THREE.exists():
 elif hashlib.sha256(THREE.read_bytes()).hexdigest() != SHA256:
     refuse(f"vendor/three.module.min.js is not three.js {VERSION} as recorded here. If it was "
            "updated on purpose, change VERSION and SHA256 in this tool in the same commit.")
+if not CSS3D.exists() or hashlib.sha256(CSS3D.read_bytes()).hexdigest() != CSS3D_SHA256:
+    refuse("vendor/CSS3DRenderer.js is missing or not the copy recorded here (three.js's, with its import\n"
+           "  line pointing at the vendored file). If it changed on purpose, change CSS3D_SHA256 with it.")
 if not THREE_LICENCE.exists() or "MIT License" not in THREE_LICENCE.read_text():
     refuse("vendor/three-LICENSE.txt, three.js's MIT licence, has to travel with the file.")
 
@@ -77,8 +85,8 @@ for selector in ("ul.doors", ":scope > li > a.door", ".door__awning", ".door__na
     if selector not in code:
         refuse(f"cel-street.js no longer reads {selector!r}; change this tool's list with it, on purpose.")
 imports = re.findall(r"^\s*import\b[^;]*?from\s*'([^']+)'", code, re.M)
-if imports != ["./vendor/three.module.min.js"]:
-    refuse(f"cel-street.js imports {imports}; it imports the vendored three.js and nothing else.")
+if imports != ["./vendor/three.module.min.js", "./vendor/CSS3DRenderer.js"]:
+    refuse(f"cel-street.js imports {imports}; it imports the vendored three.js and its CSS3D renderer, and nothing else.")
 if re.search(r"\bimport\s*\(", code):
     refuse("cel-street.js imports something at runtime.")
 for m in re.finditer(r"fetch\(\s*([^,)]+)", code):
@@ -121,9 +129,49 @@ if "data-cel-doors" not in page:
 if "three.js" not in page or "MIT" not in page:
     refuse("cel-street.html no longer credits three.js and its licence.")
 
+# ── The rooms you can walk into, each its own file ──────────────────────────
+# A ROOM'S FILE IS cel-in-<the room's page>.js AND IS THAT ROOM'S WORLD, the
+# walk-*.js rule on Paper Street: it keeps, sends, fetches and times nothing,
+# moves nothing by itself, writes no markup and makes no element of its own
+# (its page goes up only through the kit's screen(), so every room's page
+# arrives the same honest way), and draws only in colours love.css declares,
+# by name.
+rooms = {}
+for f in sorted(ROOT.glob("cel-in-*.js")):
+    rpage = f.name[len("cel-in-"):-3] + ".html"
+    src = f.read_text()
+    c = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
+    c = re.sub(r"(?m)^\s*//.*$", "", c)
+    if not (ROOT / rpage).exists():
+        refuse(f"{f.name} is a room for {rpage}, which is not a page on the street.")
+    if f"window.loveCelRooms['{rpage}']" not in c:
+        refuse(f"{f.name} does not register itself as window.loveCelRooms['{rpage}'].")
+    if re.search(r"localStorage|sessionStorage|indexedDB|document\.cookie|\bfetch\b|XMLHttpRequest|sendBeacon|WebSocket|EventSource", c):
+        refuse(f"{f.name} keeps or sends something. A room's file only draws its world.")
+    if re.search(r"\bset(Interval|Timeout)\b|requestAnimationFrame|\banimation\b", c):
+        refuse(f"{f.name} moves something by itself. Nothing on Cel Street does.")
+    if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write|createElement|\bimport\b", c):
+        refuse(f"{f.name} writes markup, makes an element or imports something. Its rpage goes up through kit.screen().")
+    if "kit.screen(" not in c:
+        refuse(f"{f.name} never puts its room's own rpage up with kit.screen().")
+    if re.search(r"#[0-9a-fA-F]{3,8}\b|\b(rgb|hsl)a?\(\s*\d", c):
+        refuse(f"{f.name} writes a colour in itself. A room draws in the colours love.css declares for it, by name.")
+    for name in sorted(set(re.findall(r"'(--[\w-]+)'", c))):
+        if name not in declared:
+            refuse(f"{f.name} draws in {name}, which love.css's :root does not declare.")
+    rooms[rpage] = f.name
+
 if problems:
     print("REFUSING:\n  " + "\n  ".join(problems))
     sys.exit(2)
+
+line = "  var ROOMS = {" + ", ".join(f"'{k}': '{v}'" for k, v in sorted(rooms.items())) + "};"
+js_new = re.sub(r"(// cel:rooms:begin\n).*?(\n\s*// cel:rooms:end)", lambda m: m.group(1) + line + m.group(2), js, flags=re.S)
+if "// cel:rooms:begin" not in js:
+    print("REFUSING: cel-street.js has lost its cel:rooms markers.")
+    sys.exit(2)
+if js_new != js:
+    JS.write_text(js_new)
 
 # ── The picture over the name ────────────────────────────────────────────────
 # The street in the sun, side on: sky going pale to the haze, two cumulus, the
@@ -208,4 +256,4 @@ if "<!-- cel:sky:begin -->" not in page:
     sys.exit(2)
 if new != page:
     PAGE.write_text(new)
-print(f"cel street: three.js {VERSION} pinned, the street in the sun drawn, the script holds its promises")
+print(f"cel street: three.js {VERSION} pinned, rooms you can walk into: {', '.join(sorted(rooms)) or 'none'}, the street in the sun drawn, the script holds its promises")

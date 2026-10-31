@@ -28981,6 +28981,17 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   border: 5px solid var(--cel-ink); border-radius: 18px;
 }
 .cel-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+/* A room's own page, stood in its scene by three.js's CSS3D renderer over the
+   canvas. The layer takes no pointer; the page itself does. */
+.cel-css3d { position: absolute; inset: 0; pointer-events: none; }
+.cel-screen { border: 0; display: block; background: var(--cel-cloud); }
+.cel-walkin {
+  margin: 0 6px 0 0; padding: 6px 14px; cursor: pointer;
+  background: var(--cel-cloud); color: var(--cel-print);
+  border: 3px solid var(--cel-ink); border-radius: 12px; box-shadow: 0 3px 0 var(--cel-ink);
+  font-family: 'Golos Text', var(--sans); font-weight: 700; font-size: 16px;
+}
+.cel-walkin:focus-visible { outline: 3px solid var(--cel-link); outline-offset: 4px; }
 .cel-failed { position: relative; margin: 40px auto 0; max-width: 32em; padding: 16px 20px; background: var(--cel-page); color: var(--cel-print); font-size: 17px; line-height: 1.5; border: 3px solid var(--cel-ink); border-radius: 10px; }
 /* A door is stood here for a moment while the script asks what it wears, and
    never seen. */

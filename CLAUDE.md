@@ -4142,6 +4142,17 @@ its shop; **Climb up over the roofs** (C) is how anybody sees the panels, which 
 friendly edits are drifting clouds or swaying wires "so it feels alive", three.js from a CDN "to save the bytes", and
 painting the floors above the shops in the doors' colours, which makes the street's shops a house style.
 
+**A ROOM YOU CAN WALK INTO ON CEL STREET IS `cel-in-<page>.js`, AND IT IS THAT ROOM'S WORLD**, Paper Street's walk-*.js
+rule in WebGL (Ryan's ask, 2026-10-31; Pink Pony Club first). It registers `window.loveCelRooms['<page>']` with a
+`build(kit)` that draws in the room's own declared colours by name, adds its own lights to `kit.scene`, and returns its
+start, bounds and stops; `make-cel-street.py` writes `ROOMS` between `cel:rooms` markers and refuses a room's file that
+keeps, sends, times, moves by itself, makes an element, imports, never puts its page up, or writes a colour. **The
+room's page goes up only through `kit.screen()`**, an iframe stood in the scene by three.js's CSS3D renderer
+(`vendor/CSS3DRenderer.js`, its one change its import line, pinned by hash), so it reads and presses as itself; Enter at
+its stop puts the keyboard in it. Walking in pushes `#in=<room>`, so Back comes out, and the street is kept as you
+left it (`outside`). **Its first build named that `street`, which is also the function that lays the road**, and the
+street stopped building: grep a name before reusing it.
+
 **THE ABOUT PAGE'S FILM IS A CLAUDE MOTION FILM, AND THE MP4 IS AN EXPORT OF IT, NOT ITS SOURCE.**
 Ryan, 2026-10-15, for people shown the street who say they do not get it. `about.html` is paperwork
 (`room-plain`, first of the credits in the sitemap, pinned on the map, no job marker), linked under the
