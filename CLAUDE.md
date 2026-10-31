@@ -4143,7 +4143,7 @@ friendly edits are drifting clouds or swaying wires "so it feels alive", three.j
 painting the floors above the shops in the doors' colours, which makes the street's shops a house style.
 
 **A ROOM YOU CAN WALK INTO ON CEL STREET IS `cel-in-<page>.js`, AND IT IS THAT ROOM'S WORLD**, Paper Street's walk-*.js
-rule in WebGL (Ryan's ask, 2026-10-31; Pink Pony Club first, Club Chronic second, its flyers merged into one mesh per
+rule in WebGL (Ryan's ask, 2026-10-31; Pink Pony Club first, Club Chronic second, the Jungle Room third with its page in a leaf; Club Chronic's flyers merged into one mesh per
 paper through `kit.sheet`, because hundreds of separate sheets are hundreds of draws). It registers `window.loveCelRooms['<page>']` with a
 `build(kit)` that draws in the room's own declared colours by name, adds its own lights to `kit.scene`, and returns its
 start, bounds and stops; `make-cel-street.py` writes `ROOMS` between `cel:rooms` markers and refuses a room's file that

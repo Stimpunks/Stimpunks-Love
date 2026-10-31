@@ -42,7 +42,7 @@ function start() {
   // here by tools/make-cel-street.py from the cel-in-*.js files. Do not
   // hand-edit between the markers.
   // cel:rooms:begin
-  var ROOMS = {'club-chronic.html': 'cel-in-club-chronic.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js'};
+  var ROOMS = {'club-chronic.html': 'cel-in-club-chronic.js', 'jungle-room.html': 'cel-in-jungle-room.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js'};
   // cel:rooms:end
   var CHUNK = 60;            // the street is drawn in lengths this long
   var VIEW = 300;            // and only the lengths this near you are drawn
