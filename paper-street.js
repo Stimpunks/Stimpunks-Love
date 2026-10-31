@@ -75,7 +75,7 @@
      tools/make-paper-street.py from the walk-*.js files there are; do not
      hand-edit between the markers. */
   // walk:rooms:begin
-  var ROOMS = {'arcade.html': 'walk-arcade.js', 'jungle-room.html': 'walk-jungle-room.js', 'the-mopery.html': 'walk-the-mopery.js'};
+  var ROOMS = {'arcade.html': 'walk-arcade.js', 'jungle-room.html': 'walk-jungle-room.js', 'pink-pony-club.html': 'walk-pink-pony-club.js', 'the-mopery.html': 'walk-the-mopery.js'};
   // walk:rooms:end
   window.lovePaperRooms = window.lovePaperRooms || {};
 
@@ -308,7 +308,7 @@
     g.closePath(); g.fill();
     g.globalAlpha = 1;
   }
-  function quad(g, x0, x1, z0, z1, fill) { floor(g, [[x0, z0], [x1, z0], [x1, z1], [x0, z1]], fill); }
+  function quad(g, x0, x1, z0, z1, fill, alpha) { floor(g, [[x0, z0], [x1, z0], [x1, z1], [x0, z1]], fill, alpha); }
   function oval(g, x, z, rx, rz, fill, alpha) {
     var pts = [];
     for (var i = 0; i < 24; i++) {
@@ -622,7 +622,9 @@
     };
   }
 
-  function enter(page, push) {
+  // keep: rebuilt for a new size, so you stay where you are standing and
+  // nothing is said.
+  function enter(page, push, keep) {
     var mod = ROOMS[page];
     if (!mod) return Promise.resolve(false);
     var name = (street && street.stops.filter(function (s) { return s.link && pageOf(s.link) === page; })[0] || {}).name || page;
@@ -636,6 +638,7 @@
         flatsEl.textContent = '';
         if (scene.cls) stage.classList.remove(scene.cls);
       }
+      size();
       var built = room.build(kit(page, name));
       scene = {
         stops: built.stops, decor: built.decor || [], sides: false, room: { page: page, name: name },
@@ -645,12 +648,15 @@
       if (scene.cls) stage.classList.add(scene.cls);
       size();
       var start = built.start || { x: 0, z: 0 };
-      cam.x = start.x; cam.z = start.z; goal = null; held = {};
-      lastNear = null;
+      if (!keep) { cam.x = start.x; cam.z = start.z; yaw = 0; pitch = 0; lookAt(); }
+      goal = null; held = {};
+      clamp();
+      lastNear = keep ? nearest() : null;
       draw();
       if (push) history.pushState({ psIn: page }, '', '#in=' + page.replace(/\.html$/, ''));
       if (outBtn) outBtn.hidden = false;
       if (pageLink) { pageLink.href = page; pageLink.textContent = 'Open ' + name + '’s page'; pageLink.hidden = false; }
+      if (keep) return true;
       speak(said, 'You are in ' + name + '. ' + (built.arrive || ''));
       stage.focus({ preventScroll: true });
       return true;
@@ -821,13 +827,19 @@
     if (failed) failed.hidden = false;
   });
 
-  var resizing = null;
-  window.addEventListener('resize', function () {
+  // When the stage itself changes size, not only the window: a stage measured
+  // before the page had settled built a room for a stage no wide at all.
+  var resizing = null, seenW = 0, seenH = 0;
+  function resized() {
     clearTimeout(resizing);
     resizing = setTimeout(function () {
-      if (!scene) return;
-      if (scene.room) { enter(scene.room.page, false); return; }
+      var r = stage.getBoundingClientRect();
+      if (!scene || (Math.round(r.width) === seenW && Math.round(r.height) === seenH)) return;
+      seenW = Math.round(r.width); seenH = Math.round(r.height);
+      if (scene.room) { enter(scene.room.page, false, true); return; }
       size(); measure(); draw();
     }, 120);
-  });
+  }
+  if (window.ResizeObserver) new ResizeObserver(resized).observe(stage);
+  else window.addEventListener('resize', resized);
 })();

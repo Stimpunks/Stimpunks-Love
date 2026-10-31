@@ -2010,6 +2010,11 @@
      hover ground, NOT the sea glass, which is a different green in the game. */
   --peb-press: #1F6B55;
 
+  /* Pink Pony Club (§6), named for Paper Street's walk into it: the room's own
+     plum ink and the mirrorball's darker facets, which §6 writes as hexes. The
+     values are the room's, unchanged; only the names are new. */
+  --pony-ink: #2B0A1C;  --pony-ball: #C9A9BE;
+
   /* The Jungle Room (§17). Wet, warm, closed over the top. The campgrounds is
      night-BLUE under nothing; this is night-GREEN under a roof of leaves, and
      that difference is the whole reason the two can stand on the same street.
@@ -6374,6 +6379,19 @@ div.facade--square { border: 0; background: none; }
    nothing here that earns the hammer §2's [hidden] guard needs. */
 .decks__rec .decks__via { margin: 9px 0 0; font-size: 12px; color: #6b3a55; line-height: 1.5; }
 
+
+/* PINK PONY CLUB, WALKED INTO ON PAPER STREET (walk-pink-pony-club.js, Ryan's
+   call, 2026-10-31). Paper Street's stage takes the dancefloor's clothes while
+   you are in it: its frame is the room's cream, the printed night goes and the
+   room's hot pink is everything behind. The jukebox's tray at the far end is
+   cream with the room's plum edge, as the jukebox on the page is, and holds the
+   room's own page; it is the one thing in the scene that takes a pointer. */
+.pony-walk { --ps-frame: var(--cream); --ps-back: var(--hot); --ps-backcloth: none; }
+.pony-walk-tray {
+  --ps-takes: auto; overflow: hidden; background: var(--hot);
+  border-radius: 16px; box-shadow: 0 0 0 10px var(--cream), 0 0 0 14px var(--pony-ink);
+}
+.pony-walk-tray iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--hot); }
 
 /* §7 ── ROOM: The Zine Table ─────────────────────────────────────────────────
    Photocopier grain, ransom-note headline, two columns of typewriter.

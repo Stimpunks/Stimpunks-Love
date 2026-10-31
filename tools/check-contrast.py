@@ -5060,6 +5060,8 @@ ORNAMENT = {
                "linen, carried by --vol-knot round every strip at 4.31. It carries no word.",
     "#2e3b6a": "volunteers: the indigo band of weft, on a heading's band and a slip's strip, 8.66 on the "
                "linen. It carries no word.",
+    "#c9a9be": "pink pony club: --pony-ball, the mirrorball's darker facets, between its cream ones, 1.94 on "
+               "the cream and drawn only on the ball. It carries no word.",
     "#2b2a33": "paper street: --ps-road, the road painted on the stage floor, 1.21 on the pavement and 1.13 on "
                "the night, drawn on the canvas, aria-hidden. It carries no word.",
     "#3a3644": "paper street: --ps-pave, the pavement painted on the stage floor, 1.37 on the night, drawn on "
