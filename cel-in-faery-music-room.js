@@ -16,7 +16,7 @@
    THE PHONOGRAPH'S DECK AND HER THREE SHELVES OF RECORDS ARE HER PAGE'S OWN,
    lifted off it by the kit, and rack.js, the page's own script, plays them
    here as it does there; nothing reaches YouTube until a press. Each shelf
-   shows its first records; every one is on her page, on the right-hand wall.
+   holds every record on it, and scrolls when there are more than fit.
 
    NOTHING MOVES: the record does not turn here, the candles stand still.
    Every colour is one her room declares, by name. It keeps nothing, sends
@@ -134,8 +134,8 @@
       SHELVES.forEach(function (sh) {
         var g = at(-W / 2 + 0.06, 0, sh.z, LEFT);
         box(1.6, 0.12, 0.4, M(g, at(0, 0.06, 0.16)), '--rdr-timber');
-        var it = kit.lift(frame, '.mus-rack', { n: sh.n, w: 560, ww: 1.5, m: M(g, at(0, 0.14, 0.02)), drop: '.mus-lp__slot:nth-child(n+9)' });
-        stops.push({ name: 'at the shelf of records off ' + sh.words, x: -W / 2 + 2.6, z: sh.z, yaw: LEFT, frame: it.el });
+        var it = kit.lift(frame, '.mus-rack', { n: sh.n, w: 560, h: 700, ww: 1.5, m: M(g, at(0, 0.14, 0.02)) });
+        stops.push({ name: 'at the shelf of records off ' + sh.words, x: -W / 2 + 2.6, z: sh.z, yaw: LEFT, pitch: -0.2, frame: it.el });
       });
       kit.wire(frame, 'rack.js');
       stops.push({ name: 'at the window, with the night in it', x: 0, z: back + 1.6, yaw: 0 });

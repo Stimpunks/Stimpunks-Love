@@ -180,7 +180,7 @@
 
       // YOUR TABLE, off the page: what you have asked for, laid on the slice,
       // turned up to you so you can look down at it.
-      var mine = kit.lift(frame, '.bns-view', { w: 900, ww: 1.05, m: at(0.6, 1.02, -3.55, 0, -1.05), drop: '.bns-room', cls: 'cel-bns-table' });
+      var mine = kit.lift(frame, '.bns-view', { bare: true, w: 900, ww: 1.05, m: at(0.6, 1.02, -3.55, 0, -1.05), drop: '.bns-room', cls: 'cel-bns-table' });
       var controls = kit.lift(frame, '.bns-controls', { w: 520, ww: 0.62, m: at(1.32, 0.86, -3.3, -0.55, -1.05) });
       kit.lift(frame, '.bns-words', { w: 700, ww: 0.95, m: at(0.6, 1.5, -4.25) });
 
@@ -208,7 +208,7 @@
         bounds: { x: [L + 0.9, R - 0.9], z: [BACK + 1.0, -0.6] },
         stops: [
           { name: 'just inside the door, out of the dark field', x: 3.0, z: -0.9, yaw: 0.25 },
-          { name: 'at your table, the slice of log, looking down at it', x: 0.6, z: -2.3, yaw: 0, frame: controls.el },
+          { name: 'at your table, the slice of log, looking down at it', x: 0.6, z: -2.3, yaw: 0, pitch: -0.6, frame: controls.el },
           { name: 'at the board of teas, soups and breads on the wall', x: R - 2.4, z: -3.4, yaw: RIGHT, frame: teas.el },
           { name: 'at the shelf by the door, with the arrangements to take to your table', x: 1.15, z: -1.8, yaw: Math.PI, frame: arr.el },
           { name: 'at the looking-glass by the window', x: gx, z: BACK + 2.3, yaw: 0, frame: glass.el },

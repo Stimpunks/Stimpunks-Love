@@ -16,8 +16,8 @@
    kit: five of her cases, every spine a door as on the page, and the
    gramophone's deck and its shelf of records, which rack.js, the page's own
    script, plays here as it does there; nothing reaches YouTube until a press.
-   The record shelf shows its first records; every one is on her page, which
-   hangs on the far wall in a timber frame.
+   The record shelf holds every record, and scrolls when there are more than
+   fit. Her page hangs on the far wall in a timber frame.
 
    NOTHING MOVES. The fire is drawn, the candles stand still. Every colour is
    one her room declares, by name. It keeps nothing, sends nothing and fetches
@@ -140,10 +140,10 @@
       kit.cyl(0.02, 0.02, 0.5, M(gm, at(0.15, 1.2, -0.12, 0, -0.5)), '--rdr-brass', false, 6);
       kit.piece(new T.ConeGeometry(0.36, 0.7, 18, 1, true), M(gm, at(0.25, 1.55, -0.32, 0, -0.85)), '--rdr-brass', 0.02);
       var deck = kit.lift(frame, '.rdr-deck', { w: 600, ww: 1.4, m: at(-W / 2 + 0.08, 1.15, -9.0, LEFT) });
-      var lps = kit.lift(frame, '.rdr-rack', { w: 600, ww: 1.4, m: at(-W / 2 + 0.08, 0.2, -11.7, LEFT), drop: '.rdr-lp__slot:nth-child(n+9)' });
+      var lps = kit.lift(frame, '.rdr-rack', { w: 600, h: 700, ww: 1.4, m: at(-W / 2 + 0.08, 0.2, -11.7, LEFT) });
       kit.wire(frame, 'rack.js');
       stops.push({ name: 'at the gramophone, with its switch', x: -W / 2 + 2.4, z: -9.3, yaw: LEFT, frame: deck.el });
-      stops.push({ name: 'at the shelf of records by the gramophone', x: -W / 2 + 2.6, z: -11.6, yaw: LEFT, frame: lps.el });
+      stops.push({ name: 'at the shelf of records by the gramophone', x: -W / 2 + 2.6, z: -11.6, yaw: LEFT, pitch: -0.2, frame: lps.el });
 
       // CANDLES IN BRASS SCONCES on the walls, between the cases, still.
       function sconce(g) {

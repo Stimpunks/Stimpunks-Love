@@ -106,6 +106,19 @@
       kit.piece(cable, at(mid.x, mid.y, mid.z), '--bark', false);
       box(2.4, 3.2, 2.4, at(5.5, 1.6, -24.6), '--bark');
       box(2.8, 0.2, 2.8, at(5.5, 3.3, -24.6), '--spruce');
+      // THE CABLE CAR, waiting just out of the station for whoever is going up
+      // to visit: a car of spruce under a bark roof, hung from the cable on
+      // one arm, its windows the dusk. It does not move; you ride it by
+      // going in.
+      var hang = foot.clone().add(span.clone().multiplyScalar(0.03));
+      var turn = Math.atan2(span.x, span.z);
+      kit.cyl(0.05, 0.05, 1.3, at(hang.x, hang.y - 0.65, hang.z), '--bark', false, 6);
+      box(1.7, 1.5, 1.4, at(hang.x, hang.y - 2.05, hang.z, turn), '--spruce');
+      box(1.9, 0.14, 1.6, at(hang.x, hang.y - 1.25, hang.z, turn), '--bark');
+      [-1, 1].forEach(function (e) {
+        var side = new T.Vector3(e * 0.86, 0, 0).applyAxisAngle(new T.Vector3(0, 1, 0), turn);
+        kit.flat(new T.PlaneGeometry(1.0, 0.6), at(hang.x + side.x, hang.y - 1.85, hang.z + side.z, turn + e * Math.PI / 2), '--dusk');
+      });
 
       // THE POND between pitches 01, 05 and 03, and the pebble paths.
       kit.piece(new T.CylinderGeometry(4.2, 4.2, 0.06, 28), at(0, 0.03, -20), '--spruce', false);
@@ -274,6 +287,9 @@
       // The summit's cabin, at the top of the mountain, its one window FAR.
       box(4, 2.4, 3.4, at(28, 87.5, -170.5), '--spruce');
       glow(new T.PlaneGeometry(1.2, 0.8), at(28, 87.8, -168.75), '--camp-far');
+
+      stops.push({ name: 'the cable car', where: 'at the cable car, waiting just out of the station by the pond', room: 'the cable car, up to the cabin at the summit',
+                   page: 'the-mountain-cabin.html', x: hang.x - 7, z: hang.z + 1.5, yaw: Math.atan2(-7, 1.5), pitch: 0.27 });
 
       // THE TRAILHEAD BOARD by the gap, with the field's own page on it,
       // under a little roof of bark.

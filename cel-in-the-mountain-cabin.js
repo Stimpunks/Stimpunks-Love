@@ -53,10 +53,14 @@
       // strips, the moon comes in at the window, and the fire lights nothing.
       kit.scene.background = kit.col('--efw-sky');
       kit.scene.add(new T.HemisphereLight(kit.col('--efw-dim'), kit.col('--efw-night'), 1.7));
+      // The strips, their light and the fire are kept, so the cabin's own
+      // switch and colour (on the panel by the door) can change them.
+      var strips = [], glows = [], fire = [];
       [[L + 1, -1], [R - 1, -1], [L + 1, BACK + 1], [R - 1, BACK + 1], [0, -D / 2]].forEach(function (p) {
         var led = new T.PointLight(kit.col('--efw-led-1'), 3, 8, 1.5);
         led.position.set(p[0], H - 0.25, p[1]);
         kit.scene.add(led);
+        glows.push(led);
       });
       var moon = new T.DirectionalLight(kit.col('--efw-moon'), 0.7);
       moon.position.set(6, 14, -30); moon.target.position.set(0, 0, -4);
@@ -100,7 +104,7 @@
 
       // THE LED STRIPS along the top of every wall, in the cabin's teal.
       [[0, -0.18, W, 0], [0, BACK + 0.18, W, 0], [L + 0.18, -D / 2, D, LEFT], [R - 0.18, -D / 2, D, LEFT]].forEach(function (s) {
-        kit.flat(new T.BoxGeometry(s[2], 0.05, 0.05), at(s[0], H - 0.42, s[1], s[3]), '--efw-led-1');
+        strips.push(kit.flat(new T.BoxGeometry(s[2], 0.05, 0.05), at(s[0], H - 0.42, s[1], s[3]), '--efw-led-1'));
       });
 
       // THE WINDOW: the width of the back wall, glazing bars and a sill, and
@@ -160,10 +164,10 @@
       box(0.72, 0.56, 0.02, M(sv, at(0, 0.58, 0.38)), '--efw-sky', false);
       [[-0.15, 0.62, 0.26, 0.42], [0.08, 0.6, 0.22, 0.36], [0.22, 0.58, 0.16, 0.26]].forEach(function (f) {
         var fl = new T.ConeGeometry(f[2] / 2, f[3], 8); fl.scale(1, 1, 0.3);
-        kit.flat(fl, M(sv, at(f[0], f[1] - 0.1 + f[3] / 2 - 0.12, 0.395)), '--efw-flame');
+        fire.push(kit.flat(fl, M(sv, at(f[0], f[1] - 0.1 + f[3] / 2 - 0.12, 0.395)), '--efw-flame'));
       });
-      kit.flat(new T.PlaneGeometry(0.5, 0.1), M(sv, at(0, 0.36, 0.396)), '--efw-ember');
-      kit.flat(new T.CircleGeometry(0.07, 10), M(sv, at(-0.05, 0.5, 0.397)), '--efw-heart');
+      fire.push(kit.flat(new T.PlaneGeometry(0.5, 0.1), M(sv, at(0, 0.36, 0.396)), '--efw-ember'));
+      fire.push(kit.flat(new T.CircleGeometry(0.07, 10), M(sv, at(-0.05, 0.5, 0.397)), '--efw-heart'));
       box(0.8, 0.04, 0.04, M(sv, at(0, 0.88, 0.39)), '--efw-iron-2', false);
       kit.cyl(0.1, 0.1, H - 1.05, M(sv, at(0, 1.05 + (H - 1.05) / 2, -0.15)), '--efw-iron', 0.02, 10);
       kit.cyl(0.13, 0.11, 0.24, M(sv, at(0.25, 1.17, 0.05)), '--efw-cup', 0.015, 12);
@@ -246,7 +250,7 @@
         box(0.42, 1.25, 0.36, M(sp, at(0, 0.63, 0)), '--efw-iron');
         [0.4, 0.85].forEach(function (y) { kit.cyl(0.13, 0.13, 0.02, M(sp, at(0, y, 0.19, 0, Math.PI / 2)), '--efw-iron-2', false, 18); });
       });
-      kit.flat(new T.BoxGeometry(0.04, 0.04, sw0 + 0.2), at(R - 0.2, sy0 - 0.12, -4.0), '--efw-led-1');
+      strips.push(kit.flat(new T.BoxGeometry(0.04, 0.04, sw0 + 0.2), at(R - 0.2, sy0 - 0.12, -4.0), '--efw-led-1'));
       var screen = kit.lift(pageFrame, '.efw-plate', { w: 900, ww: sw0, m: at(R - 0.22, sy0, -4.0, RIGHT) });
       var songs = kit.lift(pageFrame, '.efw-rack', { w: 900, ww: 1.6, m: at(R - 0.22, 0.35, -1.25, RIGHT) });
 
@@ -257,6 +261,17 @@
       var panel = kit.lift(pageFrame, '.efw-scene', { w: 900, ww: 1.3, m: at(L + 0.24, 1.36, -1.15, LEFT), cls: 'cel-efw-panel' });
       var row = kit.lift(pageFrame, '.efw-controls', { w: 900, ww: 1.3, m: at(L + 0.24, 1.2, -1.15, LEFT), drop: 'button' });
       kit.lift(pageFrame, '.efw-says', { w: 900, ww: 1.3, m: at(L + 0.24, 1.0, -1.15, LEFT) });
+      // The one switch and the strips' colour are the panel drawing's: off is
+      // .is-off on it, and the colour is --efw-led on it, which the cabin's
+      // script sets when somebody picks one. The room follows the drawing, so
+      // the strips, their light and the fire do what the panel says.
+      var dark = kit.col('--efw-iron-2');
+      kit.follow(panel, '.efw-scene__draw', function (read) {
+        var off = /\bis-off\b/.test(read()), c = read('--efw-led');
+        strips.forEach(function (m) { m.material.color.copy(off ? dark : c); });
+        glows.forEach(function (g) { g.color.copy(c); g.intensity = off ? 0 : 3; });
+        fire.forEach(function (m) { m.visible = !off; });
+      });
 
       // BY THE WINDOW: the way to David's photographs, the howl, and the
       // recording of real wolves.

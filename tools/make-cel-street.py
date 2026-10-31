@@ -160,7 +160,13 @@ for f in sorted(ROOT.glob("cel-in-*.js")):
         refuse(f"{f.name} never puts its room's own rpage up with kit.screen().")
     if re.search(r"#[0-9a-fA-F]{3,8}\b|\b(rgb|hsl)a?\(\s*\d", c):
         refuse(f"{f.name} writes a colour in itself. A room draws in the colours love.css declares for it, by name.")
+    # A colour a page's own script sets on a drawing (the cabin's strips'
+    # --efw-led) is declared on that drawing's rule rather than :root, and a
+    # room follows it there with kit.follow(); it is still one love.css names.
+    followed = set(re.findall(r"kit\.follow\([^;]*?read\('(--[\w-]+)'\)", c, re.S))
     for name in sorted(set(re.findall(r"'(--[\w-]+)'", c))):
+        if name in followed and re.search(r"[^\n{]*\{[^}]*" + re.escape(name) + r"\s*:", css):
+            continue
         if name not in declared:
             refuse(f"{f.name} draws in {name}, which love.css's :root does not declare.")
     # A thing it lifts off its page has to be on its page, found by classes

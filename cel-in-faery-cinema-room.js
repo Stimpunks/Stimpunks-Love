@@ -16,8 +16,8 @@
 
    THE SCREEN AND THE REELS ARE HER PAGE'S OWN, lifted off it by the kit, and
    rack.js, the page's own script, puts a reel up on the screen here as it
-   does there; nothing reaches YouTube until a press. The two longest rails
-   show their first reels; every one is on her page, by the door at the back.
+   does there; nothing reaches YouTube until a press. Every rail holds all its
+   reels, and scrolls when there are more than fit; her page is by the door.
 
    NOTHING MOVES: the projector does not flicker and its reels do not turn
    here. Every colour is one her room declares, by name. It keeps nothing,
@@ -69,7 +69,7 @@
       box(pw + 0.24, ph + 0.24, 0.08, M(pg, at(0, py, 0)), '--rdr-timber');
       var frame = kit.screen(1180, 800, pw, M(pg, at(0, py, 0.06)), 'Helen Edgar’s Cinema’s own page, by the door at the back');
       // The reels draw themselves out of a symbol on her page, so it comes too.
-      kit.lift(frame, '.cin-defs', { w: 10, ww: 0.01, m: at(0, 0.5, -0.2, Math.PI) });
+      kit.lift(frame, '.cin-defs', { bare: true, w: 10, ww: 0.01, m: at(0, 0.5, -0.2, Math.PI) });
       // The screen ships hidden until the page's script finds it, so it is
       // stood by its middle: it has no height to stand on when it is copied.
       var screen = kit.lift(frame, '.cin-screen', { w: 860, ww: sx, m: at(0, sy, back + 0.12) });
@@ -85,7 +85,7 @@
         var s = n < 5 ? -1 : 1, z = RAIL[n % 5];
         var g = at(s * (W / 2 - 0.06), 0, z, s < 0 ? LEFT : RIGHT);
         box(2.8, 0.08, 0.12, M(g, at(0, 0.62, 0.06)), '--rdr-brass', false);
-        var it = kit.lift(frame, '.cin-shelf', { n: n, w: 860, ww: 2.6, m: M(g, at(0, 0.7, 0.04)), drop: n === 0 || n === 8 ? '.cin-reel__slot:nth-child(n+17)' : '' });
+        var it = kit.lift(frame, '.cin-shelf', { n: n, w: 860, h: 700, ww: 2.6, m: M(g, at(0, 0.7, 0.04)) });
         stops.push({ name: 'at the ' + (s < 0 ? 'left' : 'right') + '-hand rail, the reels in row ' + (n % 5 + 1), x: s * (W / 2 - 2.5), z: z, yaw: s < 0 ? LEFT : RIGHT, frame: it.el });
       }
       kit.wire(frame, 'rack.js');

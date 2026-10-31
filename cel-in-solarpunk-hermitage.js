@@ -228,7 +228,7 @@
       });
       // The shelves, off the page, on the cave's back curtain; the speaker,
       // tucked into the curtain beside the chair.
-      var shelves = kit.lift(frame, '.shelves', { w: 560, ww: 1.9, m: at(-6.3, FL + 0.35, ZB + 0.45), zone: DEN });
+      var shelves = kit.lift(frame, '.shelves', { bare: true, w: 560, ww: 1.9, m: at(-6.3, FL + 0.35, ZB + 0.45), zone: DEN });
       var speaker = kit.lift(frame, '.facade', { w: 420, ww: 0.8, m: at(X0 + 0.45, FL + 1.0, -15.2, Math.PI / 2), n: 0, zone: DEN });
 
       /* ── THE CAMPFIRE: the shag, three bean bags, the table and the set ─ */
@@ -241,12 +241,12 @@
       // The television, the remote on the coffee table, the listing beside
       // the set and the long stereo along the wall behind the chairs, all the
       // page's own, and hermitage.js run against them.
-      var tv = kit.lift(frame, '.bigscreen', { w: 720, ww: 3.4, m: at(0, FL + 0.05, ZB + 0.35), zone: MAIN });
+      var tv = kit.lift(frame, '.bigscreen', { bare: true, w: 720, ww: 3.4, m: at(0, FL + 0.05, ZB + 0.35), zone: MAIN });
       // The coffee table, its top the page's own with the remote on it.
       box(1.5, 0.3, 0.7, at(0, FL + 0.15, -16.9), '--cedar');
-      var remote = kit.lift(frame, '.coffee', { w: 560, ww: 1.3, m: at(0, FL + 0.31, -16.7, 0, -0.5), drop: '.coffee__legs', zone: MAIN });
+      var remote = kit.lift(frame, '.coffee', { bare: true, w: 560, ww: 1.3, m: at(0, FL + 0.31, -16.7, 0, -0.5), drop: '.coffee__legs', zone: MAIN });
       var guide = kit.lift(frame, '.guide', { w: 560, ww: 1.4, m: at(2.9, FL + 0.5, ZB + 0.25), zone: MAIN });
-      var hifi = kit.lift(frame, '.hifi', { w: 1100, ww: 3.0, m: at(-0.6, FL + 0.05, ZF - 0.2, Math.PI), zone: MAIN });
+      var hifi = kit.lift(frame, '.hifi', { bare: true, w: 1100, ww: 3.0, m: at(-0.6, FL + 0.05, ZF - 0.2, Math.PI), zone: MAIN });
       kit.wire(frame, 'hermitage.js');
 
       /* ── THE WATERING HOLE: three benches in the daylight ─────────────── */

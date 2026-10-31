@@ -59,6 +59,7 @@ function start() {
   var modeBtn = document.querySelector('[data-cel-mode]');
   var climbBtn = document.querySelector('[data-cel-go="climb"]');
   var outBtn = document.querySelector('[data-cel-out]');
+  var placesEl = document.querySelector('[data-cel-places]');
 
   function fail(words) {
     if (failed) { failed.hidden = false; if (words) failed.firstChild.textContent = words + ' '; }
@@ -785,6 +786,9 @@ function start() {
       THREE: THREE, scene: scene, page: page, name: name,
       gentle: document.documentElement.getAttribute('data-intensity') === 'gentle',
       col: col, at: at, box: box, cyl: cyl,
+      // Every box and column a room drew in one of its colours, recoloured at
+      // once (a room whose own switch changes its light); a colour by name.
+      tint: function (name, to) { toon(name).color.copy(col(to)); },
       piece: function (geo, m, ink, ink2, shadow) { piece(geo, m, toon(ink), ink, ink2, shadow); },
       facets: function (geo, m, ink) {
         var mat = new THREE.MeshToonMaterial({ color: col(ink), gradientMap: gradient, flatShading: true });
@@ -834,12 +838,16 @@ function start() {
         var home = scene, wrap = document.createElement('div');
         wrap.className = 'cel-lifted' + (o.cls ? ' ' + o.cls : '');
         wrap.style.width = o.w + 'px';
+        // A long thing (a rail of reels, a shelf of records) is given a height
+        // in pixels (o.h) and scrolls inside it, so all of it is there, the
+        // keyboard reaching every part, rather than cut short to fit the wall.
+        if (o.h) { wrap.style.maxHeight = o.h + 'px'; wrap.style.overflowY = 'auto'; }
         var obj = new CSS3DObject(wrap), p = new THREE.Vector3(), q = new THREE.Quaternion(), sc = new THREE.Vector3();
         o.m.decompose(p, q, sc);
         obj.position.copy(p); obj.quaternion.copy(q); obj.scale.setScalar(o.ww / o.w);
         home.add(obj);
         zoned(wrap, o.zone);
-        var it = { el: wrap, h: 0 };
+        var it = { el: wrap, h: 0, wait: [] };
         var put = function () {
           var d = null;
           try { d = frame.contentDocument; } catch (x) { return; }
@@ -857,15 +865,52 @@ function start() {
           Array.prototype.forEach.call(copy.querySelectorAll('.hlink'), function (n) { n.remove(); });
           dress.appendChild(copy);
           wrap.appendChild(dress);
+          // A thing with no ground of its own stood on its page's ground, and its
+          // words were chosen for that ground, not for whatever is behind it in
+          // the scene: so it brings its page's ground with it, as a sheet the
+          // size of itself. A thing drawn to stand bare (o.bare) does not.
+          var own = getComputedStyle(copy);
+          if (!o.bare && /^rgba\(.*, 0\)$|^transparent$/.test(own.backgroundColor) && own.backgroundImage === 'none') {
+            var view = d.defaultView, under = view.getComputedStyle(d.body).backgroundColor;
+            if (/^rgba\(.*, 0\)$|^transparent$/.test(under)) under = view.getComputedStyle(d.documentElement).backgroundColor;
+            if (!/^rgba\(.*, 0\)$|^transparent$/.test(under)) { dress.style.background = under; dress.style.padding = '14px'; }
+          }
           if (home === scene) draw();
-          // Its height is known only now: stand its foot where it was asked.
-          it.h = wrap.offsetHeight;
-          obj.position.copy(p).add(new THREE.Vector3(0, it.h * o.ww / o.w / 2, 0).applyQuaternion(q));
-          if (home === scene) draw();
+          // Its height is known only now: stand its foot where it was asked, and
+          // again whenever it changes (a rack opened, a cup put on the table, a
+          // line of words arriving), so it grows upward from where it stands.
+          var stand = function () {
+            if (wrap.offsetHeight === it.h) return;
+            it.h = wrap.offsetHeight;
+            obj.position.copy(p).add(new THREE.Vector3(0, it.h * o.ww / o.w / 2, 0).applyQuaternion(q));
+            if (home === scene) draw();
+          };
+          it.h = -1; stand();
+          if (window.ResizeObserver) new ResizeObserver(stand).observe(wrap);
+          it.wait.splice(0).forEach(function (fn) { fn(); });
         };
         frame.addEventListener('load', put);
         put();
         return it;
+      },
+      // A part of a lifted thing the scene answers to, once it has arrived: a
+      // switch the room's own script flips on its page's drawing (a class, a
+      // colour set on it), read again whenever it changes and drawn once. The
+      // scene changes only when that part does, which is only on a press.
+      // fn(read, node): read('--x') is the colour that part wears under that
+      // name now, read() its classes; node is the part, for its attributes.
+      follow: function (it, sel, fn) {
+        var go = function () {
+          var node = it.el.querySelector(sel);
+          if (!node) return;
+          var read = function (name) {
+            return name ? new THREE.Color(getComputedStyle(node).getPropertyValue(name).trim() || css(name)) : node.getAttribute('class') || '';
+          };
+          var again = function () { fn(read, node); draw(); };
+          new MutationObserver(again).observe(node, { attributes: true });
+          again();
+        };
+        if (it.el.firstChild) go(); else it.wait.push(go);
       },
       // The room's own script, run against what was lifted once it has all
       // arrived, loaded afresh each time the room is built because it finds its
@@ -922,11 +967,29 @@ function start() {
       me = { x: made.start.x, z: made.start.z, yaw: made.start.yaw || 0, pitch: 0.05 };
       up = false; glide = null; held = {};
       if (push !== false) history.pushState({ celIn: page }, '', '#in=' + page.replace(/\.html$/, ''));
-      wayOut();
+      wayOut(); places();
       said = '';
       draw(); tell();
       if (list) list.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
       if (then) then();
+    });
+  }
+  // Inside a room its places are a list too, as the doors are on the street:
+  // each one stands you there, for a keyboard and a screen reader, and for
+  // anybody who would rather not walk.
+  function places() {
+    if (!placesEl) return;
+    var ol = placesEl.querySelector('ol');
+    while (ol.firstChild) ol.removeChild(ol.firstChild);
+    placesEl.hidden = !inside;
+    if (!inside) return;
+    stops.forEach(function (s) {
+      var li = document.createElement('li'), b = document.createElement('button');
+      var words = s.where || s.name;
+      b.type = 'button';
+      b.textContent = words.charAt(0).toUpperCase() + words.slice(1);
+      b.addEventListener('click', function () { standAt(s); });
+      li.appendChild(b); ol.appendChild(li);
     });
   }
   // The way out names where it goes: the street, or the room behind this one.
@@ -949,7 +1012,7 @@ function start() {
     inside = was.inside; glide = null; held = {};
     // The room you came back into shows its own page again.
     scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = ''; });
-    wayOut();
+    wayOut(); places();
     if (!inside && list) list.querySelectorAll('a').forEach(function (a) { a.removeAttribute('tabindex'); });
     said = '';
     draw(); tell();
