@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-10-30T11:32Z",
+ "set": "2026-10-31T11:36Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-30T11:32:52Z"
+     "2026-10-31T11:36:49Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-30T11:32:52Z"
+     "2026-10-31T11:36:49Z"
     ]
    ]
   }
@@ -145,16 +145,6 @@
    "published": "2026-10-29T09:57:37Z",
    "state": "screen",
    "runs": 280,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "MLym_LgbSeY",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Short-term thinking means stepping over dollars to pick up pennies",
-   "published": "2026-09-30T18:34:41Z",
-   "state": "screen",
-   "runs": 172,
    "channel": "Farming While Beige"
   },
   {
@@ -575,6 +565,16 @@
    "published": "2026-10-29T20:52:11Z",
    "state": "screen",
    "runs": 69,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "DhNx54V9ofo",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Why agricultural collectivism is a terrible idea in our current place and time.",
+   "published": "2026-10-30T22:01:28Z",
+   "state": "screen",
+   "runs": 179,
    "channel": "Farming While Beige"
   }
  ]
