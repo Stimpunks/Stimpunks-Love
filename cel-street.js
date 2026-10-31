@@ -645,13 +645,20 @@ function start() {
     var shade = col('--cel-cloud-shade');
     cloud.emissive = shade.clone().multiplyScalar(0.25);
     var group = new THREE.Group();
-    [[-120, 130, -260, 50], [70, 165, -360, 66], [210, 120, -210, 44], [-260, 110, -120, 40], [250, 140, -40, 46], [-60, 95, -470, 56], [-220, 150, 120, 50], [140, 130, 200, 44]].forEach(function (c, ci) {
+    // A ring of cumulus standing round the whole horizon, far off and low,
+    // flat underneath, the way they stand at the end of a street.
+    var ring = [];
+    for (var n = 0; n < 11; n++) {
+      var ang = (n + hash('ra' + n) * 0.6) / 11 * Math.PI * 2, dist = 400 + hash('rd' + n) * 90;
+      ring.push([Math.sin(ang) * dist, 48 + hash('ry' + n) * 46, -Math.cos(ang) * dist, 42 + hash('rs' + n) * 26]);
+    }
+    ring.forEach(function (c, ci) {
       for (var k = 0; k < 9; k++) {
         var r = hash('cl' + ci + k), r2 = hash('cm' + ci + k);
         var s = c[3] * (0.35 + r * 0.5);
         var mesh = new THREE.Mesh(puff, cloud);
-        mesh.position.set(c[0] + (r2 - 0.5) * c[3] * 2.6, c[1] + s * 0.4 + (k % 3) * c[3] * 0.18, c[2] + (r - 0.5) * c[3]);
-        mesh.scale.set(s, s * 0.85, s);
+        mesh.position.set(c[0] + (r2 - 0.5) * c[3] * 2.6, c[1] + s * 0.35 + (k % 3) * c[3] * 0.2, c[2] + (r - 0.5) * c[3]);
+        mesh.scale.set(s, s * 0.8, s);
         group.add(mesh);
       }
     });
