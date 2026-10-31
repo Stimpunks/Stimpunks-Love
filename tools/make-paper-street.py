@@ -44,6 +44,11 @@ INDEX = ROOT / "index.html"
 problems = []
 
 
+def html_text(s):
+    import html as _h
+    return _h.unescape(re.sub(r"<[^>]+>", "", s)).strip()
+
+
 def refuse(msg):
     problems.append(msg)
 
@@ -156,6 +161,15 @@ for f in sorted(ROOT.glob("walk-*.js")):
             for c in sorted(set(re.findall(r"'(" + re.escape(prefix.group(1)) + r"[a-z0-9-]*)'", mod))):
                 if not re.search(rf"\.{re.escape(c)}\b", re.sub(r"/\*.*?\*/", "", body, flags=re.S)):
                     refuse(f"{who} dresses things in .{c}, which {head.split('──')[0].strip(' /*')} (the room's own section) does not style.")
+    # A room that names another page names it as that page names itself, and
+    # links to a page that is there: the sentence-in-another-room problem.
+    for other, name in re.findall(r"\{\s*page:\s*'([a-z0-9-]+\.html)',\s*name:\s*'([^']+)'\s*\}", mod):
+        if not (ROOT / other).exists():
+            refuse(f"{who} has a way into {other}, which is not a page on the street.")
+            continue
+        t = re.search(r"<title>(.*?)</title>", (ROOT / other).read_text(), re.S)
+        if not t or not html_text(t.group(1)).startswith(name):
+            refuse(f"{who} calls {other} {name!r}, which is not what that page calls itself.")
     rooms[page] = f.name
 
 # ── The page ────────────────────────────────────────────────────────────────
