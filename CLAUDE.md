@@ -4091,7 +4091,10 @@ set on the room's own class. `make-paper-street.py` writes the list of rooms int
 `walk:rooms` markers (never hand-edit them) and refuses a room's file that stores, fetches, keeps a clock, transforms,
 writes markup from a string, builds its own frame, never hangs its page, or uses a literal colour or an undeclared
 one. **A new room is a new file and its classes in its own section**; the friendly edits are a shared room template,
-the room drawn in Paper Street's card, and a scene that moves by itself.
+the room drawn in Paper Street's card, and a scene that moves by itself. **Netlify serves the front page with its links
+rewritten to clean addresses** (`/jungle-room`, not `jungle-room.html`) and the dev server does not, so `pageOf()` reads
+a door in either form: compared as written, no door on the live street matched a room, every local test passed, and
+Ryan found it on the live site the night it shipped. Anything that reads the front page's hrefs at runtime meets this.
 
 **THE ABOUT PAGE'S FILM IS A CLAUDE MOTION FILM, AND THE MP4 IS AN EXPORT OF IT, NOT ITS SOURCE.**
 Ryan, 2026-10-15, for people shown the street who say they do not get it. `about.html` is paperwork

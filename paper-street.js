@@ -112,7 +112,18 @@
     return (n ? n.textContent : a.textContent).replace(/\s+/g, ' ').replace(/[→↓]/g, '').trim();
   }
 
-  function pageOf(a) { return (a.getAttribute('href') || '').split('#')[0]; }
+  // Which page a door goes to, as a filename. Netlify rewrites the front page's
+  // links into clean addresses as it serves them (/jungle-room, not
+  // jungle-room.html), and the dev server does not, so a door is read in
+  // either form; compared as written, no door on the live street matched a
+  // room, and nothing here said so.
+  function pageOf(a) {
+    var h = (a.getAttribute('href') || '').split('#')[0].split('?')[0];
+    if (/^[a-z]+:/i.test(h)) return '';
+    h = h.replace(/^\.?\//, '');
+    if (!h) return 'index.html';
+    return /\.[a-z0-9]+$/i.test(h) ? h : h + '.html';
+  }
 
   // One flat: a wrapper of ours holding a copy of the street's own element.
   var tagged = 0;
