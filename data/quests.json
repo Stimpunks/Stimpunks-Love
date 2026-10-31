@@ -88,7 +88,7 @@
    "page": "cel-street.html",
    "room": "Cel Street",
    "title": "A spare solar panel",
-   "posted": "On the first stretch of the street, built a second way in the sun, somebody fitting the roofs left one solar panel over, inked round its edge like everything else there, and set it down on the pavement.",
+   "posted": "On the street built a second way in the sun, somebody fitting the roofs left one solar panel over, inked round its edge like everything else there, and set it down on the pavement.",
    "rank": 1,
    "takes": "as long as it takes to get to Paper Street and through to Cel Street, and longer if you climb up over the roofs on the way",
    "target": "a solar panel in its frame, inked round its edge, lying on the pavement",
@@ -109,7 +109,7 @@
      "Fewer than three, more than one."
     ]
    },
-   "learned": "An animation cel is flat colour inside an inked line, with the light in two steps. Cel Street is the first stretch of the street built that way, and its shops are the front page's own doors."
+   "learned": "An animation cel is flat colour inside an inked line, with the light in two steps. Cel Street is the street built that way, and its shops are the front page's own doors."
   },
   {
    "id": "pony-sequin",

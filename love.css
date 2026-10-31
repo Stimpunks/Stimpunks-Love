@@ -4389,7 +4389,7 @@
   --ps-road: #2B2A33;  --ps-pave: #3A3644;  --ps-kerb: #CFC6B2;
   --ps-line: #E8DCBF;  --ps-tab: #8F8370;
 
-  /* Cel Street (§134), the first stretch of the street in WebGL, drawn like an
+  /* Cel Street (§134), the whole street in WebGL, drawn like an
      animation cel under a summer sky. The page: --cel-page its ground,
      --cel-print every word on it, --cel-dim the quieter words, --cel-link its
      links. The world, read by name by cel-street.js and drawn in no word:
@@ -28918,7 +28918,7 @@ body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-fami
 .ps-keys { padding-left: 1.2em; }
 .ps-keys li + li { margin-top: 8px; }
 
-/* §134 ── ROOM: Cel Street (the first stretch of the street, drawn like a cel)
+/* §134 ── ROOM: Cel Street (the whole street, drawn like a cel)
    Ryan's ask, 2026-10-31: a WebGL version of the street in a 3D anime style,
    as a proof of concept, beside Paper Street rather than instead of it. He
    named it Cel Street. cel-street.js builds it with three.js (vendor/, MIT,

@@ -4126,7 +4126,8 @@ off Paper Street, which links to it (`data/map.json` puts it behind the toy thea
 imports `vendor/three.module.min.js` (three.js 0.160.0, MIT, its licence beside it) and nothing else; the CSP's
 `script-src 'self'` is why it is a file here and never a CDN, and **`tools/make-cel-street.py` refuses the file if its
 sha256 is not the one recorded in the tool**, so updating three.js is a decision: new file, new VERSION and SHA256, same
-commit. **The shops are the front page's doors, read at runtime**: the first stretch of `ul.doors` is cloned for a moment
+commit. **The shops are the front page's doors, read at runtime** (the whole row since the same evening, with the garden gate
+halfway down and the lots' gates past the last building, all measured the same way): each is cloned for a moment
 into an invisible `.cel-measure` box so the browser says what each door wears (ground, awning stripes, name colour and
 face), and each becomes a building whose ground floor is that shop, its sign a canvas lettered in the door's own face;
 everything above and round the shops is in `--cel-*` colours, read by name, and the tool refuses a colour written into

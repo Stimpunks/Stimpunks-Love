@@ -15,7 +15,7 @@ it is deciding to: download the release, read its licence, change VERSION and
 SHA256 below in the same commit.
 
 THE STREET IS READ, NOT COPIED. cel-street.js asks for index.html when the page
-opens and takes the first stretch of its row of doors, and each door's own
+opens and takes its row of doors, its garden gate and its lots' gates, and each door's own
 awning and name, so the shops are always the front page's. That only holds
 while the front page has those parts, and at runtime a missing part would only
 look like a broken game, so this tool reads index.html for them.

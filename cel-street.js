@@ -1,10 +1,11 @@
 /* =============================================================================
-   Cel Street: the first stretch of the street, built in WebGL and drawn like a
+   Cel Street: the whole street, built in WebGL and drawn like a
    cel. Ryan's ask, 2026-10-31: a WebGL version of the street in a 3D anime
    style, beside Paper Street rather than instead of it, as a proof of concept.
 
    THE DOORS ARE THE FRONT PAGE'S OWN, READ WHEN THE PAGE OPENS. index.html is
-   asked for once, the first stretch of its row of doors is taken out of it,
+   asked for once, its whole row of doors is taken out of it, and the garden
+   gate and the lots' gates with them,
    and each door is stood for a moment in an invisible box on this page so the
    browser can say what it wears: its ground, its awning's stripes, its name's
    colour and face. Each becomes a building whose ground floor is that door's
@@ -36,7 +37,8 @@ if (stage) start();
 
 function start() {
   'use strict';
-  var SECTION = 12;          // how far down the street this stretch runs
+  var CHUNK = 60;            // the street is drawn in lengths this long
+  var VIEW = 300;            // and only the lengths this near you are drawn
   var FRONT = 6.2;           // half the street, kerb to kerb past the pavements
   var ROAD = 3.5;            // half the road
   var EYE = 1.6;
@@ -120,10 +122,19 @@ function start() {
   }
   // Put a piece in place: geo in its own frame, m the matrix that stands it.
   // ink: the hull behind it, a little larger on every side, drawn in ink.
+  // A piece goes into the length of street it stands in, so a length far
+  // away can be left undrawn; anything longer than a length is always drawn.
+  function chunkOf(g) {
+    g.computeBoundingBox();
+    var b = g.boundingBox;
+    if (b.max.z - b.min.z > CHUNK) return 'all';
+    return Math.floor((b.min.z + b.max.z) / 2 / CHUNK);
+  }
   function piece(geo, m, mat, key, ink, shadow) {
     var g = geo.index ? geo.toNonIndexed() : geo.clone();
     g.applyMatrix4(m);
-    bucket(key, mat, shadow).geos.push(g);
+    var c = chunkOf(g);
+    bucket(key + '|' + c, mat, shadow).geos.push(g);
     if (ink !== false) {
       var h = geo.index ? geo.toNonIndexed() : geo.clone();
       h.computeBoundingBox();
@@ -133,7 +144,7 @@ function start() {
       h.scale(1 + 2 * t / Math.max(tmpSize.x, 1e-3), 1 + 2 * t / Math.max(tmpSize.y, 1e-3), 1 + 2 * t / Math.max(tmpSize.z, 1e-3));
       h.translate(tmpMid.x, tmpMid.y, tmpMid.z);
       h.applyMatrix4(m);
-      bucket('ink', inkMat, false).geos.push(h);
+      bucket('ink|' + c, inkMat, false).geos.push(h);
     }
   }
   function merge(geos) {
@@ -153,14 +164,17 @@ function start() {
     if (uv) out.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
     return out;
   }
+  var far = [];               // what is drawn only while you are near it
   function bake() {
     Object.keys(buckets).forEach(function (k) {
       var b = buckets[k];
       if (!b.geos.length) return;
       var mesh = new THREE.Mesh(merge(b.geos), b.mat);
-      mesh.castShadow = b.shadow; mesh.receiveShadow = k !== 'ink';
+      mesh.castShadow = b.shadow; mesh.receiveShadow = k.indexOf('ink|') !== 0;
       mesh.matrixAutoUpdate = false;
       scene.add(mesh);
+      var c = k.split('|')[1];
+      if (c !== 'all') far.push({ o: mesh, z: (+c + 0.5) * CHUNK });
     });
     buckets = {};
   }
@@ -179,6 +193,7 @@ function start() {
     mesh.matrix.copy(m);
     mesh.matrixWorldNeedsUpdate = true;
     scene.add(mesh);
+    far.push({ o: mesh, z: m.elements[14] });
     return mesh;
   }
   var BOX = new THREE.BoxGeometry(1, 1, 1);
@@ -233,35 +248,50 @@ function start() {
 
   // Stand each door for a moment where the browser can dress it, and write
   // down what it wears.
-  function wear(doors) {
+  // What each kind of thing on the front page wears, and where: a door's
+  // ground, its awning and its name; the garden gate's arch and its words; a
+  // lot's gate, the band along its top and its name.
+  var PARTS = {
+    door: { ground: null, stripes: '.door__awning', name: '.door__name' },
+    gate: { ground: '.gardengate__arch', stripes: null, name: '.gardengate__to' },
+    lot: { ground: null, stripes: null, name: '.lotgate__name' }
+  };
+  function named(t, kind) {
+    t = t.replace(/[\u2190-\u21ff]/g, '').replace(/\s+/g, ' ').trim();
+    if (kind === 'gate') {
+      t = t.split(':').pop().trim().toLowerCase().replace(/(^|\s)\S/g, function (m) { return m.toUpperCase(); });
+    }
+    return t;
+  }
+  function wear(items) {
     var box = document.createElement('div');
     box.className = 'cel-measure';
     box.setAttribute('aria-hidden', 'true');
-    var ul = document.createElement('ul');
-    ul.className = 'doors';
-    box.appendChild(ul);
-    var copies = doors.map(function (a) {
-      var li = document.createElement('li');
-      var c = document.importNode(a, true);
+    var copies = items.map(function (it) {
+      var c = document.importNode(it.el, true);
       c.removeAttribute('href');
-      li.appendChild(c); ul.appendChild(li);
+      box.appendChild(c);
       return c;
     });
     document.body.appendChild(box);
     var out = copies.map(function (c, i) {
-      var cs = getComputedStyle(c);
-      var aw = c.querySelector('.door__awning'), nm = c.querySelector('.door__name');
+      var it = items[i], P = PARTS[it.kind];
+      var g = P.ground ? c.querySelector(P.ground) || c : c;
+      var cs = getComputedStyle(g);
+      var aw = P.stripes ? c.querySelector(P.stripes) : null, nm = c.querySelector(P.name);
       var awCs = aw ? getComputedStyle(aw) : null, nmCs = nm ? getComputedStyle(nm) : cs;
       var ground = cs.backgroundColor;
       if (clear(ground)) ground = colours(cs.backgroundImage)[0] || '';
       var stripes = awCs ? colours(awCs.backgroundImage) : [];
       if (!stripes.length && awCs && !clear(awCs.backgroundColor)) stripes = [awCs.backgroundColor];
+      if (!stripes.length && parseFloat(getComputedStyle(c).borderTopWidth) > 0) stripes = [getComputedStyle(c).borderTopColor];
       if (clear(ground)) ground = stripes[0] || css('--cel-wall-1');
       if (!stripes.length) stripes = [ground, nmCs.color];
-      if (stripes.length < 2) stripes.push(nmCs.color);
+      if (stripes.length < 2) stripes.unshift(ground);
       return {
-        name: (nm ? nm.textContent : doors[i].textContent).replace(/\s+/g, ' ').trim(),
-        page: pageOf(doors[i]),
+        kind: it.kind,
+        name: named(nm ? nm.textContent : it.el.textContent, it.kind),
+        page: pageOf(it.el),
         ground: ground,
         stripes: stripes.slice(0, 3),
         ink: nmCs.color,
@@ -277,6 +307,25 @@ function start() {
     var n = 2166136261;
     for (var i = 0; i < s.length; i++) n = Math.imul(n ^ s.charCodeAt(i), 16777619);
     return (n >>> 0) / 4294967296;
+  }
+
+  // A sign in a thing's own ground, lettered in its own face and ink.
+  function signboard(d, sw, sh, m) {
+    var sign = tex(768, Math.max(48, Math.round(768 * sh / sw)), function (c, w, h) {
+      c.fillStyle = d.ground; c.fillRect(0, 0, w, h);
+      c.strokeStyle = d.ink; c.lineWidth = 6; c.strokeRect(5, 5, w - 10, h - 10);
+      var size = Math.round(h * 0.62);
+      do { c.font = d.weight + ' ' + size + 'px ' + d.face; size -= 3; } while (c.measureText(d.name).width > w - 54 && size > 16);
+      c.fillStyle = d.ink; c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.fillText(d.name, w / 2, h / 2 + 2);
+    });
+    return put(new THREE.Mesh(new THREE.PlaneGeometry(sw, sh), new THREE.MeshBasicMaterial({ map: sign, fog: true })), m);
+  }
+  function hitbox(i, w, h, d, m) {
+    var hb = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshBasicMaterial({ visible: false }));
+    hb.matrixAutoUpdate = false; hb.matrix.copy(m); hb.matrixWorld.copy(m);
+    hb.userData.stop = i;
+    hits.push(hb);
   }
 
   /* ── A building, with its shop on the ground floor ─────────────────────── */
@@ -304,16 +353,7 @@ function start() {
     piece((function () { var b = BOX.clone(); b.scale(W - 0.3, 4.5, 0.4); return b; })(), at(0, 2.25, front + 0.2, 0, 0, 0, g), shopMat, 'c' + shopC.getHexString());
     plane(1.4, 2.3, at(-W / 2 + 1.3, 1.15, front + 0.41, 0, 0, 0, g), winMat, 'win');
     plane(W - 3.6, 1.8, at(0.7, 1.5, front + 0.41, 0, 0, 0, g), winMat, 'win');
-    var sw = W - 1.0, sh = 0.95, ch = Math.round(1024 * sh / sw);
-    var sign = tex(1024, ch, function (c, w, h) {
-      c.fillStyle = d.ground; c.fillRect(0, 0, w, h);
-      c.strokeStyle = d.ink; c.lineWidth = 8; c.strokeRect(6, 6, w - 12, h - 12);
-      var size = Math.round(h * 0.62);
-      do { c.font = d.weight + ' ' + size + 'px ' + d.face; size -= 3; } while (c.measureText(d.name).width > w - 70 && size > 20);
-      c.fillStyle = d.ink; c.textAlign = 'center'; c.textBaseline = 'middle';
-      c.fillText(d.name, w / 2, h / 2 + 3);
-    });
-    put(new THREE.Mesh(new THREE.PlaneGeometry(sw, sh), new THREE.MeshBasicMaterial({ map: sign, fog: true })), at(0, 3.85, front + 0.42, 0, 0, 0, g));
+    signboard(d, W - 1.0, 0.95, at(0, 3.85, front + 0.42, 0, 0, 0, g));
     var aw = tex(256, 64, function (c, w, h) {
       var n = Math.max(d.stripes.length, 2), sw = w / 16;
       for (var k = 0; k < 16; k++) { c.fillStyle = d.stripes[k % n]; c.fillRect(k * sw, 0, sw + 1, h); }
@@ -344,10 +384,7 @@ function start() {
       cyl(0.7, 0.7, 1.4, at(-W / 2 + 1.5, H + 1.05, -D / 2 + 1.6, 0, 0, 0, g), '--cel-frame');
     }
     // An invisible box to press on, the size of the building.
-    var hb = new THREE.Mesh(new THREE.BoxGeometry(W, H + 1, D), new THREE.MeshBasicMaterial({ visible: false }));
-    hb.matrixAutoUpdate = false; hb.matrix.copy(at(0, H / 2, 0, 0, 0, 0, g)); hb.matrixWorld.copy(hb.matrix);
-    hb.userData.stop = i;
-    hits.push(hb);
+    hitbox(i, W, H + 1, D, at(0, H / 2, 0, 0, 0, 0, g));
     return H;
   }
 
@@ -367,8 +404,56 @@ function start() {
     }
   }
 
+  // THE GARDEN GATE, halfway down, as on the Map: a gap between two shops with
+  // a wall across it, an arched gate in its own ground and a sign over it in
+  // its own lettering, and the tops of the garden's trees in the sun behind.
+  function gardenGate(d, i, side, zc, W) {
+    var g = at(side * FRONT, 0, zc, side < 0 ? Math.PI / 2 : -Math.PI / 2);
+    var shop = new THREE.Color(d.ground), mat = toonColor(shop), key = 'c' + shop.getHexString();
+    var gap = 3.2, wing = (W - gap) / 2;
+    [-1, 1].forEach(function (k) {
+      box(wing, 3.2, 0.5, new THREE.Matrix4().multiplyMatrices(g, at(k * (gap + wing) / 2, 1.6, 0.25)), '--cel-wall-3');
+      box(wing + 0.1, 0.2, 0.62, new THREE.Matrix4().multiplyMatrices(g, at(k * (gap + wing) / 2, 3.3, 0.25)), '--cel-kerb');
+    });
+    // The arch, in the gate's own ground.
+    piece((function () { var b = BOX.clone(); b.scale(0.5, 3.6, 0.6); return b; })(), new THREE.Matrix4().multiplyMatrices(g, at(-gap / 2 - 0.25, 1.8, 0.3)), mat, key);
+    piece((function () { var b = BOX.clone(); b.scale(0.5, 3.6, 0.6); return b; })(), new THREE.Matrix4().multiplyMatrices(g, at(gap / 2 + 0.25, 1.8, 0.3)), mat, key);
+    piece(new THREE.TorusGeometry(gap / 2 + 0.25, 0.25, 8, 20, Math.PI), new THREE.Matrix4().multiplyMatrices(g, at(0, 3.6, 0.3)), mat, key);
+    signboard(d, gap + 2.4, 0.8, new THREE.Matrix4().multiplyMatrices(g, at(0, 5.0, 0.62)));
+    box(0.08, 1.0, 0.08, new THREE.Matrix4().multiplyMatrices(g, at(-gap / 2 - 0.8, 4.5, 0.6)), '--cel-frame', false);
+    box(0.08, 1.0, 0.08, new THREE.Matrix4().multiplyMatrices(g, at(gap / 2 + 0.8, 4.5, 0.6)), '--cel-frame', false);
+    // The garden behind it: grass, and trees whose tops show over the wall.
+    box(W + 10, 0.1, 30, new THREE.Matrix4().multiplyMatrices(g, at(0, 0.02, -15)), '--cel-leaf', false, false);
+    for (var t = 0; t < 11; t++) {
+      var p = new THREE.Vector3((hash('gt' + t) - 0.5) * (W + 6), 0, -3 - hash('gz' + t) * 25).applyMatrix4(g);
+      tree(p.x, p.z, 1.4 + hash('gs' + t) * 0.6);
+    }
+    hitbox(i, W, 6, 4, new THREE.Matrix4().multiplyMatrices(g, at(0, 3, 0)));
+  }
+
+  // A LOT, past the last building: open ground behind a low fence, a gate in
+  // the lot's own colours with its name over it, and the lot's own ground.
+  function lotGate(d, i, side, zc, L) {
+    var g = at(side * FRONT, 0, zc, side < 0 ? Math.PI / 2 : -Math.PI / 2);
+    var shop = new THREE.Color(d.ground), mat = toonColor(shop), key = 'c' + shop.getHexString();
+    var gap = 2.8, wing = (L - gap) / 2;
+    [-1, 1].forEach(function (k) {
+      var cx = k * (gap + wing) / 2;
+      box(wing, 0.08, 0.08, new THREE.Matrix4().multiplyMatrices(g, at(cx, 1.0, 0.1)), '--cel-frame', 0.02);
+      box(wing, 0.08, 0.08, new THREE.Matrix4().multiplyMatrices(g, at(cx, 0.5, 0.1)), '--cel-frame', 0.02);
+      for (var x = -wing / 2; x <= wing / 2 + 0.01; x += 1.2) box(0.1, 1.2, 0.1, new THREE.Matrix4().multiplyMatrices(g, at(cx + x, 0.6, 0.1)), '--cel-frame', 0.02);
+    });
+    [-1, 1].forEach(function (k) {
+      piece((function () { var b = BOX.clone(); b.scale(0.3, 2.8, 0.3); return b; })(), new THREE.Matrix4().multiplyMatrices(g, at(k * (gap / 2 + 0.15), 1.4, 0.1)), mat, key);
+    });
+    signboard(d, gap + 1.6, 0.75, new THREE.Matrix4().multiplyMatrices(g, at(0, 3.1, 0.3)));
+    piece((function () { var b = BOX.clone(); b.scale(L - 0.4, 0.06, 13); return b; })(), new THREE.Matrix4().multiplyMatrices(g, at(0, 0.03, -6.8)), mat, key, false, false);
+    tree(new THREE.Vector3(-L / 3, 0, -10).applyMatrix4(g).x, new THREE.Vector3(-L / 3, 0, -10).applyMatrix4(g).z, 1.2);
+    hitbox(i, L, 3.5, 3, new THREE.Matrix4().multiplyMatrices(g, at(0, 1.6, 0)));
+  }
+
   /* ── The street round the shops ──────────────────────────────────────── */
-  function street(zEnd) {
+  function street(zEnd, crossings) {
     var len = zEnd + 60, mid = -len / 2 + 20;
     box(ROAD * 2, 0.1, len, at(0, -0.05, mid), '--cel-road', false, false);
     box(FRONT - ROAD, 0.3, len, at(-(ROAD + FRONT) / 2, 0.1, mid), '--cel-walk', false, false);
@@ -379,22 +464,22 @@ function start() {
     box(400, 0.1, len + 400, at(0, -0.12, mid), '--cel-walk', false, false);
     // Paint: an edge line each side, a dashed line down the middle, and a
     // crossing with its stop lines.
-    var cross = -zEnd * 0.45;
     box(0.15, 0.02, len, at(-ROAD + 0.4, 0.01, mid), '--cel-paint', false, false);
     box(0.15, 0.02, len, at(ROAD - 0.4, 0.01, mid), '--cel-paint', false, false);
     for (var z = 10; z > -zEnd - 30; z -= 6) {
-      if (Math.abs(z - cross) < 5) continue;
+      if (crossings.some(function (c) { return Math.abs(z - c) < 5; })) continue;
       box(0.15, 0.02, 3, at(0, 0.01, z), '--cel-paint', false, false);
     }
-    for (var x = -ROAD + 0.6; x < ROAD - 0.3; x += 0.9) box(0.45, 0.02, 3.2, at(x + 0.2, 0.012, cross), '--cel-paint', false, false);
-    box(ROAD - 0.2, 0.02, 0.35, at(-ROAD / 2, 0.012, cross + 3.2), '--cel-paint', false, false);
-    box(ROAD - 0.2, 0.02, 0.35, at(ROAD / 2, 0.012, cross - 3.2), '--cel-paint', false, false);
+    crossings.forEach(function (cross) {
+      for (var x = -ROAD + 0.6; x < ROAD - 0.3; x += 0.9) box(0.45, 0.02, 3.2, at(x + 0.2, 0.012, cross), '--cel-paint', false, false);
+      box(ROAD - 0.2, 0.02, 0.35, at(-ROAD / 2, 0.012, cross + 3.2), '--cel-paint', false, false);
+      box(ROAD - 0.2, 0.02, 0.35, at(ROAD / 2, 0.012, cross - 3.2), '--cel-paint', false, false);
+    });
     // Seams in the pavement.
     for (z = 10; z > -zEnd - 30; z -= 1.5) {
       box(FRONT - ROAD - 0.3, 0.005, 0.04, at(-(ROAD + FRONT) / 2, 0.255, z), '--cel-kerb', false, false);
       box(FRONT - ROAD - 0.3, 0.005, 0.04, at((ROAD + FRONT) / 2, 0.255, z), '--cel-kerb', false, false);
     }
-    return cross;
   }
 
   // Poles every so often down both sides, and the wires sagging between them,
@@ -521,8 +606,8 @@ function start() {
     cyl(0.45, 0.45, 0.06, at(x, 3.45, z, s < 0 ? 0.6 : -0.6, Math.PI / 2), '--cel-wall-2', 0.02, 28);
   }
 
-  // Far blocks past the end of the stretch, and hills in the haze behind.
-  function beyond(zEnd) {
+  // Far blocks past the end of the street, and hills in the haze behind.
+  function beyond(zEnd, open) {
     for (var i = 0; i < 9; i++) {
       var r = hash('far' + i), w = 10 + r * 10, h = 12 + hash('h' + i) * 18;
       box(w, h, 10, at(-38 + i * 9.5, h / 2, -zEnd - 34 - r * 18), WALLS[i % WALLS.length]);
@@ -530,6 +615,7 @@ function start() {
     [-1, 1].forEach(function (s) {
       for (var z = 8, k = 0; z > -zEnd - 20; z -= 14, k++) {
         var h = 14 + hash(s + 'side' + k) * 16;
+        if (open.some(function (o) { return o.side === s && z < o.z0 + 6 && z > o.z1 - 6; })) continue;
         box(12, h, 12, at(s * (FRONT + 22), h / 2, z), WALLS[(k + (s > 0 ? 2 : 0)) % WALLS.length]);
         solar(at(s * (FRONT + 22), 0, z), 12, 12, h, false);
       }
@@ -553,7 +639,7 @@ function start() {
     });
     var dome = new THREE.Mesh(g, m);
     dome.renderOrder = -1;
-    scene.add(dome);
+    skyGroup.add(dome);
     var puff = new THREE.IcosahedronGeometry(1, 2);
     var cloud = new THREE.MeshToonMaterial({ color: col('--cel-cloud'), gradientMap: gradient, fog: false });
     var shade = col('--cel-cloud-shade');
@@ -569,10 +655,14 @@ function start() {
         group.add(mesh);
       }
     });
-    scene.add(group);
+    skyGroup.add(group);
     group.updateMatrixWorld(true);
     group.traverse(function (o) { o.matrixAutoUpdate = false; });
   }
+  // The sky and its clouds are so far off that walking never brings you
+  // under them: they keep their place over you wherever you stand.
+  var skyGroup = new THREE.Group();
+  scene.add(skyGroup);
 
   /* ── Where you stand ───────────────────────────────────────────────────── */
   var me = { x: 0, z: 6, yaw: 0, pitch: 0.05 }, ROOF = 26, up = false;
@@ -582,10 +672,12 @@ function start() {
 
   function place() {
     camera.position.set(me.x, up ? ROOF : EYE, me.z);
+    skyGroup.position.set(me.x, 0, me.z - 6);
     camera.rotation.set(me.pitch, me.yaw, 0, 'YXZ');
     sun.position.set(me.x + SUN.x, SUN.y, me.z + SUN.z);
     sun.target.position.set(me.x, 0, me.z - 12);
     sun.target.updateMatrixWorld();
+    for (var i = 0; i < far.length; i++) far[i].o.visible = Math.abs(far[i].z - me.z) < VIEW + CHUNK / 2;
   }
   function draw() { place(); renderer.render(scene, camera); }
   function soon() { if (!frame) frame = requestAnimationFrame(tick); }
@@ -689,42 +781,62 @@ function start() {
   }
 
   /* ── Building it all, once the street has been read ────────────────────── */
-  function build(doors) {
-    var along = { '-1': -2, '1': -2 }, zEnd = 0;
-    var placed = doors.map(function (d, i) {
-      var side = i % 2 ? 1 : -1;
-      var W = 8 + Math.floor(hash(d.name + 'w') * 3) * 1.5;
+  function build(things) {
+    var doors = things.filter(function (t) { return t.kind === 'door'; });
+    var gate = things.filter(function (t) { return t.kind === 'gate'; })[0];
+    var lots = things.filter(function (t) { return t.kind === 'lot'; });
+    var along = { '-1': -2, '1': -2 }, placed = [], open = [];
+    function stand(d, side, W, make) {
       var zc = along[side] - W / 2;
       along[side] -= W + 1.2;
-      building(d, i, side, zc, W);
-      zEnd = Math.max(zEnd, -along[side]);
-      return { name: d.name, page: d.page, side: side, z: zc };
+      make(d, placed.length, side, zc, W);
+      if (make !== building) open.push({ side: side, z0: zc + W / 2, z1: zc - W / 2 });
+      placed.push({ name: d.name, page: d.page, side: side, z: zc });
+    }
+    // The shops two by two down the street, the garden gate halfway down on
+    // the left as on the Map, and then the lots past the last building.
+    doors.forEach(function (d, i) {
+      if (gate && i === Math.floor(doors.length / 2)) stand(gate, -1, 14, gardenGate);
+      stand(d, i % 2 ? 1 : -1, 8 + Math.floor(hash(d.name + 'w') * 3) * 1.5, building);
     });
-    // The alleys between the shops get a lamp of the sky and nothing else;
-    // the ends of the stretch get a building each so you are not walking off
-    // the edge of the world.
+    along['1'] = along['-1'] = Math.min(along['1'], along['-1']);
+    lots.forEach(function (d) { stand(d, 1, 16, lotGate); });
+    var zEnd = -Math.min(along['1'], along['-1']);
+    // Across from the lots, a bank of trees, and the ends of the street get a
+    // building each so you are not walking off the edge of the world.
+    for (var z = -zEnd + 8; z < -zEnd + lots.length * 17.2; z += 6) tree(-(FRONT + 3 + hash('bk' + z) * 6), z, 1.2 + hash('bs' + z) * 0.5);
     [-1, 1].forEach(function (s) {
-      var g = at(s * (FRONT + 4.5), 0, along[s] - 6);
-      box(10, 18, 9, new THREE.Matrix4().multiplyMatrices(g, at(0, 9, 0)), '--cel-wall-1');
+      box(10, 18, 9, at(s * (FRONT + 4.5), 9, -zEnd - 6), '--cel-wall-1');
       box(10, 14, 9, at(s * (FRONT + 4.5), 7, 8), '--cel-wall-3');
     });
-    var cross = street(zEnd);
+    var crossings = [];
+    for (z = -40; z > -zEnd + 10; z -= 130) crossings.push(z);
+    street(zEnd, crossings);
     poles(zEnd);
-    for (var z = -6, k = 0; z > -zEnd; z -= 19, k++) tree(((k % 2) ? 1 : -1) * (ROAD + 1.6), z, 1);
-    signpost(ROAD + 1.1, cross + 4.4, arrowTex, false);
+    for (z = -6, k = 0; z > -zEnd; z -= 19) {
+      k++;
+      if (z < -zEnd + lots.length * 17.2 + 4) continue;
+      tree(((k % 2) ? 1 : -1) * (ROAD + 1.6), z, 1);
+    }
+    var k;
+    crossings.forEach(function (c, n) {
+      signpost(ROAD + 1.1, c + 4.4, arrowTex, false);
+      signpost(-ROAD - 1.1, c - 4.4, slowTex, true);
+      if (n % 2 === 0) mirror(ROAD + 1.0, c - 4.5, 1);
+    });
     signpost(-ROAD - 1.1, 4.5, slowTex, true);
-    vending(-FRONT + 0.6, -zEnd * 0.25, -1);
-    vending(FRONT - 0.6, -zEnd * 0.7, 1);
-    bicycle(-(ROAD + 1.0), -9.4);
-    car(ROAD - 1.3, -zEnd * 0.62);
-    mirror(ROAD + 1.0, cross - 4.5, 1);
-    beyond(zEnd);
+    // The street's clutter, all the way down: a vending machine against a
+    // wall, a bicycle against a pole, a car at the kerb.
+    for (z = -20, k = 0; z > -zEnd + 20; z -= 77, k++) vending((k % 2 ? 1 : -1) * (FRONT - 0.6), z, k % 2 ? 1 : -1);
+    for (z = -9.4, k = 0; z > -zEnd + 20; z -= 60, k++) bicycle((k % 2 ? 1 : -1) * (ROAD + 1.0), z);
+    for (z = -32, k = 0; z > -zEnd + 20; z -= 71, k++) car((k % 2 ? -1 : 1) * (ROAD - 0.95), z);
+    beyond(zEnd, open);
     sky();
     bake();
     hits.forEach(function (h) { scene.add(h); h.updateMatrixWorld = function () {}; });
     bounds.z = [-zEnd - 4, 9];
     stops = placed.map(function (p) {
-      return { name: p.name, page: p.page, x: -p.side * 2.3, z: p.z, yaw: p.side < 0 ? Math.PI / 2 : -Math.PI / 2 };
+      return { name: p.name, page: p.page, x: -p.side * 1.5, z: p.z, yaw: p.side < 0 ? Math.PI / 2 : -Math.PI / 2 };
     });
 
     // The way in for a keyboard and a screen reader: the doors as links.
@@ -815,9 +927,13 @@ function start() {
     .then(function (src) {
       var doc = new DOMParser().parseFromString(src, 'text/html');
       var row = doc.querySelector('ul.doors');
-      var doors = row ? Array.prototype.slice.call(row.querySelectorAll(':scope > li > a.door'), 0, SECTION) : [];
+      var doors = row ? Array.prototype.slice.call(row.querySelectorAll(':scope > li > a.door')) : [];
       if (!doors.length) throw new Error('no doors');
-      var worn = wear(doors);
+      var items = doors.map(function (el) { return { el: el, kind: 'door' }; });
+      var gate = doc.querySelector('a.gardengate');
+      if (gate) items.push({ el: gate, kind: 'gate' });
+      Array.prototype.forEach.call(doc.querySelectorAll('div.openground a.lotgate'), function (el) { items.push({ el: el, kind: 'lot' }); });
+      var worn = wear(items);
       var faces = worn.map(function (d) { return document.fonts ? document.fonts.load(d.weight + ' 64px ' + d.face, d.name).catch(function () {}) : null; });
       return Promise.all(faces).then(function () { build(worn); });
     })
