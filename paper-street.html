@@ -59,7 +59,7 @@
 
   <p class="ps-lede">A paper street is a road that is drawn on a map and was never built on the ground. This is the other way round: a street that is really here, walked as paper. Every door on it is the front page&rsquo;s own, read when you open this page, so it is the street as it is today, and pressing a door takes you into its room.</p>
 
-  <section class="ps-stage" data-ps-stage tabindex="0" aria-label="The street, cut out of card. Arrow keys or W, A, S and D walk; Tab goes from door to door; Enter goes in." aria-describedby="ps-how">
+  <section class="ps-stage" data-ps-stage tabindex="0" aria-label="The street, cut out of card. Arrow keys or W, A, S and D walk; Q and E turn; R and F look up and down; X faces ahead; Tab goes from door to door; Enter goes in." aria-describedby="ps-how">
     <canvas class="ps-ground" data-ps-ground aria-hidden="true"></canvas>
     <div class="ps-flats" data-ps-flats></div>
     <div class="ps-folk" data-ps-folk aria-hidden="true"></div>
@@ -76,6 +76,13 @@
       <button type="button" class="ps-go ps-go--right" data-ps-go="right">Right</button>
       <button type="button" class="ps-go ps-go--back" data-ps-go="back">Back</button>
     </div>
+    <div class="ps-look" role="group" aria-label="Looking around">
+      <button type="button" class="ps-go ps-go--lookup" data-ps-go="lookup">Look up</button>
+      <button type="button" class="ps-go ps-go--turnl" data-ps-go="turnl">Turn left</button>
+      <button type="button" class="ps-go ps-go--ahead" data-ps-go="ahead">Face ahead</button>
+      <button type="button" class="ps-go ps-go--turnr" data-ps-go="turnr">Turn right</button>
+      <button type="button" class="ps-go ps-go--lookdown" data-ps-go="lookdown">Look down</button>
+    </div>
     <div class="ps-more">
       <button type="button" class="ps-mode" data-ps-mode aria-pressed="false">Gliding: switch to steps</button>
       <button type="button" class="ps-bring" data-ps-bring hidden>Bring my avatar</button>
@@ -90,8 +97,9 @@
     <h2 id="how-to-walk-it">How to walk it</h2>
     <ul class="ps-keys" id="ps-how">
       <li><b>Arrow keys, or W, A, S and D,</b> walk you ahead, back and across the road while the street has the keyboard. The buttons under the street do the same, by pressing or by holding.</li>
+      <li><b>Q and E turn you</b> left and right, <b>R and F look up and down</b>, and <b>X faces ahead</b> again; so do the buttons beside the walking ones. Dragging across the street looks round too; on a touch screen a sideways drag turns and the page still scrolls under your thumb. Everything keeps facing you as you turn, the way cut-outs in a toy theatre face the audience.</li>
       <li><b>Tab</b> goes from door to door down the street, and stands you in front of each one. <b>Enter</b> goes in.</li>
-      <li><b>Steps or gliding.</b> In steps, every press jumps you one stop, with nothing moving in between. Gliding walks you smoothly for as long as you hold a key or a button. Gentle starts in steps and Regular and MAX start gliding; the switch changes it for this visit, and nothing remembers which you chose.</li>
+      <li><b>Steps or gliding.</b> In steps, every press jumps you one stop, or turns you a twelfth of the way round, with nothing moving in between. Gliding walks you smoothly for as long as you hold a key or a button. Gentle starts in steps and Regular and MAX start gliding; the switch changes it for this visit, and nothing remembers which you chose.</li>
       <li><b>Nothing moves by itself.</b> The street stands still until you walk, at every setting of the dial, and nothing on it flashes.</li>
     </ul>
 

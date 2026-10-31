@@ -37,6 +37,16 @@
    switch overrides either, for this visit only. Tab moves you down the street:
    the keyboard going to a door stands you in front of it.
 
+   LOOKING AROUND IS ARITHMETIC TOO (Ryan, 2026-10-31). Turning works out where
+   everything stands from the way you are facing, and every flat goes on facing
+   you, the way a cut-out in a toy theatre is turned to the audience: so a turn
+   is still only a translate and a scale on each thing, and nothing is rotated.
+   Looking up and down slides the horizon, the way the old games did it, so the
+   floor drops away and the roof comes into view. In Steps a turn is a jump of a
+   twelfth of the way round with nothing moving between; gliding, it turns while
+   you hold a key or drag. Standing at a door or a screen faces you square on to
+   it again.
+
    YOUR COMPANIONS COME ALONG, AND NOBODY IS HANDED A BODY. Your familiar walks
    with you if you have one (read from love-familiar, which familiar.js keeps;
    this file never writes it). Your avatar comes only when you press Bring my
@@ -86,7 +96,9 @@
   var goal = null;       // where a glide is heading
   var held = {};         // keys and buttons held down
   var last = 0, running = false;
-  var F = 600, W = 0, H = 0, HORIZON = 0, EYE = 165;
+  var F = 600, W = 0, H = 0, HORIZON = 0, EYE = 165, BASE = 0;
+  var yaw = 0, pitch = 0;   // which way you face (radians, right is more) and how far up you look (pixels)
+  var TURN = 1.3, LOOK = 320, STEP_TURN = Math.PI / 6;
   var mode = null, chosen = false;
   var me = null, fam = null;
   var byEl = new WeakMap();  // a placed element, to the stop it belongs to
@@ -223,23 +235,44 @@
     W = r.width; H = r.height;
     F = Math.max(320, Math.min(W * 0.9, 900));
     EYE = scene ? scene.eye : 165;
-    HORIZON = H * (scene ? scene.horizon : 0.4);
+    BASE = H * (scene ? scene.horizon : 0.4);
+    lookAt();
     var dpr = window.devicePixelRatio || 1;
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
     canvas.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
+  // Looking up slides the horizon down the stage, so the roof comes in from
+  // the top; never so far that the floor or the sky leaves the stage entirely.
+  function lookAt() {
+    var lim = H * 0.36;
+    pitch = Math.max(-lim, Math.min(lim, pitch));
+    HORIZON = BASE + pitch;
+  }
+
+  // Where you see a point from: across (rx) and away (rz), turned to the way
+  // you face. Worked out, never applied to anything as a turn.
+  function seen(x, z) {
+    var dx = x - cam.x, dz = z - cam.z, c = Math.cos(yaw), n = Math.sin(yaw);
+    return { rx: dx * c - dz * n, rz: dx * n + dz * c };
+  }
+  function screenAt(rx, y, rz) {
+    if (rz <= 1) return null;
+    var s = F / rz;
+    return { x: W / 2 + rx * s, y: HORIZON + (EYE - y) * s, s: s, dz: rz };
+  }
   function project(x, y, z) {
-    var dz = z - cam.z;
-    if (dz <= 1) return null;
-    var s = F / dz;
-    return { x: W / 2 + (x - cam.x) * s, y: HORIZON + (EYE - y) * s, s: s, dz: dz };
+    var v = seen(x, z);
+    return screenAt(v.rx, y, v.rz);
   }
 
   function place(item) {
     if (!item.el) return;
-    var p = project(item.x - item.w / 2, (item.y || 0) + item.h, item.z);
+    // A thing's middle is found from where you face and its width laid out
+    // flat across your view, so a flat always faces you.
+    var v = item.mine ? { rx: item.x, rz: item.z } : seen(item.x, item.z);
+    var p = screenAt(v.rx - item.w / 2, (item.y || 0) + item.h, v.rz);
     var on = p && p.dz > F * (item.near || NEAR) && p.dz < F * FAR;
     if (!on) {
       item.el.classList.add('ps-off');
@@ -253,31 +286,40 @@
 
   function ink(name) { return getComputedStyle(stage).getPropertyValue(name).trim() || '#000'; }
 
-  // A flat four-cornered patch of floor, and an oval one, from where you stand.
-  function quad(g, x0, x1, z0, z1, fill) {
-    var a = project(x0, 0, z0), b = project(x1, 0, z0), c = project(x1, 0, z1), d = project(x0, 0, z1);
-    if (!a || !b || !c || !d) return;
+  // A patch of floor, from where you stand and the way you face. Turned, part
+  // of a patch can be behind you, so it is cut where it passes beside your eye
+  // and only the part in front is drawn.
+  var CLIP = 8;
+  function floor(g, pts, fill, alpha) {
+    var cam2 = pts.map(function (q) { return seen(q[0], q[1]); }), kept = [];
+    for (var i = 0; i < cam2.length; i++) {
+      var a = cam2[i], b = cam2[(i + 1) % cam2.length];
+      if (a.rz >= CLIP) kept.push(a);
+      if ((a.rz >= CLIP) !== (b.rz >= CLIP)) {
+        var t = (CLIP - a.rz) / (b.rz - a.rz);
+        kept.push({ rx: a.rx + (b.rx - a.rx) * t, rz: CLIP });
+      }
+    }
+    if (kept.length < 3) return;
+    g.globalAlpha = alpha == null ? 1 : alpha;
     g.fillStyle = fill;
-    g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.lineTo(c.x, c.y); g.lineTo(d.x, d.y); g.closePath(); g.fill();
+    g.beginPath();
+    kept.forEach(function (q, j) { var p = screenAt(q.rx, 0, q.rz); if (j) g.lineTo(p.x, p.y); else g.moveTo(p.x, p.y); });
+    g.closePath(); g.fill();
+    g.globalAlpha = 1;
   }
+  function quad(g, x0, x1, z0, z1, fill) { floor(g, [[x0, z0], [x1, z0], [x1, z1], [x0, z1]], fill); }
   function oval(g, x, z, rx, rz, fill, alpha) {
     var pts = [];
     for (var i = 0; i < 24; i++) {
       var t = i / 24 * Math.PI * 2;
-      var p = project(x + Math.cos(t) * rx, 0, z + Math.sin(t) * rz);
-      if (!p) return;
-      pts.push(p);
+      pts.push([x + Math.cos(t) * rx, z + Math.sin(t) * rz]);
     }
-    g.globalAlpha = alpha;
-    g.fillStyle = fill;
-    g.beginPath();
-    pts.forEach(function (p, i) { if (i) g.lineTo(p.x, p.y); else g.moveTo(p.x, p.y); });
-    g.closePath(); g.fill();
-    g.globalAlpha = 1;
+    floor(g, pts, fill, alpha);
   }
 
   function streetGround(g, near, far) {
-    var edge = ROAD + KERB + 700;
+    var edge = ROAD + KERB + 4000;   // the floor runs out to the horizon whichever way you face
     quad(g, -edge, edge, near, far, ink('--ps-pave'));
     quad(g, -ROAD, ROAD, near, far, ink('--ps-road'));
     quad(g, -ROAD - 6, -ROAD, near, far, ink('--ps-kerb'));
@@ -294,7 +336,7 @@
   function draw() {
     var g = canvas.getContext('2d');
     g.clearRect(0, 0, W, H);
-    scene.ground(g, cam.z + F * NEAR, cam.z + F * FAR);
+    scene.ground(g, cam.z - F * FAR, cam.z + F * FAR);
     scene.decor.forEach(place);
     scene.stops.forEach(place);
     placeFolk();
@@ -339,9 +381,21 @@
 
   function standAt(s) {
     var spot = spotFor(s);
-    if (steps()) { goal = null; cam.x = spot.x; cam.z = spot.z; clamp(); draw(); return; }
-    goal = spot;
+    if (steps()) { goal = null; cam.x = spot.x; cam.z = spot.z; yaw = 0; pitch = 0; lookAt(); clamp(); draw(); return; }
+    goal = { x: spot.x, z: spot.z, yaw: 0, pitch: 0 };
     go();
+  }
+  function faceAhead() {
+    if (steps()) { yaw = 0; pitch = 0; lookAt(); draw(); return; }
+    goal = { x: cam.x, z: cam.z, yaw: 0, pitch: 0 };
+    go();
+  }
+  // The shortest way round to an angle.
+  function towards(from, to) {
+    var d = (to - from) % (Math.PI * 2);
+    if (d > Math.PI) d -= Math.PI * 2;
+    if (d < -Math.PI) d += Math.PI * 2;
+    return d;
   }
 
   function go() {
@@ -355,24 +409,39 @@
     last = t;
     var fwd = (held.fwd ? 1 : 0) - (held.back ? 1 : 0);
     var across = (held.right ? 1 : 0) - (held.left ? 1 : 0);
-    if (fwd || across) {
+    var turn = (held.turnr ? 1 : 0) - (held.turnl ? 1 : 0);
+    var up = (held.lookup ? 1 : 0) - (held.lookdown ? 1 : 0);
+    if (fwd || across || turn || up) {
       goal = null;
-      cam.z += fwd * SPEED * dt;
-      cam.x += across * SIDEWAYS * dt;
+      // Ahead is the way you face; across is square to it.
+      var c = Math.cos(yaw), n = Math.sin(yaw);
+      cam.x += (fwd * SPEED * n + across * SIDEWAYS * c) * dt;
+      cam.z += (fwd * SPEED * c - across * SIDEWAYS * n) * dt;
+      yaw += turn * TURN * dt;
+      pitch += up * LOOK * dt;
+      lookAt();
     } else if (goal) {
       var k = Math.min(1, dt * 7);
       cam.x += (goal.x - cam.x) * k;
       cam.z += (goal.z - cam.z) * k;
-      if (Math.abs(goal.x - cam.x) < 1 && Math.abs(goal.z - cam.z) < 1) { cam.x = goal.x; cam.z = goal.z; goal = null; }
+      yaw += towards(yaw, goal.yaw) * k;
+      pitch += (goal.pitch - pitch) * k;
+      lookAt();
+      if (Math.abs(goal.x - cam.x) < 1 && Math.abs(goal.z - cam.z) < 1 && Math.abs(towards(yaw, goal.yaw)) < 0.004 && Math.abs(goal.pitch - pitch) < 1) {
+        cam.x = goal.x; cam.z = goal.z; yaw = goal.yaw; pitch = goal.pitch; lookAt(); goal = null;
+      }
     }
     clamp();
     draw();
-    if (fwd || across || goal) requestAnimationFrame(tick);
+    if (fwd || across || turn || up || goal) requestAnimationFrame(tick);
     else running = false;
   }
 
   // In steps, a press is one stop; the keyboard goes with it, so Enter goes in.
   function step(dir) {
+    if (dir === 'turnl' || dir === 'turnr') { yaw += (dir === 'turnr' ? 1 : -1) * STEP_TURN; draw(); return; }
+    if (dir === 'lookup' || dir === 'lookdown') { pitch += (dir === 'lookup' ? 1 : -1) * H * 0.12; lookAt(); draw(); return; }
+    if (dir === 'ahead') { faceAhead(); return; }
     var list = scene.stops;
     if (!list.length) return;
     var at = nearest() || list[0];
@@ -391,12 +460,15 @@
   }
 
   var KEYS = { ArrowUp: 'fwd', w: 'fwd', W: 'fwd', ArrowDown: 'back', s: 'back', S: 'back',
-               ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right' };
+               ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right',
+               q: 'turnl', Q: 'turnl', e: 'turnr', E: 'turnr', r: 'lookup', R: 'lookup', f: 'lookdown', F: 'lookdown',
+               x: 'ahead', X: 'ahead' };
 
   stage.addEventListener('keydown', function (e) {
     var dir = KEYS[e.key];
     if (!dir || e.altKey || e.ctrlKey || e.metaKey) return;
     e.preventDefault();
+    if (dir === 'ahead') { if (!e.repeat) faceAhead(); return; }
     if (steps()) { if (!e.repeat) step(dir); return; }
     held[dir] = true; go();
   });
@@ -422,7 +494,7 @@
     var dir = b.getAttribute('data-ps-go');
     var stop = function () { held[dir] = false; };
     b.addEventListener('pointerdown', function (e) {
-      if (steps()) return;
+      if (steps() || dir === 'ahead') return;
       e.preventDefault();
       held[dir] = true; go();
       try { b.setPointerCapture(e.pointerId); } catch (x) {}
@@ -432,11 +504,39 @@
     b.addEventListener('lostpointercapture', stop);
     b.addEventListener('click', function (e) {
       // A click from a pointer already walked while it was held.
+      if (dir === 'ahead') { faceAhead(); return; }
       if (!steps() && e.detail) return;
       if (steps()) step(dir);
       else { held[dir] = true; go(); setTimeout(stop, 260); }
     });
   });
+
+  /* ── Dragging to look ─────────────────────────────────────────────────── */
+  // A drag across the street looks round, at every setting, because the view
+  // follows your own hand and nothing else. On a touch screen only a sideways
+  // drag turns (the stage lets the page scroll up and down under a thumb); a
+  // mouse looks up and down as well. A drag that went anywhere is not a press.
+  var drag = null, dragged = false;
+  stage.addEventListener('pointerdown', function (e) {
+    if (e.button || !scene || (e.target.closest && e.target.closest('iframe'))) return;
+    drag = { x: e.clientX, y: e.clientY, yaw: yaw, pitch: pitch, id: e.pointerId, touch: e.pointerType === 'touch' };
+    dragged = false;
+  });
+  stage.addEventListener('pointermove', function (e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+    if (!dragged && Math.abs(dx) < 6 && (drag.touch || Math.abs(dy) < 6)) return;
+    if (!dragged) { dragged = true; try { stage.setPointerCapture(drag.id); } catch (x) {} goal = null; }
+    yaw = drag.yaw - dx * 0.005;
+    if (!drag.touch) { pitch = drag.pitch + dy; lookAt(); }
+    draw();
+  });
+  function dropDrag() { drag = null; }
+  stage.addEventListener('pointerup', dropDrag);
+  stage.addEventListener('pointercancel', function () { drag = null; dragged = false; });
+  stage.addEventListener('click', function (e) {
+    if (dragged) { e.preventDefault(); e.stopPropagation(); dragged = false; }
+  }, true);
 
   /* ── Steps or Glide ───────────────────────────────────────────────────── */
   var modeBtn = controls.querySelector('[data-ps-mode]');
@@ -611,7 +711,7 @@
     el.className = 'ps-figure ' + cls;
     el.appendChild(node);
     folkEl.appendChild(el);
-    var f = { el: el, h: h, w: h * aspect, x: 0, z: 0 };
+    var f = { el: el, h: h, w: h * aspect, x: 0, z: 0, mine: true };
     el.style.width = f.w + 'px'; el.style.height = f.h + 'px';
     folk.push(f);
     return f;
@@ -619,13 +719,24 @@
 
   // Out on the road you are straight ahead; on the pavement, at a door, you
   // stand to the road side of it.
+  // YOUR COMPANIONS ARE PLACED FROM WHERE YOU LOOK, not in the world: they are
+  // with you whichever way you face. Each stands far enough off that its feet
+  // are on the stage, which matters where the eye is high, as it is in a room
+  // whose page fills the screen. Out on the road they are ahead of you; in a
+  // room, or on the pavement at a door, they stand to either side, so neither
+  // stands between you and the thing you came to.
   function placeFolk() {
-    var onRoad = Math.abs(cam.x) <= ROAD, toRoad = cam.x < 0 ? 1 : -1;
-    var mine = onRoad ? 0 : toRoad * F * 0.3;
-    if (me) { me.x = cam.x + mine; me.z = cam.z + F * 0.72; }
+    var room = H - 14 - HORIZON;
+    var depth = function (want) { return room > 20 ? Math.max(want, F * EYE / room) : F * FAR * 0.9; };
+    var aside = scene.room || Math.abs(cam.x) > ROAD;
+    var edge = function (f, d, side) { return side * (W / 2 - f.w * (F / d) / 2 - 16) * d / F; };
+    if (me) {
+      me.z = depth(F * 0.72);
+      me.x = aside ? edge(me, me.z, -1) : 0;
+    }
     if (fam) {
-      fam.x = cam.x + (me ? mine + (onRoad ? F * 0.22 : toRoad * F * 0.2) : (onRoad ? F * 0.2 : toRoad * F * 0.22));
-      fam.z = cam.z + F * (me ? 0.8 : 0.85);
+      fam.z = depth(F * (me ? 0.8 : 0.85));
+      fam.x = aside ? edge(fam, fam.z, 1) : F * 0.2;
     }
     folk.forEach(place);
   }

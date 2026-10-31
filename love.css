@@ -28711,6 +28711,9 @@ body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-fami
 /* THE STAGE. The proscenium's edge in cream card round it; the printed night
    above the floor is its own ground, and the canvas paints only the floor. */
 .ps-stage {
+  /* A drag looks round; a sideways one on a touch screen, so the page still
+     scrolls under a thumb. */
+  touch-action: pan-y; cursor: grab;
   /* clip, not just hidden: a box that hides its overflow can still be
      scrolled by the browser to show a door the keyboard went to, which would
      slide the whole stage sideways under the street. */
@@ -28743,6 +28746,10 @@ body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-fami
   background: var(--ps-tab); clip-path: polygon(0 0, 100% 0, 92% 100%, 8% 100%);
 }
 .ps-flat > * { margin: 0; }
+/* A door stands on the night street on the front page, and some are partly
+   see-through over it; cut out and stood up, the street's own ground goes
+   with it, or the door behind shows through once you turn. */
+.ps-flat--door { background: var(--ink); border-radius: 12px 12px 5px 5px; }
 /* A thing a room stands in its scene. A room's file makes these and dresses
    them in its own section; here it is only placed, and catches no pointer
    unless its room says it should, by setting --ps-takes on it. A room's own
@@ -28771,6 +28778,9 @@ body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-fami
 /* THE PLAYBILL UNDER THE STAGE: the buttons are cream card printed in ink. */
 .ps-controls { display: flex; flex-wrap: wrap; gap: 18px 30px; align-items: flex-start; margin: 14px 0 0; }
 .ps-pad { display: grid; grid-template-columns: repeat(3, 76px); grid-template-areas: ". fwd ." "left back right"; gap: 8px; }
+.ps-look { display: grid; grid-template-columns: repeat(3, 92px); grid-template-areas: ". up ." "turnl ahead turnr" ". down ."; gap: 8px; }
+.ps-go--lookup { grid-area: up; } .ps-go--turnl { grid-area: turnl; } .ps-go--ahead { grid-area: ahead; }
+.ps-go--turnr { grid-area: turnr; } .ps-go--lookdown { grid-area: down; }
 .ps-go--fwd { grid-area: fwd; } .ps-go--left { grid-area: left; } .ps-go--right { grid-area: right; } .ps-go--back { grid-area: back; }
 .ps-go, .ps-mode, .ps-bring, .ps-out {
   min-height: 52px; padding: 8px 12px; cursor: pointer;

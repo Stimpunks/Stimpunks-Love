@@ -4095,6 +4095,12 @@ the room drawn in Paper Street's card, and a scene that moves by itself. **Netli
 rewritten to clean addresses** (`/jungle-room`, not `jungle-room.html`) and the dev server does not, so `pageOf()` reads
 a door in either form: compared as written, no door on the live street matched a room, every local test passed, and
 Ryan found it on the live site the night it shipped. Anything that reads the front page's hrefs at runtime meets this.
+**LOOKING ROUND IS ARITHMETIC TOO** (Ryan, 2026-10-31): turning works every point out from the way you face (`seen()`) and
+every flat goes on facing you, a cut-out turned to the audience, so a turn is still a translate and a scale and nothing
+is rotated; looking up and down slides the horizon. The floor is cut where it passes beside your eye (`floor()`), because
+turned, part of a patch is behind you. Your companions are placed from where you look (`mine`), far enough off that
+their feet are on the stage. The friendly edit is CSS 3D turns on the flats "so the shopfronts are seen from the side";
+that is the rotation `check-gentle.py` would be asked to take on trust, on a page its probes cannot even render.
 
 **THE ABOUT PAGE'S FILM IS A CLAUDE MOTION FILM, AND THE MP4 IS AN EXPORT OF IT, NOT ITS SOURCE.**
 Ryan, 2026-10-15, for people shown the street who say they do not get it. `about.html` is paperwork
