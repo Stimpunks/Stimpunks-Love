@@ -10700,6 +10700,20 @@ html[data-intensity="max"] .mop-drip::before { animation: mop-flicker 3.1s ease-
 .mop-foot a { color: var(--mop-gilt); }
 
 
+/* THE MOPERY, WALKED INTO ON PAPER STREET (walk-the-mopery.js, Ryan's call,
+   2026-10-31). Paper Street's stage takes this room's clothes while you are
+   in it: its frame becomes stone, the printed night goes and the building's
+   own night is the dark. The page stands on the lectern at the end of the
+   stacks in a gilt edge, square-cornered like a book's leaf, and it is the one
+   thing in the scene that takes a pointer. No candle in the scene lights
+   anything round it, and nothing moves, at any setting. */
+.mop-walk { --ps-frame: var(--mop-stone); --ps-back: var(--mop-night); --ps-backcloth: none; }
+.mop-walk-leaf {
+  --ps-takes: auto; overflow: hidden; background: var(--mop-night);
+  border-radius: 2px; box-shadow: 0 0 0 3px var(--mop-gilt), 0 0 0 12px var(--mop-shelf);
+}
+.mop-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--mop-night); }
+
 /* §23 ── SUBROOM: The Oracle Deck (off the Mopery's parlour) ─────────────────
    Thirteen old engravings, and a question on the back of each one.
 

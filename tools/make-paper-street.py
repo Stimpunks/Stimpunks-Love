@@ -141,7 +141,7 @@ for f in sorted(ROOT.glob("walk-*.js")):
         refuse(f"{who} never hangs its own page. Every room on Paper Street has its page inside it.")
     if re.search(r"#[0-9a-fA-F]{3,8}\b|\brgba?\(|\bhsla?\(", mod):
         refuse(f"{who} has a literal colour. A room draws in the inks its section declares, by name.")
-    for v in sorted(set(re.findall(r"var\((--[\w-]+)\)", mod)) | set(re.findall(r"ink\('(--[\w-]+)'\)", mod))):
+    for v in sorted(set(re.findall(r"var\((--[\w-]+)\)", mod)) | set(re.findall(r"'(--[\w-]+)'", mod))):
         if v not in ROOT_DECL:
             refuse(f"{who} draws in {v}, which love.css's :root does not declare.")
     body_cls = re.search(r'<body[^>]*class="([^"]+)"', (ROOT / page).read_text())
