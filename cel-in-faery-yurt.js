@@ -33,6 +33,7 @@
 
   window.loveCelRooms = window.loveCelRooms || {};
   window.loveCelRooms['faery-yurt.html'] = {
+    name: 'The Faery Yurt',
     from: 'campgrounds.html',
     build: function (kit) {
       var T = kit.THREE, at = kit.at, box = kit.box, R = 6, H = 2.1, CROWN = 3.9, N = 28;
@@ -110,7 +111,7 @@
       });
 
       var stops = [{ name: 'just inside the door, out of the night air', x: 0, z: R - 1.2, yaw: 0 }];
-      function stop(theta, name, page) { stops.push({ name: name, page: page, x: (R - 2.5) * Math.sin(theta), z: -(R - 2.5) * Math.cos(theta), yaw: -theta }); }
+      function stop(theta, name, page, room) { stops.push({ name: name, room: room, page: page, x: (R - 2.5) * Math.sin(theta), z: -(R - 2.5) * Math.cos(theta), yaw: -theta }); }
 
       // HER OWN PAGE on the far wall, facing the door, in a timber frame.
       var sw0 = 2.4, sh0 = sw0 * 800 / 1180, sy0 = 0.28 + sh0 / 2;
@@ -131,7 +132,7 @@
           x += bw + 0.012;
         }
       });
-      stop(35 * DEG, 'at the bookcase, the way through to the Reading Room', 'faery-reading-room.html');
+      stop(35 * DEG, 'at the bookcase, the way through to the Reading Room', 'faery-reading-room.html', 'The Reading Room');
 
       // THE PHONOGRAPH on its little table, to the Music Room.
       var ph = round(70 * DEG, R - 0.8, 0);
@@ -140,7 +141,7 @@
       kit.cyl(0.2, 0.2, 0.02, M(ph, at(0, 0.89, 0)), '--hearth', false, 20);
       var horn = new T.ConeGeometry(0.32, 0.6, 18, 1, true);
       kit.piece(horn, M(ph, at(0.05, 1.2, -0.1, 0, -0.9)), '--ember-2', 0.02);
-      stop(70 * DEG, 'at the phonograph, the way through to the Music Room', 'faery-music-room.html');
+      stop(70 * DEG, 'at the phonograph, the way through to the Music Room', 'faery-music-room.html', 'The Music Room');
 
       // THE CURTAIN, to the Cinema: canvas drawn back from a doorway.
       var cu = round(108 * DEG, R - 0.12, 0);
@@ -148,7 +149,7 @@
       [-1, 1].forEach(function (s) {
         for (var f = 0; f < 4; f++) kit.cyl(0.07, 0.11, 1.9, M(cu, at(s * (0.5 + f * 0.09), 0.97, 0.06)), f % 2 ? '--toadstool' : '--ember', false, 8);
       });
-      stop(108 * DEG, 'at the curtain, the way through to the Cinema', 'faery-cinema-room.html');
+      stop(108 * DEG, 'at the curtain, the way through to the Cinema', 'faery-cinema-room.html', 'The Cinema');
 
       // THE EGG CHAIR in the regulation nook.
       var eg = round(145 * DEG, R - 1.2, 0);
@@ -203,14 +204,14 @@
         var leaf = new T.SphereGeometry(0.07, 6, 4); leaf.scale(1, 0.5, 0.3);
         kit.piece(leaf, M(ar, at(lx, ly, 0.16, 0, 0, hash(q, 3, 4) * 3)), '--ivy', false);
       }
-      stop(-118 * DEG, 'at the Alchemist’s Arch, the way through to Myths and Legends', 'faery-myths-room.html');
+      stop(-118 * DEG, 'at the Alchemist’s Arch, the way through to Myths and Legends', 'faery-myths-room.html', 'Myths & Legends');
 
       // THE ROUND DOOR, to the Play Pod.
       var rd = round(-148 * DEG, R - 0.12, 0);
       kit.cyl(0.8, 0.8, 0.08, M(rd, at(0, 0.82, 0, 0, Math.PI / 2)), '--timber', 0.02, 28);
       kit.cyl(0.68, 0.68, 0.1, M(rd, at(0, 0.82, 0.01, 0, Math.PI / 2)), '--ember', false, 28);
       kit.piece(new T.SphereGeometry(0.05, 8, 6), M(rd, at(0.4, 0.82, 0.08)), '--candle', false);
-      stop(-148 * DEG, 'at the round door, the way through to the Play Pod', 'play-pod.html');
+      stop(-148 * DEG, 'at the round door, the way through to the Play Pod', 'play-pod.html', 'The Play Pod');
 
       // THE GLIMMER WINDOW, arched, its sash dark and glimmering, and her
       // moon stone on the ledge; the glowing mushroom under it on the floor.
@@ -231,7 +232,7 @@
       var big = new T.SphereGeometry(0.34, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2); big.scale(1, 0.7, 1);
       kit.flat(big, M(ms, at(0, 0.48, 0)), '--candle');
       kit.flat(new T.CircleGeometry(0.5, 20), M(ms, at(0, 0.04, 0, 0, -Math.PI / 2)), '--ivy-2');
-      stop(-22 * DEG, 'by the glowing mushroom, the way down to Glow Wild Hollow', 'glow-wild-hollow.html');
+      stop(-22 * DEG, 'by the glowing mushroom, the way down to Glow Wild Hollow', 'glow-wild-hollow.html', 'Glow Wild Hollow');
 
       return {
         start: { x: 0, z: R - 1.2, yaw: 0 },

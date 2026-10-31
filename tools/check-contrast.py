@@ -5642,6 +5642,12 @@ ORNAMENT = {
     "#a673a9": "behind the door marked E: the grapes, 3.73 on the rug they sit on, a bunch you know by its shape. It carries no word.",
     "#d4475d": "behind the door marked E: the strawberries, 3.03 on the plate. It carries no word.",
     "#5a3329": "behind the door marked E: the chocolate and the chips in a cookie, 7.59 on the plate. It carries no word.",
+    "#bfe07a": "campgrounds: --camp-firefly, the meadow's fireflies low in the grass across the field, 12.00 on the dusk. It carries no word.",
+    "#a3d4df": "campgrounds: --camp-screen, the hermitage's one window, a screen rather than a flame, 11.05 on the dusk. It carries no word.",
+    "#e8c33a": "campgrounds: --camp-sunflower, the hermitage's three sunflowers across the field, 10.43 on the dusk. It carries no word.",
+    "#bdf2da": "campgrounds: --camp-foxfire, the light growing in the tea room's logs, 14.31 on the dusk. It carries no word.",
+    "#f08a5d": "campgrounds: --camp-lingers, the last sun on the top of the Bough House's tree, 7.20 on the dusk. It carries no word.",
+    "#dcebff": "campgrounds: --camp-far, the summit's window among the stars, 14.73 on the dusk. It carries no word.",
     "#2a3a31": "campgrounds: the board's frame and the post each pitch hangs off, 1.48 "
                "on the field. That field is deliberately the dimmest ground on the "
                "street and its type carries all of it -- bone at 14.7, moss at 7.3. The "

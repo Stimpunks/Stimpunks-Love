@@ -195,14 +195,18 @@
       self.seen = es[es.length - 1].isIntersecting; if (self.seen) self.wake();
     }).observe(box);
   }
+  // The box's own layout size, not its size on the screen, which is the same
+  // thing on this page and not when Cel Street stands the tank in a scene.
   Tank.prototype.fit = function () {
-    var r = this.box.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
-    this.w = Math.max(1, r.width); this.h = Math.max(1, r.height);
+    var d = Math.min(window.devicePixelRatio || 1, 2);
+    this.w = Math.max(1, this.box.clientWidth); this.h = Math.max(1, this.box.clientHeight);
     this.cv.width = Math.round(this.w * d); this.cv.height = Math.round(this.h * d);
     this.ctx.setTransform(d, 0, 0, d, 0, 0);
     if (this.onfit) this.onfit();
   };
   Tank.prototype.at = function (e) {
+    // Where it landed on the canvas itself, however the canvas is turned.
+    if (e.target === this.cv && typeof e.offsetX === 'number') return { x: e.offsetX, y: e.offsetY };
     var r = this.cv.getBoundingClientRect();
     return { x: e.clientX - r.left, y: e.clientY - r.top };
   };

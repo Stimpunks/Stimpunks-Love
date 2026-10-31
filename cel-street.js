@@ -42,7 +42,7 @@ function start() {
   // here by tools/make-cel-street.py from the cel-in-*.js files. Do not
   // hand-edit between the markers.
   // cel:rooms:begin
-  var ROOMS = {'campgrounds.html': 'cel-in-campgrounds.js', 'club-chronic.html': 'cel-in-club-chronic.js', 'faery-yurt.html': 'cel-in-faery-yurt.js', 'jungle-room.html': 'cel-in-jungle-room.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js', 'solarpunk-hermitage.html': 'cel-in-solarpunk-hermitage.js', 'zine-table.html': 'cel-in-zine-table.js'};
+  var ROOMS = {'brew-and-stew.html': 'cel-in-brew-and-stew.js', 'campgrounds.html': 'cel-in-campgrounds.js', 'club-chronic.html': 'cel-in-club-chronic.js', 'faery-cinema-room.html': 'cel-in-faery-cinema-room.js', 'faery-music-room.html': 'cel-in-faery-music-room.js', 'faery-myths-room.html': 'cel-in-faery-myths-room.js', 'faery-reading-room.html': 'cel-in-faery-reading-room.js', 'faery-yurt.html': 'cel-in-faery-yurt.js', 'glow-wild-hollow.html': 'cel-in-glow-wild-hollow.js', 'jungle-room.html': 'cel-in-jungle-room.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js', 'play-pod.html': 'cel-in-play-pod.js', 'solarpunk-hermitage.html': 'cel-in-solarpunk-hermitage.js', 'swaying-sweetgrass.html': 'cel-in-swaying-sweetgrass.js', 'the-bough-house.html': 'cel-in-the-bough-house.js', 'the-mountain-cabin.html': 'cel-in-the-mountain-cabin.js', 'zine-table.html': 'cel-in-zine-table.js'};
   // cel:rooms:end
   var CHUNK = 60;            // the street is drawn in lengths this long
   var VIEW = 300;            // and only the lengths this near you are drawn
@@ -722,7 +722,20 @@ function start() {
     sun.target.updateMatrixWorld();
     for (var i = 0; i < far.length; i++) far[i].o.visible = Math.abs(far[i].z - me.z) < VIEW + CHUNK / 2;
   }
-  function draw() { place(); renderer.render(scene, camera); css3d.render(scene, camera); }
+  // A page or a thing lifted off one is laid over the picture, so no wall
+  // can hide it: one that belongs to a part of a room (inside a cabin, behind
+  // a curtain) names that part as a zone, [x0, x1, z0, z1], and shows only
+  // while you are standing in it.
+  function zones() {
+    var z = scene.userData.zoned;
+    if (!z) return;
+    for (var i = 0; i < z.length; i++) {
+      var b = z[i].zone, inZone = me.x >= b[0] && me.x <= b[1] && me.z >= b[2] && me.z <= b[3];
+      z[i].el.style.visibility = inZone ? '' : 'hidden';
+    }
+  }
+  function zoned(el, zone) { if (zone) (scene.userData.zoned = scene.userData.zoned || []).push({ el: el, zone: zone }); }
+  function draw() { place(); zones(); renderer.render(scene, camera); css3d.render(scene, camera); }
   function soon() { if (!frame) frame = requestAnimationFrame(tick); }
 
   function nearest() {
@@ -749,7 +762,7 @@ function start() {
     if (s && ROOMS[s.page] && !(inside && s.page === inside.page)) {
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'cel-walkin';
-      b.textContent = 'Walk into ' + s.name;
+      b.textContent = 'Walk into ' + (s.room || s.name);
       b.addEventListener('click', function () { enter(s.page); });
       hereEl.appendChild(b);
       hereEl.appendChild(document.createTextNode(' '));
@@ -793,7 +806,7 @@ function start() {
       },
       // The room's own page, an iframe of it, pw by ph pixels and ww wide in
       // the world, its links taking the whole window as on Paper Street.
-      screen: function (pw, ph, ww, m, title) {
+      screen: function (pw, ph, ww, m, title, zone) {
         var f = document.createElement('iframe');
         f.src = page; f.title = title; f.className = 'cel-screen';
         f.style.width = pw + 'px'; f.style.height = ph + 'px';
@@ -806,10 +819,69 @@ function start() {
         m.decompose(p, q, sc);
         o.position.copy(p); o.quaternion.copy(q); o.scale.setScalar(ww / pw);
         scene.add(o);
+        zoned(f, zone);
         return f;
+      },
+      // A THING OFF THE ROOM'S OWN PAGE, copied out of the page on its screen
+      // once that has loaded, so nothing more is fetched: the television itself
+      // rather than a drawing of it. It wears the page's own body class, so the
+      // room's own rules dress it, and it is pressed as it is on the page;
+      // love-embed.js, on this page too, turns a pressed facade into a player
+      // here as it does there. o.w is its width in pixels, o.ww in the world,
+      // and o.m where its foot stands, facing out. Paper Street's kit.lift(),
+      // in WebGL; tools/make-cel-street.py refuses a lift its page cannot meet.
+      lift: function (frame, sel, o) {
+        var home = scene, wrap = document.createElement('div');
+        wrap.className = 'cel-lifted' + (o.cls ? ' ' + o.cls : '');
+        wrap.style.width = o.w + 'px';
+        var obj = new CSS3DObject(wrap), p = new THREE.Vector3(), q = new THREE.Quaternion(), sc = new THREE.Vector3();
+        o.m.decompose(p, q, sc);
+        obj.position.copy(p); obj.quaternion.copy(q); obj.scale.setScalar(o.ww / o.w);
+        home.add(obj);
+        zoned(wrap, o.zone);
+        var it = { el: wrap, h: 0 };
+        var put = function () {
+          var d = null;
+          try { d = frame.contentDocument; } catch (x) { return; }
+          var node = d ? d.querySelectorAll(sel)[o.n || 0] : null;
+          if (!node || wrap.firstChild) return;
+          var dress = document.createElement('div');
+          dress.className = d.body.className;
+          dress.style.minHeight = '0'; dress.style.background = 'transparent'; dress.style.padding = '0';
+          var copy = document.importNode(node, true);
+          // Parts only another of the room's scripts can work, which is not
+          // here, are left out rather than left dead (o.drop).
+          if (o.drop) Array.prototype.forEach.call(copy.querySelectorAll(o.drop), function (n) { n.remove(); });
+          // A heading's copy-a-link mark points at the page it came off, and here
+          // would take the whole window there, so it never comes along.
+          Array.prototype.forEach.call(copy.querySelectorAll('.hlink'), function (n) { n.remove(); });
+          dress.appendChild(copy);
+          wrap.appendChild(dress);
+          if (home === scene) draw();
+          // Its height is known only now: stand its foot where it was asked.
+          it.h = wrap.offsetHeight;
+          obj.position.copy(p).add(new THREE.Vector3(0, it.h * o.ww / o.w / 2, 0).applyQuaternion(q));
+          if (home === scene) draw();
+        };
+        frame.addEventListener('load', put);
+        put();
+        return it;
+      },
+      // The room's own script, run against what was lifted once it has all
+      // arrived, loaded afresh each time the room is built because it finds its
+      // parts once, when it runs. Only a script the room's own page loads.
+      wire: function (frame, src) {
+        frame.addEventListener('load', function () {
+          Promise.resolve().then(function () {
+            var sc2 = document.createElement('script');
+            sc2.src = src + '?cel=' + (++wired);
+            document.head.appendChild(sc2);
+          });
+        });
       }
     };
   }
+  var wired = 0;
   function roomFile(page, then) {
     // A room that letters a sign names its faces, and they are loaded before
     // the room is built, so the canvas is not lettered in a fallback.
@@ -842,7 +914,7 @@ function start() {
       // The room you came from keeps its page loaded, out of sight.
       scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = 'none'; });
       scene = new THREE.Scene(); far = []; hits = []; buckets = {};
-      var name = door ? door.name : page;
+      var name = room.name || (door ? door.room || door.name : page);
       var made = room.build(kit(page, name));
       bake();
       inside = { page: page, name: name };
@@ -957,7 +1029,7 @@ function start() {
 
   function standAt(s) {
     if (up) { up = false; if (climbBtn) climbBtn.textContent = 'Climb up over the roofs'; }
-    var to = { x: s.x, z: s.z, yaw: s.yaw, pitch: 0.13 };
+    var to = { x: s.x, z: s.z, yaw: s.yaw, pitch: s.pitch != null ? s.pitch : 0.13 };
     if (!gliding) { me.x = to.x; me.z = to.z; me.yaw = to.yaw; me.pitch = to.pitch; draw(); tell(); return; }
     glide = { from: { x: me.x, z: me.z, yaw: me.yaw, pitch: me.pitch }, to: to, t: 0,
       len: Math.min(2.2, 0.6 + Math.hypot(to.x - me.x, to.z - me.z) / 14) };
@@ -1070,7 +1142,10 @@ function start() {
     if (e.key === 'Escape' && inside) { e.preventDefault(); outOfRoom(); return; }
     if (e.key === 'Enter') {
       var s = nearest();
-      if (s && s.frame) s.frame.focus();
+      if (s && s.frame) {
+        var into = s.frame.tagName === 'IFRAME' ? s.frame : s.frame.querySelector('button, a[href], summary, [tabindex]');
+        if (into) into.focus({ preventScroll: true });
+      }
       else if (s && ROOMS[s.page] && !(inside && s.page === inside.page)) enter(s.page);
       else if (s && s.page) window.location.href = s.page;
       return;

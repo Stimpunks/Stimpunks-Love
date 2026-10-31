@@ -32,6 +32,7 @@
 
   window.loveCelRooms = window.loveCelRooms || {};
   window.loveCelRooms['campgrounds.html'] = {
+    name: 'The Campgrounds',
     faces: ['"Alfa Slab One"', '"Bitter"'],
     build: function (kit) {
       var T = kit.THREE, at = kit.at, box = kit.box;
@@ -166,6 +167,113 @@
         var face = Math.atan2(front.x - w[0], front.z - w[1]);
         stops.push({ name: p.name, where: 'at the post for ' + p.no.toLowerCase() + ', ' + p.name, page: p.page || undefined, x: front.x, z: front.z, yaw: face });
       });
+
+      // WHAT IS PITCHED BEHIND EACH POST, seen from the field: drawn in the
+      // field's own inks, spruce and bark, with the one light the board gives
+      // each, because you are looking at them across cold ground at night.
+      // The yurt EMITS (her candle out of the crown and the door), the
+      // hermitage CATCHES (the moon on its panels, one window that is a
+      // screen, three sunflowers), the meadow's fireflies are CARRIED, the tea
+      // room's light is GROWN in its own logs, the Bough House's LINGERS on
+      // the top of its tree, and the summit's is FAR, among the stars. A
+      // pitch with nothing drawn here yet has its post alone.
+      function standing(w, back) {
+        var len = Math.hypot(w[0], w[1]) || 1, bx = w[0] + w[0] / len * back, bz = w[1] + w[1] / len * back;
+        return { x: bx, z: bz, m: at(bx, 0, bz, Math.atan2(-bx, -bz)) };
+      }
+      var glow = function (geo, m, ink) { kit.flat(geo, m, ink); };
+      var EXTERIOR = {
+        'faery-yurt.html': function (b) {
+          var g = b.m;
+          kit.cyl(3, 3, 1.9, M(g, at(0, 0.95, 0)), '--spruce', 0.05, 24);
+          kit.piece(new T.ConeGeometry(3.4, 1.5, 24), M(g, at(0, 2.65, 0)), '--bark', 0.05);
+          kit.cyl(0.55, 0.55, 0.25, M(g, at(0, 3.45, 0)), '--bark', 0.03, 16);
+          glow(new T.CircleGeometry(0.42, 16), M(g, at(0, 3.585, 0, 0, -Math.PI / 2)), '--candle');
+          glow(new T.PlaneGeometry(1.0, 1.6), M(g, at(0, 0.8, 3.01)), '--candle');
+          glow(new T.PlaneGeometry(1.4, 3.2), M(g, at(0, 0.02, 4.6, 0, -Math.PI / 2)), '--ember-2');
+          for (var q = 0; q < 26; q++) {
+            var a = q / 26 * Math.PI * 2;
+            glow(new T.SphereGeometry(0.05, 6, 4), M(g, at(Math.sin(a) * 3.05, 1.82 - Math.abs(Math.sin(a * 13)) * 0.12, Math.cos(a) * 3.05)), '--candle');
+          }
+        },
+        'the-bough-house.html': function (b) {
+          var g = b.m;
+          kit.cyl(0.45, 0.7, 9, M(g, at(0, 4.5, 0)), '--bark', 0.05, 10);
+          var leaf = new T.IcosahedronGeometry(1, 1);
+          [[0, 9.2, 0, 2.6], [-1.8, 8, 0.6, 2], [1.9, 8.2, -0.4, 2.1], [0.4, 7.2, 1.6, 1.8], [-0.6, 7.4, -1.7, 1.9]].forEach(function (c, i) {
+            var lg = leaf.clone(); lg.scale(c[3], c[3] * 0.8, c[3]);
+            kit.piece(lg, M(g, at(c[0], c[1], c[2], i)), '--spruce', 0.06);
+          });
+          var top = leaf.clone(); top.scale(1.3, 0.9, 1.3);
+          kit.piece(top, M(g, at(0.2, 11.1, 0.2)), '--camp-lingers', 0.05);
+          box(3.2, 2.0, 2.6, M(g, at(0, 5.2, 0.4)), '--bark');
+          kit.piece(new T.ConeGeometry(2.6, 1.2, 4), M(g, at(0, 6.8, 0.4, Math.PI / 4)), '--spruce', 0.04);
+          box(3.8, 0.12, 3.2, M(g, at(0, 4.15, 0.4)), '--bark');
+          [-0.3, 0.3].forEach(function (o) { box(0.07, 4.2, 0.07, M(g, at(1.9 + o, 2.05, 1.9, 0, 0.1)), '--bark', false); });
+          for (var r = 0; r < 9; r++) box(0.66, 0.05, 0.07, M(g, at(1.9, 0.3 + r * 0.44, 1.9 + r * 0.04)), '--bark', false);
+        },
+        'swaying-sweetgrass.html': function (b) {
+          var g = b.m, blade = new T.ConeGeometry(0.035, 1.3, 3);
+          for (var q = 0; q < 420; q++) {
+            var r = Math.sqrt(hash(q, 8, 1)) * 4.6, a = hash(q, 8, 2) * Math.PI * 2;
+            var x = Math.sin(a) * r * 1.3, z = Math.cos(a) * r;
+            if (Math.abs(x) < 0.5 && z > -1) continue;
+            kit.piece(blade.clone(), M(g, at(x, 0.6, z, 0, (hash(q, 8, 3) - 0.5) * 0.3, (hash(q, 8, 4) - 0.5) * 0.3)), q % 3 ? '--moss' : '--bark', false);
+          }
+          box(0.9, 0.03, 5, M(g, at(0, 0.02, 2.4)), '--spruce', false, false);
+          var pts = [];
+          for (var k2 = 0; k2 <= 10; k2++) pts.push(new T.Vector3(Math.sin(k2 * 0.9) * 0.18, 1.4 + k2 * 0.45, Math.cos(k2 * 0.7) * 0.1));
+          kit.piece(new T.TubeGeometry(new T.CatmullRomCurve3(pts), 30, 0.03, 5, false), M(g, at(0, 0, -1)), '--lichen', false);
+          for (q = 0; q < 34; q++) {
+            var fr = Math.sqrt(hash(q, 9, 1)) * 4.4, fa = hash(q, 9, 2) * Math.PI * 2;
+            glow(new T.SphereGeometry(0.05, 6, 4), M(g, at(Math.sin(fa) * fr * 1.3, 0.4 + hash(q, 9, 3) * 0.9, Math.cos(fa) * fr)), '--camp-firefly');
+          }
+        },
+        'solarpunk-hermitage.html': function (b) {
+          var g = b.m;
+          box(7, 2.6, 3.2, M(g, at(0, 1.75, 0)), '--spruce');
+          [-1, 1].forEach(function (s2) {
+            box(7.5, 0.12, 2.0, M(g, at(0, 3.3, s2 * 0.82, 0, s2 * 0.6)), '--bark');
+            [-2.6, 2.4].forEach(function (x) { kit.cyl(0.42, 0.42, 0.24, M(g, at(x, 0.42, s2 * 1.62, 0, Math.PI / 2)), '--bark', 0.03, 16); });
+          });
+          for (var x = -3.0; x < 3.2; x += 1.25) glow(new T.PlaneGeometry(1.1, 1.5), M(g, at(x, 3.36, 0.9, 0, -Math.PI / 2 + 0.6)), '--moon');
+          glow(new T.PlaneGeometry(1.4, 0.9), M(g, at(-1.4, 1.9, 1.61)), '--camp-screen');
+          box(0.9, 1.9, 0.06, M(g, at(1.9, 1.4, 1.62)), '--bark', false);
+          kit.cyl(0.03, 0.03, 1.8, M(g, at(-3.2, 4.1, 0)), '--moss', false, 6);
+          [-0.6, 0.0, 0.6].forEach(function (o, i) {
+            kit.cyl(0.03, 0.03, 1.9 + i * 0.2, M(g, at(1.9 + o, 0.95 + i * 0.1, 2.3)), '--bark', false, 5);
+            glow(new T.CircleGeometry(0.22, 12), M(g, at(1.9 + o, 1.95 + i * 0.2, 2.32)), '--camp-sunflower');
+          });
+        },
+        'brew-and-stew.html': function (b) {
+          var g = b.m;
+          for (var r = 0; r < 7; r++) {
+            [[0, 1.8, 5.2, 0], [0, -1.8, 5.2, 0], [2.5, 0, 3.8, Math.PI / 2], [-2.5, 0, 3.8, Math.PI / 2]].forEach(function (wl, i) {
+              if (i === 0 && r < 5 && Math.abs(wl[0]) < 1) {
+                [-1.65, 1.65].forEach(function (x) { kit.cyl(0.15, 0.15, 1.9, M(g, at(x, 0.15 + r * 0.29, wl[1], wl[3], 0, Math.PI / 2)), '--bark', 0.02, 8); });
+                return;
+              }
+              kit.cyl(0.15, 0.15, wl[2], M(g, at(wl[0], 0.15 + r * 0.29, wl[1], wl[3], 0, Math.PI / 2)), '--bark', 0.02, 8);
+            });
+          }
+          [-1, 1].forEach(function (s2) { box(6, 0.12, 2.6, M(g, at(0, 2.55, s2 * 1.1, 0, s2 * 0.55)), '--spruce'); });
+          box(0.12, 1.5, 0.12, M(g, at(1.0, 0.75, 1.85)), '--spruce', false);
+          for (var q = 0; q < 46; q++) {
+            var face = q % 4, u = hash(q, 10, 1) - 0.5, y = 0.2 + hash(q, 10, 2) * 1.8;
+            var pos = face < 2 ? [u * 4.8, y, face ? 1.97 : -1.97] : [face === 2 ? 2.67 : -2.67, y, u * 3.4];
+            glow(new T.SphereGeometry(0.045, 6, 4), M(g, at(pos[0], pos[1], pos[2])), '--camp-foxfire');
+          }
+        }
+      };
+      PITCHES.forEach(function (p) {
+        var draw = EXTERIOR[p.page];
+        if (!draw) return;
+        var w = WHERE[p.no];
+        if (w) draw(standing(w, 6));
+      });
+      // The summit's cabin, at the top of the mountain, its one window FAR.
+      box(4, 2.4, 3.4, at(28, 87.5, -170.5), '--spruce');
+      glow(new T.PlaneGeometry(1.2, 0.8), at(28, 87.8, -168.75), '--camp-far');
 
       // THE TRAILHEAD BOARD by the gap, with the field's own page on it,
       // under a little roof of bark.

@@ -1872,6 +1872,14 @@
      street is night-black under neon; this is night-blue under nothing. */
   --dusk: #0E1A18;  --spruce: #13241F;  --bark: #2A3A31;
   --bone: #EFE9DC;  --lichen: #C6D2C4;  --moss: #8FAE88;  --moon: #E7D9A8;
+  /* The one light each pitch shows across the field, as the board draws them
+     and Cel Street stands them: the meadow's fireflies (carried), the window
+     of the hermitage that is a screen and its sunflowers (caught), the tea
+     room's foxfire in its logs (grown), the last sun on the top of the Bough
+     House's tree (lingers), and the summit's window among the stars (far).
+     The yurt's is her own --candle. Drawing only; they carry no word. */
+  --camp-firefly: #BFE07A;  --camp-screen: #A3D4DF;  --camp-sunflower: #E8C33A;
+  --camp-foxfire: #BDF2DA;  --camp-lingers: #F08A5D;  --camp-far: #DCEBFF;
 
   /* The Faery Yurt (§14), Helen's, and warm on purpose where the campground it
      is pitched on is cold — you walk in out of the night air. --tallow-3 is the
@@ -29006,6 +29014,9 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
    canvas. The layer takes no pointer; the page itself does. */
 .cel-css3d { position: absolute; inset: 0; pointer-events: none; }
 .cel-screen { border: 0; display: block; background: var(--cel-cloud); }
+/* A thing lifted off a room's own page stands in the scene as itself, and is
+   pressed as it is on the page. */
+.cel-lifted { pointer-events: auto; }
 .cel-walkin {
   margin: 0 6px 0 0; padding: 6px 14px; cursor: pointer;
   background: var(--cel-cloud); color: var(--cel-print);

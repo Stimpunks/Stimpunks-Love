@@ -163,6 +163,20 @@ for f in sorted(ROOT.glob("cel-in-*.js")):
     for name in sorted(set(re.findall(r"'(--[\w-]+)'", c))):
         if name not in declared:
             refuse(f"{f.name} draws in {name}, which love.css's :root does not declare.")
+    # A thing it lifts off its page has to be on its page, found by classes
+    # (.a.b) so this tool can look; a script it runs against its lifts has to
+    # be one its page loads itself.
+    page_src = (ROOT / rpage).read_text() if (ROOT / rpage).exists() else ""
+    for sel in re.findall(r"kit\.lift\(\s*\w+\s*,\s*'([^']+)'", c):
+        classes = re.findall(r"\.([\w-]+)", sel)
+        if not classes or re.sub(r"\.[\w-]+", "", sel).strip():
+            refuse(f"{f.name} lifts {sel!r}; a room lifts by classes only (.a.b), so this tool can find them.")
+            continue
+        if not any(all(cl in m.split() for cl in classes) for m in re.findall(r'class="([^"]*)"', page_src)):
+            refuse(f"{f.name} lifts {sel} off {rpage}, which has nothing wearing those classes.")
+    for src_js in re.findall(r"kit\.wire\(\s*\w+\s*,\s*'([^']+)'", c):
+        if f'<script src="{src_js}"' not in page_src:
+            refuse(f"{f.name} runs {src_js} against its lifts, and {rpage} does not load {src_js} itself.")
     rooms[rpage] = f.name
 
 # ── The campgrounds' pitches, read off its own board ────────────────────────
