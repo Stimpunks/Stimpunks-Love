@@ -4389,6 +4389,31 @@
   --ps-road: #2B2A33;  --ps-pave: #3A3644;  --ps-kerb: #CFC6B2;
   --ps-line: #E8DCBF;  --ps-tab: #8F8370;
 
+  /* Cel Street (§134), the first stretch of the street in WebGL, drawn like an
+     animation cel under a summer sky. The page: --cel-page its ground,
+     --cel-print every word on it, --cel-dim the quieter words, --cel-link its
+     links. The world, read by name by cel-street.js and drawn in no word:
+     --cel-sky and --cel-haze the sky from overhead down to the horizon,
+     --cel-cloud and --cel-cloud-shade the cumulus lit and underneath (and
+     --cel-cloud the sun's light and the buttons' card), --cel-ink every inked
+     edge, --cel-road, --cel-paint, --cel-walk and --cel-kerb the road, its
+     paint, the pavement and the kerb, --cel-pole and --cel-wire the poles and
+     the wires between them, --cel-frame every metal frame and fitting,
+     --cel-glass and --cel-glint a window and the light in it, --cel-panel a
+     solar cell, --cel-leaf and --cel-trunk a street tree, --cel-hill the
+     hills in the haze, the four --cel-wall colours the apartment blocks over
+     the shops, and the three --cel-sign colours the road signs, a vending
+     machine and a bicycle. The shops wear their own doors' colours, read off
+     §5. */
+  --cel-page: #EEF6FD;  --cel-print: #14213D;  --cel-dim: #3D4C69;  --cel-link: #0B57A4;
+  --cel-sky: #3E8EDC;  --cel-haze: #BFE3F7;  --cel-cloud: #FBFDFF;  --cel-cloud-shade: #B9CCE8;
+  --cel-ink: #1B1F33;  --cel-road: #5C6470;  --cel-paint: #F3F1EA;  --cel-walk: #CBC4B5;
+  --cel-kerb: #E3DED3;  --cel-pole: #A9A39A;  --cel-wire: #20232C;  --cel-frame: #C7CDD6;
+  --cel-glass: #3B6EA8;  --cel-glint: #DDF0FF;  --cel-panel: #24365E;
+  --cel-leaf: #4FA845;  --cel-trunk: #6E4A33;  --cel-hill: #7FA9C4;
+  --cel-wall-1: #F4F1E8;  --cel-wall-2: #E9915A;  --cel-wall-3: #9B6B4E;  --cel-wall-4: #D9C9A6;
+  --cel-sign-red: #D8343C;  --cel-sign-blue: #2F6FC4;  --cel-sign-yellow: #F4C21E;
+
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -16225,6 +16250,11 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
    down a pencilled passage from it. Below and outward rather than beside, so a
    room with several behind it reads the same on a phone as on a desk. */
 .mm-behind { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
+/* Paper Street's toy theatre with Cel Street behind it, the dashed line
+   running down from the theatre. */
+.mm-stack { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.mm-lot--e .mm-stack .mm-behind { margin-left: 0; align-items: center; }
+.mm-stack .mm-behind > li::before { left: 50%; }
 .mm-lot--w .mm-behind { align-items: flex-end; margin-right: 34px; }
 .mm-lot--e .mm-behind { align-items: flex-start; margin-left: 34px; }
 .mm-behind > li { position: relative; }
@@ -18205,7 +18235,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §135
+   class on it is `bb-`, its sizes are in points and millimetres, and §136
    prints it and nothing else. */
 
 .room-broadside {
@@ -18266,7 +18296,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §135 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §136 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -28888,7 +28918,107 @@ body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-fami
 .ps-keys { padding-left: 1.2em; }
 .ps-keys li + li { margin-top: 8px; }
 
-/* §134 ── Small screens───────────────────────────────────────────────────────
+/* §134 ── ROOM: Cel Street (the first stretch of the street, drawn like a cel)
+   Ryan's ask, 2026-10-31: a WebGL version of the street in a 3D anime style,
+   as a proof of concept, beside Paper Street rather than instead of it. He
+   named it Cel Street. cel-street.js builds it with three.js (vendor/, MIT,
+   the three.js authors), reading the front page's own doors when the page
+   opens; tools/make-cel-street.py draws the picture over the name and holds
+   the page and the script to their promises.
+
+   THE ONLY STREET IN THE SUN, AND THE LIGHT COMES IN TWO STEPS. A summer
+   afternoon, the sun high and to one side, and every surface either lit or in
+   shadow with nothing between, the shadow side taking the sky's blue; every
+   solid thing inked round its edge. That is cel shading, and nothing else on
+   the street is lit that way.
+
+   THE COLLISIONS:
+     · PAPER STREET is the same street walked in 3D, and the one to watch. It is
+       card at night, lit only by the fronts themselves, every front a flat with
+       nothing behind it. This is day, the shops are on the ground floors of
+       whole buildings, and the light is the sun's. If it ever goes dark, or the
+       buildings go flat, it has become Paper Street in colour.
+     · THE STREET ITSELF (§5) is a night street of fronts on one wall. The doors
+       here are §5's own colours, worn as shopfronts; everything above them is
+       this street's.
+     · BRIGHTER DAYS is the other place with solar panels in the sun: noon over
+       fields, the panels in rows on the ground with crops under them, lit in
+       full gradient. Here they are on roofs in a town, and the light is in
+       steps.
+     · THE GARDEN is the other midday: light down through leaves onto beds,
+       dappled and soft. There are no leaves over this street but the trees on
+       the pavement, and no soft edge anywhere.
+     · THE ARCADE is the other room drawn in a look out of games, and its look
+       is pixels on a screen in a dark room. This is outdoors and has no pixel
+       in it.
+
+   NOTHING MOVES BY ITSELF, at any setting: no keyframe, animation or
+   transition in this section, and the scene is drawn only when you move.
+   Every word is on the page's own pale ground, never on the canvas, which is
+   a picture and carries no word a reader needs. */
+body.cel-street { background: var(--cel-page); color: var(--cel-print); font-family: 'Golos Text', var(--sans); }
+.cel-street .wrap { padding-bottom: 54px; }
+.cel-street a { color: var(--cel-link); text-underline-offset: 3px; }
+.cel-street :focus-visible { outline-color: var(--cel-print); }
+
+.cel-topline { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; justify-content: space-between; padding: 22px 0 0; }
+.cel-trail { margin: 0; font-size: 14px; color: var(--cel-dim); }
+
+.cel-head { margin: 18px 0 0; }
+.cel-sky { display: block; width: 100%; height: auto; border: 4px solid var(--cel-ink); border-radius: 18px; }
+.cel-over { margin: 18px 0 0; font-size: 15px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--cel-dim); }
+.cel-head h1 { margin: 4px 0 0; font-family: 'Rammetto One', var(--sans); font-weight: 400; font-size: clamp(40px, 7vw, 74px); line-height: 1.05; color: var(--cel-print); }
+.cel-sub { margin: 10px 0 0; font-size: 21px; line-height: 1.45; max-width: 46em; }
+.cel-lede { margin: 18px 0 0; font-size: 18px; line-height: 1.6; max-width: 46em; }
+
+/* THE STAGE. A cel's inked border round the picture; the canvas fills it. */
+.cel-stage {
+  touch-action: pan-y; cursor: grab;
+  position: relative; overflow: hidden; overflow: clip; margin: 26px 0 0;
+  height: clamp(420px, 68vh, 720px);
+  height: clamp(420px, 68svh, 720px);
+  background: var(--cel-haze);
+  border: 5px solid var(--cel-ink); border-radius: 18px;
+}
+.cel-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.cel-failed { position: relative; margin: 40px auto 0; max-width: 32em; padding: 16px 20px; background: var(--cel-page); color: var(--cel-print); font-size: 17px; line-height: 1.5; border: 3px solid var(--cel-ink); border-radius: 10px; }
+/* A door is stood here for a moment while the script asks what it wears, and
+   never seen. */
+.cel-measure { position: absolute; left: -9999px; top: 0; width: 320px; visibility: hidden; pointer-events: none; }
+
+.cel-here { margin: 12px 0 0; min-height: 1.5em; font-size: 18px; color: var(--cel-print); }
+.cel-here a { font-weight: 700; }
+
+.cel-controls { display: flex; flex-wrap: wrap; gap: 18px 30px; align-items: flex-start; margin: 14px 0 0; }
+.cel-pad { display: grid; grid-template-columns: repeat(3, 76px); grid-template-areas: ". fwd ." "left back right"; gap: 8px; }
+.cel-look { display: grid; grid-template-columns: repeat(3, 92px); grid-template-areas: ". up ." "turnl ahead turnr" ". down ."; gap: 8px; }
+.cel-go--lookup { grid-area: up; } .cel-go--turnl { grid-area: turnl; } .cel-go--ahead { grid-area: ahead; }
+.cel-go--turnr { grid-area: turnr; } .cel-go--lookdown { grid-area: down; }
+.cel-go--fwd { grid-area: fwd; } .cel-go--left { grid-area: left; } .cel-go--right { grid-area: right; } .cel-go--back { grid-area: back; }
+.cel-go, .cel-mode {
+  min-height: 52px; padding: 8px 12px; cursor: pointer;
+  background: var(--cel-cloud); color: var(--cel-print);
+  border: 3px solid var(--cel-ink); border-radius: 12px; box-shadow: 0 4px 0 var(--cel-ink);
+  font-family: 'Golos Text', var(--sans); font-weight: 700; font-size: 14px;
+  touch-action: none; user-select: none;
+}
+.cel-more { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.cel-go:focus-visible, .cel-mode:focus-visible { outline: 3px solid var(--cel-link); outline-offset: 4px; }
+
+.cel-notes { margin: 34px 0 0; max-width: 46em; }
+.cel-notes h2 { margin: 30px 0 8px; font-family: 'Rammetto One', var(--sans); font-weight: 400; font-size: 22px; color: var(--cel-print); }
+.cel-notes p, .cel-notes li { font-size: 18px; line-height: 1.6; }
+.cel-keys { padding-left: 1.2em; }
+.cel-keys li + li { margin-top: 8px; }
+.cel-doors { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+.cel-doors a {
+  display: inline-block; padding: 6px 14px; background: var(--cel-cloud); color: var(--cel-print);
+  border: 3px solid var(--cel-ink); border-radius: 999px; font-weight: 700; text-decoration: none;
+}
+.cel-doors a:hover { text-decoration: underline; }
+@media (max-width: 600px) { .cel-stage { height: clamp(360px, 58vh, 520px); height: clamp(360px, 58svh, 520px); border-width: 4px; } }
+
+/* §135 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -28992,7 +29122,7 @@ body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-fami
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §134 says every
+   shipped with no rule here at all — which on a street whose §135 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -29116,7 +29246,7 @@ body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-fami
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §135 ── Print ───────────────────────────────────────────────────────────────
+/* §136 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

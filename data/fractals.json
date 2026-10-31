@@ -750,6 +750,22 @@
         "--ps-tab"
       ]
     },
+    "cel-street.html": {
+      "kind": "phoenix",
+      "c": [
+        0.5667,
+        0.0
+      ],
+      "p": -0.48,
+      "orbit": 0.012,
+      "ground": "--cel-sky",
+      "inks": [
+        "--cel-cloud",
+        "--cel-haze",
+        "--cel-cloud-shade",
+        "--cel-sign-yellow"
+      ]
+    },
     "mycelium-munchies.html": {
       "kind": "julia",
       "c": [

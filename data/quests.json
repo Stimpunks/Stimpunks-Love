@@ -84,6 +84,34 @@
    "learned": "A paper street is a road on a map that nobody ever laid. This one is real and walked as paper, and every door in it is the front page's own, so it cannot drift from the street it stands for."
   },
   {
+   "id": "cel-solar",
+   "page": "cel-street.html",
+   "room": "Cel Street",
+   "title": "A spare solar panel",
+   "posted": "On the first stretch of the street, built a second way in the sun, somebody fitting the roofs left one solar panel over, inked round its edge like everything else there, and set it down on the pavement.",
+   "rank": 1,
+   "takes": "as long as it takes to get to Paper Street and through to Cel Street, and longer if you climb up over the roofs on the way",
+   "target": "a solar panel in its frame, inked round its edge, lying on the pavement",
+   "code": "TWOTONE",
+   "hints": [
+    "It is through a link on Paper Street, which stands in the toy theatre by the front door.",
+    "It is on Cel Street's own page, not in any of the rooms whose doors are its shops.",
+    "At the very foot of the page, under the part about what it keeps."
+   ],
+   "ask": {
+    "question": "Cel Street says the light on an animation cel comes in how many steps? One word or a number.",
+    "accept": ["two", "2", "two steps"],
+    "answer": "Two",
+    "why": "On a cel a thing is lit or it is in shadow, with nothing in between: two flat steps of light inside an inked line. Cel Street is built that way.",
+    "hints": [
+     "It is in the paragraph right under the page's name.",
+     "Lit, and in shadow.",
+     "Fewer than three, more than one."
+    ]
+   },
+   "learned": "An animation cel is flat colour inside an inked line, with the light in two steps. Cel Street is the first stretch of the street built that way, and its shops are the front page's own doors."
+  },
+  {
    "id": "pony-sequin",
    "page": "pink-pony-club.html",
    "room": "Pink Pony Club",

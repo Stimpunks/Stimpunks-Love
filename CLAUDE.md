@@ -4119,6 +4119,28 @@ script against its lifts** once they arrive (the Mopery's parlour plays and tune
 each build because such a script finds its parts once, and only a script the room's own page loads.
 The stage is sized in `svh` so a phone's address bar does not rebuild the room and stop what is playing in it.
 
+**CEL STREET IS THE FIRST STRETCH OF THE STREET IN WEBGL, AND THREE.JS IS VENDORED AND PINNED.** Ryan's ask, 2026-10-31:
+a WebGL version of the street in a 3D anime style, as a proof of concept beside Paper Street, with solar panels on the roofs;
+he named it Cel Street (Slice of Life was the other name he liked, and may yet be its name). `cel-street.html` (§134) hangs
+off Paper Street, which links to it (`data/map.json` puts it behind the toy theatre). `cel-street.js` is an ES module that
+imports `vendor/three.module.min.js` (three.js 0.160.0, MIT, its licence beside it) and nothing else; the CSP's
+`script-src 'self'` is why it is a file here and never a CDN, and **`tools/make-cel-street.py` refuses the file if its
+sha256 is not the one recorded in the tool**, so updating three.js is a decision: new file, new VERSION and SHA256, same
+commit. **The shops are the front page's doors, read at runtime**: the first stretch of `ul.doors` is cloned for a moment
+into an invisible `.cel-measure` box so the browser says what each door wears (ground, awning stripes, name colour and
+face), and each becomes a building whose ground floor is that shop, its sign a canvas lettered in the door's own face;
+everything above and round the shops is in `--cel-*` colours, read by name, and the tool refuses a colour written into
+the script. **The look is cel shading**: `MeshToonMaterial` with a two-step gradient map, hard shadows, and every solid
+thing inked by a hull scaled a little larger and drawn `BackSide` (`piece()` builds both, and static pieces are merged
+one mesh per material). **A mesh placed by hand needs `matrixWorldNeedsUpdate`** (`put()`): with `matrixAutoUpdate`
+off, three.js never updates its world matrix, and the first build drew every sign and awning at the origin. **Nothing
+moves by itself**: the scene is drawn on demand, `requestAnimationFrame` only while a key is held or a glide is under
+way, and the tool refuses a timer, storage, a request but `index.html`, and markup from a string. **The canvas is a
+picture to a screen reader**, so the doors are also an ordinary list of links under it, and focusing one stands you at
+its shop; **Climb up over the roofs** (C) is how anybody sees the panels, which cannot be seen from the pavement. The
+friendly edits are drifting clouds or swaying wires "so it feels alive", three.js from a CDN "to save the bytes", and
+painting the floors above the shops in the doors' colours, which makes the street's shops a house style.
+
 **THE ABOUT PAGE'S FILM IS A CLAUDE MOTION FILM, AND THE MP4 IS AN EXPORT OF IT, NOT ITS SOURCE.**
 Ryan, 2026-10-15, for people shown the street who say they do not get it. `about.html` is paperwork
 (`room-plain`, first of the credits in the sitemap, pinned on the map, no job marker), linked under the
@@ -5861,18 +5883,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §135 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §136 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§135 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§136 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §135 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §136 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

@@ -177,7 +177,7 @@ STEPS=(
   make-small-hours make-repeater make-nothing-for-sale make-covenstead
   make-lagoon make-looming make-sithen make-stay-frosty make-stay-breezy make-mycelium make-big-steep make-glow make-rave make-cooldown make-mud make-secret-cabin make-foundry make-bodymind-break
   # Things that read the rooms, after the rooms.
-  make-now-playing make-map make-paper-street make-signoff make-structured make-sitemap make-chat make-world make-heading-ids make-search-index
+  make-now-playing make-map make-paper-street make-cel-street make-signoff make-structured make-sitemap make-chat make-world make-heading-ids make-search-index
   make-low-stimulation make-feed make-csp make-agent-files make-og make-icons make-security
   # The checkers, against what was just written.
   check-contrast check-headings check-counts check-ids check-classes

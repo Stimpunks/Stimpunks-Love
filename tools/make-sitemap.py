@@ -26,6 +26,9 @@ ORDER = ["index.html",
          # The street walked as paper, in a toy theatre beside the Map: the
          # front page's own doors, stood up along a road to walk down.
          "paper-street.html",
+         # The first stretch of the street in WebGL, drawn like a cel, through
+         # a link on Paper Street: a proof of concept beside it.
+         "cel-street.html",
          # The page about the street's own name, which is reached from a line
          # under the dial on the front page rather than from a shopfront: it is
          # about the street rather than a room standing on it. First, because it

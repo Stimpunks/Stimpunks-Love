@@ -266,6 +266,24 @@ def behind_lot(page):
     return "".join(out)
 
 
+def behind_list(page):
+    """The rooms behind a piece of furniture: Cel Street is through a link on
+    Paper Street, which stands in the toy theatre by the front door."""
+    kids = children.get(page, [])
+    if not kids:
+        return ""
+    return (f'<span class="sr">, and behind {name(page)}:</span><ul class="mm-behind">'
+            + "".join(f"<li>{behind_lot(k)}</li>" for k in kids) + "</ul>")
+
+
+def theatre():
+    """The toy theatre, and under it whatever is behind Paper Street, stacked
+    so the dashed line runs down from the theatre and not from the table."""
+    t = link(furn["toytheatre"], "mm-theatre", None, THEATRE_NOTE)
+    kids = behind_list(furn["toytheatre"])
+    return f'<div class="mm-stack">{t}{kids}</div>' if kids else t
+
+
 def lot(page, side):
     out = [f'<li class="mm-lot mm-lot--{side}">', link(page, "mm-shop")]
     kids = children.get(page, [])
@@ -309,7 +327,7 @@ rows.append(f'<li class="mm-lot mm-lot--w mm-lot--stoop">'
 rows.append(f'<li class="mm-lot mm-lot--e mm-lot--furniture">'
             f'<span class="mm-table" id="at-map" aria-current="page">'
             f'<span class="mm-name">The Map</span><span class="mm-note">this table</span></span>'
-            f'{link(furn["toytheatre"], "mm-theatre", None, THEATRE_NOTE)}'
+            f'{theatre()}'
             f'{link(furn["noticeboard"], "mm-notice")}'
             f'{link(furn["brasstacks"], "mm-brass")}'
             f'{link(furn["postercol"], "mm-poster")}</li>')

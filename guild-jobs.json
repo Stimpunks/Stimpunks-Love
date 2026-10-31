@@ -17,6 +17,11 @@
    "room": "Paper Street"
   },
   {
+   "id": "cel-solar",
+   "title": "A spare solar panel",
+   "room": "Cel Street"
+  },
+  {
    "id": "pony-sequin",
    "title": "Whose records are on that dancefloor",
    "room": "Pink Pony Club"

@@ -714,6 +714,11 @@ DRAW = {
     # over the body threshold a marker is held to; its perforation and its star
     # are --ps-sky, cut out of it, and the floor line --ps-tab carries nothing.
     "paper-street-ticket": """<path d="M3 29 H29" stroke="var(--ps-tab)" stroke-width="1.6" stroke-linecap="round"/><path d="M4 11 H28 V15 a2.2 2.2 0 0 0 0 4.4 V24 H4 V19.4 a2.2 2.2 0 0 0 0 -4.4 Z" fill="var(--ps-bill)"/><path d="M21 12.5 V22.5" stroke="var(--ps-sky)" stroke-width="1.3" stroke-dasharray="1.6 1.4"/><path d="M12 13.6 L13.2 16.4 L16.2 16.6 L13.9 18.5 L14.7 21.4 L12 19.8 L9.3 21.4 L10.1 18.5 L7.8 16.6 L10.8 16.4 Z" fill="var(--ps-sky)"/>""",
+    # A solar panel left over from the roofs, in its frame, inked round its
+    # edge: the cells --cel-panel, the frame --cel-frame, the glint --cel-glint,
+    # the ink --cel-ink, on the pale page. The pavement line is --cel-walk and
+    # carries nothing.
+    "cel-solar": """<path d="M3 29 H29" stroke="var(--cel-walk)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 25 L10 9 H28 L23 25 Z" fill="var(--cel-frame)" stroke="var(--cel-ink)" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 23 L12 11 H25.5 L21.5 23 Z" fill="var(--cel-panel)"/><path d="M12.5 23 L16.3 11 M17 23 L20.8 11 M9.4 19 H23 M10.7 15 H24.3" stroke="var(--cel-frame)" stroke-width="1"/><path d="M13 21 L17 13" stroke="var(--cel-glint)" stroke-width="1.6" stroke-linecap="round"/>""",
     "street-chalk": """<path d="M5 24 Q11 15 16 22 Q21 29 27 19" fill="none" stroke="var(--chalk)" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="9" r="2.2" fill="var(--chalk)"/>""",
     "pony-sequin": """<circle cx="16" cy="16" r="9" fill="#2b0a1c"/><circle cx="16" cy="16" r="2.4" fill="var(--hot)"/><path d="M16 7 L19 16 L16 25 L13 16 Z" fill="var(--cream)" opacity=".55"/>""",
     "chappell-rhinestone": """<path d="M16 4 L26 13 L16 28 L6 13 Z" fill="var(--leaf)"/><path d="M16 4 L16 28 M6 13 L26 13" stroke="var(--nave)" stroke-width="1.4"/>""",

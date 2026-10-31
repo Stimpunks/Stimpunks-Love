@@ -1141,6 +1141,18 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--ps h1 {{ font-family: 'Holtwood One SC', Georgia, serif; font-weight: 400; font-size: 80px; margin-top: 6px !important; line-height: 1; color: var(--ps-cream); }}
 .og--ps .ps-sub {{ font-size: 25px; margin-top: 8px !important; max-width: 1080px; }}
 
+/* cel street — THE STREET IN THE SUN. The page's own drawing, lifted rather
+   than redrawn, cropped to the rooftops, the wires and the shops, and every
+   word below it on the page's own pale ground, where the page sets every word. */
+.og--cel {{ width: 100%; padding: 0 0 26px; gap: 0; justify-content: flex-start; background: var(--cel-page); }}
+.og--cel .og-room {{ margin: 0 !important; line-height: 0; }}
+.og--cel .og-room svg {{ display: block; width: 1200px; height: auto; max-width: none; border: 0; border-bottom: 5px solid var(--cel-ink); border-radius: 0; }}
+.og--cel .og-words {{ padding: 14px 60px 0; }}
+.og--cel .og-words > * {{ margin: 0 !important; }}
+.og--cel .cel-over {{ font-size: 18px; }}
+.og--cel h1 {{ font-family: 'Rammetto One', sans-serif; font-weight: 400; font-size: 74px; margin-top: 6px !important; line-height: 1.05; color: var(--cel-print); }}
+.og--cel .cel-sub {{ font-size: 24px; margin-top: 8px !important; max-width: 1080px; }}
+
 /* breaker breaker — THE CONVOY AT NIGHT. The page's own drawing, lifted rather
    than redrawn, cropped to the lamps, and every word below it on the dark, where
    the room sets every word. No lamp is added for the card. */
@@ -4449,6 +4461,38 @@ def card_ps(p):
     )
 
 
+def card_cel(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING ARE LIFTED FROM THE
+    # PAGE, so the card cannot say what the page does not.
+    over = re.search(r'<p class="cel-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="cel-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: cel-street.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    sky = p["celsky"].replace('viewBox="0 0 1200 420"', 'viewBox="0 40 1200 330"', 1)
+    if sky == p["celsky"]:
+        raise SystemExit(
+            "REFUSING: cel-street.html's drawing is no longer 1200 by 420, and the card\n"
+            "crops it by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--cel" data-fit="card">'
+        f'<div class="og-room">{sky}</div>'
+        f'<div class="og-words"><p class="cel-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="cel-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A card in summer daylight. Across the top, a street drawn like an animation cel, every edge inked: "
+        f"a blue sky going pale toward the horizon with two white cumulus clouds, blue hills, and a row of "
+        f"apartment blocks in cream, orange and brown, each with a shop on its ground floor in pink, blue, "
+        f"yellow, green, violet or orange under a striped awning, rows of dark blue solar panels tipped up on "
+        f"every roof, and three concrete utility poles with many black wires sagging between them over a grey "
+        f"road. Below, small capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large "
+        f"rounded heavy letters, and under it: {plain(sub.group(1))}",
+    )
+
+
 def card_bkb(p):
     # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE CONVOY ARE LIFTED
     # FROM THE PAGE, so the card cannot say what the room does not.
@@ -5696,7 +5740,7 @@ def card_map(p):
     for lot in lots[:4]:
         # The toy theatre on the stoop row is Paper Street's way in, with a card
         # of its own; the corner stays the size it was drawn for.
-        lot = re.sub(r'<span class="sr">.*?</span>|<ul class="mm-behind">.*?</ul>|<p class="mm-stair">.*?</p>|<a class="mm-theatre".*?</a>', "", lot, flags=re.S)
+        lot = re.sub(r'<span class="sr">.*?</span>|<ul class="mm-behind">.*?</ul>|<p class="mm-stair">.*?</p>|<div class="mm-stack">.*?</ul></div>|<a class="mm-theatre".*?</a>', "", lot, flags=re.S)
         corner.append(re.sub(r'\s(id|href|aria-current)="[^"]*"', "", lot).replace("<a ", "<span ").replace("</a>", "</span>"))
     names = [html.unescape(re.sub(r"<[^>]+>", "", n)) for n in re.findall(r'<span class="mm-name">(.*?)</span>', "".join(corner))]
     sub_html = sub.group(1).strip()
@@ -5945,6 +5989,7 @@ CARDS = {
     "volunteers": card_vol,
     "haunted": card_hh,
     "paper-street": card_ps,
+    "cel-street": card_cel,
     "show-your-work": card_syw,
     "breaker": card_bkb,
     "fancy-dress": card_fancy,
@@ -6097,6 +6142,7 @@ def main():
         ("volloom",  "volunteers.html",   r'(<svg class="vol-loom".*?</svg>)'),
         ("hhset",    "haunted-house.html", r'(<svg class="hh-set".*?</svg>)'),
         ("psarch",   "paper-street.html", r'(<svg class="ps-arch".*?</svg>)'),
+        ("celsky",   "cel-street.html",   r'(<svg class="cel-sky".*?</svg>)'),
         ("sywgarage", "show-your-work.html", r'(<svg class="syw-garage".*?</svg>)'),
         ("bkbcab",   "breaker-breaker.html", r'(<svg class="bkb-cab".*?</svg>)'),
         ("veils",    "fantasy-fancy-dress.html", r'(<svg class="ffd-veils".*?</svg>)'),

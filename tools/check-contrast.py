@@ -972,6 +972,11 @@ HH_GROUND, HH_SLIP, HH_INK, HH_INK2, HH_LINK = "#17131C", "#241D2B", "#EEE7D8", 
 # §5's own, measured where §5 stands them.
 PS_SKY, PS_CREAM, PS_DIM, PS_LINK, PS_RING = "#13213B", "#F1E6CC", "#C9BFA6", "#FFCF5C", "#FFE27A"
 PS_BILL, PS_PRINT, PS_LINK_BILL = "#F1E6CC", "#24202E", "#8A2B14"
+# Cel Street (love.css §134). The first stretch of the street in WebGL, drawn
+# like a cel: every word on the page's own pale ground or on a button's white
+# card; nothing set on the canvas, which is a picture.
+CEL_PAGE, CEL_PRINT, CEL_DIM, CEL_LINK, CEL_CARD = "#EEF6FD", "#14213D", "#3D4C69", "#0B57A4", "#FBFDFF"
+CEL_INK, CEL_PANEL = "#1B1F33", "#24365E"
 FFD_GROUND, FFD_PANEL, FFD_INK, FFD_INK2, FFD_LINK = "#17132B", "#241D3F", "#FBF2F8", "#D9CDEB", "#FFC6E0"
 FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 # The Bough House (§117): Jess's tree house at pitch 05, dark words on the
@@ -3727,6 +3732,19 @@ PAIRS = [
     (PTS_INK,   PTS_CARD, False, "pets: everything on a slip: each flap's line, your own animals, what is not "
                                  "on the floor and who reads the channel"),
     (PTS_LINK,  PTS_CARD, False, "pets: each flap's name and every link on a slip, and the focus ring there"),
+    # ── Cel Street (§134) ───────────────────────────────────────────────────
+    # Every word on the page's pale ground, or on a button's or a door's white
+    # card. The canvas is a picture and carries no word a reader needs; the
+    # shops' signs in it are the doors' own colours, and the doors are also a
+    # list of links under it.
+    (CEL_PRINT, CEL_PAGE, False, "cel street: the name, every heading, the lede, every paragraph, where you "
+                                 "are standing, and the words when the street cannot be built"),
+    (CEL_DIM,   CEL_PAGE, False, "cel street: the trail and the line over the name"),
+    (CEL_LINK,  CEL_PAGE, False, "cel street: every link and the backlink, and the focus ring round a button"),
+    (CEL_PRINT, CEL_CARD, False, "cel street: every button's word and every door in the list of doors, on the "
+                                 "white card, and the focus ring on the page"),
+    (CEL_INK,   CEL_PAGE, True,  "cel street: the inked edge round the street, every button and every door"),
+    (CEL_PANEL, CEL_PAGE, False, "cel street: the job marker's solar panel, held to the body threshold a marker is"),
     # ── Paper Street (§133) ─────────────────────────────────────────────────
     # Every word on the printed night or on the theatre's cream card. Nothing set
     # on the floor, which the canvas paints and which carries no word.
@@ -5062,6 +5080,28 @@ ORNAMENT = {
                "linen. It carries no word.",
     "#c9a9be": "pink pony club: --pony-ball, the mirrorball's darker facets, between its cream ones, 1.94 on "
                "the cream and drawn only on the ball. It carries no word.",
+    "#3e8edc": "cel street: --cel-sky, the sky overhead in the street and in the drawing over the name, 3.15 on the page, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#bfe3f7": "cel street: --cel-haze, the sky at the horizon and the haze down the street, 1.24 on the page; behind the canvas while it loads, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#b9cce8": "cel street: --cel-cloud-shade, the underside of a cloud, 2.11 on the sky, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#5c6470": "cel street: --cel-road, the road, 5.48 on the page, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#f3f1ea": "cel street: --cel-paint, the paint on the road, 3.04 on the sky and well clear of the road, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#cbc4b5": "cel street: --cel-walk, the pavement and the ground beyond the buildings, 1.59 on the page, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#e3ded3": "cel street: --cel-kerb, the kerb, the pavement's seams and the balconies, 2.56 on the sky, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#a9a39a": "cel street: --cel-pole, the utility poles and their crossarms, 2.29 on the page and inked round, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#20232c": "cel street: --cel-wire, the wires between the poles, 4.56 on the sky, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#c7cdd6": "cel street: --cel-frame, every metal frame and fitting, a solar panel's frame and a water tank, 2.15 on the sky and inked round, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#3b6ea8": "cel street: --cel-glass, a window, 4.83 on the page, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#ddf0ff": "cel street: --cel-glint, the light in a window and on a solar panel, 2.94 on the sky, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#4fa845": "cel street: --cel-leaf, a street tree's leaves, 2.74 on the page and inked round, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#6e4a33": "cel street: --cel-trunk, a street tree's trunk, 7.15 on the page, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#7fa9c4": "cel street: --cel-hill, the hills in the haze, 2.30 on the page, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#f4f1e8": "cel street: --cel-wall-1, an apartment block's wall, 3.04 on the sky and inked round, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#e9915a": "cel street: --cel-wall-2, an apartment block's wall, 2.22 on the page and inked round, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#9b6b4e": "cel street: --cel-wall-3, an apartment block's wall, 4.18 on the page and inked round, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#d9c9a6": "cel street: --cel-wall-4, an apartment block's wall, 2.10 on the sky and inked round, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#d8343c": "cel street: --cel-sign-red, a road sign's ring and a vending machine, 4.30 on the page, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#2f6fc4": "cel street: --cel-sign-blue, a road sign, a vending machine and the parked car, 4.59 on the page, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
+    "#f4c21e": "cel street: --cel-sign-yellow, the bicycle's frame, 2.06 on the sky and inked round, in the canvas or the drawing over the name, aria-hidden. It carries no word.",
     "#2b2a33": "paper street: --ps-road, the road painted on the stage floor, 1.21 on the pavement and 1.13 on "
                "the night, drawn on the canvas, aria-hidden. It carries no word.",
     "#3a3644": "paper street: --ps-pave, the pavement painted on the stage floor, 1.37 on the night, drawn on "
