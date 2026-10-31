@@ -42,7 +42,7 @@ function start() {
   // here by tools/make-cel-street.py from the cel-in-*.js files. Do not
   // hand-edit between the markers.
   // cel:rooms:begin
-  var ROOMS = {'pink-pony-club.html': 'cel-in-pink-pony-club.js'};
+  var ROOMS = {'club-chronic.html': 'cel-in-club-chronic.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js'};
   // cel:rooms:end
   var CHUNK = 60;            // the street is drawn in lengths this long
   var VIEW = 300;            // and only the lengths this near you are drawn
@@ -754,6 +754,17 @@ function start() {
         return mesh;
       },
       flat: function (geo, m, ink) { return put(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: col(ink) })), m); },
+      // A colour by name as the canvas wants it, a sheet of paper drawn on a
+      // canvas in those inks, and that sheet hung somewhere, lit like
+      // everything else.
+      ink: css,
+      paper: function (pw, ph, draw) { return tex(pw, ph, draw); },
+      // Sheets of one paper are merged into one mesh, however many there are.
+      sheet: function (map, w, h, m) {
+        if (!map.userData.mat) map.userData.mat = new THREE.MeshToonMaterial({ map: map, gradientMap: gradient });
+        var g = PLANE.clone(); g.scale(w, h, 1);
+        piece(g, m, map.userData.mat, 'sheet' + map.uuid, false, false);
+      },
       // The room's own page, an iframe of it, pw by ph pixels and ww wide in
       // the world, its links taking the whole window as on Paper Street.
       screen: function (pw, ph, ww, m, title) {
