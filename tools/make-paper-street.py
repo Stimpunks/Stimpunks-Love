@@ -170,6 +170,17 @@ for f in sorted(ROOT.glob("walk-*.js")):
         t = re.search(r"<title>(.*?)</title>", (ROOT / other).read_text(), re.S)
         if not t or not html_text(t.group(1)).startswith(name):
             refuse(f"{who} calls {other} {name!r}, which is not what that page calls itself.")
+    # A thing a room lifts off its page has to be on its page, or it stands in
+    # the room as an empty frame and nothing anywhere says why.
+    page_src = (ROOT / page).read_text()
+    for sel in re.findall(r"kit\.lift\(\s*\w+\s*,\s*'([^']+)'", mod):
+        want = re.findall(r"\.([\w-]+)", sel)
+        if not want or not re.fullmatch(r"(\.[\w-]+)+", sel):
+            refuse(f"{who} lifts {sel!r}; a room lifts by classes only (.a.b), so this tool can find them.")
+            continue
+        found = any(set(want) <= set(c.split()) for c in re.findall(r'class="([^"]*)"', page_src))
+        if not found:
+            refuse(f"{who} lifts {sel} off {page}, which has nothing wearing those classes.")
     rooms[page] = f.name
 
 # ── The page ────────────────────────────────────────────────────────────────

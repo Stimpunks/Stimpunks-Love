@@ -4101,6 +4101,14 @@ is rotated; looking up and down slides the horizon. The floor is cut where it pa
 turned, part of a patch is behind you. Your companions are placed from where you look (`mine`), far enough off that
 their feet are on the stage. The friendly edit is CSS 3D turns on the flats "so the shopfronts are seen from the side";
 that is the rotation `check-gentle.py` would be asked to take on trust, on a page its probes cannot even render.
+**A ROOM CAN LIFT THINGS OFF ITS OWN PAGE INTO ITS SCENE** (Ryan, 2026-10-31, the Latibulum's wireless and television
+first): `kit.lift(page, '.a.b', …)` copies the element out of the page already loaded on the room's screen, so nothing
+more is fetched, wrapped in the page's own body class so the room's own rules dress it, and `paper-street.html` loads
+`love-embed.js`, so a lifted facade plays where it stands and reaches YouTube only on the press, saying how long first
+because it is the page's own markup. A lifted thing learns its size only when it arrives, and tells its stops then.
+`make-paper-street.py` refuses a lift by anything but classes and one whose page has nothing wearing them. The
+friendly edit is redrawing a page's object in the scene "so it matches the room": that is a second copy of it to drift.
+The stage is sized in `svh` so a phone's address bar does not rebuild the room and stop what is playing in it.
 
 **THE ABOUT PAGE'S FILM IS A CLAUDE MOTION FILM, AND THE MP4 IS AN EXPORT OF IT, NOT ITS SOURCE.**
 Ryan, 2026-10-15, for people shown the street who say they do not get it. `about.html` is paperwork

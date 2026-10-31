@@ -11,6 +11,12 @@
    words sit dark on lit plaster there as they do in the room, which is what
    keeps this off the Faery Yurt, cream on dark all the way down.
 
+   THE WIRELESS AND THE TELEVISION ARE THE ROOM'S OWN (Ryan, 2026-10-31), lifted
+   off the page on the wall by Paper Street's kit.lift(), and they stand in the
+   hollow either side of it, to walk up to and switch on. They are the page's
+   own markup, so they say how long they run before the press, as on the page,
+   and nothing reaches YouTube until somebody presses one.
+
    THE LAMP'S POOL ON THE FLOOR IS THE ROOM'S OWN, --lamp at .16, and like the
    room's it is the same at every setting; nothing moves at any setting, the
    lamp's breathing included, which on the page is MAX's only motion and is
@@ -88,14 +94,16 @@
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 980), sh = kit.H - 24;
-      var END = 3000 + F;                       // where the hollow's wall stands
+      var END = 4400 + F;                       // where the hollow's wall stands
       var eye = sh / 2;
       var AW = 3600, AH = Math.max(1800, sh + 900), OW = 760, OH = Math.max(eye * 1.8, 560);
       var decor = [];
 
       decor.push(kit.item(roundDoor(AW, AH, Math.max(OH, 700)), { x: 0, z: 640, w: AW, h: AH }));
-      for (var z = 1240; z < END - F * 1.25; z += 560) {
+      var LAST = 0;
+      for (var z = 1240; z < END - F * 3.6; z += 560) {
         decor.push(kit.item(arch(AW, AH, OW, OH, 1500), { x: 0, z: z, w: AW, h: AH }));
+        LAST = z;
       }
       var WW = 3600, WH = Math.max(1600, sh + 700);
       decor.push(kit.item(wall(WW, WH, sw, sh), { x: 0, z: END + 20, w: WW, h: WH }));
@@ -104,10 +112,33 @@
       var page = kit.screen(kit.page, 'The Latibulum’s own page, on the plaster wall of the hollow');
       var framed = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'lat-walk-wall' });
 
+      // The wireless and the television, off the page, either side of it in the
+      // hollow. Where you stand to use one is worked out once it has its size:
+      // far enough back that the whole set and its plate are on the stage.
+      var TW = 560, HOLLOW = sw / 2 + TW / 2 + 160;
+      var wireless = kit.lift(page, '.thing.wireless', { x: -HOLLOW, z: END - 120, w: TW });
+      var telly = kit.lift(page, '.thing.telly', { x: HOLLOW, z: END - 120, w: TW });
+      // From an eye halfway up the stage, the set's top and its plate's foot
+      // both on the stage, and never nearer than the set's own size.
+      var at = function (it) {
+        return function () {
+          var room = kit.H / 2 - 10;
+          var fit = Math.min(1, room / Math.max(it.h - eye, 1), room / eye, (kit.W - 40) / it.w);
+          return { x: it.x, z: it.z - F / fit };
+        };
+      };
+      // In steps the keyboard goes with you; at a set, to its own play button,
+      // found once the set has arrived off the page.
+      var button = function (it) {
+        return { focus: function (o) { var b = it.el.querySelector('button.facade'); if (b) b.focus(o); } };
+      };
+
       var stops = [
         kit.stop({ name: 'outside the round door, under the hill', spot: { x: 0, z: 0 } }),
         kit.stop({ name: 'along the passage, under the arches', spot: { x: 0, z: (END - F) * 0.5 } }),
-        kit.stop({ name: 'in the hollow, with the room’s own page on the wall', spot: { x: 0, z: END - F }, link: page }, framed)
+        kit.stop({ name: 'at the wireless in the corner of the hollow', spot: at(wireless), link: button(wireless) }, wireless),
+        kit.stop({ name: 'in the hollow, with the room’s own page on the wall', spot: { x: 0, z: END - F }, link: page }, framed),
+        kit.stop({ name: 'at the television, dragged down here from another decade', spot: at(telly), link: button(telly) }, telly)
       ];
 
       return {
@@ -118,7 +149,12 @@
         stops: stops,
         decor: decor,
         arrive: 'Its own page is on the plaster wall in the hollow at the end of the passage, by the low lamp.',
-        bounds: function () { return { x: [-OW / 2 + 60, OW / 2 - 60], z: [0, END - F] }; },
+        // The passage is the arches' width; the hollow past the last arch is
+        // wide enough to step up to the sets either side of the page.
+        bounds: function (cam) {
+          var x = cam && cam.z > LAST ? HOLLOW : OW / 2 - 60;
+          return { x: [-x, x], z: [0, END - F] };
+        },
         ground: function (g, from, to) {
           kit.quad(g, -4000, 4000, from, to, kit.ink('--umber'));
           kit.quad(g, -150, 150, Math.max(from, 0), Math.min(to, END), kit.ink('--rust'));

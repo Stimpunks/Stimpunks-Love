@@ -344,7 +344,10 @@
   }
 
   /* ── Where you are, in words ──────────────────────────────────────────── */
-  function spotFor(s) { return s.spot || { x: s.x, z: s.z - F }; }
+  function spotFor(s) {
+    if (typeof s.spot === 'function') return s.spot();
+    return s.spot || { x: s.x, z: s.z - F };
+  }
 
   var lastNear = null, quiet = null;
   function nearest() {
@@ -374,7 +377,7 @@
 
   /* ── Moving ───────────────────────────────────────────────────────────── */
   function clamp() {
-    var b = scene.bounds();
+    var b = scene.bounds(cam);
     cam.x = Math.max(b.x[0], Math.min(b.x[1], cam.x));
     cam.z = Math.max(b.z[0], Math.min(b.z[1], cam.z));
   }
@@ -615,8 +618,41 @@
       stop: function (o, it) {
         var s = { el: it ? it.el : null, x: it ? it.x : (o.x || 0), z: it ? it.z : (o.z || 0), y: 0, w: it ? it.w : 0,
                   h: it ? it.h : 0, name: o.name, spot: o.spot, link: o.link || null, side: 'middle' };
-        if (it) byEl.set(it.el, s);
+        if (it) { byEl.set(it.el, s); (it.stops = it.stops || []).push(s); }
         return s;
+      },
+      // A thing off the room's own page, copied out of the page on its screen
+      // once that has loaded, so nothing more is fetched: the wireless itself
+      // rather than a drawing of it. It wears the page's own body class, so the
+      // room's own rules dress it, and it is pressed as it is on the page;
+      // love-embed.js, on this page too, turns a pressed facade into a player
+      // here as it does there. A thing whose page has lost it stays empty, and
+      // tools/make-paper-street.py refuses a room that lifts what its page
+      // does not have.
+      lift: function (frame, sel, o) {
+        var wrap = document.createElement('div');
+        wrap.className = 'ps-thing ps-lifted' + (o.cls ? ' ' + o.cls : '');
+        wrap.style.width = o.w + 'px';
+        flatsEl.appendChild(wrap);
+        var it = { el: wrap, x: o.x || 0, y: o.y || 0, z: o.z || 0, w: o.w, h: o.h || 1, near: o.near };
+        var put = function () {
+          var d = null;
+          try { d = frame.contentDocument; } catch (x) { return; }
+          var node = d && d.querySelector(sel);
+          if (!node || wrap.firstChild || !wrap.isConnected) return;
+          var dress = document.createElement('div');
+          dress.className = d.body.className;
+          dress.style.minHeight = '0';
+          dress.appendChild(document.importNode(node, true));
+          wrap.appendChild(dress);
+          // Its size is known only now, so the stops standing at it learn it too.
+          it.h = wrap.offsetHeight;
+          (it.stops || []).forEach(function (st) { st.h = it.h; });
+          if (scene && scene.room) draw();
+        };
+        frame.addEventListener('load', put);
+        put();
+        return it;
       },
       screen: screen, project: project, quad: quad, oval: oval, ink: ink
     };
