@@ -1128,6 +1128,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--hh h1 {{ font-size: 84px; margin-top: 6px !important; line-height: 1; }}
 .og--hh .hh-sub {{ font-size: 26px; margin-top: 8px !important; max-width: 1080px; }}
 
+/* paper street — THE TOY THEATRE'S FRONT. The page's own drawing, lifted
+   rather than redrawn, cropped to the proscenium and the flats standing down
+   the road, and every word below it on the printed night, where the page sets
+   every word. */
+.og--ps {{ width: 100%; padding: 0 0 26px; gap: 0; justify-content: flex-start; }}
+.og--ps .og-room {{ margin: 0 !important; line-height: 0; }}
+.og--ps .og-room svg {{ display: block; width: 1200px; height: auto; max-width: none; border: 0; border-radius: 0; }}
+.og--ps .og-words {{ padding: 14px 60px 0; }}
+.og--ps .og-words > * {{ margin: 0 !important; }}
+.og--ps .ps-over {{ font-size: 18px; }}
+.og--ps h1 {{ font-family: 'Holtwood One SC', Georgia, serif; font-weight: 400; font-size: 80px; margin-top: 6px !important; line-height: 1; color: var(--ps-cream); }}
+.og--ps .ps-sub {{ font-size: 25px; margin-top: 8px !important; max-width: 1080px; }}
+
 /* breaker breaker — THE CONVOY AT NIGHT. The page's own drawing, lifted rather
    than redrawn, cropped to the lamps, and every word below it on the dark, where
    the room sets every word. No lamp is added for the card. */
@@ -4404,6 +4417,38 @@ def card_hh(p):
     )
 
 
+def card_ps(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE THEATRE'S FRONT ARE LIFTED FROM
+    # THE PAGE, so the card cannot say what the page does not.
+    over = re.search(r'<p class="ps-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="ps-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: paper-street.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    front = p["psarch"].replace('viewBox="0 0 1200 420"', 'viewBox="0 30 1200 330"', 1)
+    if front == p["psarch"]:
+        raise SystemExit(
+            "REFUSING: paper-street.html's theatre front is no longer 1200 by 420, and the card\n"
+            "crops it by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--ps" data-fit="card">'
+        f'<div class="og-room">{front}</div>'
+        f'<div class="og-words"><p class="ps-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="ps-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A card the deep blue of a printed night. Across the top, a toy theatre's front in cream card, "
+        f"with a scalloped valance over its arched opening: inside, a night sky with painted stars, and a "
+        f"road with a dashed centre line running away from you to a point, with shopfronts cut out of card "
+        f"standing down both sides of it, pink, blue, yellow, green, violet and orange, each with a striped "
+        f"awning, a white edge and a fold under its foot, smaller and smaller the further down the road. "
+        f"Below, small pale capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large "
+        f"cream wood-type capitals, and under it: {plain(sub.group(1))}",
+    )
+
+
 def card_bkb(p):
     # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE CONVOY ARE LIFTED
     # FROM THE PAGE, so the card cannot say what the room does not.
@@ -5649,7 +5694,9 @@ def card_map(p):
             "its card is built out of both. Run make-map.py, or redesign the card on purpose.")
     corner = []
     for lot in lots[:4]:
-        lot = re.sub(r'<span class="sr">.*?</span>|<ul class="mm-behind">.*?</ul>|<p class="mm-stair">.*?</p>', "", lot, flags=re.S)
+        # The toy theatre on the stoop row is Paper Street's way in, with a card
+        # of its own; the corner stays the size it was drawn for.
+        lot = re.sub(r'<span class="sr">.*?</span>|<ul class="mm-behind">.*?</ul>|<p class="mm-stair">.*?</p>|<a class="mm-theatre".*?</a>', "", lot, flags=re.S)
         corner.append(re.sub(r'\s(id|href|aria-current)="[^"]*"', "", lot).replace("<a ", "<span ").replace("</a>", "</span>"))
     names = [html.unescape(re.sub(r"<[^>]+>", "", n)) for n in re.findall(r'<span class="mm-name">(.*?)</span>', "".join(corner))]
     sub_html = sub.group(1).strip()
@@ -5897,6 +5944,7 @@ CARDS = {
     "pets": card_pts,
     "volunteers": card_vol,
     "haunted": card_hh,
+    "paper-street": card_ps,
     "show-your-work": card_syw,
     "breaker": card_bkb,
     "fancy-dress": card_fancy,
@@ -6048,6 +6096,7 @@ def main():
         ("ptsfloor", "pets.html",         r'(<svg class="pts-floor".*?</svg>)'),
         ("volloom",  "volunteers.html",   r'(<svg class="vol-loom".*?</svg>)'),
         ("hhset",    "haunted-house.html", r'(<svg class="hh-set".*?</svg>)'),
+        ("psarch",   "paper-street.html", r'(<svg class="ps-arch".*?</svg>)'),
         ("sywgarage", "show-your-work.html", r'(<svg class="syw-garage".*?</svg>)'),
         ("bkbcab",   "breaker-breaker.html", r'(<svg class="bkb-cab".*?</svg>)'),
         ("veils",    "fantasy-fancy-dress.html", r'(<svg class="ffd-veils".*?</svg>)'),

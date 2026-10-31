@@ -24,6 +24,7 @@
   "rooms": {
     "index.html": ["areas"],
     "map.html": ["areas"],
+    "paper-street.html": ["areas", "games"],
     "danny-the-street.html": ["reading"],
     "pink-pony-club.html": ["music"],
     "the-chappell.html": ["music"],

@@ -23,6 +23,9 @@ ORDER = ["index.html",
          # furniture rather than a room, and second because it is the page that
          # shows where every other page stands.
          "map.html",
+         # The street walked as paper, in a toy theatre beside the Map: the
+         # front page's own doors, stood up along a road to walk down.
+         "paper-street.html",
          # The page about the street's own name, which is reached from a line
          # under the dial on the front page rather than from a shopfront: it is
          # about the street rather than a room standing on it. First, because it

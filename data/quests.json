@@ -56,6 +56,34 @@
    "learned": "A map can show you where everything is without telling you what anything is like. The model is one white card on purpose, because the rooms do not match and a map that painted them would be pretending they did."
   },
   {
+   "id": "paper-street-ticket",
+   "page": "paper-street.html",
+   "room": "Paper Street",
+   "title": "A ticket nobody tore",
+   "posted": "Beside the Map by the front door there is a toy theatre with the whole street cut out of card and stood up in it, and somebody has dropped a ticket on the floor in front of it without ever having it torn.",
+   "rank": 1,
+   "takes": "about as long as it takes to find the front door, and longer if you walk the street in card on the way",
+   "target": "a theatre ticket in cream card, untorn, lying on the floor",
+   "code": "FOLDTAB",
+   "hints": [
+    "It is on the street itself, by the front door, beside the Map.",
+    "It is in Paper Street, not in any of the rooms whose doors stand up in it.",
+    "At the very foot of the page, under the part about what it keeps."
+   ],
+   "ask": {
+    "question": "Paper Street says a paper street is a road drawn on a map that was never what? One word.",
+    "accept": ["built", "never built", "built on the ground"],
+    "answer": "Built",
+    "why": "A paper street is a road that exists on a map and was never built on the ground. Paper Street is the other way round: a street that is really here, walked as paper.",
+    "hints": [
+     "It is in the paragraph right under the page's name.",
+     "It is what a road on a map is, once somebody has gone out and laid it.",
+     "One word, the opposite of only drawn."
+    ]
+   },
+   "learned": "A paper street is a road on a map that nobody ever laid. This one is real and walked as paper, and every door in it is the front page's own, so it cannot drift from the street it stands for."
+  },
+  {
    "id": "pony-sequin",
    "page": "pink-pony-club.html",
    "room": "Pink Pony Club",

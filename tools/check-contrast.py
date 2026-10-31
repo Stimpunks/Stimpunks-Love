@@ -966,6 +966,12 @@ VOL_LINEN, VOL_CARD, VOL_INK, VOL_INK2, VOL_LINK = "#EEE6D3", "#F8F4EA", "#261E3
 # every word on the painted dark or on a painted board lying on it; nothing set
 # in the light, which is only ever a seam.
 HH_GROUND, HH_SLIP, HH_INK, HH_INK2, HH_LINK = "#17131C", "#241D2B", "#EEE7D8", "#BDB3C6", "#F2C063"
+# Paper Street (love.css §133). The street cut out of card in a toy theatre:
+# every word on the printed night or on the cream card of the theatre's front
+# and its playbill; nothing set on the floor the canvas paints. The doors are
+# §5's own, measured where §5 stands them.
+PS_SKY, PS_CREAM, PS_DIM, PS_LINK, PS_RING = "#13213B", "#F1E6CC", "#C9BFA6", "#FFCF5C", "#FFE27A"
+PS_BILL, PS_PRINT, PS_LINK_BILL = "#F1E6CC", "#24202E", "#8A2B14"
 FFD_GROUND, FFD_PANEL, FFD_INK, FFD_INK2, FFD_LINK = "#17132B", "#241D3F", "#FBF2F8", "#D9CDEB", "#FFC6E0"
 FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 # The Bough House (§117): Jess's tree house at pitch 05, dark words on the
@@ -3721,6 +3727,20 @@ PAIRS = [
     (PTS_INK,   PTS_CARD, False, "pets: everything on a slip: each flap's line, your own animals, what is not "
                                  "on the floor and who reads the channel"),
     (PTS_LINK,  PTS_CARD, False, "pets: each flap's name and every link on a slip, and the focus ring there"),
+    # ── Paper Street (§133) ─────────────────────────────────────────────────
+    # Every word on the printed night or on the theatre's cream card. Nothing set
+    # on the floor, which the canvas paints and which carries no word.
+    (PS_CREAM,  PS_SKY,  False, "paper street: the name, every heading, the lede, every paragraph, where you "
+                                "are standing, and on the front page the toy theatre's words"),
+    (PS_DIM,    PS_SKY,  False, "paper street: the trail and the line over the name"),
+    (PS_LINK,   PS_SKY,  False, "paper street: every link, the backlink, and on the front page the toy "
+                                "theatre's name"),
+    (PS_RING,   PS_SKY,  False, "paper street: the focus ring on the night, round a door you are standing at, "
+                                "a button and the street itself"),
+    (PS_BILL,   PS_SKY,  False, "paper street: the job marker's ticket, held to the body threshold a marker is"),
+    (PS_PRINT,  PS_BILL, False, "paper street: every button's word, printed on the cream card, and the words "
+                                "when the street cannot be read"),
+    (PS_LINK_BILL, PS_BILL, False, "paper street: the link back to the street when it cannot be read, on the card"),
     # ── The Haunted House (§132) ────────────────────────────────────────────
     # Every word on the painted dark, or on a painted board lying on it: a room
     # of the house, a thing in the list, a rule. Nothing set in the seam light.
@@ -5040,6 +5060,16 @@ ORNAMENT = {
                "linen, carried by --vol-knot round every strip at 4.31. It carries no word.",
     "#2e3b6a": "volunteers: the indigo band of weft, on a heading's band and a slip's strip, 8.66 on the "
                "linen. It carries no word.",
+    "#2b2a33": "paper street: --ps-road, the road painted on the stage floor, 1.21 on the pavement and 1.13 on "
+               "the night, drawn on the canvas, aria-hidden. It carries no word.",
+    "#3a3644": "paper street: --ps-pave, the pavement painted on the stage floor, 1.37 on the night, drawn on "
+               "the canvas and in the theatre's front, aria-hidden. It carries no word.",
+    "#cfc6b2": "paper street: --ps-kerb, the kerb lines either side of the road, 8.35 on the road, on the "
+               "canvas, aria-hidden. It carries no word.",
+    "#e8dcbf": "paper street: --ps-line, the dashed centre line, 10.41 on the road, on the canvas and in the "
+               "theatre's front, aria-hidden. It carries no word.",
+    "#8f8370": "paper street: --ps-tab, the fold under every flat that keeps it standing, 3.15 on the "
+               "pavement. It carries no word.",
     "#ffedb8": "haunted house: the work lights coming through the seams of the set, round and under its "
                "door, between the boards over its windows and under every heading and every place to look, "
                "15.75 on the ground. It is only ever a hairline, and no word is set in it.",

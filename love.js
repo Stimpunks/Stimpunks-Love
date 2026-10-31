@@ -1425,6 +1425,8 @@
     var b = document.body;
     if (!b || window.loveFamiliar || document.querySelector('script[src$="familiar.js"]')) return;
     if (b.getAttribute('data-cb') === 'off' || b.hasAttribute('data-cb-window') || b.hasAttribute('data-cb-chat')) return;
+    // Paper Street walks your familiar itself, down the road beside you.
+    if (b.getAttribute('data-familiar') === 'walks') return;
     try { if (window.top !== window.self) return; } catch (e) { return; }
     var s = null;
     try { s = localStorage.getItem('love-familiar'); } catch (e) { return; }

@@ -4062,6 +4062,24 @@ reading a gradient cannot know which stop is under which link. The road is a `::
 the buildings stand on plain board, which is what they actually stand on. **No transform anywhere in
 §49**: the top and side of every building are clipped rectangles, not skews.
 
+**PAPER STREET IS THE STREET WALKED AS PAPER, AND ITS DOORS ARE READ, NEVER COPIED.** Ryan's ask and calls,
+2026-10-30: a sandbox game on the web, built a little at a time, the street first, roaming before building, paper
+over modelled buildings, other people there later. `paper-street.html` (§133) stands in a toy theatre by the front
+door beside the Map (`.toytheatre` on index.html, read by `make-map.py` as furniture). `paper-street.js` asks for
+`index.html` when the page opens and stands a copy of each door, the furniture, the gate and the fence up as a flat
+of card, so it can never drift from the street, and `tools/make-paper-street.py` refuses the build if the front page
+loses a part the script reads. **It is a toy theatre, not a camera**: every flat faces you and you never turn, so
+everything is placed by translate and scale and nothing is rotated, which is all `check-gentle.py` has to see; the
+road is a canvas behind the flats drawn with the same arithmetic. **Steps (Gentle's default) jump with no motion;
+Glide (Regular and MAX) moves only while a key or button is held**; Tab stands you at each door. Your familiar walks
+with you (`data-familiar="walks"` keeps love.js and familiar.js from also putting it on the page), and Bring my
+avatar asks `/cb/avatars` once, on the press; with no avatar you walk with no body, the booth's rule. It keeps and
+counts nothing. **The render probes load from `file://`, where the fetch fails**, so the checkers measure the page's
+own words and not the flats, which are measured where §5 stands them. The friendly edits are a default avatar "so
+first person is not so empty", a count of doors passed, rotation for turning round, and a copy of the doors written
+in at build time "so it works without the fetch"; a 3D room is built one room at a time in its own world, never from
+one template for all of them, with its page on its wall.
+
 **THE ABOUT PAGE'S FILM IS A CLAUDE MOTION FILM, AND THE MP4 IS AN EXPORT OF IT, NOT ITS SOURCE.**
 Ryan, 2026-10-15, for people shown the street who say they do not get it. `about.html` is paperwork
 (`room-plain`, first of the credits in the sitemap, pinned on the map, no job marker), linked under the
@@ -5804,18 +5822,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §134 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §135 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§134 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§135 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §134 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §135 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

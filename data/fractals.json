@@ -734,6 +734,22 @@
         "--mm-side"
       ]
     },
+    "paper-street.html": {
+      "kind": "julia",
+      "c": [
+        -0.25,
+        0.68
+      ],
+      "orbit": 0.02,
+      "bands": 0.05,
+      "ground": "--ps-sky",
+      "inks": [
+        "--ps-bill",
+        "--ps-link",
+        "--ps-kerb",
+        "--ps-tab"
+      ]
+    },
     "mycelium-munchies.html": {
       "kind": "julia",
       "c": [

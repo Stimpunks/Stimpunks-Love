@@ -4370,6 +4370,20 @@
   --hh-board: #5A4733;  --hh-tape: #3B3740;  --hh-timber: #6B5235;
   --hh-step: #3D3542;  --hh-pumpkin: #B8612A;
 
+  /* Paper Street (§133): the street cut out of card and stood up in a toy
+     theatre. --ps-sky the backcloth's printed night and the page's ground,
+     --ps-cream every word on it, --ps-dim the quieter words, --ps-link its
+     links, --ps-ring the focus ring on it; --ps-bill the cream card of the
+     proscenium and the buttons, --ps-print the ink printed on that card, and
+     --ps-link-bill a link on it; --ps-road, --ps-pave, --ps-kerb and
+     --ps-line the stage floor painted as a road, and --ps-tab the fold under
+     every flat that keeps it standing. */
+  --ps-sky: #13213B;  --ps-cream: #F1E6CC;  --ps-dim: #C9BFA6;
+  --ps-link: #FFCF5C;  --ps-ring: #FFE27A;  --ps-bill: #F1E6CC;
+  --ps-print: #24202E;  --ps-link-bill: #8A2B14;
+  --ps-road: #2B2A33;  --ps-pave: #3A3644;  --ps-kerb: #CFC6B2;
+  --ps-line: #E8DCBF;  --ps-tab: #8F8370;
+
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -6254,6 +6268,21 @@ div.facade--square { border: 0; background: none; }
   color: var(--mm-print);
 }
 .finder :focus-visible { outline-color: var(--mm-link); }
+/* PAPER STREET, IN A TOY THEATRE BESIDE THE MAP. Street furniture, and like
+   the Map's strip a glimpse of where it goes: the theatre's cream card round a
+   strip of its printed night, with the words in its own cream and gold, pairs
+   check-contrast.py already holds for §133. Lettered in Bungee, the pavement's
+   face; Paper Street's own playbill type is kept for Paper Street. */
+.toytheatre { display: block; margin: 0 0 26px; text-decoration: none; }
+.toytheatre__front {
+  display: block; padding: 16px 22px 18px;
+  background: var(--ps-sky); color: var(--ps-cream);
+  border: 7px solid var(--ps-bill); border-radius: 34px 34px 5px 5px;
+}
+.toytheatre:hover .toytheatre__front { border-color: var(--ps-link); }
+.toytheatre:focus-visible { outline-color: var(--ps-ring); }
+.toytheatre__to { display: block; font-family: 'Bungee', var(--sans); font-size: 17px; letter-spacing: 1px; color: var(--ps-link); }
+.toytheatre__why { display: block; margin-top: 7px; font-size: 14.5px; max-width: 70ch; color: var(--ps-cream); }
 .finder__lab { display: block; margin-bottom: 8px; font-family: 'Bungee', var(--sans); font-size: 15px;
   letter-spacing: 1px; color: var(--mm-link); }
 .finder__q {
@@ -16019,7 +16048,7 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
 /* A BUILDING. The face carries the name; the top and the side are clipped out
    of rectangles, never skewed; the shadow falls down and to the left, away from
    a lamp off the upper right of the table. */
-.mm-shop, .mm-back, .mm-table, .mm-notice, .mm-brass, .mm-poster {
+.mm-shop, .mm-back, .mm-table, .mm-notice, .mm-brass, .mm-poster, .mm-theatre {
   position: relative; display: block; min-width: 0; max-width: 100%;
   background: var(--mm-face); color: var(--mm-ink); text-decoration: none;
   border: 1.5px solid var(--mm-pencil);
@@ -16040,10 +16069,10 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   clip-path: polygon(0 var(--mm-d), 100% 0, 100% calc(100% - var(--mm-d)), 0 100%);
 }
 .mm-shop > .mm-name, .mm-back > .mm-name { position: relative; }
-.mm-shop:hover, .mm-back:hover, .mm-table:hover, .mm-notice:hover, .mm-brass:hover, .mm-poster:hover,
-.mm-shop:focus-visible, .mm-back:focus-visible, .mm-notice:focus-visible, .mm-brass:focus-visible, .mm-poster:focus-visible {
+.mm-shop:hover, .mm-back:hover, .mm-table:hover, .mm-notice:hover, .mm-brass:hover, .mm-poster:hover, .mm-theatre:hover,
+.mm-shop:focus-visible, .mm-back:focus-visible, .mm-notice:focus-visible, .mm-brass:focus-visible, .mm-poster:focus-visible, .mm-theatre:focus-visible {
   box-shadow: -12px 14px 0 rgba(34, 48, 43, .34); }
-.mm-shop:hover .mm-name, .mm-back:hover .mm-name, .mm-notice:hover .mm-name, .mm-brass:hover .mm-name, .mm-poster:hover .mm-name,
+.mm-shop:hover .mm-name, .mm-back:hover .mm-name, .mm-notice:hover .mm-name, .mm-brass:hover .mm-name, .mm-poster:hover .mm-name, .mm-theatre:hover .mm-name,
 .mm-tent:hover .mm-name, .mm-sign:hover .mm-name, .mm-tag:hover .mm-name, .mm-gate:hover .mm-name,
 .mm-edge__name:hover .mm-name, .mm-roadname__a:hover .mm-name { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -16084,6 +16113,11 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   border-radius: 0 0 14px 14px; box-shadow: -6px 7px 0 rgba(34, 48, 43, .24); }
 .mm-poster::before { content: ""; position: absolute; left: -5px; right: -5px; top: -9px; height: 10px;
   background: var(--mm-top); border: 1.5px solid var(--mm-pencil); border-radius: 50% 50% 2px 2px / 100% 100% 2px 2px; }
+
+/* Paper Street's toy theatre, in the window beside the table: a box of card
+   with an arched opening cut in its front. Same white card as everything. */
+.mm-theatre { width: 9rem; padding: 16px 10px 10px; margin-top: 4px; text-align: center;
+  border-top: 7px solid var(--mm-face); border-radius: 30px 30px 2px 2px; box-shadow: -6px 7px 0 rgba(34, 48, 43, .24); }
 
 /* THE GATE. A gap in the wall with an arch over it, and the garden behind is
    the note, because a garden in white card is a thing you have to be told. */
@@ -16210,7 +16244,7 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   .mm-lots { --mm-lane: 34px; row-gap: 22px; }
   .mm-lot--w { padding-right: 8px; }
   .mm-lot--e { padding-left: 2px; }
-  .mm-shop, .mm-gate, .mm-plot, .mm-table, .mm-notice, .mm-brass, .mm-lifthead { width: 100%; }
+  .mm-shop, .mm-gate, .mm-plot, .mm-table, .mm-notice, .mm-brass, .mm-lifthead, .mm-theatre { width: 100%; }
   .mm-shop { --mm-d: 8px; padding: 10px 9px 12px; }
   .mm-back { --mm-d: 6px; width: 100%; padding: 7px 8px 9px; }
   .mm-lot--w .mm-behind { margin-right: 0; margin-left: 12px; }
@@ -18087,7 +18121,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §134
+   class on it is `bb-`, its sizes are in points and millimetres, and §135
    prints it and nothing else. */
 
 .room-broadside {
@@ -18148,7 +18182,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §134 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §135 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -28602,7 +28636,134 @@ html[data-intensity="max"] .ppd-lamp[data-lamp="on"] .ppd-scene__glow { animatio
   .hh-things { grid-template-columns: 1fr; }
 }
 
-/* §133 ── Small screens───────────────────────────────────────────────────────
+/* §133 ── ROOM: Paper Street (the street, walked as paper) ──────────────────
+   Ryan's ask, 2026-10-30: a sandbox game on the web, walking down the street
+   and into the rooms, with your avatars, chimeras and pets along, built a
+   little at a time, the street first. paper-street.js reads the front page's
+   own doors when the page opens and stands a copy of each up as a flat of
+   card; tools/make-paper-street.py draws the theatre's front over the name
+   and holds the page to its promises.
+
+   A TOY THEATRE AT NIGHT, LIT BY THE STREET ITSELF. The flats are the wings:
+   every one faces you, the further down the road the further back, and you
+   walk between them; nothing turns, so nothing here is rotated. Nothing
+   lights the street from above. Every front throws a pool of its own colour
+   onto the road in front of it (paper-street.js reads the door's own ground
+   for it), so the road is lit in patches all the way down. The backcloth is
+   a printed night and its stars are paint, lighting nothing.
+
+   THE COLLISIONS:
+     · THE STREET ITSELF (§5) is the hardest, and Danny the Street's answer is
+       the answer here too: where you are standing. §5 is the fronts shoulder
+       to shoulder on one flat wall, seen from the pavement, with no road. This
+       is the same fronts cut out and stood apart along a road that goes away
+       from you, and the road is the subject. The doors are §5's own clothes,
+       untouched; everything that is Paper Street's is round them: the card,
+       the fold, the floor, the proscenium, the playbill under it.
+     · THE MAP is the other street-as-a-model. It is white card under a lamp
+       at the upper right, from standing height over a table, every building
+       one colour on purpose. Here every front keeps its colour, it is night,
+       and you are down on the road among them. If the flats ever go white,
+       this has become the Map at eye level.
+     · DANNY THE STREET is the road from directly above under one sodium hue.
+       This is the road from on it, every hue at once.
+     · THE HAUNTED HOUSE is the other set made of flats, and the one to watch:
+       plywood in a warehouse, lit only through the seams from behind. Here
+       nothing is behind the flats; the light is in front of them, on the road.
+     · THE OUTSKIRTS is a road at night at eye level too, lit by one level beam
+       of headlights from off the page. There is no beam here, and the road out
+       to it is the backcloth at the end.
+
+   NOTHING MOVES BY ITSELF, at any setting. No keyframe, animation or
+   transition in this section; the street moves only while you walk, by
+   requestAnimationFrame in paper-street.js, and in Steps not at all. The
+   doors keep §5's own hover lift, which is the street's and is Gentle's to
+   take away. Every word is set on the flat sky or on the cream card, never on
+   the canvas, which carries only the floor. */
+body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-family: 'Old Standard TT', Georgia, serif; }
+.paper-street .wrap { padding-bottom: 54px; }
+.paper-street a { color: var(--ps-link); text-underline-offset: 3px; }
+.paper-street :focus-visible { outline-color: var(--ps-ring); }
+
+.ps-topline { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; justify-content: space-between; padding: 22px 0 0; }
+.ps-trail { margin: 0; font-size: 14px; font-style: italic; color: var(--ps-dim); }
+
+.ps-head { margin: 18px 0 0; }
+.ps-arch { display: block; width: 100%; height: auto; border-radius: 6px; }
+.ps-over { margin: 18px 0 0; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: var(--ps-dim); }
+.ps-head h1 { margin: 4px 0 0; font-family: 'Holtwood One SC', Georgia, serif; font-weight: 400; font-size: clamp(40px, 7.5vw, 78px); line-height: 1; color: var(--ps-cream); }
+.ps-sub { margin: 10px 0 0; font-size: 21px; line-height: 1.4; max-width: 46em; }
+.ps-lede { margin: 18px 0 0; font-size: 18px; line-height: 1.6; max-width: 46em; }
+
+/* THE STAGE. The proscenium's edge in cream card round it; the printed night
+   above the floor is its own ground, and the canvas paints only the floor. */
+.ps-stage {
+  /* clip, not just hidden: a box that hides its overflow can still be
+     scrolled by the browser to show a door the keyboard went to, which would
+     slide the whole stage sideways under the street. */
+  /* isolate: the flats are stacked by how far down the road they are, and
+     without a stacking context of its own the nearest would stand over the
+     radio. */
+  position: relative; overflow: hidden; overflow: clip; isolation: isolate; margin: 26px 0 0;
+  height: clamp(420px, 68vh, 720px);
+  /* The backcloth's stars, printed in the card's own cream; they light
+     nothing, and the canvas paints the floor over the lower part. */
+  background-color: var(--ps-sky);
+  background-image:
+    radial-gradient(circle at 8% 14%, var(--ps-bill) 0 1.6px, transparent 2.4px),
+    radial-gradient(circle at 23% 31%, var(--ps-bill) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 37% 9%, var(--ps-bill) 0 2px, transparent 2.8px),
+    radial-gradient(circle at 52% 24%, var(--ps-bill) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 64% 12%, var(--ps-bill) 0 1.6px, transparent 2.4px),
+    radial-gradient(circle at 78% 29%, var(--ps-bill) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 91% 11%, var(--ps-bill) 0 2px, transparent 2.8px),
+    radial-gradient(circle at 15% 6%, var(--ps-bill) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 70% 4%, var(--ps-bill) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 45% 34%, var(--ps-bill) 0 1.2px, transparent 2px);
+  border: 8px solid var(--ps-bill); border-radius: 64px 64px 6px 6px;
+}
+.ps-ground { position: absolute; inset: 0; display: block; }
+.ps-flats, .ps-folk { position: absolute; inset: 0; pointer-events: none; }
+.ps-flat { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: auto; }
+.ps-flat::after {
+  content: ''; position: absolute; left: 6%; right: 6%; top: 100%; height: 16px;
+  background: var(--ps-tab); clip-path: polygon(0 0, 100% 0, 92% 100%, 8% 100%);
+}
+.ps-flat > * { margin: 0; }
+.ps-off { opacity: 0; pointer-events: none; }
+.ps-off * { pointer-events: none; }
+.ps-figure { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.ps-figure svg { display: block; width: 100%; height: 100%; }
+.ps-failed { position: relative; margin: 40px auto 0; max-width: 32em; padding: 16px 20px; background: var(--ps-bill); color: var(--ps-print); font-size: 17px; line-height: 1.5; border-radius: 6px; }
+.ps-failed a { color: var(--ps-link-bill); }
+.ps-failed :focus-visible { outline-color: var(--ps-print); }
+
+.ps-here { margin: 12px 0 0; min-height: 1.5em; font-size: 18px; font-style: italic; color: var(--ps-cream); }
+
+/* THE PLAYBILL UNDER THE STAGE: the buttons are cream card printed in ink. */
+.ps-controls { display: flex; flex-wrap: wrap; gap: 18px 30px; align-items: flex-start; margin: 14px 0 0; }
+.ps-pad { display: grid; grid-template-columns: repeat(3, 76px); grid-template-areas: ". fwd ." "left back right"; gap: 8px; }
+.ps-go--fwd { grid-area: fwd; } .ps-go--left { grid-area: left; } .ps-go--right { grid-area: right; } .ps-go--back { grid-area: back; }
+.ps-go, .ps-mode, .ps-bring {
+  min-height: 52px; padding: 8px 12px; cursor: pointer;
+  background: var(--ps-bill); color: var(--ps-print);
+  border: 3px solid var(--ps-print); border-radius: 6px;
+  font-family: 'Holtwood One SC', Georgia, serif; font-size: 13px; letter-spacing: .04em;
+  touch-action: none; user-select: none;
+}
+.ps-go:focus-visible, .ps-mode:focus-visible, .ps-bring:focus-visible { outline: 3px solid var(--ps-ring); outline-offset: 3px; }
+.ps-more { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; flex: 1 1 260px; }
+.ps-familiar, .ps-said { margin: 0; font-size: 17px; line-height: 1.5; color: var(--ps-cream); }
+
+.ps-notes { margin: 34px 0 0; max-width: 46em; }
+@media (max-width: 600px) { .ps-stage { height: clamp(360px, 54vh, 520px); border-width: 6px; border-radius: 40px 40px 6px 6px; } }
+.ps-notes h2 { margin: 30px 0 8px; font-family: 'Holtwood One SC', Georgia, serif; font-weight: 400; font-size: 22px; color: var(--ps-cream); }
+.ps-notes p, .ps-notes li { font-size: 18px; line-height: 1.6; }
+.ps-notes b { color: #fff; }
+.ps-keys { padding-left: 1.2em; }
+.ps-keys li + li { margin-top: 8px; }
+
+/* §134 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -28706,7 +28867,7 @@ html[data-intensity="max"] .ppd-lamp[data-lamp="on"] .ppd-scene__glow { animatio
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §133 says every
+   shipped with no rule here at all — which on a street whose §134 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -28830,7 +28991,7 @@ html[data-intensity="max"] .ppd-lamp[data-lamp="on"] .ppd-scene__glow { animatio
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §134 ── Print ───────────────────────────────────────────────────────────────
+/* §135 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
