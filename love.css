@@ -8793,6 +8793,19 @@ html[data-intensity="max"] .lamp-flame { animation: latibulum-breathe 9s ease-in
 .burrow-note a { color: var(--lamp); }
 
 
+/* THE LATIBULUM, WALKED INTO ON PAPER STREET (walk-latibulum.js, Ryan's call,
+   2026-10-31). Paper Street's stage takes the burrow's clothes while you are in
+   it: its frame is umber, the printed night goes and the dark beyond the arches
+   is the hill's own recess, with no sky in it. The page hangs on the plaster
+   wall of the hollow at the end, framed in beam, dark words on lit plaster as
+   in the room; it is the one thing in the scene that takes a pointer. */
+.lat-walk { --ps-frame: var(--umber); --ps-back: var(--recess); --ps-backcloth: none; }
+.lat-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--loam);
+  border-radius: 4px; box-shadow: 0 0 0 6px var(--beam);
+}
+.lat-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--loam); }
+
 /* §17 ── ROOM: The Jungle Room ───────────────────────────────────────────────
    A VIEWING ROOM UNDER A CLOSED ROOF, and the thing it is NOT is the
    campgrounds. That is the pairing to watch here the way the yurt and the

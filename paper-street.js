@@ -75,7 +75,7 @@
      tools/make-paper-street.py from the walk-*.js files there are; do not
      hand-edit between the markers. */
   // walk:rooms:begin
-  var ROOMS = {'arcade.html': 'walk-arcade.js', 'jungle-room.html': 'walk-jungle-room.js', 'pink-pony-club.html': 'walk-pink-pony-club.js', 'the-mopery.html': 'walk-the-mopery.js'};
+  var ROOMS = {'arcade.html': 'walk-arcade.js', 'jungle-room.html': 'walk-jungle-room.js', 'latibulum.html': 'walk-latibulum.js', 'pink-pony-club.html': 'walk-pink-pony-club.js', 'the-mopery.html': 'walk-the-mopery.js'};
   // walk:rooms:end
   window.lovePaperRooms = window.lovePaperRooms || {};
 
