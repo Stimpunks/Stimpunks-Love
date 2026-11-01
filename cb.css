@@ -622,6 +622,19 @@ a.cb-chat-bar[hidden] { display: none; }
    case's own steel. A page that is not a room says so, smaller. */
 .cb-here-name { font-size: 20px; font-weight: 700; line-height: 1.25; color: var(--cb-steel); overflow-wrap: anywhere; }
 .cb-here-name--off { font-size: 16px; }
+/* THE CALL BESIDE THE NAME (cb.js, headCall; Ryan's ask, 2026-11-01, after
+   Element's): the room's or the channel's name, and Join the call at the end
+   of its line, dropping under it when the name is long. The button is the
+   bar's own buttons' clothes, filled while you are in the call, so no pair is
+   new. */
+.cb-name-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; min-width: 0; }
+.cb-name-row > :first-child { flex: 1 1 12rem; min-width: 0; }
+.cb-head-call { display: inline-flex; align-items: center; gap: 6px; flex: none; }
+.cb-head-call[hidden] { display: none; }
+.cb-head-call__art { width: 20px; height: 20px; flex: none; }
+.cb-head-call--in { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
+/* A part's heading in a row keeps the part heading's size. */
+.cb-sec > .cb-name-row > .cb-h { font-size: min(calc(18px * var(--cb-display-scale, 1)), 19px); }
 /* I need a bodymind break, the Glitter dial and Open in Chat, in a row under
    the room's name. The dial's panel opens straight after its button, on a
    line of its own, so the keyboard meets it next; the level and the mode that
@@ -2105,10 +2118,12 @@ button.cb-help-btn[hidden] { display: none; }
 }
 .cb-radio--chat .cb-move, .cb-radio--chat .cb-sizer, .cb-radio--chat .cb-fold, .cb-radio--chat .cb-side,
 .cb-radio--chat .cb-band-btn, .cb-radio--chat .cb-band-now, .cb-radio--chat .cb-here-name { display: none; }
+/* Its call is beside the channel's name there (cb-chan-top), so the room's name row has nothing to show. */
+.cb-radio--chat .cb-name-row:not(.cb-chan-top) { display: none; }
 /* The channel's own head: its name is the part's heading, a size up. */
-.cb-radio--chat .cb-sec--channel > .cb-h { font-size: min(calc(19px * var(--cb-display-scale, 1)), 24px); overflow-wrap: anywhere; }
-.cb-radio--chat .cb-sec--channel > .cb-h:focus { outline: none; }
-.cb-radio--chat .cb-sec--channel > .cb-h:focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.cb-radio--chat .cb-chan-top > .cb-h { font-size: min(calc(19px * var(--cb-display-scale, 1)), 24px); overflow-wrap: anywhere; }
+.cb-radio--chat .cb-chan-top > .cb-h:focus { outline: none; }
+.cb-radio--chat .cb-chan-top > .cb-h:focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
 .cb-chan-hash { margin-right: .15em; }
 .cb-chat-head { display: grid; gap: 2px; font-size: 14px; }
 /* What the room is about, which can be a paragraph: three lines at most here,

@@ -4408,7 +4408,9 @@ stands in the middle column, with the chat beside it** (Ryan's ask, 2026-11-01, 
 right-hand column holds the middle's parts or In this channel's by the box's `data-side`, switched by Chat and In this
 channel (`setSide`, which `appTo` and `reveal()` turn too), kept nowhere. Enlarge the chat lets the call go back to a
 window. The friendly edit is both columns stacked beside the call "so nothing needs switching", which leaves the
-messages half a column. **A band of nothing
+messages half a column. **Join the call also stands beside the name** (`headCall`, the same day, after Element's): beside the
+channel's name on the chat page (`chanTop`) and the room's under Where you are, pressing the room's own Join or the World
+call's (`callShown` keeps it in step), so it adds no way into a call. **A band of nothing
 under World's chat was the `.sr` words beside each message**, absolutely positioned inside an
 unpositioned log, so they were placed against the channel part as far down as their message and the
 part scrolled by that much: `.cb-log`, `.cb-dm-log` and `.cb-hits` are positioned now, and a new

@@ -1619,7 +1619,28 @@
        place, so the room this page is gets a line of its own, the largest
        words on the radio. See hereShown. */
     this.hereName = el('p', 'cb-here-name');
-    (whereSec || hereSec).appendChild(this.hereName);
+    /* THE CALL BESIDE THE NAME (Ryan's ask, 2026-11-01, after Element's):
+       Join the call next to the room's name here, and on the chat page next
+       to the channel's (chanTop, which chatMake made before this). It is the
+       room's own Join, or the World call's where the channel is World,
+       pressed by another button: it is there only while that one is
+       (callShown), and says Leave the call while you are in it. */
+    var nameRow = el('div', 'cb-name-row');
+    nameRow.appendChild(this.hereName);
+    var headCall = this.headCall = el('button', 'cb-btn cb-head-call');
+    headCall.type = 'button';
+    headCall.hidden = true;
+    var headArt = appIcon('call');
+    headArt.setAttribute('class', 'cb-head-call__art');
+    headCall.appendChild(headArt);
+    headCall.appendChild(this.headCallWords = el('span', null, 'Join the call'));
+    headCall.addEventListener('click', function () {
+      var w = worldHere(), b = w ? me.worldCallBtn : me.callBtn;
+      me.setCall(b.getAttribute('aria-pressed') !== 'true', w);
+    });
+    // On the chat page, beside the channel's name (chatMake's chanTop).
+    (this.chanTop || nameRow).appendChild(headCall);
+    (whereSec || hereSec).appendChild(nameRow);
 
     /* I NEED A BODYMIND BREAK (Helen Edgar's idea and Ryan's answer,
        2026-10-24): the calm screen in bodymind-break.js, straight under where
@@ -5105,7 +5126,11 @@
     go.appendChild(more);
     head.appendChild(about);
     head.appendChild(go);
-    h.insertAdjacentElement('afterend', head);
+    // The channel's name with its call beside it (see headCall).
+    var top = this.chanTop = el('div', 'cb-name-row cb-chan-top');
+    h.parentNode.insertBefore(top, h);
+    top.appendChild(h);
+    top.insertAdjacentElement('afterend', head);
     if (window.ResizeObserver) new ResizeObserver(function () { me.chatAboutFit(); }).observe(about);
     if (CHAT_WIDE && CHAT_WIDE.addEventListener) CHAT_WIDE.addEventListener('change', function () {
       me.chatOpen(false);
@@ -14560,6 +14585,11 @@
     this.callBtn.setAttribute('aria-pressed', String(on));
     this.worldCallBtn.hidden = !(world || this.calls);
     this.worldCallBtn.setAttribute('aria-pressed', String(world));
+    // The call beside the name follows whichever of the two is this channel's.
+    var wb = worldHere() ? this.worldCallBtn : this.callBtn, inIt = wb.getAttribute('aria-pressed') === 'true';
+    this.headCall.hidden = wb.hidden;
+    this.headCallWords.textContent = inIt ? 'Leave the call' : 'Join the call';
+    this.headCall.classList.toggle('cb-head-call--in', inIt);
     // A window that has just opened gets its who-is-in-the-call line at once.
     if (this.present) this.presenceShown();
     // An event's card says when you are in its call (evCallPart).
