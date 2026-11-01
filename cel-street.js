@@ -42,7 +42,7 @@ function start() {
   // here by tools/make-cel-street.py from the cel-in-*.js files. Do not
   // hand-edit between the markers.
   // cel:rooms:begin
-  var ROOMS = {'brew-and-stew.html': 'cel-in-brew-and-stew.js', 'campgrounds.html': 'cel-in-campgrounds.js', 'club-chronic.html': 'cel-in-club-chronic.js', 'faery-cinema-room.html': 'cel-in-faery-cinema-room.js', 'faery-music-room.html': 'cel-in-faery-music-room.js', 'faery-myths-room.html': 'cel-in-faery-myths-room.js', 'faery-reading-room.html': 'cel-in-faery-reading-room.js', 'faery-yurt.html': 'cel-in-faery-yurt.js', 'glow-wild-hollow.html': 'cel-in-glow-wild-hollow.js', 'jungle-room.html': 'cel-in-jungle-room.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js', 'play-pod.html': 'cel-in-play-pod.js', 'solarpunk-hermitage.html': 'cel-in-solarpunk-hermitage.js', 'swaying-sweetgrass.html': 'cel-in-swaying-sweetgrass.js', 'the-bough-house.html': 'cel-in-the-bough-house.js', 'the-mountain-cabin.html': 'cel-in-the-mountain-cabin.js', 'zine-table.html': 'cel-in-zine-table.js'};
+  var ROOMS = {'arcade.html': 'cel-in-arcade.js', 'brew-and-stew.html': 'cel-in-brew-and-stew.js', 'campgrounds.html': 'cel-in-campgrounds.js', 'club-chronic.html': 'cel-in-club-chronic.js', 'enids-room.html': 'cel-in-enids-room.js', 'faery-cinema-room.html': 'cel-in-faery-cinema-room.js', 'faery-music-room.html': 'cel-in-faery-music-room.js', 'faery-myths-room.html': 'cel-in-faery-myths-room.js', 'faery-reading-room.html': 'cel-in-faery-reading-room.js', 'faery-yurt.html': 'cel-in-faery-yurt.js', 'glow-wild-hollow.html': 'cel-in-glow-wild-hollow.js', 'hear-queer-here.html': 'cel-in-hear-queer-here.js', 'jungle-room.html': 'cel-in-jungle-room.js', 'latibulum.html': 'cel-in-latibulum.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js', 'play-pod.html': 'cel-in-play-pod.js', 'playhouse.html': 'cel-in-playhouse.js', 'solarpunk-hermitage.html': 'cel-in-solarpunk-hermitage.js', 'swaying-sweetgrass.html': 'cel-in-swaying-sweetgrass.js', 'the-bough-house.html': 'cel-in-the-bough-house.js', 'the-mountain-cabin.html': 'cel-in-the-mountain-cabin.js', 'zine-table.html': 'cel-in-zine-table.js'};
   // cel:rooms:end
   var CHUNK = 60;            // the street is drawn in lengths this long
   var VIEW = 300;            // and only the lengths this near you are drawn
@@ -1035,9 +1035,17 @@ function start() {
   });
   if (outBtn) outBtn.addEventListener('click', outOfRoom);
 
+  // A room that is more than one rectangle (a narrow passage opening into a
+  // wide hollow) gives its bounds as areas, and you keep to whichever you are
+  // in, or are brought back into the nearest.
   function clamp() {
-    me.x = Math.max(bounds.x[0], Math.min(bounds.x[1], me.x));
-    me.z = Math.max(bounds.z[0], Math.min(bounds.z[1], me.z));
+    var areas = bounds.areas || [bounds], best = null, bd = Infinity;
+    areas.forEach(function (a) {
+      var x = Math.max(a.x[0], Math.min(a.x[1], me.x)), z = Math.max(a.z[0], Math.min(a.z[1], me.z));
+      var d = Math.hypot(x - me.x, z - me.z);
+      if (d < bd) { bd = d; best = { x: x, z: z }; }
+    });
+    me.x = best.x; me.z = best.z;
     me.pitch = Math.max(up ? -1.2 : -0.55, Math.min(0.75, me.pitch));
   }
   function move(fwd, side, turn, look, k) {
