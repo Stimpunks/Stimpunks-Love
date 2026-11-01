@@ -9,24 +9,31 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sun, 01 Nov 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Paper Street stands up in Safari</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-01-paper-street-safari</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-01-paper-street-safari</guid>
+      <pubDate>Sun, 01 Nov 2026 12:00:00 GMT</pubDate>
+      <description>In Safari, Paper Street came up flat. Every door stood edge-on, the far end of the street was drawn full size in the middle of the stage, and there was no road under any of it. Safari drops the perspective from a 3D world when the box that holds the perspective also clips what overflows it, and the theatre&#x27;s frame has to clip. The perspective now sits on a box inside the frame, and the frame still does the clipping. Chrome drew the street right either way. Measured in Safari itself, on the street and in a room you can walk into.</description>
+    </item>
+    <item>
       <title>Cel Street: five more rooms behind the doors</title>
       <link>https://stimpunks.world/changelog.html#2026-11-01-cel-street-behind-the-doors-two</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-01-cel-street-behind-the-doors-two</guid>
-      <pubDate>Sun, 01 Nov 2026 12:00:00 GMT</pubDate>
+      <pubDate>Sun, 01 Nov 2026 11:59:00 GMT</pubDate>
       <description>Five more rooms behind rooms open off their parents on Cel Street: Otterly Adorbs, from its cabinet in the Arcade: up close to the machine, the kelp bay playing on its screen, the log of what just happened on the wall beside it, and Helen Edgar’s credit where the page has it. Penguin Pebbling, from its cabinet in the Arcade: the shore playing on its screen, a few stones on the carpet that nothing counts, and where the locution comes from on the wall, Amythest Schaber named and the deck pointed at as the separate thing it is. The Oracle Deck, through a new door in the Mopery’s reading room: the whole deck standing face up round the draw table, every picture the page’s own, and drawing a card asks its question in the scene. The Doomscroll, through the Mopery’s other new door: the one unbroken roll of foxed newsprint lying up a dark reading desk, scrolling where it lies, with the whole poem opening over it on a press. The Source, up the hill behind the Feed: white travertine terraces under a warm spring at noon, a pool for every pool on the room’s page, stepping to one side and the other, each holding its deposits and the hands that made them.</description>
     </item>
     <item>
       <title>Cel Street: the first rooms behind the doors</title>
       <link>https://stimpunks.world/changelog.html#2026-11-01-cel-street-behind-the-doors</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-01-cel-street-behind-the-doors</guid>
-      <pubDate>Sun, 01 Nov 2026 11:59:00 GMT</pubDate>
+      <pubDate>Sun, 01 Nov 2026 11:58:00 GMT</pubDate>
       <description>A room behind a room now opens off its parent on Cel Street, through a door in the parent’s scene, and Back out takes you one room back: The Chappell, through a doorway in Pink Pony Club’s left-hand wall: the votive indigo nave, its thirteen arches free-standing down either side, each with its video playing where it stands, and the chancel alone at the east end under the rose window. Issue #2, from where it lies on the Zine Table: you stand on the photocopied sheet itself, its parts cut out and standing up off it, the scissors open at the edge. The Polaroid Wall, through a door in Enid’s Room: the wall of frames, every one of them empty here, because the photographs are seen only on the room’s own page, which hangs beside them. Quill Drift, from its cabinet in the Arcade: up close to the one machine, and the game plays on its screen in the scene. The Den, through a low door at the foot of the Jungle Room: brown, low and closed, the green shag the brightest thing in it, the fieldstone waterfall, the studio, and both records’ cuts playing where they hang, each with its writers.</description>
     </item>
     <item>
       <title>Cel Street reaches the end of the row</title>
       <link>https://stimpunks.world/changelog.html#2026-11-01-cel-street-last-three</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-01-cel-street-last-three</guid>
-      <pubDate>Sun, 01 Nov 2026 11:58:00 GMT</pubDate>
+      <pubDate>Sun, 01 Nov 2026 11:57:00 GMT</pubDate>
       <description>Every door in the street’s row now opens onto a room you can walk into on Cel Street, with these three: Volunteers is the loom with the cloth half woven, a band for every thing on the help list in its dye and in its order, the undyed warp crossing every band, the day coming through the bare warp from the window behind, the shuttle lying on the newest row and the bench empty. Breaker Breaker is the driver’s seat in the middle of a convoy at night, nothing lit but marker lamps where the law puts them, the radio on 19 on the dash, the records playing on the screen in the cab, and the room’s words on boards along the hard shoulder. Your Room is an empty shop nobody has moved into yet, the door open, one chair, and the prompt pinned to the far wall, where Copy works as it does on the page.</description>
     </item>
     <item>

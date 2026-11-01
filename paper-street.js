@@ -62,12 +62,16 @@
   var stage = document.querySelector('[data-ps-stage]');
   if (!stage) return;
   var flatsEl = stage.querySelector('[data-ps-flats]');
+  // The perspective is held by a box inside the stage, never by the stage:
+  // Safari draws a 3D world flat when the box holding its perspective also
+  // clips, and the stage has to clip.
+  var view = stage.querySelector('[data-ps-view]');
   var folkEl = stage.querySelector('[data-ps-folk]');
   var here = document.querySelector('[data-ps-here]');
   var said = document.querySelector('[data-ps-said]');
   var controls = document.querySelector('[data-ps-controls]');
   var failed = document.querySelector('[data-ps-failed]');
-  if (!flatsEl || !folkEl || !here || !controls) return;
+  if (!flatsEl || !view || !folkEl || !here || !controls) return;
 
   /* The rooms you can walk into, each its own file. Written by
      tools/make-paper-street.py from the walk-*.js files there are; do not
@@ -275,13 +279,13 @@
 
   /* ── Where things land on the screen ──────────────────────────────────── */
   function size() {
-    var r = stage.getBoundingClientRect();
+    var r = view.getBoundingClientRect();
     W = r.width; H = r.height;
     F = Math.max(320, Math.min(W * 0.9, 900));
     EYE = scene ? scene.eye : 165;
     BASE = H * (scene ? scene.horizon : 0.4);
     lookAt();
-    stage.style.perspective = F + 'px';
+    view.style.perspective = F + 'px';
   }
 
   // Looking up slides the horizon down the stage, so the roof comes in from
@@ -290,7 +294,7 @@
     var lim = H * 0.36;
     pitch = Math.max(-lim, Math.min(lim, pitch));
     HORIZON = BASE + pitch;
-    stage.style.perspectiveOrigin = (W / 2) + 'px ' + HORIZON + 'px';
+    view.style.perspectiveOrigin = (W / 2) + 'px ' + HORIZON + 'px';
   }
 
   // Where you see a point from: across (rx) and away (rz), turned to the way

@@ -4117,7 +4117,7 @@ A part of a lifted thing that only another script of the room's can work is left
 Jungle Room's cams leave rack.js's "up on the screen" button behind. **`kit.wire(page, 'x.js')` runs the room's own
 script against its lifts** once they arrive (the Mopery's parlour plays and tunes through `mopery.js`), loaded afresh
 each build because such a script finds its parts once, and only a script the room's own page loads.
-The stage is sized in `svh` so a phone's address bar does not rebuild the room and stop what is playing in it.
+The stage is sized in `svh` so a phone's address bar does not rebuild the room and stop what is playing in it. **The perspective is on `[data-ps-view]`, a box inside the stage, never on the stage**: Safari draws a 3D world flat (every door edge-on, the far end full size, no floor) when the box holding the perspective also clips its overflow, and the stage must clip; measured in Safari 27.2 on 2026-11-01, while Chrome drew it either way. **Playwright's WebKit and a WKWebView's `takeSnapshot` paint 3D in software and draw no perspective at all**, so neither can test this: drive Safari itself through `safaridriver` and its WebDriver screenshot.
 
 **CEL STREET IS THE FIRST STRETCH OF THE STREET IN WEBGL, AND THREE.JS IS VENDORED AND PINNED.** Ryan's ask, 2026-10-31:
 a WebGL version of the street in a 3D anime style, as a proof of concept beside Paper Street, with solar panels on the roofs;
