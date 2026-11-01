@@ -118,6 +118,14 @@
         kit.flat(new T.CircleGeometry(0.07, 12), at(x, 0.3, back + 0.96), '--hot');
       });
 
+      // THE DOORWAY THROUGH TO THE CHAPPELL, in the left-hand wall between the
+      // banquettes: the room's own cream frame round a plum opening, as the
+      // way you came in is drawn. What is through it is the Chappell's own.
+      box(0.06, 2.6, 1.6, at(-W / 2 + 0.03, 1.3, -9.25), '--pony-ink', false);
+      box(0.5, 2.6, 0.15, at(-W / 2 + 0.05, 1.3, -10.1), '--cream', 0.03);
+      box(0.5, 2.6, 0.15, at(-W / 2 + 0.05, 1.3, -8.4), '--cream', 0.03);
+      box(0.5, 0.15, 1.85, at(-W / 2 + 0.05, 2.6, -9.25), '--cream', 0.03);
+
       return {
         start: { x: 0, z: -0.6, yaw: 0 },
         bounds: { x: [-W / 2 + 1.2, W / 2 - 1.2], z: [back + 1.4, -0.4] },
@@ -125,6 +133,7 @@
           { name: 'at the edge of the dancefloor', x: 0, z: -0.6, yaw: 0 },
           { name: 'at the decks’ table', x: tx - 2.4, z: tz, yaw: -Math.PI / 2 },
           { name: 'under the mirrorball', x: 0, z: -8, yaw: 0 },
+          { name: 'The Chappell', room: 'the Chappell', where: 'at the doorway in the left-hand wall, through to the Chappell', x: -W / 2 + 3.6, z: -9.25, yaw: Math.PI / 2, page: 'the-chappell.html' },
           { name: 'at the jukebox, with the room’s own page in its tray', x: 0, z: back + 2.7, yaw: 0, page: kit.page, frame: frame }
         ]
       };

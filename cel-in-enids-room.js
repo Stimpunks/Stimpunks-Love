@@ -148,6 +148,16 @@
       var boombox = kit.lift(frame, '.panel.panel--pink', { w: 360, ww: 1.25, m: at(W / 2 - 0.012, 1.45, bz, RIGHT) });
       var why = kit.lift(frame, '.panel', { n: 1, w: 460, ww: 1.6, m: at(W / 2 - 0.012, 0.95, -6.3, RIGHT) });
 
+      // THE DOOR TO THE POLAROID WALL, in the right-hand wall at the far end:
+      // black like the walls, in a violet frame, and through it the wall the
+      // page's own polaroids hang on, every frame empty in the scene.
+      var PDZ = -7.75;
+      box(0.06, 2.1, 0.9, at(W / 2 - 0.03, 1.05, PDZ), '--ink-2');
+      box(0.08, 2.2, 0.06, at(W / 2 - 0.04, 1.1, PDZ - 0.48), '--violet', false);
+      box(0.08, 2.2, 0.06, at(W / 2 - 0.04, 1.1, PDZ + 0.48), '--violet', false);
+      box(0.08, 0.06, 1.02, at(W / 2 - 0.04, 2.21, PDZ), '--violet', false);
+      kit.cyl(0.03, 0.03, 0.08, at(W / 2 - 0.09, 1.0, PDZ + 0.3, 0, 0, Math.PI / 2), '--ink-3', false, 8);
+
       return {
         start: { x: -0.6, z: -0.9, yaw: 0 },
         bounds: { x: [-W / 2 + 0.9, W / 2 - 0.9], z: [back + 1.4, -0.6] },
@@ -157,7 +167,8 @@
           { name: 'at the boombox, silent until pressed', x: W / 2 - 2.4, z: bz, yaw: RIGHT, pitch: 0.02, frame: boombox.el },
           { name: 'at the wall that says why this room exists', x: W / 2 - 2.4, z: -6.3, yaw: RIGHT, frame: why.el },
           { name: 'on the rug in the middle, under the stars on the ceiling', x: 0, z: -4.8, yaw: 0, pitch: 0.5 },
-          { name: 'at the far wall, with the room’s own page and its polaroid wall on it', x: 0.3, z: back + 3.4, yaw: 0, page: kit.page, frame: frame }
+          { name: 'at the far wall, with the room’s own page and its polaroid wall on it', x: 0.3, z: back + 3.4, yaw: 0, page: kit.page, frame: frame },
+          { name: 'The Polaroid Wall', where: 'at the door in the right-hand wall, through to the Polaroid Wall', room: 'the Polaroid Wall', page: 'polaroids.html', x: W / 2 - 2.3, z: -7.5, yaw: RIGHT, pitch: 0.05 }
         ]
       };
     }

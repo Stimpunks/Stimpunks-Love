@@ -143,6 +143,17 @@
       var frame = kit.screen(1180, 800, sw, at(0, sy, back + 1.22), 'The Jungle Room’s own page, in a leaf between two trunks');
       frame.style.borderRadius = '0 150px 0 150px';
 
+      // THE DOOR TO THE OTHER JUNGLE ROOM, at the foot of this one, quiet and
+      // not hidden (§17): a low door set in a bank of earth off the path, a
+      // hairline round it in the room's dimmest green and dark beyond, and an
+      // ordinary place in the list, at full size, like every other.
+      var DX = 3.05, DZ = back + 3.7, dm = at(DX, 0, DZ, -Math.PI / 2);
+      box(1.3, 2.1, 1.7, M(dm, at(0, 1.05, -0.8)), '--understory', 0.03);
+      kit.flat(new T.PlaneGeometry(0.9, 1.75), M(dm, at(0, 0.875, 0.06)), '--canopy');
+      [-1, 1].forEach(function (s) { box(0.03, 1.78, 0.03, M(dm, at(s * 0.465, 0.89, 0.07)), '--buttress', false); });
+      box(0.96, 0.03, 0.03, M(dm, at(0, 1.775, 0.07)), '--buttress', false);
+      box(0.9, 0.012, 0.03, M(dm, at(0, 0.006, 0.2)), '--palm', false, false);
+
       return {
         start: { x: 0, z: 0.5, yaw: 0 },
         bounds: { x: [-2.4, 2.4], z: [back + 4.3, 0.8] },
@@ -150,7 +161,8 @@
           { name: 'at the edge of the forest, under the roof of leaves', x: 0, z: 0.5, yaw: 0 },
           { name: 'in a shaft of light, where the leaves part', x: 1.6, z: -7, yaw: 0.4 },
           { name: 'by the log across the path', x: -0.6, z: -11, yaw: Math.PI / 2 },
-          { name: 'in the clearing, with the room’s own page in a leaf between two trunks', x: 0, z: back + 4.6, yaw: 0, page: kit.page, frame: frame }
+          { name: 'in the clearing, with the room’s own page in a leaf between two trunks', x: 0, z: back + 4.6, yaw: 0, page: kit.page, frame: frame },
+          { name: 'the other jungle room', where: 'at a low door at the foot of the forest, a hairline round it: there is another jungle room', room: 'the Den', page: 'the-den.html', x: 0.5, z: DZ, yaw: -Math.PI / 2 }
         ]
       };
     }

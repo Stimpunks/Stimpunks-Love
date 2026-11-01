@@ -150,6 +150,25 @@
       });
       var frame = kit.screen(1180, 800, sw, M(wall, at(0, 0, 0.02)), 'The Zine Table’s own page, taped up on the wall as one big sheet');
 
+      // ISSUE #2 on the near end of the table, where the page's On the Table
+      // points at it: One Root, Two Rainbows, its ransom headline's four
+      // blocks over its columns, the way into it.
+      var issue2 = kit.paper(170, 220, function (c, w, h) {
+        c.fillStyle = kit.ink('--paper'); c.fillRect(0, 0, w, h);
+        [['--yellow', 30], ['--ink', 34], ['--red', 24], ['--cyan', 46]].forEach(function (b, i, all) {
+          var x = 12 + all.slice(0, i).reduce(function (s, a) { return s + a[1] + 4; }, 0);
+          c.fillStyle = kit.ink(b[0]); c.fillRect(x, 14 + (i % 2) * 4, b[1], 26);
+        });
+        c.fillStyle = kit.ink('--ink');
+        for (var l = 0; l < 13; l++) c.fillRect(12, 56 + l * 11, 64 * (0.55 + 0.45 * hash(2, 0, l)), 5);
+        c.fillStyle = kit.ink('--yellow'); c.fillRect(92, 56, 66, 90);
+        c.fillStyle = kit.ink('--ink'); c.fillRect(12, h - 34, 70, 22);
+      });
+      kit.sheet(issue2, 0.42, 0.54, at(tx, TH + 0.12, tz + TD / 2 - 0.4, 0.12, -Math.PI / 2));
+      var door2 = { name: 'issue #2, One Root, Two Rainbows', room: 'issue #2, One Root, Two Rainbows',
+        where: 'at the near end of the table, where issue #2 lies on top, One Root, Two Rainbows',
+        page: 'zine-issue-2.html', x: tx, z: tz + TD / 2 + 0.9, yaw: 0, pitch: -0.5 };
+
       return {
         start: { x: 0, z: 0.4, yaw: 0 },
         bounds: { x: [-W / 2 + 0.8, W / 2 - 0.8], z: [back + 2.4, 0.6] },
@@ -157,6 +176,7 @@
           { name: 'in the doorway', x: 0, z: 0.4, yaw: 0 },
           { name: 'at the photocopier', x: px + 2.2, z: pz, yaw: Math.PI / 2 },
           { name: 'at the table, every sheet at its own angle', x: tx + TW / 2 + 0.9, z: tz + 0.6, yaw: Math.PI / 2 },
+          door2,
           { name: 'at the wall, with the room’s own page taped up on it', x: 0, z: back + 2.9, yaw: 0, page: kit.page, frame: frame }
         ]
       };
