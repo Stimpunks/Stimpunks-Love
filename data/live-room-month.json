@@ -123,15 +123,6 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "2cFb4EumJDM",
-   "source": "acl",
-   "form": "long",
-   "title": "Ty Myers - Full Episode | Live on Austin City Limits TV",
-   "published": "2026-10-26T17:58:58Z",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
    "id": "1qKZ6tihPh4",
    "source": "acl",
    "form": "long",
@@ -179,6 +170,16 @@
    "published": "2026-10-30T23:00:07Z",
    "state": "screen",
    "runs": 144,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "2cFb4EumJDM",
+   "source": "acl",
+   "form": "long",
+   "title": "Ty Myers - Full Episode | Live on Austin City Limits TV",
+   "published": "2026-11-01T01:00:07Z",
+   "state": "screen",
+   "runs": 3201,
    "channel": "Austin City Limits"
   },
   {
@@ -360,36 +361,6 @@
    "state": "screen",
    "runs": 26,
    "channel": "Austin City Limits"
-  },
-  {
-   "id": "aBr7iaS_Y64",
-   "source": "kexp",
-   "form": "long",
-   "title": "Interpol - Wings On Fire (Live on KEXP)",
-   "published": "2026-10-02T11:00:08Z",
-   "state": "screen",
-   "runs": 251,
-   "channel": "KEXP"
-  },
-  {
-   "id": "75ibbeLh5t0",
-   "source": "kexp",
-   "form": "long",
-   "title": "Interpol - Rest My Chemistry (Live on KEXP)",
-   "published": "2026-10-02T11:00:15Z",
-   "state": "screen",
-   "runs": 285,
-   "channel": "KEXP"
-  },
-  {
-   "id": "vCyKw06g7Y0",
-   "source": "kexp",
-   "form": "long",
-   "title": "Interpol - See Out Loud (Live on KEXP)",
-   "published": "2026-10-02T11:00:26Z",
-   "state": "screen",
-   "runs": 287,
-   "channel": "KEXP"
   },
   {
    "id": "ebG4-E4MCuM",
@@ -1837,13 +1808,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-31T11:38:22Z"
+     "2026-11-01T13:04:58Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-31T11:38:22Z"
+     "2026-11-01T13:04:58Z"
     ]
    ]
   },
@@ -1851,13 +1822,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-31T11:38:22Z"
+     "2026-11-01T13:04:58Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-31T11:38:22Z"
+     "2026-11-01T13:04:58Z"
     ]
    ]
   },
@@ -1865,16 +1836,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-31T11:38:22Z"
+     "2026-11-01T13:04:58Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-31T11:38:22Z"
+     "2026-11-01T13:04:58Z"
     ]
    ]
   }
  },
- "set": "2026-10-31T11:38Z"
+ "set": "2026-11-01T13:04Z"
 }
