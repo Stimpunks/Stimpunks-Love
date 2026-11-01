@@ -42,7 +42,7 @@ function start() {
   // here by tools/make-cel-street.py from the cel-in-*.js files. Do not
   // hand-edit between the markers.
   // cel:rooms:begin
-  var ROOMS = {'arcade.html': 'cel-in-arcade.js', 'brew-and-stew.html': 'cel-in-brew-and-stew.js', 'campgrounds.html': 'cel-in-campgrounds.js', 'club-chronic.html': 'cel-in-club-chronic.js', 'enids-room.html': 'cel-in-enids-room.js', 'faery-cinema-room.html': 'cel-in-faery-cinema-room.js', 'faery-music-room.html': 'cel-in-faery-music-room.js', 'faery-myths-room.html': 'cel-in-faery-myths-room.js', 'faery-reading-room.html': 'cel-in-faery-reading-room.js', 'faery-yurt.html': 'cel-in-faery-yurt.js', 'glow-wild-hollow.html': 'cel-in-glow-wild-hollow.js', 'hear-queer-here.html': 'cel-in-hear-queer-here.js', 'jungle-room.html': 'cel-in-jungle-room.js', 'latibulum.html': 'cel-in-latibulum.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js', 'play-pod.html': 'cel-in-play-pod.js', 'playhouse.html': 'cel-in-playhouse.js', 'solarpunk-hermitage.html': 'cel-in-solarpunk-hermitage.js', 'swaying-sweetgrass.html': 'cel-in-swaying-sweetgrass.js', 'the-bough-house.html': 'cel-in-the-bough-house.js', 'the-mountain-cabin.html': 'cel-in-the-mountain-cabin.js', 'zine-table.html': 'cel-in-zine-table.js'};
+  var ROOMS = {'adventurers-guild.html': 'cel-in-adventurers-guild.js', 'arcade.html': 'cel-in-arcade.js', 'brew-and-stew.html': 'cel-in-brew-and-stew.js', 'campgrounds.html': 'cel-in-campgrounds.js', 'club-chronic.html': 'cel-in-club-chronic.js', 'enids-room.html': 'cel-in-enids-room.js', 'faery-cinema-room.html': 'cel-in-faery-cinema-room.js', 'faery-music-room.html': 'cel-in-faery-music-room.js', 'faery-myths-room.html': 'cel-in-faery-myths-room.js', 'faery-reading-room.html': 'cel-in-faery-reading-room.js', 'faery-yurt.html': 'cel-in-faery-yurt.js', 'glow-wild-hollow.html': 'cel-in-glow-wild-hollow.js', 'hear-queer-here.html': 'cel-in-hear-queer-here.js', 'jungle-room.html': 'cel-in-jungle-room.js', 'latibulum.html': 'cel-in-latibulum.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js', 'play-pod.html': 'cel-in-play-pod.js', 'playhouse.html': 'cel-in-playhouse.js', 'rabbit-hole.html': 'cel-in-rabbit-hole.js', 'solarpunk-hermitage.html': 'cel-in-solarpunk-hermitage.js', 'swaying-sweetgrass.html': 'cel-in-swaying-sweetgrass.js', 'the-bough-house.html': 'cel-in-the-bough-house.js', 'the-feed.html': 'cel-in-the-feed.js', 'the-mopery.html': 'cel-in-the-mopery.js', 'the-mountain-cabin.html': 'cel-in-the-mountain-cabin.js', 'zibaldone.html': 'cel-in-zibaldone.js', 'zine-table.html': 'cel-in-zine-table.js'};
   // cel:rooms:end
   var CHUNK = 60;            // the street is drawn in lengths this long
   var VIEW = 300;            // and only the lengths this near you are drawn
@@ -856,6 +856,10 @@ function start() {
           var dress = document.createElement('div');
           dress.className = d.body.className;
           dress.style.minHeight = '0'; dress.style.background = 'transparent'; dress.style.padding = '0';
+          // A room that sets its words' colour and face on its own body (body.room-x)
+          // never reaches a copy in a div wearing that class, so they come along.
+          var bodyStyle = d.defaultView.getComputedStyle(d.body);
+          dress.style.color = bodyStyle.color; dress.style.fontFamily = bodyStyle.fontFamily;
           var copy = document.importNode(node, true);
           // Parts only another of the room's scripts can work, which is not
           // here, are left out rather than left dead (o.drop).
