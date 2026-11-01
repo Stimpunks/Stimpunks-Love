@@ -4410,7 +4410,11 @@ channel (`setSide`, which `appTo` and `reveal()` turn too), kept nowhere. Enlarg
 window. The friendly edit is both columns stacked beside the call "so nothing needs switching", which leaves the
 messages half a column. **Join the call also stands beside the name** (`headCall`, the same day, after Element's): beside the
 channel's name on the chat page (`chanTop`) and the room's under Where you are, pressing the room's own Join or the World
-call's (`callShown` keeps it in step), so it adds no way into a call. **A band of nothing
+call's (`callShown` keeps it in step), so it adds no way into a call. **Jitsi's own chat is off in every call but `PUBLIC_CALLS`**
+(`disableChat` in `callSrc`, Ryan's call the same day, after asking whether Jitsi's chat could take Markdown, editing,
+emoji or pictures: it cannot, on JaaS): the channel is the call's chat, and `privacy.html#call-chat` says what is typed
+there is now kept as the channel keeps it. The friendly edit is turning it off in the public calls too, where a guest has
+no radio. **A band of nothing
 under World's chat was the `.sr` words beside each message**, absolutely positioned inside an
 unpositioned log, so they were placed against the channel part as far down as their message and the
 part scrolled by that much: `.cb-log`, `.cb-dm-log` and `.cb-hits` are positioned now, and a new

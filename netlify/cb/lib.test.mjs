@@ -1550,6 +1550,11 @@ test('no key, no calls; and the address arrives muted on the pre-join screen', (
     assert.ok(src.includes('config.' + c), c);
   // Jitsi's shared video is !disableThirdPartyRequests and nothing else.
   assert.ok(!src.includes('disableThirdPartyRequests'), 'shared video needs this off');
+  // Jitsi's own chat is off in a members' call, where the channel is its chat,
+  // and on in a public call, where a guest has no radio.
+  assert.ok(src.includes('config.disableChat=true'), 'a members-only call has no Jitsi chat');
+  assert.ok(callSrc('dmcall-abc', 'TOKEN').includes('config.disableChat=true'), 'nor does a conversation\'s call');
+  assert.ok(!callSrc(PUBLIC_CALLS[0], 'TOKEN').includes('disableChat'), 'a public call keeps it, for guests');
 });
 
 test('a key pasted with its line breaks turned to spaces, or to \\n, still signs', () => {

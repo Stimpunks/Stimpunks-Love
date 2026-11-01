@@ -5978,11 +5978,21 @@ export function callToken(who, tag, now = Date.now(), key = jaasKey(), opts = {}
    or email) and Giphy, so each of those is turned off by its own setting
    instead; all four keys are on Jitsi's configWhitelist, which is what lets
    an address set them. A shared video is YouTube, loaded by Jitsi inside the
-   call for everybody in it, and privacy.html says so. */
+   call for everybody in it, and privacy.html says so.
+
+   JITSI'S OWN CHAT IS OFF IN EVERY CALL BUT THE PUBLIC ONES (Ryan's call,
+   2026-11-01): the room's channel on the CB is the call's chat, with its
+   Markdown, editing, pictures and stickers, and on a wide chat page it stands
+   beside the call; a conversation's call has the conversation. disableChat is
+   on the whitelist and hides Jitsi's chat button, its shortcut and its private
+   messages; Share file keeps a button of its own. A public call keeps Jitsi's
+   chat, because a guest has no radio. The friendly edit is turning it off
+   there too, which leaves guests with nowhere to type. */
 export function callSrc(tag, token) {
   const conf = ['startWithAudioMuted=true', 'startWithVideoMuted=true', 'prejoinConfig.enabled=true',
     'disableDeepLinking=true', 'disableInviteFunctions=true',
-    'analytics.disabled=true', 'gravatar.disabled=true', 'giphy.enabled=false']
+    'analytics.disabled=true', 'gravatar.disabled=true', 'giphy.enabled=false',
+    ...(publicCall(tag) ? [] : ['disableChat=true'])]
     .map((c) => 'config.' + c).join('&');
   return `${JAAS_HOST}${JAAS_APP}/${callRoom(tag)}?jwt=${token}#${conf}`;
 }
