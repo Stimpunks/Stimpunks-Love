@@ -2358,6 +2358,32 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
    under In this channel or Happening now, as on every page. */
 .cb-set--parts > .cb-col.cb-col--call { display: none; }
 .cb-app-call-where { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+/* BESIDE THE CALL (cb.js, appMake and appCall; Ryan's ask, 2026-11-01, after
+   Discord's): on a wide window a call open in the chat stands in the middle
+   column, over the place kept for it, and the right-hand column holds the
+   chat or what is in this channel, as the switch at its head says. The
+   switch is the bar's own buttons, so no pair here is new. Neither is there
+   at any other time. */
+.cb-call-slot, .cb-side-flip { display: none; }
+@media (min-width: 1000px) {
+  .cb-radio--app.cb-radio--beside:not(.cb-radio--big).cb-radio--full:not(.cb-radio--folded) .cb-set--parts {
+    grid-template-columns: minmax(14rem, .8fr) minmax(0, 2.2fr) minmax(20rem, 1.35fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+  .cb-radio--beside:not(.cb-radio--big) .cb-set--parts > .cb-col--a { grid-column: 1; grid-row: 1 / -1; }
+  .cb-radio--beside:not(.cb-radio--big) .cb-set--parts > .cb-call-slot { display: block; grid-column: 2; grid-row: 1 / -1; min-height: 0; border-left: 2px solid var(--cb-bar); }
+  .cb-radio--beside:not(.cb-radio--big) .cb-set--parts > .cb-side-flip {
+    display: flex; flex-wrap: wrap; gap: 6px; grid-column: 3; grid-row: 1;
+    padding: 10px 16px; border-left: 2px solid var(--cb-bar); border-bottom: 2px solid var(--cb-bar);
+  }
+  .cb-radio--beside:not(.cb-radio--big) .cb-set--parts > .cb-col--b,
+  .cb-radio--beside:not(.cb-radio--big) .cb-set--parts > .cb-col--c,
+  .cb-radio--beside:not(.cb-radio--big) .cb-set--parts > .cb-col--d { grid-column: 3; grid-row: 2; border-left: 2px solid var(--cb-bar); }
+  .cb-radio--beside[data-side="chat"]:not(.cb-radio--big) .cb-set--parts > .cb-col--c,
+  .cb-radio--beside[data-side="chat"]:not(.cb-radio--big) .cb-set--parts > .cb-col--d,
+  .cb-radio--beside[data-side="here"]:not(.cb-radio--big) .cb-set--parts > .cb-col--b { display: none; }
+  .cb-radio--beside .cb-side-btn[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
+}
 @media (max-width: 999.98px) {
   .cb-radio--app .cb-trim, .cb-radio--app .cb-big-btn { display: none; }
   /* clip, not hidden: a box that is hidden can still be scrolled by a
@@ -2560,7 +2586,7 @@ button.cb-ev-link {
    outrank every size's rules, and the phone's two rows: with no grip and no
    minus and plus, the name and its buttons are one row again. */
 .cb-call.cb-call--app {
-  top: var(--cb-app-top, 0px); bottom: var(--cb-app-bottom, 0px); left: 0; right: 0;
+  top: var(--cb-app-top, 0px); bottom: var(--cb-app-bottom, 0px); left: var(--cb-app-left, 0px); right: var(--cb-app-right, 0px);
   width: auto; height: auto; max-height: none; border-width: 0; border-radius: 0; box-shadow: none;
 }
 .cb-call.cb-call--app.cb-call--behind { visibility: hidden; }

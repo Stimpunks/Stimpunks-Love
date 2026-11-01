@@ -655,7 +655,9 @@
      Discord's mobile app): on a phone the call open in the chat page is not a
      window over the chat but the screen between the radio's bar and its tabs,
      shown while the Call tab is and kept going, out of sight, while another
-     tab is. at is { top, bottom, shown } in pixels from the window's edges, or
+     tab is. On a wide window it is the chat's middle column, with the chat
+     beside it (2026-11-01). at is { top, bottom, left, right, shown } in
+     pixels from the window's edges (left and right 0 when not given), or
      null to put it back as a window. It does not move or change size there,
      so its grip and its minus and plus are not shown (cb.css). */
   function dockTo(at) {
@@ -666,6 +668,8 @@
     if (at) {
       b.style.setProperty('--cb-app-top', Math.round(at.top) + 'px');
       b.style.setProperty('--cb-app-bottom', Math.round(at.bottom) + 'px');
+      b.style.setProperty('--cb-app-left', Math.round(at.left || 0) + 'px');
+      b.style.setProperty('--cb-app-right', Math.round(at.right || 0) + 'px');
     }
     if (current.mover) current.mover.place();
   }

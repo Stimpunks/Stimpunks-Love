@@ -4398,7 +4398,13 @@ channel. Once `loveCall.isOpen()`,
 (`cb-call--app`, no grip, no minus and plus), hidden by `visibility` and still going behind any other
 tab. **No familiar comes into the chat** (`data-cb-chat` in love.js's `familiar()` and familiar.js's
 `allowed()`, held by `make-chimera-obscura.py`): it is all radio, and one sat on the messages. The friendly edit is
-`display: none` for a hidden call, which risks the browser stopping its frame. **A band of nothing
+`display: none` for a hidden call, which risks the browser stopping its frame. **On a wide window a call open in the chat
+stands in the middle column, with the chat beside it** (Ryan's ask, 2026-11-01, after Discord's): `appCall` sets
+`cb-radio--beside`, `appPlaceCall` docks the call over `callSlot` through `dockTo`'s `left` and `right`, and the
+right-hand column holds the middle's parts or In this channel's by the box's `data-side`, switched by Chat and In this
+channel (`setSide`, which `appTo` and `reveal()` turn too), kept nowhere. Enlarge the chat lets the call go back to a
+window. The friendly edit is both columns stacked beside the call "so nothing needs switching", which leaves the
+messages half a column. **A band of nothing
 under World's chat was the `.sr` words beside each message**, absolutely positioned inside an
 unpositioned log, so they were placed against the channel part as far down as their message and the
 part scrolled by that much: `.cb-log`, `.cb-dm-log` and `.cb-hits` are positioned now, and a new

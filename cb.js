@@ -5316,7 +5316,33 @@
     this.appCallNone.hidden = true;
     sec.appendChild(this.appCallNone);
     col.appendChild(sec);
-    this.box.querySelector('.cb-set--parts').appendChild(col);
+    var parts = this.box.querySelector('.cb-set--parts'), mid = parts.querySelector('.cb-col--b');
+    parts.appendChild(col);
+    /* BESIDE THE CALL (Ryan's ask, 2026-11-01, after Discord's): on a wide
+       window a call open in the chat page stands in the middle column, where
+       the channel was, and the right-hand column holds the chat or what is in
+       this channel, one at a time, by a switch at its head. The middle is a
+       place kept for the call (callSlot), which call.js's dockTo lays the
+       call over; it holds nothing and is not read. Picking a channel, a
+       conversation, Events or a search turns the switch to Chat (appTo), and
+       anything that sends you into a part on the other side turns it there
+       (reveal). Which side was shown is kept nowhere. */
+    var slot = this.callSlot = el('div', 'cb-call-slot');
+    slot.setAttribute('aria-hidden', 'true');
+    var flip = el('div', 'cb-side-flip');
+    flip.setAttribute('role', 'group');
+    flip.setAttribute('aria-label', 'Beside the call');
+    this.sideBtns = {};
+    [['chat', 'Chat'], ['here', 'In this channel']].forEach(function (t) {
+      var b = el('button', 'cb-btn cb-side-btn', t[1]);
+      b.type = 'button';
+      b.addEventListener('click', function () { me.setSide(t[0]); });
+      me.sideBtns[t[0]] = b;
+      flip.appendChild(b);
+    });
+    parts.insertBefore(slot, mid);
+    parts.insertBefore(flip, mid);
+    this.setSide('chat');
     if (CHAT_WIDE && CHAT_WIDE.addEventListener) CHAT_WIDE.addEventListener('change', function () { me.callPlace(); });
     this.callPlace();
     if (window.ResizeObserver) new ResizeObserver(function () { me.appPlaceCall(); }).observe(this.box);
@@ -5341,6 +5367,19 @@
   Radio.prototype.appCall = function () {
     if (!this.appTabs) return;
     var lc = window.loveCall, open = !!(lc && lc.isOpen()) && !(CHAT_WIDE && CHAT_WIDE.matches);
+    // On a wide window: the call in the middle and the chat beside it, unless
+    // the chat is enlarged, which is the middle alone and the call a window.
+    var beside = !!(lc && lc.isOpen()) && !!(CHAT_WIDE && CHAT_WIDE.matches) && !this.big;
+    if (beside !== !!this.besideOn) {
+      // A log at its newest message is at its newest again in its new column.
+      var logs = [this.log, this.dmLog].filter(function (l) {
+        return l && !l.hidden && l.scrollHeight - l.scrollTop - l.clientHeight < 24;
+      });
+      this.besideOn = beside;
+      this.box.classList.toggle('cb-radio--beside', beside);
+      if (beside) this.setSide('chat');
+      logs.forEach(function (l) { l.scrollTop = l.scrollHeight; });
+    }
     if (open && !this.appCallOn) { this.appCallOn = true; this.appTo('call'); }
     // Ended: the tab shows the channel's call again, with Join, which the radio
     // puts the keyboard on; where Join is not shown, the tab has it.
@@ -5369,6 +5408,11 @@
   Radio.prototype.appPlaceCall = function () {
     var lc = window.loveCall;
     if (!lc || !lc.dockTo || !lc.isOpen()) return;
+    if (this.besideOn) {
+      var r = this.callSlot.getBoundingClientRect(), page = document.documentElement;
+      lc.dockTo({ top: r.top, bottom: Math.max(0, page.clientHeight - r.bottom), left: r.left, right: Math.max(0, page.clientWidth - r.right), shown: true });
+      return;
+    }
     if (!this.appCallOn) { lc.dockTo(null); return; }
     var set = this.box.querySelector('.cb-set'), nav = this.appNav;
     lc.dockTo({
@@ -5404,6 +5448,7 @@
     }
     this.appPane = pane;
     this.box.dataset.pane = pane;
+    if (pane === 'chat' || pane === 'search') this.setSide('chat');
     for (var k in this.appTabs) {
       if (k === pane) this.appTabs[k].setAttribute('aria-current', 'true');
       else this.appTabs[k].removeAttribute('aria-current');
@@ -5415,6 +5460,12 @@
       if (log) log.scrollTop = was.log === log && !was.foot ? was.top : log.scrollHeight;
     }
     this.foldMarks();
+  };
+  // Beside the call, the chat or what is in this channel (see appMake).
+  Radio.prototype.setSide = function (side) {
+    if (!this.sideBtns) return;
+    this.box.dataset.side = side;
+    for (var k in this.sideBtns) this.sideBtns[k].setAttribute('aria-pressed', String(k === side));
   };
   function appIcon(kind) {
     var svg = document.createElementNS(SVGNS, 'svg');
@@ -5496,6 +5547,8 @@
     // In the app there is no page: enlarged is the middle alone, and back is every column.
     this.bigBtn.textContent = this.big ? (inApp() ? 'Show every column' : 'Back into the page') : 'Enlarge the chat';
     logs.forEach(function (l) { l.scrollTop = l.scrollHeight; });
+    // A call beside the chat goes back to being a window while it is enlarged.
+    if (inApp()) this.appCall();
   };
 
   /* A conversation, or All messages, in the middle: the channel steps out of
@@ -12259,6 +12312,11 @@
   // Something is sending you into a part: open it first, or nothing in it can take the keyboard.
   Radio.prototype.reveal = function (node) {
     var sec = node && node.closest && node.closest('.cb-sec');
+    // Beside a call, the side that part is on.
+    if (this.besideOn && sec) {
+      if (sec.closest('.cb-col--b')) this.setSide('chat');
+      else if (sec.closest('.cb-col--c, .cb-col--d')) this.setSide('here');
+    }
     for (var k in this.folds) if (this.folds[k].sec === sec && this.partFolded(k)) this.setPart(k, true, true);
   };
 
@@ -14560,6 +14618,8 @@
       var said = r.said;
       // In the chat app on a phone the call is on its own tab, not at the foot of the page.
       if (r.ok && me.appCallOn) said = said.replace('The call is open at the foot of the page.', 'The call is on the Call tab, and it goes on while another tab is shown.');
+      // On a wide window it is in the middle, with the chat beside it.
+      else if (r.ok && me.besideOn) said = said.replace('The call is open at the foot of the page.', 'The call is in the middle, with the chat beside it; Chat and In this channel, over that column, switch what it shows.');
       me.tell(world && r.ok ? said + ' Going to another room hangs up, because every room is a page of its own.' : said);
     });
   };
