@@ -80,12 +80,16 @@ elif 'class="door__awning"' not in row.group(1) or 'class="door__name"' not in r
     refuse("index.html's doors have lost .door__awning or .door__name, which Cel Street dresses its shops in.")
 if not re.search(r'<a class="signpost" href="campgrounds\.html">', index) or 'class="signpost__to"' not in index:
     refuse("index.html has lost its signpost to the campgrounds, which Cel Street stands at the treeline end.")
+if not re.search(r'<a class="roadout" href="the-outskirts\.html">', index) or 'class="roadout__to"' not in index:
+    refuse("index.html has lost its road out to the Outskirts, which Cel Street stands at the far end.")
+if not re.search(r'<a class="liftdown" href="arlesglad-caverns\.html">', index) or 'class="liftdown__to"' not in index:
+    refuse("index.html has lost its lift down to the caverns, which Cel Street stands by the stoop.")
 
 # ── What cel-street.js promises ─────────────────────────────────────────────
 js = JS.read_text()
 code = re.sub(r"/\*.*?\*/", "", js, flags=re.S)
 code = re.sub(r"(?m)^\s*//.*$", "", code)
-for selector in ("ul.doors", ":scope > li > a.door", ".door__awning", ".door__name", "a.signpost", ".signpost__to"):
+for selector in ("ul.doors", ":scope > li > a.door", ".door__awning", ".door__name", "a.signpost", ".signpost__to", "a.roadout", ".roadout__to", "a.liftdown", ".liftdown__to"):
     if selector not in code:
         refuse(f"cel-street.js no longer reads {selector!r}; change this tool's list with it, on purpose.")
 imports = re.findall(r"^\s*import\b[^;]*?from\s*'([^']+)'", code, re.M)
@@ -216,6 +220,61 @@ if CAMP.exists():
         camp_new = re.sub(r"(// cel:pitches:begin\n).*?(\n\s*// cel:pitches:end)", lambda m: m.group(1) + pline + m.group(2), camp, flags=re.S)
         if camp_new != camp:
             CAMP.write_text(camp_new)
+
+# ── The Outskirts' turnings and the caverns' levels, read off their pages ───
+# The road out on Cel Street stands a sign for every turning on
+# the-outskirts.html's board, and the caverns open a doorway for every level on
+# arlesglad-caverns.html's panel, each in its page's order; written between
+# cel:turnings and cel:levels markers, never by hand, so a turning or a level
+# on its page is a sign or a doorway in its room the next run.
+def board_of(page, li, no_cls, raising_cls, what):
+    src = (ROOT / page).read_text()
+    out = []
+    for m in re.finditer(r'<li class="' + li + r'( [^"]*)?">(.*?)</li>', src, re.S):
+        mods, body = m.group(1) or "", m.group(2)
+        no = re.search(r'<span class="' + no_cls + r'"[^>]*>([^<]+)</span>', body)
+        h3 = re.search(r"<h3>(.*?)</h3>", body, re.S)
+        if not no or not h3:
+            refuse(f"a {what} on {page} has no number or no name, and Cel Street letters both.")
+            continue
+        a = re.search(r'<a href="([^"]+)">(.*?)</a>', h3.group(1), re.S)
+        name = html.unescape(re.sub(r"<[^>]+>", "", a.group(2) if a else h3.group(1)).strip())
+        out.append({"no": html.unescape(no.group(1)).strip(), "name": name, "page": a.group(1) if a else None,
+                    "state": "raising" if (raising_cls in mods or not a) else ""})
+    if not out:
+        refuse(f"{page} has no {what}s Cel Street can read.")
+    return out
+
+def write_list(room_file, marker, var, items, indent):
+    f = ROOT / room_file
+    if not f.exists():
+        return
+    src = f.read_text()
+    if f"// cel:{marker}:begin" not in src:
+        refuse(f"{room_file} has lost its cel:{marker} markers.")
+        return
+    line = indent + "var " + var + " = " + json.dumps(items, ensure_ascii=False) + ";"
+    new = re.sub(r"(// cel:" + marker + r":begin\n).*?(\n\s*// cel:" + marker + r":end)", lambda m: m.group(1) + line + m.group(2), src, flags=re.S)
+    if new != src:
+        f.write_text(new)
+
+write_list("cel-in-the-outskirts.js", "turnings", "TURNINGS",
+           board_of("the-outskirts.html", "turning", "turning__no", "turning--raising", "turning"), "  ")
+levels = board_of("arlesglad-caverns.html", "cav-stop", "cav-stop__key", "cav-stop--raising", "level")
+write_list("cel-in-arlesglad-caverns.js", "levels", "LEVELS",
+           [{"key": l["no"], "room": l["name"], "page": l["page"]} for l in levels], "      ")
+
+# The World room hangs a garden for every part of the Map its directory has,
+# with that part's heading; written between cel:parts markers, never by hand.
+# Its gardens stand in pairs down both sides in three rows before the web, so a
+# part past those is refused until the room is laid out for it.
+world_parts = [html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+               for h in re.findall(r'<h2 class="www-cat__h"[^>]*>(.*?)</h2>', (ROOT / "world.html").read_text(), re.S)]
+if not world_parts:
+    refuse("world.html's directory has no parts the World room on Cel Street can read.")
+elif len(world_parts) > 6:
+    refuse("world.html's directory has more parts than the World room on Cel Street has gardens for; lay the room out for them.")
+write_list("cel-in-world.js", "parts", "PARTS", world_parts, "      ")
 
 # ── A Quiet Pint's plan, worked out by the pub's own tool ───────────────────
 # The pub on Cel Street is stood up from the same plan its page draws, so the
