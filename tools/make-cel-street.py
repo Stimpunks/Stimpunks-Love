@@ -217,6 +217,47 @@ if CAMP.exists():
         if camp_new != camp:
             CAMP.write_text(camp_new)
 
+# ── A Quiet Pint's plan, worked out by the pub's own tool ───────────────────
+# The pub on Cel Street is stood up from the same plan its page draws, so the
+# numbers are worked out here by make-a-quiet-pint.py's own functions out of
+# data/a-quiet-pint.json and written into cel-in-a-quiet-pint.js between
+# cel:plan markers, never by hand, so the two cannot disagree.
+PINT = ROOT / "cel-in-a-quiet-pint.js"
+if PINT.exists():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("aqp_tool", ROOT / "tools" / "make-a-quiet-pint.py")
+    aqp = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(aqp)
+    d = json.loads((ROOT / "data" / "a-quiet-pint.json").read_text())
+    aqp.setup(d)
+    r1 = lambda v: round(v, 1)
+    plan = {
+        "room": d["room"], "door": {k: d["door"][k] for k in ("x0", "x1", "top")},
+        "steps": d["steps"], "ramp": {"width": d["ramp"]["width"], "runs": d["ramp"]["runs"], "landing": d["ramp"]["landing"]},
+        "beams": d["beams"], "fans": d["fans"], "windows": d["windows"],
+        "mirrors": [{k: x[k] for k in ("wall", "at", "z", "w", "h")} for x in d["mirrors"]],
+        "patches": [[1 if kind == "table" else 0, r1(z), [[r1(a), r1(b)] for a, b in pts]] for (_, kind, _t, pts, z) in aqp.patches(d)],
+        "bar": {"front": d["bar"]["front"], "depth": d["bar"]["depth"], "heights": d["bar"]["heights"],
+                "stools": [[r1(x + 15), r1(y)] for x, y, _ in (aqp.arc_point(d["bar"]["front"], a) for a in d["bar"]["stools"])]},
+        "stove": d["stove"], "piano": d["piano"],
+        "columns": [{k: c[k] for k in ("key", "x", "y", "d", "bands")} for c in d["columns"]],
+        "tables": [],
+    }
+    for t in d["tables"]:
+        tt = {k: t[k] for k in ("n", "shape", "w", "h", "top", "base", "seating", "x", "y") if k in t}
+        if "d" in t: tt["d"] = t["d"]
+        if "against" in t: tt["against"] = t["against"]
+        tt["seats"] = [[r1(x), r1(y)] for x, y in aqp.seat_spots(t, d["room"])]
+        plan["tables"].append(tt)
+    pint = PINT.read_text()
+    if "// cel:plan:begin" not in pint:
+        refuse("cel-in-a-quiet-pint.js has lost its cel:plan markers.")
+    else:
+        pline = "      var PLAN = " + json.dumps(plan, ensure_ascii=False, separators=(",", ":")) + ";"
+        pint_new = re.sub(r"(// cel:plan:begin\n).*?(\n\s*// cel:plan:end)", lambda m: m.group(1) + pline + m.group(2), pint, flags=re.S)
+        if pint_new != pint:
+            PINT.write_text(pint_new)
+
 if problems:
     print("REFUSING:\n  " + "\n  ".join(problems))
     sys.exit(2)
