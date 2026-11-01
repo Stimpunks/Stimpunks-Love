@@ -9,34 +9,24 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-10-31T11:36Z",
+ "set": "2026-11-01T13:04Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-31T11:36:49Z"
+     "2026-11-01T13:04:10Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-31T11:36:49Z"
+     "2026-11-01T13:04:10Z"
     ]
    ]
   }
  },
  "log": [
-  {
-   "id": "-mS7jb_hBrs",
-   "source": "farming-while-beige",
-   "form": "long",
-   "title": "Tour (some of) Blackbird Farms!",
-   "published": "2026-10-01T20:57:32Z",
-   "state": "screen",
-   "runs": 350,
-   "channel": "Farming While Beige"
-  },
   {
    "id": "fcQz65U2qo0",
    "source": "farming-while-beige",
@@ -145,16 +135,6 @@
    "published": "2026-10-29T09:57:37Z",
    "state": "screen",
    "runs": 280,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "xi-DOE-ptA8",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Lower prices are not necessarily a conspiracy",
-   "published": "2026-10-01T16:52:22Z",
-   "state": "screen",
-   "runs": 177,
    "channel": "Farming While Beige"
   },
   {
