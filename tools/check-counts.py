@@ -109,6 +109,20 @@ QUOTED = re.compile(r"\u201c[^\u201d]*\u201d|&ldquo;.*?&rdquo;|\"[^\"]*\"|`[^`]*
 # entry to match today would be falsifying the log to satisfy a linter.
 SKIP = {"changelog.html"}
 
+# THE BOARDS QUOTE THAT RECORD, AND ONLY THEIR ROWS ARE SKIPPED. The Feed's rows
+# are the titles of the changelog's entries and of our other sites' posts, and
+# the Source's are this repository's commit subjects, each with its date: the
+# changelog's dated record, quoted. Ryan's call, 2026-11-01, after two commits
+# titled with a count of rooms stopped every morning timer at this tool, because
+# a commit cannot be reworded once pushed. Only the row itself is blanked, by
+# the class its generator writes on it, so every sentence of the room's own is
+# still read; a new board that quotes the record is a line here, never a page
+# added to SKIP.
+RECORDS = {
+    "the-feed.html": re.compile(r'<span class="flap__dest">.*?</span>', re.S),
+    "the-source.html": re.compile(r'<a class="deposit__what"[^>]*>.*?</a>', re.S),
+}
+
 # FILES WHERE NOTHING QUOTED IS SAFE. A Python string may be published, which
 # is the docstring's argument; a JSON file is nothing BUT quoted strings, so
 # skipping quotation there skips the whole file. The web manifest is why this
@@ -141,8 +155,11 @@ def main():
         text = p.read_text()
         # Blank the quoted spans rather than dropping them, so line and column
         # numbers still point at the real text.
+        # The boards' rows first: blanking quotation first would blank the
+        # class attribute that says which span is a row.
+        rowless = RECORDS[p.name].sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text) if p.name in RECORDS else text
         blanked = text if p.suffix in CODE else QUOTED.sub(
-            lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
+            lambda m: re.sub(r"[^\n]", " ", m.group(0)), rowless)
         for n, line in enumerate(blanked.splitlines(), 1):
             for m in [*COUNT.finditer(line), *AFTER.finditer(line), *ELLIPSIS.finditer(line)]:
                 real = text.splitlines()[n - 1]

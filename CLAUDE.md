@@ -2229,7 +2229,11 @@ says somebody GitHub does not name, and **an email address is never read**. **Th
 commits are left off** by the data's `skip` pattern, which the tool checks against every subject
 `tools/daily-*.sh` commits under: a new timer whose subject it misses would put a dozen machine
 commits on the hill and the channel every morning. Nothing is ranked and nobody's commits are
-counted. `daily-arrivals.sh` re-reads both rooms each morning and owns four paths now.
+counted. **`check-counts.py` skips the hill's rows and the Feed's** (`RECORDS`, Ryan's call,
+2026-11-01): they quote the changelog's titles and the commits' subjects, a dated record like the changelog it already
+skips, and a pushed commit cannot be reworded, so two commits titled with a count of rooms stopped every morning timer.
+Only the row is skipped, by the class its generator writes; the rooms' own sentences are still read. A count in a
+commit subject is still wrong, and the friendly edit is skipping the whole page. `daily-arrivals.sh` re-reads both rooms each morning and owns four paths now.
 
 **AND THE TWO ROOMS' CB CHANNELS HEAR EACH ARRIVAL, FROM A BOT ON THE SERVER.** Ryan's ask, the same
 day, after Discord's feed bots. `runFeedBot` in `netlify/cb/lib.mjs`, every quarter of an hour
