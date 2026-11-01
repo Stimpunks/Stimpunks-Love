@@ -287,6 +287,22 @@ if COPE.exists():
         if cope_new != cope:
             COPE.write_text(cope_new)
 
+# ── Volunteers' bands, out of the room's own help list ─────────────────────
+# The loom on Cel Street weaves the page's cloth, a band for every thing on the
+# help list in its dye and its order, written into cel-in-volunteers.js between
+# cel:bands markers out of data/volunteers.json, never by hand.
+VOLS = ROOT / "cel-in-volunteers.js"
+if VOLS.exists():
+    bands = ["--vol-" + h["dye"] for h in json.loads((ROOT / "data" / "volunteers.json").read_text())["help"]]
+    vols = VOLS.read_text()
+    if "// cel:bands:begin" not in vols:
+        refuse("cel-in-volunteers.js has lost its cel:bands markers.")
+    else:
+        bl = "      var BANDS = " + json.dumps(bands) + ";"
+        vols_new = re.sub(r"(// cel:bands:begin\n).*?(\n\s*// cel:bands:end)", lambda m: m.group(1) + bl + m.group(2), vols, flags=re.S)
+        if vols_new != vols:
+            VOLS.write_text(vols_new)
+
 if problems:
     print("REFUSING:\n  " + "\n  ".join(problems))
     sys.exit(2)
