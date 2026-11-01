@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-10-31T11:16Z",
+  "set": "2026-11-01T12:49Z",
   "springs": [
     {
       "id": "starstuff",
@@ -73,7 +73,7 @@
           "anon": true
         }
       ],
-      "read": "2026-10-31T11:16Z"
+      "read": "2026-11-01T12:49Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-10-31T11:16Z"
+      "read": "2026-11-01T12:49Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-10-31T11:16Z"
+      "read": "2026-11-01T12:49Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-10-31T11:16Z"
+      "read": "2026-11-01T12:49Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-10-31T11:16Z"
+      "read": "2026-11-01T12:49Z"
     },
     {
       "id": "whysheet",
@@ -367,6 +367,36 @@
       "feed": "https://github.com/Stimpunks/Why-Sheets/commits.atom",
       "note": "One-page arguments made to be printed, and the gates that measure every sheet before it reaches the press.",
       "items": [
+        {
+          "title": "Render a list inside a blockquote, on the press and in the converter",
+          "url": "https://github.com/Stimpunks/Why-Sheets/commit/e09508b86d720b7106eab7fed32d4fa87ad1d01f",
+          "date": "2026-11-01T05:24:19Z",
+          "sha": "e09508b",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "Hoodie: rebuild the endpoint after the link fix",
+          "url": "https://github.com/Stimpunks/Why-Sheets/commit/12f11403ec6bf2037df4086b989ec305b38d8bbd",
+          "date": "2026-11-01T05:22:21Z",
+          "sha": "12f1140",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "to-wordpress: carry in-page links across to the h- anchors",
+          "url": "https://github.com/Stimpunks/Why-Sheets/commit/3dd646f9aff170cd0c307c7daccd205b5859cbf6",
+          "date": "2026-11-01T05:22:10Z",
+          "sha": "3dd646f",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
         {
           "title": "The broadside gets its own changelog entry, and the policy says why",
           "url": "https://github.com/Stimpunks/Why-Sheets/commit/0ba3c4910e2e8c83c941daa44bf286c5e683ebe8",
@@ -396,39 +426,9 @@
             "ryanboren",
             "Claude Opus 5"
           ]
-        },
-        {
-          "title": "to-wordpress: decode entities before slugifying a heading",
-          "url": "https://github.com/Stimpunks/Why-Sheets/commit/9b283b9387c2f006162620c68e5256f089083e4a",
-          "date": "2026-09-20T23:55:24Z",
-          "sha": "9b283b9",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5"
-          ]
-        },
-        {
-          "title": "CLAUDE.md: do not amend a commit that contains a sheet endpoint",
-          "url": "https://github.com/Stimpunks/Why-Sheets/commit/1f13756d0af24dd708c44403aeff83056ead9d21",
-          "date": "2026-09-20T23:50:57Z",
-          "sha": "1f13756",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5"
-          ]
-        },
-        {
-          "title": "A new sheet is a release: policy, and the AAC backfill it exposed",
-          "url": "https://github.com/Stimpunks/Why-Sheets/commit/7f07a2dd73d5dfd9eb9d0eb76b0780858c157426",
-          "date": "2026-09-20T23:48:12Z",
-          "sha": "7f07a2d",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5"
-          ]
         }
       ],
-      "read": "2026-10-31T11:16Z"
+      "read": "2026-11-01T12:49Z"
     },
     {
       "id": "love",
@@ -439,67 +439,67 @@
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
         {
-          "title": "Paper Street: walk into the Arcade",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/b6a4490273bf16708f72b8b4f40b14f829887418",
-          "date": "2026-10-31T08:24:37Z",
-          "sha": "b6a4490",
+          "title": "check-counts: leave the Feed's and the Source's quoted rows alone",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/101802b06a761a20ed11ac777fbbbee572706d77",
+          "date": "2026-11-01T12:49:23Z",
+          "sha": "101802b",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Paper Street: walk into the Mopery",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/7004c6ca9a7ff46daeac506af02e5fdff5116955",
-          "date": "2026-10-31T07:36:52Z",
-          "sha": "7004c6c",
+          "title": "The chat: a call stands in the middle with the chat beside it",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/6d6d21134ee08d1a222fe5c381440e97bb79c6d1",
+          "date": "2026-11-01T12:36:19Z",
+          "sha": "6d6d211",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Paper Street: look around, and your companions walk where you can see…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/895867182a0bba505cba154bf8539f5b5945c40b",
-          "date": "2026-10-31T07:14:28Z",
-          "sha": "8958671",
+          "title": "Cel Street: L-Space, Fantasy Fancy Dress and three rooms off the Town…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/67598c9bafd4a90e73db08610e373ef702cb69cb",
+          "date": "2026-11-01T11:56:06Z",
+          "sha": "67598c9",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Paper Street: the Jungle Room's page takes the pointer, and no leaf s…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/70a1f191e35b7218ca6efa67c1baa6316faf425d",
-          "date": "2026-10-31T07:01:04Z",
-          "sha": "70a1f19",
+          "title": "Paper Street: stand the street up in Safari",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/360c0b1465729823ddd7edfa53de6e9c14797ef3",
+          "date": "2026-11-01T11:10:13Z",
+          "sha": "360c0b1",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Paper Street: read a door's address in either form, so the Jungle Roo…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/31a497dee7e65cf296d898d993579a367e2d6215",
-          "date": "2026-10-31T06:39:49Z",
-          "sha": "31a497d",
+          "title": "Cel Street: five more rooms behind the doors",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/bef3270e1b8d094d567e7a4868ded6a82e19728a",
+          "date": "2026-11-01T07:48:34Z",
+          "sha": "bef3270",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Paper Street: walk into the Jungle Room",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/3ce4a074947f73c79213f3d673e8e4e1b1c6497a",
-          "date": "2026-10-31T06:18:25Z",
-          "sha": "3ce4a07",
+          "title": "Cel Street: the first rooms behind the doors",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/773346d04a1234211d9f013015e778c1d2440c9f",
+          "date": "2026-11-01T06:03:39Z",
+          "sha": "773346d",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         }
       ],
-      "read": "2026-10-31T11:16Z"
+      "read": "2026-11-01T12:49Z"
     },
     {
       "id": "garden",
@@ -568,7 +568,7 @@
           "anon": true
         }
       ],
-      "read": "2026-10-31T11:16Z"
+      "read": "2026-11-01T12:49Z"
     }
   ]
 }
