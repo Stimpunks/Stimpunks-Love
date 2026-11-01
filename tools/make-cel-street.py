@@ -258,6 +258,35 @@ if PINT.exists():
         if pint_new != pint:
             PINT.write_text(pint_new)
 
+# ── Coping's doors, out of the room's own data ──────────────────────────────
+# The eye on Cel Street stands the page's doors under the page's moments, so
+# which room each door opens onto, and its name, are written into
+# cel-in-coping.js between cel:doors markers out of data/coping.json (the
+# names off cb-rooms.json, each page's own title), never by hand.
+COPE = ROOT / "cel-in-coping.js"
+if COPE.exists():
+    cdata = json.loads((ROOT / "data" / "coping.json").read_text())
+    cnames = {r["path"].lstrip("/"): r["name"] for r in json.loads((ROOT / "cb-rooms.json").read_text())["rooms"]}
+    cdoors, cmoments = [], []
+    for i, g in enumerate(cdata["doors"]):
+        cmoments.append(g["moment"])
+        row = []
+        for door in g["doors"]:
+            if door["page"] not in cnames:
+                refuse(f"Coping's door to {door['page']} names a page the room list does not know.")
+                continue
+            row.append([door["page"], cnames[door["page"]]])
+        cdoors.append({"moment": i, "doors": row})
+    cope = COPE.read_text()
+    if "// cel:doors:begin" not in cope:
+        refuse("cel-in-coping.js has lost its cel:doors markers.")
+    else:
+        dl = ("      var DOORS = " + json.dumps(cdoors, ensure_ascii=False) + ";\n"
+              + "      var MOMENTS = " + json.dumps(cmoments, ensure_ascii=False) + ";")
+        cope_new = re.sub(r"(// cel:doors:begin\n).*?(\n\s*// cel:doors:end)", lambda m: m.group(1) + dl + m.group(2), cope, flags=re.S)
+        if cope_new != cope:
+            COPE.write_text(cope_new)
+
 if problems:
     print("REFUSING:\n  " + "\n  ".join(problems))
     sys.exit(2)
