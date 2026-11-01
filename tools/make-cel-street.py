@@ -303,6 +303,27 @@ if VOLS.exists():
         if vols_new != vols:
             VOLS.write_text(vols_new)
 
+# ── The Source's springs, read off its own page ─────────────────────────────
+# The hill on Cel Street holds a pool for every pool on the-source.html, in the
+# page's order, with its name and the side of the hill it steps to, written
+# into cel-in-the-source.js between cel:springs markers, never by hand, so a
+# repository the page grows a pool for is a pool on the hill the next run.
+SRC = ROOT / "cel-in-the-source.js"
+if SRC.exists():
+    springs = [{"name": html.unescape(re.sub(r"<[^>]+>", "", m.group(2))).strip(), "far": bool(m.group(1))}
+               for m in re.finditer(r'<section class="pool( pool--far)?"[^>]*>\s*<h2 class="pool__name"[^>]*>(.*?)</h2>',
+                                    (ROOT / "the-source.html").read_text(), re.S)]
+    src = SRC.read_text()
+    if "// cel:springs:begin" not in src:
+        refuse("cel-in-the-source.js has lost its cel:springs markers.")
+    elif not springs:
+        refuse("the-source.html has no pool for cel-in-the-source.js to find.")
+    else:
+        sl = "      var SPRINGS = " + json.dumps(springs, ensure_ascii=False) + ";"
+        src_new = re.sub(r"(// cel:springs:begin\n).*?(\n\s*// cel:springs:end)", lambda m: m.group(1) + sl + m.group(2), src, flags=re.S)
+        if src_new != src:
+            SRC.write_text(src_new)
+
 if problems:
     print("REFUSING:\n  " + "\n  ".join(problems))
     sys.exit(2)

@@ -61,8 +61,10 @@
 
   var ASPECT = 8 / 5;
   function measure() {
-    var r = bay.getBoundingClientRect();
-    if (r.width > 0 && r.height > 0) ASPECT = r.width / r.height;
+    /* Its layout size, never the box on the screen: on Cel Street the bay
+       stands in a 3D scene, where the screen box is a projection of it. */
+    var w = bay.clientWidth, h = bay.clientHeight;
+    if (w > 0 && h > 0) ASPECT = w / h;
   }
   measure();
   window.addEventListener('resize', measure);

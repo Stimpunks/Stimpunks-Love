@@ -183,6 +183,18 @@
         leaves.push(kit.lift(frame, '.mop-leafshot', { n: i, w: 420, ww: 1.05, m: at(RW / 2 - 0.07, 1.62, z, RIGHT), zone: ROOM }));
       });
 
+      // FURTHER IN: two doors in the reading room's front wall, either side of
+      // the way back to the stacks, each a dark opening in a wooden frame. The
+      // Oracle Deck on the parlour's side, the Doomscroll on the other. What is
+      // through them is drawn in their own rooms, never here.
+      var DX = (SW / 2 + (RW - SW) / 4), DW = 1.3, DH = 2.5;
+      [-1, 1].forEach(function (s) {
+        kit.flat(new T.PlaneGeometry(DW, DH), at(s * DX, DH / 2, AEND - 0.01, Math.PI), '--mop-night');
+        [-1, 1].forEach(function (e) { box(0.12, DH + 0.06, 0.1, at(s * DX + e * (DW / 2 + 0.06), (DH + 0.06) / 2, AEND - 0.05), '--mop-shelf', 0.012); });
+        box(DW + 0.36, 0.14, 0.12, at(s * DX, DH + 0.1, AEND - 0.06), '--mop-shelf', 0.012);
+        box(DW + 0.2, 0.04, 0.3, at(s * DX, 0.02, AEND - 0.15), '--mop-rule', false, false);
+      });
+
       return {
         start: { x: 0, z: -0.8, yaw: 0 },
         bounds: { x: [-AW / 2 + 0.3, AW / 2 - 0.3], z: [back + 1.9, -0.6],
@@ -197,7 +209,9 @@
           { name: 'at the list of cellos, to choose one for the set', x: SX - 0.55, z: TZ + 1.7, yaw: -0.35, pitch: -0.12, frame: cuts.el },
           { name: 'at Doré’s plates on the left-hand wall', x: -RW / 2 + 2.6, z: AEND - 2.7, yaw: LEFT, pitch: 0.05, frame: plates[1].el },
           { name: 'at the leaves of the 1865 printing on the right-hand wall', x: RW / 2 - 2.6, z: AEND - 2.7, yaw: RIGHT, pitch: 0.05, frame: leaves[1].el },
-          { name: 'at the tall windows, with the cold coming in', x: 1.8, z: back + 2.2, yaw: Math.atan2(-(WX - 1.8), 2.2), pitch: 0.3 }
+          { name: 'at the tall windows, with the cold coming in', x: 1.8, z: back + 2.2, yaw: Math.atan2(-(WX - 1.8), 2.2), pitch: 0.3 },
+          { name: 'The Oracle Deck', where: 'at a door in the reading room’s front wall, on the parlour’s side: further in, thirteen engravings with a question on the back of each', room: 'the Oracle Deck', x: -DX, z: AEND - 1.7, yaw: Math.PI, page: 'oracle-deck.html' },
+          { name: 'The Doomscroll', where: 'at a door in the reading room’s front wall, on the other side: further in, poems of doom on an actual scroll', room: 'the Doomscroll', x: DX, z: AEND - 1.7, yaw: Math.PI, page: 'the-doomscroll.html' }
         ]
       };
     }

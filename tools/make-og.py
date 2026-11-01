@@ -6156,11 +6156,11 @@ def main():
         ("galley",   "foundry.html",      r'(<svg class="fo-galley".*?</svg>)'),
         ("falls",    "the-den.html",      r'(<svg class="falls".*?</svg>)'),
         ("otter",    "otterly-adorbs.html", r'(<div class="otter" id="otter".*?</div>\s*</div>)'),
-        ("ottdefs",  "otterly-adorbs.html", r'(<svg width="0" height="0".*?</defs></svg>)'),
+        ("ottdefs",  "otterly-adorbs.html", r'(<svg class="arc-defs" width="0" height="0".*?</defs></svg>)'),
         ("peng",     "penguin-pebbling.html", r'(<div class="peng" id="peng-you".*?</div>\s*</div>)'),
         ("spines",   "the-mopery.html",   r'(<div class="mop-shelf">.*?</div>)'),
         ("clearing", "swaying-sweetgrass.html", r'(<div class="swg-band swg-pit".*?</div>)'),
-        ("pengdefs", "penguin-pebbling.html", r'(<svg width="0" height="0".*?</defs></svg>)'),
+        ("pengdefs", "penguin-pebbling.html", r'(<svg class="pen-defs" width="0" height="0".*?</defs></svg>)'),
     ):
         lifted[key] = field((ROOT / page).read_text(), pat)
         if not lifted[key]:

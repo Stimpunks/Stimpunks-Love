@@ -62,9 +62,11 @@
   var nojs    = document.getElementById('shore-nojs');
 
   var ASPECT = 8 / 5;
+  // By its layout size, never its screen box: Cel Street stands this shore in
+  // a 3D scene, where the screen box is the projected one, at an angle.
   function measure() {
-    var r = shore.getBoundingClientRect();
-    if (r.width > 0 && r.height > 0) ASPECT = r.width / r.height;
+    var w = shore.clientWidth, h = shore.clientHeight;
+    if (w > 0 && h > 0) ASPECT = w / h;
   }
   measure();
   window.addEventListener('resize', measure);
