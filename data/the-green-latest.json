@@ -68,8 +68,24 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-10-31T11:31Z",
+ "set": "2026-11-01T13:00Z",
  "latest": [
+  {
+   "id": "jWSgYaWifMQ",
+   "title": "Edible Garden Harvest Tour 🌿 Potted Blueberries & Seed-Grown Papaya (less than 1/5 acre)",
+   "channel": "Sustainable Holly",
+   "published": "2026-10-31T22:41:35Z",
+   "runs": 1390,
+   "search": "edibles"
+  },
+  {
+   "id": "UdKYAKuIWLg",
+   "title": "PIGGERY FARMING IN A 100X50 URBAN PLOT||MEET URBAN FARMER JOHN MWANGA",
+   "channel": "Its ME Again - ELDER EM",
+   "published": "2026-10-31T13:44:10Z",
+   "runs": 1978,
+   "search": "urban-farms"
+  },
   {
    "id": "nsDlikLZ1nI",
    "title": "What should every home have under the Green Building Policy? | Envoirmental Expert Explains",
@@ -77,6 +93,14 @@
    "published": "2026-10-31T05:09:21Z",
    "runs": 214,
    "search": "green-building"
+  },
+  {
+   "id": "zAl9LKfsI0E",
+   "title": "1,200 TREES PLANTED IN LA MESA URBAN FOREST",
+   "channel": "MegaNoticiasNogales",
+   "published": "2026-10-30T20:30:31Z",
+   "runs": 48,
+   "search": "urban-forests"
   },
   {
    "id": "W2jw4hI73IM",
@@ -183,14 +207,6 @@
    "search": "renewable-energy"
   },
   {
-   "id": "eVB66DoS4Hg",
-   "title": "Urban Farm Model for Food Security",
-   "channel": "Pilgrim Terrace Urban Farm & Kitchen",
-   "published": "2026-10-28T18:36:55Z",
-   "runs": 46,
-   "search": "urban-farms"
-  },
-  {
    "id": "xfESRopxGuM",
    "title": "What does SolarPunk mean?!",
    "channel": "Alex Jurj SolarPunk",
@@ -213,36 +229,10 @@
    "published": "2026-10-28T00:00:56Z",
    "runs": 4115,
    "search": "urban-forests"
-  },
-  {
-   "id": "X48zmsX_Arc",
-   "title": "Karachi Governor House Urban Forest Initiative: 5,000+ Native Trees Planted for Quaid-e-Azam Forest",
-   "channel": "Express News",
-   "published": "2026-10-27T17:30:10Z",
-   "runs": 767,
-   "search": "urban-forests"
-  },
-  {
-   "id": "J_TfCzpu1OU",
-   "title": "Rosewood Initiative builds ‘food forest’ to address child hunger in Portland",
-   "channel": "KPTV FOX 12 Oregon",
-   "published": "2026-10-27T14:23:26Z",
-   "runs": 170,
-   "search": "edibles"
   }
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
  "seen": [
-  {
-   "id": "Zb6X2Wo9w28",
-   "search": "green-spaces",
-   "title": "Green Space | Green Maple | Ambient Piano & Forest White Noise for Study & Work | (1 Hour)",
-   "channel": "VOICE UP STUDIO",
-   "published": "2026-10-25T12:30:30Z",
-   "runs": 3730,
-   "state": "door",
-   "why": "no embedding"
-  },
   {
    "id": "m2I9zbHybJ0",
    "search": "green-spaces",
@@ -259,6 +249,15 @@
    "channel": "Zim POV",
    "published": "2026-10-27T15:19:28Z",
    "runs": 381,
+   "state": "screen"
+  },
+  {
+   "id": "GrjUGZaVPfQ",
+   "search": "green-spaces",
+   "title": "The Hidden Power of Urban Green Spaces: Why Concrete Cities Need This Now   MP4",
+   "channel": "Mekonene Nigussu",
+   "published": "2026-10-27T21:02:06Z",
+   "runs": 98,
    "state": "screen"
   },
   {
@@ -416,24 +415,6 @@
    "state": "screen"
   },
   {
-   "id": "ZMqW0bIZnxo",
-   "search": "urban-forests",
-   "title": "Volunteers help plant trees to expand Evansville's urban forest",
-   "channel": "Eyewitness News WEHT WTVW",
-   "published": "2026-10-25T04:38:00Z",
-   "runs": 117,
-   "state": "screen"
-  },
-  {
-   "id": "Mzo3Qsemzz4",
-   "search": "urban-forests",
-   "title": "We Found a Hidden Jungle in Karachi! 😱 Urban Forest Karachi Vlog",
-   "channel": "Hasan Raza Qadri",
-   "published": "2026-10-25T10:33:40Z",
-   "runs": 1224,
-   "state": "screen"
-  },
-  {
    "id": "nOHbp4M6KhM",
    "search": "urban-forests",
    "title": "Urban Forestry (Chapter 14) - ISA Arborist Certification Study Guide [NO MUSIC] | Tree Talk",
@@ -498,12 +479,12 @@
    "why": "no embedding"
   },
   {
-   "id": "4TXFlxg8syM",
-   "search": "urban-farms",
-   "title": "Who Gets to Grow? Zoning, Water, and Urban Farm Equity",
-   "channel": "emsenn",
-   "published": "2026-10-24T15:00:39Z",
-   "runs": 536,
+   "id": "zAl9LKfsI0E",
+   "search": "urban-forests",
+   "title": "1,200 TREES PLANTED IN LA MESA URBAN FOREST",
+   "channel": "MegaNoticiasNogales",
+   "published": "2026-10-30T20:30:31Z",
+   "runs": 48,
    "state": "screen"
   },
   {
@@ -588,21 +569,12 @@
    "state": "screen"
   },
   {
-   "id": "ZiWzEvVeymM",
-   "search": "edibles",
-   "title": "How to Grow a Food Forest in Pots | Small Space Gardening",
-   "channel": "Nature Nurture Hub",
-   "published": "2026-10-24T14:00:08Z",
-   "runs": 1224,
-   "state": "screen"
-  },
-  {
-   "id": "fHetgjfoW1A",
-   "search": "edibles",
-   "title": "12 SUPPORT PLANTS My Edible Garden Couldn't Survive Without!",
-   "channel": "Sustainable Holly",
-   "published": "2026-10-25T05:50:36Z",
-   "runs": 1267,
+   "id": "UdKYAKuIWLg",
+   "search": "urban-farms",
+   "title": "PIGGERY FARMING IN A 100X50 URBAN PLOT||MEET URBAN FARMER JOHN MWANGA",
+   "channel": "Its ME Again - ELDER EM",
+   "published": "2026-10-31T13:44:10Z",
+   "runs": 1978,
    "state": "screen"
   },
   {
@@ -642,69 +614,20 @@
    "state": "screen"
   },
   {
-   "id": "hAR6B8mo9rs",
+   "id": "jWSgYaWifMQ",
+   "search": "edibles",
+   "title": "Edible Garden Harvest Tour 🌿 Potted Blueberries & Seed-Grown Papaya (less than 1/5 acre)",
+   "channel": "Sustainable Holly",
+   "published": "2026-10-31T22:41:35Z",
+   "runs": 1390,
+   "state": "screen"
+  },
+  {
+   "id": "MI6m4vh3KIM",
    "search": "solarpunk",
    "title": "Solarpunk Ambient LIVESTREAM",
    "state": "pending",
    "why": "live, or not out yet"
-  },
-  {
-   "id": "kyQHRTAkCoE",
-   "search": "solarpunk",
-   "title": "I Build Cosy Homestead in Solarpunk",
-   "channel": "Hioz Mobile",
-   "published": "2026-10-24T20:06:16Z",
-   "runs": 203,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "oEQdtKt8XkI",
-   "search": "solarpunk",
-   "title": "🌱✨SOLARPUNK✨🌱",
-   "channel": "InkSpot",
-   "published": "2026-10-24T22:31:03Z",
-   "runs": 20,
-   "state": "screen"
-  },
-  {
-   "id": "7Xkv-6DXP6U",
-   "search": "solarpunk",
-   "title": "Solarpunk Tribute to my Airship",
-   "channel": "Hioz Mobile",
-   "published": "2026-10-24T23:47:40Z",
-   "runs": 124,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "ty2-CG8HJjg",
-   "search": "solarpunk",
-   "title": "Exploring My Solarpunk Base! ☀️",
-   "channel": "Felipe832",
-   "published": "2026-10-25T02:07:17Z",
-   "runs": 348,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "sT3UXy59Pko",
-   "search": "solarpunk",
-   "title": "[GAMING] Going on an Adventure! - Solarpunk Playthrough (Part 8)",
-   "channel": "The Quiet Part",
-   "published": "2026-10-25T05:41:57Z",
-   "runs": 3677,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "a23c_1_X10k",
-   "search": "solarpunk",
-   "title": "From a Crash to the Open Sky | Solarpunk Airship Tribute",
-   "channel": "AkaRi",
-   "published": "2026-10-25T11:42:40Z",
-   "runs": 178,
-   "state": "screen"
   },
   {
    "id": "iHu49W0jBjQ",
@@ -823,6 +746,16 @@
    "why": "filed under Music"
   },
   {
+   "id": "ygyyucE_P8g",
+   "search": "solarpunk",
+   "title": "🍁 Deep Autumn in the Library | 3H Solarpunk Ambience for Cozy Reading & Focus",
+   "channel": "Verdant Vistas",
+   "published": "2026-10-26T13:00:39Z",
+   "runs": 10800,
+   "state": "left",
+   "why": "filed under Music"
+  },
+  {
    "id": "8q64y19B2V4",
    "search": "solarpunk",
    "title": "Planning Our Biggest Base Upgrade Yet | Solarpunk #05",
@@ -831,6 +764,15 @@
    "runs": 2349,
    "state": "left",
    "why": "filed under Gaming"
+  },
+  {
+   "id": "TLKadRFp4dU",
+   "search": "solarpunk",
+   "title": "Part 3 of solarpunk postcards",
+   "channel": "coreyiscool3845",
+   "published": "2026-10-26T22:54:44Z",
+   "runs": 29,
+   "state": "screen"
   },
   {
    "id": "9uE3pyj-SHA",
@@ -900,6 +842,16 @@
    "runs": 264,
    "state": "left",
    "why": "filed under Music"
+  },
+  {
+   "id": "5ls2e0SaIc0",
+   "search": "solarpunk",
+   "title": "MY SOLARPUNK BASE HAS EVERYTHING",
+   "channel": "Gobi The Nite Hugger",
+   "published": "2026-10-28T03:18:16Z",
+   "runs": 361,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
    "id": "QVa-Oracg8k",
@@ -1009,22 +961,34 @@
    "why": "filed under Gaming"
   },
   {
-   "id": "2x4MRDGVL8o",
-   "search": "renewable-energy",
-   "title": "FedEx’s 100% Renewable Goal Gets Hit One Facility at a Time",
-   "channel": "Clean Earth Media",
-   "published": "2026-10-25T00:59:00Z",
-   "runs": 68,
-   "state": "screen"
+   "id": "k5kYRo4Wd4I",
+   "search": "solarpunk",
+   "title": "Rainy Night on a Solarpunk City Street | Dreamy Ambient Lofi",
+   "channel": "Solar Lofi",
+   "published": "2026-10-31T17:59:57Z",
+   "runs": 4129,
+   "state": "left",
+   "why": "filed under Music"
   },
   {
-   "id": "0-D-onZJnD4",
-   "search": "renewable-energy",
-   "title": "Can Moldova's grids keep up with 1.1 GW of renewables? | Energy Transition Agenda 2026",
-   "channel": "Energynomics",
-   "published": "2026-10-25T12:20:03Z",
-   "runs": 3503,
-   "state": "screen"
+   "id": "88fpi3pAuZM",
+   "search": "solarpunk",
+   "title": "Building the Tower of Power in Solarpunk",
+   "channel": "The Hermit",
+   "published": "2026-10-31T19:33:21Z",
+   "runs": 292,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "DkNpVQq18MQ",
+   "search": "solarpunk",
+   "title": "Solarpunk Transport Drone Guide tips and tricks!",
+   "channel": "Hioz Mobile",
+   "published": "2026-10-31T22:54:06Z",
+   "runs": 268,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
    "id": "OPLHsw-1R8M",
@@ -1052,6 +1016,33 @@
    "channel": "Right Energy Partnership with Indigenous Peoples",
    "published": "2026-10-27T07:07:26Z",
    "runs": 362,
+   "state": "screen"
+  },
+  {
+   "id": "aQdbVPGhHWs",
+   "search": "renewable-energy",
+   "title": "Better Together: Community Energy Pathways",
+   "channel": "Community Energy Cooperative Canada",
+   "published": "2026-10-27T19:11:14Z",
+   "runs": 2935,
+   "state": "screen"
+  },
+  {
+   "id": "wncjHi75YiQ",
+   "search": "renewable-energy",
+   "title": "International Perspectives: Best Practices in Community Energy",
+   "channel": "Community Energy Cooperative Canada",
+   "published": "2026-10-27T19:13:30Z",
+   "runs": 3134,
+   "state": "screen"
+  },
+  {
+   "id": "k_Sp0km-_6I",
+   "search": "renewable-energy",
+   "title": "Advancing a Just Transition in Offshore Renewable Energy Webinar",
+   "channel": "RISE UP for the Ocean (A Blue Call to Action)",
+   "published": "2026-10-27T22:28:00Z",
+   "runs": 5331,
    "state": "screen"
   },
   {
