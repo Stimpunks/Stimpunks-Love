@@ -13,7 +13,8 @@ export default async (req) => {
   let said = 'not-connected';
   try {
     const r = await metaCallback(network, url.searchParams, url.origin);
-    said = r.connected ? 'connected' : r.error === 'account' || r.error === 'page' ? r.error : 'not-connected';
+    // Only which step it stopped at goes in the address, never anything Meta sent.
+    said = r.connected ? 'connected' : ['account', 'page', 'no-pages', 'state', 'no-state', 'refused', 'code', 'long', 'not-set-up'].includes(r.error) ? r.error : 'not-connected';
   } catch (e) { said = 'not-connected'; }
   return new Response(null, { status: 303, headers: {
     location: '/office.html#/posts/meta/' + network + '/' + said,

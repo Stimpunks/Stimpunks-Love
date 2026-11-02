@@ -3923,7 +3923,14 @@
     connected: function (n) { return n + ' is connected. The office posts there now when it is ticked.'; },
     'not-connected': function (n) { return n + ' was not connected. Nothing was changed; Connect tries again.'; },
     account: function () { return 'That Threads account is not ours, so nothing was kept. Sign in to Threads as stimpunks, then Connect again.'; },
-    page: function () { return 'Facebook did not give the office our Page, so nothing was kept. Connect again, and choose the Stimpunks Page when Facebook asks which Pages.'; },
+    page: function () { return 'Facebook gave the office some Pages, but not one called Stimpunks, so nothing was kept. Connect again, and choose the Stimpunks Page when Facebook asks which Pages.'; },
+    'no-pages': function () { return 'Facebook gave the office no Pages at all, so nothing was kept. Connect again, and when Facebook asks which Pages, choose Stimpunks and allow posting to it.'; },
+    state: function (n) { return n + ' sent you back too late, or from an older Connect, so nothing was kept. Connect again.'; },
+    'no-state': function (n) { return 'The office had no Connect waiting for ' + n + ', so nothing was kept. Connect again from here.'; },
+    refused: function (n) { return n + ' said the connection was not allowed, so nothing was kept.'; },
+    code: function (n) { return n + ' would not give the office a token for the sign-in, so nothing was kept. Check the app’s id and secret in Netlify, and the redirect address in the Meta app.'; },
+    long: function (n) { return n + ' gave a short token but would not make it a lasting one, so nothing was kept. Check the app’s secret in Netlify.'; },
+    'not-set-up': function (n) { return n + ' is not set up: the Meta app’s id and secret are not in Netlify’s settings.'; },
   };
   function socialView(back) {
     view.textContent = '';
@@ -3931,21 +3938,24 @@
     return call('view=social').then(function (r) {
       if (r.status !== 200) return refused(r);
       took(r.body);
-      var h = drawSocial(r.body.social);
-      // Back from Threads or Facebook, the address says only how it went, and loses
-      // the network's query (its code, already used) here.
-      if (back && META_BACK[back.said]) say(META_BACK[back.said](back.network === 'threads' ? 'Threads' : 'Facebook'));
+      // Back from Threads or Facebook, the address says only how it went: it is said
+      // in the Threads and Facebook part, where it stays while the page is open, and
+      // the network's query (its code, already used) leaves the address here.
+      var told = back && META_BACK[back.said] ? META_BACK[back.said](back.network === 'threads' ? 'Threads' : 'Facebook') : null;
+      var h = drawSocial(r.body.social, told);
+      if (told) say(told);
       if (back) step.replace(location.pathname + '#/posts');
       return h;
     });
   }
   /* Threads and our Facebook Page, connected through our Meta app: the office
      posts to them while connected, and they are posted by hand otherwise. */
-  function metaPanel(so) {
+  function metaPanel(so, told) {
     var box = el('section', 'of-social-meta');
     box.setAttribute('aria-labelledby', 'of-social-meta-h');
     var h = el('h3', null, 'Threads and Facebook'); h.id = 'of-social-meta-h';
     box.appendChild(h);
+    if (told) box.appendChild(el('p', 'of-social-told', told));
     var ul = el('ul', 'of-theirs');
     [['threads', 'Threads', 'our Threads account, stimpunks'], ['facebook', 'Facebook', 'our Facebook Page, Stimpunks']].forEach(function (x) {
       var st = (so.meta || {})[x[0]] || {}, li = el('li');
@@ -4010,7 +4020,7 @@
     var href = net.key === 'threads' ? net.open + encodeURIComponent(text) : net.open;
     return outLink(href, net.key === 'threads' ? 'Open Threads with the words' : 'Open ' + net.name);
   }
-  function drawSocial(so) {
+  function drawSocial(so, told) {
     view.textContent = '';
     var h = heading(2, 'Posts');
     view.appendChild(h);
@@ -4019,7 +4029,7 @@
     var auto = nets.filter(function (n) { return n.how === 'api'; }), hand = nets.filter(function (n) { return n.how === 'hand'; });
     view.appendChild(el('p', null, 'One post to our networks, in ' + so.max + ' characters or fewer, because Bluesky takes ' + so.max + ' and the others take more. '
       + andNames(auto) + (auto.length > 1 ? ' are' : ' is') + ' posted by the office.' + (hand.length ? ' ' + andNames(hand) + (hand.length > 1 ? ' are' : ' is') + ' posted by hand: the office copies the words and opens each one, and whoever posts there says so here.' : '')));
-    view.appendChild(metaPanel(so));
+    view.appendChild(metaPanel(so, told));
 
     var form = el('form', 'of-form of-social');
     form.noValidate = true;

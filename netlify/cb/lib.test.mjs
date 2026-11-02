@@ -9807,7 +9807,8 @@ function fakeMeta(o = {}) {
     }
     if (u.host === 'graph.facebook.com') {
       if (u.pathname.endsWith('/oauth/access_token')) return answer(200, { access_token: u.searchParams.get('grant_type') ? 'long-user' : 'short-user' });
-      if (u.pathname.endsWith('/me/accounts')) return answer(200, { data: [{ id: '111', name: 'Somebody else', username: 'other', access_token: 'no' }, { id: '222', name: 'Stimpunks', username: 'stimpunksorg', access_token: 'page-token' }] });
+      if (u.pathname.endsWith('/me/accounts')) return answer(200, { data: o.noPages ? [] : [{ id: '111', name: 'Somebody else', username: 'other', access_token: 'no' },
+        { id: '222', name: 'Stimpunks', ...(o.noUsername ? {} : { username: 'stimpunksorg' }), access_token: 'page-token' }] });
       if (u.pathname.endsWith('/222/feed')) return answer(200, { id: '222_999' });
       if (u.pathname.endsWith('/222')) return answer(o.pageLapsed ? 400 : 200, { id: '222' });
     }
@@ -9832,7 +9833,7 @@ test('meta: connecting keeps only our own Threads account and our own Page, seal
   assert.equal(go.origin + go.pathname, 'https://threads.com/oauth/authorize');
   const params = new URLSearchParams({ state: go.searchParams.get('state'), code: 'x' });
   assert.equal((await metaCallback('threads', params, 'https://stimpunks.world', s, T0 + 1000, other.f)).error, 'account');
-  assert.equal((await metaCallback('threads', params, 'https://stimpunks.world', s, T0 + 2000, other.f)).error, 'state', 'a state was used twice');
+  assert.equal((await metaCallback('threads', params, 'https://stimpunks.world', s, T0 + 2000, other.f)).error, 'no-state', 'a state was used twice');
   const net = fakeMeta();
   await connectBoth(s, net);
   const st = await metaStatus(TRYAN, s, T0 + 2000);
@@ -9865,4 +9866,14 @@ test('meta: a connected Threads and Page are posted to by the office, and Thread
   await metaDisconnect(TRYAN, 'threads', s);
   const later = await socialPost(TRYAN, { text: 'Later', to: ['threads'] }, s, Date.now(), net.f, pageGet);
   assert.equal(later.post.to.threads.state, 'hand');
+})));
+
+test('meta: our Page is found by its name when Facebook sends no username, and no Pages at all is said as such', () => withOfficeKey(OFFICE_TEST_KEY, () => withMetaKeys(async () => {
+  for (const [o, want] of [[{ noUsername: true }, true], [{ noPages: true }, 'no-pages']]) {
+    const s = memoryStore({ etagOnRead: true });
+    const net = fakeMeta(o);
+    const go = new URL((await metaConnect(TRYAN, 'facebook', 'https://stimpunks.world', s, T0)).go);
+    const r = await metaCallback('facebook', new URLSearchParams({ state: go.searchParams.get('state'), code: 'c' }), 'https://stimpunks.world', s, T0 + 1000, net.f);
+    assert.equal(want === true ? r.connected : r.error, want);
+  }
 })));

@@ -17470,7 +17470,7 @@ const THREADS_ACCOUNT = 'stimpunks';
 const FB_V = 'v25.0';
 const FB_AT = 'https://graph.facebook.com/' + FB_V, FB_AUTH = 'https://www.facebook.com/' + FB_V + '/dialog/oauth';
 const FB_SCOPE = 'pages_show_list,pages_manage_posts,pages_read_engagement';
-const FB_PAGE = 'stimpunksorg';
+const FB_PAGE = 'stimpunksorg', FB_PAGE_NAME = 'stimpunks';
 const META_CALLBACK = { threads: '/cb/office/threads', facebook: '/cb/office/facebook' };
 // Threads asks for a wait between making a post and publishing it; a text post is
 // usually ready at once, so it is asked after each of these, and left for a second
@@ -17520,7 +17520,7 @@ export async function metaCallback(network, params, origin, s = store(), now = D
     if (!kept) return null;
     const next = { ...was }; delete next[network]; return next;
   }, s);
-  if (!kept || !state || kept.hash !== metaHash(state) || now - kept.t > META_STATE_FOR) return { error: 'state' };
+  if (!kept || !state || kept.hash !== metaHash(state) || now - kept.t > META_STATE_FOR) return { error: kept ? 'state' : 'no-state' };
   if (params.get('error') || !code) return { error: 'refused' };
   const redirect = origin + META_CALLBACK[network];
   if (network === 'threads') {
@@ -17542,12 +17542,15 @@ export async function metaCallback(network, params, origin, s = store(), now = D
   if (!short || typeof short.access_token !== 'string') return { error: 'code' };
   const long = await metaJson(await metaAsk(fetchFn, FB_AT + '/oauth/access_token?' + new URLSearchParams({
     grant_type: 'fb_exchange_token', client_id: c.id, client_secret: c.secret, fb_exchange_token: short.access_token })));
-  if (!long || typeof long.access_token !== 'string') return { error: 'code' };
+  if (!long || typeof long.access_token !== 'string') return { error: 'long' };
   const pages = await metaJson(await metaAsk(fetchFn, FB_AT + '/me/accounts?' + new URLSearchParams({
     fields: 'id,name,username,access_token', limit: '100', access_token: long.access_token })));
-  const list = pages && Array.isArray(pages.data) ? pages.data : [];
-  const page = list.find((p) => String(p.username || '').toLowerCase() === FB_PAGE) || null;
-  if (!page || typeof page.access_token !== 'string' || !/^\d+$/.test(String(page.id))) return { error: 'page', saw: list.map((p) => String(p.name || '')).slice(0, 10) };
+  const list = (pages && Array.isArray(pages.data) ? pages.data : []).filter((p) => p && typeof p.access_token === 'string' && /^\d+$/.test(String(p.id)));
+  if (!list.length) return { error: 'no-pages' };
+  // Our Page by its username, which Facebook does not always send, or by its name.
+  const page = list.find((p) => String(p.username || '').toLowerCase() === FB_PAGE)
+    || list.find((p) => String(p.name || '').trim().toLowerCase() === FB_PAGE_NAME) || null;
+  if (!page) return { error: 'page' };
   await updateSealed(META_FB, () => ({ page: String(page.id), name: String(page.name || ''), token: page.access_token, by: kept.by, t: now }), s);
   return { connected: true };
 }

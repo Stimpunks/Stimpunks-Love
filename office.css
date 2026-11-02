@@ -379,3 +379,4 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-sents { list-style: none; padding-left: 0; gap: 0; }
 .of-social-meta { margin: 6px 0 16px; display: grid; gap: 6px; }
 .of-social-meta h3 { margin: 0; font-size: 18px; color: var(--cb-steel); }
+.of-social-told { margin: 0; padding: 6px 10px; border: 2px solid var(--cb-amber); border-radius: 6px; }
