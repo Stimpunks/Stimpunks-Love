@@ -1,7 +1,25 @@
 {
- "_source": "Imported from stimpunkssocial.wordpress.com's WordPress export of 2026-11-02 by tools/import-social.py. Posts from the office are added by the morning fold (tools/pull-social.py). Never hand-edit a post's words.",
+ "_source": "Imported from stimpunkssocial.wordpress.com's WordPress export of 2026-11-02 by tools/import-social.py. Posts Bluesky had and WordPress did not, from May 2026, were added from our Bluesky export by tools/import-bluesky.py the same day. Posts from the office are added by the morning fold (tools/pull-social.py). Never hand-edit a post's words.",
  "imported": "stimpunkssocial.wordpress.com.2026-11-02.000.xml",
  "posts": [
+  {
+   "id": "b3mzcxwvje52rv",
+   "t": "2026-11-02T09:07:29Z",
+   "text": "A third place is somewhere that isn't home or work and asks nothing of you.\n\nThe classic one is a watering hole: the talk is the point. A Cavendish Space adds a cave, a campfire, and a door you're allowed to stand outside.\n\nhttps://stimpunks.org/2026/11/01/a-third-place-needs-a-cave/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mz7wumtnr62h",
+   "t": "2026-11-01T04:10:19Z",
+   "text": "Campfire Learn Together, November 1st at 10AM CT / 4PM UK, in the Events Room on Stimpunks.World.\n\nFoucault's Discipline and Punish, read from the bodies it couldn't use: quiet hands, masking, judges of normality.\n\nhttps://stimpunks.org/2026/10/31/campfire-learn-together-the-production-of-docile-bodies/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3myzmtz5yau2f",
+   "t": "2026-10-29T15:55:03Z",
+   "text": "Thursday's Infodumplings is a Halloween Hootenanny: a spooky show-and-tell in the Haunted House on Stimpunks.World. Dress your avatar, bring your chimera, show us something haunted.\n\nMembers only. 7PM Central.\n\nhttps://stimpunks.org/2026/10/28/infodumplings-halloween-hootenanny-in-the-haunted-house/",
+   "from": "bluesky"
+  },
   {
    "id": "w2695",
    "t": "2026-10-15T14:00:49Z",
@@ -11,6 +29,12 @@
    "id": "w2693",
    "t": "2026-09-16T01:50:53Z",
    "text": "Stimpunks is not only stimpunks.org.\n\nFive smaller sites, each doing one thing the big site cannot. All free, all open-licensed, all made with Helen Edgar.\n\nWe built them one at a time for a year and never said so in one place. Now we have.\n\nhttps://stimpunks.org/2026/09/15/our-sibling-sites/"
+  },
+  {
+   "id": "b3mufvnh7ugh27",
+   "t": "2026-08-31T21:58:25Z",
+   "text": "Came Back Clean — what buried underpants say about soil\n\nA thousand people buried two thousand pairs of underpants across Switzerland. The ones that came back cleanest were under lawns — and that is the bad result.\n\nhttps://starstuff.earth/came-back-clean",
+   "from": "bluesky"
   },
   {
    "id": "w2691",
@@ -78,6 +102,12 @@
    "text": "We had a strong position on co-design and no page for it.\n\nA review of 55 studies using the word found 44% never defined it. 7% did anything about power.\n\nCo-design isn't consultation at the testing stage. It is power-sharing at the architecture stage.\n\nhttps://stimpunks.org/glossary/co-design/"
   },
   {
+   "id": "b3msxysukz2c2d",
+   "t": "2026-08-13T15:52:41Z",
+   "text": "Today is the last chance to get tickets for the Autistic Mental Health Conference\nHybrid event. Recorded.\n14-16th Aug 2026\n\nhttps://neurohubcommunity.org/2026-autistic-mental-health-conference/?v=7885444af42e\n\nWith @neurohubcommunity.org",
+   "from": "bluesky"
+  },
+  {
    "id": "w2668",
    "t": "2026-08-13T14:28:55Z",
    "text": "There is a website we have been building all year that is mostly made of wonder and citations.\n\nTonight at Infodumplings, the tour of ★ stuff — then the floor is open for Star Stuff talk. 7PM Central.\n\nhttps://stimpunks.org/2026/08/13/infodumplings-star-stuff-and-the-shelves-we-built-last/"
@@ -123,6 +153,18 @@
    "text": "We all run a system we invented. The alarm labeled with a whole sentence. The one drawer.\n\nTonight at Infodumplings: 10 min on our Knowledge System, then the floor is yours.\n\nWhat gets you through the day?\n\nhttps://stimpunks.org/2026/08/06/infodumplings-the-systems-that-get-us-through-the-day/"
   },
   {
+   "id": "b3msdv7pfmhy27",
+   "t": "2026-08-05T15:55:01Z",
+   "text": "We wrote up what our knowledge base has to do with learning.\n\nTwo things worth teaching: help students cultivate a knowledge garden they keep after the term ends, and teach revision control.\n\nNeither of them is \"how to use AI.\"\n\nhttps://stimpunks.org/space/knowledge-system/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3msbzwifekf27",
+   "t": "2026-08-04T22:14:00Z",
+   "text": "School produces knowledge work for thirteen years, then throws nearly all of it away.\n\nAn essay is written, graded, returned, lost. We don't do that to professionals — a researcher keeps a bibliography, a developer keeps a repository.\n\nhttps://stimpunks.org/space/knowledge-system/",
+   "from": "bluesky"
+  },
+  {
    "id": "w2650",
    "t": "2026-08-04T18:54:11Z",
    "text": "Distributed, text-first, open-by-default work is an access practice. The open web is disability infrastructure nobody labeled as such.\n\nhttps://stimpunks.org/2026/08/04/campfire-learn-together-code-for-the-people/#h-free-life-changing-and-available-to-everyone"
@@ -131,6 +173,24 @@
    "id": "w2648",
    "t": "2026-08-04T18:54:01Z",
    "text": "Sunday Aug 9, 10AM CT: our Campfire watches “Code for the People,” Bao Nguyen's documentary on open source and the open web.\n\nI helped start WordPress and Automattic. Our practices came out of that work.\n\nhttps://stimpunks.org/2026/08/04/campfire-learn-together-code-for-the-people/"
+  },
+  {
+   "id": "b3msbeqrftfl2m",
+   "t": "2026-08-04T15:55:00Z",
+   "text": "Bus factor 1 is a design failure. The mechanism is almost never a bus — it's burnout, a flare, leave, six weeks where reading a PDF isn't happening.\n\nSo we wrote up how our knowledge base works, automation and unfinished parts included.\n\nhttps://stimpunks.org/fieldguide/it/knowledge-system/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3ms6s4em24k2m",
+   "t": "2026-08-03T15:16:10Z",
+   "text": "Week 31 changelog: we drew the whole building. A Site Directory, a Style Guide you can link to, eight reading fonts, and Terms of Use that welcome reuse.\n\nhttps://stimpunks.org/2026/08/03/stimpunksorg-changelog-for-week-31-2026-from-the-map-to-the-directory-from-the-warning-to-the-welcome/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mrxcv4dxwq2y",
+   "t": "2026-07-31T15:55:01Z",
+   "text": "New 2 part blog series from Autism Central written by our  co-creative director at Stimpunks, Helen Edgar (Autistic Realms).\n\nPart 1. What is Autistic burnout?\n\nPart 2 How to support Autistic burnout recovery\n\nhttps://www.autismcentral.nhs.uk/news/blog-what-autistic-burnout\n\nhttps://www.autismcentral.nhs.uk/news/blog-how-support-autistic-burnout-recovery",
+   "from": "bluesky"
   },
   {
    "id": "w2646",
@@ -208,6 +268,12 @@
    "text": "Lilypad Library: A Brand New Preschool Television Pilot\nHelp us create the pilot for a low-stimulation puppet series celebrating neurodiversity and kindergarten readiness.\nOur friends/allies/partners at Lilypad Library just announced their Kickstarter. We are excited about what they’re doing. Check out their work, and help them fund their pilot episode.\nhttps://www.kickstarter.com/projects/lilypadlibrary/lilypad-library-a-brand-new-preschool-television-pilot/"
   },
   {
+   "id": "b3mpy6obnvwc2s",
+   "t": "2026-07-06T13:21:53Z",
+   "text": "Our friends/allies/partners at Lilypad Library just announced their Kickstarter. We are excited about what they’re doing. Check out their work, and help them fund their pilot episode.\n\nhttps://www.kickstarter.com/projects/lilypadlibrary/lilypad-library-a-brand-new-preschool-television-pilot/",
+   "from": "bluesky"
+  },
+  {
    "id": "w2618",
    "t": "2026-07-05T11:15:37Z",
    "text": "Without Om Malik, Stimpunks probably wouldn't exist. I sold part of Automattic to fund this work. We couldn't have paid staff all these years without him.\n\nPouring one out for Om on this July 4th. May his memory be a revolution.\n\nhttps://stimpunks.org/2026/07/04/om-malik-we-wouldnt-be-here-without-him/"
@@ -216,6 +282,18 @@
    "id": "w2616",
    "t": "2026-07-05T11:12:26Z",
    "text": "Two masters at two pianos, making sure the ones who came before them aren't forgotten.\n\nThat's the oldest learning there is. It's what this gathering is named for.\n\nSunday 10AM Central. All modes welcome. Come as you are.\n\nhttps://stimpunks.org/2026/07/04/campfire-learn-together-two-masters-at-two-pianos/"
+  },
+  {
+   "id": "b3mpuq2wldzl2o",
+   "t": "2026-07-05T04:22:33Z",
+   "text": "I feel like letting my freak flag fly\nYes, I feel like I owe it to someone\n\n— “Almost Cut My Hair” by Crosby, Stills, Nash & Young\n\nhttps://www.youtube.com/watch?v=as5lE64J1hQ&list=RDas5lE64J1hQ",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mpugoxykww2d",
+   "t": "2026-07-05T01:34:48Z",
+   "text": "When the wealthiest men in tech tried to return to colonialism, Om made the wickedness of their plan plain to the world. His words changed global plans.\n\nBe like Om. Remember beyond the mythology. Forgetting is a tool of white supremacy.\n\nhttps://stimpunks.org/2026/07/04/om-malik-we-wouldnt-be-here-without-him/",
+   "from": "bluesky"
   },
   {
    "id": "w2614",
@@ -233,6 +311,12 @@
    "text": "The Declaration of Independence is a list. A bill of particulars against a king. The founding move was naming power and aiming the grievance up — at the crown, not the governed. 250 years on, keep the instinct: Monitor Power, Not People.\n\nhttps://stimpunks.org/2026/07/04/monitor-power-not-people/"
   },
   {
+   "id": "b3mpss3csydk2b",
+   "t": "2026-07-04T09:53:14Z",
+   "text": "“Left to itself, power moves to protects the institution, not the child”",
+   "from": "bluesky"
+  },
+  {
    "id": "w2609",
    "t": "2026-07-03T00:57:36Z",
    "text": "Screens are infrastructure. For neurodivergent and disabled people, they're assistive devices, regulation tools, community spaces, lifelines. The \"screen time\" panic gets it backwards.\n\nhttps://stimpunks.org/gaming/"
@@ -243,9 +327,145 @@
    "text": "Farmer Chris Newman fits structural critiques of America — race, class, mutual aid, decolonization — into 3-min reels, holding up chickens.\n\nInfodumplings, Thu July 2, 7PM CT.\n\nhttps://stimpunks.org/2026/07/01/infodumplings-farming-while-beige-or-how-to-feed-everybody-while-being-funny-as-hell/"
   },
   {
+   "id": "b3mpjzmamful2v",
+   "t": "2026-06-30T22:14:00Z",
+   "text": "The right to live in community was never given. It was won. It is being taken — methodically, on every front, by people who would rather count us than house us.\n\nhttps://stimpunks.org/2026/06/15/community-living-is-being-dismantled-on-every-front-at-once/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mpjegkcuhy23",
+   "t": "2026-06-30T15:55:01Z",
+   "text": "The gaming is the solution they found.\n\nBanning it removes a coping strategy without addressing what required coping in the first place.\n\nGaming Is Infrastructure: Screens, Neurodiversity, and Disability\n\nhttps://stimpunks.org/gaming/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mphj5d2hkd2m",
+   "t": "2026-06-29T22:14:00Z",
+   "text": "Technology interventions designed for students with learning differences show effect sizes of +0.61.\n\nThe problem isn't technology. It's purposeless technology.\n\nAnd banning gaming removes a coping strategy without addressing what required coping in the first place.\n\nhttps://stimpunks.org/gaming/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mpgtxmyjss2k",
+   "t": "2026-06-29T15:55:01Z",
+   "text": "The screen time panic follows a pattern.\n\nIdentify a villain. Wage war. Move on. Never address the underlying conditions.\n\nThe villain changes. The conditions don't.\n\n\"Adopt without thinking, panic, remove without thinking.\"\n\nhttps://stimpunks.org/gaming/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mpeyofhaqg22",
+   "t": "2026-06-28T22:14:00Z",
+   "text": "\"Every single ableist stereotype that you’ve heard for your entire life that you’ve never evaluated, that will be the lens through which other people see you \"\n— Imani Barbarin\n\nAnti-ableism isn't charity toward others. It's survival work for everyone.\n\n⛑️ https://stimpunks.org/aid/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mpediozar22y",
+   "t": "2026-06-28T15:55:00Z",
+   "text": "We're proud to be fiscal sponsors of Lilypad Library. A children's show written from lived Autistic experience, built around the ARLES framework, made for neurodivergent kids and the adults in their lives.\n\nhttps://stimpunks.org/2026/05/26/we-are-fiscal-sponsors-of-lilypad-library/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mpci7hq5zl2u",
+   "t": "2026-06-27T22:14:00Z",
+   "text": "The Lilypad Library team is integrating our ARLES design method into the format and arc of their show. Attention → Relational → Lived Experience → Environment → Systems. Designing a world where different minds are expected — one episode at a time.\n\nhttps://stimpunks.org/2026/05/26/we-are-fiscal-sponsors-of-lilypad-library/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mpbszsyu5g22",
+   "t": "2026-06-27T15:55:02Z",
+   "text": "Cavendish Space is what happens when environments are designed around attention, regulation, and human variation.\n\nhttps://stimpunks.org/cavendish/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mp7xqkm7yn2h",
+   "t": "2026-06-26T22:14:00Z",
+   "text": "We are building access as shared infrastructure.\n\nIf this work supports you—or people you love—help sustain it.\n\nNo saviors.\nNo compliance.\nJust shared care. \n\nhttps://stimpunks.org/manifesto/fundraising/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mp7qugr2hk22",
+   "t": "2026-06-26T20:10:54Z",
+   "text": "Disability support systems are being dismantled on every front. Meanwhile, for every $10 in U.S. grantmaking, only about one penny goes to disability.\n\nThank you @arianagrande and @brighterdaysaheadfdn for seeing us and helping us.\n\nhttps://stimpunks.org/2026/06/26/ariana-grande-brighter-days-ahead-stimpunks-and-the-future-of-philanthropy/\n\nArt: @rain_mosh",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mp7g2ymc6m2f",
+   "t": "2026-06-26T16:57:43Z",
+   "text": "“Brighter Days Ahead Foundation is doing exactly what this moment in the world needs.”\n\nhttps://stimpunks.org/2026/06/26/ariana-grande-brighter-days-ahead-stimpunks-and-the-future-of-philanthropy/\n\n“Authenticity is our eternal sunshine, and brighter days are built together.”",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mp7ckzggvl2c",
+   "t": "2026-06-26T15:55:06Z",
+   "text": "Punk — We bring the hidden to the front.\nProgressive — We educate for liberation.\nProud — We refuse to disappear.\n\nhttps://stimpunks.org/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mp5hbnayz322",
+   "t": "2026-06-25T22:14:00Z",
+   "text": "Cavendish Space is not only a room layout. It is an ecology of rhythms, transitions, and participation structures.\n\nNot just where you are. How you move through time together.\n\nhttps://stimpunks.org/cavendish/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mp4s3yje5q2t",
+   "t": "2026-06-25T15:55:02Z",
+   "text": "Hoarding insight in closed systems is how people get left out.\n\nSo we don't.\n\nOur bookmarks library — updated daily, freely available, default to open.\n\nhttps://stimpunks.org/library/bookmarks/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mp4ryii5ls25",
+   "t": "2026-06-25T15:53:05Z",
+   "text": "Ariana Grande's Brighter Days Ahead Foundation is supporting @stimpunks.org!\nTheir work — trans rights, mental health, grassroots care for communities the world treats as disposable — is our work.\nBrighter days are not a repair. They are better conditions for light that was always there.\nLYSS. ★☀️",
+   "from": "bluesky",
+   "images": [
+    {
+     "from": "at://did:plc:p3ibukbshrol6v454rwdlf3i/app.bsky.feed.post/3mp4ryii5ls25#0",
+     "file": "bsky-3mp4ryii5ls25-0.jpg",
+     "w": 1080,
+     "h": 1350,
+     "alt": "A square social media graphic with a deep black cosmic background scattered with gold star dust and particles. At the centre, a brilliant golden star bursts with radiant light rays extending outward in all directions, glowing warmly against the dark sky. At the top in large cream serif text: \"Thank you @arianagrande and @brighterdaysaheadfdn\". In the lower half, in large cream serif text: \"Authenticity is our Eternal Sunshine. Eternal Sunshine is Starlight. So are you!\" At the bottom centre in smaller gold text: \"LYSS. ★☀️\" and \"STIMPUNKS.ORG\". In the bottom right corner, the Stimpunks Foundation logo — a white umbrella icon above the word \"STIMPUNKS\" in white.",
+     "alt_by": "us"
+    }
+   ]
+  },
+  {
+   "id": "b3mp4rynhag225",
+   "t": "2026-06-25T15:53:05Z",
+   "text": "Read our blog: https://stimpunks.org/star-stuff/eternal-sunshine/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mp4ryp35kc25",
+   "t": "2026-06-25T15:53:05Z",
+   "text": "Find out more: https://www.brighterdaysaheadfoundation.org/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mp4hzbpgut2u",
+   "t": "2026-06-25T12:54:34Z",
+   "text": "Tonight at Infodumplings we play Penguin Pebbling — the neuro-affirming card game Helen Edgar & Ryan Boren built around the Five Neurodivergent Love Locutions.\n\nNo winners. No wrong way to play. 7PM Central, Discord.\n\nhttps://stimpunks.org/2026/06/25/infodumplings-i-saw-this-and-thought-of-you/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mp2wspsxmp2g",
+   "t": "2026-06-24T22:14:00Z",
+   "text": "Bricolage is how we work.\n\nWe build understanding from what's at hand. Nothing too small. Nothing too scattered.\n\nOur living bookmarks library — gathered daily from Autistic and neurodivergent communities, researchers, educators, and advocates.\n\nDefault to open.\n\nhttps://stimpunks.org/library/bookmarks/",
+   "from": "bluesky"
+  },
+  {
    "id": "w2605",
    "t": "2026-06-24T09:46:41Z",
    "text": "The Linda Lindas just signed to Warner and dropped \"Burning Out.\" Good moment to revisit why we built a whole piece around them — punk DIY ethos through a disability lens.\n\nWe rebuild what you destroy.\n\nhttps://stimpunks.org/2023/11/15/we-rebuild-what-you-destroy-a-celebration-of-the-linda-lindas-and-punk-diy-ethos/"
+  },
+  {
+   "id": "b3moygdrwyq62f",
+   "t": "2026-06-23T22:14:00Z",
+   "text": "Research belongs to the people it's about.\n\nOur bookmarks library: papers, posts, threads, talks, zines, field reports — gathered from Autistic and neurodivergent communities, updated daily, free to take and use.\n\nCommunity research. In public. In the open.\n\nhttps://stimpunks.org/library/bookmarks/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3moxr64d6gv2w",
+   "t": "2026-06-23T15:55:01Z",
+   "text": "Mutual aid is not charity. It is not a handout or an act of pity.\n\nDisabled people experience poverty at double the rate of nondisabled people. We wait decades for care the state promised. The systems were designed to exhaust and disqualify.\n\nWe show up for each other anyway.\n\nhttps://stimpunks.org/aid/",
+   "from": "bluesky"
   },
   {
    "id": "w2604",
@@ -253,9 +473,63 @@
    "text": "70,000 Texans on the Medicaid waiver waitlist. Some waiting 20 years.\n\nThe complexity of the benefits system is not a design failure. Psychological harm has been used deliberately as a technique to deter claimants.\n\nThis is not a bug. It is the design.\n\nhttps://stimpunks.org/aid/"
   },
   {
+   "id": "b3mow63vh3k32o",
+   "t": "2026-06-23T00:41:05Z",
+   "text": "Highlander crossed racial and geographic borders. We cross neurological and embodied ones. The method transfers.\n\nLineage. Forgetting is a tool of white supremacy. Memory is the work.\n\nhttps://stimpunks.org/space/highlander/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3movapcxtjg2m",
+   "t": "2026-06-22T15:55:05Z",
+   "text": "Disability systems rely on artificial economies of scarcity.\n\nThe scarcity is artificial. The cruelty is intentional. The mutual aid is real.\n\nhttps://stimpunks.org/aid/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3motffx6mqx2r",
+   "t": "2026-06-21T22:14:00Z",
+   "text": "The vast majority of philanthropic resources go to well-resourced organizations not accountable to directly impacted communities.\n\nGrant applications create temporal lotteries. The buy-in isn't money. It's time.\n\nWe built our grants to not do this.\n\nhttps://stimpunks.org/aid/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mosqaarl2u2b",
+   "t": "2026-06-21T15:55:00Z",
+   "text": "Poverty is an industry. Direct cash threatens it.\n\nhttps://stimpunks.org/philosophy/direct-support-to-individuals/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3moquwzuzxr2v",
+   "t": "2026-06-20T22:14:00Z",
+   "text": "SSI's asset limit is $2,000. It hasn't been updated since 1989. Saving disqualifies you. Working past a threshold disqualifies you. Getting married can disqualify you.\n\nThis is not a design flaw. It is the design.\n\nhttps://stimpunks.org/philosophy/direct-support-to-individuals/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3moq7rhmday2j",
+   "t": "2026-06-20T15:55:05Z",
+   "text": "Cash reduces homelessness. Cash increases full-time employment. Cash helps people leave domestic violence. Cash funds AAC devices insurance denied.\n\nRecipients know what they need. When given the resources to meet those needs, they do.\n\nhttps://stimpunks.org/philosophy/direct-support-to-individuals/",
+   "from": "bluesky"
+  },
+  {
    "id": "w2602",
    "t": "2026-06-19T23:26:18Z",
    "text": "“The survey findings raise a number of important points adding to our understanding of burnout among disability activists in the UK. We found that burnout, particularly the dimension of exhaustion, is high.”\n—Adwan-Kamara, et al, 2026\n\n“We exist as friction.”\n—Liz Jackson\n\nhttps://journals.plos.org/plosone/article?id=10.1371/journal.pone.0342846"
+  },
+  {
+   "id": "b3mooei4hhgb2g",
+   "t": "2026-06-19T22:14:00Z",
+   "text": "Poverty is a policy choice. Disabled people are poor because systems are designed to keep us poor. Direct cash bypasses the bureaucracy designed to gatekeep. It trusts people to know their own needs.\n\nBroken systems, not broken people.\n\nhttps://stimpunks.org/philosophy/direct-support-to-individuals/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3monpcibx632z",
+   "t": "2026-06-19T15:55:03Z",
+   "text": "Person-first language went from etiquette to ableism.\n\nIdentity-first language connects us with community, culture, and the power to advocate for ourselves.\n\nThinking differently requires speaking differently.\n\nhttps://stimpunks.org/language/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3moltz6ounb2w",
+   "t": "2026-06-18T22:14:00Z",
+   "text": "There's a language gap between self-advocates and the institutions that claim to represent us.\n\nThe gap between person-first and identity-first isn't etiquette. It's politics.\n\nhttps://stimpunks.org/language/",
+   "from": "bluesky"
   },
   {
    "id": "w2600",
@@ -263,14 +537,158 @@
    "text": "The forces of neuronormativity feel overwhelming in this age of mass behaviorism and unvarnished eugenics.\n\nDespite it all, we choose to live proudly.\n\nLet’s be proud in a world that soaks us in shame.\n\nJoin us for Autistic Pride Day.\n\nhttps://stimpunks.org/2026/06/18/my-prides-a-riot-its-not-a-parade/"
   },
   {
+   "id": "b3mol6tinnh72g",
+   "t": "2026-06-18T15:55:01Z",
+   "text": "Autistic is an important part of my identity.\n\nDisabled is an important part of my identity.\n\n\"The label 'disabled' means I have community. I have rights. I can be proud.\"\n\nIdentity-first language connects us with all of that.\n\nhttps://stimpunks.org/language/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mojdkbyaze22",
+   "t": "2026-06-17T22:14:00Z",
+   "text": "Emotional bids are requests to connect. They're often subtle because vulnerability is scary.\nThis list is about recognizing and meeting some common neurodivergent emotional bids — infodumps, parallel play, pebbles, pressure, spoon swaps.\n\nMeet people where they are.\n\nhttps://stimpunks.org/2022/01/22/the-five-neurodivergent-love-languages-2/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3moioeohl3l2t",
+   "t": "2026-06-17T15:55:04Z",
+   "text": "Care isn't a charity. It's infrastructure.\n\nWhen care is underfunded, it's always the same people who lose access. Disabled people. Neurodivergent people. Those the system was never designed to include.\n\nThe Care Infrastructure Fund exists to change that math.\n\nhttps://givebutter.com/6XYFbX",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mogt3esixt22",
+   "t": "2026-06-16T22:14:01Z",
+   "text": "\"The way you're playing canary and they're selling the coal.\"\n\n— Ezra Furman\n\nBroken systems, not broken people.\n\nhttps://stimpunks.org/glossary/canary/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mog5vqcffd2x",
+   "t": "2026-06-16T15:55:03Z",
+   "text": "\"Understanding supposedly broken children as miners' canaries focuses our attention on the toxic social and cultural conditions of schools that threaten and imperil the hope of freedom.\n\nOur work must become an effort to clean our air...\"\n\n— Shalaby, Troublemakers\n\nhttps://stimpunks.org/glossary/canary/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3moecmgc6s62a",
+   "t": "2026-06-15T22:14:00Z",
+   "text": "\"By designing an environment safe for the canary, one rich in agency, deep in substance, and flexible in structure, we do not merely accommodate disability; we remediate the toxic elements of the industrial education model.\"\n\n— Hardey & Pimblett (2026)\n\nhttps://stimpunks.org/glossary/canary/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3modngsjq262b",
+   "t": "2026-06-15T15:55:03Z",
+   "text": "The right of disabled people to live in their own communities is being taken apart.\n\nThe right to live in community is being dismantled, and the legal tools to defend it are being dismantled alongside it.\n\nThe endpoint this keeps arriving at is the institution\n\nhttps://stimpunks.org/2026/06/15/community-living-is-being-dismantled-on-every-front-at-once/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mobs5jw26k2x",
+   "t": "2026-06-14T22:14:01Z",
+   "text": "When the system classifies self-regulation as cheating, that's not a learner problem. That's a design problem.\n\n\"The Canary is signalling that the air is toxic, but the system blames the canary for not breathing in the correct manner.\"\n\n— Hardey & Pimblett (2026)\n\nhttps://stimpunks.org/glossary/canary/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mob4xsoohd2f",
+   "t": "2026-06-14T15:55:00Z",
+   "text": "\"The identified barriers are not condition-specific idiosyncrasies, but structural flaws in the design architecture that affect the neurodivergent spectrum broadly.\"\n\n— Hardey & Pimblett (2026)\n\nhttps://stimpunks.org/glossary/canary/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mo7bol6hwa2f",
+   "t": "2026-06-13T22:14:00Z",
+   "text": "\"The canary does not struggle because it is weak; it struggles because it is the first to detect that the environment is uninhabitable.\"\n\n— Hardey & Pimblett (2026)\n\nhttps://stimpunks.org/glossary/canary/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mo6mivd66q2z",
+   "t": "2026-06-13T15:55:01Z",
+   "text": "\"Free for all\" was never a description. It was a demand. Sunday's Campfire: the documentary on who the public library was actually free *for*. 10AM CT, Discord. All bodyminds welcome.\n\nThis is what it costs to make a word like all mean what it says.\n\nhttps://stimpunks.org/2026/06/12/campfire-learn-together-free-for-all-a-peoples-history-of-the-public-library/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mo4r7nwvbq2t",
+   "t": "2026-06-12T22:14:00Z",
+   "text": "Neurodivergent people are functioning as the \"miners' canaries\" of civilisation.\n\nWhen the air in the mine is poisoned we do not prevent canaries being born in case they suffer from the poison and upset us: we clean the air or close the mine.\n\nhttps://stimpunks.org/glossary/canary/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mo43zzvhdp22",
+   "t": "2026-06-12T15:55:02Z",
+   "text": "Honoring all the Autistic people who survive the care system, somehow.\n\nAll those who survive extreme \"therapy.\"\n\nAnd all who did not survive this onslaught.\n\nhttps://stimpunks.org/philosophy/keep-on-livin/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mo2aqqjbl32t",
+   "t": "2026-06-11T22:14:00Z",
+   "text": "\"I had to create a world of my own, like a climate, a country, an atmosphere in which I could breathe, reign, and recreate myself when destroyed by living.\"\n— Anais Nin\n\nStimpunks exists so we can survive.\n\nhttps://stimpunks.org/philosophy/keep-on-livin/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mo22omm4zj2h",
+   "t": "2026-06-11T20:25:26Z",
+   "text": "Tonight's Infodumplings: a Pride show-and-tell, fashion show, and glimmer share. Two rainbows, one room — kicking off Neurodiversity Pride Week inside Pride Month. 7PM Central.\n\nhttps://stimpunks.org/2026/06/11/infodumplings-all-the-colors-that-there-are/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mnzll2yqj42l",
+   "t": "2026-06-11T15:55:01Z",
+   "text": "\"As long as we're getting killed for our differences / we have to keep living, keep living through it\"\n— Kae Tempest, I Stand On The Line\n\nKeep resisting.\n\nhttps://stimpunks.org/philosophy/keep-on-livin/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mnxqbtfmm52l",
+   "t": "2026-06-10T22:14:00Z",
+   "text": "Psychoanalysis pathologized autism from the start. The 'autism as facehugger' model. The knight-therapist. The child to be rescued from themselves.\n\nWhat neuroqueering child psychotherapy could look like instead.\n\nhttps://stimpunks.org/2024/04/12/neuroqueering-child-psychotherapy/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mnx347kzga22",
+   "t": "2026-06-10T15:55:03Z",
+   "text": "Child psychotherapy's founding luminaries wrote about drawing autistic children out of their 'encapsulated shell.' The rescue narrative. The triumphant therapist. The child as patient.\n\nRowena Mahmud asks: can we do better?\n\nhttps://stimpunks.org/2024/04/12/neuroqueering-child-psychotherapy/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mnukn7szyj2l",
+   "t": "2026-06-09T15:55:01Z",
+   "text": "The social model of disability applied to education:\n\nThe problem isn't the neurodivergent student.\nThe problem is what we've built around them.\n\nWe document the harm. We name the mechanism.\n\n🏚️ https://stimpunks.org/access/education/",
+   "from": "bluesky"
+  },
+  {
    "id": "w2598",
    "t": "2026-06-09T01:56:32Z",
    "text": "SPACE-TIME describes what Autistic experience needs. The Stimpunks Design Method describes how to build it. Cavendish Space names what it looks like when it works.\n\nhttps://stimpunks.org/space/design-method/"
   },
   {
+   "id": "b3mnspdy73t22a",
+   "t": "2026-06-08T22:14:00Z",
+   "text": "'The autism as a pathology is firmly pushed into the beholder's body. What is not recognised is the differential power relationships at play, the sense of autistic bodies being policed.'\n\nRowena Mahmud on neuroqueering child psychotherapy.\n\nhttps://stimpunks.org/2024/04/12/neuroqueering-child-psychotherapy/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mns26gutod2y",
+   "t": "2026-06-08T15:55:06Z",
+   "text": "Child psychotherapy has the potential to offer a nuanced, multidimensional perspective on children's internal worlds. It also has a deeply problematic view of neurodivergence rooted in the pathology paradigm.\n\nWhat would it look like to neuroqueer it?\n\nhttps://stimpunks.org/2024/04/12/neuroqueering-child-psychotherapy/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mnq6v2jkr22i",
+   "t": "2026-06-07T22:14:00Z",
+   "text": "Five series. One through-line.\n\n🏫 Building Anti-Ableist Learning Space\n♿ Enable Dignity\n📚 Education Access\n🔬 Facts, Fire, and Feels\n🐇 Learning Space\n\nWe follow problems all the way through.\n\nhttps://stimpunks.org/series/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mnpjpemiq224",
+   "t": "2026-06-07T15:55:01Z",
+   "text": "Every series we build asks the same question:\n\nWho designed this system? Who does it serve? Who does it harm? And who profits from calling that harm inevitable?\n\nhttps://stimpunks.org/series/",
+   "from": "bluesky"
+  },
+  {
    "id": "w2596",
    "t": "2026-06-06T23:03:57Z",
    "text": "What worked for Henry Cavendish works for everyone.\n\nThese are timeless patterns of human learning and collaboration that cannot be stifled without harm.\n\nhttps://stimpunks.org/glossary/cavendish-space/"
+  },
+  {
+   "id": "b3mnnog4z63t22",
+   "t": "2026-06-06T22:14:00Z",
+   "text": "Education Access Series\n\nSchools fail neurodivergent students. Not by accident. By design.\n\nThree pages. One argument.\n\n🏚️ 1. We've Turned Classrooms Into a Hell for Neurodivergence\n🎯 2. We Don't Need Your Mindset Marketing\n⚖️ 3. Fix Injustice, Not Kids\n\nhttps://stimpunks.org/access/education/overview/",
+   "from": "bluesky"
   },
   {
    "id": "w2588",
@@ -283,9 +701,51 @@
    "text": "Introducing Stimpunks Social.\n\nBrief. Real. Ours.\n\nA short-form blogging space for our community.\n\nhttps://stimpunks.social/\n\nStill in beta. There are bugs."
   },
   {
+   "id": "b3mnl5x7q4uf2z",
+   "t": "2026-06-05T22:14:00Z",
+   "text": "Justice, not grit.\nJustice, not growth mindset.\nJustice, not a rearrangement of injustice.\n\nPresume competence. Understand monotropism. Affirm bodyminds. Listen.\n\n⚖️ https://stimpunks.org/access/education/fix-injustice-not-kids/",
+   "from": "bluesky"
+  },
+  {
    "id": "w2584",
    "t": "2026-06-05T18:38:56Z",
    "text": "“When libraries grow, so do community, knowledge, and joy.”\n“People can learn about the past and be seen in the present.”\n—Lotsa | Lilypad Library\n\nLibraries are where you go to find yourself in the record. Proof you existed. Proof you weren’t the first.\n\nhttps://stimpunks.org/2026/06/05/celebrating-pride-month-with-lilypad-library/"
+  },
+  {
+   "id": "b3mnkirnmoao2j",
+   "t": "2026-06-05T15:55:05Z",
+   "text": "It essentially boils down to whether one chooses to do damage to the system or to the student.\n\n15 named practices grounded in neurodiversity, disability justice, & the social model.\n\nNot accommodations. A different set of assumptions about what schools owe students\n\n⚖️ https://stimpunks.org/access/education/fix-injustice-not-kids/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mninicvp6o2m",
+   "t": "2026-06-04T22:14:00Z",
+   "text": "\"We don't need your mindset marketing.\"\n\nThe marketed interventions that shift responsibility for structural injustice onto children have a long history.\n\nWe trace it.\n\n🎯 https://stimpunks.org/access/education/new-behaviorism/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mniiss6mop2w",
+   "t": "2026-06-04T20:50:23Z",
+   "text": "Hot Metal and Cold Light\n\nTonight, 7PM Central. Bring the typeface you love. Bring the one you hate.\n\nBefore the font menu, there was molten lead and spinning film: the Linotype casting whole lines of metal, phototype firing light through tiny letter negatives.\n\nhttps://stimpunks.org/2026/06/04/infodumplings-hot-metal-and-cold-light/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mnigefmb362n",
+   "t": "2026-06-04T20:06:34Z",
+   "text": "Rest in Power. May her memory be a revolution.\n\nMarjane Satrapi\n\nhttps://www.nytimes.com/2026/06/04/world/middleeast/marjane-satrapi-dead.html",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mnhycnqoao2p",
+   "t": "2026-06-04T15:55:02Z",
+   "text": "Grit. Growth mindset. PBIS.\n\nPackaged as progressive. Compliance logic intact.\n\nBehaviorism didn't go away. It got a rebrand.\n\n🎯 Part 2 — the ideological critique of deficit-model hucksterism in ed-tech:\n\nhttps://stimpunks.org/access/education/new-behaviorism/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mng4zenaw326",
+   "t": "2026-06-03T22:14:00Z",
+   "text": "92% of children experiencing school attendance difficulties are neurodivergent.\n\nThat's not a coincidence. That's a design problem.\n\nSchool-induced anxiety. Sensory overwhelm. Autistic burnout. The problem is the environment.\n\n🏚️ Part 1: https://stimpunks.org/access/education/",
+   "from": "bluesky"
   },
   {
    "id": "w2582",
@@ -293,9 +753,39 @@
    "text": "The test of a map isn't just how well it's drawn. It's whether anyone walks it.\n\nIn May we built architecture — a series hub, a design system, an evidence base. Then we rebuilt our navigation around where people actually go. Thirty days of traffic data. Desire lines, not prescriptions.\n\nOur May newsletter:\n\nhttps://stimpunks.org/2026/06/03/stimpunks-monthly-newsletter-may-2026-from-framework-to-fabric-from-survival-to-belonging-from-the-maps-we-drew-to-the-paths-you-wear/"
   },
   {
+   "id": "b3mnfk6vu2ao23",
+   "t": "2026-06-03T16:37:05Z",
+   "text": "“In addition to allowing cameras off, complementing video chats with a text backchannel makes all the difference to including us.”\n\nhttps://stimpunks.org/glossary/bodymind-affirmation/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mnfhtpski42w",
+   "t": "2026-06-03T15:55:01Z",
+   "text": "The arc of our Education Access Series:\n\n🏚️ Broken → the environment causes the harm\n🎯 Marketed → \"solutions\" reproduce the same ideology in new clothes\n⚖️ Built → justice up from the roots, not compliance in disguise\n\nBroken systems, not broken people.\n\nhttps://stimpunks.org/access/education/overview/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mndmkhk37n2t",
+   "t": "2026-06-02T22:14:00Z",
+   "text": "\"Instead of hiding our stims, we bring them to the front.\"\n\nThat's the stimpunk ethos. Our \"brought to the front\" scrollytelling experience is built around it — music, art, mission, survival, love, and care as infrastructure.\n\nCome scroll with us. ☀️\n\nhttps://stimpunks.org/front/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mncxescjox2j",
+   "t": "2026-06-02T15:55:02Z",
+   "text": "☀️ Everything that was normally supposed to be hidden was brought to the front.\n\nThis page is scrollytelling + music + mission + mutual aid + Bowie.\n\nIt's just for fun. It's also everything we are.\n\nhttps://stimpunks.org/front/",
+   "from": "bluesky"
+  },
+  {
    "id": "w2580",
    "t": "2026-06-02T00:59:42Z",
    "text": "When the curriculum thinks for you, you stop asking 'is this true?' and start asking 'does this sound right?'\n\nThen you stop asking at all.\n\nSunday's Campfire is about taking the thinking back.\n\nhttps://stimpunks.org/2026/06/01/campfire-learn-together-teaching-in-the-wreckage-of-the-real/"
+  },
+  {
+   "id": "b3mnb43kjxzn25",
+   "t": "2026-06-01T22:14:01Z",
+   "text": "Five series. One conviction.\n\n🏫 Building Anti-Ableist Learning Space\n♿ Enable Dignity\n📚 Education Access Series\n🔬 Facts, Fire, and Feels\n🐇 Learning Space\n\nBroken systems, not broken people.\n\nhttps://stimpunks.org/series/",
+   "from": "bluesky"
   },
   {
    "id": "w2577",
@@ -311,6 +801,18 @@
    "id": "w2573",
    "t": "2026-06-01T15:22:14Z",
    "text": "Our grant pipelines are now open for June.\n\nAid Grants:\nhttps://stimpunks.org/aid/grant/\n\nCreator Grants:\nhttps://stimpunks.org/creators/grant/"
+  },
+  {
+   "id": "b3mna7czsfe22g",
+   "t": "2026-06-01T13:39:14Z",
+   "text": "Mutual Aid Grants: up to $500 for fellow neurodivergent and disabled people. For your welfare and survival — anything you need to stay alive in an ableist world. No diagnosis required.\n\nUS residents only.\n\nApply: https://stimpunks.org/aid/grant/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mna7d2zajc2g",
+   "t": "2026-06-01T13:39:14Z",
+   "text": "Creator Grants: up to $3,000 for neurodivergent and disabled creators. Art, advocacy, research, and beyond. We pay creators to create.\n\nUS residents only.\n\nApply: https://stimpunks.org/creators/grant/",
+   "from": "bluesky"
   },
   {
    "id": "w2571",
@@ -333,6 +835,12 @@
    "text": "School-induced anxiety is one of the defining crises of neurodivergent childhood. It touches nearly every family in our community.\n\nhttps://stimpunks.org/access/education/overview/"
   },
   {
+   "id": "b3mn435oyspx2d",
+   "t": "2026-05-30T22:14:00Z",
+   "text": "The systems aren't broken by accident.\n\nThey were built this way, maintained this way, and sold to us as inevitable.\n\nFive series documenting that — and building the case for something better.\n\nhttps://stimpunks.org/series/",
+   "from": "bluesky"
+  },
+  {
    "id": "w2565",
    "t": "2026-05-30T19:00:58Z",
    "text": "Lines of flight — the framework for desire, flow, and becoming — originated from following Autistic children around a campsite. Their wandering: non-purposive, but not aimless.\n\nThe errant lines were always signal.\n\nCampfire Learn Together, Sunday May 31, 10AM Central.\n\nhttps://stimpunks.org/2026/05/29/campfire-learn-together-lines-of-flight-in-the-classroom/"
@@ -341,6 +849,12 @@
    "id": "w2563",
    "t": "2026-05-30T19:00:27Z",
    "text": "This week we're watching and discussing \"Lines of Flight in the Classroom\" — a lecture applying Deleuze and Guattari's lines-of-flight framework to any space where people are learning together.\n\nCampfire Learn Together, Sunday May 31, 10AM Central.\n\nhttps://stimpunks.org/2026/05/29/campfire-learn-together-lines-of-flight-in-the-classroom/"
+  },
+  {
+   "id": "b3mn3fxyoqd32h",
+   "t": "2026-05-30T15:55:01Z",
+   "text": "Research is not neutral. It never was.\n\nFacts, Fire, and Feels is our series critiquing the mainstream research industry — who funds it, who it harms, who it ignores — and centering the work that treats us as whole people.\n\nhttps://stimpunks.org/research/overview/",
+   "from": "bluesky"
   },
   {
    "id": "w2561",
@@ -378,6 +892,24 @@
    "text": "Gaming is infrastructure.\n\nFor neurodivergent and disabled people, games are assistive devices, regulation tools, community spaces, and lifelines.\n\nThe screen time panic gets it backwards.\n\nhttps://stimpunks.org/gaming/"
   },
   {
+   "id": "b3mmyvj6ig3n2j",
+   "t": "2026-05-29T15:55:04Z",
+   "text": "Research is not neutral. It never was.\n\nFacts, Fire, and Feels takes on mainstream autism and disability research — the harms it causes, the voices it excludes, and the participatory alternatives that put us in the driver's seat.\n\nhttps://stimpunks.org/research/overview/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mmx27u6gch26",
+   "t": "2026-05-28T22:14:00Z",
+   "text": "Research is not neutral. It never was.\n\nFacts, Fire, and Feels is our series on mainstream autism and disability research — who conducts it, who it harms, who it ignores, and what research that actually serves our communities looks like.\n\nhttps://stimpunks.org/research/overview/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mmwf26xx7y2e",
+   "t": "2026-05-28T15:55:01Z",
+   "text": "Neurodivergent collaboration design is not special accommodation. It is good design. \n\nhttps://stimpunks.org/2026/05/27/write-a-neurodivergent-collaboration-manual/",
+   "from": "bluesky"
+  },
+  {
    "id": "w2552",
    "t": "2026-05-28T10:19:41Z",
    "text": "\"Every single ableist stereotype that you’ve heard for your entire life that you’ve never evaluated, that will be the lens through which other people see you\"\n— Imani Barbarin\n\nAnti-ableism isn't charity toward others. It's survival work for everyone.\n\n⛑️ https://stimpunks.org/aid/"
@@ -391,6 +923,12 @@
    "id": "w2547",
    "t": "2026-05-28T00:45:21Z",
    "text": "We wrote a guide on how to write a neurodivergent collaboration manual.\n\nOur glossary, pattern library, and experiences exist to give language to patterns that have been unnamed or pathologized. A collaboration manual is one way to put that language to work.\n\nhttps://stimpunks.org/2026/05/27/write-a-neurodivergent-collaboration-manual/"
+  },
+  {
+   "id": "b3mmujqxbd642r",
+   "t": "2026-05-27T22:14:01Z",
+   "text": "This is not a literature review. It is a reckoning.\n\nFacts, Fire, and Feels: Research-Storytelling from the Edges\n\nhttps://stimpunks.org/research/overview/",
+   "from": "bluesky"
   },
   {
    "id": "w2545",
@@ -426,6 +964,18 @@
    "id": "w2536",
    "t": "2026-05-25T23:42:48Z",
    "text": "Stimpunks converts funding into immediate stabilization, practical access tools, and long-term harm reduction — producing measurable improvements in wellbeing while reducing systemic costs.\n\nhttps://stimpunks.org/about/accountability/logic-model-outcomes-framework/"
+  },
+  {
+   "id": "b3mmpit3yh2n2p",
+   "t": "2026-05-25T22:14:00Z",
+   "text": "\"My whole life has been a process of finding labels that fit.\"\n\nIdentity is bricolage. We try labels on, rearrange them, discard some, keep others. We arrange building materials into a self. Different people arrange similar materials differently.\n\nThat's construction.\n\nhttps://stimpunks.org/bricolage/",
+   "from": "bluesky"
+  },
+  {
+   "id": "b3mmphvgg4pi2h",
+   "t": "2026-05-25T21:57:25Z",
+   "text": "Facts, Fire, and Feels brings together research, critique, and storytelling from the edges of knowledge production. We read the literature. We name the harms. We amplify the studies that treat us as whole people. We reject the ones that don’t.\n\nhttps://stimpunks.org/research/overview/",
+   "from": "bluesky"
   },
   {
    "id": "w2533",
@@ -483,6 +1033,12 @@
    "text": "Week 21 at Stimpunks:\n\n🐧 Penguin Pebbling game launched\n🐬 Dolphining went philosophical\n💊 Everyday carry as survival infrastructure\n🔬 Double Empathy Problem learning guide\n📄 Pages got what they were owed\n\nhttps://stimpunks.org/2026/05/24/stimpunks-org-changelog-for-week-21-2026-from-pockets-to-pebbles-from-survival-infrastructure-to-belonging-infrastructure/"
   },
   {
+   "id": "b3mmmd6ippmk2n",
+   "t": "2026-05-24T15:55:01Z",
+   "text": "Campfire Learn Together. Infodumplings. Solidarity Session.\n\nStimpunks has been running these events for a while. April gave them the infrastructure to say so — dedicated pages, an events guide, a philosophy.\n\nCome find your people.\n\nhttps://stimpunks.org/events/",
+   "from": "bluesky"
+  },
+  {
    "id": "w2516",
    "t": "2026-05-24T11:24:06Z",
    "text": "Mutual aid is not charity. It is not a handout or an act of pity.\n\nDisabled people experience poverty at double the rate of nondisabled people. We wait decades for care the state promised. The systems were designed to exhaust and disqualify.\n\nWe show up for each other anyway.\n\nhttps://stimpunks.org/aid/"
@@ -536,6 +1092,12 @@
    "id": "w2499",
    "t": "2026-05-23T00:45:55Z",
    "text": "Mainstream schooling is not merely suboptimal for neurodivergent students. It is producing crisis-level harm at scale.\n\nhttps://stimpunks.org/access/education/overview/"
+  },
+  {
+   "id": "b3mmhxge4bby2k",
+   "t": "2026-05-22T22:14:01Z",
+   "text": "A phrase became a microsite. A microsite became zines, a field guide, a broadside, a manifesto, a call for contributors.\n\nThat's one thread from April. The newsletter has the rest.\n\nhttps://stimpunks.org/2026/05/04/stimpunks-monthly-newsletter-april-2026-from-legibility-to-architecture-from-ethics-to-universe-from-pages-to-positions/",
+   "from": "bluesky"
   },
   {
    "id": "w2491",
