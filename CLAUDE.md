@@ -1033,9 +1033,9 @@ builds the radio. `call.js` reads the `love-cb` pass and never writes it. **EVER
 SIGNED ON TO THE CB, AND THERE ARE NO GUESTS** (Ryan's call, 2026-11-01: "We haven't needed the guest
 access. Removing it simplifies things."): `callToken` refuses anybody without a pass, the Cavendish
 meetings' calls are like any room's, the base is the only moderator anywhere (which reverses
-2026-10-24's every account a moderator in those three, a step only the lobby needed), and
-`callSettings` answers lobby off for everything. `/cb/call-settings` is JaaS's SETTINGS_PROVISIONING
-webhook and can go once it is removed in the JaaS console. `make-coworking.py` refuses a call panel
+2026-10-24's every account a moderator in those three, a step only the lobby needed), and JaaS's
+SETTINGS_PROVISIONING webhook (`/cb/call-settings`, which turned the lobby on) was removed in the
+JaaS console and its function deleted the same day. `make-coworking.py` refuses a call panel
 that offers a guest a way in. The friendly edit is a guest link "for one visitor", which is the
 name typed in a box, a lobby and somebody watching it, all back for one afternoon. **The radio and the call move with one `Mover`** in `call.js`: drag the bar, or Move plus the
 arrows, with Home back to the corner. Do not give either window its own copy. Anything that changes

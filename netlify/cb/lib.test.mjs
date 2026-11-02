@@ -36,7 +36,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH,
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
-  callSettings, WORLD_CALL, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
+  WORLD_CALL, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
   ROLES, foldHandle, readMods, signOn, readPass, rolesOf, STARTER_GONE, PASS_LIFE, PASS_RENEW, signOffEverywhere, passesOn, checkHandle, checkInvite, joinAccount, HELD,
   makeInvite, listInvites, deleteInvite, readInvites, INVITE_USES, INVITE_DAYS, INVITE_KEEP, makeInviteCode,
   emailOn, cleanAddress, accountEmail, setAccountEmail, mailResetCode, ACCT_MAIL_FOR, ACCT_MAIL_GAP, ACCT_MAIL_SUBJECT,
@@ -1586,8 +1586,6 @@ test('there are no guests: no pass, no call, and the Cavendish calls are like an
   const base = open(callToken({ role: 'base', handle: 'Mod' }, 'cavendish-events', Date.now(), key)).body.context.user;
   assert.equal(base.moderator, 'true', 'the base moderates them, as every call');
   assert.equal(callToken(null, 'the-den', Date.now(), key), null);
-  for (const fqn of [`${JAAS_APP}/stimpunks-cavendish-events`, `${JAAS_APP}/stimpunks-the-den`, undefined])
-    assert.deepEqual(callSettings(fqn), { lobbyEnabled: false }, 'no meeting starts with a lobby');
 });
 
 /* ── The Town Hall's private rooms, and the mods' list ── */

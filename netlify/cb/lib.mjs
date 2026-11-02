@@ -5863,16 +5863,6 @@ export const callRoom = (tag) => `stimpunks-${tag}`;
    is (callsOn). */
 export const WORLD_CALL = 'world';
 
-/* JaaS's SETTINGS_PROVISIONING webhook: asked before every meeting, with the
-   meeting's "AppID/roomName". Since 2026-11-01 there are no guests, so no
-   meeting starts with a lobby: only people signed on to the CB can get into a
-   call at all. It answers until the webhook is taken off in the JaaS console,
-   because a meeting whose webhook fails may not start; then this and
-   cb-call-settings.mjs can go. */
-export function callSettings() {
-  return { lobbyEnabled: false };
-}
-
 /* A PASTED KEY LOSES ITS LINE BREAKS, and Node will not read a PEM without
    them. The first real key arrived in Netlify's environment as one line, its
    body in space-separated pieces, and signing threw inside the function; the
