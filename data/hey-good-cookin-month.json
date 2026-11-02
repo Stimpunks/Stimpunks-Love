@@ -152,16 +152,6 @@
  ],
  "log": [
   {
-   "id": "COLeMGJlIm4",
-   "source": "americas-test-kitchen",
-   "form": "long",
-   "title": "For Perfectly Golden Pancakes, Use This | America's Test Kitchen",
-   "published": "2026-10-02T15:59:53Z",
-   "state": "screen",
-   "runs": 126,
-   "channel": "America's Test Kitchen"
-  },
-  {
    "id": "89CNkMRMctA",
    "source": "americas-test-kitchen",
    "form": "long",
@@ -289,6 +279,16 @@
    "published": "2026-10-30T15:59:51Z",
    "state": "screen",
    "runs": 215,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "tJ1YdMtYDGU",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "The Foolproof Science Behind Flaky, Tender All-Butter Pie Crust | Techniquely with Lan Lam",
+   "published": "2026-11-01T16:59:57Z",
+   "state": "screen",
+   "runs": 1088,
    "channel": "America's Test Kitchen"
   },
   {
@@ -492,6 +492,36 @@
    "channel": "America's Test Kitchen"
   },
   {
+   "id": "aB5_3Qr_bwU",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "How to Prevent Pie Dough from Cracking",
+   "published": "2026-11-01T16:59:53Z",
+   "state": "screen",
+   "runs": 34,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "U4FdsQQVfGE",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "How to Roll Round Pie Dough",
+   "published": "2026-11-01T18:59:54Z",
+   "state": "screen",
+   "runs": 37,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "5n4v9fDMNY0",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "How to Crimp, Ventilate, and Finish a Double Pie Crust",
+   "published": "2026-11-01T23:59:47Z",
+   "state": "screen",
+   "runs": 97,
+   "channel": "America's Test Kitchen"
+  },
+  {
    "id": "5vk8ANhjoHQ",
    "source": "alton-brown",
    "form": "long",
@@ -562,16 +592,6 @@
    "channel": "Epicurious"
   },
   {
-   "id": "SIPv3YTKdgI",
-   "source": "epicurious",
-   "form": "short",
-   "title": "This Mac and Cheese Looks Like Dodgy Spray Tan?",
-   "published": "2026-10-02T16:00:05Z",
-   "state": "screen",
-   "runs": 102,
-   "channel": "Epicurious"
-  },
-  {
    "id": "FyACEas2OvQ",
    "source": "epicurious",
    "form": "short",
@@ -630,16 +650,6 @@
    "state": "screen",
    "runs": 70,
    "channel": "Epicurious"
-  },
-  {
-   "id": "7Ps1iMOKZ6g",
-   "source": "nyt-cooking",
-   "form": "long",
-   "title": "These Maple Cardamom Sticky Buns Are So Soft I’m Blushing | Bake Time | NYT Cooking",
-   "published": "2026-10-02T18:00:22Z",
-   "state": "screen",
-   "runs": 1215,
-   "channel": "NYT Cooking"
   },
   {
    "id": "Xr6XiQm-KP4",
@@ -749,6 +759,16 @@
    "published": "2026-10-29T18:00:10Z",
    "state": "screen",
    "runs": 825,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "Nkfg-qWm5fo",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "Thanksgiving Is (Almost) Here | TRAILER | NYT Cooking",
+   "published": "2026-11-01T17:00:23Z",
+   "state": "screen",
+   "runs": 62,
    "channel": "NYT Cooking"
   },
   {
@@ -929,16 +949,6 @@
    "published": "2026-10-29T06:10:20Z",
    "state": "screen",
    "runs": 1565,
-   "channel": "Andy Cooks"
-  },
-  {
-   "id": "PZWdXvoN7Os",
-   "source": "andy-cooks",
-   "form": "short",
-   "title": "Skirt Steak for the win 🥩 🥇",
-   "published": "2026-10-03T11:20:21Z",
-   "state": "screen",
-   "runs": 59,
    "channel": "Andy Cooks"
   },
   {
@@ -1132,6 +1142,16 @@
    "channel": "Andy Cooks"
   },
   {
+   "id": "Ww-wNTj-7_M",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Preheating your pan is important, but so can be starting your food in a cold pan sometimes. ￼",
+   "published": "2026-11-02T10:58:02Z",
+   "state": "screen",
+   "runs": 64,
+   "channel": "Andy Cooks"
+  },
+  {
    "id": "Ngrx3pU_fqk",
    "source": "back-of-house",
    "form": "long",
@@ -1180,16 +1200,6 @@
    "state": "screen",
    "runs": 1278,
    "channel": "Back of House"
-  },
-  {
-   "id": "dGWYmodqB8g",
-   "source": "the-pasta-queen",
-   "form": "long",
-   "title": "I Went Antique Shopping... and Found GHOSTS",
-   "published": "2026-10-02T18:51:30Z",
-   "state": "screen",
-   "runs": 765,
-   "channel": "The Pasta Queen"
   },
   {
    "id": "MQ2FXzwJD-M",
@@ -1350,16 +1360,6 @@
    "state": "screen",
    "runs": 90,
    "channel": "The Pasta Queen"
-  },
-  {
-   "id": "3F38KDO8Nms",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "Why People Line Up for This Garage Udon Shop Hidden in Japan’s Rice Fields",
-   "published": "2026-10-02T22:00:22Z",
-   "state": "screen",
-   "runs": 3033,
-   "channel": "Japanese Food Noodles"
   },
   {
    "id": "YDGDt3Ycj1Q",
@@ -1862,14 +1862,24 @@
    "channel": "Japanese Food Noodles"
   },
   {
-   "id": "wz9jvH7zJbk",
-   "source": "japanese-cooking-101",
+   "id": "bacwSi6s6hE",
+   "source": "japanese-food-noodles",
    "form": "long",
-   "title": "Shio Koji Salmon Recipe - Japanese Cooking 101",
-   "published": "2026-10-02T22:17:08Z",
+   "title": "Workers Rush to This Japanese BBQ Diner for a Massive 1kg Beef Bowl",
+   "published": "2026-11-01T22:00:35Z",
    "state": "screen",
-   "runs": 67,
-   "channel": "JapaneseCooking101"
+   "runs": 1271,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "FnigBVZzsJk",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "196 Years of Tradition! A 7th-Generation Chef Breaks Down a Giant Monkfish",
+   "published": "2026-11-02T00:00:22Z",
+   "state": "screen",
+   "runs": 2426,
+   "channel": "Japanese Food Noodles"
   },
   {
    "id": "MStMw9Bfb1A",
@@ -2182,16 +2192,6 @@
    "channel": "Bon Appétit"
   },
   {
-   "id": "sZV5swkWnqk",
-   "source": "bon-appetit",
-   "form": "short",
-   "title": "How a Pastry Chef Rolls a Perfect Cake",
-   "published": "2026-10-02T16:00:08Z",
-   "state": "screen",
-   "runs": 34,
-   "channel": "Bon Appétit"
-  },
-  {
    "id": "ylGPcWco9Wg",
    "source": "bon-appetit",
    "form": "short",
@@ -2432,16 +2432,6 @@
    "channel": "Fallow"
   },
   {
-   "id": "FRbx3zLchGw",
-   "source": "fallow",
-   "form": "short",
-   "title": "This Might Be Our Best Potato Dish Yet",
-   "published": "2026-10-02T16:02:15Z",
-   "state": "screen",
-   "runs": 58,
-   "channel": "Fallow"
-  },
-  {
    "id": "2e_MwhbA8_s",
    "source": "fallow",
    "form": "short",
@@ -2580,16 +2570,6 @@
    "state": "screen",
    "runs": 59,
    "channel": "Fallow"
-  },
-  {
-   "id": "DHCt988eDco",
-   "source": "guga",
-   "form": "long",
-   "title": "I Finally Learned What REAL Mexican Food Is!",
-   "published": "2026-10-02T15:15:17Z",
-   "state": "screen",
-   "runs": 975,
-   "channel": "Guga"
   },
   {
    "id": "zeuPkJrxMzo",
@@ -2912,6 +2892,16 @@
    "channel": "Joshua Weissman"
   },
   {
+   "id": "mQZTaCgSMOI",
+   "source": "joshua-weissman",
+   "form": "long",
+   "title": "I Tested Viral Clickbait Recipes",
+   "published": "2026-11-01T15:30:29Z",
+   "state": "screen",
+   "runs": 1767,
+   "channel": "Joshua Weissman"
+  },
+  {
    "id": "kBw5gyJtELg",
    "source": "joshua-weissman",
    "form": "short",
@@ -3020,6 +3010,206 @@
    "state": "screen",
    "runs": 5713,
    "channel": "Strictly Dumpling"
+  },
+  {
+   "id": "ptCy6wBcVA0",
+   "source": "strictly-dumpling",
+   "form": "long",
+   "title": "INSIDE Paris’s LARGEST All You Can Eat SUSHI BUFFET! | Was It Worth It? 🍣",
+   "published": "2026-11-01T17:06:36Z",
+   "state": "screen",
+   "runs": 1226,
+   "channel": "Strictly Dumpling"
+  },
+  {
+   "id": "7DqZpwJXsRY",
+   "source": "jolly",
+   "form": "long",
+   "title": "US Thanksgiving Dinner vs UK Pub Roast! (ft. John Cena)",
+   "published": "2026-10-10T11:01:07Z",
+   "state": "screen",
+   "runs": 1023,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "wi7T7pJsnC0",
+   "source": "jolly",
+   "form": "long",
+   "title": "British Highschoolers try Michelin Star Food for the first time!",
+   "published": "2026-10-18T15:35:18Z",
+   "state": "screen",
+   "runs": 1624,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "ETzmoFmTiyw",
+   "source": "jolly",
+   "form": "long",
+   "title": "British Fishermen try Seafood Boil for the first time!",
+   "published": "2026-10-26T19:16:26Z",
+   "state": "screen",
+   "runs": 982,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "x7HpWIO1kZo",
+   "source": "jolly",
+   "form": "long",
+   "title": "We Tried a Whole New Kind of BBQ (ft. Awkwafina)",
+   "published": "2026-10-31T19:10:41Z",
+   "state": "screen",
+   "runs": 829,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "Aca6lTWFEPE",
+   "source": "jolly",
+   "form": "short",
+   "title": "British Grandparents try Cornbread for the first time!",
+   "published": "2026-10-05T22:56:49Z",
+   "state": "screen",
+   "runs": 47,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "gHu1B_bEWk4",
+   "source": "jolly",
+   "form": "short",
+   "title": "British Grandparents try Boba for the first time!",
+   "published": "2026-10-06T20:45:01Z",
+   "state": "screen",
+   "runs": 45,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "sHIVlbiwEMw",
+   "source": "jolly",
+   "form": "short",
+   "title": "Benny Blanco learns the proper way to eat Beans on Toast!",
+   "published": "2026-10-07T19:30:38Z",
+   "state": "screen",
+   "runs": 61,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "CPMq0EMlOm4",
+   "source": "jolly",
+   "form": "short",
+   "title": "We tried Canadian McDonald's Maple & Cheddar Burger!",
+   "published": "2026-10-08T17:00:10Z",
+   "state": "screen",
+   "runs": 55,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "rpr92Je8Fhw",
+   "source": "jolly",
+   "form": "short",
+   "title": "British Grandparents can't handle American Sweet Tea!",
+   "published": "2026-10-09T19:40:35Z",
+   "state": "screen",
+   "runs": 61,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "qU1Exu45ezA",
+   "source": "jolly",
+   "form": "short",
+   "title": "Benny Blanco tries Jellied Eels for the first time!",
+   "published": "2026-10-12T22:45:11Z",
+   "state": "screen",
+   "runs": 49,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "bQO9k5MfW08",
+   "source": "jolly",
+   "form": "short",
+   "title": "We surprised John Cena with Gifts!",
+   "published": "2026-10-13T23:35:06Z",
+   "state": "screen",
+   "runs": 81,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "EGo-HtYGKe4",
+   "source": "jolly",
+   "form": "short",
+   "title": "We had Thanksgiving Turkey with John Cena!",
+   "published": "2026-10-18T02:49:47Z",
+   "state": "screen",
+   "runs": 68,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "pIv6NX8t3jM",
+   "source": "jolly",
+   "form": "short",
+   "title": "Brits try the Spicy Pizza Challenge!",
+   "published": "2026-10-22T03:38:15Z",
+   "state": "screen",
+   "runs": 30,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "9FLbvGhUzkQ",
+   "source": "jolly",
+   "form": "short",
+   "title": "This dish took 4 days to make. The Highschoolers gave their honest opinions.",
+   "published": "2026-10-23T21:24:39Z",
+   "state": "screen",
+   "runs": 62,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "-2AKeczYRzw",
+   "source": "jolly",
+   "form": "short",
+   "title": "British Headmaster gives Michelin Fact Attack!",
+   "published": "2026-10-27T22:42:53Z",
+   "state": "screen",
+   "runs": 34,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "Ke9OsIFaVt8",
+   "source": "jolly",
+   "form": "short",
+   "title": "British Highschoolers try American Halloween Candy for the first time!",
+   "published": "2026-10-28T18:30:38Z",
+   "state": "screen",
+   "runs": 70,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "CML7WKZeMOY",
+   "source": "jolly",
+   "form": "short",
+   "title": "John Cena fed us to Canned Cranberry Sauce!",
+   "published": "2026-10-29T16:56:24Z",
+   "state": "screen",
+   "runs": 49,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "W-93ga3DHDU",
+   "source": "jolly",
+   "form": "short",
+   "title": "John Cena tries Homemade Banoffee Pie!",
+   "published": "2026-10-30T17:00:16Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "JOLLY"
+  },
+  {
+   "id": "ZwwofQi7plA",
+   "source": "jolly",
+   "form": "short",
+   "title": "British Fishermen try Cajun Mussels for the first time!",
+   "published": "2026-11-01T21:45:36Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "JOLLY"
   }
  ],
  "covered": {
@@ -3027,13 +3217,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3041,13 +3231,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3055,13 +3245,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3069,13 +3259,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3083,13 +3273,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3097,13 +3287,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3111,13 +3301,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3125,13 +3315,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3139,13 +3329,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3153,13 +3343,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3167,13 +3357,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3181,13 +3371,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3195,13 +3385,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3209,13 +3399,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3223,13 +3413,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3237,13 +3427,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3251,13 +3441,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3265,13 +3455,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3279,13 +3469,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3293,13 +3483,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3307,13 +3497,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3321,13 +3511,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ]
   },
@@ -3335,16 +3525,30 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-11-01T12:58:24Z"
+     "2026-11-02T12:25:09Z"
+    ]
+   ]
+  },
+  "jolly": {
+   "long": [
+    [
+     "2026-07-25T11:00:12Z",
+     "2026-11-02T12:25:09Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-10-05T22:56:49Z",
+     "2026-11-02T12:25:09Z"
     ]
    ]
   }
  },
- "set": "2026-11-01T12:58Z"
+ "set": "2026-11-02T12:25Z"
 }
