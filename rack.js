@@ -152,7 +152,13 @@
     var shape = btn.getAttribute('data-rack-shape');
     if (shape) s.glass.setAttribute('data-rack-shape', shape);
     if (card) { stopInCard(card); s.card = card; }
-    if (s.now) s.now.focus();
+    if (s.now) {
+      s.now.focus();
+      /* The radio may stand a call and its strip between the screen and this
+         line (cb.js, under): when that leaves the screen's top above the
+         window, the screen comes into view, with the keyboard still here. */
+      if (s.glass.getBoundingClientRect().top < 0) s.glass.scrollIntoView({ block: 'start' });
+    }
   }
 
   // The card's own player, if it is playing in place, goes back to its plate.

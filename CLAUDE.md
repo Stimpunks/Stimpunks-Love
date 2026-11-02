@@ -4417,7 +4417,8 @@ there is now kept as the channel keeps it. The friendly edit is turning it off i
 no radio. **A watch together in a room has its controls under the room's screen, and a call on a wide window stands
 there too** (Ryan's ask, 2026-11-01, from a screenshot of a film, a call and the radio all going): `under`,
 `screenStrip` and `lineCall` in `cb.js` put one shadow host (`cb-under-host`, the radio's clothes) after the page's
-first screen (`screenAnchor`: after a rack's way back, or the block a set stands in): a strip that is this room's
+first screen (`screenAnchor`: straight after a rack's screen, above its now-showing line and way back, so the call is
+right under the picture, or after the block a set stands in): a strip that is this room's
 beacon with the radio's own Catch up, Follow or Stop hosting, aria-hidden answer and all, and a place `call.js`'s
 `lineTo` stands the call over, absolutely positioned in the page so it scrolls with the screen, a window in the corner
 again once the place is out of sight (an IntersectionObserver), never on the chat page or Your page. **The room's call

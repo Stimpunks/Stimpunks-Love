@@ -15121,17 +15121,16 @@
      folding the radio leaves the call up. */
   var LINE_WIDE = window.matchMedia ? window.matchMedia('(min-width: 900px)') : null;
 
-  /* Where under the first screen: after a rack's way back, which follows its
-     now-showing line; for a set you tune, after the block the set stands in,
-     out of its drawing. */
+  /* Where under the first screen: straight after a rack's screen, above its
+     now-showing line and its way back, so the call stands right under the
+     picture (Ryan, 2026-11-01: after those two lines and the strip, the call
+     was pushed half a window down); for a set you tune, after the block the
+     set stands in, out of its drawing. */
   function screenAnchor() {
     var s = firstScreen();
     if (!s || !s.glass || !s.glass.isConnected) return null;
     var at = s.glass, r = window.loveRack, f = r && r.first && r.first();
-    if (f && f.glass === s.glass) {
-      var back = document.querySelector('[data-rack-back="' + f.id + '"]'), now = document.querySelector('[data-rack-now="' + f.id + '"]');
-      at = (back && back.parentNode) || now || s.glass;
-    } else {
+    if (!(f && f.glass === s.glass)) {
       while (at.parentNode && at.parentNode !== document.body && !/^(MAIN|SECTION|ARTICLE)$/.test(at.parentNode.tagName)) at = at.parentNode;
     }
     return { at: at, name: s.name };
