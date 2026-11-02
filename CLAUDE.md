@@ -4653,7 +4653,9 @@ a new line and the button sends** (feedback from our community, 2026-10-19: a ph
 every box that sends on Enter asks `sendKey()` in `cb.js` and takes its hint from `enterHint()`, Ctrl or Cmd and Enter
 sends everywhere, and on a touch screen the box starts four lines tall at 16px, because iOS zooms into anything smaller.
 Copy writes the words as typed and sends nothing. Size is − and + on the bar (Ryan, 2026-10-17: a panel to reach Small
-was a step too much), stepping Icon, Small, Normal, Large, Full (2026-10-19 added the two ends),
+was a step too much), stepping Icon, Small, Half, Normal, Large, Full (2026-10-19 added the two ends; 2026-11-01 added
+Half, the channel and the box to write in at most half the window tall, for talking over a film: `cramped()` is Small,
+Icon or Half, and `reveal()` makes Half Normal for the page when anything goes to another part),
 and Move is a six-dot grip; both are icons, because the bar is full.
 
 **THE TELEPORTER IS WHERE "CH 19" WAS, AND IT SENDS NOTHING.** Ryan, 2026-09-26: the channel number

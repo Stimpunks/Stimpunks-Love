@@ -2936,8 +2936,14 @@
      side (cb.css). It does not move, because there is nowhere to move it, and
      it sits under a room's call window rather than over it, so a call is never
      lost behind it. */
-  var SIZES = ['icon', 'small', 'normal', 'large', 'full'];
-  var SIZE_SAYS = { icon: 'an icon, still on', small: 'Small, the bar and the newest message', normal: 'Normal', large: 'Large, wider and taller', full: 'Full, the whole window' };
+  /* HALF IS FOR TALKING WHILE WATCHING (Ryan, 2026-11-01: Small shows one
+     message and no box to write in, and Normal grows the window's height, over
+     the edge of a screen in the middle of the page). The channel's messages,
+     the box to write in and Transmit, never more than half the window tall, so
+     it stays in its corner; everything else is a plus away, and anything that
+     sends you into another part makes it Normal for this page (reveal). */
+  var SIZES = ['icon', 'small', 'half', 'normal', 'large', 'full'];
+  var SIZE_SAYS = { icon: 'an icon, still on', small: 'Small, the bar and the newest message', half: 'Half, the channel and the box to write in', normal: 'Normal', large: 'Large, wider and taller', full: 'Full, the whole window' };
   Radio.prototype.setSize = function (size, quiet) {
     if (SIZES.indexOf(size) < 0) size = 'normal';
     // The chat page and Your page are the radio at Full, in the page, and have no other size.
@@ -2962,7 +2968,7 @@
      as the radio is at that size, as near as the browser allows, and Full fills
      the screen. Only on a press, never as messages arrive, and a browser that
      will not let a page size its window leaves the radio filling the one it has. */
-  var WIN_WIDE = { icon: 120, small: 360, normal: 360, large: 640 };
+  var WIN_WIDE = { icon: 120, small: 360, half: 360, normal: 360, large: 640 };
   Radio.prototype.fitWindow = function () {
     var me = this;
     requestAnimationFrame(function () {
@@ -3007,6 +3013,8 @@
 
   // Small or an icon: what a press that needs the radio open makes Normal.
   Radio.prototype.tiny = function () { return this.state.size === 'small' || this.state.size === 'icon'; };
+  // Tiny, or Half: either way only the channel is shown, so another part needs Normal.
+  Radio.prototype.cramped = function () { return this.tiny() || this.state.size === 'half'; };
 
   /* A SCHEME, chosen: remembered in love-cb like the size, put on this radio and
      on the call window at once by call.js, and said on the radio's own line,
@@ -7136,7 +7144,7 @@
   Radio.prototype.toCall = function () {
     try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) { /* the address stays */ }
     if (this.state.folded) this.setFolded(false, true);
-    if (this.tiny()) this.setSize('normal', true);
+    if (this.cramped()) this.setSize('normal', true);
     // Whether calls can be opened comes with the first listen.
     if (!this.callsKnown) { this.callWanted = true; return; }
     this.callWanted = false;
@@ -11414,7 +11422,7 @@
     var me = this;
     if (!this.dmBox) return;
     if (this.state.folded) this.setFolded(false, true);
-    if (this.tiny()) this.setSize('normal', true);
+    if (this.cramped()) this.setSize('normal', true);
     this.dmOpen(handle);
     function go() { me.reveal(me.dmSec); me.dmSec.scrollIntoView({ block: 'nearest' }); me.dmHead.focus(); }
     if (this.host.style.visibility === 'hidden') this.whenShown = go; else go();
@@ -11429,7 +11437,7 @@
     try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) { /* the address stays */ }
     if (!this.dmBox) return;
     if (this.state.folded) this.setFolded(false, true);
-    if (this.tiny()) this.setSize('normal', true);
+    if (this.cramped()) this.setSize('normal', true);
     if (inChat()) this.chatViewDm();
     if (this.dmWith) this.dmShowInbox();
     if (this.dmBox.hidden) this.setDm(true); else this.dmTick();
@@ -11965,7 +11973,7 @@
   Radio.prototype.toProps = function () {
     try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) { /* the address stays */ }
     if (this.state.folded) this.setFolded(false, true);
-    if (this.tiny()) this.setSize('normal', true);
+    if (this.cramped()) this.setSize('normal', true);
     if (this.petsPanel.hidden) this.setPets(true);
     if (this.pfSecs.props.body.hidden) this.pfOpen('props', true);
     var me = this, head = this.pfSecs.props.btn;
@@ -12341,6 +12349,8 @@
   // Something is sending you into a part: open it first, or nothing in it can take the keyboard.
   Radio.prototype.reveal = function (node) {
     var sec = node && node.closest && node.closest('.cb-sec');
+    // Half shows the channel alone: going anywhere else makes it Normal for this page.
+    if (sec && this.state.size === 'half' && !sec.classList.contains('cb-sec--channel')) this.setSize('normal', true);
     // Beside a call, the side that part is on.
     if (this.besideOn && sec) {
       if (sec.closest('.cb-col--b')) this.setSide('chat');
@@ -15389,13 +15399,13 @@
     // The same words under the room's screen, where a press in the strip was made.
     var u = this.underBox;
     if (u && !u.strip.hidden) { u.said.textContent = s; u.said.hidden = false; }
-    if (this.tiny() || this.state.folded || this.filmSec.hidden || this.partFolded('film')) { this.tell(s); return; }
+    if (this.cramped() || this.state.folded || this.filmSec.hidden || this.partFolded('film')) { this.tell(s); return; }
     this.filmSaid.textContent = s;
     this.said.textContent = '';
     if (this.newsSaid) this.newsSaid.textContent = '';
   };
   Radio.prototype.tellNews = function (s) {
-    if (this.tiny() || this.state.folded || this.partFolded('new')) { this.tell(s); return; }
+    if (this.cramped() || this.state.folded || this.partFolded('new')) { this.tell(s); return; }
     this.newsSaid.textContent = s;
     this.said.textContent = '';
     if (this.filmSaid) this.filmSaid.textContent = '';

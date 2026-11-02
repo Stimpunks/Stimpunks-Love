@@ -2005,6 +2005,19 @@ button.cb-help-btn[hidden] { display: none; }
 .cb-radio--small .cb-log > li:not(:last-child) { display: none; }
 .cb-radio--small .cb-text { max-height: 4.4em; overflow: hidden; }
 
+/* HALF: the channel's messages, the box to write in and Transmit, and never
+   more than half the window tall, for talking while a film plays (cb.js,
+   Ryan, 2026-11-01). The log takes what the window leaves it and scrolls. */
+.cb-radio--half .cb-sec:not(.cb-sec--channel), .cb-radio--half .cb-sec--channel > .cb-h, .cb-radio--half .cb-band,
+.cb-radio--half .cb-forum-line, .cb-radio--half .cb-world-line, .cb-radio--half .cb-help,
+.cb-radio--half .cb-trim, .cb-radio--half .cb-side, .cb-radio--half .cb-divider, .cb-radio--half .cb-screen { display: none; }
+.cb-radio--half { max-height: calc(50vh - 8px); max-height: calc(50dvh - 8px); }
+.cb-radio--half .cb-sec--channel { padding-top: 0; border-top: 0; }
+.cb-radio--half .cb-set { padding: 8px; }
+.cb-radio--half .cb-log { max-height: max(5rem, calc(50vh - 300px)); max-height: max(5rem, calc(50dvh - 300px)); }
+.cb-radio--half .cb-say--msg { min-height: 0; }
+.cb-radio--half .cb-picture-img { max-height: 140px; }
+
 /* ICON: the radio as a CB set drawn on its own case, and nothing else (cb.js,
    Ryan, 2026-10-19). Still on, so it is a size and not folded; folded, the bar
    is the folded bar whatever the size. The case keeps its scheme's border and
