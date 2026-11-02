@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Sun, 01 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 02 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The office posts to our networks</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-02-office-posts</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-02-office-posts</guid>
+      <pubDate>Mon, 02 Nov 2026 12:00:00 GMT</pubDate>
+      <description>The office has a Posts page, in place of a paid service for scheduling posts. One set of words goes to all five of our networks, written within Bluesky’s 300 characters, the shortest limit of the five, and counted the way Bluesky counts them as you write. Bluesky and Mastodon are posted by the office itself, on a second press that names them, with a card for the first link that our server reads from the page. Threads, our Facebook Page and our LinkedIn Page are posted by hand for now: Meta reviews an app before it can post to a Page, and LinkedIn approves posting to a company page only for verified organisations, so for those the office copies the words, opens the network, and whoever posted there says so. Each post says what happened on each network, with a link to the post or what went wrong, and nothing is ever posted to one network twice. Pictures come next. The privacy page says what goes where.</description>
+    </item>
     <item>
       <title>JOLLY on Hey, Good Cookin’s rack</title>
       <link>https://stimpunks.world/changelog.html#2026-11-01-hey-good-cookin-jolly</link>

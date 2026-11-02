@@ -68,13 +68,15 @@
   var navGrants = el('a', 'cb-btn of-navlink', 'Grant requests'); navGrants.href = '#/grants';
   var navCases = el('a', 'cb-btn of-navlink', 'Cases'); navCases.href = '#/cases';
   var navMailings = el('a', 'cb-btn of-navlink', 'Mailings'); navMailings.href = '#/mailings';
+  // Posts to our five networks (2026-11-02), in place of Buffer.
+  var navPosts = el('a', 'cb-btn of-navlink', 'Posts'); navPosts.href = '#/posts';
   // Tasks, the office's other half for the same people (Ryan's ask, 2026-10-21),
   // set a little apart, because it is another page; Tasks' bar has Office and
   // the forums' has both.
   var navTasks = el('a', 'cb-btn of-navlink of-navlink--other', 'Tasks'); navTasks.href = '/tasks.html#/';
   // And the forums, where the team's documents and the rest of the conversation are.
   var navForums = el('a', 'cb-btn of-navlink', 'Forums'); navForums.href = '/forum.html#/';
-  [navDash, navFeed, navContacts, navGrants, navCases, navMailings, navTasks, navForums].forEach(function (a) { nav.appendChild(a); });
+  [navDash, navFeed, navContacts, navGrants, navCases, navMailings, navPosts, navTasks, navForums].forEach(function (a) { nav.appendChild(a); });
   bar.appendChild(nav);
   box.appendChild(bar);
 
@@ -113,6 +115,7 @@
     if (p[0] === 'dashboard') return 'the dashboard';
     if (p[0] === 'reports') return 'the reports';
     if (p[0] === 'templates') return p[1] === 'new' ? 'the new template' : p[1] === 'edit' ? 'changing the template' : 'the templates';
+    if (p[0] === 'posts') return 'the posts';
     if (p[0] === 'mailings') return p[1] === 'new' ? 'the new mailing' : p[1] ? 'the mailing' : 'the mailings';
     return 'the office';
   }
@@ -3907,6 +3910,209 @@
     return h;
   }
 
+  /* ── Posts: one set of words to our five networks (2026-11-02) ─────────────
+     In place of Buffer. Bluesky and Mastodon are posted by our server on a
+     second press that names them; Threads, Facebook and LinkedIn are posted by
+     hand until their apps are approved, so the office copies the words and
+     opens each, and whoever posts there says so. The words are counted as
+     Bluesky counts them, the shortest limit of the five. Nothing here is kept
+     in the browser. */
+  var SEG = window.Intl && Intl.Segmenter ? new Intl.Segmenter(undefined, { granularity: 'grapheme' }) : null;
+  function lengthOf(t) { return SEG ? Array.from(SEG.segment(t)).length : Array.from(t).length; }
+  function socialView() {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=social').then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      return drawSocial(r.body.social);
+    });
+  }
+  var SOCIAL_WORDS = { posting: 'Posting…', posted: 'Posted', failed: 'Not posted', unsure: 'May or may not be there', hand: 'Waiting to be posted by hand', done: 'Posted by hand' };
+  function andNames(list) { return andWords(list.map(function (n) { return n.name; })); }
+  function copyAndOpen(net, text, then) {
+    var href = net.key === 'threads' ? net.open + encodeURIComponent(text) : net.open;
+    // Copied while this page still has the keyboard, then opened on the same press, so no browser takes it for a pop-up.
+    var copied = navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject();
+    window.open(href, '_blank', 'noopener');
+    copied.then(function () {
+      say('Copied the words and opened ' + net.name + ' in a new tab' + (net.key === 'threads' ? ', with the words in it' : ': paste them there') + '.');
+    }, function () { say('Opened ' + net.name + ' in a new tab, but the words could not be copied. Copy them from the post here.'); });
+    if (then) then();
+  }
+  function drawSocial(so) {
+    view.textContent = '';
+    var h = heading(2, 'Posts');
+    view.appendChild(h);
+    var nets = so.networks, byKey = {};
+    nets.forEach(function (n) { byKey[n.key] = n; });
+    var auto = nets.filter(function (n) { return n.how === 'api'; }), hand = nets.filter(function (n) { return n.how === 'hand'; });
+    view.appendChild(el('p', null, 'One post to our networks, in ' + so.max + ' characters or fewer, because Bluesky takes ' + so.max + ' and the others take more. '
+      + andNames(auto) + ' are posted by the office. ' + andNames(hand) + ' are posted by hand for now: the office copies the words and opens each one, and whoever posts there says so here.'));
+
+    var form = el('form', 'of-form of-social');
+    form.noValidate = true;
+    var w = el('div', 'of-field of-wide');
+    var lab = el('label', 'cb-lab', 'Words'); lab.htmlFor = 'of-social-text';
+    var text = el('textarea', 'cb-say of-text'); text.id = 'of-social-text'; text.rows = 6;
+    text.setAttribute('aria-describedby', 'of-social-count of-social-hint');
+    w.appendChild(lab); w.appendChild(text);
+    var count = el('p', 'of-count'); count.id = 'of-social-count';
+    w.appendChild(count);
+    form.appendChild(w);
+    var hint = el('p', 'cb-quiet of-hint', 'Plain text. Write a link with its https:// so Bluesky makes it a link, and the first link gets a card on Bluesky, read from that page. A #tag is a tag on Bluesky and Mastodon.');
+    hint.id = 'of-social-hint';
+    form.appendChild(hint);
+    var was = 0;
+    function counted() {
+      var n = lengthOf(text.value.trim()), over = n > so.max;
+      count.textContent = n + ' of ' + so.max + (over ? ': ' + (n - so.max) + ' too many' : '');
+      count.classList.toggle('of-count--over', over);
+      if (over && was <= so.max) say('Over Bluesky’s ' + so.max + ' characters.');
+      was = n;
+    }
+    text.addEventListener('input', counted);
+    counted();
+
+    var fs = el('fieldset', 'of-checks');
+    fs.appendChild(el('legend', 'cb-lab', 'Post to'));
+    var ticks = {};
+    nets.forEach(function (n) {
+      var x = el('input'); x.type = 'checkbox'; x.id = 'of-social-' + n.key; x.value = n.key;
+      x.checked = n.ready; x.disabled = !n.ready;
+      var l = el('label', 'of-check'); l.htmlFor = x.id;
+      l.appendChild(x);
+      l.appendChild(document.createTextNode(' ' + n.name + (n.how === 'hand' ? ', by hand' : n.ready ? '' : ', not set up yet')));
+      fs.appendChild(l);
+      ticks[n.key] = x;
+    });
+    form.appendChild(fs);
+
+    var row = el('div', 'of-row');
+    var look = el('button', 'cb-btn', 'Check the card'); look.type = 'button';
+    var go = el('button', 'cb-btn', 'Post it'); go.type = 'submit';
+    row.appendChild(look); row.appendChild(go);
+    form.appendChild(row);
+    var card = el('div', 'of-social-card'); card.hidden = true;
+    form.appendChild(card);
+    var answer = el('p', 'of-answer'); answer.setAttribute('role', 'status');
+    form.appendChild(answer);
+
+    function showCard(c) {
+      card.textContent = '';
+      card.hidden = false;
+      card.appendChild(el('p', 'cb-lab', 'Bluesky’s card'));
+      if (!c) { card.appendChild(quiet('No card: the words have no link, or that page says nothing about itself.')); return; }
+      card.appendChild(el('p', 'of-social-card__title', c.title));
+      if (c.description) card.appendChild(el('p', null, c.description));
+      card.appendChild(el('p', 'cb-quiet', c.uri));
+    }
+    look.addEventListener('click', function () {
+      look.disabled = true;
+      answer.textContent = 'Reading the first link…';
+      call(null, { action: 'social-preview', text: text.value }).then(function (r) {
+        look.disabled = false;
+        if (r.status !== 200) { answer.textContent = why(r, 'That could not be checked.'); return; }
+        answer.textContent = r.body.why || '';
+        showCard(r.body.card);
+      });
+    });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var to = nets.filter(function (n) { return ticks[n.key].checked; });
+      var words = text.value.trim();
+      if (!words) { answer.textContent = 'Write something to post.'; text.focus(); return; }
+      if (lengthOf(words) > so.max) { answer.textContent = 'Take ' + (lengthOf(words) - so.max) + ' characters out first.'; text.focus(); return; }
+      if (!to.length) { answer.textContent = 'Tick at least one network.'; return; }
+      var now = to.filter(function (n) { return n.how === 'api'; }), later = to.filter(function (n) { return n.how === 'hand'; });
+      var sayIt = (now.length ? 'This posts these words to ' + andNames(now) + ' now, in public.' : 'The office posts to none of these itself.')
+        + (later.length ? ' ' + andNames(later) + ' will wait here to be posted by hand.' : '');
+      sure(row, sayIt, now.length ? 'Post to ' + andNames(now) : 'Keep it for ' + andNames(later), function (done) {
+        answer.textContent = now.length ? 'Posting…' : 'Keeping it…';
+        call(null, { action: 'social-post', text: words, to: to.map(function (n) { return n.key; }) }).then(function (r) {
+          done();
+          if (r.status !== 200) { answer.textContent = why(r, 'That did not post. Nothing was sent.'); return; }
+          var asked = row.querySelector('.of-sure'); if (asked) asked.remove();
+          go.hidden = false;
+          text.value = ''; counted(); card.hidden = true; answer.textContent = '';
+          var p = r.body.post;
+          var told = now.map(function (n) { return n.name + ': ' + SOCIAL_WORDS[p.to[n.key].state].toLowerCase(); }).join('. ');
+          so.posts.unshift(p);
+          drawPosts();
+          say(told ? told + '.' : 'Kept. Post it by hand below.');
+          var first = list.querySelector('li');
+          if (first) { var f = first.querySelector('button, a'); if (f) f.focus(); }
+        });
+      }, go);
+    });
+    view.appendChild(form);
+
+    view.appendChild(el('h3', null, 'Posted'));
+    var list = el('ul', 'of-theirs of-sents');
+    view.appendChild(list);
+    function drawPosts() {
+      list.textContent = '';
+      if (!so.posts.length) { list.appendChild(el('li', 'cb-quiet', 'Nothing posted from the office yet.')); return; }
+      so.posts.forEach(function (p) { list.appendChild(postItem(p)); });
+    }
+    function swap(li, p) {
+      so.posts = so.posts.map(function (x) { return x.id === p.id ? p : x; });
+      var fresh = postItem(p);
+      li.replaceWith(fresh);
+      return fresh;
+    }
+    function postItem(p) {
+      var li = el('li', 'of-sent');
+      li.appendChild(el('div', 'of-mail', p.text));
+      li.appendChild(el('p', 'of-when', 'By ' + p.by + ', ' + when(p.t) + (p.card ? ' · Bluesky’s card: ' + p.card.title : '')));
+      var ul = el('ul', 'of-sent__nets');
+      Object.keys(p.to).forEach(function (k) {
+        var n = byKey[k], st = p.to[k];
+        if (!n) return;
+        var it = el('li');
+        it.appendChild(el('strong', null, n.name + ': '));
+        it.appendChild(document.createTextNode(SOCIAL_WORDS[st.state] || st.state));
+        if (st.state === 'posted' && st.url) { it.appendChild(document.createTextNode(' · ')); it.appendChild(outLink(st.url, 'see it on ' + n.name)); }
+        if (st.state === 'done') it.appendChild(document.createTextNode(', by ' + st.by + ', ' + when(st.t)));
+        if (st.why) it.appendChild(el('span', 'of-sent__why', ' ' + st.why));
+        function act(words, send, busyWords) {
+          var b = el('button', 'cb-btn of-small', words); b.type = 'button'; b.dataset.keep = k + '-' + send.action;
+          b.addEventListener('click', function () {
+            b.disabled = true;
+            say(busyWords);
+            call(null, Object.assign({ id: p.id, network: k }, send)).then(function (r) {
+              if (r.status !== 200) { b.disabled = false; say(why(r, 'That did not work. Nothing was changed.')); return; }
+              var fresh = swap(li, r.body.post);
+              var st2 = r.body.post.to[k];
+              say(n.name + ': ' + (SOCIAL_WORDS[st2.state] || st2.state).toLowerCase() + '.');
+              var f = fresh.querySelector('button, a'); if (f) f.focus();
+            });
+          });
+          it.appendChild(document.createTextNode(' '));
+          it.appendChild(b);
+        }
+        if (st.state === 'failed') act('Try ' + n.name + ' again', { action: 'social-retry' }, 'Posting to ' + n.name + '…');
+        if (st.state === 'unsure') {
+          it.appendChild(document.createTextNode(' '));
+          it.appendChild(outLink(n.profile, 'Look on our ' + n.name + ' profile'));
+          act('It is not there: try again', { action: 'social-retry', looked: true }, 'Posting to ' + n.name + '…');
+        }
+        if (st.state === 'hand') {
+          var o = el('button', 'cb-btn of-small', n.key === 'threads' ? 'Open Threads with the words' : 'Copy the words and open ' + n.name); o.type = 'button';
+          o.addEventListener('click', function () { copyAndOpen(n, p.text); });
+          it.appendChild(document.createTextNode(' '));
+          it.appendChild(o);
+          act('I posted it', { action: 'social-done' }, 'Marking it posted…');
+        }
+        ul.appendChild(it);
+      });
+      li.appendChild(ul);
+      return li;
+    }
+    drawPosts();
+    return h;
+  }
+
   function route() {
     step.arrive();
     dressNow();
@@ -3940,13 +4146,14 @@
     else if (parts[0] === 'mailings' && parts[1] === 'new') done = newMailingView(hash);
     else if (parts[0] === 'mailings' && parts[1]) done = mailingView(parts[1], parts[2] === 'c' ? parts[3] : null);
     else if (parts[0] === 'mailings') done = mailingsView();
+    else if (parts[0] === 'posts') done = socialView();
     else if (parts[0] === 'contacts') done = contactsView();
     else done = dashboardView(null);
     // The bar says which part of the office you are in.
-    [navDash, navFeed, navContacts, navGrants, navCases, navMailings].forEach(function (a) { a.removeAttribute('aria-current'); });
+    [navDash, navFeed, navContacts, navGrants, navCases, navMailings, navPosts].forEach(function (a) { a.removeAttribute('aria-current'); });
     var part = !parts.length || parts[0] === 'dashboard' || parts[0] === 'reports' ? navDash : parts[0] === 'feed' ? navFeed : parts[0] === 'grants' || parts[0] === 'g' ? navGrants : parts[0] === 'cases' || parts[0] === 'k' || parts[0] === 'map' ? navCases
-      : parts[0] === 'mailings' || parts[0] === 'templates' ? navMailings : navContacts;
-    part.setAttribute('aria-current', !parts[1] && (!parts.length || parts[0] === 'contacts' || parts[0] === 'grants' || parts[0] === 'cases' || parts[0] === 'mailings' || parts[0] === 'dashboard' || parts[0] === 'feed') ? 'page' : 'true');
+      : parts[0] === 'mailings' || parts[0] === 'templates' ? navMailings : parts[0] === 'posts' ? navPosts : navContacts;
+    part.setAttribute('aria-current', !parts[1] && (!parts.length || parts[0] === 'contacts' || parts[0] === 'grants' || parts[0] === 'cases' || parts[0] === 'mailings' || parts[0] === 'posts' || parts[0] === 'dashboard' || parts[0] === 'feed') ? 'page' : 'true');
     if (parts[0] === 'reports') navDash.setAttribute('aria-current', 'true');
     // The keyboard goes to the new view's heading, or back where it was.
     step.land(done);

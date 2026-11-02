@@ -17116,6 +17116,293 @@ export async function orgAdd(who, id, f, s = store(), now = Date.now(), fetchFn 
   return { added: { t: now }, address: got.address, kept, gone, logo: !!media };
 }
 
+/* SOCIAL POSTS (Ryan's ask, 2026-11-02: "buffer.com and other such services
+   are overpriced for what we need"). One set of words, posted from the office
+   to our five networks: Bluesky, Mastodon, Threads, our Facebook Page and our
+   LinkedIn Page, in Ryan's order of how they were set up there. We write within
+   Bluesky's limit, the shortest of the five, so the words are the same
+   everywhere: SOCIAL_MAX graphemes, counted the way Bluesky counts them, links
+   in full (Mastodon counts a link as 23 characters, so anything under
+   Bluesky's limit fits there too).
+
+   Ryan's calls of the same day: staged, Bluesky and Mastodon first, posted by
+   our server; Threads, Facebook and LinkedIn by hand until each network's app
+   is set up and approved (Meta reviews an app that posts to a Page, LinkedIn
+   approves its Community Management API for verified organisations only), so
+   for those the office copies the words and opens the network, and whoever
+   posted it there says so. Text and a link card first, pictures next; anybody
+   who can open the office posts; no scheduling yet.
+
+   NOTHING IS POSTED BUT ON A PRESS, and nothing is posted twice. A post is
+   kept sealed with what happened on each network: posting, posted (with the
+   post's own address), failed (nothing went, and why, in the network's own
+   words), unsure (we asked and never heard back, so it may have gone: look
+   before trying again), and for the networks posted by hand, waiting and
+   then done (who and when). Only a failed or unsure network can be tried
+   again, and only after the record says it is posting, inside the same
+   conditional write, so two presses cannot both send. Bluesky's post has a
+   record key worked out from the post (tidOf), so a second try asks Bluesky
+   whether it is there first; Mastodon's carries an Idempotency-Key, which
+   mastodon.online keeps for an hour. The keys are CB_BSKY_APP_PASSWORD (an app
+   password for stimpunks.org, never the account's password) and
+   CB_MASTODON_TOKEN (an access token with write:statuses), each read once, in
+   Netlify and 1Password and nowhere else. Bluesky makes no link card by
+   itself, so the first link's card is read by our server, with the forums'
+   previewFor, and sent as its title and words: never a picture yet. Nothing
+   is ever logged. privacy.html#social-posts says all of it. */
+export const SOCIAL_MAX = 300;
+const SOCIAL_BYTES = 3000;
+const SOCIAL = 'office-social';
+export const SOCIAL_KEEP = 500;
+// A press that never came back (the function stopped part way) is unsure after this.
+const SOCIAL_STUCK = 2 * 60 * 1000;
+// Each request to a network; a function cut off part way leaves the network posting, which SOCIAL_STUCK turns to unsure.
+const SOCIAL_WAIT = 8000;
+const BSKY_HANDLE = 'stimpunks.org';
+const BSKY_AT = 'https://bsky.social';
+const MASTO_AT = 'https://mastodon.online';
+export const SOCIAL_NETWORKS = [
+  { key: 'bluesky', name: 'Bluesky', profile: 'https://bsky.app/profile/stimpunks.org', how: 'api' },
+  { key: 'mastodon', name: 'Mastodon', profile: 'https://mastodon.online/@stimpunks', how: 'api' },
+  { key: 'threads', name: 'Threads', profile: 'https://www.threads.com/@stimpunks', how: 'hand', open: 'https://www.threads.com/intent/post?text=' },
+  { key: 'facebook', name: 'Facebook', profile: 'https://www.facebook.com/stimpunksorg', how: 'hand', open: 'https://www.facebook.com/stimpunksorg' },
+  { key: 'linkedin', name: 'LinkedIn', profile: 'https://www.linkedin.com/company/stimpunks', how: 'hand', open: 'https://www.linkedin.com/company/stimpunks/admin/page-posts/published/' },
+];
+const SOCIAL_BY = Object.fromEntries(SOCIAL_NETWORKS.map((n) => [n.key, n]));
+
+function bskyPassword() {
+  const k = process.env.CB_BSKY_APP_PASSWORD;
+  return k && k.trim() ? k.trim() : null;
+}
+function mastoToken() {
+  const k = process.env.CB_MASTODON_TOKEN;
+  return k && k.trim() ? k.trim() : null;
+}
+function socialReady(key) {
+  if (!officeReady()) return false;
+  return key === 'bluesky' ? !!bskyPassword() : key === 'mastodon' ? !!mastoToken() : false;
+}
+
+/* The words as they will go: line breaks made plain, control characters
+   taken out, and nothing else changed. */
+function cleanSocial(v) {
+  if (typeof v !== 'string') return '';
+  return v.normalize('NFC').replace(/\r\n?/g, '\n').replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g, '').replace(/\n{3,}/g, '\n\n').trim();
+}
+export function socialLength(text) { return [...GRAPHEMES.segment(text)].length; }
+function socialWhy(text) {
+  if (!text) return 'Write something to post.';
+  const n = socialLength(text);
+  if (n > SOCIAL_MAX) return `That is ${n} characters, and Bluesky takes ${SOCIAL_MAX}. Take ${n - SOCIAL_MAX} out.`;
+  if (Buffer.byteLength(text, 'utf8') > SOCIAL_BYTES) return 'That is too long for Bluesky in bytes, which happens with a great many emoji. Take some out.';
+  return null;
+}
+/* Every http or https address in the words, where it starts, with the
+   punctuation that ends a sentence left off it. */
+function socialLinks(text) {
+  const out = [];
+  for (const m of text.matchAll(/https?:\/\/[^\s<>"]+/g)) {
+    let href = m[0];
+    while (/[.,;:!?'"’”]$/.test(href) || (href.endsWith(')') && !href.includes('('))) href = href.slice(0, -1);
+    try { if (!/^https?:$/.test(new URL(href).protocol)) continue; } catch (e) { continue; }
+    out.push({ at: m.index, href });
+  }
+  return out;
+}
+/* Bluesky's own word for where a link or a #tag sits: bytes, not characters. */
+function bskyFacets(text) {
+  const bytes = (i) => Buffer.byteLength(text.slice(0, i), 'utf8');
+  const out = socialLinks(text).map((l) => ({ index: { byteStart: bytes(l.at), byteEnd: bytes(l.at + l.href.length) },
+    features: [{ $type: 'app.bsky.richtext.facet#link', uri: l.href }] }));
+  for (const m of text.matchAll(/(^|\s)#([\p{L}\p{N}_]*\p{L}[\p{L}\p{N}_]*)/gu)) {
+    if (socialLength(m[2]) > 64) continue;
+    const at = m.index + m[1].length;
+    out.push({ index: { byteStart: bytes(at), byteEnd: bytes(at + 1 + m[2].length) }, features: [{ $type: 'app.bsky.richtext.facet#tag', tag: m[2] }] });
+  }
+  return out;
+}
+/* The first link's card, for Bluesky: its title and words, read by our server
+   (previewFor, as the forums read a link), and never a picture. */
+async function socialCard(text, get = safeGet) {
+  const first = socialLinks(text)[0];
+  if (!first) return null;
+  let p = null;
+  try { p = await previewFor(first.href, get); } catch (e) { p = null; }
+  if (p && p.kind === 'street') {
+    try {
+      const r = await get(first.href, { max: 600000, types: ['text/html'] });
+      const m = r && r.status === 200 ? metaOf(r.text) : null;
+      p = m && m.title ? { title: m.title, about: m.about } : null;
+    } catch (e) { p = null; }
+  }
+  if (!p || !p.title) return null;
+  const about = p.about || (p.channel ? p.channel : '') || p.author || p.site || '';
+  return { uri: first.href, title: clip(p.title, 300), description: clip(about, 1000) || '' };
+}
+/* A record key for Bluesky worked out from the post, so a second try asks for
+   the same one: the time in microseconds and a clock taken from the post's id,
+   in Bluesky's sortable base-32. */
+const TID_ABC = '234567abcdefghijklmnopqrstuvwxyz';
+export function tidOf(t, id) {
+  const clock = BigInt(createHash('sha256').update(String(id)).digest().readUInt16BE(0) % 1024);
+  let v = ((BigInt(Math.floor(t)) * 1000n) << 10n) | clock;
+  let out = '';
+  for (let i = 0; i < 13; i++) { out = TID_ABC[Number(v & 31n)] + out; v >>= 5n; }
+  return out;
+}
+/* What a network said was wrong, in its own words, for whoever pressed: never kept past the post, never logged. */
+async function socialRefusal(r) {
+  const b = await r.json().catch(() => null);
+  const said = b && (typeof b.message === 'string' ? b.message : typeof b.error === 'string' ? b.error : typeof b.error_description === 'string' ? b.error_description : '');
+  const words = [...String(said || '').replace(/\s+/g, ' ').trim()];
+  return words.length ? ': ' + (words.length > 200 ? words.slice(0, 199).join('') + '…' : words.join('')) : '';
+}
+const waited = () => AbortSignal.timeout(SOCIAL_WAIT);
+
+async function bskySend(post, fetchFn) {
+  const pw = bskyPassword();
+  if (!pw) return { error: 'Bluesky is not set up: its app password is not in Netlify’s settings.' };
+  const json = { accept: 'application/json', 'content-type': 'application/json' };
+  const sess = await fetchFn(BSKY_AT + '/xrpc/com.atproto.server.createSession', {
+    method: 'POST', headers: json, body: JSON.stringify({ identifier: BSKY_HANDLE, password: pw }), signal: waited(),
+  }).catch(() => null);
+  if (!sess || !sess.ok) return { error: 'Bluesky would not sign us in' + (sess ? ` (it answered ${sess.status}${await socialRefusal(sess)})` : ', or did not answer') + '. Nothing was posted there.' };
+  const j = await sess.json().catch(() => null);
+  if (!j || typeof j.accessJwt !== 'string' || typeof j.did !== 'string' || !/^did:[a-z]+:[A-Za-z0-9._:%-]+$/.test(j.did)) return { error: 'Bluesky signed us in but did not say who we are. Nothing was posted there.' };
+  // Our account's own server, if Bluesky names one.
+  const svc = j.didDoc && Array.isArray(j.didDoc.service) ? j.didDoc.service.find((x) => x && x.id === '#atproto_pds') : null;
+  let at = BSKY_AT;
+  try { if (svc && new URL(svc.serviceEndpoint).protocol === 'https:') at = new URL(svc.serviceEndpoint).origin; } catch (e) { at = BSKY_AT; }
+  const auth = { ...json, authorization: 'Bearer ' + j.accessJwt };
+  const rkey = tidOf(post.t, post.id);
+  const url = `https://bsky.app/profile/${BSKY_HANDLE}/post/${rkey}`;
+  // Already there, from a try that never came back.
+  const had = await fetchFn(at + '/xrpc/com.atproto.repo.getRecord?' + new URLSearchParams({ repo: j.did, collection: 'app.bsky.feed.post', rkey }), { headers: auth, signal: waited() }).catch(() => null);
+  if (had && had.ok) return { url };
+  const record = { $type: 'app.bsky.feed.post', text: post.text, createdAt: new Date(post.t).toISOString(), langs: ['en'] };
+  const facets = bskyFacets(post.text);
+  if (facets.length) record.facets = facets;
+  if (post.card) record.embed = { $type: 'app.bsky.embed.external', external: { uri: post.card.uri, title: post.card.title, description: post.card.description } };
+  let r;
+  try {
+    r = await fetchFn(at + '/xrpc/com.atproto.repo.createRecord', {
+      method: 'POST', headers: auth, body: JSON.stringify({ repo: j.did, collection: 'app.bsky.feed.post', rkey, record }), signal: waited(),
+    });
+  } catch (e) { return { unsure: 'Bluesky did not answer, so the post may or may not be there.' }; }
+  if (!r.ok) return r.status >= 500 ? { unsure: `Bluesky answered ${r.status}, so the post may or may not be there.` } : { error: `Bluesky did not take it (it answered ${r.status}${await socialRefusal(r)}). Nothing was posted there.` };
+  return { url };
+}
+
+async function mastoSend(post, fetchFn) {
+  const tok = mastoToken();
+  if (!tok) return { error: 'Mastodon is not set up: its access token is not in Netlify’s settings.' };
+  let r;
+  try {
+    r = await fetchFn(MASTO_AT + '/api/v1/statuses', {
+      method: 'POST',
+      headers: { authorization: 'Bearer ' + tok, accept: 'application/json', 'content-type': 'application/json', 'idempotency-key': post.id },
+      body: JSON.stringify({ status: post.text, visibility: 'public', language: 'en' }), signal: waited(),
+    });
+  } catch (e) { return { unsure: 'Mastodon did not answer, so the post may or may not be there.' }; }
+  if (!r.ok) return r.status >= 500 ? { unsure: `Mastodon answered ${r.status}, so the post may or may not be there.` } : { error: `Mastodon did not take it (it answered ${r.status}${await socialRefusal(r)}). Nothing was posted there.` };
+  const j = await r.json().catch(() => null);
+  const url = j && typeof j.url === 'string' && j.url.startsWith(MASTO_AT + '/') ? j.url : null;
+  return url ? { url } : { unsure: 'Mastodon took it but did not say where it is. Look on our profile.' };
+}
+
+/* The one place a post leaves for a network. */
+async function socialSend(key, post, fetchFn) {
+  return key === 'bluesky' ? bskySend(post, fetchFn) : key === 'mastodon' ? mastoSend(post, fetchFn) : { error: 'That network is posted by hand.' };
+}
+async function readSocial(s) {
+  const d = await readSealed(SOCIAL, s);
+  return d && Array.isArray(d.posts) ? d.posts : [];
+}
+/* One network's state on one post, changed only if `when` holds for it now. */
+async function setSocial(id, key, when, to, s) {
+  let ok = false, post = null;
+  await updateSealed(SOCIAL, (was) => {
+    const list = was && Array.isArray(was.posts) ? was.posts : [];
+    const i = list.findIndex((x) => x.id === id);
+    if (i < 0 || !list[i].to || !list[i].to[key] || !when(list[i].to[key])) { ok = false; return null; }
+    ok = true;
+    const copy = list.slice();
+    copy[i] = { ...list[i], to: { ...list[i].to, [key]: to } };
+    post = copy[i];
+    return { posts: copy };
+  }, s);
+  return ok ? post : null;
+}
+async function sendAndKeep(key, post, s, now, fetchFn) {
+  const r = await socialSend(key, post, fetchFn);
+  const to = r.url ? { state: 'posted', url: r.url, t: now } : r.unsure ? { state: 'unsure', why: r.unsure, t: now } : { state: 'failed', why: r.error, t: now };
+  return setSocial(post.id, key, (x) => x.state === 'posting', to, s);
+}
+function shapeSocial(p, now) {
+  const to = {};
+  for (const [k, v] of Object.entries(p.to || {})) {
+    to[k] = v.state === 'posting' && now - (v.t || 0) > SOCIAL_STUCK ? { ...v, state: 'unsure', why: 'The office never heard how this went, so it may or may not be there.' } : v;
+  }
+  return { id: p.id, text: p.text, card: p.card || null, by: p.by, t: p.t, to };
+}
+
+export async function officeSocial(who, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return null;
+  return {
+    max: SOCIAL_MAX,
+    networks: SOCIAL_NETWORKS.map((n) => ({ key: n.key, name: n.name, profile: n.profile, how: n.how, open: n.open || null, ready: n.how === 'api' ? socialReady(n.key) : true })),
+    posts: (await readSocial(s)).slice(0, 100).map((p) => shapeSocial(p, now)),
+  };
+}
+/* How the words will go: their length as Bluesky counts it, and the card
+   Bluesky will show for the first link, read by our server on this press. */
+export async function socialPreview(who, text, get = safeGet) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const t = cleanSocial(text);
+  return { length: socialLength(t), why: socialWhy(t), card: t ? await socialCard(t, get) : null };
+}
+/* A post, on a director's press: kept first, then sent to each network ticked
+   that the office posts to, together. */
+export async function socialPost(who, b, s = store(), now = Date.now(), fetchFn = fetch, get = safeGet) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  if (!officeReady()) return { error: 'The office is shut.' };
+  const text = cleanSocial(b && b.text);
+  const why = socialWhy(text);
+  if (why) return { error: why };
+  const keys = [...new Set(Array.isArray(b.to) ? b.to.filter((k) => typeof k === 'string' && SOCIAL_BY[k]) : [])];
+  if (!keys.length) return { error: 'Tick at least one network.' };
+  const unready = keys.filter((k) => SOCIAL_BY[k].how === 'api' && !socialReady(k));
+  if (unready.length) return { error: unready.map((k) => SOCIAL_BY[k].name).join(' and ') + ' is not set up yet. Untick it, or ask an administrator to set it up.' };
+  const card = keys.includes('bluesky') ? await socialCard(text, get) : null;
+  const post = { id: 'p' + randomBytes(9).toString('base64url'), text, card, by: who.handle, t: now, to: {} };
+  for (const k of keys) post.to[k] = SOCIAL_BY[k].how === 'api' ? { state: 'posting', t: now } : { state: 'hand' };
+  await updateSealed(SOCIAL, (was) => ({ posts: [post, ...(was && Array.isArray(was.posts) ? was.posts : [])].slice(0, SOCIAL_KEEP) }), s);
+  const sent = await Promise.all(keys.filter((k) => SOCIAL_BY[k].how === 'api').map((k) => sendAndKeep(k, post, s, Date.now(), fetchFn)));
+  const last = sent.filter(Boolean).pop();
+  const kept = (await readSocial(s)).find((x) => x.id === post.id) || last || post;
+  return { post: shapeSocial(kept, Date.now()) };
+}
+/* One network tried again: only one that failed, or one that is unsure and
+   somebody has looked and says is not there. */
+export async function socialRetry(who, id, key, looked, s = store(), now = Date.now(), fetchFn = fetch) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  if (!SOCIAL_BY[key] || SOCIAL_BY[key].how !== 'api') return { error: 'That network is posted by hand.' };
+  if (!socialReady(key)) return { error: SOCIAL_BY[key].name + ' is not set up.' };
+  const can = (x) => x.state === 'failed' || ((x.state === 'unsure' || (x.state === 'posting' && now - (x.t || 0) > SOCIAL_STUCK)) && looked === true);
+  const post = await setSocial(String(id || ''), key, can, { state: 'posting', t: now }, s);
+  if (!post) return { error: `That cannot be tried again: it has been posted to ${SOCIAL_BY[key].name}, or is being posted, or nobody has said they looked.` };
+  await sendAndKeep(key, post, s, now, fetchFn);
+  const kept = (await readSocial(s)).find((x) => x.id === post.id);
+  return { post: shapeSocial(kept, Date.now()) };
+}
+/* A network posted to by hand, said to be done by whoever did it. */
+export async function socialDone(who, id, key, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  if (!SOCIAL_BY[key] || SOCIAL_BY[key].how !== 'hand') return { error: 'The office posts to that network itself.' };
+  const post = await setSocial(String(id || ''), key, (x) => x.state === 'hand', { state: 'done', by: who.handle, t: now }, s);
+  return post ? { post: shapeSocial(post, now) } : { error: 'That has been marked done already.' };
+}
+
 /* ── Links and backlinks ───────────────────────────────────────────────────
 
    Ryan's ask, 2026-10-21, after Notion's links and backlinks: typing [[ in

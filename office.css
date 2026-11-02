@@ -367,3 +367,13 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-describe { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; width: 100%; }
 .of-describe label { flex: 1 1 100%; }
 .of-attached { font-size: 14px; color: var(--cb-amber-2); white-space: nowrap; }
+/* Posts (2026-11-02): the count under the words, Bluesky's card, and what happened on each network. Over the limit is said in words and in weight, never in a colour alone. */
+.of-count { margin: 4px 0 0; font-size: 15px; font-variant-numeric: tabular-nums; }
+.of-count--over { font-weight: 700; text-decoration: underline wavy var(--cb-amber); text-underline-offset: 4px; }
+.of-social-card { display: grid; gap: 2px; padding: 8px 10px; border: 2px solid var(--cb-steel-2); border-radius: 6px; font-size: 15px; max-width: 34rem; }
+.of-social-card p { margin: 0; overflow-wrap: anywhere; }
+.of-social-card__title { font-weight: 700; }
+.of-sent { display: grid; gap: 4px; padding: 8px 0; border-bottom: 1px solid var(--cb-steel-2); }
+.of-sent__nets { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; font-size: 15px; }
+.of-sent__why { overflow-wrap: anywhere; }
+.of-sents { list-style: none; padding-left: 0; gap: 0; }

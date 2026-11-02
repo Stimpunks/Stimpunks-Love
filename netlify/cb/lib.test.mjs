@@ -1720,7 +1720,25 @@ const reqWith = (pass) => ({ headers: { get: (k) => (k === 'authorization' ? 'Be
 // claimed username's: a pass from a shared password opens nothing.
 async function claimedPassFor(handle, s, role = 'mobile') {
   await claimAccount(handle, `${handle} has a long phrase`, s, 1, null, role === 'base');
+  if (role === 'base') await giveSecond(handle, s);
   return issueAccountPass(handle, 1, role);
+}
+/* STAFF NEED A SECOND STEP FROM TWOFA_FROM (2026-11-02), and the tests run on
+   today's clock, so a test's staff username is given one, a passkey written
+   straight into its account, as somebody who set one up has. */
+async function takeSecond(handle, s) {
+  const key = `acct/${acctKey(handle)}`;
+  const got = await s.getWithMetadata(key, { type: 'json' });
+  if (!got || !got.data || !got.data.mfa) return;
+  const { mfa, ...rest } = got.data;
+  await s.setJSON(key, rest, { onlyIfMatch: got.etag });
+}
+async function giveSecond(handle, s) {
+  const key = `acct/${acctKey(handle)}`;
+  const got = await s.getWithMetadata(key, { type: 'json' });
+  const a = got && got.data;
+  if (!a || (a.mfa && a.mfa.keys && a.mfa.keys.length)) return;
+  await s.setJSON(key, { ...a, mfa: { ...(a.mfa || {}), keys: [{ id: 'dGVzdA', jwk: {}, alg: -7, n: 0, name: 'A test key' }] } }, { onlyIfMatch: got.etag });
 }
 
 test('a claimed username signs on with its own password, and the community password stops working for it', () => withPasswords(async () => {
@@ -1896,9 +1914,11 @@ test('a moderator\'s own password gives the base with the list\'s roles, and the
   assert.equal(await readPass(reqWith(oldBase), mods, S), null, 'the shared password\'s pass outlived the move');
   assert.ok((await signOn('Juniper', 'moderators-pw', mods, S)).error, 'the shared password still signs on as a moderator who moved');
   assert.ok((await signOn('Juniper', 'community-pw', mods, S)).error);
-  const own = await signOn('JUNIPER', 'juniper has a phrase', mods, S);
+  // Signed on before staff needed a second step (TWOFA_FROM); from here on Juniper has one.
+  const own = await signOn('JUNIPER', 'juniper has a phrase', mods, S, TWOFA_FROM - 1000);
   assert.equal(own.role, 'base'); assert.equal(own.handle, 'Juniper'); assert.equal(own.account, 1);
   assert.deepEqual(rolesOf(own), ['board', 'moderator']);
+  await giveSecond('Juniper', S);
   const mine = issueAccountPass('Juniper', 1, 'base');
   assert.match(mine, /^cb2\.base\./);
   const who = await readPass(reqWith(mine), mods, S);
@@ -1929,6 +1949,8 @@ test('a moderator\'s own password gives the base with the list\'s roles, and the
   const offList = await readPass(reqWith(issueAccountPass('Juniper', 2, 'base')), off, S);
   assert.equal(offList.role, 'mobile', 'a base pass outlived being taken off the list');
   assert.equal(offList.swap.base, false); assert.match(offList.swap.pass, /^cb2\.acct\./);
+  // Juniper is not staff now, and takes their second step off again, so their password alone signs them on.
+  await takeSecond('Juniper', S);
   const plain = await signOn('Juniper', 'a newer phrase too', off, S);
   assert.equal(plain.role, 'mobile'); assert.equal(plain.account, 2);
   // An unreadable list gives nobody the base, a moderator on their own password
@@ -6932,6 +6954,7 @@ test('something new in Notifications tells only its person\'s devices with the t
   const mods = readMods('{"Norah":["director"],"Chelsea":["director"],"Sam":[]}');
   await claimAccount('Norah', 'norah has a phrase', s, 0, mods, true);
   await claimAccount('Sam', 'sam has a phrase too', s, 0, mods, true);
+  await giveSecond('Norah', s);
   const norah = issueAccountPass('Norah', 1, 'base'), sam = issueAccountPass('Sam', 1, 'base');
   const on = aDevice(), quiet = aDevice(), off = aDevice(), every = aDevice(), notDirector = aDevice(), ordinary = aDevice();
   await keepDevice(on, norah, { tasks: true }, s);
@@ -7099,6 +7122,7 @@ test('a category\'s room tells only the devices whose pass can read the category
   const mods = readMods('{"Bea":["board"]}');
   await claimAccount('Bea', 'bea has a phrase', s, 0, mods, true);
   await claimAccount('Ada', 'ada has a phrase too', s, 0, mods, true);
+  await giveSecond('Bea', s);
   const bea = issueAccountPass('Bea', 1, 'base'), ada = issueAccountPass('Ada', 1), cy = sharedPassFor('mobile', 'Cy');
   const beaDev = aDevice(), adaDev = aDevice(), cyDev = aDevice();
   for (const [d, p] of [[beaDev, bea], [adaDev, ada], [cyDev, cy]]) await keepDevice(d, p, { calls: true, rooms: ['forum-board', 'forum-coping'] }, s);
@@ -7562,7 +7586,8 @@ test('moderators join with an invite like anybody, roles go only to a joined use
   assert.match(j.pass, /^cb2\.acct\./); assert.equal(j.base, false);
   assert.ok((await setRoles(glass, 'Juniper', ['board'], S, T0)).people);
   assert.deepEqual([...readMods().get('juniper').roles].sort(), ['board', 'moderator']);
-  assert.equal((await signOn('Juniper', 'juniper has a phrase', readMods(), S)).role, 'base');
+  // Signed on before staff needed a second step (TWOFA_FROM), which is what this is about.
+  assert.equal((await signOn('Juniper', 'juniper has a phrase', readMods(), S, TWOFA_FROM - 1000)).role, 'base');
   // A name on the list that nobody has claimed (Quill, on the break-glass list here)
   // is held: the name check says so without saying whose, and no invite claims it.
   const held = await checkHandle('quill', readMods(), S);
@@ -8564,6 +8589,7 @@ test('the suggestion box tells moderators who switched it on about what is new, 
   const s = memoryStore({ etagOnRead: true });
   const mods = readMods('{"Ryan":["administrator"],"Juniper":[]}');
   for (const h of ['Ryan', 'Juniper', 'Ada', 'Bex']) await claimAccount(h, h.toLowerCase() + ' has a long phrase', s, 0, mods, true);
+  await giveSecond('Ryan', s); await giveSecond('Juniper', s);
   const ryan = aDevice(), juniper = aDevice(), juniperOff = aDevice(), ada = aDevice(), adaQuiet = aDevice(), adaOff = aDevice(), bex = aDevice(), every = aDevice(), ryanPlain = aDevice();
   await keepDevice(ryan, issueAccountPass('Ryan', 1, 'base'), { suggestions: true }, s);
   await keepDevice(juniper, issueAccountPass('Juniper', 1, 'base'), { suggestions: true, answered: true }, s);
@@ -9171,7 +9197,8 @@ import { sign as nodeSign, createHash as hashOf, randomBytes as rb } from 'node:
     const s = memoryStore({ etagOnRead: true });
     const mods = readMods('{"Mo":["administrator"]}');
     assert.ok((await claimAccount('Mo', 'a long enough phrase', s, 1, mods, true)).v);
-    const pass = issueAccountPass('Mo', 1, 'base');
+    // Made before the date, so it can be read on either side of it.
+    const pass = issueAccountPass('Mo', 1, 'base', TWOFA_FROM - 2000);
     const before = await readPass(reqWith(pass), mods, s, { now: TWOFA_FROM - 1000 });
     assert.equal(before.role, 'base'); assert.equal(before.twostep, 'soon');
     const after = await readPass(reqWith(pass), mods, s, { now: TWOFA_FROM + 1000 });
@@ -9183,7 +9210,7 @@ import { sign as nodeSign, createHash as hashOf, randomBytes as rb } from 'node:
     // With a step, staff again.
     const start = await totpStart(who('Mo'), s, T0);
     const done = await totpConfirm(who('Mo'), start.setup, codeNow(start.secret, T0), s, T0);
-    const again = await readPass(reqWith(issueAccountPass('Mo', done.v, 'base')), mods, s, { now: TWOFA_FROM + 2000 });
+    const again = await readPass(reqWith(issueAccountPass('Mo', done.v, 'base', TWOFA_FROM + 1500)), mods, s, { now: TWOFA_FROM + 2000 });
     assert.equal(again.role, 'base', 'a staff username with a second step was not staff');
     assert.equal(again.twostep, undefined);
   }));
@@ -9630,3 +9657,101 @@ test('a sealing key is rotated: the old one reads meanwhile, the sweep seals eve
     assert.equal(officeUnseal((await s.raw.get(`acct/${acctKey('Ada')}`, { type: 'json' })).email).email, 'ada@example.org');
   } finally { put(was); }
 });
+
+/* ── Social posts (2026-11-02) ─────────────────────────────────────────── */
+import { socialPost, socialRetry, socialDone, socialPreview, officeSocial, tidOf, SOCIAL_MAX } from './lib.mjs';
+
+async function withSocialKeys(fn) {
+  const was = [process.env.CB_BSKY_APP_PASSWORD, process.env.CB_MASTODON_TOKEN];
+  process.env.CB_BSKY_APP_PASSWORD = 'app-pass-test'; process.env.CB_MASTODON_TOKEN = 'masto-test';
+  try { return await fn(); } finally {
+    if (was[0] == null) delete process.env.CB_BSKY_APP_PASSWORD; else process.env.CB_BSKY_APP_PASSWORD = was[0];
+    if (was[1] == null) delete process.env.CB_MASTODON_TOKEN; else process.env.CB_MASTODON_TOKEN = was[1];
+  }
+}
+/* Bluesky and Mastodon as the office meets them, each answer chosen by the test. */
+function fakeNetworks(o = {}) {
+  const sent = [], made = new Set();
+  const answer = (status, b) => ({ ok: status >= 200 && status < 300, status, json: async () => b });
+  const f = async (url, opts = {}) => {
+    const body = opts.body ? JSON.parse(opts.body) : null;
+    sent.push({ url, method: opts.method || 'GET', headers: opts.headers || {}, body });
+    if (url.endsWith('/xrpc/com.atproto.server.createSession')) return answer(200, { accessJwt: 'jwt', did: 'did:plc:stimpunks' });
+    if (url.includes('/xrpc/com.atproto.repo.getRecord')) return made.has(new URL(url).searchParams.get('rkey')) ? answer(200, {}) : answer(400, { error: 'RecordNotFound' });
+    if (url.endsWith('/xrpc/com.atproto.repo.createRecord')) {
+      made.add(body.rkey);
+      if (o.bskyLost) { o.bskyLost = false; throw new Error('timeout'); }
+      return answer(200, { uri: 'at://did:plc:stimpunks/app.bsky.feed.post/' + body.rkey });
+    }
+    if (url === 'https://mastodon.online/api/v1/statuses') {
+      if (o.masto && o.masto.length) return answer(o.masto.shift(), { error: 'Something broke' });
+      return answer(200, { url: 'https://mastodon.online/@stimpunks/1' + sent.length });
+    }
+    throw new Error('asked somewhere else: ' + url);
+  };
+  return { f, sent };
+}
+const pageGet = async (href) => ({ status: 200, type: 'text/html', url: href,
+  text: '<html><head><meta property="og:title" content="Otters"><meta property="og:description" content="About otters."></head></html>' });
+
+test('social posts: a press posts to Bluesky and Mastodon, waits for the rest by hand, and nothing goes twice', () => withOfficeKey(OFFICE_TEST_KEY, () => withSocialKeys(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const net = fakeNetworks({ masto: [500] });
+  const text = 'Floating 🦦 today: https://example.org/otters. #OtterDay';
+  assert.ok((await socialPost(TSAM, { text, to: ['bluesky'] }, s, T0, net.f, pageGet)).error, 'somebody the office does not let in posted');
+  assert.match((await socialPost(TRYAN, { text: 'x'.repeat(SOCIAL_MAX + 1), to: ['bluesky'] }, s, T0, net.f, pageGet)).error, /Bluesky takes 300/);
+  assert.ok((await socialPost(TRYAN, { text, to: [] }, s, T0, net.f, pageGet)).error, 'a post went nowhere');
+  assert.equal(net.sent.length, 0, 'a refused post reached a network');
+
+  const r = await socialPost(TRYAN, { text, to: ['bluesky', 'mastodon', 'threads', 'nowhere'] }, s, T0, net.f, pageGet);
+  assert.ok(r.post, r.error);
+  const p = r.post;
+  assert.deepEqual(Object.keys(p.to).sort(), ['bluesky', 'mastodon', 'threads']);
+  assert.equal(p.to.bluesky.state, 'posted');
+  assert.equal(p.to.bluesky.url, 'https://bsky.app/profile/stimpunks.org/post/' + tidOf(T0, p.id));
+  assert.equal(p.to.mastodon.state, 'unsure', 'a 500 from Mastodon was taken as posted or as nothing sent');
+  assert.equal(p.to.threads.state, 'hand');
+  // Bluesky's record: the words as written, its link and #tag where they are in bytes, and the card's words.
+  const rec = net.sent.find((x) => x.url.endsWith('createRecord')).body.record;
+  assert.equal(rec.text, text);
+  const enc = Buffer.from(text);
+  const link = rec.facets.find((x) => x.features[0].uri);
+  assert.equal(enc.subarray(link.index.byteStart, link.index.byteEnd).toString(), 'https://example.org/otters');
+  const tagged = rec.facets.find((x) => x.features[0].tag);
+  assert.equal(enc.subarray(tagged.index.byteStart, tagged.index.byteEnd).toString(), '#OtterDay');
+  assert.deepEqual(rec.embed.external, { uri: 'https://example.org/otters', title: 'Otters', description: 'About otters.' });
+  assert.equal(net.sent.find((x) => x.url.includes('mastodon')).headers['idempotency-key'], p.id);
+
+  // Unsure needs somebody to have looked; then once, and never again.
+  assert.ok((await socialRetry(TRYAN, p.id, 'mastodon', false, s, T0 + 5, net.f)).error, 'an unsure post was tried again before anybody looked');
+  const both = await Promise.all([socialRetry(TRYAN, p.id, 'mastodon', true, s, T0 + 6, net.f), socialRetry(TCHELSEA, p.id, 'mastodon', true, s, T0 + 6, net.f)]);
+  assert.equal(both.filter((x) => x.post).length, 1, 'two presses both sent to Mastodon');
+  assert.equal(net.sent.filter((x) => x.url.includes('mastodon')).length, 2);
+  assert.equal((await officeSocial(TRYAN, s, T0 + 7)).posts[0].to.mastodon.state, 'posted');
+  assert.ok((await socialRetry(TRYAN, p.id, 'bluesky', true, s, T0 + 8, net.f)).error, 'a posted network was tried again');
+  assert.ok((await socialRetry(TRYAN, p.id, 'threads', true, s, T0 + 8, net.f)).error, 'the office tried to post to Threads itself');
+
+  // By hand: said done once, by whoever did it.
+  assert.equal((await socialDone(TCHELSEA, p.id, 'threads', s, T0 + 9)).post.to.threads.by, 'Chelsea');
+  assert.ok((await socialDone(TRYAN, p.id, 'threads', s, T0 + 10)).error);
+  assert.ok((await socialDone(TRYAN, p.id, 'bluesky', s, T0 + 10)).error, 'a network the office posts to was marked done by hand');
+
+  // Bluesky never answering: a second try asks whether the post is there before posting it.
+  const lost = fakeNetworks({ bskyLost: true });
+  const q = (await socialPost(TRYAN, { text: 'Hello', to: ['bluesky'] }, s, T0 + 20, lost.f, pageGet)).post;
+  assert.equal(q.to.bluesky.state, 'unsure');
+  assert.equal((await socialRetry(TRYAN, q.id, 'bluesky', true, s, T0 + 30, lost.f)).post.to.bluesky.state, 'posted');
+  assert.equal(lost.sent.filter((x) => x.url.endsWith('createRecord')).length, 1, 'Bluesky was sent the same post twice');
+  // A press that never came back is unsure after a while, never posting forever.
+  assert.equal((await socialPreview(TRYAN, 'x'.repeat(SOCIAL_MAX), pageGet)).why, null);
+})));
+
+test('social posts: without a network\'s key, nothing is sent to it and the office says so', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const net = fakeNetworks();
+  assert.match((await socialPost(TRYAN, { text: 'Hello', to: ['bluesky', 'mastodon'] }, s, T0, net.f, pageGet)).error, /not set up/);
+  assert.equal(net.sent.length, 0);
+  const shown = await officeSocial(TRYAN, s, T0);
+  assert.deepEqual(shown.networks.filter((n) => n.how === 'api').map((n) => n.ready), [false, false]);
+  assert.equal(await officeSocial(TSAM, s, T0), null);
+}));

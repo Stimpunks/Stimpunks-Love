@@ -26,6 +26,8 @@
      template &id=           one template, and its comments
      mailings                every mailing, newest first, with how many of its emails are where
      mailing  &id=           one mailing, its template's words, every email's state, and its comments
+     social                  the five networks, which of them the office posts to and whether each is set up,
+                             and the newest posts, with what happened on each network
    POST, with the same pass:
      { action: 'contact-save', id?, espo?, first?, last?, email?, phone?, noEmail?, noCall?, notes? }
          a new contact, or a change to the one `id` names; only the fields sent change.
@@ -106,13 +108,20 @@
      { action: 'links', q }                          what [[ offers for q: tasks, topics and the office's records
                                                      the reader can open (findLinks), by POST so q is in no address
      { action: 'snippets' }                          Tasks' snippets, for ! in a box: the office's readers are Tasks'
+     { action: 'social-preview', text }              how long the words are as Bluesky counts them, and the card
+                                                     Bluesky will show for the first link, read on this press
+     { action: 'social-post', text, to: [...] }      the words posted, on this press and never otherwise, to every
+                                                     network ticked that the office posts to; the rest wait to be posted by hand
+     { action: 'social-retry', id, network, looked? } one network tried again: one that failed, or one that is unsure
+                                                     and somebody has looked (looked: true) and says is not there
+     { action: 'social-done', id, network }          a network posted to by hand, said to be done
    Nothing anybody types, and nothing about a contact, is ever logged. See
    ../cb/lib.mjs, the office. */
 import { staffReady, readPass, forumReader, mentionableRoles, rolesOf, availabilityFor, officeAllow, officeReady, keepOfficeLayout, resetOfficeLayout, officeContacts, officeContact, saveContact, removeContact, importContacts,
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases, officeFeed, OFFICE_FEED_PAGE,
   officeMemberMap, mapFind, mapPut, mapTake, mapTakeOne, importMap,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
-  stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, tickOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, gbJoin, listingLook, listingAdd, orgLook, orgAdd, writeInvite, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
+  stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, tickOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, officeSocial, socialPreview, socialPost, socialRetry, socialDone, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, gbJoin, listingLook, listingAdd, orgLook, orgAdd, writeInvite, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
   parseBrass, cleanForumBody, json, body, sameSite, nameRefs, findLinks, backlinksTo, taskPeople, taskSnippets,
   attachOffice, detachOffice, describeOfficeFile, OFFICE_ATTACH_MAX, TASK_COMMENT_FILES_MAX, FILE_MAX, FILE_PART, FORUM_FILE_TYPES, FORUM_ALT_MAX,
   CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
@@ -178,6 +187,7 @@ export default async (req) => {
         return t ? answer(200, { me, settings, template: t, comments: await officeComments(who, t.id) }, QUIET) : json(404, { error: 'That template has been deleted.' }, QUIET);
       }
       if (view === 'mailings') return answer(200, { me, settings, mailings: await officeMailings(who) }, QUIET);
+      if (view === 'social') return answer(200, { me, settings, social: await officeSocial(who) }, QUIET);
       if (view === 'mailing') {
         const m = await officeMailing(who, url.searchParams.get('id'));
         return m ? answer(200, { me, settings, mailing: m, comments: await officeComments(who, m.id) }, QUIET) : json(404, { error: 'That mailing has been deleted.' }, QUIET);
@@ -195,6 +205,22 @@ export default async (req) => {
     if (b.action === 'links') return answer(200, { found: await findLinks(who, typeof b.q === 'string' ? b.q : '') }, QUIET);
     // They are sealed with Tasks' own key, so without it the office offers none rather than shutting.
     if (b.action === 'snippets') return answer(200, { snippets: staffReady() ? (await taskSnippets(who)) || [] : [] }, QUIET);
+    if (b.action === 'social-preview') {
+      const r = await socialPreview(who, b.text);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, r, QUIET);
+    }
+    if (b.action === 'social-post') {
+      const r = await socialPost(who, b);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { post: r.post }, QUIET);
+    }
+    if (b.action === 'social-retry') {
+      const r = await socialRetry(who, String(b.id || ''), String(b.network || ''), b.looked === true);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { post: r.post }, QUIET);
+    }
+    if (b.action === 'social-done') {
+      const r = await socialDone(who, String(b.id || ''), String(b.network || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { post: r.post }, QUIET);
+    }
     if (b.action === 'comment') {
       const r = await commentOffice(who, String(b.id || ''), b.body, undefined, undefined, undefined, b.files);
       return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { comment: r.comment }, QUIET);

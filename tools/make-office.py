@@ -639,7 +639,8 @@ def check_orgs(lib):
     library, and writes one group block built from words alone after the page's
     last organization. orgLook only reads. Both go through wpAsk, listingAdd's."""
     at = lib.find("/* OUR ORGANIZATIONS PAGE")
-    to = lib.find("/* ── Links and backlinks", at)
+    # Up to the social posts part, which asks Bluesky and Mastodon and is checked by check_social.
+    to = lib.find("/* SOCIAL POSTS", at)
     if at < 0 or to < at:
         problems.append(f"{LIB.name}: the Organizations page part of the office is missing.")
         return
@@ -695,6 +696,55 @@ def check_orgs(lib):
 def fn_any(src, name):
     m = re.search(rf"(?:export )?(?:async )?function {name}\(.*?\n\}}", src, re.S)
     return m.group(0) if m else ""
+
+
+def check_social(lib):
+    """Posts to our networks (2026-11-02): only on a director's press of
+    social-post or social-retry, never on a timer; each network's key read
+    once, in its own function; nothing sent anywhere but Bluesky and
+    mastodon.online; every post kept sealed; an unsure post tried again only
+    once somebody says they looked; and the privacy page saying so."""
+    at = lib.find("/* SOCIAL POSTS")
+    if at < 0:
+        problems.append(f"{LIB.name}: the social posts part of the office is missing.")
+        return
+    to = lib.find("\n/* ── ", at)
+    sec = lib[at:to] if to > at else lib[at:]
+    code = code_of(sec)
+    if "console." in code:
+        problems.append(f"{LIB.name}: the social posts part writes to the console. Nothing is ever logged.")
+    for env, f in (("CB_BSKY_APP_PASSWORD", "bskyPassword"), ("CB_MASTODON_TOKEN", "mastoToken")):
+        if lib.count("process.env." + env) != 1 or "process.env." + env not in inner(sec, f):
+            problems.append(f"{LIB.name}: {env} is read once, in {f}, and nowhere else.")
+    for call in re.findall(r"fetchFn\(([^,)]*)", code):
+        if not re.match(r"\s*(BSKY_AT|at|MASTO_AT) \+ '", call):
+            problems.append(f"{LIB.name}: the social posts part asks somewhere other than Bluesky or mastodon.online ({call.strip()}).")
+    def any_fn(name):
+        m = re.search(rf"(?:async )?function {name}\(.*?\n\}}", sec, re.S)
+        return m.group(0) if m else ""
+    if code.count("socialSend(") != 2 or "socialSend(" not in any_fn("sendAndKeep"):
+        problems.append(f"{LIB.name}: a post leaves for a network through sendAndKeep and nowhere else.")
+    if len(re.findall(r"\bsendAndKeep\(", code)) != 3:
+        problems.append(f"{LIB.name}: sendAndKeep runs from socialPost and socialRetry only.")
+    for f in ("socialPost", "socialRetry", "socialDone"):
+        body = fn(sec, f)
+        first = re.search(r"\{\n\s*(.*)", body)
+        if not first or "if (!officeAllow(who))" not in first.group(1):
+            problems.append(f"{LIB.name}: {f} must refuse anybody the office does not let in, before anything else.")
+        if lib.count(f + "(") != 1:
+            problems.append(f"{LIB.name}: {f} is called from somewhere in lib.mjs; it runs only on a press, from cb-office.mjs.")
+    office_fn = (ROOT / "netlify" / "functions" / "cb-office.mjs").read_text()
+    for f, action in (("socialPost", "social-post"), ("socialRetry", "social-retry"), ("socialDone", "social-done")):
+        if office_fn.count(f + "(") != 1 or f"b.action === '{action}'" not in office_fn:
+            problems.append(f"cb-office.mjs: {f} runs from the {action} action, a press, and nowhere else.")
+    if "updateSealed(SOCIAL" not in code or re.search(r"setJSON\(SOCIAL", code):
+        problems.append(f"{LIB.name}: posts are kept sealed, through updateSealed, and nowhere else.")
+    if "looked === true" not in fn(sec, "socialRetry"):
+        problems.append(f"{LIB.name}: socialRetry tries an unsure post again only once somebody says they looked.")
+    if "'idempotency-key': post.id" not in any_fn("mastoSend") or "getRecord" not in any_fn("bskySend"):
+        problems.append(f"{LIB.name}: a second try must never post twice: Mastodon's carries the post's Idempotency-Key, and Bluesky's asks for its record first.")
+    if 'id="social-posts"' not in (ROOT / "privacy.html").read_text():
+        problems.append("privacy.html: the office posts to our networks, and the privacy page's section on it (id social-posts) is missing.")
 
 
 def check_files(lib):
@@ -826,6 +876,7 @@ def main():
     check_members(lib)
     check_orgs(lib)
     check_invite_fill(lib)
+    check_social(lib)
     check_files(lib)
     check_js()
     check_css()
