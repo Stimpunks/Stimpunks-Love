@@ -90,7 +90,7 @@
    "channel_id": "UCgscS8mBsQZ5sFRkJIFWD7Q"
   }
  ],
- "set": "2026-11-01T12:56Z",
+ "set": "2026-11-02T12:23Z",
  "log": [
   {
    "id": "mn0agTT8lG8",
@@ -121,16 +121,6 @@
    "state": "screen",
    "runs": 77,
    "channel": "Tina Huang"
-  },
-  {
-   "id": "qLfSDQ5NGh0",
-   "source": "ai-labs",
-   "form": "long",
-   "title": "He Finally 10x Claude Code With This Method",
-   "published": "2026-10-02T15:00:25Z",
-   "state": "screen",
-   "runs": 771,
-   "channel": "AI LABS"
   },
   {
    "id": "i6Q7bXnWGlM",
@@ -241,16 +231,6 @@
    "state": "screen",
    "runs": 958,
    "channel": "AI LABS"
-  },
-  {
-   "id": "dDgncbBAA0c",
-   "source": "matt-wolfe",
-   "form": "long",
-   "title": "AI News: Dots, GPT-6.1 Sol, Sonnet 5.5, Gemini 4, and everything you need to know",
-   "published": "2026-10-02T15:00:16Z",
-   "state": "screen",
-   "runs": 1822,
-   "channel": "Matt Wolfe"
   },
   {
    "id": "NUizyuGj-kE",
@@ -503,14 +483,14 @@
    "channel": "Matt Wolfe"
   },
   {
-   "id": "avN5R3OhxYs",
-   "source": "nate-b-jones",
-   "form": "long",
-   "title": "OpenClaw Was Too Dangerous To Install. 7 Months Later Microsoft Is Bringing It To Your Company.",
-   "published": "2026-10-02T14:00:40Z",
+   "id": "h5SNFLIZl_U",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "Would you be excited to see this at Disneyland?",
+   "published": "2026-11-02T04:16:43Z",
    "state": "screen",
-   "runs": 1586,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
+   "runs": 74,
+   "channel": "Matt Wolfe"
   },
   {
    "id": "lnB4Zckx_34",
@@ -663,13 +643,13 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "pvXmMntEIPY",
+   "id": "KDGxQtfjBj0",
    "source": "nate-b-jones",
-   "form": "short",
-   "title": "Anthropic's $500 billion data center bet #ai",
-   "published": "2026-10-03T03:00:18Z",
+   "form": "long",
+   "title": "Salesforce Just Helped Microsoft. You're Picking The Winner Of A Trillion-Dollar Fight.",
+   "published": "2026-11-01T17:00:32Z",
    "state": "screen",
-   "runs": 123,
+   "runs": 1761,
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
@@ -783,16 +763,6 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "2zLuYU_Ub_0",
-   "source": "less-bitter",
-   "form": "long",
-   "title": "Claude Ultracode is super intelligence.",
-   "published": "2026-10-02T18:05:00Z",
-   "state": "screen",
-   "runs": 1165,
-   "channel": "Less Bitter"
-  },
-  {
    "id": "DzSS9R8t2Ao",
    "source": "less-bitter",
    "form": "long",
@@ -860,6 +830,16 @@
    "published": "2026-10-31T02:33:19Z",
    "state": "screen",
    "runs": 21,
+   "channel": "Less Bitter"
+  },
+  {
+   "id": "SUBmORwWtNI",
+   "source": "less-bitter",
+   "form": "short",
+   "title": "Only one man hasn't been wrong about AI #ai #claude",
+   "published": "2026-11-01T14:42:28Z",
+   "state": "screen",
+   "runs": 23,
    "channel": "Less Bitter"
   },
   {
@@ -1033,6 +1013,16 @@
    "channel": "Theo - t3․gg"
   },
   {
+   "id": "y5TEATUDDfc",
+   "source": "theo",
+   "form": "long",
+   "title": "Anthropic can't stop winning",
+   "published": "2026-11-02T09:10:01Z",
+   "state": "screen",
+   "runs": 1006,
+   "channel": "Theo - t3․gg"
+  },
+  {
    "id": "KqLXX0Wv6NU",
    "source": "theo",
    "form": "short",
@@ -1061,16 +1051,6 @@
    "state": "screen",
    "runs": 43,
    "channel": "Theo - t3․gg"
-  },
-  {
-   "id": "MS5VMqyuwjU",
-   "source": "paul-j-lipsky",
-   "form": "long",
-   "title": "Weekly AI Recap: Gemini 4 Crushes, ChatGPT Dots Explained, and More!",
-   "published": "2026-10-02T13:00:39Z",
-   "state": "screen",
-   "runs": 1743,
-   "channel": "Paul J Lipsky"
   },
   {
    "id": "9RYDaLnB6ec",
@@ -1303,16 +1283,6 @@
    "channel": "Austin Marchese"
   },
   {
-   "id": "kmo9Mk_gIUk",
-   "source": "riley-brown",
-   "form": "long",
-   "title": "ChatGPT Dots Is Insane... But Gemini’s NEW Argon Is EVEN Bigger",
-   "published": "2026-10-02T17:53:34Z",
-   "state": "screen",
-   "runs": 1474,
-   "channel": "Riley Brown"
-  },
-  {
    "id": "fSilBzYdHUw",
    "source": "riley-brown",
    "form": "long",
@@ -1423,16 +1393,6 @@
    "channel": "Riley Brown"
   },
   {
-   "id": "IEYzYopNGVQ",
-   "source": "riley-brown",
-   "form": "short",
-   "title": "Can Claude build a cross-platform AI app?",
-   "published": "2026-10-02T23:46:57Z",
-   "state": "screen",
-   "runs": 139,
-   "channel": "Riley Brown"
-  },
-  {
    "id": "FAQj3rFdnbs",
    "source": "riley-brown",
    "form": "short",
@@ -1461,26 +1421,6 @@
    "state": "screen",
    "runs": 104,
    "channel": "Riley Brown"
-  },
-  {
-   "id": "l8ywUsEJ2XQ",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "How to Actually Build & Sell Software with AI as a Non-Techie",
-   "published": "2026-10-02T18:43:22Z",
-   "state": "screen",
-   "runs": 4173,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "9hetShMMp2s",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "Claude Code Mods Are Game Changers. Set Up These 5 NOW.",
-   "published": "2026-10-02T21:59:19Z",
-   "state": "screen",
-   "runs": 679,
-   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "DFlELTiSPk8",
@@ -1620,36 +1560,6 @@
    "published": "2026-10-30T23:25:18Z",
    "state": "screen",
    "runs": 1299,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "amPNRy6EMmM",
-   "source": "nate-herk",
-   "form": "short",
-   "title": "I Tested Opus 5.5 vs Sonnet 5.5",
-   "published": "2026-10-02T15:15:01Z",
-   "state": "screen",
-   "runs": 69,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "NWd86IwfnrU",
-   "source": "nate-herk",
-   "form": "short",
-   "title": "I Tested Codex's NEW $500/mo Ultrafast mode",
-   "published": "2026-10-02T15:18:56Z",
-   "state": "screen",
-   "runs": 95,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "26rQLqoxBHA",
-   "source": "nate-herk",
-   "form": "short",
-   "title": "Claude Code Mods Are Game Changers. This One Saves Me Money.",
-   "published": "2026-10-03T03:43:11Z",
-   "state": "screen",
-   "runs": 81,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -1910,6 +1820,26 @@
    "published": "2026-11-01T01:01:05Z",
    "state": "screen",
    "runs": 47,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "sOK6kSXff0M",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Would you let AI answer your texts for a week?",
+   "published": "2026-11-01T14:02:12Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "z8qXJFlcqlM",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "The dumbest things people have asked AI",
+   "published": "2026-11-02T02:01:11Z",
+   "state": "screen",
+   "runs": 59,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -2481,6 +2411,16 @@
    "state": "screen",
    "runs": 38,
    "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "L-YeJqL73-I",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "People are using Claude to strip the ads off their TVs #shorts",
+   "published": "2026-11-02T06:00:22Z",
+   "state": "screen",
+   "runs": 36,
+   "channel": "Jay E | RoboNuggets"
   }
  ],
  "covered": {
@@ -2488,13 +2428,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ]
   },
@@ -2502,13 +2442,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ]
   },
@@ -2516,13 +2456,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ]
   },
@@ -2530,13 +2470,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ]
   },
@@ -2544,13 +2484,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ]
   },
@@ -2558,13 +2498,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ]
   },
@@ -2572,13 +2512,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ]
   },
@@ -2586,13 +2526,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ]
   },
@@ -2600,13 +2540,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ]
   },
@@ -2614,13 +2554,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ]
   },
@@ -2628,13 +2568,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ]
   },
@@ -2642,13 +2582,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ]
   },
@@ -2656,13 +2596,13 @@
    "long": [
     [
      "2026-08-28T09:44:44Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:12:16Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ]
   },
@@ -2670,13 +2610,13 @@
    "long": [
     [
      "2026-09-23T01:33:56Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-25T03:00:26Z",
-     "2026-11-01T12:56:48Z"
+     "2026-11-02T12:23:28Z"
     ]
    ]
   }
