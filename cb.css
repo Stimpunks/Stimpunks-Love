@@ -2616,12 +2616,14 @@ button.cb-ev-link {
    the place cb.js keeps for it under the room's first screen, in the page, so
    it scrolls with the screen. It keeps its case and its edge, unlike the chat
    app's, because it stands in a room rather than filling a window. Nothing to
-   move or size there; scrolled out of sight it is the window in the corner. */
+   move there, and minus and plus make it shorter or taller (Ryan, 2026-11-01:
+   it ran off the foot of the window); scrolled out of sight it is the window
+   in the corner. */
 .cb-call.cb-call--lined {
   position: absolute; top: var(--cb-line-top, 0px); left: var(--cb-line-left, 0px); right: auto; bottom: auto;
   width: var(--cb-line-w, 560px); height: var(--cb-line-h, 400px); max-height: none; box-shadow: none;
 }
-.cb-call.cb-call--lined .cb-move, .cb-call.cb-call--lined .cb-sizer { display: none; }
+.cb-call.cb-call--lined .cb-move { display: none; }
 .cb-call.cb-call--lined .cb-call-bar { cursor: default; touch-action: auto; }
 .cb-call.cb-call--lined .cb-call-screen { aspect-ratio: auto; }
 /* UNDER A ROOM'S SCREEN (cb.js, under, screenStrip, lineCall; Ryan's ask,

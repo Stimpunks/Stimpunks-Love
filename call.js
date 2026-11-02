@@ -421,10 +421,24 @@
     }
     // One size down or up; at either end, the button with nowhere to go says so.
     function step(by) {
+      // Lined up under a room's screen, minus and plus make it shorter and taller there (lineTo).
+      if (lined && lined.seen && lined.step) {
+        if (lined.step(by)) unsay();
+        else note(by < 0 ? 'The call is as short as it goes under the screen.' : 'The call is as tall as it goes under the screen.');
+        return;
+      }
       var i = CALL_SIZES.indexOf(now), j = Math.max(0, Math.min(CALL_SIZES.length - 1, i + by));
       if (j === i) { note(by < 0 ? 'The call is as small as it goes.' : 'The call is as large as it goes.'); return; }
       unsay();
       size(CALL_SIZES[j]);
+    }
+    // Under a room's screen the two buttons change its height, and say so.
+    function heightWords(on) {
+      if (!on) { size(now); return; }
+      smaller.setAttribute('aria-label', 'Shorter, under the screen');
+      larger.setAttribute('aria-label', 'Taller, under the screen');
+      smaller.setAttribute('aria-disabled', 'false');
+      larger.setAttribute('aria-disabled', 'false');
     }
     if (CALL_NARROW && CALL_NARROW.addEventListener) CALL_NARROW.addEventListener('change', function () { size(now); });
     smaller.type = larger.type = leave.type = 'button';
@@ -510,7 +524,7 @@
     mover.still = function () { return box.classList.contains('cb-call--app') || box.classList.contains('cb-call--lined'); };
     put();
     leave.focus();
-    return { host: host, box: box, mover: mover, room: here.tag, who: who, off: function () { window.removeEventListener('resize', put); if (watch) watch.disconnect(); } };
+    return { host: host, box: box, mover: mover, room: here.tag, who: who, words: heightWords, off: function () { window.removeEventListener('resize', put); if (watch) watch.disconnect(); } };
   }
 
   var current = null;
@@ -706,6 +720,12 @@
      never out of reach. slot is the element it stands over, or null to put
      it back as a window. It does not move or change size there. */
   var lined = null;
+  // The call's own class, and minus and plus saying what they do, only when it changes.
+  function lineWords(b, on) {
+    if (b.classList.contains('cb-call--lined') === on) return;
+    b.classList.toggle('cb-call--lined', on);
+    if (current && current.words) current.words(on);
+  }
   function unline() {
     if (!lined) return;
     lined.io.disconnect();
@@ -713,25 +733,25 @@
     window.removeEventListener('resize', lined.place);
     lined = null;
   }
-  function lineTo(slot) {
-    if (lined && slot && lined.slot === slot) { lined.place(); return; }
+  function lineTo(slot, step) {
+    if (lined && slot && lined.slot === slot) { lined.step = step || null; lined.place(); return; }
     unline();
     if (!current || !current.box) return;
     var b = current.box;
     if (!slot || !window.IntersectionObserver) {
-      b.classList.remove('cb-call--lined');
+      lineWords(b, false);
       if (current.mover) current.mover.place();
       return;
     }
-    var l = lined = { slot: slot, seen: true };
+    var l = lined = { slot: slot, seen: true, step: step || null };
     l.place = function () {
       if (lined !== l || !current) return;
       if (!l.seen) {
-        b.classList.remove('cb-call--lined');
+        lineWords(b, false);
         if (current.mover) current.mover.place();
         return;
       }
-      b.classList.add('cb-call--lined');
+      lineWords(b, true);
       if (current.mover) current.mover.place();
       // Where the call's own containing block starts, whichever element that
       // is in a room's page: measured, not assumed.

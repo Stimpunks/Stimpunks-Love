@@ -15133,7 +15133,7 @@
     if (!(f && f.glass === s.glass)) {
       while (at.parentNode && at.parentNode !== document.body && !/^(MAIN|SECTION|ARTICLE)$/.test(at.parentNode.tagName)) at = at.parentNode;
     }
-    return { at: at, name: s.name };
+    return { at: at, name: s.name, glass: s.glass };
   }
 
   Radio.prototype.under = function () {
@@ -15165,10 +15165,12 @@
     root.appendChild(wrap);
     host.hidden = true;
     a.at.insertAdjacentElement('afterend', host);
-    this.underBox = { host: host, strip: strip, line: line, btns: btns, said: said, slot: slot, name: a.name, key: null };
+    this.underBox = { host: host, strip: strip, line: line, btns: btns, said: said, slot: slot, name: a.name, glass: a.glass, key: null };
     // The screen growing or shrinking changes how wide the call's place is.
     if (window.ResizeObserver) new ResizeObserver(function () { me.lineCall(); }).observe(a.at);
     if (LINE_WIDE && LINE_WIDE.addEventListener) LINE_WIDE.addEventListener('change', function () { me.lineCall(); });
+    // A window made shorter or taller changes what is left of it under the screen.
+    window.addEventListener('resize', function () { if (!me.underBox.slot.hidden) me.lineCall(); });
     return this.underBox;
   };
 
@@ -15190,9 +15192,11 @@
     var u = this.underBox || (b ? this.under() : null);
     if (!u) return;
     if (!b) {
+      var was = !u.strip.hidden;
       u.strip.hidden = true;
       u.key = null;
       this.underShown();
+      if (was) this.lineCall();
       return;
     }
     var mine = b.handle === this.state.handle;
@@ -15238,8 +15242,26 @@
     u.line.querySelector('.cb-beacon-at').textContent = this.beaconAt(b);
     var f = u.btns.querySelector('.cb-follow');
     if (f) f.setAttribute('aria-pressed', String(!!(this.following && this.following.room === b.room)));
+    var come = u.strip.hidden;
     u.strip.hidden = false;
     this.underShown();
+    if (come) this.lineCall();
+  };
+
+  /* HOW TALL THE CALL STANDS UNDER THE SCREEN (Ryan, 2026-11-01: it ran off the
+     foot of the window). By itself it takes what is left of the window under
+     the screen and the strip, with the screen's top at the window's top, so
+     the picture and the call are seen together; minus and plus on the call's
+     bar (call.js, lineTo's step) make it a step shorter or taller from there,
+     for this page only. Never shorter than a bar and a picture worth seeing,
+     never taller than the window or than a call that wide needs. */
+  var LINE_STEP = 120, LINE_LEAST = 240, LINE_EDGE = 8;
+  Radio.prototype.lineHeight = function (u, w, by) {
+    var most = Math.min(Math.round(w * 10 / 16 + 120), window.innerHeight - 2 * LINE_EDGE);
+    var top = u.glass ? u.glass.getBoundingClientRect().top : u.host.getBoundingClientRect().top;
+    var below = u.slot.hidden ? u.host.getBoundingClientRect().bottom : u.slot.getBoundingClientRect().top;
+    var fit = window.innerHeight - LINE_EDGE - (below - top) - (u.slot.hidden && !u.strip.hidden ? 12 : 0);
+    return Math.max(LINE_LEAST, Math.min(most, Math.round(fit + by * LINE_STEP)));
   };
 
   /* The call's place under the screen: shown, sized to the screen and given to
@@ -15252,12 +15274,18 @@
     var u = this.underBox || (want ? this.under() : null);
     if (!u) return;
     if (want) {
-      var w = Math.round(Math.min(760, u.host.getBoundingClientRect().width || 760));
+      var me = this, w = Math.round(Math.min(760, u.host.getBoundingClientRect().width || 760));
       u.slot.style.width = w + 'px';
-      u.slot.style.height = Math.round(w * 10 / 16 + 120) + 'px';
+      u.slot.style.height = this.lineHeight(u, w, this.lineBy || 0) + 'px';
       u.slot.hidden = false;
       this.underShown();
-      lc.lineTo(u.slot);
+      lc.lineTo(u.slot, function (by) {
+        var next = (me.lineBy || 0) + by;
+        if (me.lineHeight(u, w, next) === me.lineHeight(u, w, me.lineBy || 0)) return false;
+        me.lineBy = next;
+        me.lineCall();
+        return true;
+      });
     } else {
       if (!u.slot.hidden) { u.slot.hidden = true; this.underShown(); }
       lc.lineTo(null);
