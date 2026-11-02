@@ -200,6 +200,10 @@ ORDER = ["index.html",
          # The office, contacts and then grant requests and cases, moved from
          # EspoCRM. The CB's, for directors, board members and administrators, beside tasks.
          "office.html",
+         # Stimpunks Social, our short posts, moved here from wordpress.com and
+         # posted here from the office (2026-11-02). Paperwork, in the reader's
+         # own CB theme, so it stands beside the office that posts to it.
+         "social.html",
          "changelog.html"]
 
 def field(src, pat):

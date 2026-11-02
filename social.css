@@ -1,0 +1,39 @@
+/* =============================================================================
+   Stimpunks Social, inside its own shadow root beside cb.css (social.js).
+
+   THE CB'S CLOTHES AND NONE OF ITS OWN, as Home's and the forums': every
+   colour here is one of the radio's seven, var(--cb-*), which cb.css lays over
+   with the theme the reader's radio wears, so the page brings no pair
+   check-contrast.py has not already measured. Words in --cb-steel, quiet
+   lines in --cb-amber-2, links and the focus ring in --cb-amber. Every
+   sentence is in Atkinson Hyperlegible.
+
+   NOTHING HERE MOVES. No transition, no animation, no transform.
+   ============================================================================= */
+:host { display: block; margin-top: 34px; }
+.sp, .sp *, .sp *::before, .sp *::after { box-sizing: border-box; }
+.sp {
+  background: var(--cb-case); color: var(--cb-steel);
+  border: 2px solid var(--cb-steel-2); border-radius: 10px;
+  padding: 6px 18px 18px;
+  font: 17px/1.55 'Atkinson Hyperlegible', system-ui, sans-serif;
+  text-align: left; overflow-wrap: anywhere;
+}
+.sp :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.sp a { color: var(--cb-amber); }
+.sp-year h2 {
+  margin: 18px 0 4px; padding-bottom: 6px; border-bottom: 2px solid var(--cb-steel-2);
+  font-family: var(--cb-display, 'Atkinson Hyperlegible'), system-ui, sans-serif;
+  font-size: calc(22px * min(var(--cb-display-scale, 1), 1.2)); letter-spacing: var(--cb-display-track, .02em);
+  color: var(--cb-steel);
+}
+.sp-list { list-style: none; margin: 0; padding: 0; }
+.sp-post { padding: 14px 0; border-bottom: 1px solid var(--cb-steel-2); scroll-margin-top: 12px; }
+.sp-post:last-child { border-bottom: 0; }
+.sp-post:focus { outline: none; }
+.sp-post:focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 4px; }
+.sp-post p { margin: 0 0 8px; }
+.sp-fig { margin: 8px 0; }
+.sp-img { display: block; max-width: 100%; height: auto; border: 2px solid var(--cb-steel-2); border-radius: 6px; background: var(--cb-bar); }
+.sp-alt-by, .sp-when { font-size: 14px; color: var(--cb-amber-2); margin: 4px 0 0; }
+.sp-when a { color: var(--cb-amber-2); }

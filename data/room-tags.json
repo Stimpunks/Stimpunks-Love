@@ -162,6 +162,7 @@
     "profile.html": ["paperwork"],
     "you.html": ["paperwork"],
     "forum.html": ["forums"],
+    "social.html": ["paperwork", "news"],
     "changelog.html": ["paperwork", "news"]
   }
 }

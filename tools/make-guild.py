@@ -153,12 +153,15 @@ CREDITS = ROOT / "liner-notes.html"
 #                    Everybody who could walk the board has been through it
 #                    already, so a job through it could only be done by joining
 #                    twice.
+#   social.html      is Stimpunks Social, our short posts, paperwork beside the
+#                    changelog: a record rewritten every morning, with no floor
+#                    of its own for a marker to stand on.
 #   call-window.html  and any other window (tools/windows.py) holds one thing
 #                    somebody popped out of a page, and nothing until then. A
 #                    marker in it would be a job in a room nobody can walk to.
 from windows import WINDOWS
 EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html", "privacy.html", "design.html",
-          "mission.html", "architecture.html", "cb-guide.html", "about.html", "chat.html", "home.html", "directory.html", "profile.html", "you.html", "forum.html", "tasks.html", "office.html", "join.html"} | WINDOWS
+          "mission.html", "architecture.html", "cb-guide.html", "about.html", "chat.html", "home.html", "directory.html", "profile.html", "you.html", "forum.html", "tasks.html", "office.html", "social.html", "join.html"} | WINDOWS
 
 # A ROOM YOU HAVE TO KNOW THE ADDRESS OF CARRIES NO MARKER, AND IS REFUSED ONE.
 # Ryan's call, 2026-10-07 (tools/unlisted.py). The board prints every job beside

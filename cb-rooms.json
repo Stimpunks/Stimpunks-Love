@@ -929,6 +929,12 @@
    }
   },
   {
+   "tag": "social",
+   "name": "Stimpunks Social",
+   "path": "/social.html",
+   "about": "Brief. Real. Ours. The Stimpunks Foundation’s short posts, kept here since they began in 2019, and posted from here to our other networks."
+  },
+  {
    "tag": "changelog",
    "name": "Changelog",
    "path": "/changelog.html",

@@ -17162,6 +17162,9 @@ const BSKY_HANDLE = 'stimpunks.org';
 const BSKY_AT = 'https://bsky.social';
 const MASTO_AT = 'https://mastodon.online';
 export const SOCIAL_NETWORKS = [
+  // Our own, at stimpunks.world/social (2026-11-02): kept in a public store the page reads at once,
+  // and folded into data/social.json by the morning timer.
+  { key: 'world', name: 'Stimpunks Social', profile: 'https://stimpunks.world/social', how: 'api' },
   { key: 'bluesky', name: 'Bluesky', profile: 'https://bsky.app/profile/stimpunks.org', how: 'api' },
   { key: 'mastodon', name: 'Mastodon', profile: 'https://mastodon.online/@stimpunks', how: 'api' },
   { key: 'threads', name: 'Threads', profile: 'https://www.threads.com/@stimpunks', how: 'hand', open: 'https://www.threads.com/intent/post?text=' },
@@ -17182,7 +17185,7 @@ function mastoToken() {
 }
 function socialReady(key) {
   if (!officeReady()) return false;
-  return key === 'bluesky' ? !!bskyPassword() : key === 'mastodon' ? !!mastoToken() : false;
+  return key === 'world' ? true : key === 'bluesky' ? !!bskyPassword() : key === 'mastodon' ? !!mastoToken() : false;
 }
 
 /* The words as they will go: line breaks made plain, control characters
@@ -17313,8 +17316,8 @@ async function mastoSend(post, fetchFn) {
 }
 
 /* The one place a post leaves for a network. */
-async function socialSend(key, post, fetchFn) {
-  return key === 'bluesky' ? bskySend(post, fetchFn) : key === 'mastodon' ? mastoSend(post, fetchFn) : { error: 'That network is posted by hand.' };
+async function socialSend(key, post, fetchFn, s) {
+  return key === 'world' ? worldSend(post, s) : key === 'bluesky' ? bskySend(post, fetchFn) : key === 'mastodon' ? mastoSend(post, fetchFn) : { error: 'That network is posted by hand.' };
 }
 async function readSocial(s) {
   const d = await readSealed(SOCIAL, s);
@@ -17336,7 +17339,7 @@ async function setSocial(id, key, when, to, s) {
   return ok ? post : null;
 }
 async function sendAndKeep(key, post, s, now, fetchFn) {
-  const r = await socialSend(key, post, fetchFn);
+  const r = await socialSend(key, post, fetchFn, s);
   const to = r.url ? { state: 'posted', url: r.url, t: now } : r.unsure ? { state: 'unsure', why: r.unsure, t: now } : { state: 'failed', why: r.error, t: now };
   return setSocial(post.id, key, (x) => x.state === 'posting', to, s);
 }
@@ -17403,6 +17406,41 @@ export async function socialDone(who, id, key, s = store(), now = Date.now()) {
   if (!SOCIAL_BY[key] || SOCIAL_BY[key].how !== 'hand') return { error: 'The office posts to that network itself.' };
   const post = await setSocial(String(id || ''), key, (x) => x.state === 'hand', { state: 'done', by: who.handle, t: now }, s);
   return post ? { post: shapeSocial(post, now) } : { error: 'That has been marked done already.' };
+}
+
+/* ── Stimpunks Social ─────────────────────────────────────────────────────
+
+   Public, and never sealed: what /social shows before the morning fold. Kept
+   apart from the office, whose every record is sealed; the office's Posts page
+   puts a post here through socialSend, and nothing else writes it. */
+/* STIMPUNKS SOCIAL, OUR OWN (Ryan's ask, 2026-11-02): a post is put in
+   SOCIAL_PUBLIC, which is PUBLIC and never sealed, because /social shows it to
+   anybody at once (cb-social.mjs); the morning timer (tools/pull-social.py)
+   folds it into data/social.json, and the page is built from that. Only the
+   words, the time and the id go there, never who pressed. The newest
+   SOCIAL_PUBLIC_KEEP stay, which is days of posts; anything older is in the
+   repository by then. A post already there is posted, so a second try changes
+   nothing. */
+const SOCIAL_PUBLIC = 'social-posts';
+export const SOCIAL_PUBLIC_KEEP = 200;
+const isoSecond = (t) => new Date(t).toISOString().replace(/\.\d{3}Z$/, 'Z');
+async function worldSend(post, s) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, SOCIAL_PUBLIC);
+    const list = cur.exists && cur.data && Array.isArray(cur.data.posts) ? cur.data.posts : [];
+    if (!list.some((x) => x.id === post.id)) {
+      const next = { posts: [{ id: post.id, t: isoSecond(post.t), text: post.text }, ...list].slice(0, SOCIAL_PUBLIC_KEEP) };
+      const res = await s.setJSON(SOCIAL_PUBLIC, next, cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true });
+      if (!res.modified) { await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1))); continue; }
+    }
+    return { url: 'https://stimpunks.world/social#' + post.id };
+  }
+  return { unsure: 'Stimpunks Social was busy, so the post may or may not be there.' };
+}
+/* What /social shows before the morning fold: public, newest first. */
+export async function socialPublic(s = store()) {
+  const d = await s.get(SOCIAL_PUBLIC, { type: 'json' });
+  return d && Array.isArray(d.posts) ? d.posts.map((x) => ({ id: x.id, t: x.t, text: x.text })) : [];
 }
 
 /* ── Links and backlinks ───────────────────────────────────────────────────

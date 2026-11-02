@@ -692,6 +692,20 @@
         "--chalk"
       ]
     },
+    "social.html": {
+      "kind": "julia",
+      "c": [
+        0.37,
+        0.1
+      ],
+      "orbit": 0.015,
+      "ground": "--ink",
+      "inks": [
+        "--pink",
+        "--yellow",
+        "--violet"
+      ]
+    },
     "live-room.html": {
       "kind": "newton",
       "degree": 3,

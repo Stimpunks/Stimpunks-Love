@@ -9659,7 +9659,7 @@ test('a sealing key is rotated: the old one reads meanwhile, the sweep seals eve
 });
 
 /* ── Social posts (2026-11-02) ─────────────────────────────────────────── */
-import { socialPost, socialRetry, socialDone, socialPreview, officeSocial, tidOf, SOCIAL_MAX } from './lib.mjs';
+import { socialPost, socialRetry, socialDone, socialPreview, officeSocial, socialPublic, tidOf, SOCIAL_MAX, SOCIAL_PUBLIC_KEEP } from './lib.mjs';
 
 async function withSocialKeys(fn) {
   const was = [process.env.CB_BSKY_APP_PASSWORD, process.env.CB_MASTODON_TOKEN];
@@ -9752,6 +9752,23 @@ test('social posts: without a network\'s key, nothing is sent to it and the offi
   assert.match((await socialPost(TRYAN, { text: 'Hello', to: ['bluesky', 'mastodon'] }, s, T0, net.f, pageGet)).error, /not set up/);
   assert.equal(net.sent.length, 0);
   const shown = await officeSocial(TRYAN, s, T0);
-  assert.deepEqual(shown.networks.filter((n) => n.how === 'api').map((n) => n.ready), [false, false]);
+  assert.deepEqual(shown.networks.filter((n) => n.key === 'bluesky' || n.key === 'mastodon').map((n) => n.ready), [false, false]);
+  assert.equal(shown.networks.find((n) => n.key === 'world').ready, true, 'Stimpunks Social needs no key of its own');
   assert.equal(await officeSocial(TSAM, s, T0), null);
+}));
+
+test('social posts: Stimpunks Social keeps the words, the time and the id in public, once, and nothing about who pressed', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const net = fakeNetworks();
+  const r = await socialPost(TCHELSEA, { text: 'Hello from the office.', to: ['world'] }, s, Date.UTC(2026, 10, 2, 12, 0, 0, 345), net.f, pageGet);
+  assert.equal(r.post.to.world.state, 'posted');
+  assert.equal(r.post.to.world.url, 'https://stimpunks.world/social#' + r.post.id);
+  assert.equal(net.sent.length, 0, 'posting to our own page asked another site');
+  const shown = await socialPublic(s);
+  assert.deepEqual(shown, [{ id: r.post.id, t: '2026-11-02T12:00:00Z', text: 'Hello from the office.' }]);
+  assert.ok(!JSON.stringify(await s.get('social-posts', { type: 'json' })).includes('Chelsea'), 'who pressed reached the public store');
+  // Fifteen at once keep every one, and the newest stay first.
+  await Promise.all(Array.from({ length: 15 }, (_, i) => socialPost(TRYAN, { text: 'Post ' + i, to: ['world'] }, s, T0 + i, net.f, pageGet)));
+  assert.equal((await socialPublic(s)).length, 16, 'a post told it was posted is missing from Stimpunks Social');
+  assert.ok(SOCIAL_PUBLIC_KEEP >= 16);
 }));
