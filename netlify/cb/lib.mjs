@@ -17470,7 +17470,7 @@ const THREADS_ACCOUNT = 'stimpunks';
 const FB_V = 'v25.0';
 const FB_AT = 'https://graph.facebook.com/' + FB_V, FB_AUTH = 'https://www.facebook.com/' + FB_V + '/dialog/oauth';
 const FB_SCOPE = 'pages_show_list,pages_manage_posts,pages_read_engagement';
-const FB_PAGE = 'stimpunksorg', FB_PAGE_NAME = 'stimpunks';
+const FB_PAGE_NAME = 'stimpunks';
 const META_CALLBACK = { threads: '/cb/office/threads', facebook: '/cb/office/facebook' };
 // Threads asks for a wait between making a post and publishing it; a text post is
 // usually ready at once, so it is asked after each of these, and left for a second
@@ -17481,7 +17481,10 @@ function metaClient(network) {
   const [id, secret] = network === 'threads'
     ? [process.env.CB_THREADS_APP_ID, process.env.CB_THREADS_APP_SECRET]
     : [process.env.CB_FB_APP_ID, process.env.CB_FB_APP_SECRET];
-  return id && secret && id.trim() && secret.trim() ? { id: id.trim(), secret: secret.trim() } : null;
+  // Facebook Login for Business grants what a configuration in the app names, and
+  // ignores a scope: its id (CB_FB_CONFIG_ID) goes in the sign-in address instead.
+  const config = network === 'facebook' ? String(process.env.CB_FB_CONFIG_ID || '').trim() : '';
+  return id && secret && id.trim() && secret.trim() ? { id: id.trim(), secret: secret.trim(), config: /^\d+$/.test(config) ? config : null } : null;
 }
 export function metaReady(network) { return !!metaClient(network) && officeReady(); }
 const metaHash = (state) => createHash('sha256').update(String(state)).digest('base64url');
@@ -17503,7 +17506,7 @@ export async function metaConnect(who, network, origin, s = store(), now = Date.
   const state = randomBytes(24).toString('base64url');
   await updateSealed(META_STATE, (was) => ({ ...(was || {}), [network]: { hash: metaHash(state), by: who.handle, t: now } }), s);
   const q = new URLSearchParams({ client_id: c.id, redirect_uri: origin + META_CALLBACK[network], response_type: 'code', state,
-    scope: network === 'threads' ? THREADS_SCOPE : FB_SCOPE });
+    ...(c.config ? { config_id: c.config, override_default_response_type: 'true' } : { scope: network === 'threads' ? THREADS_SCOPE : FB_SCOPE }) });
   return { go: (network === 'threads' ? THREADS_AUTH : FB_AUTH) + '?' + q };
 }
 
@@ -17543,13 +17546,20 @@ export async function metaCallback(network, params, origin, s = store(), now = D
   const long = await metaJson(await metaAsk(fetchFn, FB_AT + '/oauth/access_token?' + new URLSearchParams({
     grant_type: 'fb_exchange_token', client_id: c.id, client_secret: c.secret, fb_exchange_token: short.access_token })));
   if (!long || typeof long.access_token !== 'string') return { error: 'long' };
+  // Only id, name and the Page's own token are asked for: a field this version of the
+  // Graph API will not give turns the whole answer into an error.
   const pages = await metaJson(await metaAsk(fetchFn, FB_AT + '/me/accounts?' + new URLSearchParams({
-    fields: 'id,name,username,access_token', limit: '100', access_token: long.access_token })));
-  const list = (pages && Array.isArray(pages.data) ? pages.data : []).filter((p) => p && typeof p.access_token === 'string' && /^\d+$/.test(String(p.id)));
-  if (!list.length) return { error: 'no-pages' };
-  // Our Page by its username, which Facebook does not always send, or by its name.
-  const page = list.find((p) => String(p.username || '').toLowerCase() === FB_PAGE)
-    || list.find((p) => String(p.name || '').trim().toLowerCase() === FB_PAGE_NAME) || null;
+    fields: 'id,name,access_token', limit: '100', access_token: long.access_token })));
+  if (!pages || !Array.isArray(pages.data)) return { error: 'pages-error' };
+  const list = pages.data.filter((p) => p && typeof p.access_token === 'string' && /^\d+$/.test(String(p.id)));
+  if (!list.length) {
+    // Which step it was: no permission to see Pages at all, or permission and no Page chosen.
+    const perms = await metaJson(await metaAsk(fetchFn, FB_AT + '/me/permissions?' + new URLSearchParams({ access_token: long.access_token })));
+    const granted = new Set((perms && Array.isArray(perms.data) ? perms.data : []).filter((x) => x && x.status === 'granted').map((x) => x.permission));
+    return { error: granted.has('pages_show_list') ? 'no-pages' : 'no-pages-granted' };
+  }
+  // Our Page by its name, or the only Page Facebook gave.
+  const page = list.find((p) => String(p.name || '').trim().toLowerCase() === FB_PAGE_NAME) || (list.length === 1 ? list[0] : null);
   if (!page) return { error: 'page' };
   await updateSealed(META_FB, () => ({ page: String(page.id), name: String(page.name || ''), token: page.access_token, by: kept.by, t: now }), s);
   return { connected: true };

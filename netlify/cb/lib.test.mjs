@@ -9811,6 +9811,7 @@ function fakeMeta(o = {}) {
         { id: '222', name: 'Stimpunks', ...(o.noUsername ? {} : { username: 'stimpunksorg' }), access_token: 'page-token' }] });
       if (u.pathname.endsWith('/222/feed')) return answer(200, { id: '222_999' });
       if (u.pathname.endsWith('/222')) return answer(o.pageLapsed ? 400 : 200, { id: '222' });
+      if (u.pathname.endsWith('/me/permissions')) return answer(200, { data: [{ permission: 'public_profile', status: 'granted' }] });
     }
     throw new Error('asked somewhere else: ' + url);
   };
@@ -9869,11 +9870,22 @@ test('meta: a connected Threads and Page are posted to by the office, and Thread
 })));
 
 test('meta: our Page is found by its name when Facebook sends no username, and no Pages at all is said as such', () => withOfficeKey(OFFICE_TEST_KEY, () => withMetaKeys(async () => {
-  for (const [o, want] of [[{ noUsername: true }, true], [{ noPages: true }, 'no-pages']]) {
+  for (const [o, want] of [[{ noUsername: true }, true], [{ noPages: true }, 'no-pages-granted']]) {
     const s = memoryStore({ etagOnRead: true });
     const net = fakeMeta(o);
     const go = new URL((await metaConnect(TRYAN, 'facebook', 'https://stimpunks.world', s, T0)).go);
     const r = await metaCallback('facebook', new URLSearchParams({ state: go.searchParams.get('state'), code: 'c' }), 'https://stimpunks.world', s, T0 + 1000, net.f);
     assert.equal(want === true ? r.connected : r.error, want);
   }
+})));
+
+test('meta: with a Facebook Login for Business configuration, the sign-in address names it and asks no scope', () => withOfficeKey(OFFICE_TEST_KEY, () => withMetaKeys(async () => {
+  const was = process.env.CB_FB_CONFIG_ID;
+  process.env.CB_FB_CONFIG_ID = '1234567890';
+  try {
+    const go = new URL((await metaConnect(TRYAN, 'facebook', 'https://stimpunks.world', memoryStore({ etagOnRead: true }), T0)).go);
+    assert.equal(go.searchParams.get('config_id'), '1234567890');
+    assert.equal(go.searchParams.get('scope'), null);
+    assert.equal(go.searchParams.get('override_default_response_type'), 'true');
+  } finally { if (was == null) delete process.env.CB_FB_CONFIG_ID; else process.env.CB_FB_CONFIG_ID = was; }
 })));

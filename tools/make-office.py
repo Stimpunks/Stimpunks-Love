@@ -717,7 +717,7 @@ def check_social(lib):
         if lib.count("process.env." + env) != 1 or "process.env." + env not in inner(sec, f):
             problems.append(f"{LIB.name}: {env} is read once, in {f}, and nowhere else.")
     mc = inner(sec, "metaClient")
-    for env in ("CB_THREADS_APP_ID", "CB_THREADS_APP_SECRET", "CB_FB_APP_ID", "CB_FB_APP_SECRET"):
+    for env in ("CB_THREADS_APP_ID", "CB_THREADS_APP_SECRET", "CB_FB_APP_ID", "CB_FB_APP_SECRET", "CB_FB_CONFIG_ID"):
         if lib.count("process.env." + env) != 1 or "process.env." + env not in mc:
             problems.append(f"{LIB.name}: {env} is read once, in metaClient, and nowhere else.")
     # Every request goes to Bluesky, mastodon.online, Threads' own API or Facebook's,
