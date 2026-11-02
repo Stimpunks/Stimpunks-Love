@@ -377,3 +377,5 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-sent__nets { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; font-size: 15px; }
 .of-sent__why { overflow-wrap: anywhere; }
 .of-sents { list-style: none; padding-left: 0; gap: 0; }
+.of-social-meta { margin: 6px 0 16px; display: grid; gap: 6px; }
+.of-social-meta h3 { margin: 0; font-size: 18px; color: var(--cb-steel); }

@@ -115,13 +115,16 @@
      { action: 'social-retry', id, network, looked? } one network tried again: one that failed, or one that is unsure
                                                      and somebody has looked (looked: true) and says is not there
      { action: 'social-done', id, network }          a network posted to by hand, said to be done
+     { action: 'meta-connect', network }             Threads' or Facebook's address to connect the office to it, with a
+                                                     state kept for the way back (/cb/office/threads, /cb/office/facebook)
+     { action: 'meta-disconnect', network }          that connection's token deleted
    Nothing anybody types, and nothing about a contact, is ever logged. See
    ../cb/lib.mjs, the office. */
 import { staffReady, readPass, forumReader, mentionableRoles, rolesOf, availabilityFor, officeAllow, officeReady, keepOfficeLayout, resetOfficeLayout, officeContacts, officeContact, saveContact, removeContact, importContacts,
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases, officeFeed, OFFICE_FEED_PAGE,
   officeMemberMap, mapFind, mapPut, mapTake, mapTakeOne, importMap,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
-  stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, tickOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, officeSocial, socialPreview, socialPost, socialRetry, socialDone, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, gbJoin, listingLook, listingAdd, orgLook, orgAdd, writeInvite, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
+  stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, tickOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, officeSocial, socialPreview, socialPost, socialRetry, socialDone, metaConnect, metaDisconnect, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, gbJoin, listingLook, listingAdd, orgLook, orgAdd, writeInvite, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
   parseBrass, cleanForumBody, json, body, sameSite, nameRefs, findLinks, backlinksTo, taskPeople, taskSnippets,
   attachOffice, detachOffice, describeOfficeFile, OFFICE_ATTACH_MAX, TASK_COMMENT_FILES_MAX, FILE_MAX, FILE_PART, FORUM_FILE_TYPES, FORUM_ALT_MAX,
   CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
@@ -220,6 +223,15 @@ export default async (req) => {
     if (b.action === 'social-done') {
       const r = await socialDone(who, String(b.id || ''), String(b.network || ''));
       return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { post: r.post }, QUIET);
+    }
+    if (b.action === 'meta-connect') {
+      const r = await metaConnect(who, String(b.network || ''), url.origin);
+      if (r.error === 'not-set-up') return json(503, { error: 'That is not set up: our Meta app’s id and secret are not in Netlify’s settings.' }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { go: r.go }, QUIET);
+    }
+    if (b.action === 'meta-disconnect') {
+      const r = await metaDisconnect(who, String(b.network || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { gone: true }, QUIET);
     }
     if (b.action === 'comment') {
       const r = await commentOffice(who, String(b.id || ''), b.body, undefined, undefined, undefined, b.files);

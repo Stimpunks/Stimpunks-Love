@@ -716,9 +716,33 @@ def check_social(lib):
     for env, f in (("CB_BSKY_APP_PASSWORD", "bskyPassword"), ("CB_MASTODON_TOKEN", "mastoToken")):
         if lib.count("process.env." + env) != 1 or "process.env." + env not in inner(sec, f):
             problems.append(f"{LIB.name}: {env} is read once, in {f}, and nowhere else.")
-    for call in re.findall(r"fetchFn\(([^,)]*)", code):
-        if not re.match(r"\s*(BSKY_AT|at|MASTO_AT) \+ '", call):
-            problems.append(f"{LIB.name}: the social posts part asks somewhere other than Bluesky or mastodon.online ({call.strip()}).")
+    mc = inner(sec, "metaClient")
+    for env in ("CB_THREADS_APP_ID", "CB_THREADS_APP_SECRET", "CB_FB_APP_ID", "CB_FB_APP_SECRET"):
+        if lib.count("process.env." + env) != 1 or "process.env." + env not in mc:
+            problems.append(f"{LIB.name}: {env} is read once, in metaClient, and nowhere else.")
+    # Every request goes to Bluesky, mastodon.online, Threads' own API or Facebook's,
+    # whether through fetchFn or metaAsk (whose own fetchFn(url, ...) is its caller's address).
+    calls = re.findall(r"fetchFn\(([^,)]*)", code) + re.findall(r"metaAsk\(fetchFn,\s*([^,)]*)", code)
+    for call in calls:
+        if call.strip() == "url":
+            continue
+        if not re.match(r"\s*(BSKY_AT|at|MASTO_AT|THREADS_AT|FB_AT) \+ '", call):
+            problems.append(f"{LIB.name}: the social posts part asks somewhere other than Bluesky, mastodon.online, Threads or Facebook ({call.strip()}).")
+    ma = (re.search(r"async function metaAsk\(.*?\n\}", sec, re.S) or [""])[0]
+    if code.count("fetchFn(url,") != 1 or "fetchFn(url," not in ma:
+        problems.append(f"{LIB.name}: only metaAsk asks an address it is handed.")
+    ms = fn(sec, "metaStatus")
+    if "token" in re.sub(r"t\.token|f\.token", "", ms):
+        problems.append(f"{LIB.name}: metaStatus puts a token in the page's answer; it says only whether each is connected.")
+    for f in ("metaConnect", "metaDisconnect"):
+        first = re.search(r"\{\n\s*(.*)", fn(sec, f))
+        if not first or "if (!officeAllow(who))" not in first.group(1):
+            problems.append(f"{LIB.name}: {f} must refuse anybody the office does not let in, before anything else.")
+    if "updateSealed(META_THREADS" not in code or "updateSealed(META_FB" not in code or re.search(r"setJSON\(META_", code):
+        problems.append(f"{LIB.name}: Threads' and Facebook's tokens are kept sealed, through updateSealed, and nowhere else.")
+    ts = (re.search(r"async function threadsSend\(.*?\n\}", sec, re.S) or [""])[0]
+    if "container" not in ts or "statusOf(container)" not in ts or "setSocial(post.id, 'threads'" not in ts:
+        problems.append(f"{LIB.name}: a Threads post's container is written to its record before it is published, and asked about first on a second try.")
     def any_fn(name):
         m = re.search(rf"(?:async )?function {name}\(.*?\n\}}", sec, re.S)
         return m.group(0) if m else ""

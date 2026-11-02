@@ -9772,3 +9772,97 @@ test('social posts: Stimpunks Social keeps the words, the time and the id in pub
   assert.equal((await socialPublic(s)).length, 16, 'a post told it was posted is missing from Stimpunks Social');
   assert.ok(SOCIAL_PUBLIC_KEEP >= 16);
 }));
+
+/* ── Threads and Facebook (2026-11-02) ─────────────────────────────────── */
+import { metaConnect, metaCallback, metaStatus, metaDisconnect, metaNightly } from './lib.mjs';
+
+async function withMetaKeys(fn) {
+  const keys = ['CB_THREADS_APP_ID', 'CB_THREADS_APP_SECRET', 'CB_FB_APP_ID', 'CB_FB_APP_SECRET'];
+  const was = keys.map((k) => process.env[k]);
+  keys.forEach((k) => { process.env[k] = 'test-' + k.toLowerCase(); });
+  try { return await fn(); } finally { keys.forEach((k, i) => { if (was[i] == null) delete process.env[k]; else process.env[k] = was[i]; }); }
+}
+/* Threads and Facebook as the office meets them. */
+function fakeMeta(o = {}) {
+  const sent = [], containers = {};
+  let n = 0;
+  const answer = (status, b) => ({ ok: status >= 200 && status < 300, status, json: async () => b });
+  const f = async (url, opts = {}) => {
+    const u = new URL(url), body = opts.body ? Object.fromEntries(new URLSearchParams(opts.body)) : {};
+    sent.push({ url, method: opts.method || 'GET', body });
+    if (u.host === 'graph.threads.com') {
+      if (u.pathname === '/oauth/access_token') return answer(200, { access_token: 'short', user_id: '42' });
+      if (u.pathname === '/access_token') return answer(200, { access_token: 'long-threads', expires_in: 5184000 });
+      if (u.pathname === '/refresh_access_token') return answer(200, { access_token: 'renewed-threads', expires_in: 5184000 });
+      if (u.pathname === '/v1.0/me') return answer(200, { id: '42', username: o.username || 'stimpunks' });
+      if (u.pathname === '/v1.0/42/threads') { const id = 'c' + (++n); containers[id] = 'FINISHED'; return answer(200, { id }); }
+      if (u.pathname === '/v1.0/42/threads_publish') {
+        containers[body.creation_id] = 'PUBLISHED';
+        if (o.publishLost) { o.publishLost = false; throw new Error('timeout'); }
+        return answer(200, { id: 'm-' + body.creation_id });
+      }
+      const m = /^\/v1\.0\/(c\d+)$/.exec(u.pathname);
+      if (m) return answer(200, { id: m[1], status: containers[m[1]] });
+      if (/^\/v1\.0\/m-/.test(u.pathname)) return answer(200, { permalink: 'https://www.threads.com/@stimpunks/post/X' });
+    }
+    if (u.host === 'graph.facebook.com') {
+      if (u.pathname.endsWith('/oauth/access_token')) return answer(200, { access_token: u.searchParams.get('grant_type') ? 'long-user' : 'short-user' });
+      if (u.pathname.endsWith('/me/accounts')) return answer(200, { data: [{ id: '111', name: 'Somebody else', username: 'other', access_token: 'no' }, { id: '222', name: 'Stimpunks', username: 'stimpunksorg', access_token: 'page-token' }] });
+      if (u.pathname.endsWith('/222/feed')) return answer(200, { id: '222_999' });
+      if (u.pathname.endsWith('/222')) return answer(o.pageLapsed ? 400 : 200, { id: '222' });
+    }
+    throw new Error('asked somewhere else: ' + url);
+  };
+  return { f, sent, containers };
+}
+async function connectBoth(s, net) {
+  for (const network of ['threads', 'facebook']) {
+    const go = new URL((await metaConnect(TRYAN, network, 'https://stimpunks.world', s, T0)).go);
+    const params = new URLSearchParams({ state: go.searchParams.get('state'), code: 'the-code' });
+    assert.equal((await metaCallback(network, params, 'https://stimpunks.world', s, T0 + 1000, net.f)).connected, true, network + ' did not connect');
+  }
+}
+
+test('meta: connecting keeps only our own Threads account and our own Page, sealed, and the state is used once', () => withOfficeKey(OFFICE_TEST_KEY, () => withMetaKeys(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.ok((await metaConnect(TSAM, 'threads', 'https://stimpunks.world', s, T0)).error, 'somebody the office does not let in started a connection');
+  // Somebody else's Threads account is refused.
+  const other = fakeMeta({ username: 'notus' });
+  const go = new URL((await metaConnect(TRYAN, 'threads', 'https://stimpunks.world', s, T0)).go);
+  assert.equal(go.origin + go.pathname, 'https://threads.com/oauth/authorize');
+  const params = new URLSearchParams({ state: go.searchParams.get('state'), code: 'x' });
+  assert.equal((await metaCallback('threads', params, 'https://stimpunks.world', s, T0 + 1000, other.f)).error, 'account');
+  assert.equal((await metaCallback('threads', params, 'https://stimpunks.world', s, T0 + 2000, other.f)).error, 'state', 'a state was used twice');
+  const net = fakeMeta();
+  await connectBoth(s, net);
+  const st = await metaStatus(TRYAN, s, T0 + 2000);
+  assert.deepEqual([st.threads.connected, st.threads.as, st.facebook.connected, st.facebook.as], [true, 'stimpunks', true, 'Stimpunks']);
+  assert.ok(!JSON.stringify(st).includes('long-threads') && !JSON.stringify(st).includes('page-token'), 'a token reached the page');
+  assert.ok(!JSON.stringify(await s.get('office-meta-facebook', { type: 'json' })).includes('page-token'), 'a token was kept unsealed');
+  // The night renews Threads' token once it is a day old.
+  await metaNightly(s, T0 + 86400 * 1000 + 5000, net.f);
+  assert.ok(net.sent.some((x) => x.url.includes('/refresh_access_token')));
+  assert.equal((await metaDisconnect(TRYAN, 'facebook', s)).gone, true);
+  assert.equal((await metaStatus(TRYAN, s, T0 + 3000)).facebook.connected, false);
+})));
+
+test('meta: a connected Threads and Page are posted to by the office, and Threads never twice', () => withOfficeKey(OFFICE_TEST_KEY, () => withMetaKeys(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const net = fakeMeta({ publishLost: true });
+  await connectBoth(s, net);
+  const r = await socialPost(TRYAN, { text: 'Hello https://stimpunks.world/social', to: ['threads', 'facebook', 'linkedin'] }, s, Date.now(), net.f, pageGet);
+  assert.equal(r.post.to.facebook.state, 'posted');
+  assert.equal(r.post.to.facebook.url, 'https://www.facebook.com/222_999');
+  assert.equal(net.sent.find((x) => x.url.endsWith('/222/feed')).body.link, 'https://stimpunks.world/social');
+  assert.equal(r.post.to.linkedin.state, 'hand');
+  assert.equal(r.post.to.threads.state, 'unsure', 'a publish that never answered was taken as posted or as nothing sent');
+  // A second try asks about the container, which Threads published after all, and publishes nothing.
+  const again = await socialRetry(TRYAN, r.post.id, 'threads', false, s, Date.now(), net.f);
+  assert.equal(again.post.to.threads.state, 'posted');
+  assert.equal(net.sent.filter((x) => x.url.endsWith('/threads_publish')).length, 1, 'Threads was asked to publish twice');
+  assert.equal(net.sent.filter((x) => x.url.endsWith('/42/threads')).length, 1, 'a second container was made');
+  // Disconnected, Threads is posted by hand again.
+  await metaDisconnect(TRYAN, 'threads', s);
+  const later = await socialPost(TRYAN, { text: 'Later', to: ['threads'] }, s, Date.now(), net.f, pageGet);
+  assert.equal(later.post.to.threads.state, 'hand');
+})));

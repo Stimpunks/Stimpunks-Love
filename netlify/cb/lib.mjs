@@ -17167,8 +17167,9 @@ export const SOCIAL_NETWORKS = [
   { key: 'world', name: 'Stimpunks Social', profile: 'https://stimpunks.world/social', how: 'api' },
   { key: 'bluesky', name: 'Bluesky', profile: 'https://bsky.app/profile/stimpunks.org', how: 'api' },
   { key: 'mastodon', name: 'Mastodon', profile: 'https://mastodon.online/@stimpunks', how: 'api' },
-  { key: 'threads', name: 'Threads', profile: 'https://www.threads.com/@stimpunks', how: 'hand', open: 'https://www.threads.com/intent/post?text=' },
-  { key: 'facebook', name: 'Facebook', profile: 'https://www.facebook.com/stimpunksorg', how: 'hand', open: 'https://www.facebook.com/stimpunksorg' },
+  // Threads and Facebook are the office's once connected (META, below), and by hand until then or if a connection lapses.
+  { key: 'threads', name: 'Threads', profile: 'https://www.threads.com/@stimpunks', how: 'meta', open: 'https://www.threads.com/intent/post?text=' },
+  { key: 'facebook', name: 'Facebook', profile: 'https://www.facebook.com/stimpunksorg', how: 'meta', open: 'https://www.facebook.com/stimpunksorg' },
   // The Stimpunks Foundation's Page by its number, which our own LinkedIn post links carry (actorCompanyId):
   // its admin address by name answered that the Page no longer exists (Ryan, 2026-11-02).
   { key: 'linkedin', name: 'LinkedIn', profile: 'https://www.linkedin.com/company/76260735/', how: 'hand', open: 'https://www.linkedin.com/company/76260735/admin/page-posts/published/' },
@@ -17186,6 +17187,18 @@ function mastoToken() {
 function socialReady(key) {
   if (!officeReady()) return false;
   return key === 'world' ? true : key === 'bluesky' ? !!bskyPassword() : key === 'mastodon' ? !!mastoToken() : false;
+}
+/* Whether the office posts to a network now ('api') or somebody does by hand
+   ('hand'): Threads and Facebook are the office's only while connected. */
+async function howNow(key, s) {
+  const n = SOCIAL_BY[key];
+  if (!n) return null;
+  if (n.how !== 'meta') return n.how;
+  return (await metaConnected(key, s)) ? 'api' : 'hand';
+}
+async function readyNow(key, s) {
+  const how = await howNow(key, s);
+  return how === 'hand' || (how === 'api' && (SOCIAL_BY[key].how === 'meta' || socialReady(key)));
 }
 
 /* The words as they will go: line breaks made plain, control characters
@@ -17317,7 +17330,8 @@ async function mastoSend(post, fetchFn) {
 
 /* The one place a post leaves for a network. */
 async function socialSend(key, post, fetchFn, s) {
-  return key === 'world' ? worldSend(post, s) : key === 'bluesky' ? bskySend(post, fetchFn) : key === 'mastodon' ? mastoSend(post, fetchFn) : { error: 'That network is posted by hand.' };
+  return key === 'world' ? worldSend(post, s) : key === 'bluesky' ? bskySend(post, fetchFn) : key === 'mastodon' ? mastoSend(post, fetchFn)
+    : key === 'threads' ? threadsSend(post, s, fetchFn) : key === 'facebook' ? facebookSend(post, s, fetchFn) : { error: 'That network is posted by hand.' };
 }
 async function readSocial(s) {
   const d = await readSealed(SOCIAL, s);
@@ -17332,7 +17346,7 @@ async function setSocial(id, key, when, to, s) {
     if (i < 0 || !list[i].to || !list[i].to[key] || !when(list[i].to[key])) { ok = false; return null; }
     ok = true;
     const copy = list.slice();
-    copy[i] = { ...list[i], to: { ...list[i].to, [key]: to } };
+    copy[i] = { ...list[i], to: { ...list[i].to, [key]: typeof to === 'function' ? to(list[i].to[key]) : to } };
     post = copy[i];
     return { posts: copy };
   }, s);
@@ -17341,11 +17355,13 @@ async function setSocial(id, key, when, to, s) {
 async function sendAndKeep(key, post, s, now, fetchFn) {
   const r = await socialSend(key, post, fetchFn, s);
   const to = r.url ? { state: 'posted', url: r.url, t: now } : r.unsure ? { state: 'unsure', why: r.unsure, t: now } : { state: 'failed', why: r.error, t: now };
-  return setSocial(post.id, key, (x) => x.state === 'posting', to, s);
+  // A Threads container stays on the record whatever happened, so a second try asks about it first.
+  return setSocial(post.id, key, (x) => x.state === 'posting', (x) => (x && x.container ? { ...to, container: x.container } : to), s);
 }
 function shapeSocial(p, now) {
   const to = {};
-  for (const [k, v] of Object.entries(p.to || {})) {
+  for (const [k, raw] of Object.entries(p.to || {})) {
+    const { container, ...v } = raw;
     to[k] = v.state === 'posting' && now - (v.t || 0) > SOCIAL_STUCK ? { ...v, state: 'unsure', why: 'The office never heard how this went, so it may or may not be there.' } : v;
   }
   return { id: p.id, text: p.text, card: p.card || null, by: p.by, t: p.t, to };
@@ -17355,7 +17371,8 @@ export async function officeSocial(who, s = store(), now = Date.now()) {
   if (!officeAllow(who)) return null;
   return {
     max: SOCIAL_MAX,
-    networks: SOCIAL_NETWORKS.map((n) => ({ key: n.key, name: n.name, profile: n.profile, how: n.how, open: n.open || null, ready: n.how === 'api' ? socialReady(n.key) : true })),
+    networks: await Promise.all(SOCIAL_NETWORKS.map(async (n) => ({ key: n.key, name: n.name, profile: n.profile, how: await howNow(n.key, s), open: n.open || null, ready: await readyNow(n.key, s) }))),
+    meta: await metaStatus(who, s, now),
     posts: (await readSocial(s)).slice(0, 100).map((p) => shapeSocial(p, now)),
   };
 }
@@ -17376,13 +17393,14 @@ export async function socialPost(who, b, s = store(), now = Date.now(), fetchFn 
   if (why) return { error: why };
   const keys = [...new Set(Array.isArray(b.to) ? b.to.filter((k) => typeof k === 'string' && SOCIAL_BY[k]) : [])];
   if (!keys.length) return { error: 'Tick at least one network.' };
-  const unready = keys.filter((k) => SOCIAL_BY[k].how === 'api' && !socialReady(k));
+  const how = Object.fromEntries(await Promise.all(keys.map(async (k) => [k, await howNow(k, s)])));
+  const unready = keys.filter((k) => how[k] === 'api' && SOCIAL_BY[k].how === 'api' && !socialReady(k));
   if (unready.length) return { error: unready.map((k) => SOCIAL_BY[k].name).join(' and ') + ' is not set up yet. Untick it, or ask an administrator to set it up.' };
   const card = keys.includes('bluesky') ? await socialCard(text, get) : null;
   const post = { id: 'p' + randomBytes(9).toString('base64url'), text, card, by: who.handle, t: now, to: {} };
-  for (const k of keys) post.to[k] = SOCIAL_BY[k].how === 'api' ? { state: 'posting', t: now } : { state: 'hand' };
+  for (const k of keys) post.to[k] = how[k] === 'api' ? { state: 'posting', t: now } : { state: 'hand' };
   await updateSealed(SOCIAL, (was) => ({ posts: [post, ...(was && Array.isArray(was.posts) ? was.posts : [])].slice(0, SOCIAL_KEEP) }), s);
-  const sent = await Promise.all(keys.filter((k) => SOCIAL_BY[k].how === 'api').map((k) => sendAndKeep(k, post, s, Date.now(), fetchFn)));
+  const sent = await Promise.all(keys.filter((k) => how[k] === 'api').map((k) => sendAndKeep(k, post, s, Date.now(), fetchFn)));
   const last = sent.filter(Boolean).pop();
   const kept = (await readSocial(s)).find((x) => x.id === post.id) || last || post;
   return { post: shapeSocial(kept, Date.now()) };
@@ -17391,10 +17409,12 @@ export async function socialPost(who, b, s = store(), now = Date.now(), fetchFn 
    somebody has looked and says is not there. */
 export async function socialRetry(who, id, key, looked, s = store(), now = Date.now(), fetchFn = fetch) {
   if (!officeAllow(who)) return { error: NO_OFFICE };
-  if (!SOCIAL_BY[key] || SOCIAL_BY[key].how !== 'api') return { error: 'That network is posted by hand.' };
-  if (!socialReady(key)) return { error: SOCIAL_BY[key].name + ' is not set up.' };
-  const can = (x) => x.state === 'failed' || ((x.state === 'unsure' || (x.state === 'posting' && now - (x.t || 0) > SOCIAL_STUCK)) && looked === true);
-  const post = await setSocial(String(id || ''), key, can, { state: 'posting', t: now }, s);
+  if (!SOCIAL_BY[key] || (await howNow(key, s)) !== 'api') return { error: 'That network is posted by hand.' };
+  if (SOCIAL_BY[key].how === 'api' && !socialReady(key)) return { error: SOCIAL_BY[key].name + ' is not set up.' };
+  // Threads keeps its container, and a second try asks Threads about it first, so it needs nobody to have looked.
+  const can = (x) => x.state === 'failed' || ((x.state === 'unsure' || (x.state === 'posting' && now - (x.t || 0) > SOCIAL_STUCK))
+    && (looked === true || (key === 'threads' && !!x.container)));
+  const post = await setSocial(String(id || ''), key, can, (x) => ({ state: 'posting', t: now, ...(x && x.container ? { container: x.container } : {}) }), s);
   if (!post) return { error: `That cannot be tried again: it has been posted to ${SOCIAL_BY[key].name}, or is being posted, or nobody has said they looked.` };
   await sendAndKeep(key, post, s, now, fetchFn);
   const kept = (await readSocial(s)).find((x) => x.id === post.id);
@@ -17403,9 +17423,246 @@ export async function socialRetry(who, id, key, looked, s = store(), now = Date.
 /* A network posted to by hand, said to be done by whoever did it. */
 export async function socialDone(who, id, key, s = store(), now = Date.now()) {
   if (!officeAllow(who)) return { error: NO_OFFICE };
-  if (!SOCIAL_BY[key] || SOCIAL_BY[key].how !== 'hand') return { error: 'The office posts to that network itself.' };
+  if (!SOCIAL_BY[key] || SOCIAL_BY[key].how === 'api') return { error: 'The office posts to that network itself.' };
   const post = await setSocial(String(id || ''), key, (x) => x.state === 'hand', { state: 'done', by: who.handle, t: now }, s);
   return post ? { post: shapeSocial(post, now) } : { error: 'That has been marked done already.' };
+}
+
+/* META: THREADS AND OUR FACEBOOK PAGE (Ryan's ask, 2026-11-02, "Next: Meta
+   app"). Until each is connected, Threads and Facebook are posted by hand from
+   the Posts page; once connected, the office posts to them as it does to
+   Bluesky and Mastodon, and the by-hand way stays for whenever a connection
+   lapses. Both go through one Meta app of ours, in development mode, with the
+   Stimpunks accounts as its testers.
+
+   CONNECTING is QuickBooks' way: a director presses Connect, the office keeps a
+   sealed state (META_STATE, one per network), and the network sends them back
+   to /cb/office/threads or /cb/office/facebook with a code, which metaCallback
+   takes only for that state, unused and under ten minutes old.
+
+     · THREADS (CB_THREADS_APP_ID, CB_THREADS_APP_SECRET, the Threads use case's
+       own id and secret): the code becomes a short-lived token, then a 60-day
+       one, kept sealed in META_THREADS with the account's id and username;
+       metaNightly renews it each night once it is a day old, which keeps it
+       alive for as long as somebody posts or nobody disconnects. Only our own
+       account is kept: a connection as anybody else is refused.
+     · FACEBOOK (CB_FB_APP_ID, CB_FB_APP_SECRET): the code becomes a user token,
+       then a long-lived one, and from it our Page's own token, which does not
+       expire while whoever connected it keeps their password and their role on
+       the Page. Only that Page's id, name and token are kept, sealed in
+       META_FB; the user token is used once and dropped. Only our Page is kept.
+
+   POSTING, NEVER TWICE. Threads makes a post in two steps, a container and then
+   publishing it, so the container's id is written into the post's record
+   (setSocial) before anything is published, and a second try asks for that
+   container's status first: PUBLISHED is posted already, FINISHED is published
+   now, EXPIRED or ERROR (never published) is made again. Facebook has one step
+   and no key for a second try, so an answer that never came is unsure, as
+   Bluesky's and Mastodon's are, and somebody looks before trying again.
+
+   Nothing about either token ever leaves the server, and nothing is logged.
+   privacy.html#social-posts says it. */
+const META_STATE = 'office-meta-state', META_THREADS = 'office-meta-threads', META_FB = 'office-meta-facebook';
+const META_STATE_FOR = 10 * 60 * 1000;
+const THREADS_AT = 'https://graph.threads.com', THREADS_AUTH = 'https://threads.com/oauth/authorize';
+const THREADS_SCOPE = 'threads_basic,threads_content_publish';
+const THREADS_ACCOUNT = 'stimpunks';
+const FB_V = 'v25.0';
+const FB_AT = 'https://graph.facebook.com/' + FB_V, FB_AUTH = 'https://www.facebook.com/' + FB_V + '/dialog/oauth';
+const FB_SCOPE = 'pages_show_list,pages_manage_posts,pages_read_engagement';
+const FB_PAGE = 'stimpunksorg';
+const META_CALLBACK = { threads: '/cb/office/threads', facebook: '/cb/office/facebook' };
+// Threads asks for a wait between making a post and publishing it; a text post is
+// usually ready at once, so it is asked after each of these, and left for a second
+// try (which publishes the same container) if it is still not ready.
+const THREADS_WAITS = [1500, 2500, 3500];
+
+function metaClient(network) {
+  const [id, secret] = network === 'threads'
+    ? [process.env.CB_THREADS_APP_ID, process.env.CB_THREADS_APP_SECRET]
+    : [process.env.CB_FB_APP_ID, process.env.CB_FB_APP_SECRET];
+  return id && secret && id.trim() && secret.trim() ? { id: id.trim(), secret: secret.trim() } : null;
+}
+export function metaReady(network) { return !!metaClient(network) && officeReady(); }
+const metaHash = (state) => createHash('sha256').update(String(state)).digest('base64url');
+async function metaJson(r) {
+  if (!r) return null;
+  return r.json().catch(() => null);
+}
+async function metaAsk(fetchFn, url, opts = {}) {
+  return fetchFn(url, { ...opts, headers: { accept: 'application/json', ...(opts.headers || {}) }, signal: AbortSignal.timeout(SOCIAL_WAIT) }).catch(() => null);
+}
+const form = (o) => ({ method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(o).toString() });
+
+/* Connect: a state for the network to hand back, and its address with it. */
+export async function metaConnect(who, network, origin, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  if (!META_CALLBACK[network]) return { error: 'Connect what?' };
+  const c = metaClient(network);
+  if (!c || !officeReady()) return { error: 'not-set-up' };
+  const state = randomBytes(24).toString('base64url');
+  await updateSealed(META_STATE, (was) => ({ ...(was || {}), [network]: { hash: metaHash(state), by: who.handle, t: now } }), s);
+  const q = new URLSearchParams({ client_id: c.id, redirect_uri: origin + META_CALLBACK[network], response_type: 'code', state,
+    scope: network === 'threads' ? THREADS_SCOPE : FB_SCOPE });
+  return { go: (network === 'threads' ? THREADS_AUTH : FB_AUTH) + '?' + q };
+}
+
+/* The network sends the person back here. The state must be the one kept,
+   unused and fresh; it goes whatever happens next. */
+export async function metaCallback(network, params, origin, s = store(), now = Date.now(), fetchFn = fetch) {
+  if (!META_CALLBACK[network]) return { error: 'network' };
+  const c = metaClient(network);
+  if (!c || !officeReady()) return { error: 'not-set-up' };
+  const state = String(params.get('state') || ''), code = String(params.get('code') || '').replace(/#_$/, '');
+  let kept = null;
+  await updateSealed(META_STATE, (was) => {
+    kept = was && was[network];
+    if (!kept) return null;
+    const next = { ...was }; delete next[network]; return next;
+  }, s);
+  if (!kept || !state || kept.hash !== metaHash(state) || now - kept.t > META_STATE_FOR) return { error: 'state' };
+  if (params.get('error') || !code) return { error: 'refused' };
+  const redirect = origin + META_CALLBACK[network];
+  if (network === 'threads') {
+    const short = await metaJson(await metaAsk(fetchFn, THREADS_AT + '/oauth/access_token',
+      form({ client_id: c.id, client_secret: c.secret, code, grant_type: 'authorization_code', redirect_uri: redirect })));
+    if (!short || typeof short.access_token !== 'string') return { error: 'code' };
+    const long = await metaJson(await metaAsk(fetchFn, THREADS_AT + '/access_token?' + new URLSearchParams({
+      grant_type: 'th_exchange_token', client_secret: c.secret, access_token: short.access_token })));
+    if (!long || typeof long.access_token !== 'string') return { error: 'code' };
+    const me = await metaJson(await metaAsk(fetchFn, THREADS_AT + '/v1.0/me?' + new URLSearchParams({ fields: 'id,username', access_token: long.access_token })));
+    if (!me || typeof me.id !== 'string') return { error: 'code' };
+    if (String(me.username || '').toLowerCase() !== THREADS_ACCOUNT) return { error: 'account', as: String(me.username || '') };
+    await updateSealed(META_THREADS, () => ({ user: me.id, username: me.username, token: long.access_token,
+      until: now + (Number(long.expires_in) || 60 * 86400) * 1000, renewed: now, by: kept.by, t: now }), s);
+    return { connected: true };
+  }
+  const short = await metaJson(await metaAsk(fetchFn, FB_AT + '/oauth/access_token?' + new URLSearchParams({
+    client_id: c.id, client_secret: c.secret, redirect_uri: redirect, code })));
+  if (!short || typeof short.access_token !== 'string') return { error: 'code' };
+  const long = await metaJson(await metaAsk(fetchFn, FB_AT + '/oauth/access_token?' + new URLSearchParams({
+    grant_type: 'fb_exchange_token', client_id: c.id, client_secret: c.secret, fb_exchange_token: short.access_token })));
+  if (!long || typeof long.access_token !== 'string') return { error: 'code' };
+  const pages = await metaJson(await metaAsk(fetchFn, FB_AT + '/me/accounts?' + new URLSearchParams({
+    fields: 'id,name,username,access_token', limit: '100', access_token: long.access_token })));
+  const list = pages && Array.isArray(pages.data) ? pages.data : [];
+  const page = list.find((p) => String(p.username || '').toLowerCase() === FB_PAGE) || null;
+  if (!page || typeof page.access_token !== 'string' || !/^\d+$/.test(String(page.id))) return { error: 'page', saw: list.map((p) => String(p.name || '')).slice(0, 10) };
+  await updateSealed(META_FB, () => ({ page: String(page.id), name: String(page.name || ''), token: page.access_token, by: kept.by, t: now }), s);
+  return { connected: true };
+}
+
+/* Whether each is set up and connected, for the Posts page: never a token. */
+export async function metaStatus(who, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return null;
+  const [t, f] = await Promise.all([readSealed(META_THREADS, s), readSealed(META_FB, s)]);
+  return {
+    threads: { ready: metaReady('threads'), connected: !!(t && t.token && t.until > now), as: t ? t.username : null, by: t ? t.by : null, since: t ? t.t : null, until: t ? t.until : null, lapsed: !!(t && t.until <= now) },
+    facebook: { ready: metaReady('facebook'), connected: !!(f && f.token && !f.lapsed), as: f ? f.name : null, by: f ? f.by : null, since: f ? f.t : null, lapsed: !!(f && f.lapsed) },
+  };
+}
+async function metaConnected(network, s, now = Date.now()) {
+  if (!metaReady(network)) return false;
+  const v = await readSealed(network === 'threads' ? META_THREADS : META_FB, s).catch(() => null);
+  return network === 'threads' ? !!(v && v.token && v.until > now) : !!(v && v.token && !v.lapsed);
+}
+
+export async function metaDisconnect(who, network, s = store()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  if (!META_CALLBACK[network]) return { error: 'Disconnect what?' };
+  await s.delete(network === 'threads' ? META_THREADS : META_FB);
+  return { gone: true };
+}
+
+/* Each night: Threads' token renewed once it is a day old, and our Page's token
+   asked whether it still works, so the Posts page can say it needs connecting
+   again rather than failing on the next press. */
+export async function metaNightly(s = store(), now = Date.now(), fetchFn = fetch) {
+  if (!officeReady()) return { error: 'shut' };
+  const t = await readSealed(META_THREADS, s);
+  if (t && t.token && t.until > now && now - (t.renewed || t.t) >= 86400 * 1000) {
+    const r = await metaJson(await metaAsk(fetchFn, THREADS_AT + '/refresh_access_token?' + new URLSearchParams({ grant_type: 'th_refresh_token', access_token: t.token })));
+    if (r && typeof r.access_token === 'string') {
+      await updateSealed(META_THREADS, (was) => (was ? { ...was, token: r.access_token, until: now + (Number(r.expires_in) || 60 * 86400) * 1000, renewed: now } : null), s);
+    }
+  }
+  const f = await readSealed(META_FB, s);
+  if (f && f.token) {
+    const r = await metaAsk(fetchFn, FB_AT + '/' + f.page + '?' + new URLSearchParams({ fields: 'id', access_token: f.token }));
+    const lapsed = !!(r && r.status >= 400 && r.status < 500);
+    if (lapsed !== !!f.lapsed) await updateSealed(META_FB, (was) => (was ? { ...was, lapsed } : null), s);
+  }
+  return { done: true };
+}
+
+/* What Meta said was wrong, in its own words, for whoever pressed. */
+async function metaRefusal(r) {
+  const b = await metaJson(r);
+  const said = b && b.error && typeof b.error.message === 'string' ? b.error.message : '';
+  const words = [...said.replace(/\s+/g, ' ').trim()];
+  return words.length ? ': ' + (words.length > 200 ? words.slice(0, 199).join('') + '…' : words.join('')) : '';
+}
+
+async function threadsSend(post, s, fetchFn) {
+  const t = await readSealed(META_THREADS, s);
+  if (!t || !t.token || t.until <= Date.now()) return { error: 'Threads is not connected. Connect it on the Posts page, or post it by hand.' };
+  const auth = { access_token: t.token };
+  const permalink = async (media) => {
+    const m = await metaJson(await metaAsk(fetchFn, THREADS_AT + '/v1.0/' + media + '?' + new URLSearchParams({ fields: 'permalink', ...auth })));
+    return m && typeof m.permalink === 'string' && m.permalink.startsWith('https://') ? m.permalink : 'https://www.threads.com/@' + t.username;
+  };
+  const statusOf = async (container) => {
+    const r = await metaJson(await metaAsk(fetchFn, THREADS_AT + '/v1.0/' + container + '?' + new URLSearchParams({ fields: 'status,id', ...auth })));
+    return r && typeof r.status === 'string' ? r.status : null;
+  };
+  // A container from an earlier try is asked about first.
+  const had = (await readSocial(s)).find((x) => x.id === post.id);
+  let container = had && had.to && had.to.threads && had.to.threads.container;
+  if (container) {
+    const st = await statusOf(container);
+    if (st === 'PUBLISHED') return { url: 'https://www.threads.com/@' + t.username, note: 'Threads says this was published on an earlier try.' };
+    if (st === null) return { unsure: 'Threads did not say what became of the earlier try. Look on our profile before trying again.' };
+    if (st !== 'FINISHED' && st !== 'IN_PROGRESS') container = null;
+  }
+  if (!container) {
+    const r = await metaAsk(fetchFn, THREADS_AT + '/v1.0/' + t.user + '/threads', form({ media_type: 'TEXT', text: post.text, ...auth }));
+    if (!r || !r.ok) return { error: `Threads did not take it (${r ? 'it answered ' + r.status + await metaRefusal(r) : 'it did not answer'}). Nothing was posted there.` };
+    const made = await metaJson(r);
+    if (!made || typeof made.id !== 'string') return { error: 'Threads did not say what it made. Nothing was posted there.' };
+    container = made.id;
+    await setSocial(post.id, 'threads', (x) => x.state === 'posting', { state: 'posting', t: Date.now(), container }, s);
+  }
+  for (const wait of THREADS_WAITS) {
+    const st = await statusOf(container);
+    if (st === 'PUBLISHED') return { url: 'https://www.threads.com/@' + t.username };
+    if (st === 'FINISHED') break;
+    if (st === 'ERROR' || st === 'EXPIRED') return { error: `Threads could not prepare it (${st.toLowerCase()}). Nothing was posted there.` };
+    await new Promise((ok) => setTimeout(ok, wait));
+  }
+  let r;
+  try {
+    r = await fetchFn(THREADS_AT + '/v1.0/' + t.user + '/threads_publish', { ...form({ creation_id: container, ...auth }), signal: AbortSignal.timeout(SOCIAL_WAIT) });
+  } catch (e) { return { unsure: 'Threads did not answer, so the post may or may not be there. Trying again asks Threads first.' }; }
+  if (!r.ok) {
+    if (r.status >= 500) return { unsure: `Threads answered ${r.status}, so the post may or may not be there. Trying again asks Threads first.` };
+    return { unsure: `Threads would not publish it yet (it answered ${r.status}${await metaRefusal(r)}). Trying again publishes the same post, never a second one.` };
+  }
+  const done = await metaJson(r);
+  return { url: done && typeof done.id === 'string' ? await permalink(done.id) : 'https://www.threads.com/@' + t.username };
+}
+
+async function facebookSend(post, s, fetchFn) {
+  const f = await readSealed(META_FB, s);
+  if (!f || !f.token || f.lapsed) return { error: 'Facebook is not connected. Connect it on the Posts page, or post it by hand.' };
+  const link = socialLinks(post.text)[0];
+  let r;
+  try {
+    r = await fetchFn(FB_AT + '/' + f.page + '/feed', { ...form({ message: post.text, ...(link ? { link: link.href } : {}), access_token: f.token }), signal: AbortSignal.timeout(SOCIAL_WAIT) });
+  } catch (e) { return { unsure: 'Facebook did not answer, so the post may or may not be there.' }; }
+  if (!r.ok) return r.status >= 500 ? { unsure: `Facebook answered ${r.status}, so the post may or may not be there.` } : { error: `Facebook did not take it (it answered ${r.status}${await metaRefusal(r)}). Nothing was posted there.` };
+  const j = await metaJson(r);
+  const id = j && typeof j.id === 'string' && /^\d+_\d+$/.test(j.id) ? j.id : null;
+  return id ? { url: 'https://www.facebook.com/' + id } : { unsure: 'Facebook took it but did not say where it is. Look on our Page.' };
 }
 
 /* ── Stimpunks Social ─────────────────────────────────────────────────────

@@ -3919,14 +3919,71 @@
      in the browser. */
   var SEG = window.Intl && Intl.Segmenter ? new Intl.Segmenter(undefined, { granularity: 'grapheme' }) : null;
   function lengthOf(t) { return SEG ? Array.from(SEG.segment(t)).length : Array.from(t).length; }
-  function socialView() {
+  var META_BACK = {
+    connected: function (n) { return n + ' is connected. The office posts there now when it is ticked.'; },
+    'not-connected': function (n) { return n + ' was not connected. Nothing was changed; Connect tries again.'; },
+    account: function () { return 'That Threads account is not ours, so nothing was kept. Sign in to Threads as stimpunks, then Connect again.'; },
+    page: function () { return 'Facebook did not give the office our Page, so nothing was kept. Connect again, and choose the Stimpunks Page when Facebook asks which Pages.'; },
+  };
+  function socialView(back) {
     view.textContent = '';
     view.appendChild(quiet('Looking…'));
     return call('view=social').then(function (r) {
       if (r.status !== 200) return refused(r);
       took(r.body);
-      return drawSocial(r.body.social);
+      var h = drawSocial(r.body.social);
+      // Back from Threads or Facebook, the address says only how it went, and loses
+      // the network's query (its code, already used) here.
+      if (back && META_BACK[back.said]) say(META_BACK[back.said](back.network === 'threads' ? 'Threads' : 'Facebook'));
+      if (back) step.replace(location.pathname + '#/posts');
+      return h;
     });
+  }
+  /* Threads and our Facebook Page, connected through our Meta app: the office
+     posts to them while connected, and they are posted by hand otherwise. */
+  function metaPanel(so) {
+    var box = el('section', 'of-social-meta');
+    box.setAttribute('aria-labelledby', 'of-social-meta-h');
+    var h = el('h3', null, 'Threads and Facebook'); h.id = 'of-social-meta-h';
+    box.appendChild(h);
+    var ul = el('ul', 'of-theirs');
+    [['threads', 'Threads', 'our Threads account, stimpunks'], ['facebook', 'Facebook', 'our Facebook Page, Stimpunks']].forEach(function (x) {
+      var st = (so.meta || {})[x[0]] || {}, li = el('li');
+      li.appendChild(el('strong', null, x[1] + ': '));
+      if (!st.ready) li.appendChild(document.createTextNode('not set up yet: our Meta app’s id and secret are not in Netlify’s settings. Until then it is posted by hand.'));
+      else if (st.connected) li.appendChild(document.createTextNode('connected as ' + (st.as || x[2]) + (st.by ? ', by ' + st.by : '') + (st.since ? ', ' + when(st.since) : '') + '. The office posts there.'));
+      else li.appendChild(document.createTextNode((st.lapsed ? 'the connection has lapsed, so it is posted by hand until somebody connects it again. ' : 'not connected, so it is posted by hand. ') + 'Connect signs in as ' + x[2] + '.'));
+      if (st.ready) {
+        var b = el('button', 'cb-btn of-small', st.connected ? 'Disconnect ' + x[1] : 'Connect ' + x[1]); b.type = 'button';
+        b.addEventListener('click', function () {
+          b.disabled = true;
+          if (st.connected) {
+            sure(li, 'This deletes the office’s connection to ' + x[1] + '. Posts already made stay there.', 'Disconnect it', function (done) {
+              call(null, { action: 'meta-disconnect', network: x[0] }).then(function (r) {
+                done();
+                if (r.status !== 200) { b.disabled = false; say(why(r, 'That did not disconnect. Nothing was changed.')); return; }
+                say(x[1] + ' is disconnected.');
+                step.go('#/posts');
+                route();
+              });
+            }, b);
+            b.disabled = false;
+            return;
+          }
+          say('Opening ' + x[1] + '…');
+          call(null, { action: 'meta-connect', network: x[0] }).then(function (r) {
+            b.disabled = false;
+            if (r.status !== 200 || !r.body.go) { say(why(r, 'That could not start.')); return; }
+            location.href = r.body.go;
+          });
+        });
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(b);
+      }
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
+    return box;
   }
   var SOCIAL_WORDS = { posting: 'Posting…', posted: 'Posted', failed: 'Not posted', unsure: 'May or may not be there', hand: 'Waiting to be posted by hand', done: 'Posted by hand' };
   function andNames(list) { return andWords(list.map(function (n) { return n.name; })); }
@@ -3961,7 +4018,8 @@
     nets.forEach(function (n) { byKey[n.key] = n; });
     var auto = nets.filter(function (n) { return n.how === 'api'; }), hand = nets.filter(function (n) { return n.how === 'hand'; });
     view.appendChild(el('p', null, 'One post to our networks, in ' + so.max + ' characters or fewer, because Bluesky takes ' + so.max + ' and the others take more. '
-      + andNames(auto) + ' are posted by the office. ' + andNames(hand) + ' are posted by hand for now: the office copies the words and opens each one, and whoever posts there says so here.'));
+      + andNames(auto) + (auto.length > 1 ? ' are' : ' is') + ' posted by the office.' + (hand.length ? ' ' + andNames(hand) + (hand.length > 1 ? ' are' : ' is') + ' posted by hand: the office copies the words and opens each one, and whoever posts there says so here.' : '')));
+    view.appendChild(metaPanel(so));
 
     var form = el('form', 'of-form of-social');
     form.noValidate = true;
@@ -4164,7 +4222,7 @@
     else if (parts[0] === 'mailings' && parts[1] === 'new') done = newMailingView(hash);
     else if (parts[0] === 'mailings' && parts[1]) done = mailingView(parts[1], parts[2] === 'c' ? parts[3] : null);
     else if (parts[0] === 'mailings') done = mailingsView();
-    else if (parts[0] === 'posts') done = socialView();
+    else if (parts[0] === 'posts') done = socialView(parts[1] === 'meta' && parts[2] ? { network: parts[2], said: parts[3] || '' } : null);
     else if (parts[0] === 'contacts') done = contactsView();
     else done = dashboardView(null);
     // The bar says which part of the office you are in.
