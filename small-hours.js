@@ -163,9 +163,16 @@
     say(zone.name.charAt(0).toUpperCase() + zone.name.slice(1) + ', in ' + h.name + '.');
   }
 
+  // Where the press landed on the wax itself, by its own layout size, so the
+  // mark lands under the pointer however the placemat is turned (it lies on a
+  // booth table on Cel Street).
   function at(e) {
+    var H = W * wax.height / wax.width;
+    if (e.target === wax && typeof e.offsetX === 'number' && wax.clientWidth) {
+      return { x: e.offsetX / wax.clientWidth * W, y: e.offsetY / wax.clientHeight * H };
+    }
     var r = wax.getBoundingClientRect();
-    return { x: (e.clientX - r.left) / r.width * W, y: (e.clientY - r.top) / r.height * (W * wax.height / wax.width) };
+    return { x: (e.clientX - r.left) / r.width * W, y: (e.clientY - r.top) / r.height * H };
   }
 
   // COLOURING IN answers a click rather than a press, so a finger that lands
