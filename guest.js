@@ -355,23 +355,8 @@
       else if (li.offsetTop + li.offsetHeight > list.scrollTop + list.clientHeight)
         list.scrollTop = li.offsetTop + li.offsetHeight - list.clientHeight;
     }
-    /* While a call is open on this page (a public room's, as a guest), going
-       opens the room in a new tab, so the call stays up: the radio's rule
-       (callUp in cb.js, Ryan's ask, 2026-10-24). With no call up it goes. */
     function go(room) {
       if (!room) return;
-      var call = window.loveCall && window.loveCall.isOpen && window.loveCall.isOpen();
-      var u = null;
-      try { u = new URL(room.path, location.href); } catch (e) { u = null; }
-      if (call && u && (u.pathname !== location.pathname || u.search !== location.search)) {
-        var t = null;
-        try { t = window.open(u.href, '_blank'); } catch (e) { t = null; }
-        if (t) { try { t.opener = null; } catch (e) { /* the browser decides */ } }
-        tpSaid.textContent = t
-          ? room.name + ' opened in a new tab, so your call stays up here.'
-          : 'Your browser would not open a new tab, so you are still here and so is your call. Leave the call first to go.';
-        return;
-      }
       setTp(false);
       location.href = room.path;
     }

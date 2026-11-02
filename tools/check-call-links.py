@@ -8,8 +8,9 @@ Ryan's choice, from two ways of fixing it, was both of these:
   · WHILE A CALL IS UP IN THE PAGE, ANYTHING IN THE RADIO THAT WOULD LEAVE THE
     PAGE OPENS IN A NEW TAB, AND SAYS SO. Links in the radio (the channel, a
     conversation, a profile, Who's online, Unreads), the teleporter and Take
-    to the forums all go through callUp and leavesPage in cb.js, and the guest
-    bar's teleporter does the same for a guest in a public room's call. With
+    to the forums all go through callUp and leavesPage in cb.js. (The guest
+    bar's teleporter did the same for a guest in a call until guests went,
+    2026-11-01.) With
     no call up they walk you as they always have: the friendly edit is a new
     tab for every link, which piles up tabs, each with its own radio, for
     everybody who was never in a call.
@@ -58,7 +59,6 @@ def fn(src, name, where):
 def main():
     call = uncomment((ROOT / "call.js").read_text())
     cb = uncomment((ROOT / "cb.js").read_text())
-    guest = uncomment((ROOT / "guest.js").read_text())
 
     # Leave site?, in call.js and only while a call is up in a page.
     guarding = fn(call, "guarding", "call.js")
@@ -103,14 +103,6 @@ def main():
                          ("me.tabTold(goStreet(u.href), a);", "the radio's own window")):
         if needle not in cb:
             refuse(f"{what} no longer goes through the call's rule and says where it went.")
-
-    # The guest bar's teleporter, for a guest in a public room's call.
-    g = re.search(r"function go\(room\) \{.*?\n    \}", guest, re.S)
-    g = g.group(0) if g else ""
-    # Its first version only looked for the words isOpen(), and passed a go() that never asked them.
-    if "if (call && u && (u.pathname !== location.pathname || u.search !== location.search))" not in g \
-            or "window.loveCall.isOpen()" not in g or "window.open(u.href, '_blank')" not in g or "tpSaid.textContent" not in g:
-        refuse("The guest bar's teleporter takes away a page a call is up in, or no longer says where it went.")
 
     try:
         lh = json.loads((ROOT / "site.webmanifest").read_text()).get("launch_handler") or {}

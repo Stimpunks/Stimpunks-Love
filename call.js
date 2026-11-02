@@ -3,16 +3,15 @@
 
    ITS OWN FILE, SO A GUEST CAN HAVE A CALL WITHOUT THE RADIO. Nobody who has
    not signed on to the CB ever downloads cb.js, and Cavendish Coworking's
-   public rooms are for people who have not (Ryan, 2026-09-28). So the call
-   window lives here: the radio loads this file and opens its room's call with
-   it, and a public room's own page loads it and opens a call for a guest.
+   rooms open their calls from the page (callroom.js). So the call window
+   lives here: the radio loads this file and opens its room's call with it,
+   and a room's own call panel loads it and opens the same call.
    The Mover is here too, because the radio and the call move the same way
    and must not become two copies.
 
-   It asks this site's /cb/call for the address to frame: with the CB pass if
-   this browser has one (read from love-cb, never written: signing on is the
-   radio's job), or with the name a guest typed, which /cb/call only accepts
-   for a public room. The frame is built by love-embed.js, the only thing here
+   It asks this site's /cb/call for the address to frame, with the CB pass
+   (read from love-cb, never written: signing on is the radio's job): since
+   2026-11-01 there are no guests, so no pass, no call. The frame is built by love-embed.js, the only thing here
    that builds one, loaded if the page has not already got it. Nothing about a
    call is kept, in this browser or anywhere of ours. Nothing moves.
 
@@ -686,8 +685,7 @@
   }
 
   /* Open a room's call. room is {tag, name}, and a call that is no one room's,
-     the World call, brings its own title as well; opts.guest is the name a guest
-     typed, for a public room with no CB pass; opts.left runs after the call
+     the World call, brings its own title as well; opts.left runs after the call
      is left, so whatever opened it can take the keyboard back. It answers
      with {ok, said, status}: said is a sentence for the opener to show. */
   function open(room, opts) {
@@ -700,7 +698,6 @@
     if (pass) headers.authorization = 'Bearer ' + pass;
     // A conversation's call asks by who it is with; the server names it (dmCallFor).
     var b = room.with ? { with: room.with } : { room: room.tag };
-    if (!pass && opts.guest) b.name = opts.guest;
     return fetch('/cb/call', { method: 'POST', headers: headers, body: JSON.stringify(b), credentials: 'omit', cache: 'no-store' })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (body) { return { status: r.status, body: body }; }); })
       .then(function (r) {
@@ -722,7 +719,7 @@
             leave('switch');
             current = callWindow(room, frame, leave, {
               whole: !!opts.whole,
-              // Signed on only: the window asks with the pass, and a guest has none.
+              // The window asks with the pass.
               // A conversation's call has no name a window could ask for again.
               pop: pass && !opts.whole && line && !room.with ? function () { return popOut(room); } : null
             });

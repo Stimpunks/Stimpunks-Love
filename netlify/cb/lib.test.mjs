@@ -36,7 +36,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH,
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
-  PUBLIC_CALLS, publicCall, callSettings, WORLD_CALL, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
+  callSettings, WORLD_CALL, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
   ROLES, foldHandle, readMods, signOn, readPass, rolesOf, STARTER_GONE, PASS_LIFE, PASS_RENEW, signOffEverywhere, passesOn, checkHandle, checkInvite, joinAccount, HELD,
   makeInvite, listInvites, deleteInvite, readInvites, INVITE_USES, INVITE_DAYS, INVITE_KEEP, makeInviteCode,
   emailOn, cleanAddress, accountEmail, setAccountEmail, mailResetCode, ACCT_MAIL_FOR, ACCT_MAIL_GAP, ACCT_MAIL_SUBJECT,
@@ -1526,9 +1526,8 @@ test('only the base moderates a room\'s call, records or transcribes; nobody str
   for (const f of ['livestreaming', 'outbound-call', 'inbound-call', 'sip-outbound-call', 'sip-inbound-call']) {
     assert.equal(mobile.features[f], false); assert.equal(base.features[f], false);
   }
-  const guest = open(callToken({ role: 'guest', handle: 'Visitor' }, PUBLIC_CALLS[0], Date.now(), key)).body.context;
-  for (const who of [mobile, base, guest]) assert.equal(who.features['file-upload'], true, 'everybody in a call can share a file');
-  assert.equal(guest.features.recording, false, 'sharing a file is not recording');
+  for (const who of [mobile, base]) assert.equal(who.features['file-upload'], true, 'everybody in a call can share a file');
+  assert.equal(mobile.features.recording, false, 'sharing a file is not recording');
   assert.notEqual(mobile.user.id, base.user.id, 'the same handle as base is a different person to 8x8');
   assert.equal(who('mobile').user.id, mobile.user.id, 'the same person is one id every time');
 });
@@ -1550,11 +1549,9 @@ test('no key, no calls; and the address arrives muted on the pre-join screen', (
     assert.ok(src.includes('config.' + c), c);
   // Jitsi's shared video is !disableThirdPartyRequests and nothing else.
   assert.ok(!src.includes('disableThirdPartyRequests'), 'shared video needs this off');
-  // Jitsi's own chat is off in a members' call, where the channel is its chat,
-  // and on in a public call, where a guest has no radio.
-  assert.ok(src.includes('config.disableChat=true'), 'a members-only call has no Jitsi chat');
-  assert.ok(callSrc('dmcall-abc', 'TOKEN').includes('config.disableChat=true'), 'nor does a conversation\'s call');
-  assert.ok(!callSrc(PUBLIC_CALLS[0], 'TOKEN').includes('disableChat'), 'a public call keeps it, for guests');
+  // Jitsi's own chat is off in every call, where the channel is its chat (2026-11-01).
+  for (const tag of ['the-den', 'dmcall-abc', 'cavendish-events', 'cavendish-operations', 'cavendish-editorial', WORLD_CALL])
+    assert.ok(callSrc(tag, 'TOKEN').includes('config.disableChat=true'), `${tag}: no Jitsi chat`);
 });
 
 test('a key pasted with its line breaks turned to spaces, or to \\n, still signs', () => {
@@ -1574,47 +1571,23 @@ test('a key pasted with its line breaks turned to spaces, or to \\n, still signs
   }
 });
 
-test('a guest gets a token for a public call only, and never as a moderator', () => {
+/* Ryan's call, 2026-11-01: no guests. Nobody without a pass gets a token, the
+   three Cavendish calls that took guests are calls like any room's, the base
+   alone moderates them, and no meeting starts with a lobby. */
+test('there are no guests: no pass, no call, and the Cavendish calls are like any room\'s', () => {
   const guest = { role: 'guest', handle: 'Visitor' };
-  for (const room of PUBLIC_CALLS) {
-    const t = open(callToken(guest, room, Date.now(), key));
-    assert.equal(t.ok, true);
-    assert.equal(t.body.room, 'stimpunks-' + room);
-    assert.equal(t.body.context.user.moderator, 'false');
-    assert.equal(t.body.context.features.recording, false);
-    assert.equal(t.body.context.features.transcription, false);
-  }
-  assert.equal(callToken(guest, 'the-den', Date.now(), key), null, 'not a room of the CB\'s');
-  assert.equal(publicCall('the-den'), null);
-  const base = open(callToken({ role: 'base', handle: 'Mod' }, PUBLIC_CALLS[0], Date.now(), key)).body.context.user;
-  assert.equal(base.moderator, 'true', 'the base moderates the public calls too');
-});
-
-/* Ryan's call, 2026-10-24: in the public calls only guests knock. 8x8 lets
-   nobody but a moderator past the lobby, so every account is one there, and
-   only there, and gets no recording or transcription for it. */
-test('every account moderates the public calls, and only those, so only guests wait in the lobby', () => {
   const member = { role: 'mobile', handle: 'Ada', roles: new Set(), account: true };
-  for (const room of PUBLIC_CALLS) {
+  for (const room of ['cavendish-events', 'cavendish-operations', 'cavendish-editorial', 'the-den', WORLD_CALL]) {
+    assert.equal(callToken(guest, room, Date.now(), key), null, `${room}: no guest token`);
     const c = open(callToken(member, room, Date.now(), key)).body.context;
-    assert.equal(c.user.moderator, 'true', `${room}: an account walks straight in`);
-    assert.equal(c.features.recording, false, 'moderating is not recording');
-    assert.equal(c.features.transcription, false, 'or transcribing');
+    assert.equal(c.user.moderator, 'false', `${room}: an account joins as itself, not a moderator`);
+    assert.equal(c.features.recording, false);
   }
-  for (const room of ['the-den', WORLD_CALL])
-    assert.equal(open(callToken(member, room, Date.now(), key)).body.context.user.moderator, 'false', `${room}: still the base's to moderate`);
-  const noAccount = { role: 'mobile', handle: 'Ada', roles: new Set() };
-  assert.equal(open(callToken(noAccount, PUBLIC_CALLS[0], Date.now(), key)).body.context.user.moderator, 'false', 'no account, no moderator');
-  const guest = { role: 'guest', handle: 'Ada', account: true };
-  assert.equal(open(callToken(guest, PUBLIC_CALLS[0], Date.now(), key)).body.context.user.moderator, 'false', 'a guest knocks, whatever it carries');
-});
-
-test('the settings webhook puts a lobby on the public calls and only them', () => {
-  for (const room of PUBLIC_CALLS)
-    assert.deepEqual(callSettings(`${JAAS_APP}/stimpunks-${room}`), { lobbyEnabled: true, lobbyType: 'WAIT_FOR_APPROVAL' });
-  assert.deepEqual(callSettings(`${JAAS_APP}/stimpunks-the-den`), { lobbyEnabled: false });
-  assert.deepEqual(callSettings(`somebody-else/stimpunks-${PUBLIC_CALLS[0]}`), { lobbyEnabled: false }, 'another App ID');
-  for (const bad of [undefined, '', 'nonsense', `${JAAS_APP}/${PUBLIC_CALLS[0]}`]) assert.deepEqual(callSettings(bad), { lobbyEnabled: false });
+  const base = open(callToken({ role: 'base', handle: 'Mod' }, 'cavendish-events', Date.now(), key)).body.context.user;
+  assert.equal(base.moderator, 'true', 'the base moderates them, as every call');
+  assert.equal(callToken(null, 'the-den', Date.now(), key), null);
+  for (const fqn of [`${JAAS_APP}/stimpunks-cavendish-events`, `${JAAS_APP}/stimpunks-the-den`, undefined])
+    assert.deepEqual(callSettings(fqn), { lobbyEnabled: false }, 'no meeting starts with a lobby');
 });
 
 /* ── The Town Hall's private rooms, and the mods' list ── */
@@ -1639,7 +1612,6 @@ test('each private room takes its own role, an administrator takes them all, and
     assert.equal(roomAllows(ada, room), false, 'a community pass is not enough');
     assert.equal(roomAllows({ role: 'base', handle: 'Old' }, room), false, 'a base pass with no roles read is not enough');
     assert.equal(roomAllows(null, room), false);
-    assert.equal(publicCall(room), null, 'no private room is a public call');
     assert.equal(callToken(ada, room, Date.now(), key), null);
   }
   assert.equal(open(callToken(director, 'town-hall-board', Date.now(), key)).body.room, 'stimpunks-town-hall-board', 'directors join board meetings');

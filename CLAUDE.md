@@ -805,9 +805,9 @@ the browser for the devices so it can show a preview, and that is 8x8's, not a f
 room, and the tool writes its generated parts, meaning its words, light list or norms, call
 panel and credits, from the same data the door is built from. Each room dresses those parts in its
 own §-section under its own `prefix`, the job marker's rule: shared markup shape, no shared look.
-`callroom.js` finds a call panel by its `data-call*` attributes and decides between signed on,
-guest and CB-only. The tool reads which rooms are public from `PUBLIC_CALLS` in `lib.mjs`, and
-refuses a door with no room, any Proton link, a room with no way back through its door, and a
+`callroom.js` finds a call panel by its `data-call*` attributes and decides between signed on and
+not. The tool refuses a door with no room, a call panel offering a guest a way in (there are none,
+below), any Proton link, a room with no way back through its door, and a
 call panel naming another room. **The Events Room (§71) is a lighthouse's watch room lit by one
 column from the hatch, the Operations Room (§72) is a plant room under one caged lamp whose
 cage stripes everything, the Editorial Room (§73) is a light table in a dark studio, the proofs
@@ -833,17 +833,16 @@ asked by `/cb/here` from inside `listen()` and nowhere else, and **it was one sw
 radio that is not seen was told nothing, until Who's online (below). **Handles only, alphabetical, and no number** (Ryan's call:
 the no-headcount rule holds). **Remembered in `love-cb` as `seen`** once pressed, which reverses the
 Slake's never-remembered rule for rooms only, Ryan's call. **Who is in a room's call is JaaS's
-participant webhook** (`/cb/call-events`, `callEvent`), so it is everybody in it, guests included,
+participant webhook** (`/cb/call-events`, `callEvent`), so it is everybody in it,
 Ryan's call over showing only the people who chose to be seen; it is shown only to a radio seen in
 that room, and `roomAllows()` guards both halves in the base's rooms. The webhook needs
 `CB_JAAS_EVENTS_SECRET` (the endpoint's secret as the console shows it, `whsec_` and all) and
 refuses everything without a good `X-Jaas-Signature`; `jaasSigned` is tested against 8x8's own
 worked example. It keeps a name, a moderator flag, a time and a hashed id per person and **never the
 email 8x8 sends**. **The call line only appears once the server says 8x8 is telling it
-(`callHeard`)**, so an empty list is never a guess. The public calls' notice says a guest's name is
-shown, because it is generated in `make-coworking.py`. **The room's own call panel says who is in the call
+(`callHeard`)**, so an empty list is never a guess. **The room's own call panel says who is in the call
 too**, in a `[data-call-who]` line both generators write, hidden until `cb.js` fills it from the same
-answer under the same rule; the room dresses it, and a guest with no radio never sees it. **The call window has the same line**, under its bar and
+answer under the same rule; the room dresses it. **The call window has the same line**, under its bar and
 above 8x8's Join button, which we cannot write into: `call.js` builds it hidden and exposes it as
 `loveCall.whoLine(tag)`, and never asks for the list itself.
 
@@ -912,7 +911,7 @@ the chat status's settled call, and the fifth puts a second set of coloured badg
 that goes takes its call, so a #tag on the channel hung up the call you were in. **While a call is open in the page,
 anything in the radio that would leave it opens in a new tab and says so** (`callUp`, `leavesPage`, `goPage` and
 `tabTold` in `cb.js`: a link anywhere in the radio's shadow root, the teleporter, Take to the forums, and from the radio's
-own window the page it came from), and the guest bar's teleporter does the same for a guest; **every other way off the
+own window the page it came from); **every other way off the
 page asks the browser's Leave site? first** (`guarding` in `call.js`, listened for only between a call opening in a page
 and its leaving, never in the call's own window, because a page that listens for leaving is kept out of the
 back-forward cache). A link that stays on the page is not leaving. **In Chrome's installed app that new tab is captured into the app** (Chrome 151 on captures a
@@ -1029,22 +1028,19 @@ bar's Fold away, which the docked pages hide. The friendly edits are folding the
 room", which leaves a radio that looks broken and a live region nobody hears, and a per-person order of the
 parts, which reverses Ryan's order of 2026-10-23 and is his call.
 
-**A call's window and the `Mover` live in `call.js`, not `cb.js`**, because a public room's guest
-must never download the radio. `cb.js` loads `call.js` before it builds the radio. `call.js` reads
-the `love-cb` pass and never writes it. `/cb/call` signs a guest token, never a moderator, only for
-`PUBLIC_CALLS` in `lib.mjs`, and only under a name the guest typed. `/cb/call-settings` is JaaS's
-SETTINGS_PROVISIONING webhook: it answers lobby on, `WAIT_FOR_APPROVAL`, for exactly those rooms.
-It does nothing until it is registered in the JaaS console, and until then a guest walks straight
-in. **Since 2026-10-24 every account joins those three calls as a moderator, so only guests knock**
-(Ryan's call, reversing the base as the only moderator there): 8x8 lets nobody but a moderator past
-its lobby, with no bypass claim in the token and no such setting in the webhook (read in 8x8's docs
-that day), so `callToken` makes `moderator` true for an account in a `PUBLIC_CALLS` room and nowhere
-else. They can let guests in, mute or remove people, end the meeting and switch its lobby off;
-recording and transcription stay the base's. The friendly edit is an account that is not a moderator
-there "so nobody can end the meeting", which puts every member back in the lobby. **The radio and the call move with one `Mover`** in `call.js`: drag the bar, or Move plus the
+**A call's window and the `Mover` live in `call.js`, not `cb.js`**, which loads `call.js` before it
+builds the radio. `call.js` reads the `love-cb` pass and never writes it. **EVERY CALL IS FOR PEOPLE
+SIGNED ON TO THE CB, AND THERE ARE NO GUESTS** (Ryan's call, 2026-11-01: "We haven't needed the guest
+access. Removing it simplifies things."): `callToken` refuses anybody without a pass, the Cavendish
+meetings' calls are like any room's, the base is the only moderator anywhere (which reverses
+2026-10-24's every account a moderator in those three, a step only the lobby needed), and
+`callSettings` answers lobby off for everything. `/cb/call-settings` is JaaS's SETTINGS_PROVISIONING
+webhook and can go once it is removed in the JaaS console. `make-coworking.py` refuses a call panel
+that offers a guest a way in. The friendly edit is a guest link "for one visitor", which is the
+name typed in a box, a lobby and somebody watching it, all back for one afternoon. **The radio and the call move with one `Mover`** in `call.js`: drag the bar, or Move plus the
 arrows, with Home back to the corner. Do not give either window its own copy. Anything that changes
 a window's size places it again at once, as well as through the `ResizeObserver`, because a hidden
-tab never delivers that. **Everybody in a call may share a file** (`'file-upload': true` in `callToken`, guests included; Ryan's call, 2026-09-29): it goes to 8x8 and never to us, and the privacy page says 8x8 publishes no retention for it. **Downloading one needs `blob:` in `frame-src`**: Jitsi saves a file through a `blob:` link inside its frame, Firefox and Safari check that against our page's `frame-src`, and without it the download was refused without a word while Chrome, which does not ask, saved it. It is in `make-csp.py` beside its reason; it admits no origin. **THE CB'S CHANNEL TAKES PICTURES, AND THEY ARE THE CHANNEL'S, NOT THE STREET'S** (Ryan, 2026-09-29): none of the street's photograph rules apply, because they never go onto a page. What does apply: a picture is part of its message and is deleted when the message goes (`droppedImages` in transmit and moderate, `sweepImages` hourly, an unsent upload within the hour); `redraw()` in `cb.js` re-encodes it on a canvas before it leaves the browser, and `putImage` refuses a file still carrying Exif, XMP, a Photoshop/IPTC block or PNG text chunks, because GPS in a photo from home is the sender's address; **WebKit's canvas writes an Exif and a Photoshop block of its own** (every iPhone browser and Safari: the server refused every iPhone picture until 2026-10-18), so `bare()` keeps only the blocks a JPEG needs to be drawn, measured in a WKWebView; it has no public URL (fetched from `/cb/image` with the pass, shown as a `blob:`, which is the one thing `img-src` adds); and it is bound to its room by `roomAllows`. A description is offered and never required. SVG is refused, because it can carry script. **Shared video in a call is Jitsi's `!disableThirdPartyRequests` and nothing else**, so that
+tab never delivers that. **Everybody in a call may share a file** (`'file-upload': true` in `callToken`; Ryan's call, 2026-09-29): it goes to 8x8 and never to us, and the privacy page says 8x8 publishes no retention for it. **Downloading one needs `blob:` in `frame-src`**: Jitsi saves a file through a `blob:` link inside its frame, Firefox and Safari check that against our page's `frame-src`, and without it the download was refused without a word while Chrome, which does not ask, saved it. It is in `make-csp.py` beside its reason; it admits no origin. **THE CB'S CHANNEL TAKES PICTURES, AND THEY ARE THE CHANNEL'S, NOT THE STREET'S** (Ryan, 2026-09-29): none of the street's photograph rules apply, because they never go onto a page. What does apply: a picture is part of its message and is deleted when the message goes (`droppedImages` in transmit and moderate, `sweepImages` hourly, an unsent upload within the hour); `redraw()` in `cb.js` re-encodes it on a canvas before it leaves the browser, and `putImage` refuses a file still carrying Exif, XMP, a Photoshop/IPTC block or PNG text chunks, because GPS in a photo from home is the sender's address; **WebKit's canvas writes an Exif and a Photoshop block of its own** (every iPhone browser and Safari: the server refused every iPhone picture until 2026-10-18), so `bare()` keeps only the blocks a JPEG needs to be drawn, measured in a WKWebView; it has no public URL (fetched from `/cb/image` with the pass, shown as a `blob:`, which is the one thing `img-src` adds); and it is bound to its room by `roomAllows`. A description is offered and never required. SVG is refused, because it can carry script. **Shared video in a call is Jitsi's `!disableThirdPartyRequests` and nothing else**, so that
 switch must stay off. It also gates analytics, gravatar and Giphy, and `callSrc` turns those off
 by name; all four keys are on Jitsi's `configWhitelist`, and a key that isn't there does nothing
 from an address. **8x8's
@@ -4414,11 +4410,11 @@ channel (`setSide`, which `appTo` and `reveal()` turn too), kept nowhere. Enlarg
 window. The friendly edit is both columns stacked beside the call "so nothing needs switching", which leaves the
 messages half a column. **Join the call also stands beside the name** (`headCall`, the same day, after Element's): beside the
 channel's name on the chat page (`chanTop`) and the room's under Where you are, pressing the room's own Join or the World
-call's (`callShown` keeps it in step), so it adds no way into a call. **Jitsi's own chat is off in every call but `PUBLIC_CALLS`**
+call's (`callShown` keeps it in step), so it adds no way into a call. **Jitsi's own chat is off in every call**
 (`disableChat` in `callSrc`, Ryan's call the same day, after asking whether Jitsi's chat could take Markdown, editing,
 emoji or pictures: it cannot, on JaaS): the channel is the call's chat, and `privacy.html#call-chat` says what is typed
-there is now kept as the channel keeps it. The friendly edit is turning it off in the public calls too, where a guest has
-no radio. **A watch together in a room has its controls under the room's screen, and a call on a wide window stands
+there is now kept as the channel keeps it; the three public calls kept it until guests went (2026-11-01). The friendly
+edit is turning it back on "for people who cannot see the radio", which puts what is typed in a call at 8x8. **A watch together in a room has its controls under the room's screen, and a call on a wide window stands
 there too** (Ryan's ask, 2026-11-01, from a screenshot of a film, a call and the radio all going): `under`,
 `screenStrip` and `lineCall` in `cb.js` put one shadow host (`cb-under-host`, the radio's clothes) after the page's
 first screen (`screenAnchor`: straight after a rack's screen, above its now-showing line and way back, so the call is
@@ -4818,7 +4814,7 @@ everybody's listen**, which are filtered so a film hosted in the board room is n
 street. `lib.test.mjs` races it and was broken on purpose. `data-cb="mods"` on a page's `<body>`
 stops `love.js` loading the radio for anybody whose stored pass is not the base's, and `cb.js`
 checks again, but **that is the page keeping quiet, not the lock**: never move the gate into the
-client. `tools/make-town-hall.py` reads `MOD_ROOMS` and `PUBLIC_CALLS` and refuses a room whose
+client. `tools/make-town-hall.py` reads `MOD_ROOMS` and refuses a room whose
 `for` disagrees, a private page without `data-cb="mods"`, and a call panel without
 `data-call-mods`, which `callroom.js` reads, and a room page that does not say Ryan's own line for it. **Tasks and the Office are in `MOD_ROOMS` too** (Ryan's ask, 2026-10-26, for their channels under Staff on the chat page), taking exactly `TASK_SEE`'s roles, never strict, their pages saying `data-cb="mods"` with those roles: `make-tasks.py` holds that, and `make-town-hall.py` lets those two names through. The friendly edit is a channel for them open to everybody signed on, which is what they were until then. **The Fishbowl (§78) is a glass bowl of water on a sunny sill**, the one room lit by refraction: the sun bent through the water into bright lines, dark ink on the pale water, and a ring of stones inside with one gap kept open; its collisions are in its section. **The Directors' room (§79) is lit only through the frosted pane in its door**, soft and edgeless, the name backwards on the glass; it lists the directors off stimpunks.org/about/ in that page's order and titles, from `people` in `data/town-hall.json`, and the tool refuses an anchor the mirror's About page no longer has. **The Board room (§80) is one long table with the same lamp at every seat**, the Collection Collection's rule inverted on purpose: there no two lamps may be alike, here none may differ. It lists the board off the Board & Governance page, and carries the Governance & Ethics section of the Accountability page **word for word, from `governance` in the data**, every sentence and link looked for in the mirror's section on every build. **When that page changes, re-copy the section; never loosen the check.** A link on it that goes nowhere is left off with a note, not repointed by guess. **The Moderators' room (§81) is above the street at night, lit only by the shopfronts' colours on its ceiling**, side by side and never mixed, which is what holds it off the Repeater's blended skyglow; the radio on its desk is drawn off. **ROLES ARE BUILT, AND THE LIST IS NOT IN THIS REPO.** `CB_MODS` in Netlify's environment is JSON,
 handle to roles (`moderator` implied; `board`, `director`, `administrator`); `readMods()` reads it on
@@ -5846,8 +5842,8 @@ events page's own closing line (*open to Stimpunks Discord community members*), 
 this room and is the friendly edit that will arrive. **The Events door opens the room our recurring
 events meet in**, confirmed by Ryan. **Since 2026-10-23 stimpunks.org's event pages name Stimpunks.World and
 no longer Discord** (Ryan's ask): the recurring events point to the Events Room and the meetings to the
-Operations and Editorial Rooms, still for community members, Ryan's call, though their calls take a guest
-through the lobby. None of the lines this tool copies onto the doors changed. **The Hang Suites upstairs are
+Operations and Editorial Rooms, still for community members, Ryan's call, and since 2026-11-01 their calls are
+for people on the CB like every other. None of the lines this tool copies onto the doors changed. **The Hang Suites upstairs are
 Ryan's words** (Cave, Campfire, Watering Hole, each with its norms), not the events page's, so they are
 not re-read against it; the tool refuses a suite with hours (that is a meeting), one with no norms, and
 the section without David Thornburg's name, because caves, campfires and watering holes are his.
@@ -7124,7 +7120,7 @@ list, so #tags, the teleporter, Who's online and Unreads name a category only to
 carries its own `place` for `cb-sw.js`; the World room folds a category's people, call and latest message into The
 forums' line; and a category's room cannot be a profile's favourite room. Its address already has a fragment, so a room
 link to it carries no `#spot=` (`roomHref`). **`tools/make-forum.py` holds it**: the prefix and the name the same in
-`lib.mjs`, `cb.js` and `forum.js`; no page, `MOD_ROOMS`, `QUIET_ROOMS`, `PEBBLE_ROOMS` or `PUBLIC_CALLS` name shaped like
+`lib.mjs`, `cb.js` and `forum.js`; no page, `MOD_ROOMS`, `QUIET_ROOMS` or `PEBBLE_ROOMS` name shaped like
 a category's room; and a category's `as` (Directors, Board) taking exactly its Town Hall room's roles and strictness, so
 those two lists cannot drift. **The friendly edits are category rooms in `cb-rooms.json`** "so the teleporter lists
 them for everybody", which names a staff category to the whole street, **a public category's channel open to an

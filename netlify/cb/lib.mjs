@@ -82,26 +82,17 @@
        JaaS lets nobody in without a token signed with our private key, so
        this signs one for a signed-on handle and one room, and nothing else:
        the handle as the name shown in the call, a stable id made from it so
-       8x8 does not count one person twice, moderator only for the base (and
-       for every account in the three public calls, below), and recording and
-       transcription only for the base, who is who starts them.
+       8x8 does not count one person twice, moderator only for the base, and
+       recording and transcription only for the base, who is who starts them.
        We keep nothing about a call. What 8x8 keeps is 8x8's, and
        privacy.html says so and links its policy.
-     · THREE CALLS ARE PUBLIC, AND THE LOBBY IS WHAT KEEPS THEM SAFE. Ryan,
-       2026-09-28: Cavendish Coworking's Events, Operations and Editorial rooms
-       are open to the world, as our meetings always were, so /cb/call signs a
-       GUEST token for those three and no others, for a name the guest typed:
-       never a moderator, never recording or transcribing. JaaS asks our
-       settings webhook before each meeting, and for those three we answer
-       with the lobby on, so a guest knocks and waits for a moderator, which
-       keeps strangers and bots out of the room and off our monthly-user bill.
-       SINCE 2026-10-24 ANYBODY WITH AN ACCOUNT WALKS STRAIGHT IN, AS A
-       MODERATOR. Ryan's call: only guests knock. 8x8 lets nobody but a
-       moderator past the lobby (no claim in the token, no setting in the
-       webhook), so in those three calls every account is a moderator, and
-       can let guests in, mute or remove people, end the meeting for
-       everybody and switch the lobby off; recording and transcription stay
-       the base's. Every other room's call is unchanged.
+     · EVERY CALL IS FOR PEOPLE SIGNED ON TO THE CB, AND THERE ARE NO GUESTS.
+       Ryan's call, 2026-11-01, reversing 2026-09-28's three public calls:
+       Cavendish Coworking's Events, Operations and Editorial rooms took a
+       guest who typed a name, through a lobby only guests waited in, with
+       every account a moderator there so it could let them in. Nobody needed
+       it, so /cb/call signs a token only for a pass, a lobby is never asked
+       for, and those three are calls like every other room's.
      · A USERNAME CAN BE CLAIMED, AND THAT IS THE ONLY ACCOUNT; A MODERATOR
        CAN CLAIM THEIRS TOO, AND KEEPS THEIR ROLES FROM THE LIST. Ryan's calls,
        2026-09-30: from Profile on the radio, with a password of your own and
@@ -3779,8 +3770,8 @@ export async function forgetAvailability(pk, s = store()) {
 /* ── Who is in a room's call ─────────────────────────────────────────── */
 
 /* EVERYBODY IN A CALL, FROM 8x8. Ryan's call, 2026-09-29: who is in a room's
-   call is told by JaaS's participant webhook, so it is everybody in it, guests
-   included, and not only people who pressed Be seen here. It is shown only to a
+   call is told by JaaS's participant webhook, so it is everybody in it, and not
+   only people who pressed Be seen here. It is shown only to a
    radio that is seen in that room (the one switch, both ways) and that the
    room lets in, and it is names only, alphabetical, with no number.
 
@@ -5867,29 +5858,19 @@ export const callRoom = (tag) => `stimpunks-${tag}`;
    any room with Join World call on the radio, as the World channel is heard
    from any room. It is a call like a room's in every way, under this name,
    which is why no page may ever be called world.html: make-sitemap.py refuses
-   one, and refuses cb.js's copy of this name if it ever differs. Not public:
-   a guest with no CB pass gets no token for it (publicCall), and nobody is
+   one, and refuses cb.js's copy of this name if it ever differs. Nobody is
    shown who is in it before they join; Who's online names it while somebody
    is (callsOn). */
 export const WORLD_CALL = 'world';
 
-/* The only calls a guest with no CB pass can get a token for. Each is a page
-   on the street, by its filename, and each one's meeting starts with the lobby
-   on (callSettings), which only guests wait in, because every account joins
-   these as a moderator (callToken). Add a room here and it is open to the
-   world, and every account moderates it. */
-export const PUBLIC_CALLS = ['cavendish-events', 'cavendish-operations', 'cavendish-editorial'];
-export function publicCall(tag) { return PUBLIC_CALLS.includes(tag) ? tag : null; }
-
 /* JaaS's SETTINGS_PROVISIONING webhook: asked before every meeting, with the
-   meeting's "AppID/roomName". A public call starts with the lobby on and every
-   non-moderator knocking, which there means every guest; every other call
-   starts without one, because only people signed on to the CB can get into
-   those at all. */
-export function callSettings(fqn) {
-  const m = /^([^/]+)\/stimpunks-([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(String(fqn || ''));
-  if (!m || m[1] !== JAAS_APP) return { lobbyEnabled: false };
-  return publicCall(m[2]) ? { lobbyEnabled: true, lobbyType: 'WAIT_FOR_APPROVAL' } : { lobbyEnabled: false };
+   meeting's "AppID/roomName". Since 2026-11-01 there are no guests, so no
+   meeting starts with a lobby: only people signed on to the CB can get into a
+   call at all. It answers until the webhook is taken off in the JaaS console,
+   because a meeting whose webhook fails may not start; then this and
+   cb-call-settings.mjs can go. */
+export function callSettings() {
+  return { lobbyEnabled: false };
 }
 
 /* A PASTED KEY LOSES ITS LINE BREAKS, and Node will not read a PEM without
@@ -5922,21 +5903,16 @@ export function callsReady() { return !!jaasKey(); }
    nothing a name in the call does not already say. */
 export function callToken(who, tag, now = Date.now(), key = jaasKey(), opts = {}) {
   if (!key) return null;
-  // A call between two people: only with a name dmCallFor made, never a guest,
-  // nobody moderates it and nobody records it.
+  // Every call is for a pass: there are no guests (2026-11-01).
+  if (!who || !who.handle || who.role === 'guest') return null;
+  // A call between two people: only with a name dmCallFor made, and nobody
+  // moderates it and nobody records it.
   const dm = opts.dm === true;
-  if (dm && (!dmCallTag(tag) || who.role === 'guest')) return null;
-  // A guest (role 'guest') is somebody with no CB pass in a public call: the
-  // same token as a participant's, and never the base's.
-  if (who.role === 'guest' && !publicCall(tag)) return null;
+  if (dm && !dmCallTag(tag)) return null;
   // A private room's call is the base's, whatever else asks for it.
   if (!dm && !roomAllows(who, tag)) return null;
   const base = who.role === 'base' && !dm;
-  // THE LOBBY IS FOR GUESTS. Ryan's call, 2026-10-24: anybody with an account
-  // comes straight into the public calls, and 8x8 lets only a moderator past
-  // its lobby, so in those three every account is one. It moderates, and no
-  // more: recording and transcription stay the base's.
-  const moderator = base || (!!publicCall(tag) && who.role !== 'guest' && who.account === true);
+  const moderator = base;
   const t = Math.floor(now / 1000);
   const header = { alg: 'RS256', typ: 'JWT', kid: key.kid };
   const payload = {
@@ -5952,9 +5928,9 @@ export function callToken(who, tag, now = Date.now(), key = jaasKey(), opts = {}
         recording: base, transcription: base,
         livestreaming: false, 'outbound-call': false, 'inbound-call': false,
         'sip-outbound-call': false, 'sip-inbound-call': false,
-        // Sharing a file in the call is for everybody in it, guests included:
-        // Ryan's call, 2026-09-29, for screenshots and photos. The file goes to
-        // 8x8, never to us, and privacy.html says so.
+        // Sharing a file in the call is for everybody in it: Ryan's call,
+        // 2026-09-29, for screenshots and photos. The file goes to 8x8, never
+        // to us, and privacy.html says so.
         'file-upload': true, 'list-visitors': false,
         'send-groupchat': true, 'create-polls': true,
       },
@@ -5980,19 +5956,17 @@ export function callToken(who, tag, now = Date.now(), key = jaasKey(), opts = {}
    an address set them. A shared video is YouTube, loaded by Jitsi inside the
    call for everybody in it, and privacy.html says so.
 
-   JITSI'S OWN CHAT IS OFF IN EVERY CALL BUT THE PUBLIC ONES (Ryan's call,
-   2026-11-01): the room's channel on the CB is the call's chat, with its
-   Markdown, editing, pictures and stickers, and on a wide chat page it stands
-   beside the call; a conversation's call has the conversation. disableChat is
-   on the whitelist and hides Jitsi's chat button, its shortcut and its private
-   messages; Share file keeps a button of its own. A public call keeps Jitsi's
-   chat, because a guest has no radio. The friendly edit is turning it off
-   there too, which leaves guests with nowhere to type. */
+   JITSI'S OWN CHAT IS OFF IN EVERY CALL (Ryan's calls, 2026-11-01, first in
+   every call but the public ones, then in those too once guests went): the
+   room's channel on the CB is the call's chat, with its Markdown, editing,
+   pictures and stickers, and on a wide chat page it stands beside the call; a
+   conversation's call has the conversation. disableChat is on the whitelist
+   and hides Jitsi's chat button, its shortcut and its private messages; Share
+   file keeps a button of its own. */
 export function callSrc(tag, token) {
   const conf = ['startWithAudioMuted=true', 'startWithVideoMuted=true', 'prejoinConfig.enabled=true',
     'disableDeepLinking=true', 'disableInviteFunctions=true',
-    'analytics.disabled=true', 'gravatar.disabled=true', 'giphy.enabled=false',
-    ...(publicCall(tag) ? [] : ['disableChat=true'])]
+    'analytics.disabled=true', 'gravatar.disabled=true', 'giphy.enabled=false', 'disableChat=true']
     .map((c) => 'config.' + c).join('&');
   return `${JAAS_HOST}${JAAS_APP}/${callRoom(tag)}?jwt=${token}#${conf}`;
 }
@@ -8700,8 +8674,8 @@ export function eventRooms(who) {
    from a proposal to join an On Now event's call from the chat page and see
    who is in it first). It reverses "who is in a call is shown only in its
    room, to radios seen there" for this one case: an event in a call that is
-   going on now names everybody in that call (inCall: names, guests' typed ones
-   included, alphabetical, no number) to everybody who can see the event, which
+   going on now names everybody in that call (inCall: names, alphabetical, no
+   number) to everybody who can see the event, which
    seesEvent has already decided by roomAllows. The call is an announced
    gathering while the event is on; before it starts and after it ends, the
    card says nothing about the call. `callHeard` says whether 8x8 is telling

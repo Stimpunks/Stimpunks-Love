@@ -1,10 +1,9 @@
 /* The CB: a room's call. A signed-on radio asks for the call of the room it is
    on and gets back the address to frame, carrying a token for that handle and
-   that room only; a guest with no pass can ask for one of the public calls
-   only, under a name they typed. A conversation's call, { with: handle }, is
-   for the two people in it only (dmCallFor). Nothing about the call is kept
-   here. */
-import { readPass, roomTag, roomAllows, publicCall, cleanHandle, callsReady, callToken, callSrc, dmReady, dmCallFor, notifyDmCall, forumReader, json, body, sameSite } from '../cb/lib.mjs';
+   that room only. There are no guests (Ryan's call, 2026-11-01): no pass, no
+   call. A conversation's call, { with: handle }, is for the two people in it
+   only (dmCallFor). Nothing about the call is kept here. */
+import { readPass, roomTag, roomAllows, callsReady, callToken, callSrc, dmReady, dmCallFor, notifyDmCall, forumReader, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req, context) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -28,15 +27,9 @@ export default async (req, context) => {
   }
   const room = roomTag(b && b.room);
   if (!room) return json(400, { error: 'That is not a room on the street.' });
-  // Signed on to the CB: your handle, anywhere. Not signed on: a public call
-  // only, as a guest, under the name you typed, which is not kept.
-  let who = await readPass(req);
-  if (!who) {
-    if (!publicCall(room)) return json(401, { error: 'signed off' });
-    const name = cleanHandle(b && b.name);
-    if (!name) return json(400, { error: 'Type the name you want to appear under, up to 24 characters.' });
-    who = { role: 'guest', handle: name };
-  }
+  // Signed on to the CB: your handle, in any room you may go into.
+  const who = await readPass(req);
+  if (!who) return json(401, { error: 'signed off' });
   if (!roomAllows(who, room)) return json(403, { error: 'This room\'s call is for the moderators it is for.' });
   let token = null;
   try { token = callToken(who, room); } catch (e) { token = null; }
@@ -47,7 +40,6 @@ export default async (req, context) => {
 export const config = {
   path: '/cb/call',
   method: 'POST',
-  // Tight, because a guest token needs no pass and each new guest who is let
-  // in is a monthly user on our bill.
+  // Tight, because each person in a call is a monthly user on our bill.
   rateLimit: { windowLimit: 10, windowSize: 60, aggregateBy: ['ip', 'domain'] },
 };

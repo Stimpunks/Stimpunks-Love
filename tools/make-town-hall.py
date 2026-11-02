@@ -20,8 +20,6 @@ only the part that keeps quiet. This tool reads that array and refuses:
     radio comes into the room at all;
   · a private room's call panel without data-call-mods, which callroom.js reads
     to give everybody but the base the part that says the call is theirs;
-  · an open room that is one of PUBLIC_CALLS. The Fishbowl is for the CB, and a
-    guest with no pass cannot knock on it;
   · a room with no `what`, or with a `what` that is not a sentence. Every one is
     Ryan's own, word for word from the brief.
 
@@ -97,7 +95,6 @@ def swap(src, where, marker, block):
 about = MIRROR_ABOUT.read_text() if MIRROR_ABOUT.exists() else None
 MODS = rolemap("MOD_ROOMS")
 STRICT = array("STRICT_ROOMS")
-PUBLIC = array("PUBLIC_CALLS")
 # A room that keeps to itself (QUIET_ROOMS) may be locked too, and is not this
 # tool's: the cabin behind the door marked E is held to MOD_ROOMS by
 # tools/make-secret-cabin.py, which refuses its pages if they disagree. Every
@@ -135,8 +132,6 @@ for r in rooms:
     if r["for"] == "cb" and tag in MODS:
         refuse(f"{where} says it is for anybody on the CB, and MOD_ROOMS in netlify/cb/lib.mjs "
                "keeps it for the base, so its door would look like it worked.")
-    if tag in PUBLIC:
-        refuse(f"{where}: {tag} is in PUBLIC_CALLS, and no Town Hall room takes guests with no pass.")
 for tag in MODS:
     if not any(r["tag"] == tag for r in rooms) and tag not in QUIET and tag not in ELSEWHERE:
         refuse(f"MOD_ROOMS names {tag}, and data/town-hall.json has no room with that page.")

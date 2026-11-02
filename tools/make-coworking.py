@@ -3,8 +3,8 @@
 
 A house on the street after Henry Cavendish's in Bedford Square, with a shut and
 unlocked door onto each of our calls:
-the Operations and Editorial meetings, which are open to the world, and the
-room our events meet in. Ryan's brief, 2026-09-25: those meetings have been
+the Operations and Editorial meetings, which are for everybody in our
+community on the CB, and the room our events meet in. Ryan's brief, 2026-09-25: those meetings have been
 held in our Discord, and many people refuse to use Discord.
 
 EVERY WORD ON A DOOR IS OUR EVENTS PAGE'S, AND THIS TOOL READS THAT PAGE. The
@@ -31,10 +31,11 @@ say two different things. Each room dresses those parts in its own section of
 love.css, under its own class prefix; only the markup's shape is shared, the
 job marker's rule. Every door has a `page`, and a door without one is refused:
 until 2026-09-28 each opened a Proton Meet room, and that fallback is gone.
-Events, Operations and Editorial are PUBLIC calls and the suites are the CB's,
-and which is which is read out of PUBLIC_CALLS in netlify/cb/lib.mjs, never
-restated here: a room that said it was open while the server refused its
-guests would be a door that looks like it worked.
+Every room's call is for people signed on to the CB. Events, Operations and
+Editorial took guests who typed a name until Ryan's call of 2026-11-01, when
+guests went, and this tool refuses a guest's form, or a panel marked public,
+coming back on any room: the server signs nothing for a guest, so a door that
+offered one would look like it worked and not.
 
 A ROOM BEHIND A DOOR OR A SUITE MAY HAVE A RACK: a screen with videos under
 it, each with its measured runtime, built for rack.js. The suites took them on
@@ -49,8 +50,8 @@ one screen, each held to the same rules as a rack of one. A shelf may hold a who
 PLAYLIST as one card (`playlists`), with no runtime and its note saying what is on it.
 
 IT ALSO REFUSES:
-  · a door with no room behind it, or a room that does not exist, or whose
-    call the server would refuse its guests (or hand to anybody, for a suite);
+  · a door with no room behind it, or a room that does not exist, or a room
+    whose call panel offers a guest a way in;
   · a slot with no time said in words, or no days, or a start that is not a
     clock time -- the page works out the visitor's own hour from these, and the
     words are what a page with no script shows;
@@ -89,11 +90,6 @@ MIRROR = Path.home() / "Documents/Claude/Projects/Stimpunks Knowledge System/sit
 EVENTS = MIRROR / "pages/events.md"
 
 LIB = ROOT / "netlify/cb/lib.mjs"
-_pub = re.search(r"export const PUBLIC_CALLS = \[(.*?)\];", LIB.read_text(), re.S)
-if not _pub:
-    raise SystemExit("REFUSING: netlify/cb/lib.mjs has no PUBLIC_CALLS array, so this tool cannot tell "
-                     "which rooms are open to the world. Put it back rather than restating it here.")
-PUBLIC = set(re.findall(r"'([a-z0-9-]+)'", _pub.group(1)))
 PROTON = re.compile(r"meet\.proton\.me", re.I)
 CLOCK = re.compile(r"^(?:[01]\d|2[0-3]):[0-5]\d$")
 SAID_TIME = re.compile(r"\d\s*(?::\d\d)?\s*(?:AM|PM)", re.I)
@@ -158,12 +154,6 @@ def room_check(d, where, public):
     tag = d["page"][:-5] if d["page"].endswith(".html") else ""
     if not (ROOT / d["page"]).exists():
         refuse(f"{where}: {d['page']} does not exist.")
-    if public and tag not in PUBLIC:
-        refuse(f"{where}: {tag} is a meeting that is open to the world, and it is not in "
-               "PUBLIC_CALLS in netlify/cb/lib.mjs, so its guests would be refused a call.")
-    if not public and tag in PUBLIC:
-        refuse(f"{where}: {tag} is a hang suite, for people signed on to the CB, and "
-               "PUBLIC_CALLS in netlify/cb/lib.mjs would give anybody a call there.")
 
 
 data = json.loads(DATA.read_text())
@@ -333,8 +323,8 @@ if PROTON.search(bare):
     refuse("Proton Meet is on the page. Every door opens onto a room of ours now.")
 m = MEMBERS.search(norm(bare))
 if m:
-    refuse(f"the page says {m.group(0)!r}. These meetings are open to the world now; that "
-           "sentence is the events page's, from before this room, and must not be copied in.")
+    refuse(f"the page says {m.group(0)!r}. These meetings are on the CB now, for "
+           "everybody in our community; that sentence is the events page's, from before this room, and must not be copied in.")
 ours = re.sub(r"<blockquote\b.*?</blockquote>|<(script|style|svg)\b.*?</\1>", " ", bare, flags=re.S)
 ours = html.unescape(re.sub(r"<[^>]+>", " ", ours))
 for m in ON_SHOW.finditer(ours):
@@ -384,21 +374,14 @@ def room_call(p, d, tag, public):
     """The call panel. Its parts are found by callroom.js by their data-
     attributes, and every part that needs a script ships hidden."""
     room = e(d["room"])
-    if public:
-        lines = [
-            f'    <div class="{p}-call" data-call="{tag}" data-call-name="{room}" data-call-public>',
-            f'      <p>This call is open to anybody. Signed on to the CB, you walk straight in, as one of its moderators: you can let in people waiting in the lobby, mute or remove people and end the meeting for everybody, so go gently. Not signed on, type the name you want to be called, and knock: you wait in the lobby until somebody signed on lets you in. People are most likely to be in here at the times on the list above, and between those times there may be nobody to open the door. Once you are in, the name you typed is shown to people signed on to the CB who have chosen to be seen in this room, as somebody in its call, until you leave.</p>',
-            f'      <form class="{p}-call__knock" data-call-guest hidden>',
-            f'        <label for="{p}-call-name">The name you want to be called in the call</label>',
-            f'        <div class="{p}-call__row"><input id="{p}-call-name" name="name" maxlength="24" autocomplete="nickname" spellcheck="false"><button type="submit">Knock on the door</button></div>',
-            f'      </form>',
-        ]
-    else:
-        lines = [
-            f'    <div class="{p}-call" data-call="{tag}" data-call-name="{room}">',
-            f'      <p>The call in here is for people signed on to the CB. Anybody can come in and look around; to talk, and to be in the call, you need the CB, and <a href="community-center.html#cb-norms">the Community Center</a> says how to get on it.</p>',
-            f'      <p class="{p}-call__cb" data-call-cb hidden>You are not signed on to the CB in this browser. <a href="community-center.html">Sign on at the Community Center</a>, then come back and the way in is here.</p>',
-        ]
+    # A meeting's room says when people are likely to be in; a suite says nothing of times.
+    when = (" People are most likely to be in here at the times on the list above, and between those times "
+            "there may be nobody in the call.") if public else ""
+    lines = [
+        f'    <div class="{p}-call" data-call="{tag}" data-call-name="{room}">',
+        f'      <p>The call in here is for people signed on to the CB, which is everybody in our community. Anybody can come in and look around; to talk, and to be in the call, you need the CB, and <a href="community-center.html#getting-started">the Community Center</a> says how to get on it.{when}</p>',
+        f'      <p class="{p}-call__cb" data-call-cb hidden>You are not signed on to the CB in this browser. <a href="community-center.html#getting-started">Get on the CB at the Community Center</a>, then come back and the way in is here.</p>',
+    ]
     lines += [
         f'      <p class="{p}-call__member" data-call-join hidden><button type="button">Join the call as <b data-call-handle></b></button></p>',
         f'      <p class="{p}-call__who" data-call-who hidden></p>',
@@ -610,6 +593,8 @@ def write_room(d, public):
         f'The hour on your own clock is worked out in your browser.</p>') if public else (
         f'    <p>What goes on in here, and the norms, are Ryan&rsquo;s words, as he wrote them for the Hang Suites; '
         f'caves, campfires and watering holes are <a href="https://stimpunks.org/glossary/caves-campfires-watering-holes/">David Thornburg&rsquo;s</a>.</p>'))
+    if re.search(r"data-call-public|data-call-guest", s):
+        refuse(f"{d['page']}: its call panel offers a guest a way in, and there are no guests (2026-11-01).")
     m = re.search(r'data-call="([^"]+)"', s)
     if not m or m.group(1) != tag:
         refuse(f"{d['page']}: its call panel names {m.group(1) if m else 'no room'!r}, not {tag!r}.")

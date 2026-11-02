@@ -678,7 +678,7 @@ def check_rooms(lib, cats):
         problems.append(f"{LIB.name}: MOD_ROOMS cannot be read.")
     strict = strings_of(lib, "STRICT_ROOMS") or []
     names = {"MOD_ROOMS": list(mod_roles)}
-    for n in ("QUIET_ROOMS", "PEBBLE_ROOMS", "PUBLIC_CALLS", "STRICT_ROOMS"):
+    for n in ("QUIET_ROOMS", "PEBBLE_ROOMS", "STRICT_ROOMS"):
         got = strings_of(lib, n)
         if got is None:
             problems.append(f"{LIB.name}: {n} cannot be read.")
