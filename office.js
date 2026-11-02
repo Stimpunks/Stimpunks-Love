@@ -3930,15 +3930,28 @@
   }
   var SOCIAL_WORDS = { posting: 'Posting…', posted: 'Posted', failed: 'Not posted', unsure: 'May or may not be there', hand: 'Waiting to be posted by hand', done: 'Posted by hand' };
   function andNames(list) { return andWords(list.map(function (n) { return n.name; })); }
-  function copyAndOpen(net, text, then) {
+  /* Copying and opening are two presses (2026-11-02): one press that did both
+     let the new tab take the keyboard before the copy finished, and Facebook
+     opened with nothing to paste. Threads takes the words in its address, so
+     it is one link. */
+  function copyWords(net, text) {
+    function said() { say('Copied the words. Open ' + net.name + ' and paste them into a new post.'); }
+    function byHand() {
+      // The older way, for a browser that will not let a page write to the clipboard.
+      var t = document.createElement('textarea');
+      t.value = text; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.left = '-9999px';
+      document.body.appendChild(t); t.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      t.remove();
+      if (ok) said(); else say('The words could not be copied. Select them in the post here and copy them.');
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(said, byHand);
+    else byHand();
+  }
+  function openLink(net, text) {
     var href = net.key === 'threads' ? net.open + encodeURIComponent(text) : net.open;
-    // Copied while this page still has the keyboard, then opened on the same press, so no browser takes it for a pop-up.
-    var copied = navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject();
-    window.open(href, '_blank', 'noopener');
-    copied.then(function () {
-      say('Copied the words and opened ' + net.name + ' in a new tab' + (net.key === 'threads' ? ', with the words in it' : ': paste them there') + '.');
-    }, function () { say('Opened ' + net.name + ' in a new tab, but the words could not be copied. Copy them from the post here.'); });
-    if (then) then();
+    return outLink(href, net.key === 'threads' ? 'Open Threads with the words' : 'Open ' + net.name);
   }
   function drawSocial(so) {
     view.textContent = '';
@@ -4098,8 +4111,13 @@
           act('It is not there: try again', { action: 'social-retry', looked: true }, 'Posting to ' + n.name + '…');
         }
         if (st.state === 'hand') {
-          var o = el('button', 'cb-btn of-small', n.key === 'threads' ? 'Open Threads with the words' : 'Copy the words and open ' + n.name); o.type = 'button';
-          o.addEventListener('click', function () { copyAndOpen(n, p.text); });
+          if (n.key !== 'threads') {
+            var c = el('button', 'cb-btn of-small', 'Copy the words'); c.type = 'button';
+            c.addEventListener('click', function () { copyWords(n, p.text); });
+            it.appendChild(document.createTextNode(' '));
+            it.appendChild(c);
+          }
+          var o = openLink(n, p.text); o.className = 'cb-btn of-small';
           it.appendChild(document.createTextNode(' '));
           it.appendChild(o);
           act('I posted it', { action: 'social-done' }, 'Marking it posted…');

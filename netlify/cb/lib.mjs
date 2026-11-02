@@ -17166,7 +17166,9 @@ export const SOCIAL_NETWORKS = [
   { key: 'mastodon', name: 'Mastodon', profile: 'https://mastodon.online/@stimpunks', how: 'api' },
   { key: 'threads', name: 'Threads', profile: 'https://www.threads.com/@stimpunks', how: 'hand', open: 'https://www.threads.com/intent/post?text=' },
   { key: 'facebook', name: 'Facebook', profile: 'https://www.facebook.com/stimpunksorg', how: 'hand', open: 'https://www.facebook.com/stimpunksorg' },
-  { key: 'linkedin', name: 'LinkedIn', profile: 'https://www.linkedin.com/company/stimpunks', how: 'hand', open: 'https://www.linkedin.com/company/stimpunks/admin/page-posts/published/' },
+  // The Stimpunks Foundation's Page by its number, which our own LinkedIn post links carry (actorCompanyId):
+  // its admin address by name answered that the Page no longer exists (Ryan, 2026-11-02).
+  { key: 'linkedin', name: 'LinkedIn', profile: 'https://www.linkedin.com/company/76260735/', how: 'hand', open: 'https://www.linkedin.com/company/76260735/admin/page-posts/published/' },
 ];
 const SOCIAL_BY = Object.fromEntries(SOCIAL_NETWORKS.map((n) => [n.key, n]));
 
