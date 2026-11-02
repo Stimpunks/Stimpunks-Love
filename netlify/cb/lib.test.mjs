@@ -9812,6 +9812,8 @@ function fakeMeta(o = {}) {
       if (u.pathname.endsWith('/222/feed')) return answer(200, { id: '222_999' });
       if (u.pathname.endsWith('/222')) return answer(o.pageLapsed ? 400 : 200, { id: '222' });
       if (u.pathname.endsWith('/me/permissions')) return answer(200, { data: [{ permission: 'public_profile', status: 'granted' }] });
+      if (u.pathname.endsWith('/debug_token')) return answer(200, { data: { granular_scopes: o.business ? [{ scope: 'pages_manage_posts', target_ids: ['333'] }] : [] } });
+      if (u.pathname.endsWith('/333')) return answer(200, { id: '333', name: 'Stimpunks', access_token: 'business-page-token' });
     }
     throw new Error('asked somewhere else: ' + url);
   };
@@ -9870,7 +9872,7 @@ test('meta: a connected Threads and Page are posted to by the office, and Thread
 })));
 
 test('meta: our Page is found by its name when Facebook sends no username, and no Pages at all is said as such', () => withOfficeKey(OFFICE_TEST_KEY, () => withMetaKeys(async () => {
-  for (const [o, want] of [[{ noUsername: true }, true], [{ noPages: true }, 'no-pages-granted']]) {
+  for (const [o, want] of [[{ noUsername: true }, true], [{ noPages: true }, 'no-pages-granted'], [{ noPages: true, business: true }, true]]) {
     const s = memoryStore({ etagOnRead: true });
     const net = fakeMeta(o);
     const go = new URL((await metaConnect(TRYAN, 'facebook', 'https://stimpunks.world', s, T0)).go);

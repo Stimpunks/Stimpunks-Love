@@ -3924,7 +3924,7 @@
     'not-connected': function (n) { return n + ' was not connected. Nothing was changed; Connect tries again.'; },
     account: function () { return 'That Threads account is not ours, so nothing was kept. Sign in to Threads as stimpunks, then Connect again.'; },
     page: function () { return 'Facebook gave the office some Pages, but not one called Stimpunks, so nothing was kept. Connect again, and choose the Stimpunks Page when Facebook asks which Pages.'; },
-    'no-pages': function () { return 'Facebook let the office see Pages but gave it none, so nothing was kept. Connect again, choose Edit settings, and tick the Stimpunks Page.'; },
+    'no-pages': function () { return 'Facebook let the office see Pages but gave it none, not even by asking for the Pages it says were granted, so nothing was kept. Check that you can post to the Stimpunks Page yourself, then Connect again.'; },
     'pages-error': function () { return 'Facebook would not list the Pages it gave the office, so nothing was kept. Connect again; if it says this again, the Meta app may be missing a Page permission.'; },
     'no-pages-granted': function () { return 'Facebook did not give the office permission to see any Pages, so nothing was kept. The Meta app needs a Facebook Login for Business configuration with the Page permissions, and its id in Netlify as CB_FB_CONFIG_ID.'; },
     state: function (n) { return n + ' sent you back too late, or from an older Connect, so nothing was kept. Connect again.'; },

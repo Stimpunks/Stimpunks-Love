@@ -17551,7 +17551,22 @@ export async function metaCallback(network, params, origin, s = store(), now = D
   const pages = await metaJson(await metaAsk(fetchFn, FB_AT + '/me/accounts?' + new URLSearchParams({
     fields: 'id,name,access_token', limit: '100', access_token: long.access_token })));
   if (!pages || !Array.isArray(pages.data)) return { error: 'pages-error' };
-  const list = pages.data.filter((p) => p && typeof p.access_token === 'string' && /^\d+$/.test(String(p.id)));
+  let list = pages.data.filter((p) => p && typeof p.access_token === 'string' && /^\d+$/.test(String(p.id)));
+  // A Page managed through a Business portfolio can be granted and still be
+  // missing from /me/accounts, which lists only Pages a person has a role on
+  // directly. Facebook records which Pages each permission was granted for
+  // (debug_token's granular_scopes), and a Page's own token can be asked for by
+  // its id.
+  if (!list.length) {
+    const dbg = await metaJson(await metaAsk(fetchFn, FB_AT + '/debug_token?' + new URLSearchParams({ input_token: long.access_token, access_token: c.id + '|' + c.secret })));
+    const scopes = dbg && dbg.data && Array.isArray(dbg.data.granular_scopes) ? dbg.data.granular_scopes : [];
+    const ids = [...new Set(scopes.filter((x) => x && x.scope === 'pages_manage_posts' && Array.isArray(x.target_ids)).flatMap((x) => x.target_ids).map(String))]
+      .filter((id) => /^\d+$/.test(id)).slice(0, 10);
+    for (const id of ids) {
+      const pg = await metaJson(await metaAsk(fetchFn, FB_AT + '/' + id + '?' + new URLSearchParams({ fields: 'id,name,access_token', access_token: long.access_token })));
+      if (pg && typeof pg.access_token === 'string' && String(pg.id) === id) list.push(pg);
+    }
+  }
   if (!list.length) {
     // Which step it was: no permission to see Pages at all, or permission and no Page chosen.
     const perms = await metaJson(await metaAsk(fetchFn, FB_AT + '/me/permissions?' + new URLSearchParams({ access_token: long.access_token })));
