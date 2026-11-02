@@ -1636,7 +1636,7 @@
     headCall.appendChild(this.headCallWords = el('span', null, 'Join the call'));
     headCall.addEventListener('click', function () {
       var w = worldHere(), b = w ? me.worldCallBtn : me.callBtn;
-      me.setCall(b.getAttribute('aria-pressed') !== 'true', w);
+      me.setCall(b.dataset.on !== 'true', w);
     });
     // On the chat page, beside the channel's name (chatMake's chanTop).
     (this.chanTop || nameRow).appendChild(headCall);
@@ -1773,7 +1773,7 @@
     var wcall = this.worldCallBtn = el('button', 'cb-btn cb-call-btn cb-world-call', 'Join World call');
     wcall.type = 'button';
     wcall.hidden = true;
-    wcall.setAttribute('aria-pressed', 'false');
+    wcall.dataset.on = 'false';
     /* SHOW THE CALL WINDOW, while a call is popped out into a window of its
        own (call.js, Ryan, 2026-10-13): the window stays open while you go from
        room to room, and this brings it to the front from whichever room you
@@ -2096,7 +2096,7 @@
     var callBtn = this.callBtn = el('button', 'cb-btn cb-call-btn', 'Join this room\u2019s call');
     callBtn.type = 'button';
     callBtn.hidden = true;
-    callBtn.setAttribute('aria-pressed', 'false');
+    callBtn.dataset.on = 'false';
     this.callSub.insertBefore(callBtn, this.inCallNow);
     this.calls = false;
     var aloud = this.aloudBtn = el('button', 'cb-btn cb-aloud');
@@ -2513,13 +2513,15 @@
     scr.addEventListener('submit', function (e) { e.preventDefault(); me.screenVideo(); });
     // Each button asks after its own call: with the World call open, this
     // room's button joins this room's call rather than leaving the World's.
-    callBtn.addEventListener('click', function () { me.setCall(callBtn.getAttribute('aria-pressed') !== 'true'); });
-    wcall.addEventListener('click', function () { me.setCall(wcall.getAttribute('aria-pressed') !== 'true', true); });
+    callBtn.addEventListener('click', function () { me.setCall(callBtn.dataset.on !== 'true'); });
+    wcall.addEventListener('click', function () { me.setCall(wcall.dataset.on !== 'true', true); });
     showWin.addEventListener('click', function () {
       if (!window.loveCall.showAway()) me.tell('The call\u2019s window has closed, so the call has ended.');
     });
     // Which call a window of its own holds, as it says over the browser's own line.
     window.loveCall.onAway(function () { me.callShown(); });
+    // A call opened or left by a room's own call panel, not by the radio (call.js, changed).
+    window.addEventListener('love-call', function () { me.callShown(); });
     bw.addEventListener('click', function () { me.setBand('world'); });
     seenBtn.addEventListener('click', function () { me.setSeen(!me.state.seen); });
     famBtn.addEventListener('click', function () { me.setFamiliarOut(!me.famOut); });
@@ -3497,6 +3499,8 @@
     if (folded && this.hosting) { this.hosting = null; this.hostShown(); }
     // Folded, the radio hears no beacons, so it cannot follow one either.
     if (folded && this.following) this.following = null;
+    // Folded, the strip under the room's screen goes with what it showed.
+    this.screenStrip();
     if (!quiet) save(this.state);
     this.place();
     this.tune();
@@ -14390,7 +14394,7 @@
      the call is said in one place. The keyboard goes with it if it was on it. */
   Radio.prototype.callPlace = function () {
     var sub = this.callSub, here = hereRoom();
-    var inIt = this.callBtn.getAttribute('aria-pressed') === 'true';
+    var inIt = this.callBtn.dataset.on === 'true';
     // What a radio seen here is told outranks the list: it is about this room alone.
     var listed = !!(here && !worldHere() && this.inCallNow.hidden && Array.isArray(this.callGoing) && this.callGoing.indexOf(here.tag) >= 0);
     this.callOnNow.hidden = inIt || !listed;
@@ -14582,11 +14586,18 @@
     this.showWinBtn.hidden = !away;
     // In the World room its call is the World call, and Join World call is its button.
     this.callBtn.hidden = !(on || (this.calls && here)) || worldHere();
-    this.callBtn.setAttribute('aria-pressed', String(on));
+    /* THE BUTTON SAYS WHAT A PRESS DOES (Ryan, 2026-11-01, after it said Join
+       this room's call to somebody in the call): Join, or Leave while you are
+       in it. Its words change, so it is a plain button, not a toggle that is
+       pressed: a screen reader heard "Leave this room's call, pressed" as two
+       answers. Whether you are in it is data-on, which the other buttons read. */
+    this.callBtn.dataset.on = String(on);
+    this.callBtn.textContent = on ? 'Leave this room\u2019s call' : 'Join this room\u2019s call';
     this.worldCallBtn.hidden = !(world || this.calls);
-    this.worldCallBtn.setAttribute('aria-pressed', String(world));
+    this.worldCallBtn.dataset.on = String(world);
+    this.worldCallBtn.textContent = world ? 'Leave World call' : 'Join World call';
     // The call beside the name follows whichever of the two is this channel's.
-    var wb = worldHere() ? this.worldCallBtn : this.callBtn, inIt = wb.getAttribute('aria-pressed') === 'true';
+    var wb = worldHere() ? this.worldCallBtn : this.callBtn, inIt = wb.dataset.on === 'true';
     this.headCall.hidden = wb.hidden;
     this.headCallWords.textContent = inIt ? 'Leave the call' : 'Join the call';
     this.headCall.classList.toggle('cb-head-call--in', inIt);
@@ -14595,6 +14606,7 @@
     // An event's card says when you are in its call (evCallPart).
     if (this.evTray) this.evDraw();
     if (inApp()) this.appCall();
+    else this.lineCall();
   };
 
   /* One call at a time: joining the World call leaves this room's, and the
@@ -14650,6 +14662,8 @@
       if (r.ok && me.appCallOn) said = said.replace('The call is open at the foot of the page.', 'The call is on the Call tab, and it goes on while another tab is shown.');
       // On a wide window it is in the middle, with the chat beside it.
       else if (r.ok && me.besideOn) said = said.replace('The call is open at the foot of the page.', 'The call is in the middle, with the chat beside it; Chat and In this channel, over that column, switch what it shows.');
+      // In a room on a wide window it stands under the room's screen.
+      else if (r.ok && me.underBox && !me.underBox.slot.hidden) said = said.replace('The call is open at the foot of the page.', 'The call is under ' + me.underBox.name + '. Scrolled away from it, it is a window in the corner.');
       me.tell(world && r.ok ? said + ' Going to another room hangs up, because every room is a page of its own.' : said);
     });
   };
@@ -15005,6 +15019,7 @@
     this.hostsBox.hidden = list.length === 0;
     this.filmShown();
     this.filmNowShown(list, keys);
+    this.screenStrip();
   };
 
   Radio.prototype.beaconAt = function (b) {
@@ -15085,6 +15100,169 @@
     if (to.classList.contains('cb-h')) to.tabIndex = -1;
     to.scrollIntoView({ block: 'center' });
     to.focus({ preventScroll: true });
+  };
+
+  /* UNDER THE ROOM'S SCREEN (Ryan's ask, 2026-11-01, looking at a watch
+     together with a film, a call and the radio all going: the only sign that
+     somebody was hosting, and the only Catch up and Follow, were three parts
+     down the radio, and the call stood over the room's page). Two things stand
+     under a room's first screen (firstScreen), in the radio's clothes, a
+     shadow root of their own with cb.css and the reader's scheme:
+       · a strip saying who is hosting in this room, with Catch up and Follow,
+         or Stop hosting for the host. It is the radio's own beacon for this
+         room, and its buttons do what the radio's do, so it asks nothing new;
+       · on a wide window while a call is open in the page, the place the call
+         stands in (call.js, lineTo), so it is lined up with the screen and
+         no longer covers the room.
+     Each is made only when wanted, and neither is a live region: the radio's
+     own answer line is, and the strip's copy of it is aria-hidden, the
+     Playhouse's rule, so nothing is heard twice. A folded radio hears no
+     beacons, so the strip goes with it; the call's place does not, because
+     folding the radio leaves the call up. */
+  var LINE_WIDE = window.matchMedia ? window.matchMedia('(min-width: 900px)') : null;
+
+  /* Where under the first screen: after a rack's way back, which follows its
+     now-showing line; for a set you tune, after the block the set stands in,
+     out of its drawing. */
+  function screenAnchor() {
+    var s = firstScreen();
+    if (!s || !s.glass || !s.glass.isConnected) return null;
+    var at = s.glass, r = window.loveRack, f = r && r.first && r.first();
+    if (f && f.glass === s.glass) {
+      var back = document.querySelector('[data-rack-back="' + f.id + '"]'), now = document.querySelector('[data-rack-now="' + f.id + '"]');
+      at = (back && back.parentNode) || now || s.glass;
+    } else {
+      while (at.parentNode && at.parentNode !== document.body && !/^(MAIN|SECTION|ARTICLE)$/.test(at.parentNode.tagName)) at = at.parentNode;
+    }
+    return { at: at, name: s.name };
+  }
+
+  Radio.prototype.under = function () {
+    if (this.underBox) return this.underBox;
+    if (docked() || inWindow()) return null;
+    var a = screenAnchor(), me = this;
+    if (!a) return null;
+    var host = el('div', 'cb-under-host'), root = host.attachShadow({ mode: 'open' });
+    var sheet = document.createElement('link');
+    sheet.rel = 'stylesheet';
+    sheet.href = '/cb.css';
+    root.appendChild(sheet);
+    var wrap = el('div', 'cb-under');
+    var strip = el('div', 'cb-strip');
+    strip.setAttribute('role', 'group');
+    strip.setAttribute('aria-label', 'Watching together on ' + a.name);
+    strip.hidden = true;
+    var line = el('p', 'cb-strip-line'), btns = el('span', 'cb-strip-btns'), said = el('p', 'cb-strip-said');
+    said.setAttribute('aria-hidden', 'true');
+    said.hidden = true;
+    strip.appendChild(line);
+    strip.appendChild(btns);
+    strip.appendChild(said);
+    var slot = el('div', 'cb-call-place');
+    slot.setAttribute('aria-hidden', 'true');
+    slot.hidden = true;
+    wrap.appendChild(strip);
+    wrap.appendChild(slot);
+    root.appendChild(wrap);
+    host.hidden = true;
+    a.at.insertAdjacentElement('afterend', host);
+    this.underBox = { host: host, strip: strip, line: line, btns: btns, said: said, slot: slot, name: a.name, key: null };
+    // The screen growing or shrinking changes how wide the call's place is.
+    if (window.ResizeObserver) new ResizeObserver(function () { me.lineCall(); }).observe(a.at);
+    if (LINE_WIDE && LINE_WIDE.addEventListener) LINE_WIDE.addEventListener('change', function () { me.lineCall(); });
+    return this.underBox;
+  };
+
+  Radio.prototype.underShown = function () {
+    var u = this.underBox;
+    if (!u) return;
+    u.host.hidden = u.strip.hidden && u.slot.hidden;
+    var scheme = this.host.getAttribute('data-scheme');
+    if (scheme) u.host.setAttribute('data-scheme', scheme); else u.host.removeAttribute('data-scheme');
+    if (this.host.hasAttribute('data-low')) u.host.setAttribute('data-low', this.host.getAttribute('data-low'));
+    else u.host.removeAttribute('data-low');
+  };
+
+  Radio.prototype.screenStrip = function () {
+    if (docked() || inWindow()) return;
+    var tag = hereTag(), b = null, me = this, i;
+    var heard = this.beacons || [];
+    if (!this.state.folded && tag) for (i = 0; i < heard.length; i++) if (heard[i].room === tag) b = heard[i];
+    var u = this.underBox || (b ? this.under() : null);
+    if (!u) return;
+    if (!b) {
+      u.strip.hidden = true;
+      u.key = null;
+      this.underShown();
+      return;
+    }
+    var mine = b.handle === this.state.handle;
+    var key = [b.room, mine ? 'mine' : 'here', b.handle, b.base, b.film, b.live ? 'live' : ''].join('|');
+    if (u.key !== key) {
+      u.key = key;
+      u.line.textContent = '';
+      u.btns.textContent = '';
+      u.said.hidden = true;
+      if (mine) u.line.appendChild(document.createTextNode('You are hosting '));
+      else {
+        u.line.appendChild(el('b', 'cb-handle', b.handle));
+        if (b.base) u.line.appendChild(el('span', 'cb-tag', 'BASE'));
+        u.line.appendChild(document.createTextNode(' is hosting '));
+      }
+      u.line.appendChild(document.createTextNode('“' + b.film + '” here: '));
+      u.line.appendChild(el('span', 'cb-beacon-at'));
+      u.line.appendChild(document.createTextNode('.'));
+      var room = b.room;
+      if (mine) {
+        var stop = el('button', 'cb-btn', 'Stop hosting');
+        stop.type = 'button';
+        stop.addEventListener('click', function () { me.setHosting(false); });
+        u.btns.appendChild(stop);
+      } else {
+        var c = el('button', 'cb-btn cb-catch', 'Catch up');
+        c.type = 'button';
+        c.setAttribute('aria-label', b.live
+          ? 'Catch up with ' + b.handle + ': get ' + b.film + ' ready to play live'
+          : 'Catch up with ' + b.handle + ' in ' + b.film);
+        c.addEventListener('click', function () { me.catchUp(room); });
+        u.btns.appendChild(c);
+        // No Follow beside a live video: there is no place in it to keep in step.
+        if (!b.live) {
+          var fo = el('button', 'cb-btn cb-catch cb-follow', 'Follow');
+          fo.type = 'button';
+          fo.setAttribute('aria-label', 'Follow ' + b.handle + ' in ' + b.film + ', at your own volume');
+          fo.addEventListener('click', function () { me.setFollow(!(me.following && me.following.room === room), room); });
+          u.btns.appendChild(fo);
+        }
+      }
+    }
+    u.line.querySelector('.cb-beacon-at').textContent = this.beaconAt(b);
+    var f = u.btns.querySelector('.cb-follow');
+    if (f) f.setAttribute('aria-pressed', String(!!(this.following && this.following.room === b.room)));
+    u.strip.hidden = false;
+    this.underShown();
+  };
+
+  /* The call's place under the screen: shown, sized to the screen and given to
+     call.js, while a call is open in this page on a wide window; otherwise
+     hidden, and the call is the window it always was. */
+  Radio.prototype.lineCall = function () {
+    var lc = window.loveCall;
+    if (!lc || !lc.lineTo || docked() || inWindow()) return;
+    var want = !!(lc.isOpen() && LINE_WIDE && LINE_WIDE.matches);
+    var u = this.underBox || (want ? this.under() : null);
+    if (!u) return;
+    if (want) {
+      var w = Math.round(Math.min(760, u.host.getBoundingClientRect().width || 760));
+      u.slot.style.width = w + 'px';
+      u.slot.style.height = Math.round(w * 10 / 16 + 120) + 'px';
+      u.slot.hidden = false;
+      this.underShown();
+      lc.lineTo(u.slot);
+    } else {
+      if (!u.slot.hidden) { u.slot.hidden = true; this.underShown(); }
+      lc.lineTo(null);
+    }
   };
 
   Radio.prototype.beaconRow = function (b, key) {
@@ -15181,6 +15359,9 @@
     if (this.newsSaid) this.newsSaid.textContent = '';
   };
   Radio.prototype.tellFilm = function (s) {
+    // The same words under the room's screen, where a press in the strip was made.
+    var u = this.underBox;
+    if (u && !u.strip.hidden) { u.said.textContent = s; u.said.hidden = false; }
     if (this.tiny() || this.state.folded || this.filmSec.hidden || this.partFolded('film')) { this.tell(s); return; }
     this.filmSaid.textContent = s;
     this.said.textContent = '';

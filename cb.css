@@ -544,6 +544,9 @@ a.cb-chat-bar[hidden] { display: none; }
 }
 .cb-btn:hover { border-color: var(--cb-steel); }
 .cb-btn[aria-pressed="true"] { border-color: var(--cb-amber); }
+/* A call's Join button says Leave while you are in the call (cb.js, callShown), and keeps the
+   amber edge a pressed button has, so it still stands out as the way you are in. */
+.cb-call-btn[data-on="true"] { border-color: var(--cb-amber); }
 .cb-move { cursor: move; }
 /* THE BAR'S ICON BUTTONS (Ryan, 2026-10-17): the grip for Move, and minus and
    plus for the size, side by side in their own group. Each is 44 pixels tall,
@@ -2573,6 +2576,7 @@ button.cb-ev-link {
 }
 .cb-call *, .cb-call *::before, .cb-call *::after { box-sizing: border-box; }
 .cb-call p { margin: 0; }
+.cb-call a { color: var(--cb-amber); }
 .cb-call :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
 .cb-call-bar {
   flex: none; display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
@@ -2608,6 +2612,34 @@ button.cb-ev-link {
 .cb-call.cb-call--app .cb-move, .cb-call.cb-call--app .cb-sizer { display: none; }
 .cb-call.cb-call--app .cb-call-bar { border-radius: 0; cursor: default; touch-action: auto; }
 .cb-call.cb-call--app .cb-call-screen { aspect-ratio: auto; border-radius: 0; }
+/* LINED UP WITH A ROOM'S SCREEN (call.js, lineTo; Ryan's ask, 2026-11-01): in
+   the place cb.js keeps for it under the room's first screen, in the page, so
+   it scrolls with the screen. It keeps its case and its edge, unlike the chat
+   app's, because it stands in a room rather than filling a window. Nothing to
+   move or size there; scrolled out of sight it is the window in the corner. */
+.cb-call.cb-call--lined {
+  position: absolute; top: var(--cb-line-top, 0px); left: var(--cb-line-left, 0px); right: auto; bottom: auto;
+  width: var(--cb-line-w, 560px); height: var(--cb-line-h, 400px); max-height: none; box-shadow: none;
+}
+.cb-call.cb-call--lined .cb-move, .cb-call.cb-call--lined .cb-sizer { display: none; }
+.cb-call.cb-call--lined .cb-call-bar { cursor: default; touch-action: auto; }
+.cb-call.cb-call--lined .cb-call-screen { aspect-ratio: auto; }
+/* UNDER A ROOM'S SCREEN (cb.js, under, screenStrip, lineCall; Ryan's ask,
+   2026-11-01): who is hosting here, with Catch up and Follow, and the place a
+   call stands in, in the radio's clothes on the room's page. */
+:host(.cb-under-host) { display: block; }
+.cb-under { margin: 12px 0; color: var(--cb-steel); font: 15px/1.45 'Atkinson Hyperlegible', system-ui, sans-serif; text-align: left; }
+.cb-under :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.cb-strip {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; box-sizing: border-box; max-width: 760px;
+  background: var(--cb-case); border: 2px solid var(--cb-steel-2); border-radius: 10px; padding: 8px 12px;
+}
+.cb-strip-line { margin: 0; flex: 1 1 18rem; }
+.cb-strip-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.cb-strip-btns .cb-catch { margin-left: 0; }
+.cb-strip-said { margin: 0; flex: 1 0 100%; font-size: 14px; }
+.cb-strip + .cb-call-place { margin-top: 12px; }
+.cb-call-place { max-width: 100%; }
 .cb-call-note { flex: none; padding: 4px 12px; font-size: 13px; }
 .cb-call-screen { flex: 1 1 auto; min-height: 0; aspect-ratio: 16 / 10; background: #000; border-radius: 0 0 8px 8px; overflow: hidden; }
 .cb-call-screen iframe { display: block; width: 100%; height: 100%; border: 0; }

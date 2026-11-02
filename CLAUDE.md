@@ -4414,7 +4414,17 @@ call's (`callShown` keeps it in step), so it adds no way into a call. **Jitsi's 
 (`disableChat` in `callSrc`, Ryan's call the same day, after asking whether Jitsi's chat could take Markdown, editing,
 emoji or pictures: it cannot, on JaaS): the channel is the call's chat, and `privacy.html#call-chat` says what is typed
 there is now kept as the channel keeps it. The friendly edit is turning it off in the public calls too, where a guest has
-no radio. **A band of nothing
+no radio. **A watch together in a room has its controls under the room's screen, and a call on a wide window stands
+there too** (Ryan's ask, 2026-11-01, from a screenshot of a film, a call and the radio all going): `under`,
+`screenStrip` and `lineCall` in `cb.js` put one shadow host (`cb-under-host`, the radio's clothes) after the page's
+first screen (`screenAnchor`: after a rack's way back, or the block a set stands in): a strip that is this room's
+beacon with the radio's own Catch up, Follow or Stop hosting, aria-hidden answer and all, and a place `call.js`'s
+`lineTo` stands the call over, absolutely positioned in the page so it scrolls with the screen, a window in the corner
+again once the place is out of sight (an IntersectionObserver), never on the chat page or Your page. **The room's call
+button says Join or Leave and is no longer a pressed toggle** (`data-on`), and **call.js tells the page `love-call`
+whenever a call opens or goes**, because a room's own call panel (`callroom.js`) opens calls without the radio. The
+friendly edits are the strip as a second Host this film "so it is all in one place", which is two copies of that
+control, and the call lined up on a phone, where it is the whole width and buries the room. **A band of nothing
 under World's chat was the `.sr` words beside each message**, absolutely positioned inside an
 unpositioned log, so they were placed against the channel part as far down as their message and the
 part scrolled by that much: `.cb-log`, `.cb-dm-log` and `.cb-hits` are positioned now, and a new

@@ -467,9 +467,20 @@
     size('regular');
     box.appendChild(bar);
     box.appendChild(moveSaid);
-    box.appendChild(el('p', 'cb-call-note', whole
-      ? 'This window keeps the call while you go from room to room in the one you came from. Closing it hangs up. While you are in the call, stimpunks.world keeps your name in it, until you leave.'
-      : 'Leaving this page hangs up. While you are in the call, stimpunks.world keeps your name in it, until you leave.'));
+    /* ONE LINE, AND WHAT IS KEPT IS A LINK (Ryan, 2026-11-01: the note took
+       two lines in every call). The privacy page says what stimpunks.world
+       keeps while you are in a call; the link opens it in a new tab, because
+       following it here would leave the page, and leaving the page hangs up. */
+    var standing = el('p', 'cb-call-note', whole
+      ? 'Closing this window hangs up. You can go from room to room in the one you came from. '
+      : 'Leaving this page hangs up. ');
+    var kept = el('a', null, 'What we keep while you are in a call');
+    kept.href = '/privacy.html#calls';
+    kept.target = '_blank';
+    kept.rel = 'noopener';
+    standing.appendChild(kept);
+    standing.appendChild(document.createTextNode(' (opens in a new tab).'));
+    box.appendChild(standing);
     /* WHO IS IN THE CALL, just above 8x8's own Join button, which is where
        somebody is looking when they decide (Ryan, 2026-09-29). call.js never
        asks for it: cb.js fills it from the answer the radio already gets, under
@@ -496,7 +507,7 @@
     var watch = window.ResizeObserver ? new ResizeObserver(put) : null;
     if (watch) watch.observe(box);
     // Docked into the chat app on a phone (dockTo), it fills its place and does not move.
-    mover.still = function () { return box.classList.contains('cb-call--app'); };
+    mover.still = function () { return box.classList.contains('cb-call--app') || box.classList.contains('cb-call--lined'); };
     put();
     leave.focus();
     return { host: host, box: box, mover: mover, room: here.tag, who: who, off: function () { window.removeEventListener('resize', put); if (watch) watch.disconnect(); } };
@@ -527,10 +538,21 @@
     var c = current;
     current = null;
     guarding(false);
+    unline();
     c.off();
     c.host.remove();
     if (isWindow) say();
     if (c.left) c.left(why);
+    changed();
+  }
+
+  /* A CALL OPENED OR LEFT ANYWHERE ON THE PAGE IS TOLD TO THE PAGE, as
+     love-call on window, with nothing in it: the radio asks loveCall which
+     call is open. A room's own call panel (callroom.js) opens calls too, and
+     until 2026-11-01 the radio heard of those only when it next looked, so it
+     went on saying Join this room's call to somebody in the call. */
+  function changed() {
+    try { window.dispatchEvent(new CustomEvent('love-call')); } catch (e) {}
   }
 
   /* ── The call's own window, and the line to it ─────────────────────────
@@ -644,6 +666,7 @@
             if (!opts.whole) guarding(true);
             holding = room;
             say();
+            changed();
             done({ ok: true, said: (hungUp ? 'The call in its own window has been hung up. ' : '') + 'The call is open at the foot of the page. Your browser may ask about your camera and microphone so its first screen can show a preview; both start off, and nothing goes to the call until you join there.' });
           });
         });
@@ -674,6 +697,65 @@
     if (current.mover) current.mover.place();
   }
 
+  /* LINED UP WITH THE ROOM'S SCREEN (cb.js, lineCall; Ryan's ask, 2026-11-01):
+     on a wide window, a call open in a room's page stands in a place cb.js
+     keeps for it under the room's first screen, rather than over the page.
+     It is placed in the page, not the window, so it scrolls with the screen
+     and nothing has to chase the scroll; and once that place has scrolled
+     right out of sight it is the window in the corner again, so the call is
+     never out of reach. slot is the element it stands over, or null to put
+     it back as a window. It does not move or change size there. */
+  var lined = null;
+  function unline() {
+    if (!lined) return;
+    lined.io.disconnect();
+    if (lined.ro) lined.ro.disconnect();
+    window.removeEventListener('resize', lined.place);
+    lined = null;
+  }
+  function lineTo(slot) {
+    if (lined && slot && lined.slot === slot) { lined.place(); return; }
+    unline();
+    if (!current || !current.box) return;
+    var b = current.box;
+    if (!slot || !window.IntersectionObserver) {
+      b.classList.remove('cb-call--lined');
+      if (current.mover) current.mover.place();
+      return;
+    }
+    var l = lined = { slot: slot, seen: true };
+    l.place = function () {
+      if (lined !== l || !current) return;
+      if (!l.seen) {
+        b.classList.remove('cb-call--lined');
+        if (current.mover) current.mover.place();
+        return;
+      }
+      b.classList.add('cb-call--lined');
+      if (current.mover) current.mover.place();
+      // Where the call's own containing block starts, whichever element that
+      // is in a room's page: measured, not assumed.
+      b.style.setProperty('--cb-line-top', '0px');
+      b.style.setProperty('--cb-line-left', '0px');
+      var o = b.getBoundingClientRect(), r = slot.getBoundingClientRect();
+      b.style.setProperty('--cb-line-top', Math.round(r.top - o.top) + 'px');
+      b.style.setProperty('--cb-line-left', Math.round(r.left - o.left) + 'px');
+      b.style.setProperty('--cb-line-w', Math.round(r.width) + 'px');
+      b.style.setProperty('--cb-line-h', Math.round(r.height) + 'px');
+    };
+    l.io = new IntersectionObserver(function (seen) {
+      var was = l.seen;
+      l.seen = seen[seen.length - 1].isIntersecting;
+      if (l.seen !== was) l.place();
+    });
+    l.io.observe(slot);
+    // Anything above it growing moves it down: the place follows.
+    l.ro = window.ResizeObserver ? new ResizeObserver(function () { l.place(); }) : null;
+    if (l.ro) { l.ro.observe(slot); l.ro.observe(document.body); }
+    window.addEventListener('resize', l.place);
+    l.place();
+  }
+
   // The who-is-in-the-call line of the window open for this room, if one is.
   function whoLine(tag) { return current && current.room === tag ? current.who : null; }
 
@@ -681,7 +763,7 @@
   // from another: the radio has this room's and the World's.
   function openRoom() { return current ? current.room : null; }
 
-  window.loveCall = { Mover: Mover, open: open, leave: leave, isOpen: function () { return !!current; }, openRoom: openRoom, whoLine: whoLine, dockTo: dockTo,
+  window.loveCall = { Mover: Mover, open: open, leave: leave, isOpen: function () { return !!current; }, openRoom: openRoom, whoLine: whoLine, dockTo: dockTo, lineTo: lineTo,
     // popOut: the radio's own window, where the radio is the whole window,
     // sends a call straight into a window of its own (cb.js, setCall).
     away: function () { return away; }, onAway: onAway, showAway: showAway, leaveAway: leaveAway, popOut: popOut,

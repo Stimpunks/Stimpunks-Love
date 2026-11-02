@@ -29338,7 +29338,7 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
      out with blank pages in it, and only for somebody signed on. A zine page
      with a pass in the browser would have gone over its one sheet the same way.
      The radio is a control; controls never belong on paper. */
-  .cb-host { display: none !important; }
+  .cb-host, .cb-under-host { display: none !important; }
   .fx-host { display: none !important; }
   /* Nor the notice, which is for whoever opens the page today. */
   [data-notice] { display: none !important; }
