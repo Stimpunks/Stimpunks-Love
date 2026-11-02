@@ -183,16 +183,6 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "Mwje7s0vhuo",
-   "source": "acl",
-   "form": "short",
-   "title": "VMA - Best New Artist SIENNA SPIRO Debuts on ACLTV",
-   "published": "2026-10-02T17:19:31Z",
-   "state": "screen",
-   "runs": 31,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "SzcrTe23nBQ",
    "source": "acl",
    "form": "short",
@@ -361,16 +351,6 @@
    "state": "screen",
    "runs": 26,
    "channel": "Austin City Limits"
-  },
-  {
-   "id": "ebG4-E4MCuM",
-   "source": "kexp",
-   "form": "long",
-   "title": "Interpol - Full Performance (Live on KEXP)",
-   "published": "2026-10-02T15:00:28Z",
-   "state": "screen",
-   "runs": 1551,
-   "channel": "KEXP"
   },
   {
    "id": "oFxaH-mKRgg",
@@ -1493,13 +1473,43 @@
    "channel": "KEXP"
   },
   {
-   "id": "GQkCxHXuPQc",
+   "id": "P-a0yWL-u98",
    "source": "kexp",
-   "form": "short",
-   "title": "Interpol performs \"See Out Loud\" & more Live on KEXP",
-   "published": "2026-10-02T18:31:59Z",
+   "form": "long",
+   "title": "Chanpan - endlessly (Live on KEXP)",
+   "published": "2026-11-02T12:00:16Z",
    "state": "screen",
-   "runs": 58,
+   "runs": 192,
+   "channel": "KEXP"
+  },
+  {
+   "id": "e2eFWYYWdV0",
+   "source": "kexp",
+   "form": "long",
+   "title": "Chanpan - speculations (Live on KEXP)",
+   "published": "2026-11-02T12:00:16Z",
+   "state": "screen",
+   "runs": 248,
+   "channel": "KEXP"
+  },
+  {
+   "id": "mxLJxKfrCeM",
+   "source": "kexp",
+   "form": "long",
+   "title": "Chanpan - buzzin (Live on KEXP)",
+   "published": "2026-11-02T12:00:29Z",
+   "state": "screen",
+   "runs": 176,
+   "channel": "KEXP"
+  },
+  {
+   "id": "bVwSZQPjRYE",
+   "source": "kexp",
+   "form": "long",
+   "title": "Chanpan - romantic (Live on KEXP)",
+   "published": "2026-11-02T12:00:39Z",
+   "state": "screen",
+   "runs": 222,
    "channel": "KEXP"
   },
   {
@@ -1801,6 +1811,16 @@
    "state": "screen",
    "runs": 54,
    "channel": "KCRW"
+  },
+  {
+   "id": "g25GOrTH9XY",
+   "source": "kcrw",
+   "form": "short",
+   "title": "Moby \"Natural Blues\" (ft. Jacob Lusk) Live On KCRW",
+   "published": "2026-11-01T15:00:17Z",
+   "state": "screen",
+   "runs": 37,
+   "channel": "KCRW"
   }
  ],
  "covered": {
@@ -1808,13 +1828,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-01T13:04:58Z"
+     "2026-11-02T12:32:55Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-01T13:04:58Z"
+     "2026-11-02T12:32:55Z"
     ]
    ]
   },
@@ -1822,13 +1842,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-01T13:04:58Z"
+     "2026-11-02T12:32:55Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-01T13:04:58Z"
+     "2026-11-02T12:32:55Z"
     ]
    ]
   },
@@ -1836,16 +1856,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-01T13:04:58Z"
+     "2026-11-02T12:32:55Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-01T13:04:58Z"
+     "2026-11-02T12:32:55Z"
     ]
    ]
   }
  },
- "set": "2026-11-01T13:04Z"
+ "set": "2026-11-02T12:32Z"
 }
