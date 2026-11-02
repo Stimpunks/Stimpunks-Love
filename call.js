@@ -348,8 +348,39 @@
   } catch (e) { /* the drawing keeps the motion it opened with */ }
 
   // A call's sizes, smallest first, and what minus and plus call each one.
-  var CALL_SIZES = ['stamp', 'small', 'regular', 'large'];
-  var CALL_SAYS = { stamp: 'Stamp, the picture and the bar', small: 'Small, a tile in the corner', regular: 'Regular', large: 'Large, the whole window' };
+  var CALL_SIZES = ['stamp', 'small', 'regular', 'beside', 'large'];
+  var CALL_SAYS = { stamp: 'Stamp, the picture and the bar', small: 'Small, a tile in the corner', regular: 'Regular', beside: 'Beside the radio, the rest of the window', large: 'Large, the whole window' };
+
+  /* BESIDE THE RADIO (Ryan's ask, 2026-11-01: Large went under the radio, and
+     the next size down was a window in the corner): the window's whole height,
+     from its edge to the radio's, on whichever side of the radio has more room,
+     so the call and the radio share the window and neither covers the other.
+     Where the radio is is read off its box and its side drawings each time
+     the call is placed, and followed as the radio moves or changes size. With
+     no radio on the page (a guest), it is the window less its edges. */
+  function radioBox() {
+    var hosts = document.querySelectorAll('.cb-host');
+    for (var i = 0; i < hosts.length; i++) {
+      var r = hosts[i].shadowRoot && hosts[i].shadowRoot.querySelector('.cb-radio');
+      if (r) return r;
+    }
+    return null;
+  }
+  function besideOf() {
+    var W = window.innerWidth, r = radioBox();
+    var full = { left: EDGE, width: W - 2 * EDGE };
+    if (!r) return full;
+    var b = r.getBoundingClientRect();
+    if (!b.width) return full;
+    var lo = b.left, hi = b.right;
+    // A theme's drawings down the radio's sides are the radio too.
+    Array.prototype.forEach.call(r.getRootNode().querySelectorAll('.cb-side'), function (s) {
+      var q = s.getBoundingClientRect();
+      if (q.width) { lo = Math.min(lo, q.left); hi = Math.max(hi, q.right); }
+    });
+    var left = lo - 2 * EDGE, right = W - hi - 2 * EDGE;
+    return right > left ? { left: hi + EDGE, width: Math.max(0, right) } : { left: EDGE, width: Math.max(0, left) };
+  }
 
   /* how.whole: this is the call's own window, so the call fills it, and
      there is nothing to move or size (the window itself is moved and sized).
@@ -417,7 +448,7 @@
       // Placed again at once, not only when the ResizeObserver gets round to
       // it: a call moved to a corner and made Large hung off the screen until
       // then, and a hidden tab never gets round to it at all.
-      if (mover) mover.place();
+      if (mover) put();
     }
     // One size down or up; at either end, the button with nowhere to go says so.
     function step(by) {
@@ -515,16 +546,35 @@
     mover = new Mover(box, bar, move, { x: null, y: null }, 'left', 'cb-call--held', null, function () {
       note('Drag the bar to move the call, or use the arrow keys while Move has the keyboard. Home puts it back in the corner.');
     });
-    function put() { mover.place(); }
+    function put() {
+      if (now === 'beside') {
+        var at = besideOf();
+        box.style.setProperty('--cb-beside-left', Math.round(at.left) + 'px');
+        box.style.setProperty('--cb-beside-w', Math.round(at.width) + 'px');
+      }
+      mover.place();
+    }
     window.addEventListener('resize', put);
+    // The radio moving or changing size moves where Beside the radio is.
+    var radio = radioBox(), follow = null;
+    if (radio) {
+      follow = { ro: window.ResizeObserver ? new ResizeObserver(function () { if (now === 'beside') put(); }) : null,
+                 mo: new MutationObserver(function () { if (now === 'beside') put(); }) };
+      if (follow.ro) follow.ro.observe(radio);
+      follow.mo.observe(radio, { attributes: true, attributeFilter: ['style', 'class'] });
+    }
     // Minus and plus change its size, so it is placed again to keep it on the screen.
     var watch = window.ResizeObserver ? new ResizeObserver(put) : null;
     if (watch) watch.observe(box);
     // Docked into the chat app on a phone (dockTo), it fills its place and does not move.
-    mover.still = function () { return box.classList.contains('cb-call--app') || box.classList.contains('cb-call--lined'); };
+    mover.still = function () { return box.classList.contains('cb-call--app') || box.classList.contains('cb-call--lined') || now === 'beside'; };
     put();
     leave.focus();
-    return { host: host, box: box, mover: mover, room: here.tag, who: who, words: heightWords, off: function () { window.removeEventListener('resize', put); if (watch) watch.disconnect(); } };
+    return { host: host, box: box, mover: mover, room: here.tag, who: who, words: heightWords, off: function () {
+      window.removeEventListener('resize', put);
+      if (watch) watch.disconnect();
+      if (follow) { if (follow.ro) follow.ro.disconnect(); follow.mo.disconnect(); }
+    } };
   }
 
   var current = null;

@@ -4423,7 +4423,10 @@ beacon with the radio's own Catch up, Follow or Stop hosting, aria-hidden answer
 `lineTo` stands the call over, absolutely positioned in the page so it scrolls with the screen, a window in the corner
 again once the place is out of sight (an IntersectionObserver), never on the chat page or Your page. Its height is
 what is left of the window under the screen (`lineHeight`), and minus and plus step it there (`lineTo`'s `step`), so
-the film and the call are seen together; the friendly edit is a fixed 16:10 call, which ran off the window's foot. **The room's call
+the film and the call are seen together; the friendly edit is a fixed 16:10 call, which ran off the window's foot.
+**A call has a size Beside the radio** (Ryan, 2026-11-01), between Regular and Large in `CALL_SIZES`: the window's
+whole height from its edge to the radio's box and side drawings (`besideOf` in `call.js`), on whichever side has more
+room, followed as the radio moves or changes size, and nothing to move. The friendly edit is Large under the radio. **The room's call
 button says Join or Leave and is no longer a pressed toggle** (`data-on`), and **call.js tells the page `love-call`
 whenever a call opens or goes**, because a room's own call panel (`callroom.js`) opens calls without the radio. The
 friendly edits are the strip as a second Host this film "so it is all in one place", which is two copies of that

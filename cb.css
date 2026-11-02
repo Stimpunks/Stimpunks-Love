@@ -2625,6 +2625,16 @@ button.cb-ev-link {
 .cb-call.cb-call--app .cb-move, .cb-call.cb-call--app .cb-sizer { display: none; }
 .cb-call.cb-call--app .cb-call-bar { border-radius: 0; cursor: default; touch-action: auto; }
 .cb-call.cb-call--app .cb-call-screen { aspect-ratio: auto; border-radius: 0; }
+/* BESIDE THE RADIO (call.js, besideOf; Ryan's ask, 2026-11-01): the window's
+   whole height, from its edge to the radio's, so neither covers the other. It
+   is placed where the radio leaves room, so there is nothing to move. Before
+   the lined-up rules, which win while the call stands under a room's screen. */
+.cb-call.cb-call--beside {
+  left: var(--cb-beside-left, 8px); right: auto; top: 8px; bottom: 8px;
+  width: var(--cb-beside-w, calc(100vw - 16px)); height: auto; max-height: none;
+}
+.cb-call.cb-call--beside .cb-move { display: none; }
+.cb-call.cb-call--beside .cb-call-screen { aspect-ratio: auto; }
 /* LINED UP WITH A ROOM'S SCREEN (call.js, lineTo; Ryan's ask, 2026-11-01): in
    the place cb.js keeps for it under the room's first screen, in the page, so
    it scrolls with the screen. It keeps its case and its edge, unlike the chat
