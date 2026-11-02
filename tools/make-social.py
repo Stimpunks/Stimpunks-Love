@@ -18,8 +18,10 @@ This writes, from data/social.json:
   · social.xml, an RSS feed of the newest FEED_KEEP.
 
 A POST CAN BE HELD (`held`, with the reason): it stays in the data and is on
-neither the page nor the feed. The import held every post that quotes a song's
-lyrics, which the street does not reproduce, until Ryan decides.
+neither the page nor the feed. Posts that quote a song's lyrics were held for
+an afternoon and published on Ryan's call the same day (2026-11-02): our use of
+them is fair use, the responsibility for them is ours, and the street refuses
+lyrics nowhere now.
 
 IT REFUSES: a post with neither words nor an image; two posts with one id; an
 image on the page that is held (a person in it and no consent record, or not
@@ -195,8 +197,7 @@ def main():
     data = json.loads(DATA.read_text())
     every = sorted(data.get("posts", []), key=lambda p: p["t"], reverse=True)
     check(every)
-    # A held post is in the data and on neither the page nor the feed: one that
-    # quotes a song's lyrics, which the street does not reproduce (2026-11-02).
+    # A held post is in the data and on neither the page nor the feed.
     posts = [p for p in every if not p.get("held")]
     page = PAGE.read_text()
     if page.count(BEGIN) != 1 or page.count(END) != 1:

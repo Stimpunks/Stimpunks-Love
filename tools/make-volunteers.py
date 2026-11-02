@@ -49,9 +49,6 @@ WHAT IT REFUSES, and the first four are the room:
 
   · CULTURE FIT in our own words, unless the words round it say not. GitLab's
     line is quoted; the room's own voice only ever says values fit.
-  · A LYRIC. Our Volunteer page ends its values with a song's words, and this
-    room has none of them: make-zibaldone.py's rule, refused by the song's own
-    lines with no negation window, and by any value shaped like verse.
   · A FORM, AN INPUT, A TEXTAREA OR ANYTHING EDITABLE outside the job marker, and
     any script but love.js and quest.js. The volunteer form is on stimpunks.org;
     the friendly edit is a sign-up sheet on the page "so people can volunteer
@@ -126,11 +123,6 @@ SWEEPS = [
 SWEEPS = [(re.compile(rf"\b(?:{p})", re.I),
            re.compile(rf"\b{NEGATION}\b[^.]{{0,70}}?\b(?:{p})", re.I), why) for p, why in SWEEPS]
 
-# The song our Volunteer page quotes under Love and Care. Its words are refused
-# here with no negation window, the Zibaldone's rule, by its own lines.
-LYRIC = re.compile(r"write each other letters|call it prayer|temple of broken dreams|"
-                   r"congregate in the place", re.I)
-
 SCRIPTS = {"love.js", "quest.js"}
 
 problems = []
@@ -166,8 +158,6 @@ def plain_md(s):
 
 def sweep(text, where):
     text = str(text)
-    if LYRIC.search(text):
-        refuse(f"{where}: carries the words of the song our Volunteer page quotes. No lyric here. See _no_lyric.")
     for rx, ok, why in SWEEPS:
         for m in rx.finditer(text):
             window = text[max(0, m.start() - 80):m.end()]
@@ -177,13 +167,11 @@ def sweep(text, where):
 
 
 def ours(text, where):
-    """Our own words: no entity, no verse, a link only to a page that can be
+    """Our own words: no entity, a link only to a page that can be
     checked by eye, swept for the room's refusals."""
     text = str(text)
     if ENTITY.search(text):
         refuse(f"{where}: carries an HTML entity. Everything is escaped on the way in; write the character.")
-    if text.count("\n") >= 2:
-        refuse(f"{where}: shaped like verse, several hand-broken lines. No lyric here.")
     for _, url in LINK.findall(text):
         if not (url.startswith("https://") or re.match(r"^[a-z0-9-]+\.html(?:#[\w/=-]*)?$", url)):
             refuse(f"{where}: {url!r} is neither an https address nor a page of ours.")
@@ -267,8 +255,6 @@ for qid, q in quotes.items():
     for field, v in q.items():
         if ENTITY.search(str(v)):
             refuse(f"{where}: {field} carries an HTML entity.")
-    if LYRIC.search(text):
-        refuse(f"{where}: the song our Volunteer page quotes. No lyric here.")
     if mirror_ok and q.get("read_on") in mirror_text and fold(text) not in mirror_text[q["read_on"]]:
         refuse(f"{where}: not on {pages[q['read_on']]['url']} word for word. Re-copy it from our page; "
                "never loosen the check.")
@@ -622,4 +608,4 @@ print(f"volunteers: a cloth of {len(helps)} bands, {len(playbooks)} playbooks, {
 print(f"  longest quotation {longest} words against a cap of {cap}; "
       + ("every one checked against the mirror word for word" if mirror_ok
          else "the Knowledge System mirror is not on this machine, so the quotations were not re-read"))
-print("  nothing counted, nobody owed, nobody a hero, and no lyric")
+print("  nothing counted, nobody owed, nobody a hero")

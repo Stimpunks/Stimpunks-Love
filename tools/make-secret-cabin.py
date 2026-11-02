@@ -36,7 +36,7 @@ IT REFUSES:
   · the inside's address anywhere in the door page or in e-door.js, in any case;
   · an album that is not on the band's own channel, whose list or track ids are
     not ids, with no year, label or MusicBrainz record, or with a field this
-    tool does not know: a lyric is not a field, and nothing musical is hosted;
+    tool does not know;
   · an album `listed` rather than in MusicBrainz that does not say where its
     year and label were read, or whose sleeve note does not say MusicBrainz
     lacks it: the one way past MusicBrainz is a compilation it does not have
@@ -495,8 +495,7 @@ def main():
         where = f"{DATA.name}, {a.get('title')!r}"
         extra = set(a) - ALBUM_KEYS
         if extra:
-            refuse(f"{where} carries {', '.join(sorted(extra))}, which this rack does not know. A song's "
-                   "words are not a field here, and nothing musical is hosted on this street.")
+            refuse(f"{where} carries {', '.join(sorted(extra))}, which this rack does not know.")
         if not LIST.fullmatch(a.get("list", "")):
             refuse(f"{where}: {a.get('list')!r} is not one of YouTube's album lists.")
         # A DATE AS EXACT AS MUSICBRAINZ GIVES IT, AND NO EXACTER: Time Out's 1959 LP

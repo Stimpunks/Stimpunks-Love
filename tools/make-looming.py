@@ -54,8 +54,7 @@ WHAT IT REFUSES:
     and belongs elsewhere can wait under "held"; a held entry needs a reason
     and cannot also be an act.
 
-  - AN HTML ENTITY IN ANY FIELD, and a note shaped like verse. The fifth and
-    sixth shapes of each on this street; see data/lagoon.json.
+  - AN HTML ENTITY IN ANY FIELD. See data/lagoon.json.
 """
 import html
 import json
@@ -101,7 +100,6 @@ PLAIN = {
     "come", "gives", "takes", "answer", "answers", "colour", "colours",
 }
 
-VERSE_LINE = 52
 
 
 def esc(s):
@@ -118,11 +116,6 @@ def swap(page, marker, block, indent=""):
     page.write_text(re.sub(re.escape(begin) + r".*?" + re.escape(end),
                            lambda m: begin + "\n" + block + "\n" + indent + end,
                            src, flags=re.S))
-
-
-def looks_like_verse(text):
-    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
-    return len(lines) >= 3 and all(len(ln) <= VERSE_LINE for ln in lines)
 
 
 def check(d):
@@ -167,9 +160,6 @@ def check(d):
         note = (a.get("note") or "").strip()
         if not note:
             bad.append(f"{t!r} has no note written for this room.")
-        if looks_like_verse(note):
-            bad.append(f"{t!r}'s note is several short hand-broken lines, which is what a "
-                       "lyric looks like and what a sentence never does.")
         if RANKING.search(note):
             bad.append(
                 f"{t!r} ranks the running order. A running order is an order somebody put "

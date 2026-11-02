@@ -17,8 +17,8 @@ Knowledge System mirror's copy of that page on every build. The Town Hall's
 rule about a page somebody else keeps: when our page changes, re-copy the
 quotation, never loosen the check. Without the mirror it says it could not
 check and carries on. It also refuses a quotation over the data file's cap, one
-with no marker in the page or a marker with no quotation, a quotation shaped
-like verse, somebody else's words without the work they come from, and a
+with no marker in the page or a marker with no quotation, somebody else's
+words without the work they come from, and a
 stimpunks.org address without its trailing slash.
 
 THE PRACTICES AND THE PROPAGATION BENCH are our Competency Networks page's
@@ -294,9 +294,6 @@ def check_quotes(d):
         if cap and len(said.split()) > cap:
             refuse(f"the quotation {k!r} runs to {len(said.split())} words, over the cap of {cap}. "
                    "Point at the page instead of carrying it.")
-        lines = [ln for ln in said.split("\n") if ln.strip()]
-        if len(lines) > 2:
-            refuse(f"the quotation {k!r} is shaped like verse. Nothing in here sets a lyric.")
         if q.get("by") and not q.get("own_voice") and not (q.get("work") and q.get("work_url")):
             refuse(f"the quotation {k!r} is {q['by']}'s and does not say which work it is from.")
         if q.get("after") and not q.get("after_url"):

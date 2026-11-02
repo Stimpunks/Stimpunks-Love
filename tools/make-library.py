@@ -25,10 +25,6 @@ IT REFUSES, and each of these is here because it is the friendly edit:
   · A QUOTATION WITH NO `checked`, or with no `who`, or with a work and no year.
     A quotation whose source is unknown is allowed, and says so; one whose line
     about checking is missing is not.
-  · A LYRIC. Our Library page quotes the Linda Lindas, and this street hosts no
-    song's words anywhere but the one room that holds a written permission. The
-    vocabulary that only ever describes a recording is refused in a quotation's
-    work and checked lines, which is make-zibaldone.py's narrowed pattern.
   · THE GRAPHIC NOVEL. Our Library page cites the 1989 novel and links Open
     Library's record for the 2000 graphic adaptation (OL21372059W, edition
     OL7878556M). Copying the link off our own page is what the next edit will
@@ -65,11 +61,6 @@ PREFIX = {
 
 GRAPHIC_NOVEL = ("OL21372059W", "OL7878556M")
 
-# Only ever a recording. `song` alone would refuse Whitman, which is the first
-# thing make-zibaldone.py's version of this refused; these are the words that
-# never describe anything else.
-LYRIC = re.compile(r"\b(?:lyrics?|chorus|verse \d|single|album|b-side|track \d|"
-                   r"sings?|sung|songwriter|the band)\b", re.I)
 ENTITY = re.compile(r"&[a-z]+;|&#\d+;")
 
 
@@ -117,10 +108,6 @@ def check(d):
         if cap and words(q.get("text", "")) > cap:
             problems.append(f"{where} is {words(q['text'])} words and the cap is {cap}. The long "
                             "passages stay on our Library page, linked.")
-        for k in ("work", "checked", "text"):
-            if q.get(k) and LYRIC.search(q[k]):
-                problems.append(f"{where}: {k} reads like a song ({LYRIC.search(q[k]).group(0)!r}). "
-                                "No lyric is hosted on this street without a written permission.")
         for k in ("text", "who", "work", "checked"):
             if q.get(k) and ENTITY.search(q[k]):
                 problems.append(f"{where}: {k} carries an HTML entity. Write the character; this "

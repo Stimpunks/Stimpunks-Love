@@ -34,13 +34,6 @@ WHAT IT REFUSES:
     data file were resolved separately and the file says how; a song that
     arrives without one does not get a guess.
 
-  - A NOTE SHAPED LIKE VERSE. make-rabbit-hole.py's rule, in the room that needs
-    it most. This street says in three places that nothing musical is hosted
-    here, and a page built out of ONE BAND -- whose words are half of why
-    anybody loves them -- is exactly where that promise would be broken in the
-    way that looked most affectionate. Several short hand-broken lines is what a
-    lyric looks like in a JSON string and what a sentence never does.
-
   - A COVER THAT DOES NOT SAY WHOSE IT IS. Half of this band's method was
     digging up other people's forgotten singles, so an uncredited cover here
     would be the one failure the subject of the room would have minded most.
@@ -86,8 +79,6 @@ RANKING = re.compile(
     r"(?:songs?|tracks?|records?|singles?|cuts?)\b"
     r"|\bcountdown\b|\branked\b|\bno\.?\s*1\b|\b#\s*1\b", re.I)
 
-# What a lyric looks like in a JSON string: several short lines, hand broken.
-VERSE_LINE = 52
 
 
 def origins():
@@ -120,11 +111,6 @@ def swap(page, marker, block, indent=""):
     page.write_text(re.sub(re.escape(begin) + r".*?" + re.escape(end),
                            lambda m: begin + "\n" + block + "\n" + indent + end,
                            src, flags=re.S))
-
-
-def looks_like_verse(text):
-    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
-    return len(lines) >= 3 and all(len(ln) <= VERSE_LINE for ln in lines)
 
 
 def check(data):
@@ -179,11 +165,6 @@ def check(data):
         note = (s.get("note") or "").strip()
         if not note:
             bad.append(f"{t!r} has no note written for this room.")
-        if looks_like_verse(note):
-            bad.append(
-                f"{t!r}'s note is several short hand-broken lines, which is what a "
-                "lyric looks like and what a sentence never does. Nothing musical is "
-                "hosted on this street and no words of this band's are on this page.")
         if RANKING.search(note) or RANKING.search(s.get("role") or ""):
             bad.append(
                 f"{t!r} ranks the rack. Nothing here is best, greatest or numbered: a "

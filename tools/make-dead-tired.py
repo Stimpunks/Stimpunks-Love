@@ -59,8 +59,7 @@ WHAT IT REFUSES, and the first three are the room:
     a claim only sighted readers get is not a claim this site may make. The
     garden's rule for its beds, arriving on a coat rack.
 
-  - AN HTML ENTITY IN ANY FIELD, and a note shaped like verse. The fourth and
-    fifth shapes of each; see data/lagoon.json and data/rabbit-hole.json.
+  - AN HTML ENTITY IN ANY FIELD. See data/lagoon.json.
 
   - A MISSING MARKER PAIR. A generator that writes nothing and exits 0 is how
     two surfaces drift apart.
@@ -81,7 +80,6 @@ NOTES = ROOT / "liner-notes.html"
 
 GLOSSARY = "https://stimpunks.org/glossary/"
 WORDS = 30            # printed in the room; see _quotes in the data file
-VERSE_LINE = 52
 
 ENTITY = re.compile(r"&(?:[a-zA-Z][a-zA-Z0-9]{1,31}|#\d{1,6}|#x[0-9a-fA-F]{1,6});")
 
@@ -189,11 +187,6 @@ DRAW = {
 problems = []
 
 
-def looks_like_verse(text):
-    lines = [ln.strip() for ln in str(text).splitlines() if ln.strip()]
-    return len(lines) >= 3 and all(len(ln) <= VERSE_LINE for ln in lines)
-
-
 def sweep(text, where):
     """The room's own words, against three vocabularies with a negation window
     and one without. The window is characters rather than words, because a
@@ -262,8 +255,6 @@ for i, p in enumerate(pegs, 1):
         if ENTITY.search(v):
             problems.append(f"{where}: {field} carries an HTML entity. Everything here is "
                             "escaped on the way into the page; write the character.")
-        if looks_like_verse(v):
-            problems.append(f"{where}: {field} is several short hand-broken lines.")
     q = p.get("quote") or {}
     words = len(str(q.get("text", "")).split())
     if not words:

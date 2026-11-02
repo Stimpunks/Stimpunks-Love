@@ -98,7 +98,7 @@
       "anchor": "the-slip",
       "takes": "A short line for the commonplace book, for any state of mind.",
       "asks": [
-        "Thirty words at most, and never a song lyric.",
+        "Thirty words at most, a line from a song included.",
         "Say who said it, which printing it is in, and where you found it. The attribution slip in the room writes that out for you.",
         "Say what you are unsure of. It is checked against a printing before it goes in, and a line nobody can place stays out."
       ],
@@ -341,7 +341,7 @@
         }
       ],
       "asks": [
-        "Nothing musical is hosted here, so a song goes in as a link to where it already lives, and no lyrics go on any page.",
+        "Nothing musical is hosted here, so a song goes in as a link to where it already lives.",
         "Every one is checked to see that it plays and can be shown here before it goes in."
       ],
       "route": "contact"

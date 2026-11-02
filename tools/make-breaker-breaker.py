@@ -33,11 +33,6 @@ WHAT IT REFUSES:
     it, among others. Every phrase in the data's left_off is refused anywhere in
     the room, and the friendly edit is to fill the board out with the rest of
     the list.
-  · A SONG'S WORDS. Convoy is a story told in CB talk, which makes it the most
-    tempting page on the street to quote a line from. Any value in the data
-    shaped like verse (several short hand-broken lines) is refused, which is
-    make-rabbit-hole.py's rule; and the room's own text must not carry the
-    song's best-known line (`_convoy_line` in this file is the pattern).
   · A RANKED RACK. No best, greatest, essential or countdown in our voice, the
     Lagoon's rule: the records are in the order they came out, and Convoy,
     which is older than all of them, closes the rack because it is a single
@@ -83,9 +78,6 @@ ENTITY = re.compile(r"&(?:[a-zA-Z][a-zA-Z0-9]{1,8}|#\d{2,5}|#x[0-9A-Fa-f]{2,5});
 TRACK_KEYS = {"id", "title", "seconds", "record", "channel"}
 WORDS = ("one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen "
          "sixteen seventeen eighteen nineteen twenty").split()
-# The line everybody knows from Convoy, as a pattern rather than the words,
-# so this file does not quote it either.
-_convoy_line = r"\bgot\s+(?:us\s+)?a\s+little\s+ol['’]?\s+convoy\b"
 RANKING = (r"(?:the )?best (?:record|song|album|trucking song|truckin)s?|greatest|essential|must-hear|countdown|"
            r"top (?:ten|five|\d+)|definitive")
 TALLY = r"streaks?|leaderboards?|how many (?:people|listeners|of you)|listener count|headcount"
@@ -127,11 +119,6 @@ def sweep(text, where):
             refuse(f"{where}: {m.group(0)!r} {label}. Rewrite the sentence rather than softening the word.")
 
 
-def verse(s):
-    lines = [l for l in s.split("\n") if l.strip()]
-    return len(lines) >= 3 and sum(len(l) < 60 for l in lines) >= 3
-
-
 data = json.loads(DATA.read_text())
 
 # ── the data ────────────────────────────────────────────────────────────────
@@ -146,8 +133,6 @@ def walk(v, where):
     elif isinstance(v, str):
         if ENTITY.search(v):
             refuse(f"{where}: an HTML entity. Write the character.")
-        if verse(v):
-            refuse(f"{where} is shaped like verse. No song's words go in this room.")
 
 
 walk({k: v for k, v in data.items() if not k.startswith("_")}, "data")
@@ -540,8 +525,6 @@ for phrase in left_off:
     if re.search(rf"(?<![a-z]){re.escape(phrase)}(?![a-z])", low):
         refuse(f"breaker-breaker.html says {phrase!r}, which is on the list of slang left off because it names "
                "people unkindly.")
-if re.search(_convoy_line, low):
-    refuse("breaker-breaker.html quotes Convoy. No song's words go in this room.")
 # The songs' titles are their makers' words and are cut out before our voice is swept.
 sweep(re.sub(r"\s+", " ", plain(re.sub(r"<[^>]+>", " ", re.sub(
     r'<span class="bkb-song">.*?</span>|<h3>.*?</h3>', " ", text, flags=re.S)))), "breaker-breaker.html")

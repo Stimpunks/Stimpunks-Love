@@ -54,11 +54,9 @@ said from Wikipedia's article on it, with the article named. The rack's titles
 are the channels' own -- the best taco in the world, a Michelin star, the most
 hyped bánh mì -- and they are quoted as written and not swept.
 
-THE NAME BORROWS A WORD AND NEVER THE LINE AFTER IT. Truckin' has been the word
-since Robert Crumb's Keep On Truckin' in Zap Comix #1, 1968, and the Grateful
-Dead's song on American Beauty, 1970, with Robert Hunter's lyric. The song's
-most famous line is refused on the page with no negation window, Hey, Good
-Cookin's rule for the words after its own title.
+THE NAME BORROWS A WORD. Truckin' has been the word since Robert Crumb's Keep
+On Truckin' in Zap Comix #1, 1968, and the Grateful Dead's song on American
+Beauty, 1970, with Robert Hunter's lyric.
 
 THE LIGHT COMES THROUGH THE AWNINGS. Every truck has its awning out over its
 hatch, two colours in stripes, and the sun through it lays those stripes on the
@@ -184,7 +182,6 @@ RANK = (r"best|greatest|finest|number one|no\. 1|top \d+|michelin|award[- ]winni
         r"most popular|ranked|rankings?")
 CLAIM = (r"cures?|cure for|heals?|healing|remed\w+|medicine|medicinal|good for you|boost\w*|detox\w*|"
          r"replenish\w*|immun\w+|treats? dehydration|prevents?")
-LYRIC = r"long,?\s+strange\s+trip"
 VOCAB = [
     (PRICE, "a price, or paying. Nothing at the Truck Stop has a price on it: the trucks hand things out, "
             "and our Third Places entry asks for a place that provides community without being required "
@@ -212,9 +209,6 @@ def sweep(text, where):
             refuse(f"{where}: {m.group(0)!r} -- {why}")
     if re.search(CURRENCY, text):
         refuse(f"{where}: a price written with a currency sign. Nothing at the Truck Stop has a price on it.")
-    if re.search(LYRIC, text, re.I):
-        refuse(f"{where}: the most famous line of the song the name borrows a word from is on the page. It is a "
-               "lyric, and this street sets no lyric it does not hold permission for.")
 
 
 # ── The checks on the room's own data ────────────────────────────────────────

@@ -2362,16 +2362,24 @@ moment somebody could have caught, so neither is left to care. `make-zibaldone.p
 quotation over thirty words**, the number lives in the tool, and the room prints it &mdash; because
 *we quote lightly* is not a thing a page can promise and not enforce. **Do not raise the limit.**
 
-**AND IT REFUSES A SONG, WHICH IS THE ONE REFUSAL NOTHING ELSE HERE WOULD HAVE MADE.** Ryan's reply
-to the person who asked, 2026-09-22: song lyric reproduction is an intellectual property minefield
-in the US. Music publishing enforces on quotation where prose publishing shrugs, the licensing is
-separate from the recording, and one line is a far larger fraction of a song than of a novel. This
-street says in three places that **nothing musical is hosted here**, and a quote bank is exactly
-where that promise would be broken in the way that looked most harmless &mdash; a good line, fully
-credited, from a record somebody loves. **The first thing that check ever refused was a false
-positive:** the word *song* matched Whitman's *Song of Myself*, and the pattern was narrowed rather
-than the poem excepted. That is `check-counts.py`'s first-run lesson and `make-guild.py`'s, arriving
-a third time. What is left is the vocabulary that only ever describes a recording.
+**LYRICS ARE ALLOWED ON THE STREET, AND NOTHING REFUSES THEM, SINCE 2026-11-02.** Ryan's call:
+"I consider our use of them to be fair use. ... The legal responsibility for the content is mine, not the
+tool's or the platform's." Every rule that refused a song's words was lifted that day: the Zibaldone's
+refusal of a song, the verse-shaped checks in the Rabbit Hole, the Lagoon, Looming Rocks, the Live Room,
+Dance Punks, Dead Tired Society, Covenstead, Learning Large, Breaker Breaker, the Haunted House and
+Volunteers, the named lines refused in Hey, Good Cookin', the Truckin' Food Court, Breaker Breaker,
+Volunteers and the Library, The Small Hours' permission requirement, the search index's skip, and the
+rooms' own sentences ("No lyrics go on this wall", "the vibe, not the lyrics"). Nothing was added to any
+room. **The friendly edit now runs the other way: a tool or a sentence refusing lyrics "to be safe".** Do
+not add one. Sithen still refuses a note shaped like verse, because that is about folklore somebody else
+collected, not songs; and Words, Bud, Beats' own form says "No song lyrics" in its owner's words, which
+are its owner's to change. Claude does not type out a song's lyrics itself; words for a room come from
+Ryan, Helen or a contributor.
+
+**A LINE FROM A SONG IS A LINE LIKE ANY OTHER, SINCE 2026-11-02.** The room refused songs from
+2026-09-22 until Ryan lifted the street's refusal of lyrics everywhere (below, *LYRICS ARE ALLOWED*). A
+line from a song keeps to the word limit, names its record or printing, says how it was checked, and is
+credited, like every other line.
 
 **A TITLE IS NOT A SOURCE, AND THE DICKINSON IS THE PROOF.** Every line names the **printing** it
 came from and says how it was checked and when, because these texts differ between printings &mdash;
@@ -2475,16 +2483,11 @@ while the other sets pale type on a dark wall. And because this gradient runs th
 scrolled — which no flat value can honestly stand in for — so **every block that carries text sits
 on a flat panel of its own** and the wash carries nothing but the header's lines.
 
-**A ROOM BUILT OUT OF ONE SONG DOES NOT GET THE SONG'S WORDS, AND A TOOL HOLDS THAT LINE.** Our
-own glossary entry prints the whole lyric; this room prints none of it. The reasoning is already
-written down for the Zibaldone — Ryan's call, 2026-09-22 — and the street says in three places
-that nothing musical is hosted here. **The friendly edit is real and it will arrive:** a room
-whose spine is one song, whose source page has the words on it already, and whose headings are
-phrases from it, reads *thin* without them, and whoever pastes them back will be right about the
-page and wrong about everything else. So `make-rabbit-hole.py` refuses a lyric field **and any
-value shaped like verse** — several short hand-broken lines, which is what a lyric looks like in
-a JSON string and what a sentence never does. A heading that is a phrase of hers is credited to
-her where it stands. **Do not put the words back.**
+**A ROOM BUILT OUT OF ONE SONG DOES NOT PRINT THE SONG'S WORDS, AND THAT IS NOW ITS CHOICE.** Our
+own glossary entry prints the whole lyric; this room prints none of it and offers the recordings and
+Grace Slick's own account instead, and its guild job asks how many lines are printed here. Until
+2026-11-02 `make-rabbit-hole.py` refused a lyric field; Ryan lifted that everywhere, so nothing refuses
+it now. A heading that is a phrase of hers is credited to her where it stands.
 
 **THE ENGRAVINGS ARE SHOWN BECAUSE THEIR SCANS SAY SO, WHICH IS THE MOPERY'S TEST AGAIN.** Six of
 Tenniel's 1865 cuts: published 1865, artist died 1914, out of copyright everywhere, and every
@@ -2765,10 +2768,7 @@ not the question. *Playing is not the same permission as embedding* arriving a t
 promise is that nothing is asked of a visitor before the press. Age-gating can also be switched on
 after the fact, and when it is, the button still looks perfect.
 
-**AND NOT ONE LINE OF ANY OF THOSE SONGS IS ON THAT PAGE.** `make-lagoon.py` refuses a note shaped
-like verse, which is `make-rabbit-hole.py`'s rule in the room that needs it most: a page built out
-of **one band**, whose words are half of why anybody loves them, is exactly where this street's
-promise would be broken in the way that looked most affectionate. It also **refuses a ranked rack**
+**IT REFUSES A RANKED RACK**
 &mdash; no best, no greatest, no countdown &mdash; because a rack of one band's records is the
 shape of thing that grows a league table, which is the pebbling cabinet's tally in a leather
 jacket. The records are in the order they were made and that is the only ordering in the room.
@@ -3140,7 +3140,7 @@ for the soundtrack alone: Enigma made *Hallowscenes* with Suno and asked for it 
 (`soundtrack` in the data, written between `hh:soundtrack` markers) framed from `suno.com/embed/`, the eighth origin in
 `ORIGINS`: Suno's song and album pages refuse a frame, its album embed's rows only open suno.com, and its files cannot
 be fetched (403), so a piece at a time in Suno's own player is the only way. The tool refuses a facade anywhere else on
-the page, a piece without its length, an id that is not Suno's, autoplay and a lyric field, and `haunted-house.js` still
+the page, a piece without its length, an id that is not Suno's, and autoplay, and `haunted-house.js` still
 makes no sound. **It is the street's one thing made with generative AI**, credited as such where it plays and on
 `design.html#ai` with the cover pictures Suno's player shows; Stimpunks does not use generative AI for art, and this is a
 community member's work. The friendly edits are a soundtrack that starts as you walk in, one piece playing on into the
@@ -3195,11 +3195,8 @@ stimpunks.org's to fix. **Syncopate is Apache 2.0**, and two credits said OFL un
 **THE SMALL HOURS HAS THE ONE SONG ON THIS STREET PRINTED IN FULL, AND THAT IS PERMISSION, NOT
 QUOTATION.** "Up All Night", Josephmooon, lyrics by Ronan Boren, a Stimpunk — a song about Autistic
 insomnia that Stimpunks helped produce and holds permission to distribute with its lyrics (Ryan,
-2026-09-23). **Every other room's lyric refusals stand**, and DECISIONS.md's quoting policy still governs
-everything else. `make-small-hours.py` refuses a lyric without a permission record naming what, who,
-how, when, by whom and the licence; **the words are excluded from CC BY-SA in `LICENSE`**, because
+2026-09-23), recorded with the record; **the words are excluded from CC BY-SA in `LICENSE`**, because
 permission to distribute is not permission to relicense. The lyricist's spelling is kept, not tidied.
-**Do not read this as the lyric rule relaxing.** A second song needs its own permission, recorded.
 
 **AND THE JUKEBOX STREAMS FROM THE BAND'S OWN SITE, SO "NOTHING MUSICAL IS HOSTED HERE" IS STILL TRUE.**
 That needed a second origin list: **`love-embed.js`'s `AUDIO_ORIGINS`**, beside `ORIGINS`, read by
@@ -3708,8 +3705,7 @@ down**, and a class cooking anything from an animal names FoodSafety.gov's tempe
 tool works out from the class's own words. FoodSafety.gov and USDA refuse a script, so the chart was read
 in a browser. No sign-up, no register, no grade, no certificate.
 
-**THE NAME PLAYS ON HANK WILLIAMS'S 1951 TITLE AND THE TOOL REFUSES THE WORDS THAT FOLLOW IT**, which are
-a lyric, anywhere on the page and with no negation window. The friendly edit is finishing the joke.
+**THE NAME PLAYS ON HANK WILLIAMS'S 1951 TITLE**, credited.
 
 **THE RACK IS LEARNING LARGE'S IN A KITCHEN.** `pull-cookin-month.py` is `pull-large-month.py`'s reading,
 kept in step by hand; `make-hey-good-cookin.py --month` redraws only the rack; `tools/daily-cookin.sh` is
@@ -3925,8 +3921,7 @@ allergens are the community kitchen's engine**, which learned that a baguette is
 told they had no gluten) and that oat flour is oats; caffeine is Pekoe and Purrs' words, and a cold drink is only
 caffeine-free when every part of it is on a short plain list. **The oral rehydration solution is the WHO's, to the
 gram**, and the tool refuses a card off Table 1's four figures; nobody at the hatch asks why. The name borrows a
-word from Robert Crumb and the Grateful Dead, credited, and the song's famous line is refused with no negation
-window. Familjen Grotesk was cut here to Latin and Vietnamese in one file, because Google splits them and the
+word from Robert Crumb and the Grateful Dead, credited. Familjen Grotesk was cut here to Latin and Vietnamese in one file, because Google splits them and the
 bánh mì board needs đồ chua in the same face. The guild's marker asks what anything costs, so the sweep skips the
 marker. **Its awnings' stripes are the street's only stripes of light** since the Community Center's blind came
 down (2026-10-23): keep them a colour each, outdoors, with no dark between them.
@@ -4694,8 +4689,7 @@ its WebAssembly needs `'wasm-unsafe-eval'` in `script-src`, its index churns in 
 and both machines would need it. **A `<blockquote>` is filed apart and shown by its credit, never its
 words**, because a snippet is a trimming machine and this site keeps attribution to stop that. The
 regions the morning timers rewrite are in `DAILY` in that tool: **a new timer that rewrites part of a
-page adds its markers there**, or the index is stale by breakfast. The Small Hours' lyric is left out
-and the tool checks the words, not just the class. The #tag completion still uses
+page adds its markers there**, or the index is stale by breakfast. The #tag completion still uses
 `roomsFor`, which only matches from the start of a name, on purpose: `#den` should not offer The
 Garden.
 
@@ -5623,9 +5617,7 @@ anywhere in the room**; the friendly edit is to fill the board out with the rest
 albums played as lists, every song on the back of its sleeve with its own button** (the cabin behind the door marked
 E's rule, so Follow and Catch up can find a song), each record's year, label and track lengths read off MusicBrainz,
 never the upload's Released on line (the first record plays Red River's 2014 reissue of Koch's 1998), and every song
-on the artist's own channel; `check-jukebox.py` knows the file by its `slang` key. **Not a line of any song is on the
-page**, Convoy above all, a story told in CB talk: the tool refuses verse-shaped values and the song's best-known line
-by pattern. **Every sentence about our CB is held** (`from_the_cb`'s `holds`, against `cb-guide.html`, `cb.js` and
+on the artist's own channel; `check-jukebox.py` knows the file by its `slang` key. **Every sentence about our CB is held** (`from_the_cb`'s `holds`, against `cb-guide.html`, `cb.js` and
 `lib.mjs`), the Community Center's service-board rule: when the radio changes, the tool stops until this room says
 what the radio now does. Silberman's passage is read on our Written Communication page and checked against it word
 for word. **Convoy's second life in 2022, as the anthem of the Freedom Convoy, is left off the page** on purpose
@@ -5693,8 +5685,7 @@ is checked against the mirror**, so a help line our Volunteer page drops stops t
 the roles in social change are named and never defined here (the Building Movement Project's map defines them), and
 the playbooks are ours in words, credited to Human Restoration Project. **The room has no form**: the volunteer form on
 stimpunks.org is the way in, the room says it arrives in the office as a volunteer application, and the tool holds
-that against `data/office.json`'s intake. **The song our page quotes under Love and Care is refused by its own
-lines**, the Zibaldone's rule. **The friendly edits are a sign-up sheet on the page, a count of hours or a volunteer of
+that against `data/office.json`'s intake. **The friendly edits are a sign-up sheet on the page, a count of hours or a volunteer of
 the month, "selfless" and "heroes", and the shuttle flying across at MAX**; the tool sweeps our words for a tally, the
 martyr, obligation and charity with the negation window, and refuses a keyframe, an animation or a transition in §130.
 Sigmar One sets the name and headings, Rasa everything read.
@@ -5804,8 +5795,7 @@ SAYS SO UNDER ITS WORDS.** Two have no source on that page at all (Octavia Butle
 and are there on its word, visibly. `make-library.py` writes them from `data/library.json` into
 the rooms and the liner notes, and refuses a quotation over the cap in the data file (forty, for
 Covenstead's reason rather than the Zibaldone's: the long Guards! Guards! passage stays on our page,
-linked), one with no line about how it was checked, a lyric (**the Linda Lindas' line is on our
-page and is refused here**), and an address on stimpunks.org without its trailing slash. **And it
+linked), one with no line about how it was checked, and an address on stimpunks.org without its trailing slash. **And it
 refuses the graphic novel by id:** our Library page cites the 1989 novel and links Open Library's
 record for the 2000 graphic adaptation (OL21372059W, a 122-page Gollancz edition with Briggs and
 Higgins on it). That was found by asking the record rather than trusting the link, which is the
@@ -6910,7 +6900,7 @@ forgettings and the counts as whole numbers. The friendly edits are **the newest
 which is strangers' mail leaving Gmail, **an address on the dashboard "to save a click"**, and **counts per person on the
 team** ("who answered most"), which is a record kept against a person.
 
-**STIMPUNKS SOCIAL IS AT /social, AND ITS POSTS ARE IN THE REPOSITORY.** Ryan's ask and calls, 2026-11-02: stimpunkssocial.wordpress.com moved here, paperwork in the reader's CB theme (`social.js` lifts the static posts into a shadow root with `cb.css` and `social.css`, Home's pattern, and finds a `#post` link inside it, which a browser will not), built by `tools/make-social.py` from `data/social.json` between `social:posts` markers (never hand-edit them), with `social.xml`. **Office > Posts posts to it as the `world` network** (`worldSend`): the words, time and id go into the PUBLIC, unsealed `social-posts` store, which is why that store is a section of its own outside the office's sealed one; `/cb/social` serves it uncached and `social.js` draws what the page lacks; `tools/daily-social.sh` folds it into the data each morning (`tools/pull-social.py`, "daily social fold"). **A post or an image can be `held`, with its reason, and is then on neither the page nor the feed**: every image with a real person in it (the polaroid wall's consent rule) and every post quoting a song's lyrics (the street does not reproduce lyrics), until Ryan decides; an image says who wrote its alt text (`alt_by`: us, or Claude when it moved). Nothing is counted: the list is unnumbered, and the page never says how many. The friendly edits are **a numbered list or a post count "so it shows the archive's size"**, **un-holding the lyric posts "since we already posted them"**, which is Ryan's call, and **sealing the public store "like the rest of the office"**, which would hide posts the page shows to everybody.
+**STIMPUNKS SOCIAL IS AT /social, AND ITS POSTS ARE IN THE REPOSITORY.** Ryan's ask and calls, 2026-11-02: stimpunkssocial.wordpress.com moved here, paperwork in the reader's CB theme (`social.js` lifts the static posts into a shadow root with `cb.css` and `social.css`, Home's pattern, and finds a `#post` link inside it, which a browser will not), built by `tools/make-social.py` from `data/social.json` between `social:posts` markers (never hand-edit them), with `social.xml`. **Office > Posts posts to it as the `world` network** (`worldSend`): the words, time and id go into the PUBLIC, unsealed `social-posts` store, which is why that store is a section of its own outside the office's sealed one; `/cb/social` serves it uncached and `social.js` draws what the page lacks; `tools/daily-social.sh` folds it into the data each morning (`tools/pull-social.py`, "daily social fold"). **A post or an image can be `held`, with its reason, and is then on neither the page nor the feed**: every image with a real person in it (the polaroid wall's consent rule), until it has a consent record; an image says who wrote its alt text (`alt_by`: us, or Claude when it moved). Nothing is counted: the list is unnumbered, and the page never says how many. The friendly edits are **a numbered list or a post count "so it shows the archive's size"**, **sealing the public store "like the rest of the office"**, which would hide posts the page shows to everybody.
 
 **THE OFFICE POSTS TO OUR FIVE NETWORKS ON A SECOND PRESS, AND NEVER TWICE.** Ryan's ask and calls, 2026-11-02, in place of Buffer: one set of words within Bluesky's 300 graphemes (counted as Bluesky counts, links in full), sent by `socialPost` in the office's social posts part of `lib.mjs` to Bluesky (app password, `CB_BSKY_APP_PASSWORD`) and Mastodon (`CB_MASTODON_TOKEN`), and kept for Threads, Facebook and LinkedIn to be posted by hand (copy and open, then **I posted it**, `socialDone`) until each network's app is approved. A post is sealed in `office-social` with each network's state: posting, posted (its address), failed (nothing went), unsure (asked and never heard back), hand, done. **Only failed, or unsure once somebody says they looked, is tried again** (`socialRetry`), and the state moves to posting inside the same conditional write, so two presses cannot both send; Bluesky's record key is worked out from the post (`tidOf`) and asked for first, and Mastodon's request carries the post's id as its Idempotency-Key. Bluesky's link card is read by our server with `previewFor` and is words only. `check_social` in `tools/make-office.py` holds it and `privacy.html#social-posts` says it. The friendly edits are **a retry on unsure without looking** (a second post), **posting on a timer "since scheduling would be nice"** before somebody decides how (DECISIONS.md), and **the networks' own share buttons on the street**, which reach a third party from a visitor's page. **A new network that the office posts to is a send function called only from `socialSend`, a key read once, an entry in `SOCIAL_NETWORKS`, and a way to never post twice.**
 

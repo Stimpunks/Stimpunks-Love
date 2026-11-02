@@ -2639,7 +2639,7 @@ def card_zibaldone(p):
     # The three slips are the room's three promises, and each one is a thing
     # tools/make-zibaldone.py actually refuses -- so the card states what the
     # generator enforces rather than what the room aspires to.
-    slips = ("short quotations only", "no lyrics", "every line names its printing")
+    slips = ("short quotations only", "nothing ranked", "every line names its printing")
     return (
         "",
         f'<div class="og og--zibaldone" data-fit="card">'
@@ -2661,7 +2661,7 @@ def card_zibaldone(p):
         f"as a page of a bound book. Small brown handwriting at the top reads a "
         f"heap of things worth keeping. Below it \u201c{p['h1text']}\u201d in a "
         f"large oldstyle serif, and under that: {p['desc_plain']} Along the foot, "
-        f"three small pasted slips reading short quotations only, no lyrics, and "
+        f"three small pasted slips reading short quotations only, nothing ranked, and "
         f"every line names its printing, and beneath them, in the same "
         f"handwriting: nothing here is ranked, stimpunks.world."
     )

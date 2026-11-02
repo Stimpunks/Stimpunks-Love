@@ -58,8 +58,7 @@ WHAT IT REFUSES:
     covenstead is a place a group meets, and the one thing this street will not
     build is a room you have to qualify for.
 
-  - AN HTML ENTITY IN ANY FIELD, and a note shaped like verse. The fourth and
-    fifth shapes of each; see data/lagoon.json and data/rabbit-hole.json.
+  - AN HTML ENTITY IN ANY FIELD. See data/lagoon.json.
 """
 import html
 import json
@@ -88,7 +87,6 @@ GATE = re.compile(
     r"\bfirst degree\b|\bsecond degree\b|\bthird degree\b|\binitiates? only\b|"
     r"\bmembers only\b|\byou must be initiated\b|\bearn your place\b", re.I)
 
-VERSE_LINE = 52
 
 
 # Sixty, and it is this room's own. See the docstring: the Zibaldone's thirty is
@@ -111,11 +109,6 @@ def swap(page, marker, block, indent=""):
     page.write_text(re.sub(re.escape(begin) + r".*?" + re.escape(end),
                            lambda m: begin + "\n" + block + "\n" + indent + end,
                            src, flags=re.S))
-
-
-def looks_like_verse(text):
-    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
-    return len(lines) >= 3 and all(len(ln) <= VERSE_LINE for ln in lines)
 
 
 def check(d, cap):
@@ -153,8 +146,6 @@ def check(d, cap):
                 bad.append(
                     f"{n!r}'s {field} gates membership. Nothing here admits or excludes "
                     "anybody: no degrees, no initiation, no test at the door.")
-            if looks_like_verse(v):
-                bad.append(f"{n!r}'s {field} is several short hand-broken lines.")
         for q in ([t["quote"]] if t.get("quote") else []) + (t.get("also") or []):
             words = len((q.get("text") or "").split())
             label = (q.get("text") or "")[:40]

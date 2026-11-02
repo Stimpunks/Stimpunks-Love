@@ -57,10 +57,6 @@ WHAT IT REFUSES:
     session arrives from another studio, which is a hand-typed total wearing a
     superlative.
 
-  - A QUOTATION OF ANY LENGTH FROM THE STAGE, and a note shaped like verse. This
-    street says in three places that nothing musical is hosted here, and a room
-    of sessions is where somebody would transcribe a good line between songs.
-
   - AN HTML ENTITY IN ANY FIELD, and any missing marker pair.
 
   - IN THE MONTH, Learning Large's rules: a video older than the month, a row
@@ -107,7 +103,6 @@ RANKING = re.compile(
     r"|\bcountdown\b|\branked\b|\bno\.?\s*1\b"
     r"|\b(?:the\s+)?(?:oldest|newest|longest|shortest)\s+(?:thing|session|one|set)\s+on\b",
     re.I)
-VERSE_LINE = 52
 
 
 def esc(s):
@@ -128,11 +123,6 @@ def swap(page, marker, block, indent=""):
     page.write_text(re.sub(re.escape(begin) + r".*?" + re.escape(end),
                            lambda m: begin + "\n" + block + "\n" + indent + end,
                            src, flags=re.S))
-
-
-def looks_like_verse(text):
-    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
-    return len(lines) >= 3 and all(len(ln) <= VERSE_LINE for ln in lines)
 
 
 def check(d):
@@ -179,9 +169,6 @@ def check(d):
                 bad.append(f"{t!r} has {runs!r} as a runtime, which is not a clock. Every "
                            "control on this street says how long before the press.")
             note = (s.get("note") or "").strip()
-            if looks_like_verse(note):
-                bad.append(f"{t!r}'s note is several short hand-broken lines, which is what a "
-                           "lyric looks like and what a sentence never does.")
             for f in ("tape", "title", "who", "where", "when", "channel", "note"):
                 v = s.get(f) or ""
                 if ENTITY.search(v):
@@ -190,12 +177,6 @@ def check(d):
                     bad.append(f"{t!r}'s {f} ranks the desk ({RANKING.search(v).group(0)!r}). "
                                "A desk is an order somebody patched things in, not a chart -- "
                                "and a superlative goes false the day another studio arrives.")
-                for q in re.findall(r"“([^”]+)”|\"([^\"]+)\"", v):
-                    quoted = (q[0] or q[1]).strip()
-                    if quoted:
-                        bad.append(f"{t!r}'s {f} quotes {quoted[:36]!r}... Nothing musical is "
-                                   "hosted here and no words out of these sessions are on "
-                                   "this page. Describe what it does instead.")
     return bad
 
 

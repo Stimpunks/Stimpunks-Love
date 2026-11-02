@@ -46,11 +46,8 @@ WHAT IT REFUSES, and why each one is here:
     CHANNEL. love-embed.js returns quietly on rubbish, and none of this music
     is ours.
 
-  - AN HTML ENTITY IN ANY FIELD, AND A FIELD SHAPED LIKE VERSE. The first
-    because every field is escaped on the way out and `&mdash;` would arrive as
-    seven characters (data/toys.json). The second because nothing musical is
-    hosted here, and a room made of a playlist is where somebody pastes in a
-    chorus they love -- make-lagoon.py's rule.
+  - AN HTML ENTITY IN ANY FIELD, because every field is escaped on the way out
+    and `&mdash;` would arrive as seven characters (data/toys.json).
 
 IF THIS REFUSES: fix the cause. Do not loosen the tool.
 """
@@ -115,11 +112,6 @@ def section(css):
     return re.sub(r"/\*.*?\*/", "", css[start:end], flags=re.S)
 
 
-def verse_shaped(s):
-    lines = [l for l in s.split("\n") if l.strip()]
-    return len(lines) >= 3 and all(len(l) < 60 for l in lines)
-
-
 def walk(obj, path=""):
     if isinstance(obj, dict):
         for k, v in obj.items():
@@ -137,9 +129,6 @@ def walk(obj, path=""):
         if ENTITY.search(obj):
             refuse(f"{path}: an HTML entity. Write the character; this field is escaped on "
                    "the way out and the entity would arrive as literal text.")
-        if verse_shaped(obj):
-            refuse(f"{path}: shaped like verse. Nothing musical is hosted here, and that "
-                   "includes the words.")
 
 
 def e(s):

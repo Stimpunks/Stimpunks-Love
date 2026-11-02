@@ -11,24 +11,7 @@ composition and a class, data/jungle.json off an events page. These came off a
 glossary entry. Five provenances, five _source sentences, and a merged file
 would leave one of them covering work it never saw.
 
-WHAT IT REFUSES, and the first one is why this file exists at all:
-
-  - A LYRIC. The glossary entry this room is built on prints the whole of Grace
-    Slick's words, in four blocks, and this room prints none of them.
-    make-zibaldone.py refuses a song outright and the reasoning is Ryan's, put
-    to the person who asked for that room on 2026-09-22: music publishing
-    enforces on quotation where prose publishing shrugs, the licensing is
-    separate from the recording, and one line is a far larger fraction of a song
-    than of a novel. This street also says in three places that nothing musical
-    is hosted here.
-
-    THE FRIENDLY EDIT IS REAL AND IT WILL ARRIVE. A room whose whole spine is
-    one song, whose source page has the words on it already, and whose sections
-    are named after phrases from it, looks THIN without them -- and the person
-    who pastes them back will be right that the page reads better and wrong
-    about everything else. So it is a refusal in a tool rather than a paragraph
-    in a comment. Any field whose value looks like verse, and any field named
-    for one, stops the build.
+WHAT IT REFUSES:
 
   - AN ID THAT IS NOT A YOUTUBE ID. love-embed.js tests the id before it builds
     an iframe and returns QUIETLY when it does not match, so a typo is not an
@@ -90,42 +73,10 @@ ID = re.compile(r"^[A-Za-z0-9_-]{11}$")           # the same test love-embed.js 
 RUNTIME = re.compile(r"^\d{1,2}:\d{2}(?::\d{2})?$")
 GLOSSARY = "https://stimpunks.org/glossary/"
 
-# A FIELD NAMED FOR VERSE. The data file's own header is allowed to discuss the
-# refusal -- that is the record of why -- so only the per-entry dicts are swept,
-# and the top-level keys beginning with an underscore are left alone.
-VERSE_FIELDS = re.compile(r"lyric|verse|chorus|refrain|stanza|words_to|libretto", re.I)
-
-# A VALUE THAT LOOKS LIKE VERSE, wherever it is filed. Short lines, several of
-# them, broken by hand -- which is what a lyric pasted into a JSON string looks
-# like and what a sentence never does. Two line breaks is the threshold because
-# a couplet is already a reproduction.
-def looks_like_verse(value):
-    if not isinstance(value, str) or "\n" not in value:
-        return False
-    lines = [ln.strip() for ln in value.splitlines() if ln.strip()]
-    return len(lines) >= 3 and sum(len(ln) < 60 for ln in lines) >= 3
-
-
 data = json.loads(DATA.read_text())
 tracks, plates, trail = data["tracks"], data["plates"], data["trail"]
 
 problems = []
-
-# ── The refusal this file exists for ─────────────────────────────────────────
-for group, label in ((tracks, "track"), (plates, "plate"), (trail, "trail entry")):
-    for i, entry in enumerate(group, 1):
-        for field, value in entry.items():
-            where = f"{label} {i}"
-            if VERSE_FIELDS.search(field):
-                problems.append(
-                    f"{where}: a field called {field!r}. This room carries the "
-                    "recordings and not the words, on purpose — see _no_lyrics in the "
-                    "data file. Take it out rather than renaming it.")
-            if looks_like_verse(value):
-                problems.append(
-                    f"{where}: {field!r} holds several short hand-broken lines, which "
-                    "is what a lyric looks like in a JSON string and what a sentence "
-                    "never does. This room does not print the words.")
 
 # ── The presses ──────────────────────────────────────────────────────────────
 seen = {}
@@ -300,4 +251,3 @@ print(f"the rabbit hole: {len(tracks)} presses and {len(plates)} engravings in {
       f"{len(trail)} steps on the trail, {len(credit_rows)} credit rows in {CREDITS.name}")
 print(f"  {total // 60}m{total % 60:02d}s of recording, none of it hosted here, "
       f"{official} published by a rights holder and {len(tracks) - official} re-uploads")
-print("  no words to any of it, which is the point — see _no_lyrics in the data file")

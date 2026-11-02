@@ -78,7 +78,7 @@ WHAT IT REFUSES, and the first four are the house:
     hh:soundtrack markers, one inside them that frames anything but a piece of
     the soundtrack on suno.com/embed/, a piece with no length on its button
     (the street's runtime rule), a piece whose id is not one of Suno's, the
-    soundtrack with no `given`, no `said_yes` or no `made_with`, a lyric field,
+    soundtrack with no `given`, no `said_yes` or no `made_with`, a field a piece does not have,
     and suno.com/embed/ gone from love-embed.js's ORIGINS. The friendly edits
     are a soundtrack that starts when you walk in "for atmosphere" and a piece
     that plays the next by itself; nothing in the house starts unasked.
@@ -188,8 +188,6 @@ def ours(text, where):
     text = str(text)
     if ENTITY.search(text):
         refuse(f"{where}: carries an HTML entity. Everything is escaped on the way in; write the character.")
-    if text.count("\n") >= 2:
-        refuse(f"{where}: shaped like verse, several hand-broken lines. No lyric here.")
     for _, url in LINK.findall(text):
         if not (url.startswith("https://") or re.match(r"^[a-z0-9-]+\.html(?:#[\w/=-]*)?$", url)):
             refuse(f"{where}: {url!r} is neither an https address nor a page of ours.")
@@ -369,7 +367,7 @@ if st:
         where = f"soundtrack track {j} ({tr.get('title')})"
         if set(tr) - {"id", "title", "runtime"}:
             refuse(f"{where}: carries {sorted(set(tr) - {'id', 'title', 'runtime'})}. A piece is an id, a title "
-                   "and a length, and no lyric is ever on this page.")
+                   "and a length.")
         if not UUID.match(str(tr.get("id", ""))):
             refuse(f"{where}: {tr.get('id')!r} is not a Suno song id, and a bad id is a button that never plays.")
         if tr.get("id") in seen_ids:

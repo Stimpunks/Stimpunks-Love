@@ -23,14 +23,11 @@ WHAT IT REFUSES, and why each one is here:
     departures board for the same reason: the friendly edit is real, it will
     arrive, and it looks like an improvement while it is arriving.
 
-  · A SONG. Ryan's reply to the person who asked for this room, 2026-09-22:
-    song lyric reproduction is an intellectual property minefield in the US, so
-    we quote lightly and rarely from songs. Music publishing enforces where
-    prose publishing shrugs, the licensing is separate from the recording, and
-    one line is a far larger fraction of a song than of a novel. This street
-    already says in three places that nothing musical is hosted here; a quote
-    bank is where that promise would be broken in the way that looked most
-    harmless. So it is refused structurally rather than remembered.
+  · NOT A SONG ANY MORE. This tool refused a song from 2026-09-22 until
+    2026-11-02, when Ryan lifted the street's refusal of lyrics everywhere: our
+    use of them is fair use, and the responsibility for what we publish is
+    ours. A line from a song is held to every other rule here, the word limit,
+    the printing, the copyright basis and the credit, like any other line.
 
   · A QUOTATION WITH NO PRINTING IN `where`. A title is not a source. These
     texts differ between printings, and a text nobody can trace is the one thing
@@ -451,27 +448,6 @@ for q in entries:
             "one reasonable-looking entry at a time. Cut it to the line that does the work and put\n"
             "a link to the book beside it. Do not raise the limit.")
 
-    # Songs, refused structurally rather than by care.
-    #
-    # THE FIRST THING THIS CHECK EVER REFUSED WAS A FALSE POSITIVE, which is by
-    # now the most reliable event in this repository: the word `song` matched
-    # Whitman's SONG OF MYSELF, a poem. `song` came out of the pattern rather
-    # than Whitman getting an exception -- check-counts.py refusing "no two
-    # rooms alike" and make-guild.py refusing "a book it points at", for the
-    # third time. What is left is the vocabulary that only ever describes a
-    # RECORDING: `lyrics`, `album`, `b-side`. None of those turns up in prose
-    # about a book, and `song` on its own never meant what this was looking for.
-    # The load-bearing half is `kind` anyway -- a declared field rather than a
-    # guess at one, which is the only half that can be relied on.
-    kind = str(q.get("kind", "")).lower()
-    haystack = " ".join(str(q.get(k, "")) for k in ("work", "where", "checked", "kind")).lower()
-    if kind in ("song", "lyric", "lyrics") or re.search(r"\b(lyrics?|album|b-side)\b", haystack):
-        die(f"{at} looks like a song.\n"
-            "No song lyrics here. Music publishing enforces on quotation where prose publishing\n"
-            "shrugs, the licensing is separate from the recording, and one line is a far larger\n"
-            "fraction of a song than of a book. This street already says nothing musical is hosted\n"
-            "here -- link the song instead, or quote the person talking about it.")
-
     basis = q["basis"]
     if basis not in BASES:
         die(f"{at} has basis {basis!r}; it must be one of {', '.join(sorted(BASES))}.\n"
@@ -745,11 +721,10 @@ creds = [
     'copyright too, and its translator is named on the card.'
     + (f' Lines people sent in say who sent them: {and_list(senders)}.' if senders else '')
     + '</p>',
-    '    <p><b>The room quotes lightly and refuses songs.</b> The word limit is a number in the '
+    '    <p><b>The room quotes lightly.</b> The word limit is a number in the '
     'generator and the page prints it; a quote bank is the shape of thing that becomes a book one '
-    'entry at a time. No song lyrics at all, refused by the tool rather than by care, because '
-    'nothing musical is hosted on this street and this is where that promise would have been '
-    'broken in the way that looked most harmless.</p>',
+    'entry at a time. A line from a song is held to the same limit, printing and credit as any '
+    'other line.</p>',
     '    <p><b>The typefaces are EB Garamond, Newsreader and Lora for the quotations and Kalam '
     'for the hand</b>, all under the SIL Open Font License, and the tool refuses a quotation set '
     'in the hand. The drawings are ours, one pressed thing per leaf, and each is described in a '

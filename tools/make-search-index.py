@@ -36,9 +36,6 @@ WHAT IS LEFT OUT, AND WHY:
   · the job markers, which are the same furniture in every room.
   · the front page's doors and the Map's model, which are the rooms' own names
     again: the finder already finds rooms first.
-  · The Small Hours' lyric. It is printed with permission and is not under this
-    site's licence, and permission to print a song on its page is not permission
-    to copy it into another file.
   · scripts, styles, drawings, anything aria-hidden, and the finder itself.
 
 check-all.sh runs this after make-sitemap.py, so the index is never older than the
@@ -60,7 +57,7 @@ DAILY = ["ds-cabinet", "ds-set", "ds-counter", "arrivals:hall", "source:hall",
 # Classes whose whole subtree is left out (see the docstring for each reason).
 # www-dir is the World room's directory of every room, which would make that
 # room a result for every word in every room's own description.
-SKIP_CLASS = {"sh-lyric", "doors", "mm-model", "www-dir", "finder", "mm-find", "quest", "skip"}
+SKIP_CLASS = {"doors", "mm-model", "www-dir", "finder", "mm-find", "quest", "skip"}
 SKIP_TAG = {"script", "style", "svg", "template", "noscript", "button", "select", "input",
             "textarea", "iframe", "canvas", "audio", "video"}
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta",
@@ -214,16 +211,6 @@ def main():
             # [page, anchor, heading, words, attribution]; attribution is "" for our
             # prose, "-" for a quotation that carries none, else its own words.
             records.append([n, anchor, heading, text, by])
-    # The Small Hours' lyric must not be in here; check the words rather than trust the class.
-    lyric = re.search(r'<blockquote class="sh-lyric">(.*?)</blockquote>',
-                      (ROOT / "small-hours.html").read_text(), re.S)
-    if lyric:
-        line = next((clean(html.unescape(re.sub(r"<[^>]+>", " ", l))) for l in lyric.group(1).split("<br")
-                     if len(clean(re.sub(r"<[^>]+>", " ", l))) > 25), None)
-        blob = json.dumps(records, ensure_ascii=False)
-        if line and line[:40] in blob:
-            raise SystemExit("REFUSING: the index holds a line of Up All Night's lyric, which is printed "
-                             "with permission on its own page and not under this site's licence.")
     data = {"_what": "Every section of every page, for the finder. Written by tools/make-search-index.py "
                      "from each page's own <main>. Do not hand-edit.",
             "pages": pages, "records": records}

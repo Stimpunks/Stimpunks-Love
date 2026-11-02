@@ -45,12 +45,11 @@ WHAT IT REFUSES, and why each one is here:
   - A QUOTATION WITH NO SLOT ON THE PAGE, OR A SLOT WITH NO QUOTATION, and an
     HTML entity in any field. make-latibulum.py's rule and data/toys.json's.
 
-  - A LYRIC WITH NO PERMISSION RECORD. "Up All Night" is the one song on this
-    street printed in full, because Stimpunks helped produce it and holds
-    permission to distribute it and its lyrics (Ryan, 2026-09-23). That is
-    permission rather than quotation, so the record must say what is permitted,
-    who holds it, how, when it was recorded, by whom, and that the words stay
-    outside this site's licence. Every other room's tools go on refusing lyrics.
+  - "Up All Night" is printed in full because Stimpunks helped produce it and
+    holds permission to distribute it and its lyrics (Ryan, 2026-09-23), and
+    the record says so, and that the words stay outside this site's licence.
+    Since 2026-11-02 the street refuses lyrics nowhere, so this tool no longer
+    refuses a lyric without a permission record.
 
   - A TRACK FROM ANYWHERE BUT love-embed.js's AUDIO_ORIGINS, a track with no
     runtime or one that is not a clock, and an album button that does not say
@@ -476,12 +475,6 @@ def main():
     rec = data.get("record")
     if rec:
         track_ok("record", rec)
-        if rec.get("lyrics"):
-            perm = rec.get("permission") or {}
-            for k in PERMISSION:
-                if not perm.get(k):
-                    refuse(f"record: lyrics with no permission.{k}. A song's words are printed "
-                           "whole here only on a written-down permission.")
         if not rec.get("credits"):
             refuse("record: no credits. Name everybody who made it.")
     for a in data.get("albums", []):

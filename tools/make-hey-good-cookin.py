@@ -71,11 +71,7 @@ come from the data, and the tool refuses a red placard on a large table and a
 red placard on a 4-top while any 2-top stands empty, which are Ryan's rules;
 the drawing that shows them cannot break them.
 
-THE NAME PLAYS ON A SONG TITLE AND THE ROOM CARRIES NOTHING ELSE OF THE SONG.
-Hank Williams's Hey, Good Lookin' (1951). The words that come next in it are a
-lyric, and this street sets no lyric it does not hold permission for, so the
-tool refuses them anywhere on the page. The friendly edit is finishing the
-joke.
+THE NAME PLAYS ON A SONG TITLE: Hank Williams's Hey, Good Lookin' (1951).
 
 THE RACK, out of data/hey-good-cookin-month.json, is Learning Large's rack in a
 kitchen, and the reasons are that room's, The Open Notebook's and the kitchen
@@ -237,9 +233,6 @@ VOCAB = [
             "finish anything."),
     (GRADE, "marking a class. Nothing in the teaching kitchen is graded, tested or certified."),
 ]
-# The words that come next in the song the name plays on. Refused with no
-# negation window: they are a lyric whatever sentence they are in.
-LYRIC = r"got\s+cookin"
 
 problems = []
 
@@ -280,9 +273,6 @@ def sweep(text, where):
             if re.search(rf"\b{NEGATION}\b", m.group(0), re.I):
                 continue
             refuse(f"{where}: {m.group(0)!r} -- {why}")
-    if re.search(LYRIC, text, re.I):
-        refuse(f"{where}: the words after the song's title are on the page. They are a lyric, and "
-               "this street sets no lyric it does not hold permission for.")
 
 
 def listify(names):
@@ -1065,9 +1055,6 @@ def sweep_page():
     body = re.sub(r"<blockquote.*?</blockquote>", " ", body, flags=re.S)
     body = re.sub(r"<!--.*?-->", " ", body, flags=re.S)
     sweep(body, PAGE.name)
-    rack = re.search(r"<!-- hgc:month:begin -->.*?<!-- hgc:month:end -->", src, re.S)
-    if re.search(LYRIC, re.sub(r"<[^>]+>", " ", src.replace(rack.group(0), " ") if rack else src), re.I):
-        refuse("the words after the song's title are somewhere on the page, in its head or its markup.")
     for name, tag in (("a form", r"<form\b"), ("an input", r"<input\b"), ("a textarea", r"<textarea\b"),
                       ("a select", r"<select\b"), ("something editable", r"contenteditable")):
         if re.search(tag, body, re.I):
