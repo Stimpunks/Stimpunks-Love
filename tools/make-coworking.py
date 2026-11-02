@@ -42,7 +42,10 @@ it, each with its measured runtime, built for rack.js. The suites took them on
 together, and the rules are the same in both: an id that is a YouTube id, a
 runtime on every video and none on a playlist, the channel and a note of ours on
 every card, love-embed.js and rack.js on the page, and cams read out of the
-Jungle Room by id rather than restated.
+Jungle Room by id rather than restated. A rack may have SHELVES (Ryan, 2026-11-01:
+the Events Room keeps Schitt's Creek and takes the Watering Hole's cams too, for
+Solidarity Sesh), each with its own title and its own videos or cams under the
+one screen, each held to the same rules as a rack of one.
 
 IT ALSO REFUSES:
   · a door with no room behind it, or a room that does not exist, or whose
@@ -413,17 +416,24 @@ def room_call(p, d, tag, public):
 
 EMBED = "https://www.youtube-nocookie.com/embed/"
 VID = re.compile(r"^[A-Za-z0-9_-]{11}$")
-LIST = re.compile(r"^PL[A-Za-z0-9_-]{16,40}$")
+# YouTube's newer playlist ids are short: PLQFofwex8JBM, PLUGzxgyttDkE.
+LIST = re.compile(r"^PL[A-Za-z0-9_-]{10,40}$")
 RUNTIME = re.compile(r"^(?:\d{1,2}:)?\d{1,2}:\d{2}$")
 LIVE = "live, runs until you close it"
 
 
-def rack_items(d):
-    """A room's rack, as a list of {id, title, channel, note, runs}. Cams come out of
-    the Jungle Room's own data by id, never restated, so the two rooms cannot say two
-    different things about one camera; videos carry their own measured runtime."""
+def shelves_of(d):
+    """A rack's shelves: its own `shelves`, or the rack itself as its one shelf."""
     r = d.get("rack") or {}
-    where = f"{d['room']}'s rack"
+    return r.get("shelves") or ([r] if r else [])
+
+
+def rack_items(d, r):
+    """One shelf of a room's rack, as a list of {id, title, channel, note, runs}. Cams
+    come out of the Jungle Room's own data by id, never restated, so the two rooms
+    cannot say two different things about one camera; videos carry their own
+    measured runtime."""
+    where = f"{d['room']}'s rack, {r.get('rack_title', '')!r}"
     items = []
     if r.get("cams_from"):
         src = json.loads((ROOT / r["cams_from"]).read_text())
@@ -469,10 +479,12 @@ def rack_items(d):
     return items
 
 
-def rack_block(p, d, items):
+def rack_block(p, d, shelves):
     """The screen and the rack under it, for rack.js: the screen's plate is the
-    rack's first thing, or a whole playlist when the rack names one."""
+    rack's first thing, or a whole playlist when the rack names one. shelves is
+    [(shelf, items)], every shelf a <details> of its own under the one screen."""
     r = d["rack"]
+    items = shelves[0][1]
     scr = e(r["screen"])
     lst = r.get("playlist")
     if r.get("playlist_from"):
@@ -489,8 +501,12 @@ def rack_block(p, d, items):
             refuse(f"{d['room']}: the playlist {lst.get('id')!r} is not a playlist id.")
         if lst.get("runtime"):
             refuse(f"{d['room']}: the playlist has a runtime. A list somebody keeps adding to has none.")
-        plate_src, plate_title = f"{EMBED}videoseries?list={lst['id']}&autoplay=1", f"{lst['title']}, on YouTube"
-        plate_label, back_label = f"Put on the whole playlist &mdash; runs until you stop it", "Put the whole playlist back on the screen"
+        plate_src, plate_title = f"{EMBED}videoseries?list={lst['id']}&autoplay=1&rel=0", f"{lst['title']}, on YouTube"
+        # A playlist kept newest first says so, because that is what opens.
+        said = f", {e(lst['said'])}" if lst.get("said") else ""
+        plate_label = (f"Put on {e(lst['title'])}{said} &mdash; runs until you stop it" if said
+                       else "Put on the whole playlist &mdash; runs until you stop it")
+        back_label = f"Put {e(lst['title'])} back on the screen" if said else "Put the whole playlist back on the screen"
     else:
         first = items[0]
         plate_src, plate_title = f"{EMBED}{first['id']}?autoplay=1&rel=0", f"{first['title']}, {first['channel']}"
@@ -504,8 +520,17 @@ def rack_block(p, d, items):
         f'    </div>',
         f'    <p class="{p}-screen__now" data-rack-now="{p}" tabindex="-1" hidden></p>',
         f'    <p class="{p}-screen__back" hidden><button type="button" class="{p}-back" data-rack-back="{p}">{back_label}</button></p>',
+    ]
+    for shelf, items in shelves:
+        out += shelf_block(p, scr, shelf, items)
+    return "\n".join(out)
+
+
+def shelf_block(p, scr, shelf, items):
+    """One shelf: a <details> that ships open, its cards each able to go up on the screen."""
+    out = [
         f'    <details class="{p}-rack" open>',
-        f'      <summary>{e(r["rack_title"])}</summary>',
+        f'      <summary>{e(shelf["rack_title"])}</summary>',
         f'      <ul class="{p}-cards">',
     ]
     for it in items:
@@ -526,7 +551,7 @@ def rack_block(p, d, items):
             f'        </li>',
         ]
     out += [f'      </ul>', f'    </details>']
-    return "\n".join(out)
+    return out
 
 
 def write_room(d, public):
@@ -555,9 +580,9 @@ def write_room(d, public):
     # a shared screen for watching together, and it is built exactly as a
     # suite's is, from the same rules.
     if d.get("rack"):
-        items = rack_items(d)
-        if items:
-            s = swapin(s, page, f"{p}-rack", rack_block(p, d, items))
+        shelves = [(sh, rack_items(d, sh)) for sh in shelves_of(d)]
+        if all(items for _, items in shelves):
+            s = swapin(s, page, f"{p}-rack", rack_block(p, d, shelves))
         for js in ("love-embed.js", "rack.js"):
             if f'<script src="{js}" defer></script>' not in s:
                 refuse(f"{d['page']}: it has a rack and does not load {js}.")

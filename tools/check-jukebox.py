@@ -590,9 +590,10 @@ def tracks_in(data):
         # Cavendish Coworking's rooms. The Hang Suites' cams are read out of the
         # Jungle Room's data and are checked there, so only a rack's OWN videos
         # are checked here, in a suite or behind a door: the Events Room has
-        # had a rack since 2026-10-08.
+        # had a rack since 2026-10-08, and a rack may be in shelves (2026-11-01).
+        racks = [x.get("rack") or {} for x in data["doors"] + data["suites"]]
         return [dict(v, artist=v.get("channel"))
-                for x in data["doors"] + data["suites"] for v in (x.get("rack") or {}).get("videos", [])]
+                for r in racks for sh in (r.get("shelves") or [r]) for v in sh.get("videos", [])]
     if "cuts" in data:
         # The Mopery's parlour screen: ONE SONG, several times over, so what
         # every other list calls the artist is the performer here and the song
