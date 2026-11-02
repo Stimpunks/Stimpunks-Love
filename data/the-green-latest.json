@@ -68,11 +68,43 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-11-01T13:00Z",
+ "set": "2026-11-02T12:28Z",
  "latest": [
   {
+   "id": "oE7x2PFztzY",
+   "title": "Urban forest resilience: assessment and management strategies for stressed trees in diverse",
+   "channel": "HM Publisher",
+   "published": "2026-11-02T06:46:03Z",
+   "runs": 154,
+   "search": "urban-forests"
+  },
+  {
+   "id": "_EREyKl-RfQ",
+   "title": "Relaxing Gameplay Highlights - Solarpunk",
+   "channel": "Elf King",
+   "published": "2026-11-01T22:28:43Z",
+   "runs": 242,
+   "search": "solarpunk"
+  },
+  {
+   "id": "aAw-YUvrhb8",
+   "title": "Relax in Solarpunk",
+   "channel": "DonkeyShot",
+   "published": "2026-11-01T20:52:54Z",
+   "runs": 280,
+   "search": "solarpunk"
+  },
+  {
+   "id": "3ksEmH9DCFo",
+   "title": "Urban Forest🌲 tour with bacha party",
+   "channel": "Canvas Story 89",
+   "published": "2026-11-01T17:36:24Z",
+   "runs": 381,
+   "search": "urban-forests"
+  },
+  {
    "id": "jWSgYaWifMQ",
-   "title": "Edible Garden Harvest Tour 🌿 Potted Blueberries & Seed-Grown Papaya (less than 1/5 acre)",
+   "title": "Urban Food Forest Harvest Tour (100sqm Growing Space) 🌿",
    "channel": "Sustainable Holly",
    "published": "2026-10-31T22:41:35Z",
    "runs": 1390,
@@ -143,14 +175,6 @@
    "search": "renewable-energy"
   },
   {
-   "id": "0pY9dN0c8rs",
-   "title": "Urban Forests and Water: How Increasing Tree Canopy Means Water Stewardship",
-   "channel": "Texan by Nature",
-   "published": "2026-10-29T16:33:14Z",
-   "runs": 2365,
-   "search": "urban-forests"
-  },
-  {
    "id": "6MQTTD5H4wk",
    "title": "Tamarack Webinar: MiniNature Reserve: Guerrilla Gardening and Urban Green Spaces (2026)",
    "channel": "The Tamarack Institute",
@@ -191,14 +215,6 @@
    "search": "green-spaces"
   },
   {
-   "id": "wqGilHbaPXw",
-   "title": "How to Increase Airship Range in Solarpunk (Tier 5 Research Guide)",
-   "channel": "DonkeyShot",
-   "published": "2026-10-28T21:51:32Z",
-   "runs": 243,
-   "search": "solarpunk"
-  },
-  {
    "id": "hgIbuqYZAcc",
    "title": "The Impact Of The Reckless Renewables Rollout - To Save A Beach",
    "channel": "Backyard Bothy",
@@ -207,41 +223,16 @@
    "search": "renewable-energy"
   },
   {
-   "id": "xfESRopxGuM",
-   "title": "What does SolarPunk mean?!",
-   "channel": "Alex Jurj SolarPunk",
-   "published": "2026-10-28T18:00:00Z",
-   "runs": 538,
-   "search": "solarpunk"
-  },
-  {
    "id": "FH15C8cj5NY",
    "title": "LIVE: 15th Annual Green Building Awards 2026 | GBCSL",
    "channel": "Green Building Council of Sri Lanka",
    "published": "2026-10-28T15:38:44Z",
    "runs": 15111,
    "search": "green-building"
-  },
-  {
-   "id": "XEhh-auGBWU",
-   "title": "Urban Forestry Commission 10-27-2026",
-   "channel": "City of Norwalk Connecticut",
-   "published": "2026-10-28T00:00:56Z",
-   "runs": 4115,
-   "search": "urban-forests"
   }
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
  "seen": [
-  {
-   "id": "m2I9zbHybJ0",
-   "search": "green-spaces",
-   "title": "Beautiful Street Garden 🌿🌸 | Urban Nature & Peaceful Green Spaces",
-   "channel": "DJS Linu",
-   "published": "2026-10-25T21:13:20Z",
-   "runs": 19,
-   "state": "screen"
-  },
   {
    "id": "AstJqX0AUFA",
    "search": "green-spaces",
@@ -304,42 +295,6 @@
    "channel": "Ottawa Environment Forum",
    "published": "2026-10-29T22:36:55Z",
    "runs": 5085,
-   "state": "screen"
-  },
-  {
-   "id": "d8DkCTY2LRo",
-   "search": "green-building",
-   "title": "LEED Green Associate v5 | Chapter 2 - Part 1: Introduction to Green Building",
-   "channel": "LEEDtricks | Green Building | LEED Training",
-   "published": "2026-10-25T14:00:16Z",
-   "runs": 721,
-   "state": "screen"
-  },
-  {
-   "id": "MyNQsW4_3cY",
-   "search": "green-building",
-   "title": "Green Building Revolution",
-   "channel": "GreenTechUpdate",
-   "published": "2026-10-25T18:15:37Z",
-   "runs": 535,
-   "state": "screen"
-  },
-  {
-   "id": "wrAtNwwZ-5k",
-   "search": "green-building",
-   "title": "How can green building certification help shape a more resilient future?, E. Bricchetto, BRE",
-   "channel": "Polish Green Building Council PLGBC",
-   "published": "2026-10-26T10:51:19Z",
-   "runs": 88,
-   "state": "screen"
-  },
-  {
-   "id": "NJQlHYKePIw",
-   "search": "green-building",
-   "title": "Driving Sustainability: Green Economy Forum & Green Building Awards 2026",
-   "channel": "Green Building Council of Sri Lanka",
-   "published": "2026-10-26T11:30:02Z",
-   "runs": 881,
    "state": "screen"
   },
   {
@@ -415,24 +370,6 @@
    "state": "screen"
   },
   {
-   "id": "nOHbp4M6KhM",
-   "search": "urban-forests",
-   "title": "Urban Forestry (Chapter 14) - ISA Arborist Certification Study Guide [NO MUSIC] | Tree Talk",
-   "channel": "Tree Talk",
-   "published": "2026-10-26T02:35:25Z",
-   "runs": 761,
-   "state": "screen"
-  },
-  {
-   "id": "DA5XNi759fc",
-   "search": "urban-forests",
-   "title": "Missoula's city trees in full fall color, urban forester gives NBC Montana tour",
-   "channel": "NBC Montana",
-   "published": "2026-10-26T04:53:01Z",
-   "runs": 305,
-   "state": "screen"
-  },
-  {
    "id": "Mn9ypAqBkwQ",
    "search": "urban-forests",
    "title": "Peaceful Early Autumn Forest Sounds | 1080p HD | Natural Urban Forest Ambience 037",
@@ -460,6 +397,24 @@
    "state": "screen"
   },
   {
+   "id": "PuI5czY8dvE",
+   "search": "urban-forests",
+   "title": "🔴I GOT LOST IN THE SECOND LARGEST URBAN FOREST IN THE WORLD",
+   "channel": "Its_Sande",
+   "published": "2026-10-28T20:13:21Z",
+   "runs": 2436,
+   "state": "screen"
+  },
+  {
+   "id": "PYWSRwYNCyo",
+   "search": "urban-forests",
+   "title": "Karachi Mayor Murtaza Wahab Inaugurates SITE Keamari Urban Forest ClimateChange #TreePlantation #KMC",
+   "channel": "TNN TV",
+   "published": "2026-10-29T10:49:31Z",
+   "runs": 133,
+   "state": "screen"
+  },
+  {
    "id": "0pY9dN0c8rs",
    "search": "urban-forests",
    "title": "Urban Forests and Water: How Increasing Tree Canopy Means Water Stewardship",
@@ -479,6 +434,15 @@
    "why": "no embedding"
   },
   {
+   "id": "qXYfGa2Mw-Y",
+   "search": "urban-forests",
+   "title": "Restoring urban forests and reconnecting communities with nature across Japan",
+   "channel": "Amazon Sustainability",
+   "published": "2026-10-30T16:32:45Z",
+   "runs": 107,
+   "state": "screen"
+  },
+  {
    "id": "zAl9LKfsI0E",
    "search": "urban-forests",
    "title": "1,200 TREES PLANTED IN LA MESA URBAN FOREST",
@@ -488,21 +452,21 @@
    "state": "screen"
   },
   {
-   "id": "4sCaLlXs8dg",
-   "search": "urban-farms",
-   "title": "The Intersection Of Farming & Politics With Black Seeds Urban Farms In Memphis, TN",
-   "channel": "Common Power",
-   "published": "2026-10-25T13:00:25Z",
-   "runs": 801,
+   "id": "3ksEmH9DCFo",
+   "search": "urban-forests",
+   "title": "Urban Forest🌲 tour with bacha party",
+   "channel": "Canvas Story 89",
+   "published": "2026-11-01T17:36:24Z",
+   "runs": 381,
    "state": "screen"
   },
   {
-   "id": "iU0sYXcOpyY",
-   "search": "urban-farms",
-   "title": "Tokyo 2100: AI-Powered Urban Farming Revolution | How Future Cities Will Grow Their Own Food",
-   "channel": "Future Earth",
-   "published": "2026-10-26T10:00:33Z",
-   "runs": 794,
+   "id": "oE7x2PFztzY",
+   "search": "urban-forests",
+   "title": "Urban forest resilience: assessment and management strategies for stressed trees in diverse",
+   "channel": "HM Publisher",
+   "published": "2026-11-02T06:46:03Z",
+   "runs": 154,
    "state": "screen"
   },
   {
@@ -578,15 +542,6 @@
    "state": "screen"
   },
   {
-   "id": "7E4iot8mSgs",
-   "search": "edibles",
-   "title": "I Built a Mango Food Forest in Spring Valley CA, Here's What Grew",
-   "channel": "Tropicali Food Forest",
-   "published": "2026-10-25T23:25:50Z",
-   "runs": 3315,
-   "state": "screen"
-  },
-  {
    "id": "J_TfCzpu1OU",
    "search": "edibles",
    "title": "Rosewood Initiative builds ‘food forest’ to address child hunger in Portland",
@@ -616,134 +571,18 @@
   {
    "id": "jWSgYaWifMQ",
    "search": "edibles",
-   "title": "Edible Garden Harvest Tour 🌿 Potted Blueberries & Seed-Grown Papaya (less than 1/5 acre)",
+   "title": "Urban Food Forest Harvest Tour (100sqm Growing Space) 🌿",
    "channel": "Sustainable Holly",
    "published": "2026-10-31T22:41:35Z",
    "runs": 1390,
    "state": "screen"
   },
   {
-   "id": "MI6m4vh3KIM",
+   "id": "-oHVTJ_Re5U",
    "search": "solarpunk",
    "title": "Solarpunk Ambient LIVESTREAM",
    "state": "pending",
    "why": "live, or not out yet"
-  },
-  {
-   "id": "iHu49W0jBjQ",
-   "search": "solarpunk",
-   "title": "Solarpunk Electricity Guide: Automate Your Island",
-   "channel": "AkaRi",
-   "published": "2026-10-25T17:02:31Z",
-   "runs": 413,
-   "state": "screen"
-  },
-  {
-   "id": "1pwh13vbwPM",
-   "search": "solarpunk",
-   "title": "We are in a position to choose how we want to be; we have free will #Solarpunk",
-   "channel": "Alex Jurj SolarPunk",
-   "published": "2026-10-25T18:00:38Z",
-   "runs": 265,
-   "state": "screen"
-  },
-  {
-   "id": "71QYC5IKOtA",
-   "search": "solarpunk",
-   "title": "Tribute for my airship - Solarpunk",
-   "channel": "justv4len",
-   "published": "2026-10-25T18:56:30Z",
-   "runs": 123,
-   "state": "screen"
-  },
-  {
-   "id": "PkcfkhnQzFI",
-   "search": "solarpunk",
-   "title": "[GAMING] The FINALE! - Solarpunk Playthrough (Part 9)",
-   "channel": "The Quiet Part",
-   "published": "2026-10-25T20:08:39Z",
-   "runs": 11138,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "Krsau7Mxdds",
-   "search": "solarpunk",
-   "title": "Waltzing Above the Clouds | A Solarpunk Airship Tribute",
-   "channel": "Deboborah",
-   "published": "2026-10-25T23:21:24Z",
-   "runs": 255,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "3LcjLkwDmvQ",
-   "search": "solarpunk",
-   "title": "Solarpunk Haven Property Listing",
-   "channel": "The Hermit",
-   "published": "2026-10-25T23:47:42Z",
-   "runs": 176,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "X0L5PPQcLpQ",
-   "search": "solarpunk",
-   "title": "Solarpunk Tribute Airship - Storytelling",
-   "channel": "Little Lilith",
-   "published": "2026-10-25T23:52:32Z",
-   "runs": 220,
-   "state": "screen"
-  },
-  {
-   "id": "JkdZF2Xssog",
-   "search": "solarpunk",
-   "title": "SolarPunk: The Final Island on our Final Episode! Episode 20",
-   "channel": "Jade Arcade - Gaming",
-   "published": "2026-10-26T04:00:04Z",
-   "runs": 4503,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "bvgWVTLaTLk",
-   "search": "solarpunk",
-   "title": "Solarpunk 🌿 Relaxing Gameplay for Sleep, Study & Stress Relief",
-   "channel": "Juniper Wren",
-   "published": "2026-10-26T04:04:31Z",
-   "runs": 7418,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "Y4l3VLUcDho",
-   "search": "solarpunk",
-   "title": "Solarpunk Borneo Dawn to Dusk | Coding Music for Night Owl Builders | 2 Hours Deep Focus",
-   "channel": "ENCHAZON",
-   "published": "2026-10-26T08:57:19Z",
-   "runs": 7357,
-   "state": "left",
-   "why": "filed under Music"
-  },
-  {
-   "id": "pf_mfdKr5yI",
-   "search": "solarpunk",
-   "title": "A Cheeky Little Library | Part 71 | Solarpunk",
-   "channel": "True Blue",
-   "published": "2026-10-26T11:21:38Z",
-   "runs": 3628,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "5Waqd8J0BBQ",
-   "search": "solarpunk",
-   "title": "Solarpunk Freiburg | Coding Music for SaaS Builders | 2 Hours Deep Focus",
-   "channel": "ENCHAZON",
-   "published": "2026-10-26T11:47:42Z",
-   "runs": 7361,
-   "state": "left",
-   "why": "filed under Music"
   },
   {
    "id": "ygyyucE_P8g",
@@ -864,6 +703,16 @@
    "why": "filed under Gaming"
   },
   {
+   "id": "hRT4dvENDHs",
+   "search": "solarpunk",
+   "title": "A peaceful day in SolarPunk!",
+   "channel": "BansheeX93",
+   "published": "2026-10-28T15:29:18Z",
+   "runs": 2104,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
    "id": "xfESRopxGuM",
    "search": "solarpunk",
    "title": "What does SolarPunk mean?!",
@@ -879,6 +728,25 @@
    "channel": "DonkeyShot",
    "published": "2026-10-28T21:51:32Z",
    "runs": 243,
+   "state": "screen"
+  },
+  {
+   "id": "b9cfDDs9ae8",
+   "search": "solarpunk",
+   "title": "The sun is a deadly lazzeerrr (Solarpunk)",
+   "channel": "Shijin Mura",
+   "published": "2026-10-29T01:37:42Z",
+   "runs": 11724,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "mVFRJPGQNOo",
+   "search": "solarpunk",
+   "title": "solarpunk, the future is alive",
+   "channel": "PlotSignals",
+   "published": "2026-10-29T07:18:14Z",
+   "runs": 30,
    "state": "screen"
   },
   {
@@ -991,14 +859,72 @@
    "why": "filed under Gaming"
   },
   {
-   "id": "OPLHsw-1R8M",
-   "search": "renewable-energy",
-   "title": "🎵 Renewable Energy (Animated Music Video) Inclusive Version - The Weatherbies",
-   "channel": "The Weatherbies Learning",
-   "published": "2026-10-26T06:00:38Z",
-   "runs": 124,
+   "id": "IjizJ5utiyA",
+   "search": "solarpunk",
+   "title": "Solarpunk cosy beautiful relaxing game",
+   "channel": "Hioz Mobile",
+   "published": "2026-11-01T15:05:51Z",
+   "runs": 315,
    "state": "left",
-   "why": "filed under Music"
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "CBGB8ebcN8M",
+   "search": "solarpunk",
+   "title": "Solarpunk Stone Mansion Most impressive Single Base Building",
+   "channel": "Hioz Mobile",
+   "published": "2026-11-01T19:01:48Z",
+   "runs": 477,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "aAw-YUvrhb8",
+   "search": "solarpunk",
+   "title": "Relax in Solarpunk",
+   "channel": "DonkeyShot",
+   "published": "2026-11-01T20:52:54Z",
+   "runs": 280,
+   "state": "screen"
+  },
+  {
+   "id": "_EREyKl-RfQ",
+   "search": "solarpunk",
+   "title": "Relaxing Gameplay Highlights - Solarpunk",
+   "channel": "Elf King",
+   "published": "2026-11-01T22:28:43Z",
+   "runs": 242,
+   "state": "screen"
+  },
+  {
+   "id": "uQH6zEif3go",
+   "search": "solarpunk",
+   "title": "Solarpunk's Atmosphere is Immaculate",
+   "channel": "The Hermit",
+   "published": "2026-11-01T23:58:47Z",
+   "runs": 255,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "j2wls3NtED4",
+   "search": "solarpunk",
+   "title": "I Built the MOST AMAZING Automated Greenhouse in Solarpunk!",
+   "channel": "BugsFlick",
+   "published": "2026-11-02T10:00:04Z",
+   "runs": 1068,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "v6axPVZ4cis",
+   "search": "solarpunk",
+   "title": "Trouble Shooting a Big Open Space | Part 73 | Solarpunk",
+   "channel": "True Blue",
+   "published": "2026-11-02T10:53:08Z",
+   "runs": 3883,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
    "id": "EM6sH9TFuP0",
@@ -1043,6 +969,15 @@
    "channel": "RISE UP for the Ocean (A Blue Call to Action)",
    "published": "2026-10-27T22:28:00Z",
    "runs": 5331,
+   "state": "screen"
+  },
+  {
+   "id": "0hb7A2EW1D4",
+   "search": "renewable-energy",
+   "title": "From Global to Local: Community Energy Atlantic Canada",
+   "channel": "Community Energy Cooperative Canada",
+   "published": "2026-10-28T06:00:26Z",
+   "runs": 4205,
    "state": "screen"
   },
   {
