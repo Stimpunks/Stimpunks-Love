@@ -822,7 +822,8 @@ runtime, or read by key from the room that owns them (`videos_from`, as the Camp
 pit's fires). `check-jukebox.py` checks the videos and leaves the cams to the Jungle Room. **A rack can have shelves** (Ryan,
 2026-11-01): the Events Room's screen starts on the Campfire Learn Together playlist (`playlist` with `said`, newest at
 the top, which Ryan updates before each event), with Schitt's Creek and the Watering Hole's cams (read by id, as the
-Watering Hole reads them) as two `shelves` under it, each held to a rack's rules (`shelves_of`, `shelf_block`). Every room behind one house must be its
+Watering Hole reads them) as `shelves` under it, each held to a rack's rules (`shelves_of`, `shelf_block`), and the
+Infodumplings playlist as a shelf of its own, one card (`playlists`) with no runtime, newest at the top. Every room behind one house must be its
 own world, and the next one to be tempted to match its neighbour is the one to stop.
 
 **BE SEEN HERE IS THE SLAKE'S SWITCH IN EVERY ROOM, AND WHO IS IN A CALL COMES FROM 8x8.** Ryan,

@@ -45,7 +45,8 @@ every card, love-embed.js and rack.js on the page, and cams read out of the
 Jungle Room by id rather than restated. A rack may have SHELVES (Ryan, 2026-11-01:
 the Events Room keeps Schitt's Creek and takes the Watering Hole's cams too, for
 Solidarity Sesh), each with its own title and its own videos or cams under the
-one screen, each held to the same rules as a rack of one.
+one screen, each held to the same rules as a rack of one. A shelf may hold a whole
+PLAYLIST as one card (`playlists`), with no runtime and its note saying what is on it.
 
 IT ALSO REFUSES:
   · a door with no room behind it, or a room that does not exist, or whose
@@ -464,6 +465,21 @@ def rack_items(d, r):
             refuse(f"{where}: {path} has no list under {' > '.join(keys)}.")
             src = []
         videos = [{**v, "runtime": v.get("runtime") or v.get("length", "")} for v in src]
+    # A whole playlist on a shelf (the Events Room's Infodumplings, 2026-11-01): one
+    # card, playing the list from its top, with no runtime, because a list
+    # somebody keeps adding to has none to give.
+    for pl in r.get("playlists", []):
+        w = f"{where}, {pl.get('title')!r}"
+        if not LIST.match(pl.get("id", "")):
+            refuse(f"{w}: {pl.get('id')!r} is not a playlist id.")
+        if pl.get("runtime"):
+            refuse(f"{w}: a playlist has no runtime to give.")
+        for f in ("title", "channel", "note", "measured"):
+            if not str(pl.get(f, "")).strip():
+                refuse(f"{w}: no `{f}`.")
+        items.append({"id": pl["id"], "title": pl["title"], "channel": pl["channel"], "note": pl["note"],
+                      "runs": "the whole list, runs until you stop it",
+                      "src": f"{EMBED}videoseries?list={pl['id']}&autoplay=1&rel=0"})
     for v in videos:
         w = f"{where}, {v.get('title')!r}"
         if not VID.match(v.get("id", "")):
@@ -534,7 +550,7 @@ def shelf_block(p, scr, shelf, items):
         f'      <ul class="{p}-cards">',
     ]
     for it in items:
-        src = f"{EMBED}{it['id']}?autoplay=1&rel=0"
+        src = it.get("src") or f"{EMBED}{it['id']}?autoplay=1&rel=0"
         who = f"{it['title']}, {it['channel']}"
         out += [
             f'        <li class="{p}-card" data-rack-card>',

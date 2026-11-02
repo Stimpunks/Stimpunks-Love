@@ -62,7 +62,7 @@
    "prefix": "wr",
    "item": "light",
    "rack": {
-    "_why": "Ryan's brief, 2026-10-08: a shared screen in the Events Room, with these on a rack, in the order he gave them, the first on the screen when you arrive. Each was checked on its own watch page on the day: public, playable in an embed, not age-restricted, not live, and its runtime. Their titles are their channels'; the notes are ours and say only what the titles and descriptions say is in them. The screen is the page's first, so a moderator's Screen a video goes up on it too. Ryan's brief, 2026-11-01: the Campfire Learn Together playlist, which he updates before each event with the newest video at the top, goes on the screen, so the screen's plate opens on that week's video and is ready to go; it is the same list the Lightbulb Picture House's Screen Three plays, and it was already playing there in a frame. Solidarity Sesh usually watches the Watering Hole's cams, so its shelf is here too, read by id out of data/jungle.json as the Watering Hole reads them, and in its order.",
+    "_why": "Ryan's brief, 2026-10-08: a shared screen in the Events Room, with these on a rack, in the order he gave them, the first on the screen when you arrive. Each was checked on its own watch page on the day: public, playable in an embed, not age-restricted, not live, and its runtime. Their titles are their channels'; the notes are ours and say only what the titles and descriptions say is in them. The screen is the page's first, so a moderator's Screen a video goes up on it too. Ryan's brief, 2026-11-01: the Campfire Learn Together playlist, which he updates before each event with the newest video at the top, goes on the screen, so the screen's plate opens on that week's video and is ready to go; it is the same list the Lightbulb Picture House's Screen Three plays, and it was already playing there in a frame. Solidarity Sesh usually watches the Watering Hole's cams, so its shelf is here too, read by id out of data/jungle.json as the Watering Hole reads them, and in its order. The Infodumplings playlist went on its own shelf the same day: every video our Infodumplings posts featured, newest first, which Ryan made from a list read out of those posts; each video on it was checked on its own watch page that day.",
     "screen": "the screen on the wall",
     "off": "Campfire Learn Together is off it until you put it back.",
     "playlist": {
@@ -71,6 +71,18 @@
      "said": "the newest at the top"
     },
     "shelves": [
+     {
+      "rack_title": "Infodumplings",
+      "playlists": [
+       {
+        "id": "PLG8uvGTXf2V0",
+        "title": "Infodumplings",
+        "channel": "Stimpunks Foundation",
+        "note": "Every video our Infodumplings evenings have featured, newest at the top, so it opens on the latest.",
+        "measured": "2026-11-01"
+       }
+      ]
+     },
      {
       "rack_title": "On the rack: Schitt’s Creek",
       "videos": [
