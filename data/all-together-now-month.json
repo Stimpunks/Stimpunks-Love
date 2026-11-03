@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-02T12:31Z",
+ "set": "2026-11-03T12:33Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-02T12:31:55Z"
+     "2026-11-03T12:33:43Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-02T12:31:55Z"
+     "2026-11-03T12:33:43Z"
     ]
    ]
   }
@@ -155,16 +155,6 @@
    "published": "2026-11-01T19:58:10Z",
    "state": "screen",
    "runs": 313,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "DiVylwG2JcQ",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Summoned: worker owned cooperatives, unions, and social safety nets",
-   "published": "2026-10-03T16:53:05Z",
-   "state": "screen",
-   "runs": 169,
    "channel": "Farming While Beige"
   },
   {
@@ -585,6 +575,26 @@
    "published": "2026-11-01T15:39:23Z",
    "state": "screen",
    "runs": 101,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "TL07FkL0S38",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Still blows my mind that I used to do farmers markets",
+   "published": "2026-11-02T14:57:54Z",
+   "state": "screen",
+   "runs": 30,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "bt2sZJB2YJM",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "This country could be so good. It could be so, so, so good y’all…",
+   "published": "2026-11-03T00:22:32Z",
+   "state": "screen",
+   "runs": 94,
    "channel": "Farming While Beige"
   }
  ]
