@@ -224,9 +224,25 @@
       "url": "https://openlibrary.org/works/OL453697W/Small_Gods",
       "read_on": "eggs",
       "speaker": "Didactylos"
+    },
+    "whoever": {
+      "text": "In Ankh-Morpork you can be whoever you want to be and sometimes people laugh and sometimes they clap, and mostly and beautifully, they don’t really care. Do you understand this? Dwarfs now have seen liberty. And that’s heady stuff.",
+      "who": "Terry Pratchett",
+      "work": "Raising Steam",
+      "year": "2013",
+      "url": "https://openlibrary.org/works/OL17079157W/Raising_Steam",
+      "speaker": "Albrecht",
+      "read_by": "Ryan Boren",
+      "at": "p. 316 of 370 in his Kindle copy",
+      "read_when": "2026-11-02"
     }
   },
   "sections": {
+    "epigraph": [
+      {
+        "q": "whoever"
+      }
+    ],
     "lede": [
       {
         "p": "**Widdershins** is an old word for going the other way round, counter-clockwise, against the course of the sun. It comes from the Middle Low German *weddersinnes*, which [Wikipedia’s article](https://en.wikipedia.org/wiki/Widdershins) says means, literally, **against the way**. That is the whole of this room’s subtitle, and the word got there first."
@@ -588,5 +604,6 @@
       ]
     }
   ],
-  "_excerpt": "An `excerpt` is a passage of Star Stuff's own prose copied whole, as starstuff.earth publishes it, under its CC BY-SA 4.0 like this street, its links made absolute and nothing else changed. It is checked against Star Stuff's repository word for word, paragraph by paragraph, and it is not held to the cap, because it is ours jointly with More Realms and copied with its licence rather than quoted. Ryan's ask, 2026-11-02: close the room with The Turtle Moves from Star Stuff's Easter Eggs collection, drawing and all."
+  "_excerpt": "An `excerpt` is a passage of Star Stuff's own prose copied whole, as starstuff.earth publishes it, under its CC BY-SA 4.0 like this street, its links made absolute and nothing else changed. It is checked against Star Stuff's repository word for word, paragraph by paragraph, and it is not held to the cap, because it is ours jointly with More Realms and copied with its licence rather than quoted. Ryan's ask, 2026-11-02: close the room with The Turtle Moves from Star Stuff's Easter Eggs collection, drawing and all.",
+  "_read_by": "A quotation with `read_by` was read in the book itself by the person named, at the page in `at`, and sent from their copy; it was not read on a page of ours, so nothing here can check it again, and its credit says who read it and where. Ryan's ask, 2026-11-02, for the room's lede, the Zibaldone's rule for a line still in copyright."
 }

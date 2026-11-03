@@ -259,9 +259,20 @@ for qid, q in quotes.items():
                "or quote less.")
     if not str(q.get("who", "")).strip():
         refuse(f"{where}: no `who`. Every line here names who said it.")
+    if q.get("read_by"):
+        # Read in the book itself by the person named, at a page, the Zibaldone's
+        # rule for a line still in copyright: nothing here can read it again.
+        for need in ("work", "url", "year", "at", "read_when"):
+            if not str(q.get(need, "")).strip():
+                refuse(f"{where}: read in a copy of the book with no {need}.")
+        if not str(q.get("url", "")).startswith("https://openlibrary.org/works/"):
+            refuse(f"{where}: a book read in somebody's copy is linked by its Open Library record.")
+        if q.get("read_on"):
+            refuse(f"{where}: says both where it was read online and whose copy it was read in.")
+        continue
     src = pages.get(q.get("read_on"))
     if not src:
-        refuse(f"{where}: `read_on` is not one of `pages`.")
+        refuse(f"{where}: `read_on` is not one of `pages`, and it names nobody who read it in the book.")
         continue
     if q.get("who") not in ("Stimpunks", "Star Stuff") and src.get("from") != "paper":
         if not str(q.get("work", "")).strip() or not str(q.get("url", "")).startswith("https://"):
@@ -555,6 +566,11 @@ def swap(page, marker, block, indent="  "):
 
 
 def source(q):
+    if q.get("read_by"):
+        work = f'<a href="{attr(q["url"])}">{esc(q["work"])}</a>'
+        who = f'{esc(q["speaker"])}, in {esc(q["who"])}&rsquo;s {work}' if q.get("speaker") else f'{esc(q["who"])}, {work}'
+        return (f'{who}, {esc(q["year"])}, read in the book by {esc(q["read_by"])}, {esc(q["at"])}, '
+                f'on {esc(q["read_when"])}.')
     pg = pages[q["read_on"]]
     page_link = f'<a href="{attr(pg["url"])}">{esc(pg["title"])}</a>'
     if q["who"] == "Stimpunks":
@@ -653,8 +669,9 @@ for q in quotes.values():
 names = ", ".join(others[:-1]) + " and " + others[-1]
 mapp = pages["mapp"]
 credits = [
-    "      <li><strong>The Discworld is Terry Pratchett&rsquo;s</strong>, and every line of his here was already "
-    "quoted on one of our pages or on Star Stuff before this room was built, credited to the book it is from. "
+    "      <li><strong>The Discworld is Terry Pratchett&rsquo;s</strong>, and every line of his here is credited to "
+    "the book it is from: one read by Ryan in his own copy of <cite>Raising Steam</cite>, and the rest already "
+    "quoted on one of our pages or on Star Stuff before this room was built. "
     "His estate has no involvement in this room, was not asked, and has not seen it. Discworld is a trade mark, "
     "and nothing here is offered as anything of theirs.</li>",
     "      <li><strong>The city is ours</strong>, crooked roofs anybody might draw, a thin tower, a clacks tower and "
@@ -673,9 +690,11 @@ credits = [
     f'      <li>Two lines are from {esc(mapp["who"])}&rsquo;s <a href="{attr(mapp["url"])}">paper</a> in '
     f"<cite>{esc(mapp['in'])}</cite>, {esc(mapp['year'])}, open access under {esc(mapp['licence'])}, quoted as "
     "they are and not adapted.</li>",
-    f"      <li>Every quotation in this room is {cap} words or fewer, and was read on {esc(d['read'])} on the "
-    "page it names. <code>tools/make-widdershins.py</code> checks each one word for word against our copy of "
-    "stimpunks.org, Star Stuff&rsquo;s own repository and the paper, whenever they are on the machine.</li>",
+    f"      <li>Every quotation in this room is {cap} words or fewer. Every one but the first was read on "
+    f"{esc(d['read'])} on the page it names, and <code>tools/make-widdershins.py</code> checks each word for word "
+    "against our copy of stimpunks.org, Star Stuff&rsquo;s own repository and the paper, whenever they are on the "
+    "machine. The first, from <cite>Raising Steam</cite>, was read in the book by Ryan, from his own copy, and "
+    "says so under it; nothing here can read it again.</li>",
     f"      <li>The type is {esc(display['family'])}, by {esc(display['designer'])}, a face between a roman and a "
     f"blackletter, for the room&rsquo;s name and headings, under the {esc(licence(display))}, and "
     f"{esc(text_face['family'])}, by {esc(text_face['designer'])}, for everything you read, under the "
@@ -686,10 +705,14 @@ swap(ROOM, "wds:credits", '    <ul class="wds-credits">\n' + "\n".join(credits) 
 
 notes = []
 for qid, q in quotes.items():
-    pg = pages[q["read_on"]]
     words = EM.sub(r"\1", q["text"])
+    if q.get("read_by"):
+        where = f'<a href="{attr(q["url"])}">{esc(q["work"])}</a>, read by {esc(q["read_by"])}, {esc(q["at"])}'
+    else:
+        pg = pages[q["read_on"]]
+        where = f'<a href="{attr(pg["url"])}">{esc(pg["title"])}</a>'
     notes.append(f'      <tr><td>{esc(words)}</td><td>{esc(q["who"])}</td>'
-                 f'<td><a href="{attr(pg["url"])}">{esc(pg["title"])}</a></td>'
+                 f'<td>{where}</td>'
                  f'<td>{len(q["text"].split())} words</td></tr>')
 swap(NOTES, "widdershins-credits", "\n".join(notes), "      ")
 
