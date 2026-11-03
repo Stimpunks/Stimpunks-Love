@@ -962,6 +962,11 @@ PTS_DUSK, PTS_CARD, PTS_INK, PTS_INK2, PTS_LINK = "#2A2C45", "#343655", "#EFE7D7
 # undyed linen or on a slip lying on it; nothing set on the window, the loom or
 # a band of weft.
 VOL_LINEN, VOL_CARD, VOL_INK, VOL_INK2, VOL_LINK = "#EEE6D3", "#F8F4EA", "#261E33", "#574A5E", "#7B2340"
+# Champuru (love.css §136). A table in the shade of a lane, lit by the sunlit
+# wall across from it: every word on the shade or on the cloth lying in it;
+# no word on the lit wall, the lane or the light down a card's side.
+CHP_SHADE, CHP_CLOTH, CHP_INK, CHP_INK2 = "#E6E1E8", "#F4F0EE", "#2B2236", "#51475C"
+CHP_SEA, CHP_BOUGAIN, CHP_HOT = "#0C5A63", "#9A1A57", "#6E0F3D"
 # Widdershins (love.css §135). A crooked city with the morning halfway across
 # it: every word on the night, on a card lying in it, or on one of Star
 # Stuff's figures on its slab; the two compass labels on the night sky; no word
@@ -3794,6 +3799,22 @@ PAIRS = [
     (VOL_INK,   VOL_CARD,  False, "volunteers: everything on a slip: each thing on the help list, each playbook, "
                                   "the warp's threads and what is not on the loom"),
     (VOL_LINK,  VOL_CARD,  False, "volunteers: every link on a slip, and the focus ring there"),
+    # ── Champuru (§136) ─────────────────────────────────────────────────────
+    # Every word in the shade: on the flat shade, or on the cloth of a card or
+    # of Ryan's words lying in it. Nothing set on the lane.
+    (CHP_INK,   CHP_SHADE, False, "champuru: every paragraph, the lede, the house rules and the kitchen's note"),
+    (CHP_INK2,  CHP_SHADE, False, "champuru: the trail, the line over the name, the lane in words, the line under "
+                                  "Ryan's words, the street door's blurb, and the job marker's floor line"),
+    (CHP_SEA,   CHP_SHADE, False, "champuru: the name, every heading, the street door's name, and the focus ring"),
+    (CHP_BOUGAIN, CHP_SHADE, False, "champuru: every link, the backlink, the street door's knock, and the job "
+                                    "marker's bougainvillea, held to the body threshold a marker is"),
+    (CHP_HOT,   CHP_SHADE, False, "champuru: a link under the pointer"),
+    (CHP_INK,   CHP_CLOTH, False, "champuru: everything on a card: what is in each dish, its allergens and caffeine, "
+                                  "and Ryan's words"),
+    (CHP_INK2,  CHP_CLOTH, False, "champuru: each dish's mark and where it comes from"),
+    (CHP_SEA,   CHP_CLOTH, False, "champuru: each dish's name, and the focus ring on a card"),
+    (CHP_BOUGAIN, CHP_CLOTH, False, "champuru: a link on a card"),
+    (CHP_HOT,   CHP_CLOTH, False, "champuru: a link on a card under the pointer"),
     # ── Widdershins (§135) ──────────────────────────────────────────────────
     # Every word on the night side: the flat night, a card lying in it, or one
     # of Star Stuff's figures on its slab. Nothing set on the lit city.
@@ -5167,6 +5188,34 @@ ORNAMENT = {
     "#3d3542": "haunted house: the painted porch steps in the drawing, 1.67 on the dark. It carries no word.",
     "#b8612a": "haunted house: the pumpkin nobody lit on the porch steps in the drawing, 4.46 on the dark. It "
                "carries no word.",
+    "#edb46a": "champuru: the light the sunlit wall throws across the lane, down the side of every card, Ryan's "
+               "words and the kitchen's note that faces the wall, 1.64 on the cloth and 1.44 on the shade, and "
+               "the chair's lit rail and the cloth's lit side in the lane. It is light landing; it carries no word.",
+    "#8f8798": "champuru: every outline, round every card and under every heading, 2.68 on the shade and 3.05 on "
+               "the cloth, and every line in the lane. It carries no word.",
+    "#fff4dc": "champuru: the whitewashed wall in full sun and the strip of sun at its foot, 5.48 on the sky and "
+               "1.60 against the coral stone across from it. It carries no word.",
+    "#2d62b3": "champuru: the sky over the lane, and round the drawing, 5.48 against the sunlit wall. It carries "
+               "no word.",
+    "#2f8e96": "champuru: the sea at the end of the lane, 1.55 under the sky, with a line of the sun along its "
+               "horizon. It carries no word.",
+    "#3e8c84": "champuru: the door and the shutter on the sunlit wall, 3.63 on the whitewash and outlined. They "
+               "carry no word.",
+    "#cbc3b3": "champuru: the coral-stone wall in shade, 1.60 against the sunlit wall across the lane and 1.36 "
+               "against the paving, the two walls told apart by the eave and the stone's joints. It carries no "
+               "word.",
+    "#9e9582": "champuru: the joints in the coral stone, 1.70 on the stone. They carry no word.",
+    "#b3452e": "champuru: the red-tiled eave, 3.15 on the stone under it, a tomato on a plate, and the tiles on "
+               "the street door's awning. It carries no word.",
+    "#7e2e1f": "champuru: the grooves between the tiles and the chopsticks, 1.66 on the tiles. They carry no word.",
+    "#c42f7e": "champuru: the bougainvillea over the sunlit wall, 4.74 on the whitewash, and the flowers on the "
+               "street door's awning. It carries no word; the job marker's flower is --chp-bougain, measured "
+               "in PAIRS.",
+    "#3d7340": "champuru: the bougainvillea's leaves, 5.16 on the whitewash, and the greens on a plate, 5.64 on "
+               "the plate. It carries no word.",
+    "#cbc4d1": "champuru: the soft shadows on the paving, falling away from the sunlit wall, and the paving's "
+               "joints, 1.32 on the shade. They carry no word.",
+    "#6b3a8c": "champuru: the purple sweet potato on a plate, 8.05 on the plate. It carries no word.",
     "#bba6f0": "widdershins: Star Stuff's violet, also the rule beside every quotation, 8.39 on the night, which "
                "is what marks a quotation as one. It is measured as words in PAIRS too.",
     "#5e596e": "widdershins: every outline, in the city, round every card and figure and under every heading, "

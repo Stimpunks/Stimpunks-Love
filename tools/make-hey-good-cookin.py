@@ -159,7 +159,10 @@ PHRASES = [
 ALLERGENS = [
     ("milk", r"butter|milk|cream|cheese|cheddar|mozzarella|ricotta|feta|parmesan|yogh?urt|ghee|whey|paneer|custard"),
     ("eggs", r"eggs?|mayonnaise|mayo|aioli|meringue|custard"),
-    ("fish", r"fish|salmon|cod|tuna|anchov\w*|pollock|tilapia|catfish|trout|haddock|worcestershire"),
+    # Champuru's sardines, sea bass and bonito dashi read this engine too
+    # (make-champuru.py), so a fish named for itself is still a fish.
+    ("fish", r"fish|salmon|cod|tuna|anchov\w*|pollock|tilapia|catfish|trout|haddock|worcestershire|"
+             r"sardines?|sea bass|bonito|mackerel|yellowtail"),
     ("crustacean shellfish", r"shrimp|prawns?|crab|lobster|crawfish|crayfish|langoustines?"),
     ("tree nuts", r"almonds?|walnuts?|pecans?|cashews?|pistachios?|hazelnuts?|macadamias?|pine nuts|brazil nuts"),
     ("peanuts", r"peanuts?"),

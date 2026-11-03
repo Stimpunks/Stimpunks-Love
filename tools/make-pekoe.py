@@ -135,7 +135,11 @@ CAFFEINE = [
              r"lemon verbena|lavender|fennel|ginger|rose petals?|dried apple|oat milk|"
              # The café in the old dairy at All Together Now Farms reads this list
              # too (make-the-dairy.py), and pours its own goats' and sheep's milk.
-             r"goat'?s milk|sheep'?s milk|buttermilk"),
+             r"goat'?s milk|sheep'?s milk|buttermilk|"
+             # Champuru's teas and its citrus soda read this list too
+             # (make-champuru.py): barley, turmeric and Greek mountain tea
+             # are herbs and grain, and none of them has caffeine.
+             r"roasted barley|turmeric|mountain tea|shikuwasa juice|sparkling water"),
 ]
 # Brew and Stew's herbal teas read this same list (make-brew-and-stew.py), so
 # the two tea rooms work caffeine out the same way.

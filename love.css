@@ -1403,6 +1403,16 @@
 @font-face { font-family: 'Proza Libre'; src: url('fonts/proza-libre-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Proza Libre'; src: url('fonts/proza-libre-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Proza Libre'; src: url('fonts/proza-libre-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+/* Champuru (§136): Klee One, by Fontworks, for the name, the headings and the
+   name of every dish, a pen's hand like a menu written out that morning, and
+   M PLUS 2, by Coji Morishita, for everything that is read. Both from
+   google/fonts, cut down with fontTools to the Latin letters (macrons
+   included, for the Okinawan names) and saved as WOFF2; neither reserves its
+   name. M PLUS 2 is one variable file declared at both its weights. See
+   fonts/_sources.json. */
+@font-face { font-family: 'Klee One'; src: url('fonts/klee-one-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'M PLUS 2'; src: url('fonts/m-plus-2-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'M PLUS 2'; src: url('fonts/m-plus-2-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -4453,6 +4463,29 @@
   --wds-ankh: #3B3A29;  --wds-ankh-crust: #4E4C35;
   --wds-ankh-day: #8A7D4B;  --wds-ankh-crust-day: #6E6338;  --wds-brass: #C9A24A;
 
+  /* Champuru (§136): a table in the shade of a lane at noon, lit by the sun off
+     the whitewashed wall across from it. The page: --chp-shade its ground,
+     the whitewash in shade under the sky; --chp-cloth a tablecloth, every
+     board and card lying in the shade; --chp-ink every word, --chp-ink-2 the
+     quieter words; --chp-sea the name, the headings and the dish names, the
+     door of the lit wall's own sea-green; --chp-bougain the links,
+     --chp-bougain-hot a link under the pointer; --chp-bounce the light thrown
+     across the lane, along the lit side of every card, carrying no word;
+     --chp-line every outline. The lane, drawn in no word: --chp-sun the lit
+     whitewash, --chp-sky and --chp-water the sky and the sea at the end,
+     --chp-door the door and the shutter, --chp-coral and --chp-coral-dark
+     the stone wall and its joints, --chp-tile and --chp-tile-dark the eave,
+     --chp-flower and --chp-leaf the bougainvillea, --chp-shadow the soft
+     shadows, --chp-plate a plate and --chp-imo the purple sweet potato. */
+  --chp-shade: #E6E1E8;  --chp-cloth: #F4F0EE;  --chp-ink: #2B2236;
+  --chp-ink-2: #51475C;  --chp-sea: #0C5A63;  --chp-bougain: #9A1A57;
+  --chp-bougain-hot: #6E0F3D;  --chp-bounce: #EDB46A;  --chp-line: #8F8798;
+  --chp-sun: #FFF4DC;  --chp-sky: #2D62B3;  --chp-water: #2F8E96;
+  --chp-door: #3E8C84;  --chp-coral: #CBC3B3;  --chp-coral-dark: #9E9582;
+  --chp-tile: #B3452E;  --chp-tile-dark: #7E2E1F;  --chp-flower: #C42F7E;
+  --chp-leaf: #3D7340;  --chp-shadow: #CBC4D1;  --chp-plate: #FFFFFF;
+  --chp-imo: #6B3A8C;
+
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -5617,6 +5650,21 @@ div.facade--square { border: 0; background: none; }
 .door--vital .door__name  { font-family: 'Bagel Fat One', var(--sans); font-weight: 400; color: var(--vpl-ink); font-size: 30px; line-height: 1.08; }
 .door--vital .door__blurb { font-family: 'Be Vietnam Pro', var(--sans); color: var(--vpl-ink-2); }
 .door--vital .door__knock { font-family: 'Be Vietnam Pro', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--vpl-beet); }
+/* Champuru: the lane's two walls on the awning, sunlit whitewash and the
+   coral stone in shade, with bougainvillea between them; the front itself is
+   the shade, and its name is in the pen's hand, in the sea-green. */
+.door--chp { background: var(--chp-shade); border-color: var(--chp-ink); }
+.door--chp .door__awning {
+  background-color: var(--chp-sun);
+  background-image: radial-gradient(circle 7px at 50% 70%, var(--chp-flower) 0 96%, transparent 100%),
+                    linear-gradient(90deg, var(--chp-sun) 0 50%, var(--chp-coral) 50% 100%),
+                    linear-gradient(0deg, var(--chp-tile) 0 7px, transparent 7px);
+  background-size: 22px 100%, 100% 100%, 100% 100%;
+  border-bottom-color: var(--chp-ink);
+}
+.door--chp .door__name  { font-family: 'Klee One', var(--sans); font-weight: 600; color: var(--chp-sea); font-size: 32px; line-height: 1.08; font-synthesis: none; }
+.door--chp .door__blurb { font-family: 'M PLUS 2', var(--sans); color: var(--chp-ink-2); font-size: 16px; line-height: 1.45; font-synthesis: none; }
+.door--chp .door__knock { font-family: 'M PLUS 2', var(--sans); font-weight: 700; font-size: 15px; color: var(--chp-bougain); font-synthesis: none; }
 
 /* The Community Center (§51). THE ONE FRONT IN THE ROW WITH A HILL IN ITS
    WINDOW: the awning is the window's view, two soft slopes of the hillside
@@ -18306,7 +18354,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §137
+   class on it is `bb-`, its sizes are in points and millimetres, and §138
    prints it and nothing else. */
 
 .room-broadside {
@@ -18367,7 +18415,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §137 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §138 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -29263,7 +29311,119 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   .wds-figure { padding: 12px 10px 10px; }
 }
 
-/* §136 ── Small screens───────────────────────────────────────────────────────
+/* §136 ── ROOM: Champuru (a shopfront on the street) ─────────────────────────
+   Ryan Boren's restaurant: a table to sit at when he eats, with a broader
+   palette than Vital Plant Living next door, Mediterranean and Okinawan
+   cooking and the dishes that come of mixing the two. Ryan's brief,
+   2026-11-03; first and foremost for him and his tastes, and a prescription
+   for nobody. tools/make-champuru.py writes the room out of data/champuru.json.
+
+   THE LIGHT IS THE SUN OFF THE WALL ACROSS THE LANE. The table is in the shade
+   of a narrow lane at noon, the kind both shores have: whitewash in full sun
+   on one side, coral stone under a red-tiled eave in shade on the other,
+   bougainvillea over both. No sun lands on the table. What lights it is the
+   sunlit wall, so every lit face looks towards that wall, every shadow is
+   soft and falls away from it, and the shade is the colour of the sky. On the
+   page that is the ground, --chp-shade, and a band of --chp-bounce down the
+   side of every card that faces the wall, where no word is.
+
+   THE COLLISIONS:
+     · THE DAIRY is bounced light too, round and round white glaze until it
+       comes from everywhere and casts nothing. This comes from ONE wall, so it
+       has a side, and the shadows fall away from it.
+     · THE SOLARPUNK HERMITAGE has a warm plaster wall in a low sun with
+       things standing in front of it. That is IN the sun; this is the shade
+       across from the sun, and the sun is overhead, out of sight.
+     · COVENSTEAD is one window's warm patch on pink limewash, indoors. Here
+       there is no patch at all: the lit thing is across the lane, not where
+       you are sitting.
+     · THE COMMUNITY CENTER is north light, where no sun lands anywhere. Here
+       the sun lands right there, on the wall you are facing.
+     · THE TRUCKIN' FOOD COURT is a sunlit lot under coloured canvas. There is
+       no canvas over this lane and no colour in its light but the wall's.
+     · VITAL PLANT LIVING, next door, is a kitchen drawn cut through the middle
+       with no light in it, everything touching; SAMEFOOD CAFE is a plate seen
+       from above under an even lamp; HEY, GOOD COOKIN' is a hall behind
+       steamed windows. This is outdoors, at eye level, in a lane.
+   If sun ever lands on the table, this has become the Hermitage with a menu;
+   if the light ever comes from nowhere, it has become the Dairy.
+
+   NOTHING MOVES, AT ANY SETTING, MAX GLITTER INCLUDED: no steam, no flowers
+   falling, no shadow sliding round. The tool refuses a keyframe, an animation
+   or a transition here. Klee One, a pen's hand, sets the name, the headings
+   and every dish's name; M PLUS 2 sets every word that is read. */
+
+.champuru {
+  background-color: var(--chp-shade); color: var(--chp-ink);
+  font-family: 'M PLUS 2', var(--sans); font-synthesis: none;
+}
+.champuru .wrap { width: min(1000px, 100% - 44px); }
+.champuru a { color: var(--chp-bougain); text-underline-offset: 3px; }
+.champuru a:hover { color: var(--chp-bougain-hot); }
+.champuru :focus-visible { outline-color: var(--chp-sea); }
+.champuru :where(p, li) { font-size: 18px; line-height: 1.65; }
+.champuru .backlink { font-family: 'M PLUS 2', var(--sans); font-weight: 700; font-size: 16px; color: var(--chp-bougain); }
+.chp-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.chp-trail { margin: 0; font-size: 15px; color: var(--chp-ink-2); }
+
+.chp-head { margin: 30px 0 0; }
+.chp-over { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--chp-ink-2); }
+.champuru h1 {
+  margin: 6px 0 8px; font-family: 'Klee One', var(--sans); font-weight: 600; font-style: normal;
+  font-size: clamp(56px, 13vw, 124px); line-height: 1; color: var(--chp-sea);
+}
+.chp-sub { margin: 0; font-size: 22px; line-height: 1.45; max-width: 44ch; }
+.chp-lede { margin: 26px 0 0; max-width: 66ch; font-size: 20px; line-height: 1.6; }
+
+.chp-part { margin: 54px 0 0; }
+.chp-part > p, .chp-part > blockquote, .chp-part > ul { max-width: 68ch; }
+.chp-part > p { margin: 0 0 16px; }
+.champuru h2 {
+  margin: 0 0 18px; padding-bottom: 10px; border-bottom: 2px solid var(--chp-line);
+  font-family: 'Klee One', var(--sans); font-weight: 600; font-size: clamp(30px, 5vw, 42px); line-height: 1.15; color: var(--chp-sea);
+}
+
+.chp-lane { margin: 0; border: 2px solid var(--chp-ink); border-radius: 6px; overflow: hidden; background: var(--chp-sky); }
+.chp-lane__draw { display: block; width: 100%; height: auto; }
+.chp-lane__words { margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: var(--chp-ink-2); max-width: 70ch; }
+
+/* RYAN'S WORDS, quoted as his, on the cloth with the wall's light down the
+   side of it that faces the wall, which is the left. */
+.chp-ryan {
+  margin: 8px 0 6px; padding: 16px 20px 16px 22px; background: var(--chp-cloth);
+  border: 1px solid var(--chp-line); border-left: 8px solid var(--chp-bounce); border-radius: 4px;
+}
+.chp-ryan p { margin: 0 0 10px; font-size: 19px; line-height: 1.6; }
+.chp-ryan p:last-child { margin: 0; }
+.chp-who { font-size: 15px; color: var(--chp-ink-2); }
+
+/* THE MENU: a board for each shore and one for both, each dish a card on the
+   cloth, every card lit down the side that faces the wall. */
+.chp-board { margin: 34px 0 0; }
+.champuru .chp-board h3 { margin: 0 0 14px; font-family: 'Klee One', var(--sans); font-weight: 600; font-size: 30px; line-height: 1.2; color: var(--chp-ink); }
+.chp-dishes { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.chp-dish {
+  margin: 0; padding: 14px 16px 14px 18px; background: var(--chp-cloth);
+  border: 1px solid var(--chp-line); border-left: 6px solid var(--chp-bounce); border-radius: 4px;
+}
+.champuru .chp-dish__name { margin: 0 0 2px; font-family: 'Klee One', var(--sans); font-weight: 600; font-size: 23px; line-height: 1.25; color: var(--chp-sea); }
+.chp-dish p { margin: 0 0 6px; font-size: 16px; line-height: 1.5; }
+.chp-dish p:last-child { margin: 0; }
+.champuru .chp-dish__mark { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--chp-ink-2); }
+.champuru .chp-dish__has, .champuru .chp-dish__caf { font-weight: 700; }
+.champuru .chp-dish__note { color: var(--chp-ink-2); }
+
+.chp-kitchen { padding: 0 0 0 18px; border-left: 4px solid var(--chp-bounce); }
+.chp-rules { margin: 0; padding-left: 22px; }
+.chp-rules li { margin: 0 0 10px; }
+
+@media (max-width: 720px) {
+  .champuru .wrap { width: calc(100% - 32px); }
+  .chp-dishes { grid-template-columns: 1fr; }
+  .chp-lede { font-size: 18px; }
+}
+
+/* §137 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -29367,7 +29527,7 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §136 says every
+   shipped with no rule here at all — which on a street whose §137 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -29491,7 +29651,7 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §137 ── Print ───────────────────────────────────────────────────────────────
+/* §138 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

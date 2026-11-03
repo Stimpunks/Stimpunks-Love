@@ -1,0 +1,101 @@
+{
+ "_source": "Ryan Boren's brief, 2026-11-03: a restaurant on the street to hang out in when he eats, with a broader palette of dishes than Vital Plant Living, after the Mediterranean and Okinawan ways of cooking he eats from, with fusion dishes of the two; first and foremost for him and his tastes, and a prescription for nobody. Ryan chose the name the same day, from Claude's suggestions. Read by tools/make-champuru.py.",
+ "_menu": "Every dish is Hey, Good Cookin's shape (name, diet, what, animal, note) and goes through that room's check_dish, so its allergen line is worked out from `what` and can never disagree with it; every drink's caffeine is worked out by Pekoe and Purrs'. A sauce or a spice mix is spelled out (tahini, not hummus alone; sesame seeds, not za'atar alone) so the engine can read it. Each note says where the dish comes from and what it is, and never what it does for anybody.",
+ "name": {
+  "word": "Chanpurū",
+  "says": "Okinawan for “something mixed”",
+  "culture": "the word is sometimes used for the culture of Okinawa itself, a mixture of traditional Okinawan, Chinese, mainland Japanese, Southeast Asian and North American culture",
+  "source": "https://en.wikipedia.org/wiki/Chanpur%C5%AB",
+  "source_name": "Wikipedia’s article on chanpurū",
+  "read": "2026-11-03"
+ },
+ "_ryan": "Ryan's own words, from his brief of 2026-11-03, exactly as he wrote them. They are quoted as his and are not swept for the room's refusals, because they are his to say.",
+ "ryan": [
+  "I want to create a restaurant on Stimpunks.World to hang out in when I eat. I use Vital Plant Living often, but I want another spot with a broader palette of dishes that reflects the rest of my diet.",
+  "This restaurant is first and foremost for me and my personal tastes and not a prescription for anyone else."
+ ],
+ "menu": [
+  {
+   "section": "From the Mediterranean",
+   "key": "mediterranean",
+   "items": [
+    {"name": "Horiatiki", "diet": "vegetarian", "what": "tomatoes, cucumber, red onion, green pepper, kalamata olives, feta, oregano, olive oil", "note": "Greek: the salad with the slab of feta left whole on top."},
+    {"name": "Fasolada", "diet": "vegan", "what": "white beans, carrots, celery, onion, tomatoes, bay leaves, olive oil", "note": "Greek white bean soup."},
+    {"name": "Gigantes plaki", "diet": "vegan", "what": "giant white beans, tomatoes, onion, garlic, dill, olive oil", "note": "Greek: giant beans baked slowly in tomato."},
+    {"name": "Fakes", "diet": "vegan", "what": "brown lentils, onion, garlic, tomatoes, bay leaves, olive oil, red wine vinegar", "note": "Greek lentil soup, with the vinegar on the table."},
+    {"name": "Horta", "diet": "vegan", "what": "dandelion greens, chicory, olive oil, lemon", "note": "Greek: greens boiled and dressed while they are warm."},
+    {"name": "Grilled sardines", "diet": "fish", "what": "sardines, olive oil, lemon, parsley", "note": "Grilled whole, the way they are along every Mediterranean shore."},
+    {"name": "Lavraki", "diet": "fish", "what": "whole sea bass, fennel, orange, olive oil", "note": "Greek: a whole sea bass roasted on fennel."},
+    {"name": "Chicken souvlaki with tzatziki", "diet": "meat", "animal": "chicken", "what": "chicken, lemon, oregano, olive oil, yogurt, cucumber, garlic, dill", "note": "Greek skewers, and the yogurt sauce beside them."},
+    {"name": "Mujaddara", "diet": "vegan", "what": "brown lentils, rice, onions, cumin, olive oil", "note": "Levantine: lentils and rice under onions cooked down until they are dark."},
+    {"name": "Mezze board", "diet": "vegan", "what": "chickpeas, tahini, aubergine, bulgur wheat, parsley, tomatoes, roasted red peppers, walnuts, breadcrumbs, pomegranate molasses, lemon, olive oil", "note": "Hummus, baba ganoush, tabbouleh and muhammara, from all round the eastern Mediterranean, on one board."},
+    {"name": "Shakshuka", "diet": "vegetarian", "what": "eggs, tomatoes, red peppers, onion, garlic, cumin, paprika, olive oil", "note": "North African: eggs poached in peppers and tomato."},
+    {"name": "Ribollita", "diet": "vegan", "what": "cannellini beans, cavolo nero, carrots, celery, onion, tomatoes, day-old bread, olive oil", "note": "Tuscan: a soup thick with yesterday’s bread."},
+    {"name": "Caponata", "diet": "vegan", "what": "aubergine, celery, onion, tomatoes, capers, green olives, red wine vinegar, olive oil", "note": "Sicilian: aubergine stewed with capers, olives and vinegar."},
+    {"name": "Imam bayıldı", "diet": "vegan", "what": "aubergine, onion, tomatoes, garlic, parsley, olive oil", "note": "Turkish: a whole aubergine filled with onion and tomato and cooked in its oil."},
+    {"name": "Harira", "diet": "vegan", "what": "chickpeas, brown lentils, tomatoes, celery, onion, coriander, parsley, ginger, cinnamon, turmeric, lemon", "note": "Moroccan chickpea and lentil soup, made in this kitchen without the lamb."},
+    {"name": "Gazpacho", "diet": "vegan", "what": "tomatoes, cucumber, green pepper, garlic, sherry vinegar, olive oil", "note": "Andalusian: a cold soup of everything in the garden."},
+    {"name": "Yogurt with walnuts and honey", "diet": "vegetarian", "what": "Greek yogurt, walnuts, honey", "note": "Greek: thick yogurt, a handful of walnuts and a little honey."}
+   ]
+  },
+  {
+   "section": "From Okinawa",
+   "key": "okinawa",
+   "items": [
+    {"name": "Gōyā champuru", "diet": "vegetarian", "what": "bitter melon, shima tofu, eggs, carrots, sesame oil, soy sauce", "note": "The champuru: bitter melon stir-fried with island tofu and egg."},
+    {"name": "Tofu champuru", "diet": "vegan", "what": "shima tofu, mung bean sprouts, cabbage, carrots, sesame oil, soy sauce", "note": "Island tofu stir-fried with whatever is in season."},
+    {"name": "Fū champuru", "diet": "vegetarian", "what": "wheat gluten, eggs, cabbage, carrots, spring onions, sesame oil, soy sauce", "note": "Wheat gluten soaked in egg and stir-fried."},
+    {"name": "Sōmin champuru", "diet": "fish", "what": "somen noodles, tuna, chives, sesame oil, soy sauce", "note": "Thin noodles tossed in the pan with tuna and chives."},
+    {"name": "Kūbu irichi", "diet": "vegan", "what": "shredded kombu, konnyaku, carrots, shiitake, sesame oil, soy sauce", "note": "Shredded kelp stir-fried with konnyaku and mushrooms."},
+    {"name": "Mozuku-zu", "diet": "vegan", "what": "mozuku seaweed, rice vinegar, ginger, soy sauce", "note": "Okinawa’s fine seaweed in vinegar, cold."},
+    {"name": "Umibudō", "diet": "vegan", "what": "sea grapes, shikuwasa juice, soy sauce", "note": "Sea grapes, the seaweed that pops, with a dish to dip them in."},
+    {"name": "Jīmāmī dōfu", "diet": "vegan", "what": "peanuts, sweet potato starch, kokuto syrup", "note": "Okinawan peanut tofu, with Okinawa’s dark sugar syrup on the side."},
+    {"name": "Nābērā nbushi", "diet": "vegan", "what": "loofah, shima tofu, miso, kombu dashi", "note": "Young loofah stewed in miso."},
+    {"name": "Kufa jūshī", "diet": "vegan", "what": "rice, kombu, shiitake, carrots, soy sauce", "note": "Okinawan mixed rice, cooked here in kombu rather than pork stock."},
+    {"name": "Okinawa soba with fish cake", "diet": "fish", "what": "wheat noodles, kombu and bonito dashi, fish cake, spring onions, pickled ginger", "note": "Okinawa’s own wheat noodle soup, topped here with fish cake rather than pork."},
+    {"name": "Beni imo", "diet": "vegan", "what": "purple sweet potato", "note": "Okinawan purple sweet potato, steamed."},
+    {"name": "Sashimi of the day", "diet": "fish", "what": "the day’s sushi-grade fish, shikuwasa, shiso, wasabi, soy sauce", "note": "Whatever came in that morning, sliced, with Okinawan citrus where a lemon would be."},
+    {"name": "Yushi dōfu", "diet": "vegan", "what": "soft tofu, kombu dashi, spring onions, soy sauce", "note": "Okinawan soft tofu in a light broth."}
+   ]
+  },
+  {
+   "section": "Both shores at once",
+   "key": "both",
+   "items": [
+    {"name": "Beni imo hummus", "diet": "vegan", "what": "purple sweet potato, chickpeas, tahini, lemon, garlic, Aleppo pepper, olive oil", "note": "Okinawa’s purple sweet potato in the eastern Mediterranean’s dip."},
+    {"name": "Gōyā caponata", "diet": "vegan", "what": "bitter melon, aubergine, celery, tomatoes, capers, green olives, red wine vinegar, olive oil", "note": "Bitter melon cooked the Sicilian way."},
+    {"name": "Crudo-sashimi", "diet": "fish", "what": "sushi-grade tuna, olive oil, shikuwasa juice, shiso, flaky sea salt", "note": "Italian crudo and Japanese sashimi on one plate."},
+    {"name": "Sea grape tabbouleh", "diet": "vegan", "what": "parsley, bulgur wheat, tomatoes, sea grapes, mint, lemon, olive oil", "note": "Tabbouleh, with sea grapes in it."},
+    {"name": "Miso-tahini horta", "diet": "vegan", "what": "dandelion greens, chicory, miso, tahini, lemon", "note": "Greek greens in a dressing from both shores."},
+    {"name": "Farro champuru", "diet": "vegetarian", "what": "farro, shima tofu, bitter melon, eggs, sesame oil, soy sauce", "note": "The champuru, stir-fried with an old Mediterranean grain."},
+    {"name": "Shima tofu souvlaki", "diet": "vegetarian", "what": "shima tofu, lemon, oregano, olive oil, yogurt, cucumber, garlic, dill", "note": "Island tofu on Greek skewers, with tzatziki."},
+    {"name": "Miso sardines on white beans", "diet": "fish", "what": "sardines, white miso, white beans, garlic, parsley, olive oil", "note": "Sardines glazed in miso, on a Greek plate of beans."},
+    {"name": "Za’atar edamame", "diet": "vegan", "what": "edamame, thyme, sumac, sesame seeds, olive oil, sea salt", "note": "Young soybeans in the Levant’s herb mix."},
+    {"name": "Mozuku with lemon and olive oil", "diet": "vegan", "what": "mozuku seaweed, lemon, olive oil", "note": "Okinawa’s seaweed, dressed like a Greek salad."},
+    {"name": "Lentil taco rice", "diet": "vegetarian", "what": "rice, brown lentils, cumin, chilli, lettuce, tomatoes, cheddar", "note": "Taco rice is Okinawa’s own fusion, from the American bases; here it is made with lentils."}
+   ]
+  },
+  {
+   "section": "To drink",
+   "key": "drinks",
+   "drinks": true,
+   "items": [
+    {"name": "Sanpin-cha", "diet": "vegan", "what": "jasmine green tea", "note": "Okinawan jasmine tea."},
+    {"name": "Ucchin-cha", "diet": "vegan", "what": "turmeric", "note": "Okinawan turmeric tea."},
+    {"name": "Mugicha", "diet": "vegan", "what": "roasted barley", "note": "Roasted barley tea, cold."},
+    {"name": "Greek mountain tea", "diet": "vegan", "what": "mountain tea", "note": "The dried flowering tops of a Greek hillside herb, steeped."},
+    {"name": "Fresh mint tea", "diet": "vegan", "what": "spearmint", "note": "Leaves in a glass of hot water."},
+    {"name": "Shikuwasa and soda", "diet": "vegan", "what": "shikuwasa juice, sparkling water", "note": "Okinawan citrus over ice."}
+   ]
+  }
+ ],
+ "_kitchen": "Said on the page so the menu cannot pass for how Okinawa eats: Okinawan home cooking uses a good deal of pork and SPAM (Wikipedia's chanpurū article says so of the champuru), and this kitchen cooks those dishes with tofu, egg and fish because it is Ryan's.",
+ "kitchen": "Okinawan home cooking uses a good deal of pork, and SPAM, which came with the American military, and a champuru there is as likely to have either in it as tofu. This kitchen cooks its Okinawan dishes with tofu, egg and fish, and its Greek and Moroccan ones without the lamb, because it is Ryan’s kitchen and that is how he eats. Nothing on this menu says how anybody else eats, in Okinawa or round the Mediterranean or anywhere.",
+ "rules": [
+  "Every dish says what is in it before you order it, and its allergens are worked out from those words.",
+  "Nothing on the menu says what a dish does for a body. It is food, and it is what Ryan likes.",
+  "Nobody counts anything here: not what is on your plate, not how often you come.",
+  "The menu changes when Ryan asks, and only then.",
+  "You are welcome at this table whatever you eat. The table is Ryan’s and the menu is his, and neither is advice for you."
+ ]
+}

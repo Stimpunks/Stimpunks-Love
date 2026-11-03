@@ -1425,6 +1425,16 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--dairy h1 {{ font-size: 56px; line-height: 1.04; margin: 0 0 16px !important; }}
 .og--dairy .og-lede {{ font-family: 'Oxygen', sans-serif; color: var(--dry-ink); font-size: 22px; line-height: 1.42; margin: 0; }}
 
+/* champuru — THE LANE, lifted whole, beside the name on the shade; the frame
+   round the lane is the room's own ink, and nothing on the card is in the sun. */
+.og--champuru {{ flex-direction: row; align-items: center; gap: 32px; padding: 40px 46px; }}
+.og--champuru .og-words {{ flex: 0 0 420px; }}
+.og--champuru .og-view {{ flex: 0 0 660px; border: 3px solid var(--chp-ink); border-radius: 8px; overflow: hidden; }}
+.og--champuru .og-view svg {{ display: block; width: 100%; height: auto; }}
+.og--champuru .chp-over {{ font-size: 14px; margin: 0 0 10px !important; }}
+.og--champuru h1 {{ font-size: 76px; line-height: 1; margin: 0 0 16px !important; }}
+.og--champuru .og-lede {{ font-family: 'M PLUS 2', sans-serif; color: var(--chp-ink); font-size: 22px; line-height: 1.45; margin: 0; }}
+
 /* the source — THE HILL OF WHITE TERRACES, lifted whole, beside the name on the
    sunlit stone. Its rounded top is the page's own; nothing on it is straight. */
 .og--source {{ flex-direction: row; align-items: center; gap: 32px; padding: 40px 46px; }}
@@ -5237,6 +5247,29 @@ def card_dairy(p):
     )
 
 
+def card_champuru(p):
+    # THE LANE AND THE NAME ARE LIFTED WHOLE, so the card cannot show a lane
+    # the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="chp-lane__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="chp-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: champuru.html has lost its lane or its header, and the\n"
+            "card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--champuru" data-fit="card">'
+        f'<div class="og-words"><p class="chp-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-view">{draw.group(1)}</div>'
+        f'</div>',
+        f"A pale lavender-grey card, the colour of whitewash in shade. On the right, a narrow lane seen from one end, running away to a strip of blue sea under blue sky: a white wall in bright sun on the left with a green arched door, a green shutter and magenta bougainvillea over the top, and a grey coral-stone wall in shade on the right under a red-tiled eave. In front, in the shade, a round table with a white cloth, two plates, chopsticks and a glass, lit on the side facing the white wall, its shadow falling softly away. "
+        f"On the left, small capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in "
+        f"a sea-green pen hand, then: {p['desc_plain']}",
+    )
+
+
 def card_source(p):
     # THE HILLSIDE AND THE NAME ARE LIFTED WHOLE, so the card cannot show a hill
     # the page does not, and the lede is the page's og:description.
@@ -6004,6 +6037,7 @@ CARDS = {
     "chaosgarden":  card_chaosgarden,
     "honestybox":   card_honestybox,
     "dairy":        card_dairy,
+    "champuru":     card_champuru,
     "mixedfarm":    card_mixedfarm,
     # A room you have to know the address of, and the room behind its door
     # (tools/unlisted.py). Each its own card, for every room's reason.

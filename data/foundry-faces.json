@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-11-02",
+ "_checked": "2026-11-03",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -2376,6 +2376,23 @@
     }
    ]
   },
+  "klee-one": {
+   "family": "Klee One",
+   "category": "Handwriting",
+   "designer": "Fontworks Inc.",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/kleeone",
+   "copyright": "Copyright 2020 The Klee Project Authors (https://github.com/fontworks-fonts/Klee)",
+   "repository": "https://github.com/fontworks-fonts/Klee",
+   "variants": [
+    {
+     "weight": "600",
+     "style": "normal",
+     "file": "klee-one-600.woff2",
+     "sha": "426303e59f399d68"
+    }
+   ]
+  },
   "kumbh-sans": {
    "family": "Kumbh Sans",
    "category": "Sans Serif",
@@ -2683,6 +2700,29 @@
      "style": "italic",
      "file": "lora-400-italic.woff2",
      "sha": "e93da94dec22f905"
+    }
+   ]
+  },
+  "m-plus-2": {
+   "family": "M PLUS 2",
+   "category": "Sans Serif",
+   "designer": "Coji Morishita",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/mplus2",
+   "copyright": "Copyright 2021 The M+ FONTS Project Authors (https://github.com/coz-m/MPLUS_FONTS)",
+   "repository": "https://github.com/coz-m/MPLUS_FONTS",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "m-plus-2-400.woff2",
+     "sha": "c75723b36da24637"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "m-plus-2-400.woff2",
+     "sha": "c75723b36da24637"
     }
    ]
   },

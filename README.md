@@ -107,6 +107,7 @@ lightbulb-picture-house.html  Neurodiversity films and every Campfire Learn Toge
 samefood-cafe.html    A café for samefoods and safe foods, seen from above the table. Nothing on a plate touches anything
 collection-collection.html  A dark gallery of our people's collections, a lamp per cabinet and no two alike. The house describes the photos
 vital-plant-living.html  A plant-based kitchen drawn cut through the middle. Build a bowl or wrap from a real pantry and copy it
+champuru.html         Ryan's restaurant, a table in the shade of a lane: Mediterranean and Okinawan dishes, and the two mixed
 town-hall.html        A round hall under an open dome, one disc of sun on the floor. Doors to the Fishbowl and to rooms for directors, board and moderators
 town-hall-executive-session.html Off the Town Hall: the board without staff, lit only by the EXIT sign. Board role only, no administrator key
 town-hall-moderators.html Off the Town Hall: above the street at night, lit by the shopfronts' colours on its ceiling. The base's radio
@@ -246,6 +247,7 @@ data/repeater.json    The Repeater's two lines of ours and the log's cards, none
 data/nothing-for-sale.json  The lay-by's tables, each a free thing of ours, and the headlights, none alike
 data/library.json     Every quotation in the library, L-space and Oook, with how it was checked; the desk and the threads
 data/widdershins.json The city, the Watch, the people we recognise, Star Stuff's six drawings and The Turtle Moves, and every quotation, each read on a page of ours, on Star Stuff or in one paper
+data/champuru.json    Champuru's menu, Ryan's words, the name and where its meaning was read, the kitchen's note and the house rules
 data/community.json   The community service board: a slot for every room that takes something in, and the words each one holds its room to
 data/broadside.json   The press's sheets, both sides of each, with their two spot inks. No two sheets share a pair
 dance-punks.js        The headset. Tuning is silent while it is off; it asks love-embed.js for the frame
@@ -313,6 +315,7 @@ python3 tools/make-picture-house.py # The Lightbulb Picture House's screens and 
 python3 tools/make-samefood.py     # Samefood Cafe's table, menu, counter and trays, and the credits; refuses anything that touches
 python3 tools/make-collection.py   # The Collection Collection's gallery, cabinets and credits; refuses metadata, a filter, or two lamps alike
 python3 tools/make-vital.py        # Vital Plant Living's shelf, builder, board, counter and stereo; refuses a combo off the pantry, or Ital on the menu
+python3 tools/make-champuru.py     # Champuru's lane, menu and credits; refuses a dish against its diet, a drink whose caffeine is unsettled, or anything about what food does for a body
 python3 tools/make-open-notebook.py # The Open Notebook's drawing, questions, laptop, racks and sticker drawer; refuses a YouTube link left in Ryan's piece, a question our write-up no longer has, anywhere to type, a list outside the drawer, a drawer script that keeps or sends anything, and a month older than a month
 python3 tools/make-learning-large.py # Learning Large's glasshouse, quotations, bench, sowing log and rack; refuses a quotation our page no longer has, a log entry the changelog does not hold, a model given a mind, a chat box, and any green
 python3 tools/make-hey-good-cookin.py # Hey, Good Cookin's hall, placards, line, week, classes and rack; works every dish's allergens out of its ingredients, and refuses a vegan dish with an animal in it, a red placard on a large table, anything owed, a calorie count, and any green, yellow or red but a placard's
@@ -821,6 +824,15 @@ credits line listing what the tool refuses said "the vocabulary of … authentic
 "refuses" too far back for the window, and the sentence was rewritten rather than excepted.
 `vital.js` reads every item, shape and ink off the page and keeps no copy; the copy button puts a
 plain-text ticket on the visitor's own clipboard and nothing is stored or sent.
+
+`make-champuru.py` builds Champuru out of `data/champuru.json`, Ryan's restaurant on the street: a table in the shade
+of a lane at noon, lit by the sunlit wall across from it. It **draws the lane**, writes the name, Ryan's own words
+(quoted as his and never swept), the menu, the kitchen's note and the house rules. **Every dish goes through Hey, Good
+Cookin's `check_dish`** and every drink through Pekoe and Purrs' caffeine, both imported, so the allergen lines are
+worked out from what is in each dish. It **refuses anything about what food does for a body** in the room's own words
+(blood sugar, heart health, longevity, a cure, a diet named for what it treats), authentic, exotic and ethnic, sorting
+eaters and a tally, with the negation window; refuses the kitchen's note losing the pork and SPAM that keep the menu
+from passing for how Okinawa eats; and refuses a form, a script of its own and anything moving in §136.
 
 `make-guild.py` refuses a job with no estimate of how long it takes &mdash; the street's oldest
 promise arriving at a job board, where the cost is a walk rather than a runtime &mdash; refuses a

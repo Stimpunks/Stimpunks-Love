@@ -327,6 +327,11 @@
    "room": "Vital Plant Living"
   },
   {
+   "id": "chp-bract",
+   "title": "What is in the name?",
+   "room": "Champuru"
+  },
+  {
    "id": "looming-flood",
    "title": "What the rocks give back",
    "room": "Looming Rocks Amphitheatre"

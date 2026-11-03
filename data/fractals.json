@@ -1297,6 +1297,19 @@
         "--vpl-chip"
       ]
     },
+    "champuru.html": {
+      "kind": "newton",
+      "degree": 5,
+      "relax": 0.4,
+      "twist": 0.3,
+      "ground": "--chp-shade",
+      "inks": [
+        "--chp-sea",
+        "--chp-bougain",
+        "--chp-tile",
+        "--chp-leaf"
+      ]
+    },
     "your-room.html": {
       "kind": "julia",
       "power": 3,

@@ -3330,5 +3330,33 @@
    "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/prozalibre/ProzaLibre-Italic.ttf",
    "note": "Widdershins (\u00a7135), the italic: the titles of books and the words Death puts weight on. The family's own static Italic, cut down the same way."
   }
+ ],
+ "klee-one": [
+  {
+   "file": "klee-one-600.woff2",
+   "weight": "600",
+   "style": "normal",
+   "bytes": 17860,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/kleeone/KleeOne-SemiBold.ttf",
+   "note": "Champuru (\u00a7136), the room's name, its headings, the name of every dish and the name on its street door: a pen's hand, like a menu written out that morning. The family's own static SemiBold in google/fonts, cut down here with fontTools to the Latin letters, Latin Extended-A included for the Okinawan names' macrons, and saved as WOFF2; its Japanese is left out because the room sets none. Its copyright line reserves no font name."
+  }
+ ],
+ "m-plus-2": [
+  {
+   "file": "m-plus-2-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 39960,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/mplus2/MPLUS2%5Bwght%5D.ttf",
+   "note": "Champuru (\u00a7136), every word that is read: the menu, the allergens and the notes. The variable font from the family's own directory in google/fonts, weight axis kept, cut down here with fontTools to the Latin letters, Latin Extended-A included for the macrons, and saved as WOFF2. Its copyright line reserves no font name."
+  },
+  {
+   "file": "m-plus-2-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 39960,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/mplus2/MPLUS2%5Bwght%5D.ttf",
+   "note": "Byte-identical to the 400 above, declared again against its weight axis: the allergen lines, the backlink and the line over the name."
+  }
  ]
 }

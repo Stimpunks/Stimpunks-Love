@@ -1723,6 +1723,20 @@
       "sections": [
         135
       ]
+    },
+    "klee-one": {
+      "where": "Champuru",
+      "page": "champuru.html",
+      "sections": [
+        136
+      ]
+    },
+    "m-plus-2": {
+      "where": "Champuru",
+      "page": "champuru.html",
+      "sections": [
+        136
+      ]
     }
   }
 }

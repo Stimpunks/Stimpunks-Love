@@ -1991,6 +1991,41 @@
    }
   },
   {
+   "id": "chp-bract",
+   "page": "champuru.html",
+   "room": "Champuru",
+   "title": "What is in the name?",
+   "posted": "Next door to the plant kitchen there is a table in the shade of a lane, and the word over its door is the name of a dish. The room says what the word means in the language it comes from. Go and find out.",
+   "rank": 1,
+   "takes": "about as long as it takes to read a menu board",
+   "target": "a bougainvillea flower fallen into the lane",
+   "code": "CHAMPURU",
+   "learned": "Chanpurū is Okinawan for something mixed. It is the stir-fry everybody on Okinawa cooks, and the word is sometimes used for Okinawa's culture itself, which is a mixture of a great many others. A table where two shores' cooking meets on one plate is what the word is for.",
+   "hints": [
+    "On the street itself, in the row of shopfronts, next door to Vital Plant Living: the front with a whitewashed wall and a stone one on its awning.",
+    "In the section headed The name, after the lane.",
+    "Right at the foot of the room, in the lane, where a flower has fallen from the bougainvillea."
+   ],
+   "ask": {
+    "question": "Chanpurū is a word in the Okinawan language. What does it mean?",
+    "accept": [
+     "something mixed",
+     "mixed",
+     "mixed up",
+     "something mixed up",
+     "a mixture",
+     "mixture"
+    ],
+    "answer": "Something mixed",
+    "why": "Chanpurū is Okinawan for something mixed: the stir-fry of tofu with whatever is to hand, and, sometimes, the mixed culture of Okinawa itself.",
+    "hints": [
+     "It is in the section headed The name.",
+     "It is what a stir-fry of a little of everything is.",
+     "Something m..."
+    ]
+   }
+  },
+  {
    "id": "looming-flood",
    "page": "looming-rocks.html",
    "room": "Looming Rocks Amphitheatre",
