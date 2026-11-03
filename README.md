@@ -145,6 +145,7 @@ rack.js               A rack's screen and its cards' second press, shared by eve
 community-library.html  A public reading room with the sky in its windows. Free to all; our collections on the front desk
 l-space.html          Behind it: every library at once, bent by the weight of books. Nothing straight; a ball of string
 oook.html             And behind that: a Discworld homage in the Librarian's colours. He is not drawn
+widdershins.html      A crooked city with the morning halfway across it: a Discworld appreciation against the way of normativity
 broadsheet-broadside.html  A press in the side of a ship. Broadsides printed both sides, ink on white, one to pin up and one to hand over
 the-garden.html       The knowledge garden. One bed per site we publish, each linking out
 campgrounds.html      The field past the treeline. Marker posts, no ambient layer, ever
@@ -244,6 +245,7 @@ data/small-hours.json The diner's quotations, its menu, Up All Night with its pe
 data/repeater.json    The Repeater's two lines of ours and the log's cards, none of which counts anything
 data/nothing-for-sale.json  The lay-by's tables, each a free thing of ours, and the headlights, none alike
 data/library.json     Every quotation in the library, L-space and Oook, with how it was checked; the desk and the threads
+data/widdershins.json The city, the Watch, the people we recognise, Star Stuff's five figures, and every quotation, each read on a page of ours, on Star Stuff or in one paper
 data/community.json   The community service board: a slot for every room that takes something in, and the words each one holds its room to
 data/broadside.json   The press's sheets, both sides of each, with their two spot inks. No two sheets share a pair
 dance-punks.js        The headset. Tuning is silent while it is off; it asks love-embed.js for the frame
@@ -365,6 +367,7 @@ python3 tools/make-cooldown.py     # The Cooldown Room's vending machine; refuse
 python3 tools/make-mud.py          # The MUD Room's Slake: guidebook, map and credits; refuses a way on with no way back, no walk home, a fight or a score
 python3 tools/make-sithen.py       # Sithen's rules and their sources; refuses advice, or anything drawn from the two novel series
 python3 tools/make-library.py      # the library's, L-space's and Oook's quotations, the front desk and the threads; refuses a long passage, a lyric, or the graphic novel
+python3 tools/make-widdershins.py  # Widdershins' city, sections, Watch and credits; refuses a diagnosis, a ranking, pity, a fan wiki, an <img>, a figure Star Stuff no longer carries, and a quotation not where it was read word for word
 python3 tools/make-dance-punks.py  # the disco's channels and credits; refuses a runtime, shuffle, or two inks alike in greyscale
 python3 tools/make-small-hours.py  # the diner's menu, quotations, record, jukebox and placemat; refuses a lyric with no permission, or a placemat that keeps anything
 python3 tools/make-repeater.py     # the Repeater's log and quotations; refuses anything that sends, stores or listens
@@ -745,6 +748,16 @@ room says it asks for, the build stops. It holds the room's line that the form a
 `data/office.json`, sweeps the room's own words for **a tally of hours, the martyr, obligation and charity** with the
 negation window and skipping the quotations, refuses the song our page quotes, a form or anything editable, and a
 keyframe, an animation or a transition in §130: nothing on the loom moves at any setting.
+
+`make-widdershins.py` builds Widdershins out of `data/widdershins.json`, a shopfront next door to the Community
+Library: a Discworld appreciation against the way of normativity. It **draws the city** twice, at night and lit, and
+clips the lit one to one side of a slanting line, so the Disc's slow morning is caught halfway across it; every word
+is on the night side. **Every quotation was read on one of our pages, on Star Stuff or in one paper** and is checked
+word for word against the mirror, Star Stuff's repository beside this one, or the paper's own text (with pdftotext),
+whichever is on the machine. **Five of Star Stuff's figures** are kept exactly as No. 49 publishes them and recoloured
+here, and the tool refuses one the zine no longer carries. It sweeps the room's own words for **a diagnosis, a
+ranking, pity and the cure** with the negation window, skipping the quotations, refuses a fan wiki, an `<img>`, a form,
+the GNU header gone from `_headers`, and a keyframe, an animation or a transition in §135.
 
 `make-haunted-house.py` builds The Haunted House out of `data/haunted-house.json`, turning 09 off The Outskirts: an
 empty warehouse with a house built inside it out of plywood flats. It **draws the set**, the house's front in the dark

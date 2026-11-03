@@ -272,6 +272,13 @@ DRAW = {
     # the peel in --ook-banana, 9.99 on the rust, splayed in three, with its stalk
     # and the tips in --ook-cream, 12.31. It lies still.
     "ook-peel": """<path d="M16 17 C12 18 7 22 4 27 C9 26 13 23 16 19 Z" fill="var(--ook-banana)"/><path d="M16 17 C20 18 25 22 28 27 C23 26 19 23 16 19 Z" fill="var(--ook-banana)"/><path d="M16 17 C14 22 15 26 17 29 C18 25 18 21 17 17 Z" fill="var(--ook-banana)"/><path d="M15 17 C15 13 16 9 18 6 L19.5 7 C18 10 17.5 13 17.5 17 Z" fill="var(--ook-banana)"/><path d="M18 6 L19.5 4.5" stroke="var(--ook-cream)" stroke-width="2" stroke-linecap="round"/><circle cx="4.5" cy="26.5" r="1" fill="var(--ook-cream)"/><circle cx="27.5" cy="26.5" r="1" fill="var(--ook-cream)"/>""",
+    # Widdershins: a cobblestone come loose from the street and lying on the
+    # floor, --wds-ink-3, 7.06 on the night it lies on and over the body
+    # threshold a marker is held to, outlined in --wds-line, with the
+    # morning's edge, --wds-dawn, caught on its top right-hand corner at the
+    # slant it has in the city. The floor line is --wds-line and carries
+    # nothing. It lies still, like the morning.
+    "wds-cobble": """<path d="M3 29.5 H29" stroke="var(--wds-line)" stroke-width="1.6" stroke-linecap="round"/><path d="M6.5 27.5 C5.5 22 7 17.5 12 16.5 C17 15.6 23 15.8 25.6 18.5 C27.6 21 27 25.5 25.6 27.5 Z" fill="var(--wds-ink-3)" stroke="var(--wds-line)" stroke-width="1.3" stroke-linejoin="round"/><path d="M20.5 16 L26.6 21.5" stroke="var(--wds-dawn)" stroke-width="1.8" stroke-linecap="round"/><path d="M10 23 C12.5 21.5 16 21.2 19 22" fill="none" stroke="var(--wds-line)" stroke-width=".8" opacity=".7"/>""",
     # The lid off a tin of paint, put down on the pavement at the foot of the
     # wall: seen a little from above, in --pm-line, 10.59 on the road, with a
     # ring of yellow paint dried round its rim in --pm-yellow, 7.56, and the

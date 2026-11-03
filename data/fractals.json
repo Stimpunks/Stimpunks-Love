@@ -840,6 +840,22 @@
         "--ook-cream"
       ]
     },
+    "widdershins.html": {
+      "kind": "julia",
+      "c": [
+        -0.68,
+        0.312
+      ],
+      "orbit": 0.018,
+      "bands": 0.05,
+      "ground": "--wds-night",
+      "inks": [
+        "--wds-dawn",
+        "--wds-heather",
+        "--wds-river",
+        "--wds-edge"
+      ]
+    },
     "oracle-deck.html": {
       "kind": "orbit",
       "power": 4,

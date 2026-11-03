@@ -1,0 +1,552 @@
+{
+  "_what": "Widdershins, a shopfront on the street: a Discworld appreciation with an anti-normative bent, in a city that evokes Ankh-Morpork at the moment the Disc's slow morning is halfway across it. tools/make-widdershins.py writes the room out of this file, between wds:<part> markers in widdershins.html, and a table of the quotations into liner-notes.html.",
+  "_who": "Ryan's brief, 2026-11-02: a Discworld appreciation room, Widdershins: Against the Way of Normativity, after Pratchett's writing on inclusion and embracing difference and weirdness, especially the books about the City Watch, which are about diversity within a team and forming competency networks; copy some of Star Stuff's Discworld writing and vector illustrations into it; evoke Ankh-Morpork. The brief also linked a fan wiki's page on widdershins and a fan site's theme page; nothing is drawn from either, Sithen's and A Quiet Pint's rule, and the fan site is not linked as a source.",
+  "_quotes": "Every quotation was read on a page of ours (stimpunks.org, in the Knowledge System mirror) or on Star Stuff (starstuff.earth, Stimpunks x More Realms, CC BY-SA 4.0, in its own repository beside this one), and is checked there word for word whenever that copy is on the machine; or it was read in the one paper named in `pages`, checked against the paper's own text when the PDF and pdftotext are on the machine. A quotation from a Discworld book is one our own pages already quote; nothing was typed from a book or from memory. Somebody else's words on our page carry the work they come from and say they were read on our page, the Community Library's rule.",
+  "_ours": "Everything that is not a quotation is ours, written for this room. What it says about the Watch and the people of Ankh-Morpork is our reading of the books, from reading them, and quotes none of them: nothing about the Disc was taken from a fan wiki. We recognise ourselves in these people; we do not diagnose any of them, any more than Star Stuff's No. 49 would diagnose their author.",
+  "_figures": "Five of the nine diagrams Star Stuff drew for its Zine No. 49, One Atom of Justice, copied here as they are published there (CC BY-SA 4.0, ours jointly with More Realms) and recoloured into this room's inks by the tool. `svg` is the figure exactly as starstuff.earth has it; where its repository is on the machine the tool refuses one that no longer matches the zine, so a correction there is noticed here. `change` is the only edit made to a figure's words, said on the page.",
+  "read": "2026-11-02",
+  "words": 40,
+  "pages": {
+    "competency": {
+      "title": "Competency Network",
+      "url": "https://stimpunks.org/glossary/competency-network/",
+      "from": "mirror",
+      "file": "glossary/competency-network.md"
+    },
+    "neuronormativity": {
+      "title": "Neuronormativity",
+      "url": "https://stimpunks.org/glossary/neuronormativity/",
+      "from": "mirror",
+      "file": "glossary/neuronormativity.md"
+    },
+    "inclusion": {
+      "title": "Inclusion Must Be Global, Decolonized, Culturally And Linguistically Diverse, And Anti-Normative",
+      "url": "https://stimpunks.org/philosophy/inclusion-must-be-global-decolonized-culturally-and-linguistically-diverse-and-anti-normative/",
+      "from": "mirror",
+      "file": "pages/philosophy__inclusion-must-be-global-decolonized-culturally-and-linguistically-diverse-and-anti-normative.md"
+    },
+    "weird": {
+      "title": "Weird",
+      "url": "https://stimpunks.org/glossary/weird/",
+      "from": "mirror",
+      "file": "glossary/weird.md"
+    },
+    "witches": {
+      "title": "If I don’t help them, who will?",
+      "url": "https://stimpunks.org/philosophy/if-i-dont-help-them-who-will/",
+      "from": "mirror",
+      "file": "pages/philosophy__if-i-dont-help-them-who-will.md",
+      "holds": [
+        "There is a lot of wisdom in the witches of Discworld."
+      ]
+    },
+    "atom": {
+      "title": "One Atom of Justice",
+      "url": "https://starstuff.earth/one-atom-of-justice-zine.html",
+      "from": "starstuff",
+      "file": "one-atom-of-justice-zine.html",
+      "holds": [
+        "This site began sending it on 14 August 2026, from a Netlify _headers file."
+      ]
+    },
+    "promise": {
+      "title": "A Promise, Not a Finding",
+      "url": "https://starstuff.earth/a-promise-not-a-finding.html",
+      "from": "starstuff",
+      "file": "a-promise-not-a-finding.md"
+    },
+    "mapp": {
+      "title": "The Discworld Mapp’d: Constructing Competing Narratives of Inequality in Science-Fiction Fandom",
+      "url": "https://doi.org/10.1080/01490400.2025.2464552",
+      "from": "paper",
+      "file": "inbox/The Discworld Mapp d Constructing Competing Narratives of Inequality in Science-Fiction Fandom.pdf",
+      "who": "Karl Spracklen and Ian Lamond",
+      "in": "Leisure Sciences",
+      "year": "2025",
+      "licence": "CC BY-NC-ND 4.0"
+    }
+  },
+  "quotes": {
+    "hegemony": {
+      "text": "his later work is driven by a commitment to inclusion and a rejection of hegemony",
+      "who": "Karl Spracklen and Ian Lamond",
+      "read_on": "mapp",
+      "note": "They cite Rebecca Ann Bach, Terry Pratchett Could Save the World (2023), for it."
+    },
+    "crucible": {
+      "text": "how cities such as Ankh-Morpork serve as a crucible for agency even if social structures continue to limit that freedom",
+      "who": "Karl Spracklen and Ian Lamond",
+      "read_on": "mapp",
+      "note": "They cite Rebecca Ann Bach, Terry Pratchett Could Save the World (2023), for it."
+    },
+    "correct-way": {
+      "text": "It is the assumption that there is a correct way to exist in this world; a correct way to think, feel, communicate, play, behave and more.",
+      "who": "Sonny Jane Wise",
+      "work": "Introducing Decentering Neuronormativity",
+      "url": "https://www.linkedin.com/pulse/introducing-decentering-neuronormativity-sonny-jane-wise-huevc/",
+      "read_on": "neuronormativity"
+    },
+    "uniformity": {
+      "text": "Inclusion, when it assumes uniformity, is not inclusion at all.",
+      "who": "Hari Srinivasan, Kristen Gillespie-Lynch and colleagues",
+      "work": "Inclusion Must Be Global, Decolonized, Culturally and Linguistically Diverse, and Anti-Normative",
+      "year": "2025",
+      "url": "https://www.researchgate.net/profile/Kristen-Gillespie-Lynch/publication/397896324_Inclusion_Must_Be_Global_Decolonized_Culturally_and_Linguistically_Diverse_and_Anti-Normative/links/6923e248f4878b75fc78e479/Inclusion-Must-Be-Global-Decolonized-Culturally-and-Linguistically-Diverse-and-Anti-Normative.pdf",
+      "read_on": "inclusion"
+    },
+    "conformity": {
+      "text": "Creativity is driven by divergent perspectives, and squashed by demands for conformity.",
+      "who": "@MxOolong",
+      "work": "a post",
+      "url": "https://twitter.com/MxOolong/status/1499306546693607427?s=20&t=XYCmQe4y50Kl7ZpwjY4S5w",
+      "read_on": "weird"
+    },
+    "gifts": {
+      "text": "A competency network is a map of the gifts people bring to each other.",
+      "who": "Stimpunks",
+      "read_on": "competency"
+    },
+    "minds": {
+      "text": "Different kinds of minds see different parts of the world. A competency network lets those different views work together. What one person misses, another catches.",
+      "who": "Stimpunks",
+      "read_on": "competency"
+    },
+    "ranking": {
+      "text": "This is not about ranking people. It is not about who is better or worse. It is about fit, trust, and seeing each other clearly.",
+      "who": "Stimpunks",
+      "read_on": "competency"
+    },
+    "alone": {
+      "text": "A group with multiple neurotypes doesn’t just survive more threats — it does things no single neurotype could do alone.",
+      "who": "Lori Hogenkamp",
+      "work": "Neurodiversity and the ESF",
+      "url": "https://www.linkedin.com/posts/lori-hogenkamp-44205410_neurodiversity-and-the-esf-the-thermodynamics-ugcPost-7454716485274578944-8hzC/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAACJSp0BTxb-BFkHrFsPEoJRWLck0kqgT0E",
+      "read_on": "competency"
+    },
+    "first-sight": {
+      "text": "First Sight and Second Thoughts, that’s what a witch had to rely on: First Sight to see what’s really there, and Second Thoughts to watch the First Thoughts to check that they were thinking right.",
+      "who": "Terry Pratchett",
+      "work": "Wintersmith",
+      "year": "2006",
+      "url": "https://openlibrary.org/works/OL453989W/Wintersmith?edition=key%3A/books/OL43562185M",
+      "read_on": "witches"
+    },
+    "eyes": {
+      "text": "Open your eyes, and then open your eyes again.",
+      "who": "Terry Pratchett",
+      "work": "A Hat Full of Sky",
+      "year": "2004",
+      "url": "https://openlibrary.org/works/OL453737W?edition=key%3A/books/OL27489318M",
+      "read_on": "witches",
+      "page": "p. 57"
+    },
+    "store": {
+      "text": "I store it in other people. It’s amazing what you can store in other people.",
+      "who": "Terry Pratchett",
+      "work": "A Hat Full of Sky",
+      "year": "2004",
+      "url": "https://openlibrary.org/works/OL453737W?edition=key%3A/books/OL27489318M",
+      "read_on": "witches",
+      "page": "pp. 116–117",
+      "speaker": "Miss Level"
+    },
+    "who-will": {
+      "text": "You can’t not help people just because they’re stupid or forgetful or unpleasant. Everyone’s poor around here. If I don’t help them, who will?",
+      "who": "Terry Pratchett",
+      "work": "A Hat Full of Sky",
+      "year": "2004",
+      "url": "https://openlibrary.org/works/OL453737W?edition=key%3A/books/OL27489318M",
+      "read_on": "witches",
+      "page": "pp. 116–117",
+      "speaker": "Miss Level"
+    },
+    "become": {
+      "text": "NO. YOU NEED TO BELIEVE IN THINGS THAT AREN'T TRUE. HOW ELSE CAN THEY *BECOME*?",
+      "who": "Terry Pratchett",
+      "work": "Hogfather",
+      "year": "1996",
+      "url": "https://openlibrary.org/works/OL453662W/Hogfather?edition=key%3A/books/OL52845680M",
+      "read_on": "promise",
+      "speaker": "Death",
+      "note": "The small capitals and the italic are the novel’s, as Star Stuff checked them against the book."
+    },
+    "sieve": {
+      "text": "TAKE THE UNIVERSE AND GRIND IT DOWN TO THE FINEST POWDER AND SIEVE IT THROUGH THE FINEST SIEVE AND THEN *SHOW* ME ONE ATOM OF JUSTICE, ONE MOLECULE OF MERCY.",
+      "who": "Terry Pratchett",
+      "work": "Hogfather",
+      "year": "1996",
+      "url": "https://openlibrary.org/works/OL453662W/Hogfather?edition=key%3A/books/OL52845680M",
+      "read_on": "promise",
+      "speaker": "Death",
+      "note": "The middle of a longer speech, which is why it starts where it does."
+    },
+    "promise": {
+      "text": "A finding can be overturned by the next paper. A promise can only be broken by the people who made it.",
+      "who": "Star Stuff",
+      "read_on": "promise"
+    },
+    "ladder": {
+      "text": "The ladder is not the problem. The ladder with the top rung painted on is the problem.",
+      "who": "Star Stuff",
+      "read_on": "atom"
+    },
+    "dictation": {
+      "text": "Dictation is not a lesser way of writing a book; it is a way of writing a book.",
+      "who": "Star Stuff",
+      "read_on": "atom"
+    },
+    "it-works": {
+      "text": "The question is never “does it work?” It works. That is what makes the question interesting.",
+      "who": "Star Stuff",
+      "read_on": "atom"
+    },
+    "unlogged": {
+      "text": "it is the exact structural joke, an unlogged message that costs one line of config and turns around at the end of the line.",
+      "who": "Star Stuff",
+      "read_on": "atom"
+    },
+    "in-public": {
+      "text": "A witch checks her own thinking where somebody can see her do it.",
+      "who": "Star Stuff",
+      "read_on": "atom"
+    }
+  },
+  "sections": {
+    "lede": [
+      {
+        "p": "**Widdershins** is an old word for going the other way round, counter-clockwise, against the course of the sun. It comes from the Middle Low German *weddersinnes*, which [Wikipedia’s article](https://en.wikipedia.org/wiki/Widdershins) says means, literally, **against the way**. That is the whole of this room’s subtitle, and the word got there first."
+      },
+      {
+        "p": "On Terry Pratchett’s Discworld, where the world is flat and turns, there are four directions rather than our four: hubward, to the middle; rimward, to the edge; turnwise, the way the world turns; and widdershins, against it. This room is a thank-you note to those books, from a street of people who have been going widdershins all their lives, mostly without a word for it."
+      },
+      {
+        "p": "It stands in a city that is not quite Ankh-Morpork and could not be anywhere else: crooked, crowded, smoky, built on top of itself, beside a river too thick to drown in, at the moment the Disc’s slow morning is halfway across it. Nobody in the city matches anybody else. That is the city."
+      }
+    ],
+    "city": [
+      {
+        "p": "Read the books in order and you can watch a writer change his mind. The early ones laugh at the usual things fantasy laughs at; the later ones keep coming back to the same city, and the same question: what happens when everybody who was told they did not belong turns up and stays."
+      },
+      {
+        "q": "hegemony"
+      },
+      {
+        "p": "Karl Spracklen and Ian Lamond, writing about the fans who argued over the television adaptation of the Watch books, call Ankh-Morpork a crucible. Not a melting pot, where everybody comes out the same. A crucible, where things are changed by meeting each other and nobody stops being what they were."
+      },
+      {
+        "q": "crucible"
+      },
+      {
+        "p": "Which is the argument against **neuronormativity**, made in a fantasy city by a novelist, and in the words of Sonny Jane Wise that our [glossary](https://stimpunks.org/glossary/neuronormativity/) quotes:"
+      },
+      {
+        "q": "correct-way"
+      },
+      {
+        "q": "uniformity"
+      },
+      {
+        "q": "conformity"
+      }
+    ],
+    "watch": [
+      {
+        "p": "The books about the City Watch begin with a night watch nobody wants: three men in a city that has stopped expecting to be policed. By the end it is a team of nearly every kind of person the Disc has, and it works because nobody on it is the same. That is a **competency network**, and it is the thing our own pages most want a team to be."
+      },
+      {
+        "q": "gifts"
+      },
+      {
+        "watch": true
+      },
+      {
+        "q": "minds"
+      },
+      {
+        "q": "ranking"
+      },
+      {
+        "q": "alone"
+      },
+      {
+        "p": "Nobody on that list is fixed. Nobody is cured into a human, or a man, or a dwarf who keeps quiet. What changes over the books is the Watch House, which keeps being rebuilt around whoever walks in: a cold room for a troll, a bench for an alchemist, a commander who learns, slowly and complaining all the way, that the person he did not expect is the one who sees what he missed."
+      }
+    ],
+    "senses": [
+      {
+        "p": "The witches have a name for the way we try to work, and our [witches page](https://stimpunks.org/philosophy/if-i-dont-help-them-who-will/) has quoted it since 2024:"
+      },
+      {
+        "q": "first-sight"
+      },
+      {
+        "q": "eyes"
+      },
+      {
+        "p": "First Sight is seeing what is really there rather than what you were told should be. A great many of us were told, for years, that what we noticed was wrong, too much, or not the point. The Disc is full of people whose senses and passions are the point, and the later books treat them as what they are: what each of them brings."
+      },
+      {
+        "recognised": true
+      },
+      {
+        "p": "**We recognise ourselves in these people. We do not diagnose them.** They are fiction, and putting a label on somebody who cannot answer is the thing done to us often enough that we are not going to do it to anybody else, as Star Stuff says of their author. Recognition is the other thing: finding yourself on a page that did not know you were coming, and being glad of it."
+      },
+      {
+        "figure": "first-sight"
+      }
+    ],
+    "witches": [
+      {
+        "p": "Our witches page is about care work, and it rests on a passage from *A Hat Full of Sky* in which Miss Level, a witch, explains to Tiffany Aching how a witch gets paid, which is that she does not. What she gives away comes back round, from somebody, some time, and she helps whoever needs it whether it does or not."
+      },
+      {
+        "q": "store"
+      },
+      {
+        "q": "who-will"
+      },
+      {
+        "p": "That is mutual aid, said better than most of the books about mutual aid say it, and it is how our own [mutual aid](https://stimpunks.org/glossary/mutual-aid/) is meant to work. Nobody on the Disc is helped because they deserve it. They are helped because they are there."
+      }
+    ],
+    "starstuff": [
+      {
+        "p": "Star Stuff, our science zine with Helen Edgar’s More Realms, spent a whole issue, No. 49, [One Atom of Justice](https://starstuff.earth/one-atom-of-justice-zine.html), on what this site owes to Discworld, and an essay after it, [A Promise, Not a Finding](https://starstuff.earth/a-promise-not-a-finding.html). Both are CC BY-SA, like this street, so some of them is here, with its drawings, and the rest is one link away."
+      },
+      {
+        "h3": "There is no atom of justice in the powder"
+      },
+      {
+        "p": "In *Hogfather*, Death answers the hardest objection anybody has made to a site like ours. Grind the universe down and sieve it and you will not find justice in it, or mercy, or a molecule of *and therefore you belong*."
+      },
+      {
+        "q": "sieve"
+      },
+      {
+        "q": "become"
+      },
+      {
+        "q": "promise"
+      },
+      {
+        "figure": "sieve"
+      },
+      {
+        "h3": "A technology arrives. Who pays?"
+      },
+      {
+        "p": "The Industrial Revolution books drop one new thing into the city at a time, the newspaper, the post, paper money, the railway, and then stay in the room for the bill."
+      },
+      {
+        "q": "it-works"
+      },
+      {
+        "figure": "who-pays"
+      },
+      {
+        "h3": "The interface, not the ambition"
+      },
+      {
+        "p": "Pratchett announced in 2007 that he had posterior cortical atrophy, and called it an embuggerance, his own word, which is neither a battle nor a journey. He went on writing by dictating, and with speech recognition software, until he died in 2015."
+      },
+      {
+        "q": "dictation"
+      },
+      {
+        "figure": "interface"
+      },
+      {
+        "h3": "GNU"
+      },
+      {
+        "p": "In *Going Postal* a name is sent up and down the clacks towers with three letters in front of it, so that it is never logged and never stops. Readers began doing the same thing on the web when he died, in a header nobody has to read. This street sends it too."
+      },
+      {
+        "q": "unlogged"
+      },
+      {
+        "figure": "gnu"
+      },
+      {
+        "h3": "Second Thoughts"
+      },
+      {
+        "q": "in-public"
+      },
+      {
+        "q": "ladder"
+      },
+      {
+        "p": "Which is why this street publishes its own corrections in its [changelog](changelog.html), and why every quotation in this room says where it was read."
+      }
+    ]
+  },
+  "watch": [
+    {
+      "name": "Sam Vimes",
+      "first": "Guards! Guards!",
+      "year": "1989",
+      "line": "Wears boots with soles so thin he can read the city through them, and knows which street he is on by the cobbles under his feet. Nobody taught him that sense; the city did, one night at a time."
+    },
+    {
+      "name": "Carrot Ironfoundersson",
+      "first": "Guards! Guards!",
+      "year": "1989",
+      "line": "A human raised by dwarfs, who is a dwarf because that is how he was raised and what he says he is. He has read the city’s laws all the way through, and believes every word, which turns out to be a kind of power nobody had planned for."
+    },
+    {
+      "name": "Detritus",
+      "first": "Men at Arms",
+      "year": "1993",
+      "line": "A troll, taken for slow by everybody, until he is somewhere cold enough and his thinking turns out to be brilliant. The fault was the temperature of the room, never him, which is the social model of disability with a cold store in it."
+    },
+    {
+      "name": "Angua",
+      "first": "Men at Arms",
+      "year": "1993",
+      "line": "A werewolf, whose nose tells her who has been where, and when. She spends a great deal of effort on not being seen as what she is, and the Watch is where, slowly, she can spend less of it."
+    },
+    {
+      "name": "Cheery Littlebottom",
+      "first": "Feet of Clay",
+      "year": "1996",
+      "line": "A dwarf and an alchemist, who brings a bench of chemistry to the Watch House, and who begins to live openly as a woman among dwarfs, where nobody says. She wears what she likes, and the dwarfs of the city have to get used to it."
+    },
+    {
+      "name": "Dorfl",
+      "first": "Feet of Clay",
+      "year": "1996",
+      "line": "A golem, made to work and to be owned, who comes to belong to nobody but Dorfl, chooses its own words, and joins the Watch."
+    },
+    {
+      "name": "And more",
+      "first": "the later books",
+      "year": "",
+      "line": "By the later books the Watch has a vampire, a zombie, a gnome and an Igor too, and a commander who has stopped being surprised by who knocks."
+    }
+  ],
+  "recognised": [
+    {
+      "name": "Vimes, at six o’clock",
+      "where": "Thud!, 2005",
+      "line": "Reads *Where’s My Cow?* to his son at six every evening, whatever else is happening in the city, and will not let anything make him miss it. A routine kept like a promise."
+    },
+    {
+      "name": "Angua’s nose and Vimes’s boots",
+      "where": "the Watch books",
+      "line": "A world mostly smelled, and a city read through the feet. Senses most people do not use, used all the time, and nobody in the books asks either of them to stop."
+    },
+    {
+      "name": "Detritus in the cold",
+      "where": "Men at Arms, 1993",
+      "line": "The same troll, slow in a warm room and brilliant in a cold one. Change the room and you change what everybody thinks he is."
+    },
+    {
+      "name": "Stanley and the pins",
+      "where": "Going Postal, 2004",
+      "line": "Loves pins, and then stamps, with the whole of himself, and the Post Office runs better because the person who loves them most is the one who knows."
+    },
+    {
+      "name": "Carrot and the laws",
+      "where": "Guards! Guards!, 1989",
+      "line": "Read every law of the city and holds everybody to them, the powerful included, because nobody told him he was not supposed to."
+    },
+    {
+      "name": "Cheery and the bench",
+      "where": "Feet of Clay, 1996",
+      "line": "Alchemy, the way most people never look at anything: closely, for the pleasure of it, until it says something nobody else heard."
+    }
+  ],
+  "figures": {
+    "first-sight": {
+      "fig": 5,
+      "caption": "Star Stuff’s figure, from No. 49: First Sight and Second Thoughts as a loop. Its examples are Star Stuff’s own corrections and checks.",
+      "svg": "<svg class=\"diagram\" viewBox=\"0 0 300 172\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-labelledby=\"fig5-title fig5-desc\">\n              <title id=\"fig5-title\">First Sight and Second Thoughts as a loop</title>\n              <desc id=\"fig5-desc\">The world feeds into First Sight, which is seeing what is really there rather than what was expected. First Sight feeds a first thought. Second Thoughts watch that first thought and loop back to correct it. Examples are given: the mantis shrimp and the wood wide web for First Sight, and the changelog and the six gates for Second Thoughts.</desc>\n              <rect x=\"112\" y=\"16\" width=\"76\" height=\"17\" rx=\"3\" fill=\"none\" stroke=\"rgba(244,244,251,0.6)\" stroke-width=\"1.1\"/>\n              <text x=\"150\" y=\"28\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6\" fill=\"var(--sp-secondary)\">what is there</text>\n              <path d=\"M150 33 V46\" stroke=\"rgba(167,139,250,0.6)\" stroke-width=\"1.1\"/>\n              <rect x=\"98\" y=\"46\" width=\"104\" height=\"19\" rx=\"3\" fill=\"rgba(167,139,250,0.12)\" stroke=\"rgba(167,139,250,0.85)\" stroke-width=\"1.3\"/>\n              <text x=\"150\" y=\"59\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6.2\" fill=\"var(--violet)\">First Sight</text>\n              <path d=\"M150 65 V80\" stroke=\"rgba(167,139,250,0.6)\" stroke-width=\"1.1\"/>\n              <rect x=\"106\" y=\"80\" width=\"88\" height=\"18\" rx=\"3\" fill=\"none\" stroke=\"rgba(251,191,36,0.7)\" stroke-width=\"1.1\" stroke-dasharray=\"4 4\"/>\n              <text x=\"150\" y=\"92\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6\" fill=\"var(--gold)\">a first thought</text>\n              <rect x=\"98\" y=\"112\" width=\"104\" height=\"19\" rx=\"3\" fill=\"rgba(34,211,238,0.12)\" stroke=\"rgba(34,211,238,0.85)\" stroke-width=\"1.3\"/>\n              <text x=\"150\" y=\"125\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6.2\" fill=\"var(--cyan)\">Second Thoughts</text>\n              <path d=\"M150 98 V112\" stroke=\"rgba(34,211,238,0.6)\" stroke-width=\"1.1\"/>\n              <path d=\"M98 121 C 66 121, 66 89, 92 89\" fill=\"none\" stroke=\"rgba(34,211,238,0.7)\" stroke-width=\"1.1\"/>\n              <path d=\"M97 85 L92 89 L97 93\" fill=\"none\" stroke=\"rgba(34,211,238,0.9)\" stroke-width=\"1.1\"/>\n              <g font-family=\"Space Mono, monospace\" font-size=\"5\" fill=\"var(--sp-dim)\">\n                <text x=\"208\" y=\"53\">mantis shrimp</text>\n                <text x=\"208\" y=\"62\">wood wide web</text>\n                <text x=\"208\" y=\"119\">the changelog</text>\n                <text x=\"208\" y=\"128\">six gates</text>\n              </g>\n              <path d=\"M20 142 H280\" stroke=\"rgba(167,139,250,0.22)\" stroke-width=\"0.9\"/>\n              <text x=\"150\" y=\"156\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"7.2\" letter-spacing=\"0.8\" fill=\"var(--sp-secondary)\">the second half is the one you can build</text>\n              <text x=\"150\" y=\"168\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6.3\" letter-spacing=\"1.2\" fill=\"var(--violet)\">Wintersmith, 2006</text>\n            </svg>"
+    },
+    "sieve": {
+      "fig": 9,
+      "caption": "Star Stuff’s figure, from No. 49: what survives the sieve, and what is put there by us.",
+      "svg": "<svg class=\"diagram\" viewBox=\"0 0 300 176\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-labelledby=\"fig9-title fig9-desc\">\n              <title id=\"fig9-title\">What survives the sieve, and what is added</title>\n              <desc id=\"fig9-desc\">Star stuff passes through a sieve and is confirmed as checkable. Justice, mercy and the claim that you are loved do not pass through the sieve. They are shown instead being placed on the far side by hand, labelled promised rather than found.</desc>\n              <text x=\"76\" y=\"16\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6.2\" fill=\"var(--cyan)\">into the sieve</text>\n              <text x=\"224\" y=\"16\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6.2\" fill=\"var(--gold)\">put there by us</text>\n              <path d=\"M150 24 V150\" stroke=\"rgba(167,139,250,0.25)\" stroke-width=\"0.9\" stroke-dasharray=\"4 4\"/>\n              <path d=\"M28 34 L124 34 L104 56 L48 56 Z\" fill=\"none\" stroke=\"rgba(34,211,238,0.85)\" stroke-width=\"1.4\"/>\n              <g stroke=\"rgba(34,211,238,0.5)\" stroke-width=\"0.8\">\n                <path d=\"M40 46 H112\"/>\n              </g>\n              <g font-family=\"Space Mono, monospace\" font-size=\"5.4\" fill=\"var(--sp-secondary)\" text-anchor=\"middle\">\n                <text x=\"76\" y=\"30\">star stuff</text>\n              </g>\n              <g fill=\"rgba(34,211,238,0.85)\">\n                <circle cx=\"62\" cy=\"68\" r=\"1.2\"/><circle cx=\"76\" cy=\"76\" r=\"1.1\"/>\n                <circle cx=\"90\" cy=\"68\" r=\"1.3\"/><circle cx=\"70\" cy=\"86\" r=\"1\"/>\n                <circle cx=\"84\" cy=\"90\" r=\"1.1\"/>\n              </g>\n              <rect x=\"34\" y=\"100\" width=\"84\" height=\"18\" rx=\"3\" fill=\"rgba(34,211,238,0.12)\" stroke=\"rgba(34,211,238,0.85)\" stroke-width=\"1.2\"/>\n              <text x=\"76\" y=\"112\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.6\" fill=\"var(--cyan)\">checkable</text>\n              <g font-family=\"Space Mono, monospace\" font-size=\"5.4\" fill=\"var(--sp-dim)\" text-anchor=\"middle\">\n                <text x=\"224\" y=\"36\">justice</text>\n                <text x=\"224\" y=\"48\">mercy</text>\n                <text x=\"224\" y=\"60\">&ldquo;you are loved&rdquo;</text>\n              </g>\n              <g stroke=\"rgba(244,114,182,0.7)\" stroke-width=\"1\" stroke-dasharray=\"3 3\" fill=\"none\">\n                <rect x=\"188\" y=\"26\" width=\"72\" height=\"42\" rx=\"3\"/>\n              </g>\n              <path d=\"M224 68 V96\" stroke=\"rgba(251,191,36,0.8)\" stroke-width=\"1.2\"/>\n              <path d=\"M220 91 L224 96 L228 91\" fill=\"none\" stroke=\"rgba(251,191,36,0.95)\" stroke-width=\"1.2\"/>\n              <rect x=\"182\" y=\"100\" width=\"84\" height=\"18\" rx=\"3\" fill=\"rgba(251,191,36,0.14)\" stroke=\"rgba(251,191,36,0.85)\" stroke-width=\"1.2\"/>\n              <text x=\"224\" y=\"112\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.6\" fill=\"var(--gold)\">promised</text>\n              <path d=\"M20 132 H280\" stroke=\"rgba(167,139,250,0.22)\" stroke-width=\"0.9\"/>\n              <text x=\"150\" y=\"148\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"7.2\" letter-spacing=\"0.8\" fill=\"var(--sp-secondary)\">no atom of justice in the powder</text>\n              <text x=\"150\" y=\"161\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6.6\" letter-spacing=\"1\" fill=\"var(--gold)\">so we put it there and keep it there</text>\n              <text x=\"150\" y=\"173\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6\" letter-spacing=\"1.2\" fill=\"var(--violet)\">a promise is only broken if we break it</text>\n            </svg>"
+    },
+    "who-pays": {
+      "fig": 6,
+      "caption": "Star Stuff’s figure, from No. 49: the default technology story has two acts, and the Industrial Revolution books have three.",
+      "svg": "<svg class=\"diagram\" viewBox=\"0 0 300 174\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-labelledby=\"fig6-title fig6-desc\">\n              <title id=\"fig6-title\">Two acts or three</title>\n              <desc id=\"fig6-desc\">The default technology story runs invention then wonder and stops. The Industrial Revolution novels add a third act asking who pays, with examples: the clacks workers, the golems who are property, the engravers the press displaced, and the people the timetable owns.</desc>\n              <text x=\"150\" y=\"15\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6.2\" fill=\"var(--sp-dim)\">the default story</text>\n              <g fill=\"none\" stroke=\"rgba(138,134,160,0.7)\" stroke-width=\"1.1\">\n                <rect x=\"52\" y=\"22\" width=\"76\" height=\"16\" rx=\"2\"/>\n                <rect x=\"146\" y=\"22\" width=\"76\" height=\"16\" rx=\"2\"/>\n              </g>\n              <text x=\"90\" y=\"33\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.6\" fill=\"var(--sp-secondary)\">invention</text>\n              <text x=\"184\" y=\"33\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.6\" fill=\"var(--sp-secondary)\">wonder</text>\n              <path d=\"M228 30 H248\" stroke=\"rgba(138,134,160,0.5)\" stroke-width=\"1\" stroke-dasharray=\"3 3\"/>\n              <text x=\"264\" y=\"32\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.4\" fill=\"var(--sp-dim)\">stop</text>\n              <path d=\"M20 50 H280\" stroke=\"rgba(167,139,250,0.22)\" stroke-width=\"0.9\"/>\n              <text x=\"150\" y=\"66\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6.2\" fill=\"var(--violet)\">what Pratchett does</text>\n              <g fill=\"none\" stroke=\"rgba(167,139,250,0.7)\" stroke-width=\"1.1\">\n                <rect x=\"20\" y=\"74\" width=\"60\" height=\"16\" rx=\"2\"/>\n                <rect x=\"90\" y=\"74\" width=\"60\" height=\"16\" rx=\"2\"/>\n              </g>\n              <rect x=\"160\" y=\"74\" width=\"82\" height=\"16\" rx=\"2\" fill=\"rgba(251,191,36,0.14)\" stroke=\"rgba(251,191,36,0.85)\" stroke-width=\"1.3\"/>\n              <text x=\"50\" y=\"85\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.6\" fill=\"var(--sp-secondary)\">invention</text>\n              <text x=\"120\" y=\"85\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.6\" fill=\"var(--sp-secondary)\">wonder</text>\n              <text x=\"201\" y=\"85\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.8\" fill=\"var(--gold)\">who pays?</text>\n              <g stroke=\"rgba(251,191,36,0.5)\" stroke-width=\"0.9\">\n                <path d=\"M201 90 V98\"/><path d=\"M60 98 H262\"/>\n                <path d=\"M60 98 V104\"/><path d=\"M128 98 V104\"/><path d=\"M196 98 V104\"/><path d=\"M262 98 V104\"/>\n              </g>\n              <g font-family=\"Space Mono, monospace\" font-size=\"5\" fill=\"var(--sp-dim)\" text-anchor=\"middle\">\n                <text x=\"60\" y=\"114\">clacks crew</text>\n                <text x=\"128\" y=\"114\">golems</text>\n                <text x=\"196\" y=\"114\">engravers</text>\n                <text x=\"262\" y=\"114\">timetabled</text>\n              </g>\n              <path d=\"M20 128 H280\" stroke=\"rgba(167,139,250,0.22)\" stroke-width=\"0.9\"/>\n              <text x=\"150\" y=\"144\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"7.2\" letter-spacing=\"0.8\" fill=\"var(--sp-secondary)\">it works. that is what makes it interesting</text>\n              <text x=\"150\" y=\"158\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6.6\" letter-spacing=\"1\" fill=\"var(--gold)\">the Luddites broke some frames, not all</text>\n              <text x=\"150\" y=\"170\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6\" letter-spacing=\"1.2\" fill=\"var(--sp-dim)\">a question about distribution</text>\n            </svg>"
+    },
+    "interface": {
+      "fig": 8,
+      "caption": "Star Stuff’s figure, from No. 49: the method changed and the ambition did not, which is what an accommodation is.",
+      "svg": "<svg class=\"diagram\" viewBox=\"0 0 300 160\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-labelledby=\"fig8-title fig8-desc\">\n              <title id=\"fig8-title\">The method changed, the ambition did not</title>\n              <desc id=\"fig8-desc\">Two rows. Before the diagnosis: typing, leading to novels. After: dictation and speech recognition software, leading to novels. The output box is identical in both rows; only the interface differs.</desc>\n              <text x=\"150\" y=\"15\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6.2\" fill=\"var(--sp-dim)\">2007 &rarr; 2015</text>\n              <g font-family=\"Space Mono, monospace\" font-size=\"5.6\" fill=\"var(--sp-secondary)\">\n                <text x=\"20\" y=\"42\">before</text>\n                <text x=\"20\" y=\"88\">after</text>\n              </g>\n              <rect x=\"62\" y=\"30\" width=\"76\" height=\"18\" rx=\"3\" fill=\"none\" stroke=\"rgba(167,139,250,0.7)\" stroke-width=\"1.1\"/>\n              <text x=\"100\" y=\"42\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.8\" fill=\"var(--violet)\">typing</text>\n              <path d=\"M138 39 H166\" stroke=\"rgba(167,139,250,0.6)\" stroke-width=\"1.1\"/>\n              <path d=\"M161 35 L166 39 L161 43\" fill=\"none\" stroke=\"rgba(167,139,250,0.9)\" stroke-width=\"1.1\"/>\n              <rect x=\"166\" y=\"30\" width=\"82\" height=\"18\" rx=\"3\" fill=\"rgba(74,222,128,0.12)\" stroke=\"rgba(74,222,128,0.85)\" stroke-width=\"1.3\"/>\n              <text x=\"207\" y=\"42\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.8\" fill=\"var(--green)\">novels</text>\n              <rect x=\"62\" y=\"66\" width=\"76\" height=\"18\" rx=\"3\" fill=\"none\" stroke=\"rgba(34,211,238,0.75)\" stroke-width=\"1.1\"/>\n              <text x=\"100\" y=\"78\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.4\" fill=\"var(--cyan)\">dictation</text>\n              <rect x=\"62\" y=\"88\" width=\"76\" height=\"18\" rx=\"3\" fill=\"none\" stroke=\"rgba(34,211,238,0.75)\" stroke-width=\"1.1\"/>\n              <text x=\"100\" y=\"100\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5\" fill=\"var(--cyan)\">speech software</text>\n              <path d=\"M138 87 H166\" stroke=\"rgba(34,211,238,0.6)\" stroke-width=\"1.1\"/>\n              <path d=\"M161 83 L166 87 L161 91\" fill=\"none\" stroke=\"rgba(34,211,238,0.9)\" stroke-width=\"1.1\"/>\n              <rect x=\"166\" y=\"78\" width=\"82\" height=\"18\" rx=\"3\" fill=\"rgba(74,222,128,0.12)\" stroke=\"rgba(74,222,128,0.85)\" stroke-width=\"1.3\"/>\n              <text x=\"207\" y=\"90\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.8\" fill=\"var(--green)\">novels</text>\n              <path d=\"M20 118 H280\" stroke=\"rgba(167,139,250,0.22)\" stroke-width=\"0.9\"/>\n              <text x=\"150\" y=\"134\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"7.2\" letter-spacing=\"0.8\" fill=\"var(--sp-secondary)\">the right-hand box never changed</text>\n              <text x=\"150\" y=\"147\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6.4\" letter-spacing=\"1\" fill=\"var(--gold)\">that is what an accommodation is</text>\n              <text x=\"150\" y=\"158\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.8\" letter-spacing=\"1.2\" fill=\"var(--sp-dim)\">not a lesser way of writing a book</text>\n            </svg>"
+    },
+    "gnu": {
+      "fig": 7,
+      "caption": "Star Stuff’s figure, from No. 49: GNU, sent on, not logged, and turned round at the end of the line.",
+      "change": [
+        "this site now sends the header",
+        "this street sends the header too"
+      ],
+      "svg": "<svg class=\"diagram\" viewBox=\"0 0 300 168\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-labelledby=\"fig7-title fig7-desc\">\n              <title id=\"fig7-title\">GNU, turning around at the end of the line</title>\n              <desc id=\"fig7-desc\">A row of clacks towers. A message travels left to right along the top, marked G for pass it on and N for not logged, then U turns it around at the last tower and it travels back along the bottom, repeating indefinitely.</desc>\n              <g stroke=\"rgba(167,139,250,0.75)\" stroke-width=\"1.2\" fill=\"none\">\n                <path d=\"M34 96 V64 M26 96 H42\"/><path d=\"M100 96 V64 M92 96 H108\"/>\n                <path d=\"M166 96 V64 M158 96 H174\"/><path d=\"M232 96 V64 M224 96 H240\"/>\n              </g>\n              <g fill=\"rgba(167,139,250,0.55)\">\n                <rect x=\"28\" y=\"60\" width=\"12\" height=\"8\"/><rect x=\"94\" y=\"60\" width=\"12\" height=\"8\"/>\n                <rect x=\"160\" y=\"60\" width=\"12\" height=\"8\"/><rect x=\"226\" y=\"60\" width=\"12\" height=\"8\"/>\n              </g>\n              <path d=\"M40 50 H226\" stroke=\"rgba(251,191,36,0.85)\" stroke-width=\"1.3\"/>\n              <path d=\"M221 46 L226 50 L221 54\" fill=\"none\" stroke=\"rgba(251,191,36,0.95)\" stroke-width=\"1.3\"/>\n              <path d=\"M232 50 C 250 50, 250 112, 232 112\" fill=\"none\" stroke=\"rgba(251,191,36,0.85)\" stroke-width=\"1.3\"/>\n              <path d=\"M226 112 H40\" stroke=\"rgba(251,191,36,0.85)\" stroke-width=\"1.3\"/>\n              <path d=\"M45 108 L40 112 L45 116\" fill=\"none\" stroke=\"rgba(251,191,36,0.95)\" stroke-width=\"1.3\"/>\n              <path d=\"M34 112 C 18 112, 18 50, 34 50\" fill=\"none\" stroke=\"rgba(251,191,36,0.5)\" stroke-width=\"1.1\" stroke-dasharray=\"3 3\"/>\n              <text x=\"130\" y=\"44\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6\" fill=\"var(--gold)\">GNU John Dearheart</text>\n              <text x=\"264\" y=\"84\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.6\" fill=\"var(--gold)\">U</text>\n              <text x=\"130\" y=\"126\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"5.4\" fill=\"var(--sp-dim)\">and back again</text>\n              <g font-family=\"Space Mono, monospace\" font-size=\"5.2\" fill=\"var(--sp-secondary)\">\n                <text x=\"20\" y=\"20\">G — pass it on</text>\n                <text x=\"20\" y=\"30\">N — not logged</text>\n              </g>\n              <path d=\"M20 136 H280\" stroke=\"rgba(167,139,250,0.22)\" stroke-width=\"0.9\"/>\n              <text x=\"150\" y=\"150\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"7.2\" letter-spacing=\"0.8\" fill=\"var(--sp-secondary)\">this site now sends the header</text>\n              <text x=\"150\" y=\"163\" text-anchor=\"middle\" font-family=\"Space Mono, monospace\" font-size=\"6.2\" letter-spacing=\"1.2\" fill=\"var(--violet)\">a fan convention, not his instruction</text>\n            </svg>"
+    }
+  },
+  "not_here": [
+    {
+      "name": "Nothing from a fan wiki.",
+      "line": "The books are the source for what this room says about them, and our pages and Star Stuff for every quotation. The fan wikis are fan-written descriptions of somebody else’s invented world, and nothing here is copied from one."
+    },
+    {
+      "name": "No art of theirs.",
+      "line": "No cover, no map of the city, no crest, no lettering and no character is drawn. The city in the window is ours, made of crooked roofs anybody might draw, and nobody is in it."
+    },
+    {
+      "name": "Nobody diagnosed.",
+      "line": "Not the people of the Disc and not their author, who named the one condition he had himself. We recognise; we do not label."
+    },
+    {
+      "name": "Not the estate’s.",
+      "line": "Terry Pratchett’s estate has no involvement in this room, was not asked, and has not seen it. Every reading here is ours, and so is every mistake."
+    },
+    {
+      "name": "Nothing counted.",
+      "line": "No ranking of the books, no best character, no favourite. A league table of the Watch would be exactly the thing the Watch is about not being."
+    },
+    {
+      "name": "Nothing moves.",
+      "line": "The morning is caught halfway across the city and stays there, at every setting, MAX GLITTER included. On the Disc, light is slow; here it is patient."
+    }
+  ],
+  "elsewhere": [
+    {
+      "page": "community-library.html",
+      "name": "The Community Library",
+      "line": "next door, a celebration of the public library, where the aisle at the back is a little longer on the inside than it is from the outside, and a ball of string runs into L-space.",
+      "holds": [
+        "a little longer on the inside than it is from the outside",
+        "tied the end of a ball of string to the shelf"
+      ]
+    },
+    {
+      "page": "oook.html",
+      "name": "Oook",
+      "line": "through L-space behind the library, the Disc itself seen from out in the dark, in the Librarian’s own colours.",
+      "holds": [
+        "in the Librarian’s colours"
+      ]
+    },
+    {
+      "page": "covenstead.html",
+      "name": "Covenstead",
+      "line": "on the street, where First Sight and Second Thoughts are written up at length in a kitchen full of mismatched china.",
+      "holds": [
+        "First Sight"
+      ]
+    },
+    {
+      "page": "learning-large.html",
+      "name": "Learning Large",
+      "line": "where our Competency Networks page’s practices are set out in a glasshouse at night.",
+      "holds": [
+        "Competency Networks"
+      ]
+    }
+  ]
+}

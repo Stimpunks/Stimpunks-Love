@@ -1395,6 +1395,14 @@
 @font-face { font-family: 'Mystery Quest'; src: url('fonts/mystery-quest-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Domine'; src: url('fonts/domine-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Domine'; src: url('fonts/domine-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+/* Widdershins (§135): Grenze, by Omnibus-Type, for the name, the headings and
+   the compass, and Proza Libre, by Jasper de Waard, for everything that is
+   read. Both from google/fonts, cut down with fontTools to the Latin letters
+   and saved as WOFF2; neither reserves its name. See fonts/_sources.json. */
+@font-face { font-family: 'Grenze'; src: url('fonts/grenze-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Proza Libre'; src: url('fonts/proza-libre-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Proza Libre'; src: url('fonts/proza-libre-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Proza Libre'; src: url('fonts/proza-libre-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -4422,6 +4430,29 @@
   --cel-wall-1: #F4F1E8;  --cel-wall-2: #E9915A;  --cel-wall-3: #9B6B4E;  --cel-wall-4: #D9C9A6;
   --cel-sign-red: #D8343C;  --cel-sign-blue: #2F6FC4;  --cel-sign-yellow: #F4C21E;
 
+  /* Widdershins (§135): a crooked city at the moment the Disc's slow morning
+     is halfway across it, and every word on the night side. The page:
+     --wds-night its ground, --wds-slab a card or a figure lying on it,
+     --wds-ink every word, --wds-ink-2 the quieter words, --wds-ink-3 the
+     quietest and Star Stuff's dim, --wds-dawn the links, the headings and the
+     widdershins arm, --wds-line every outline. Star Stuff's figures in this
+     room's inks: --wds-heather its violet, --wds-river its cyan, --wds-moss
+     its green, --wds-rose its pink. The city, drawn in no word: --wds-sky-night
+     and --wds-sky-day the sky either side of --wds-edge, the morning's edge;
+     --wds-roof-night, --wds-wall-night, --wds-roof-day and --wds-wall-day
+     the houses in each light, --wds-window their windows; --wds-ankh and
+     --wds-ankh-crust the river at night, --wds-ankh-day and
+     --wds-ankh-crust-day in the morning; --wds-brass the bridge. */
+  --wds-night: #17161F;  --wds-slab: #221F2C;  --wds-ink: #EFE6D6;
+  --wds-ink-2: #C7BDAC;  --wds-ink-3: #A79FB4;  --wds-dawn: #F2B95C;
+  --wds-line: #5E596E;  --wds-heather: #BBA6F0;  --wds-river: #8FD3C5;
+  --wds-moss: #A8D27E;  --wds-rose: #EE9CC4;  --wds-edge: #FFE3A6;
+  --wds-sky-night: #3A3C57;  --wds-sky-day: #F1D39A;
+  --wds-roof-night: #1C1B25;  --wds-wall-night: #26242F;
+  --wds-roof-day: #A9583D;  --wds-wall-day: #D9B78C;  --wds-window: #121118;
+  --wds-ankh: #3B3A29;  --wds-ankh-crust: #4E4C35;
+  --wds-ankh-day: #8A7D4B;  --wds-ankh-crust-day: #6E6338;  --wds-brass: #C9A24A;
+
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -5628,6 +5659,17 @@ div.facade--square { border: 0; background: none; }
 .door--library .door__name  { font-family: 'Marcellus SC', Georgia, serif; color: var(--cl-ink); font-size: 23px; letter-spacing: .04em; line-height: 1.1; }
 .door--library .door__blurb { font-family: 'Andika', var(--sans); color: var(--cl-ink-2); }
 .door--library .door__knock { font-family: 'Andika', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cl-stamp); }
+/* Widdershins: the night side of the city, with the morning's edge slanting
+   across its awning and the lit roofs past it. The name in Grenze, in dawn. */
+.door--wds { background: var(--wds-night); border-color: var(--wds-line); }
+.door--wds .door__awning {
+  background-color: var(--wds-sky-night);
+  background-image: linear-gradient(104deg, var(--wds-roof-night) 0 61%, var(--wds-edge) 61% 63%, var(--wds-roof-day) 63% 100%);
+  border-bottom: 3px solid var(--wds-line);
+}
+.door--wds .door__name  { font-family: 'Grenze', Georgia, serif; font-weight: 700; color: var(--wds-dawn); font-size: 30px; line-height: 1.05; font-synthesis: none; }
+.door--wds .door__blurb { font-family: 'Proza Libre', var(--sans); color: var(--wds-ink); font-size: 16px; line-height: 1.4; font-synthesis: none; }
+.door--wds .door__knock { font-family: 'Proza Libre', var(--sans); font-weight: 700; font-size: 15px; color: var(--wds-dawn); font-synthesis: none; }
 
 /* Cavendish Coworking (§58). THE ONE FRONT IN THE ROW WITH ITS BLINDS DOWN: the
    awning is a Georgian sash seen from the square, its green canvas blind drawn
@@ -18264,7 +18306,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §136
+   class on it is `bb-`, its sizes are in points and millimetres, and §137
    prints it and nothing else. */
 
 .room-broadside {
@@ -18325,7 +18367,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §136 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §137 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -29079,7 +29121,132 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
 .cel-places button:hover { text-decoration: underline; }
 @media (max-width: 600px) { .cel-stage { height: clamp(360px, 58vh, 520px); height: clamp(360px, 58svh, 520px); border-width: 4px; } }
 
-/* §135 ── Small screens───────────────────────────────────────────────────────
+/* §135 ── ROOM: Widdershins (a shopfront on the street) ───────────────────────
+   A Discworld appreciation that goes against the way of normativity. Ryan's
+   brief, 2026-11-02: Widdershins, Against the Way of Normativity, after Terry
+   Pratchett's writing on inclusion and on embracing difference and weirdness,
+   the City Watch books above all, which are about diversity within a team and
+   forming competency networks; some of Star Stuff's Discworld writing and
+   drawings copied in; Ankh-Morpork evoked. tools/make-widdershins.py writes
+   the room out of data/widdershins.json.
+
+   THE LIGHT IS AN EDGE. On the Disc, in the books, light is slow, so a morning
+   crosses a city like a tide you could watch. The city at the top of the page
+   is drawn twice, at night and lit, and the lit one is clipped to one side of
+   a slanting line, so half of it is morning and half is still night, at once,
+   with a hard edge between them. That line is the only light in the room. The
+   page is the NIGHT SIDE of it: every word is on the flat night, or on a card
+   lying in it, and the morning only ever cuts across the top corner of a card,
+   at the same slant as in the city, where no word is.
+
+   THE COLLISIONS:
+     · OOOK is the other Discworld room, behind the library: the Disc itself
+       seen from out in the dark, small, in the Librarian's rust and banana,
+       lit from one side by the Disc's little sun. This is on the ground, in a
+       city, and the Disc is never drawn: no turtle, no elephants, no rim.
+     · THE WORLD ROOM is lit by a dawn arriving level along silk, a whole web at
+       once. Here the dawn has not arrived: it is a line across the picture,
+       and on one side of it nothing is lit at all.
+     · ALL TOGETHER NOW FARMS is lit by two lights on two sides of a field. This
+       is one light that has got halfway, and the other side is no light.
+     · DANNY THE STREET and THE OUTSKIRTS are the other night streets: a road
+       from directly above under sodium, and a road at eye level in headlights.
+       This is a skyline across a river, seen from the far bank, and nothing in
+       it is lit by a lamp.
+     · THE BROWN ROOMS (the Den, the Latibulum, the Faery Yurt) are interiors
+       lit by one warm flame. The warm here is daylight on plaster and tiles,
+       and only past the edge; the night side is blue-grey and has no flame.
+     · COVENSTEAD is where First Sight and Second Thoughts are written up at
+       length, a daylit kitchen of mismatched china. This room quotes them and
+       sends you there.
+
+   NOTHING MOVES, AT ANY SETTING, MAX GLITTER INCLUDED. The friendly edit is the
+   morning sweeping across the city at MAX; the tool refuses a keyframe, an
+   animation or a transition here. The type is Grenze, between a roman and a
+   blackletter, for the name, the headings and the compass, and Proza Libre for
+   every word that is read. Star Stuff's figures keep their own Space Mono. */
+
+.widdershins {
+  background-color: var(--wds-night); color: var(--wds-ink);
+  font-family: 'Proza Libre', var(--sans); font-synthesis: none;
+}
+.widdershins .wrap { width: min(980px, 100% - 44px); }
+.widdershins a { color: var(--wds-dawn); text-underline-offset: 3px; }
+.widdershins a:hover { color: var(--wds-edge); }
+.widdershins :focus-visible { outline-color: var(--wds-dawn); }
+.widdershins :where(p, li) { font-size: 19px; line-height: 1.65; }
+.widdershins .backlink { font-family: 'Proza Libre', var(--sans); font-weight: 700; font-size: 16px; color: var(--wds-dawn); }
+.wds-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.wds-trail { margin: 0; font-size: 16px; font-style: italic; color: var(--wds-ink-2); }
+
+.wds-head { margin: 30px 0 0; }
+.wds-over { margin: 0; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: var(--wds-ink-2); }
+.widdershins h1 {
+  margin: 4px 0 10px; font-family: 'Grenze', Georgia, serif; font-weight: 700; font-style: normal;
+  font-size: clamp(54px, 13vw, 132px); line-height: .95; color: var(--wds-dawn);
+}
+.wds-sub { margin: 0; font-size: 23px; line-height: 1.4; max-width: 42ch; }
+
+.wds-view { margin: 28px 0 0; }
+.wds-city { display: block; width: 100%; height: auto; border: 2px solid var(--wds-line); border-radius: 4px; }
+.wds-view__words { margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: var(--wds-ink-2); max-width: 66ch; }
+
+.wds-lede { margin: 32px 0 0; max-width: 66ch; }
+.wds-lede > p { margin: 0 0 16px; }
+.wds-lede > p:first-child { font-size: 22px; line-height: 1.55; }
+
+.wds-part { margin: 58px 0 0; }
+.wds-part > p, .wds-part > .wds-quote, .wds-part > .wds-next, .wds-part > .wds-credits, .wds-part > h3 { max-width: 68ch; }
+.wds-part > p { margin: 0 0 16px; }
+.widdershins h2 {
+  margin: 0 0 20px; padding-bottom: 12px; border-bottom: 2px solid var(--wds-line);
+  font-family: 'Grenze', Georgia, serif; font-weight: 700; font-size: clamp(30px, 5vw, 46px); line-height: 1.1; color: var(--wds-dawn);
+}
+.widdershins h3 { margin: 34px 0 10px; font-family: 'Grenze', Georgia, serif; font-weight: 700; font-size: 28px; line-height: 1.15; color: var(--wds-ink); }
+
+.wds-quote { margin: 22px 0; padding: 4px 0 4px 20px; border-left: 4px solid var(--wds-heather); }
+.wds-quote p { margin: 0; font-size: 21px; line-height: 1.5; color: var(--wds-ink); }
+.wds-quote__who { margin: 8px 0 0; font-size: 15px; line-height: 1.55; color: var(--wds-ink-2); }
+
+/* THE CARDS: each one lies on the night, and the morning's edge cuts across
+   its top right-hand corner at the slant it has in the city, where no word is. */
+.wds-cards, .wds-rules { list-style: none; margin: 24px 0; padding: 0; display: grid; gap: 14px; }
+.wds-cards { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.wds-card {
+  position: relative; margin: 0; padding: 16px 40px 18px 18px; background: var(--wds-slab);
+  border: 1px solid var(--wds-line); border-radius: 3px;
+}
+.wds-card::before {
+  content: ""; position: absolute; top: 0; right: 0; width: 34px; height: 34px;
+  background: linear-gradient(225deg, var(--wds-roof-day) 0 38%, var(--wds-edge) 38% 46%, transparent 46%);
+  border-top-right-radius: 2px;
+}
+.wds-card h3 { margin: 0 0 2px; font-size: 24px; color: var(--wds-dawn); }
+.wds-card__when { margin: 0 0 8px; font-size: 15px; color: var(--wds-ink-2); }
+.wds-card p { font-size: 17px; line-height: 1.55; }
+.wds-card p:last-child { margin: 0; }
+.wds-rules .wds-card { font-size: 18px; }
+.wds-rules strong { color: var(--wds-ink); }
+
+/* STAR STUFF'S FIGURES, on a slab of their own, as wide as they are useful. */
+.wds-figure { margin: 26px 0; padding: 18px 18px 14px; background: var(--wds-slab); border: 1px solid var(--wds-line); border-radius: 3px; max-width: 680px; }
+.wds-figure__svg { display: block; width: 100%; height: auto; }
+.wds-figure__words { margin: 12px 0 0; font-size: 15px; line-height: 1.55; color: var(--wds-ink-2); }
+
+.wds-next { margin: 18px 0 0; padding-left: 22px; }
+.wds-next li { margin: 0 0 10px; }
+.wds-whose .wds-credits { margin: 16px 0 0; padding-left: 22px; }
+.wds-credits li { margin: 0 0 12px; font-size: 17px; color: var(--wds-ink-2); }
+.wds-credits strong { color: var(--wds-ink); }
+.wds-credits code { font-size: 15px; }
+
+@media (max-width: 720px) {
+  .widdershins .wrap { width: calc(100% - 32px); }
+  .wds-cards { grid-template-columns: 1fr; }
+  .wds-figure { padding: 12px 10px 10px; }
+}
+
+/* §136 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -29183,7 +29350,7 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §135 says every
+   shipped with no rule here at all — which on a street whose §136 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -29307,7 +29474,7 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §136 ── Print ───────────────────────────────────────────────────────────────
+/* §137 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

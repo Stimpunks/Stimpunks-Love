@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Widdershins &mdash; Stimpunks.World</title>
+<meta name="description" content="A shopfront on the street in a crooked city beside a river too thick to drown in, at the moment the Disc’s slow morning is halfway across it. A Discworld appreciation that goes against the way of normativity: Terry Pratchett’s Ankh-Morpork, where nobody matches, the City Watch as a competency network, the witches’ First Sight and Second Thoughts, and Star Stuff’s own Discworld writing and drawings. Nobody diagnosed, nothing ranked.">
+<link rel="canonical" href="https://stimpunks.world/widdershins.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#17161F">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="Widdershins &mdash; Stimpunks.World">
+<meta property="og:description" content="Against the way of normativity: a Discworld appreciation in a crooked city at the moment the morning is halfway across it, with the City Watch as a competency network and nobody diagnosed.">
+<meta property="og:url" content="https://stimpunks.world/widdershins.html">
+<meta property="og:image" content="https://stimpunks.world/og/widdershins.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A dark card. Across the top, a crowded city of crooked roofs on the bank of a thick river with a brass bridge over it, a thin tower and a clacks tower, and a slanting edge of morning light halfway across it: to the right the plaster is pale and the tiles are red, to the left everything is still night. In the night sky a compass names the Disc&#x27;s four directions, with widdershins pointing into the morning. Below, small pale capitals reading A shopfront on the street, in a city where nobody matches, then “Widdershins” in large amber letters halfway between a roman and a blackletter, and under it: Against the way of normativity: a Discworld appreciation, walking against the turn.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World &mdash; what changed on the street">
+<link rel="preload" href="fonts/grenze-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/proza-libre-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}var l=localStorage.getItem('love-low');if(l==='warm'||l==='cool'||l==='green'||l==='red'){d.setAttribute('data-low',l);v='gentle';}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/widdershins.html#webpage","url":"https://stimpunks.world/widdershins.html","name":"Widdershins — Stimpunks.World","description":"A shopfront on the street in a crooked city beside a river too thick to drown in, at the moment the Disc’s slow morning is halfway across it. A Discworld appreciation that goes against the way of normativity: Terry Pratchett’s Ankh-Morpork, where nobody matches, the City Watch as a competency network, the witches’ First Sight and Second Thoughts, and Star Stuff’s own Discworld writing and drawings. Nobody diagnosed, nothing ranked.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+</head>
+<body class="widdershins" id="top">
+<a class="skip" href="#main">Skip to the city</a>
+
+<main id="main" class="wrap" style="padding-bottom:54px;">
+
+  <div class="wds-topline">
+    <a class="backlink" href="index.html">&larr; back to the street</a>
+    <p class="wds-trail">on the street &middot; in a crooked city &middot; the morning halfway across it &middot; walking widdershins</p>
+  </div>
+
+  <header class="wds-head">
+    <p class="wds-over">A shopfront on the street, in a city where nobody matches</p>
+    <h1>Widdershins</h1>
+    <p class="wds-sub">Against the way of normativity: a Discworld appreciation, walking against the turn.</p>
+  </header>
+
+  <!-- THE CITY, written by tools/make-widdershins.py from data/widdershins.json:
+       crooked roofs on a river bank, the same city twice, at night and lit, the
+       lit one clipped to one side of the morning's slanting edge, and the Disc's
+       compass in the night sky. aria-hidden, so the caption under it says the
+       same thing in words. Lifted whole by make-og.py for the share card. Do not
+       hand-edit between the markers. -->
+  <figure class="wds-view">
+<!-- wds:city-view:begin -->
+  <svg class="wds-city" viewBox="0 0 1200 420" aria-hidden="true" focusable="false"><defs><clipPath id="wds-lit"><path d="M812 0 H1200 V420 H612 Z"/></clipPath></defs><rect width="1200" height="420" fill="var(--wds-sky-night)"/><path d="M286 320 L292 64 L298 44 L304 64 L310 320 Z" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.5"/><path d="M922 320 L930 96 H942 L950 320" fill="none" stroke="var(--wds-roof-night)" stroke-width="5"/><path d="M925 270 H947 M927 200 H945 M928 140 H944" stroke="var(--wds-roof-night)" stroke-width="3"/><rect x="914" y="62" width="44" height="34" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.5"/><rect x="918" y="66" width="8" height="7" fill="var(--wds-wall-night)"/><rect x="918" y="86" width="8" height="7" fill="var(--wds-wall-night)"/><rect x="929" y="76" width="8" height="7" fill="var(--wds-wall-night)"/><rect x="940" y="66" width="8" height="7" fill="var(--wds-wall-night)"/><rect x="940" y="86" width="8" height="7" fill="var(--wds-wall-night)"/><rect x="951" y="76" width="8" height="7" fill="var(--wds-wall-night)"/><polygon points="-12,320 57.3,320 59,171.9 24.3,157.5 -10.3,171.9" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="52.5,320 103.2,320 103.6,184.2 52.9,166.4" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="98.8,320 149.7,320 150.7,201.1 125.2,185 99.8,201.1" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="148.6,320 212.7,320 215.8,197.3 183.7,175.2 151.6,197.3" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="211,320 259.1,320 254.1,210.2 206.1,192.6" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="258.1,320 319.2,320 323,175.4 292.4,155 261.9,175.4" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="316.4,320 374.2,320 373.2,172.2 344.4,149.3 315.5,172.2" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="369,320 403.4,320 402.4,189.9 367.9,189.9" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><rect x="376.8" y="173.9" width="7" height="16" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="402.4,320 463.6,320 464.1,182.7 402.9,182.7" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><rect x="414.6" y="166.7" width="7" height="16" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="459.4,320 505.4,320 510.1,164.3 487.1,148.8 464.1,164.3" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="502.7,320 543.1,320 538.4,230.3 518.2,200.5 498,230.3" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="541.9,320 599.7,320 596.8,155.1 567.9,139.7 539,155.1" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="597.5,320 642.4,320 641,226.4 618.6,212 596.1,226.4" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="641.8,320 697.7,320 694.9,194 666.9,165.5 639,194" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="694.5,320 764.4,320 764.4,205.1 694.4,205.1" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><rect x="704.6" y="189.1" width="7" height="16" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="762,320 816.4,320 811.6,172.2 757.2,157.6" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="814.7,320 876.2,320 878.1,159.6 847.4,139.1 816.6,159.6" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="873.7,320 914.7,320 915.7,179.7 895.2,158.4 874.7,179.7" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="913.9,320 972.8,320 972.8,181.5 913.9,181.5" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><rect x="923" y="165.5" width="7" height="16" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="968.9,320 1025.2,320 1020.4,202 964.1,202" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><rect x="985.2" y="186" width="7" height="16" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="1020.5,320 1074.5,320 1072.7,156.7 1045.7,141.3 1018.7,156.7" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="1068.9,320 1126.1,320 1129.6,201.9 1072.5,201.9" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><rect x="1117.3" y="185.9" width="7" height="16" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="1121.6,320 1180.2,320 1182,219.5 1152.7,204.9 1123.4,219.5" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="1176.8,320 1239.9,320 1240.9,220.1 1177.8,220.1" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><rect x="1216.6" y="204.1" width="7" height="16" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="-12,352 52.3,352 50.1,252 18,223 -14.1,252" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="50.1,252 18,223 -14.1,252" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="7.2" y="265" width="7" height="9" fill="var(--wds-window)"/><rect x="21.2" y="265" width="7" height="9" fill="var(--wds-window)"/><rect x="-6.4" y="287" width="7" height="9" fill="var(--wds-window)"/><rect x="21.6" y="287" width="7" height="9" fill="var(--wds-window)"/><rect x="35.6" y="287" width="7" height="9" fill="var(--wds-window)"/><rect x="8.1" y="309" width="7" height="9" fill="var(--wds-window)"/><rect x="36.1" y="309" width="7" height="9" fill="var(--wds-window)"/><rect x="-5.4" y="331" width="7" height="9" fill="var(--wds-window)"/><rect x="8.6" y="331" width="7" height="9" fill="var(--wds-window)"/><rect x="22.6" y="331" width="7" height="9" fill="var(--wds-window)"/><polygon points="47.9,352 80.2,352 75.2,281.6 59.1,260.6 42.9,281.6" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="75.2,281.6 59.1,260.6 42.9,281.6" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="64" y="295" width="7" height="9" fill="var(--wds-window)"/><rect x="65.5" y="317" width="7" height="9" fill="var(--wds-window)"/><polygon points="74.6,352 114.9,352 111.6,276 91.5,247.3 71.3,276" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="111.6,276 91.5,247.3 71.3,276" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="92.3" y="289" width="7" height="9" fill="var(--wds-window)"/><rect x="79.3" y="311" width="7" height="9" fill="var(--wds-window)"/><rect x="93.3" y="311" width="7" height="9" fill="var(--wds-window)"/><polygon points="114.4,352 171,352 171.4,304.9 143.1,283.1 114.8,304.9" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="171.4,304.9 143.1,283.1 114.8,304.9" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><polygon points="165.4,352 202.6,352 200.1,286.7 181.6,263.4 163,286.7" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="200.1,286.7 181.6,263.4 163,286.7" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="170" y="300" width="7" height="9" fill="var(--wds-window)"/><rect x="170.9" y="322" width="7" height="9" fill="var(--wds-window)"/><rect x="184.9" y="322" width="7" height="9" fill="var(--wds-window)"/><polygon points="199.1,352 253.1,352 250.3,247.4 223.3,224.3 196.3,247.4" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="250.3,247.4 223.3,224.3 196.3,247.4" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="217.6" y="261" width="7" height="9" fill="var(--wds-window)"/><rect x="231.6" y="261" width="7" height="9" fill="var(--wds-window)"/><rect x="204.2" y="283" width="7" height="9" fill="var(--wds-window)"/><rect x="204.8" y="305" width="7" height="9" fill="var(--wds-window)"/><rect x="218.8" y="305" width="7" height="9" fill="var(--wds-window)"/><rect x="232.8" y="305" width="7" height="9" fill="var(--wds-window)"/><polygon points="250.8,352 281.6,352 279.9,240.8 264.5,217.9 249.1,240.8" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="279.9,240.8 264.5,217.9 249.1,240.8" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="255.5" y="254" width="7" height="9" fill="var(--wds-window)"/><rect x="255.8" y="276" width="7" height="9" fill="var(--wds-window)"/><rect x="256.5" y="320" width="7" height="9" fill="var(--wds-window)"/><polygon points="276.2,352 339.6,352 339.1,261.6 275.7,249.7" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="339.1,261.6 275.7,249.7" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="296.6" y="275" width="7" height="9" fill="var(--wds-window)"/><rect x="296.7" y="297" width="7" height="9" fill="var(--wds-window)"/><rect x="310.7" y="297" width="7" height="9" fill="var(--wds-window)"/><rect x="282.8" y="319" width="7" height="9" fill="var(--wds-window)"/><rect x="310.8" y="319" width="7" height="9" fill="var(--wds-window)"/><polygon points="337.9,352 396.7,352 401.6,301.7 342.8,301.7" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="401.6,301.7 342.8,301.7" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="361.6" y="315" width="7" height="9" fill="var(--wds-window)"/><rect x="375.6" y="315" width="7" height="9" fill="var(--wds-window)"/><rect x="371.5" y="285.7" width="7" height="16" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="394.8,352 440.1,352 441.8,253.1 419.1,236.6 396.5,253.1" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="441.8,253.1 419.1,236.6 396.5,253.1" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="416.4" y="267" width="7" height="9" fill="var(--wds-window)"/><rect x="416.1" y="289" width="7" height="9" fill="var(--wds-window)"/><rect x="415.7" y="311" width="7" height="9" fill="var(--wds-window)"/><rect x="429.7" y="311" width="7" height="9" fill="var(--wds-window)"/><rect x="401.3" y="333" width="7" height="9" fill="var(--wds-window)"/><rect x="429.3" y="333" width="7" height="9" fill="var(--wds-window)"/><polygon points="439.8,352 486.4,352 484.7,282.9 461.4,255.2 438.1,282.9" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="484.7,282.9 461.4,255.2 438.1,282.9" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="458.6" y="296" width="7" height="9" fill="var(--wds-window)"/><rect x="445.2" y="318" width="7" height="9" fill="var(--wds-window)"/><rect x="459.2" y="318" width="7" height="9" fill="var(--wds-window)"/><polygon points="484.3,352 517.8,352 515.6,305.6 482.1,305.6" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="515.6,305.6 482.1,305.6" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="503.4" y="319" width="7" height="9" fill="var(--wds-window)"/><polygon points="514.4,352 559.8,352 555.8,264.2 533.1,249.6 510.3,264.2" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="555.8,264.2 533.1,249.6 510.3,264.2" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="531.6" y="278" width="7" height="9" fill="var(--wds-window)"/><rect x="518.6" y="300" width="7" height="9" fill="var(--wds-window)"/><rect x="519.6" y="322" width="7" height="9" fill="var(--wds-window)"/><polygon points="559.1,352 606.3,352 608.2,255.8 561,255.8" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="608.2,255.8 561,255.8" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="567.6" y="269" width="7" height="9" fill="var(--wds-window)"/><rect x="581.6" y="269" width="7" height="9" fill="var(--wds-window)"/><rect x="595.2" y="291" width="7" height="9" fill="var(--wds-window)"/><rect x="580.8" y="313" width="7" height="9" fill="var(--wds-window)"/><rect x="594.8" y="313" width="7" height="9" fill="var(--wds-window)"/><rect x="578.6" y="239.8" width="7" height="16" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="605.7,352 649.7,352 653.7,260.1 631.7,236 609.7,260.1" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="653.7,260.1 631.7,236 609.7,260.1" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="615.4" y="274" width="7" height="9" fill="var(--wds-window)"/><rect x="628.4" y="296" width="7" height="9" fill="var(--wds-window)"/><rect x="613.5" y="318" width="7" height="9" fill="var(--wds-window)"/><polygon points="644.8,352 701.8,352 697,291.5 640,276.5" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="697,291.5 640,276.5" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="661.3" y="305" width="7" height="9" fill="var(--wds-window)"/><rect x="675.3" y="305" width="7" height="9" fill="var(--wds-window)"/><rect x="663" y="327" width="7" height="9" fill="var(--wds-window)"/><rect x="677" y="327" width="7" height="9" fill="var(--wds-window)"/><polygon points="698.3,352 748.7,352 745.4,300.2 695,300.2" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="745.4,300.2 695,300.2" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="716.6" y="314" width="7" height="9" fill="var(--wds-window)"/><rect x="699.8" y="284.2" width="7" height="16" fill="var(--wds-roof-night)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="742.9,352 808.7,352 809,252.3 743.2,240.5" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="809,252.3 743.2,240.5" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="763.3" y="266" width="7" height="9" fill="var(--wds-window)"/><rect x="749.2" y="288" width="7" height="9" fill="var(--wds-window)"/><rect x="763.2" y="288" width="7" height="9" fill="var(--wds-window)"/><rect x="791.2" y="288" width="7" height="9" fill="var(--wds-window)"/><rect x="763.1" y="310" width="7" height="9" fill="var(--wds-window)"/><rect x="777.1" y="310" width="7" height="9" fill="var(--wds-window)"/><rect x="791.1" y="310" width="7" height="9" fill="var(--wds-window)"/><rect x="749.1" y="332" width="7" height="9" fill="var(--wds-window)"/><rect x="763.1" y="332" width="7" height="9" fill="var(--wds-window)"/><rect x="777.1" y="332" width="7" height="9" fill="var(--wds-window)"/><rect x="791.1" y="332" width="7" height="9" fill="var(--wds-window)"/><polygon points="807.8,352 848.3,352 850,241 809.5,241" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="850,241 809.5,241" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="815.6" y="254" width="7" height="9" fill="var(--wds-window)"/><rect x="815.2" y="276" width="7" height="9" fill="var(--wds-window)"/><rect x="814.9" y="298" width="7" height="9" fill="var(--wds-window)"/><rect x="814.5" y="320" width="7" height="9" fill="var(--wds-window)"/><polygon points="844.1,352 896.2,352 900.5,263.5 874.4,248.8 848.3,263.5" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="900.5,263.5 874.4,248.8 848.3,263.5" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="854.6" y="277" width="7" height="9" fill="var(--wds-window)"/><rect x="868.6" y="277" width="7" height="9" fill="var(--wds-window)"/><rect x="882.6" y="277" width="7" height="9" fill="var(--wds-window)"/><rect x="867.5" y="299" width="7" height="9" fill="var(--wds-window)"/><rect x="866.5" y="321" width="7" height="9" fill="var(--wds-window)"/><rect x="880.5" y="321" width="7" height="9" fill="var(--wds-window)"/><polygon points="893.6,352 937.2,352 938,276.5 916.1,253.6 894.3,276.5" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="938,276.5 916.1,253.6 894.3,276.5" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="900.6" y="290" width="7" height="9" fill="var(--wds-window)"/><rect x="914.2" y="334" width="7" height="9" fill="var(--wds-window)"/><polygon points="932.8,352 994.7,352 990.7,244.4 928.8,227.8" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="990.7,244.4 928.8,227.8" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="935.5" y="258" width="7" height="9" fill="var(--wds-window)"/><rect x="949.5" y="258" width="7" height="9" fill="var(--wds-window)"/><rect x="977.5" y="258" width="7" height="9" fill="var(--wds-window)"/><rect x="950.3" y="280" width="7" height="9" fill="var(--wds-window)"/><rect x="978.3" y="280" width="7" height="9" fill="var(--wds-window)"/><rect x="938" y="324" width="7" height="9" fill="var(--wds-window)"/><rect x="966" y="324" width="7" height="9" fill="var(--wds-window)"/><polygon points="994.6,352 1056,352 1055.3,254.6 1024.6,238.6 993.9,254.6" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="1055.3,254.6 1024.6,238.6 993.9,254.6" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="1028.4" y="268" width="7" height="9" fill="var(--wds-window)"/><rect x="1014.5" y="290" width="7" height="9" fill="var(--wds-window)"/><rect x="1028.5" y="290" width="7" height="9" fill="var(--wds-window)"/><rect x="1042.5" y="290" width="7" height="9" fill="var(--wds-window)"/><rect x="1028.7" y="312" width="7" height="9" fill="var(--wds-window)"/><rect x="1000.9" y="334" width="7" height="9" fill="var(--wds-window)"/><rect x="1042.9" y="334" width="7" height="9" fill="var(--wds-window)"/><polygon points="1052.6,352 1111.3,352 1110,245.8 1051.2,236.3" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="1110,245.8 1051.2,236.3" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="1057.8" y="259" width="7" height="9" fill="var(--wds-window)"/><rect x="1071.8" y="259" width="7" height="9" fill="var(--wds-window)"/><rect x="1058.1" y="281" width="7" height="9" fill="var(--wds-window)"/><rect x="1086.1" y="281" width="7" height="9" fill="var(--wds-window)"/><rect x="1086.4" y="303" width="7" height="9" fill="var(--wds-window)"/><rect x="1058.7" y="325" width="7" height="9" fill="var(--wds-window)"/><rect x="1072.7" y="325" width="7" height="9" fill="var(--wds-window)"/><polygon points="1111.1,352 1170.2,352 1174.9,254.5 1115.9,238" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="1174.9,254.5 1115.9,238" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="1122.1" y="268" width="7" height="9" fill="var(--wds-window)"/><rect x="1135" y="290" width="7" height="9" fill="var(--wds-window)"/><rect x="1147.9" y="312" width="7" height="9" fill="var(--wds-window)"/><rect x="1146.9" y="334" width="7" height="9" fill="var(--wds-window)"/><polygon points="1167.5,352 1204.6,352 1201.4,296 1164.2,296" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="1201.4,296 1164.2,296" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="1171.5" y="309" width="7" height="9" fill="var(--wds-window)"/><rect x="1185.5" y="309" width="7" height="9" fill="var(--wds-window)"/><rect x="1172.8" y="331" width="7" height="9" fill="var(--wds-window)"/><polygon points="1203.3,352 1241.5,352 1243,302.6 1204.8,292.9" fill="var(--wds-wall-night)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="1243,302.6 1204.8,292.9" fill="none" stroke="var(--wds-roof-night)" stroke-width="5" stroke-linejoin="round"/><rect x="1211.1" y="316" width="7" height="9" fill="var(--wds-window)"/><rect x="1225.1" y="316" width="7" height="9" fill="var(--wds-window)"/><rect x="0" y="352" width="1200" height="68" fill="var(--wds-ankh)"/><path d="M681.3 375.1 q15.1 -4.7 30.2 0 M846.6 388.8 q19.1 -2.8 38.3 0 M367.6 368.3 q18.4 -4.2 36.9 0 M858.3 368.7 q19.9 -4.6 39.8 0 M1098.2 376.5 q11 -3 21.9 0 M30.9 382.6 q14.9 -2.3 29.9 0 M108.4 364.1 q12.1 -3.1 24.3 0 M261.3 394.4 q13.3 -4.7 26.5 0 M844.5 381.3 q21.9 -2.6 43.8 0 M263.5 362.4 q11.6 -2.6 23.3 0 M716.5 375.5 q19 -2.5 37.9 0 M1000.7 402 q11 -3.1 22 0 M142.8 362.5 q19.6 -2.8 39.3 0 M591.4 407.9 q9.7 -2.5 19.4 0 M437.6 370.9 q21.9 -2.1 43.9 0 M616.7 375 q13.1 -2.6 26.2 0 M1095.6 410.5 q17.7 -3.9 35.4 0 M485.5 413.2 q22.5 -4 45 0 M309.9 366.5 q22.7 -2.8 45.4 0 M1127 378.6 q18.2 -3.4 36.4 0 M286.9 399.2 q15.3 -4.5 30.6 0 M982.6 394.7 q16.9 -4.2 33.9 0 M885.2 379.6 q21.7 -4.4 43.3 0 M309.7 394.2 q22.5 -3 45.1 0 M172.6 406.2 q21.5 -4.4 43 0 M853.8 384 q18 -3.5 35.9 0 M628.2 383.2 q13.5 -3.8 26.9 0 M992.7 368.2 q13.8 -3.8 27.6 0 M1025.4 383.9 q9.1 -3.7 18.1 0 M67.2 397.1 q19.7 -2.8 39.4 0 M629.7 368.8 q22.5 -3.6 44.9 0 M271 376.4 q18.6 -3.5 37.2 0 M110.7 375.3 q10.7 -3.6 21.3 0 M989.1 370.5 q17.3 -2.4 34.7 0 M245.2 376.1 q14.7 -2.8 29.5 0 M563.3 393.3 q12.7 -4 25.3 0 M378.7 386.2 q12.4 -2 24.8 0 M475 375 q14.9 -3.7 29.9 0 M111.4 385.5 q23 -4.9 45.9 0 M27.3 413.6 q21.5 -2.9 43.1 0 M25.4 383.5 q21.1 -3.2 42.2 0 M1052.4 393 q13.6 -3.5 27.3 0 M386.9 385 q18.4 -3.3 36.9 0 M1142.1 384.9 q15.4 -3.2 30.8 0 M132.4 369.6 q12.3 -4.4 24.7 0 M978.3 399.9 q16.8 -4.9 33.6 0 " fill="none" stroke="var(--wds-ankh-crust)" stroke-width="2.4" stroke-linecap="round"/><path d="M430 358 Q530 312 630 358" fill="none" stroke="var(--wds-brass)" stroke-width="9"/><path d="M430 346 Q530 300 630 346" fill="none" stroke="var(--wds-brass)" stroke-width="2.4"/><path d="M446 332.5 V344.5" stroke="var(--wds-brass)" stroke-width="2"/><path d="M462 321.3 V333.3" stroke="var(--wds-brass)" stroke-width="2"/><path d="M478 312.4 V324.4" stroke="var(--wds-brass)" stroke-width="2"/><path d="M494 306 V318" stroke="var(--wds-brass)" stroke-width="2"/><path d="M510 301.8 V313.8" stroke="var(--wds-brass)" stroke-width="2"/><path d="M526 300.1 V312.1" stroke="var(--wds-brass)" stroke-width="2"/><path d="M542 300.7 V312.7" stroke="var(--wds-brass)" stroke-width="2"/><path d="M558 303.6 V315.6" stroke="var(--wds-brass)" stroke-width="2"/><path d="M574 308.9 V320.9" stroke="var(--wds-brass)" stroke-width="2"/><path d="M590 316.6 V328.6" stroke="var(--wds-brass)" stroke-width="2"/><path d="M606 326.6 V338.6" stroke="var(--wds-brass)" stroke-width="2"/><path d="M622 338.9 V350.9" stroke="var(--wds-brass)" stroke-width="2"/><g clip-path="url(#wds-lit)"><rect width="1200" height="420" fill="var(--wds-sky-day)"/><path d="M286 320 L292 64 L298 44 L304 64 L310 320 Z" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.5"/><path d="M922 320 L930 96 H942 L950 320" fill="none" stroke="var(--wds-roof-day)" stroke-width="5"/><path d="M925 270 H947 M927 200 H945 M928 140 H944" stroke="var(--wds-roof-day)" stroke-width="3"/><rect x="914" y="62" width="44" height="34" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.5"/><rect x="918" y="66" width="8" height="7" fill="var(--wds-wall-day)"/><rect x="918" y="86" width="8" height="7" fill="var(--wds-wall-day)"/><rect x="929" y="76" width="8" height="7" fill="var(--wds-wall-day)"/><rect x="940" y="66" width="8" height="7" fill="var(--wds-wall-day)"/><rect x="940" y="86" width="8" height="7" fill="var(--wds-wall-day)"/><rect x="951" y="76" width="8" height="7" fill="var(--wds-wall-day)"/><polygon points="-12,320 57.3,320 59,171.9 24.3,157.5 -10.3,171.9" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="52.5,320 103.2,320 103.6,184.2 52.9,166.4" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="98.8,320 149.7,320 150.7,201.1 125.2,185 99.8,201.1" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="148.6,320 212.7,320 215.8,197.3 183.7,175.2 151.6,197.3" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="211,320 259.1,320 254.1,210.2 206.1,192.6" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="258.1,320 319.2,320 323,175.4 292.4,155 261.9,175.4" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="316.4,320 374.2,320 373.2,172.2 344.4,149.3 315.5,172.2" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="369,320 403.4,320 402.4,189.9 367.9,189.9" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><rect x="376.8" y="173.9" width="7" height="16" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="402.4,320 463.6,320 464.1,182.7 402.9,182.7" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><rect x="414.6" y="166.7" width="7" height="16" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="459.4,320 505.4,320 510.1,164.3 487.1,148.8 464.1,164.3" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="502.7,320 543.1,320 538.4,230.3 518.2,200.5 498,230.3" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="541.9,320 599.7,320 596.8,155.1 567.9,139.7 539,155.1" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="597.5,320 642.4,320 641,226.4 618.6,212 596.1,226.4" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="641.8,320 697.7,320 694.9,194 666.9,165.5 639,194" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="694.5,320 764.4,320 764.4,205.1 694.4,205.1" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><rect x="704.6" y="189.1" width="7" height="16" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="762,320 816.4,320 811.6,172.2 757.2,157.6" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="814.7,320 876.2,320 878.1,159.6 847.4,139.1 816.6,159.6" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="873.7,320 914.7,320 915.7,179.7 895.2,158.4 874.7,179.7" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="913.9,320 972.8,320 972.8,181.5 913.9,181.5" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><rect x="923" y="165.5" width="7" height="16" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="968.9,320 1025.2,320 1020.4,202 964.1,202" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><rect x="985.2" y="186" width="7" height="16" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="1020.5,320 1074.5,320 1072.7,156.7 1045.7,141.3 1018.7,156.7" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="1068.9,320 1126.1,320 1129.6,201.9 1072.5,201.9" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><rect x="1117.3" y="185.9" width="7" height="16" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="1121.6,320 1180.2,320 1182,219.5 1152.7,204.9 1123.4,219.5" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polygon points="1176.8,320 1239.9,320 1240.9,220.1 1177.8,220.1" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><rect x="1216.6" y="204.1" width="7" height="16" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="-12,352 52.3,352 50.1,252 18,223 -14.1,252" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="50.1,252 18,223 -14.1,252" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="7.2" y="265" width="7" height="9" fill="var(--wds-window)"/><rect x="21.2" y="265" width="7" height="9" fill="var(--wds-window)"/><rect x="-6.4" y="287" width="7" height="9" fill="var(--wds-window)"/><rect x="21.6" y="287" width="7" height="9" fill="var(--wds-window)"/><rect x="35.6" y="287" width="7" height="9" fill="var(--wds-window)"/><rect x="8.1" y="309" width="7" height="9" fill="var(--wds-window)"/><rect x="36.1" y="309" width="7" height="9" fill="var(--wds-window)"/><rect x="-5.4" y="331" width="7" height="9" fill="var(--wds-window)"/><rect x="8.6" y="331" width="7" height="9" fill="var(--wds-window)"/><rect x="22.6" y="331" width="7" height="9" fill="var(--wds-window)"/><polygon points="47.9,352 80.2,352 75.2,281.6 59.1,260.6 42.9,281.6" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="75.2,281.6 59.1,260.6 42.9,281.6" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="64" y="295" width="7" height="9" fill="var(--wds-window)"/><rect x="65.5" y="317" width="7" height="9" fill="var(--wds-window)"/><polygon points="74.6,352 114.9,352 111.6,276 91.5,247.3 71.3,276" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="111.6,276 91.5,247.3 71.3,276" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="92.3" y="289" width="7" height="9" fill="var(--wds-window)"/><rect x="79.3" y="311" width="7" height="9" fill="var(--wds-window)"/><rect x="93.3" y="311" width="7" height="9" fill="var(--wds-window)"/><polygon points="114.4,352 171,352 171.4,304.9 143.1,283.1 114.8,304.9" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="171.4,304.9 143.1,283.1 114.8,304.9" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><polygon points="165.4,352 202.6,352 200.1,286.7 181.6,263.4 163,286.7" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="200.1,286.7 181.6,263.4 163,286.7" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="170" y="300" width="7" height="9" fill="var(--wds-window)"/><rect x="170.9" y="322" width="7" height="9" fill="var(--wds-window)"/><rect x="184.9" y="322" width="7" height="9" fill="var(--wds-window)"/><polygon points="199.1,352 253.1,352 250.3,247.4 223.3,224.3 196.3,247.4" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="250.3,247.4 223.3,224.3 196.3,247.4" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="217.6" y="261" width="7" height="9" fill="var(--wds-window)"/><rect x="231.6" y="261" width="7" height="9" fill="var(--wds-window)"/><rect x="204.2" y="283" width="7" height="9" fill="var(--wds-window)"/><rect x="204.8" y="305" width="7" height="9" fill="var(--wds-window)"/><rect x="218.8" y="305" width="7" height="9" fill="var(--wds-window)"/><rect x="232.8" y="305" width="7" height="9" fill="var(--wds-window)"/><polygon points="250.8,352 281.6,352 279.9,240.8 264.5,217.9 249.1,240.8" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="279.9,240.8 264.5,217.9 249.1,240.8" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="255.5" y="254" width="7" height="9" fill="var(--wds-window)"/><rect x="255.8" y="276" width="7" height="9" fill="var(--wds-window)"/><rect x="256.5" y="320" width="7" height="9" fill="var(--wds-window)"/><polygon points="276.2,352 339.6,352 339.1,261.6 275.7,249.7" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="339.1,261.6 275.7,249.7" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="296.6" y="275" width="7" height="9" fill="var(--wds-window)"/><rect x="296.7" y="297" width="7" height="9" fill="var(--wds-window)"/><rect x="310.7" y="297" width="7" height="9" fill="var(--wds-window)"/><rect x="282.8" y="319" width="7" height="9" fill="var(--wds-window)"/><rect x="310.8" y="319" width="7" height="9" fill="var(--wds-window)"/><polygon points="337.9,352 396.7,352 401.6,301.7 342.8,301.7" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="401.6,301.7 342.8,301.7" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="361.6" y="315" width="7" height="9" fill="var(--wds-window)"/><rect x="375.6" y="315" width="7" height="9" fill="var(--wds-window)"/><rect x="371.5" y="285.7" width="7" height="16" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="394.8,352 440.1,352 441.8,253.1 419.1,236.6 396.5,253.1" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="441.8,253.1 419.1,236.6 396.5,253.1" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="416.4" y="267" width="7" height="9" fill="var(--wds-window)"/><rect x="416.1" y="289" width="7" height="9" fill="var(--wds-window)"/><rect x="415.7" y="311" width="7" height="9" fill="var(--wds-window)"/><rect x="429.7" y="311" width="7" height="9" fill="var(--wds-window)"/><rect x="401.3" y="333" width="7" height="9" fill="var(--wds-window)"/><rect x="429.3" y="333" width="7" height="9" fill="var(--wds-window)"/><polygon points="439.8,352 486.4,352 484.7,282.9 461.4,255.2 438.1,282.9" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="484.7,282.9 461.4,255.2 438.1,282.9" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="458.6" y="296" width="7" height="9" fill="var(--wds-window)"/><rect x="445.2" y="318" width="7" height="9" fill="var(--wds-window)"/><rect x="459.2" y="318" width="7" height="9" fill="var(--wds-window)"/><polygon points="484.3,352 517.8,352 515.6,305.6 482.1,305.6" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="515.6,305.6 482.1,305.6" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="503.4" y="319" width="7" height="9" fill="var(--wds-window)"/><polygon points="514.4,352 559.8,352 555.8,264.2 533.1,249.6 510.3,264.2" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="555.8,264.2 533.1,249.6 510.3,264.2" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="531.6" y="278" width="7" height="9" fill="var(--wds-window)"/><rect x="518.6" y="300" width="7" height="9" fill="var(--wds-window)"/><rect x="519.6" y="322" width="7" height="9" fill="var(--wds-window)"/><polygon points="559.1,352 606.3,352 608.2,255.8 561,255.8" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="608.2,255.8 561,255.8" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="567.6" y="269" width="7" height="9" fill="var(--wds-window)"/><rect x="581.6" y="269" width="7" height="9" fill="var(--wds-window)"/><rect x="595.2" y="291" width="7" height="9" fill="var(--wds-window)"/><rect x="580.8" y="313" width="7" height="9" fill="var(--wds-window)"/><rect x="594.8" y="313" width="7" height="9" fill="var(--wds-window)"/><rect x="578.6" y="239.8" width="7" height="16" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="605.7,352 649.7,352 653.7,260.1 631.7,236 609.7,260.1" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="653.7,260.1 631.7,236 609.7,260.1" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="615.4" y="274" width="7" height="9" fill="var(--wds-window)"/><rect x="628.4" y="296" width="7" height="9" fill="var(--wds-window)"/><rect x="613.5" y="318" width="7" height="9" fill="var(--wds-window)"/><polygon points="644.8,352 701.8,352 697,291.5 640,276.5" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="697,291.5 640,276.5" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="661.3" y="305" width="7" height="9" fill="var(--wds-window)"/><rect x="675.3" y="305" width="7" height="9" fill="var(--wds-window)"/><rect x="663" y="327" width="7" height="9" fill="var(--wds-window)"/><rect x="677" y="327" width="7" height="9" fill="var(--wds-window)"/><polygon points="698.3,352 748.7,352 745.4,300.2 695,300.2" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="745.4,300.2 695,300.2" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="716.6" y="314" width="7" height="9" fill="var(--wds-window)"/><rect x="699.8" y="284.2" width="7" height="16" fill="var(--wds-roof-day)" stroke="var(--wds-line)" stroke-width="1"/><polygon points="742.9,352 808.7,352 809,252.3 743.2,240.5" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="809,252.3 743.2,240.5" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="763.3" y="266" width="7" height="9" fill="var(--wds-window)"/><rect x="749.2" y="288" width="7" height="9" fill="var(--wds-window)"/><rect x="763.2" y="288" width="7" height="9" fill="var(--wds-window)"/><rect x="791.2" y="288" width="7" height="9" fill="var(--wds-window)"/><rect x="763.1" y="310" width="7" height="9" fill="var(--wds-window)"/><rect x="777.1" y="310" width="7" height="9" fill="var(--wds-window)"/><rect x="791.1" y="310" width="7" height="9" fill="var(--wds-window)"/><rect x="749.1" y="332" width="7" height="9" fill="var(--wds-window)"/><rect x="763.1" y="332" width="7" height="9" fill="var(--wds-window)"/><rect x="777.1" y="332" width="7" height="9" fill="var(--wds-window)"/><rect x="791.1" y="332" width="7" height="9" fill="var(--wds-window)"/><polygon points="807.8,352 848.3,352 850,241 809.5,241" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="850,241 809.5,241" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="815.6" y="254" width="7" height="9" fill="var(--wds-window)"/><rect x="815.2" y="276" width="7" height="9" fill="var(--wds-window)"/><rect x="814.9" y="298" width="7" height="9" fill="var(--wds-window)"/><rect x="814.5" y="320" width="7" height="9" fill="var(--wds-window)"/><polygon points="844.1,352 896.2,352 900.5,263.5 874.4,248.8 848.3,263.5" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="900.5,263.5 874.4,248.8 848.3,263.5" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="854.6" y="277" width="7" height="9" fill="var(--wds-window)"/><rect x="868.6" y="277" width="7" height="9" fill="var(--wds-window)"/><rect x="882.6" y="277" width="7" height="9" fill="var(--wds-window)"/><rect x="867.5" y="299" width="7" height="9" fill="var(--wds-window)"/><rect x="866.5" y="321" width="7" height="9" fill="var(--wds-window)"/><rect x="880.5" y="321" width="7" height="9" fill="var(--wds-window)"/><polygon points="893.6,352 937.2,352 938,276.5 916.1,253.6 894.3,276.5" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="938,276.5 916.1,253.6 894.3,276.5" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="900.6" y="290" width="7" height="9" fill="var(--wds-window)"/><rect x="914.2" y="334" width="7" height="9" fill="var(--wds-window)"/><polygon points="932.8,352 994.7,352 990.7,244.4 928.8,227.8" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="990.7,244.4 928.8,227.8" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="935.5" y="258" width="7" height="9" fill="var(--wds-window)"/><rect x="949.5" y="258" width="7" height="9" fill="var(--wds-window)"/><rect x="977.5" y="258" width="7" height="9" fill="var(--wds-window)"/><rect x="950.3" y="280" width="7" height="9" fill="var(--wds-window)"/><rect x="978.3" y="280" width="7" height="9" fill="var(--wds-window)"/><rect x="938" y="324" width="7" height="9" fill="var(--wds-window)"/><rect x="966" y="324" width="7" height="9" fill="var(--wds-window)"/><polygon points="994.6,352 1056,352 1055.3,254.6 1024.6,238.6 993.9,254.6" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="1055.3,254.6 1024.6,238.6 993.9,254.6" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="1028.4" y="268" width="7" height="9" fill="var(--wds-window)"/><rect x="1014.5" y="290" width="7" height="9" fill="var(--wds-window)"/><rect x="1028.5" y="290" width="7" height="9" fill="var(--wds-window)"/><rect x="1042.5" y="290" width="7" height="9" fill="var(--wds-window)"/><rect x="1028.7" y="312" width="7" height="9" fill="var(--wds-window)"/><rect x="1000.9" y="334" width="7" height="9" fill="var(--wds-window)"/><rect x="1042.9" y="334" width="7" height="9" fill="var(--wds-window)"/><polygon points="1052.6,352 1111.3,352 1110,245.8 1051.2,236.3" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="1110,245.8 1051.2,236.3" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="1057.8" y="259" width="7" height="9" fill="var(--wds-window)"/><rect x="1071.8" y="259" width="7" height="9" fill="var(--wds-window)"/><rect x="1058.1" y="281" width="7" height="9" fill="var(--wds-window)"/><rect x="1086.1" y="281" width="7" height="9" fill="var(--wds-window)"/><rect x="1086.4" y="303" width="7" height="9" fill="var(--wds-window)"/><rect x="1058.7" y="325" width="7" height="9" fill="var(--wds-window)"/><rect x="1072.7" y="325" width="7" height="9" fill="var(--wds-window)"/><polygon points="1111.1,352 1170.2,352 1174.9,254.5 1115.9,238" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="1174.9,254.5 1115.9,238" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="1122.1" y="268" width="7" height="9" fill="var(--wds-window)"/><rect x="1135" y="290" width="7" height="9" fill="var(--wds-window)"/><rect x="1147.9" y="312" width="7" height="9" fill="var(--wds-window)"/><rect x="1146.9" y="334" width="7" height="9" fill="var(--wds-window)"/><polygon points="1167.5,352 1204.6,352 1201.4,296 1164.2,296" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="1201.4,296 1164.2,296" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="1171.5" y="309" width="7" height="9" fill="var(--wds-window)"/><rect x="1185.5" y="309" width="7" height="9" fill="var(--wds-window)"/><rect x="1172.8" y="331" width="7" height="9" fill="var(--wds-window)"/><polygon points="1203.3,352 1241.5,352 1243,302.6 1204.8,292.9" fill="var(--wds-wall-day)" stroke="var(--wds-line)" stroke-width="1.4" stroke-linejoin="round"/><polyline points="1243,302.6 1204.8,292.9" fill="none" stroke="var(--wds-roof-day)" stroke-width="5" stroke-linejoin="round"/><rect x="1211.1" y="316" width="7" height="9" fill="var(--wds-window)"/><rect x="1225.1" y="316" width="7" height="9" fill="var(--wds-window)"/><rect x="0" y="352" width="1200" height="68" fill="var(--wds-ankh-day)"/><path d="M681.3 375.1 q15.1 -4.7 30.2 0 M846.6 388.8 q19.1 -2.8 38.3 0 M367.6 368.3 q18.4 -4.2 36.9 0 M858.3 368.7 q19.9 -4.6 39.8 0 M1098.2 376.5 q11 -3 21.9 0 M30.9 382.6 q14.9 -2.3 29.9 0 M108.4 364.1 q12.1 -3.1 24.3 0 M261.3 394.4 q13.3 -4.7 26.5 0 M844.5 381.3 q21.9 -2.6 43.8 0 M263.5 362.4 q11.6 -2.6 23.3 0 M716.5 375.5 q19 -2.5 37.9 0 M1000.7 402 q11 -3.1 22 0 M142.8 362.5 q19.6 -2.8 39.3 0 M591.4 407.9 q9.7 -2.5 19.4 0 M437.6 370.9 q21.9 -2.1 43.9 0 M616.7 375 q13.1 -2.6 26.2 0 M1095.6 410.5 q17.7 -3.9 35.4 0 M485.5 413.2 q22.5 -4 45 0 M309.9 366.5 q22.7 -2.8 45.4 0 M1127 378.6 q18.2 -3.4 36.4 0 M286.9 399.2 q15.3 -4.5 30.6 0 M982.6 394.7 q16.9 -4.2 33.9 0 M885.2 379.6 q21.7 -4.4 43.3 0 M309.7 394.2 q22.5 -3 45.1 0 M172.6 406.2 q21.5 -4.4 43 0 M853.8 384 q18 -3.5 35.9 0 M628.2 383.2 q13.5 -3.8 26.9 0 M992.7 368.2 q13.8 -3.8 27.6 0 M1025.4 383.9 q9.1 -3.7 18.1 0 M67.2 397.1 q19.7 -2.8 39.4 0 M629.7 368.8 q22.5 -3.6 44.9 0 M271 376.4 q18.6 -3.5 37.2 0 M110.7 375.3 q10.7 -3.6 21.3 0 M989.1 370.5 q17.3 -2.4 34.7 0 M245.2 376.1 q14.7 -2.8 29.5 0 M563.3 393.3 q12.7 -4 25.3 0 M378.7 386.2 q12.4 -2 24.8 0 M475 375 q14.9 -3.7 29.9 0 M111.4 385.5 q23 -4.9 45.9 0 M27.3 413.6 q21.5 -2.9 43.1 0 M25.4 383.5 q21.1 -3.2 42.2 0 M1052.4 393 q13.6 -3.5 27.3 0 M386.9 385 q18.4 -3.3 36.9 0 M1142.1 384.9 q15.4 -3.2 30.8 0 M132.4 369.6 q12.3 -4.4 24.7 0 M978.3 399.9 q16.8 -4.9 33.6 0 " fill="none" stroke="var(--wds-ankh-crust-day)" stroke-width="2.4" stroke-linecap="round"/><path d="M430 358 Q530 312 630 358" fill="none" stroke="var(--wds-brass)" stroke-width="9"/><path d="M430 346 Q530 300 630 346" fill="none" stroke="var(--wds-brass)" stroke-width="2.4"/><path d="M446 332.5 V344.5" stroke="var(--wds-brass)" stroke-width="2"/><path d="M462 321.3 V333.3" stroke="var(--wds-brass)" stroke-width="2"/><path d="M478 312.4 V324.4" stroke="var(--wds-brass)" stroke-width="2"/><path d="M494 306 V318" stroke="var(--wds-brass)" stroke-width="2"/><path d="M510 301.8 V313.8" stroke="var(--wds-brass)" stroke-width="2"/><path d="M526 300.1 V312.1" stroke="var(--wds-brass)" stroke-width="2"/><path d="M542 300.7 V312.7" stroke="var(--wds-brass)" stroke-width="2"/><path d="M558 303.6 V315.6" stroke="var(--wds-brass)" stroke-width="2"/><path d="M574 308.9 V320.9" stroke="var(--wds-brass)" stroke-width="2"/><path d="M590 316.6 V328.6" stroke="var(--wds-brass)" stroke-width="2"/><path d="M606 326.6 V338.6" stroke="var(--wds-brass)" stroke-width="2"/><path d="M622 338.9 V350.9" stroke="var(--wds-brass)" stroke-width="2"/></g><g clip-path="url(#wds-lit)"><path d="M812 0 L612 420" stroke="var(--wds-edge)" stroke-width="46" stroke-opacity=".22"/><path d="M812 0 L612 420" stroke="var(--wds-edge)" stroke-width="18" stroke-opacity=".4"/></g><path d="M812 0 L612 420" stroke="var(--wds-edge)" stroke-width="3"/><g font-family="'Grenze', serif" font-weight="700" font-size="15" letter-spacing="1.2" text-anchor="middle"><circle cx="176" cy="104" r="38" fill="none" stroke="var(--wds-ink-3)" stroke-width="1.4"/><path d="M176 58 V150 M130 104 H176" stroke="var(--wds-ink-3)" stroke-width="2"/><path d="M176 104 H238" stroke="var(--wds-dawn)" stroke-width="3.4"/><path d="M230 97 L242 104 L230 111" fill="var(--wds-dawn)"/><text x="176" y="48" fill="var(--wds-ink-2)">HUBWARD</text><text x="176" y="172" fill="var(--wds-ink-2)">RIMWARD</text><text x="120" y="109" text-anchor="end" fill="var(--wds-ink-2)">TURN&#8203;WISE</text><text x="248" y="109" text-anchor="start" fill="var(--wds-dawn)">WIDDERSHINS</text></g></svg>
+  <!-- wds:city-view:end -->
+    <figcaption class="wds-view__words">A crowded city of crooked roofs built on top of each other, on the bank of a river so thick it has a crust, with a thin tower far off, a clacks tower with its grid of shutters, and a brass bridge over the river. The morning is halfway across it: everything to the right of a slanting edge of light is lit warm, the plaster pale and the tiles red, and everything to the left of it is still night. Nobody is in the streets. In the night sky a compass shows the Disc&rsquo;s four directions, hubward, rimward, turnwise and widdershins, and the widdershins arm points into the morning. Nothing in the city moves.</figcaption>
+  </figure>
+
+  <section class="wds-lede">
+<!-- wds:lede:begin -->
+    <p><b>Widdershins</b> is an old word for going the other way round, counter-clockwise, against the course of the sun. It comes from the Middle Low German <em>weddersinnes</em>, which <a href="https://en.wikipedia.org/wiki/Widdershins">Wikipedia’s article</a> says means, literally, <b>against the way</b>. That is the whole of this room’s subtitle, and the word got there first.</p>
+    <p>On Terry Pratchett’s Discworld, where the world is flat and turns, there are four directions rather than our four: hubward, to the middle; rimward, to the edge; turnwise, the way the world turns; and widdershins, against it. This room is a thank-you note to those books, from a street of people who have been going widdershins all their lives, mostly without a word for it.</p>
+    <p>It stands in a city that is not quite Ankh-Morpork and could not be anywhere else: crooked, crowded, smoky, built on top of itself, beside a river too thick to drown in, at the moment the Disc’s slow morning is halfway across it. Nobody in the city matches anybody else. That is the city.</p>
+    <!-- wds:lede:end -->
+  </section>
+
+  <section class="wds-part" aria-labelledby="wds-city-h">
+    <h2 id="wds-city-h">A city that never matched</h2>
+<!-- wds:city:begin -->
+    <p>Read the books in order and you can watch a writer change his mind. The early ones laugh at the usual things fantasy laughs at; the later ones keep coming back to the same city, and the same question: what happens when everybody who was told they did not belong turns up and stays.</p>
+    <blockquote class="wds-quote">
+      <p>his later work is driven by a commitment to inclusion and a rejection of hegemony</p>
+      <footer class="wds-quote__who">Karl Spracklen and Ian Lamond, <a href="https://doi.org/10.1080/01490400.2025.2464552">The Discworld Mapp’d: Constructing Competing Narratives of Inequality in Science-Fiction Fandom</a>, <cite>Leisure Sciences</cite>, 2025. They cite Rebecca Ann Bach, Terry Pratchett Could Save the World (2023), for it.</footer>
+    </blockquote>
+    <p>Karl Spracklen and Ian Lamond, writing about the fans who argued over the television adaptation of the Watch books, call Ankh-Morpork a crucible. Not a melting pot, where everybody comes out the same. A crucible, where things are changed by meeting each other and nobody stops being what they were.</p>
+    <blockquote class="wds-quote">
+      <p>how cities such as Ankh-Morpork serve as a crucible for agency even if social structures continue to limit that freedom</p>
+      <footer class="wds-quote__who">Karl Spracklen and Ian Lamond, <a href="https://doi.org/10.1080/01490400.2025.2464552">The Discworld Mapp’d: Constructing Competing Narratives of Inequality in Science-Fiction Fandom</a>, <cite>Leisure Sciences</cite>, 2025. They cite Rebecca Ann Bach, Terry Pratchett Could Save the World (2023), for it.</footer>
+    </blockquote>
+    <p>Which is the argument against <b>neuronormativity</b>, made in a fantasy city by a novelist, and in the words of Sonny Jane Wise that our <a href="https://stimpunks.org/glossary/neuronormativity/">glossary</a> quotes:</p>
+    <blockquote class="wds-quote">
+      <p>It is the assumption that there is a correct way to exist in this world; a correct way to think, feel, communicate, play, behave and more.</p>
+      <footer class="wds-quote__who">Sonny Jane Wise, <a href="https://www.linkedin.com/pulse/introducing-decentering-neuronormativity-sonny-jane-wise-huevc/">Introducing Decentering Neuronormativity</a>, read on our <a href="https://stimpunks.org/glossary/neuronormativity/">Neuronormativity</a> page.</footer>
+    </blockquote>
+    <blockquote class="wds-quote">
+      <p>Inclusion, when it assumes uniformity, is not inclusion at all.</p>
+      <footer class="wds-quote__who">Hari Srinivasan, Kristen Gillespie-Lynch and colleagues, <a href="https://www.researchgate.net/profile/Kristen-Gillespie-Lynch/publication/397896324_Inclusion_Must_Be_Global_Decolonized_Culturally_and_Linguistically_Diverse_and_Anti-Normative/links/6923e248f4878b75fc78e479/Inclusion-Must-Be-Global-Decolonized-Culturally-and-Linguistically-Diverse-and-Anti-Normative.pdf">Inclusion Must Be Global, Decolonized, Culturally and Linguistically Diverse, and Anti-Normative</a>, 2025, read on our <a href="https://stimpunks.org/philosophy/inclusion-must-be-global-decolonized-culturally-and-linguistically-diverse-and-anti-normative/">Inclusion Must Be Global, Decolonized, Culturally And Linguistically Diverse, And Anti-Normative</a> page.</footer>
+    </blockquote>
+    <blockquote class="wds-quote">
+      <p>Creativity is driven by divergent perspectives, and squashed by demands for conformity.</p>
+      <footer class="wds-quote__who">@MxOolong, <a href="https://twitter.com/MxOolong/status/1499306546693607427?s=20&amp;t=XYCmQe4y50Kl7ZpwjY4S5w">a post</a>, read on our <a href="https://stimpunks.org/glossary/weird/">Weird</a> page.</footer>
+    </blockquote>
+    <!-- wds:city:end -->
+  </section>
+
+  <section class="wds-part" aria-labelledby="wds-watch-h">
+    <h2 id="wds-watch-h">The Watch is a competency network</h2>
+<!-- wds:watch:begin -->
+    <p>The books about the City Watch begin with a night watch nobody wants: three men in a city that has stopped expecting to be policed. By the end it is a team of nearly every kind of person the Disc has, and it works because nobody on it is the same. That is a <b>competency network</b>, and it is the thing our own pages most want a team to be.</p>
+    <blockquote class="wds-quote">
+      <p>A competency network is a map of the gifts people bring to each other.</p>
+      <footer class="wds-quote__who">Stimpunks, our <a href="https://stimpunks.org/glossary/competency-network/">Competency Network</a> page</footer>
+    </blockquote>
+    <ul class="wds-cards">
+      <li class="wds-card">
+        <h3>Sam Vimes</h3>
+        <p class="wds-card__when">from <i>Guards! Guards!, 1989</i></p>
+        <p>Wears boots with soles so thin he can read the city through them, and knows which street he is on by the cobbles under his feet. Nobody taught him that sense; the city did, one night at a time.</p>
+      </li>
+      <li class="wds-card">
+        <h3>Carrot Ironfoundersson</h3>
+        <p class="wds-card__when">from <i>Guards! Guards!, 1989</i></p>
+        <p>A human raised by dwarfs, who is a dwarf because that is how he was raised and what he says he is. He has read the city’s laws all the way through, and believes every word, which turns out to be a kind of power nobody had planned for.</p>
+      </li>
+      <li class="wds-card">
+        <h3>Detritus</h3>
+        <p class="wds-card__when">from <i>Men at Arms, 1993</i></p>
+        <p>A troll, taken for slow by everybody, until he is somewhere cold enough and his thinking turns out to be brilliant. The fault was the temperature of the room, never him, which is the social model of disability with a cold store in it.</p>
+      </li>
+      <li class="wds-card">
+        <h3>Angua</h3>
+        <p class="wds-card__when">from <i>Men at Arms, 1993</i></p>
+        <p>A werewolf, whose nose tells her who has been where, and when. She spends a great deal of effort on not being seen as what she is, and the Watch is where, slowly, she can spend less of it.</p>
+      </li>
+      <li class="wds-card">
+        <h3>Cheery Littlebottom</h3>
+        <p class="wds-card__when">from <i>Feet of Clay, 1996</i></p>
+        <p>A dwarf and an alchemist, who brings a bench of chemistry to the Watch House, and who begins to live openly as a woman among dwarfs, where nobody says. She wears what she likes, and the dwarfs of the city have to get used to it.</p>
+      </li>
+      <li class="wds-card">
+        <h3>Dorfl</h3>
+        <p class="wds-card__when">from <i>Feet of Clay, 1996</i></p>
+        <p>A golem, made to work and to be owned, who comes to belong to nobody but Dorfl, chooses its own words, and joins the Watch.</p>
+      </li>
+      <li class="wds-card">
+        <h3>And more</h3>
+        <p class="wds-card__when">from <i>the later books</i></p>
+        <p>By the later books the Watch has a vampire, a zombie, a gnome and an Igor too, and a commander who has stopped being surprised by who knocks.</p>
+      </li>
+    </ul>
+    <blockquote class="wds-quote">
+      <p>Different kinds of minds see different parts of the world. A competency network lets those different views work together. What one person misses, another catches.</p>
+      <footer class="wds-quote__who">Stimpunks, our <a href="https://stimpunks.org/glossary/competency-network/">Competency Network</a> page</footer>
+    </blockquote>
+    <blockquote class="wds-quote">
+      <p>This is not about ranking people. It is not about who is better or worse. It is about fit, trust, and seeing each other clearly.</p>
+      <footer class="wds-quote__who">Stimpunks, our <a href="https://stimpunks.org/glossary/competency-network/">Competency Network</a> page</footer>
+    </blockquote>
+    <blockquote class="wds-quote">
+      <p>A group with multiple neurotypes doesn’t just survive more threats — it does things no single neurotype could do alone.</p>
+      <footer class="wds-quote__who">Lori Hogenkamp, <a href="https://www.linkedin.com/posts/lori-hogenkamp-44205410_neurodiversity-and-the-esf-the-thermodynamics-ugcPost-7454716485274578944-8hzC/?utm_source=share&amp;utm_medium=member_desktop&amp;rcm=ACoAAACJSp0BTxb-BFkHrFsPEoJRWLck0kqgT0E">Neurodiversity and the ESF</a>, read on our <a href="https://stimpunks.org/glossary/competency-network/">Competency Network</a> page.</footer>
+    </blockquote>
+    <p>Nobody on that list is fixed. Nobody is cured into a human, or a man, or a dwarf who keeps quiet. What changes over the books is the Watch House, which keeps being rebuilt around whoever walks in: a cold room for a troll, a bench for an alchemist, a commander who learns, slowly and complaining all the way, that the person he did not expect is the one who sees what he missed.</p>
+    <!-- wds:watch:end -->
+  </section>
+
+  <section class="wds-part" aria-labelledby="wds-senses-h">
+    <h2 id="wds-senses-h">First Sight, and recognising ourselves</h2>
+<!-- wds:senses:begin -->
+    <p>The witches have a name for the way we try to work, and our <a href="https://stimpunks.org/philosophy/if-i-dont-help-them-who-will/">witches page</a> has quoted it since 2024:</p>
+    <blockquote class="wds-quote">
+      <p>First Sight and Second Thoughts, that’s what a witch had to rely on: First Sight to see what’s really there, and Second Thoughts to watch the First Thoughts to check that they were thinking right.</p>
+      <footer class="wds-quote__who">Terry Pratchett, <a href="https://openlibrary.org/works/OL453989W/Wintersmith?edition=key%3A/books/OL43562185M">Wintersmith</a>, 2006, read on our <a href="https://stimpunks.org/philosophy/if-i-dont-help-them-who-will/">If I don’t help them, who will?</a> page.</footer>
+    </blockquote>
+    <blockquote class="wds-quote">
+      <p>Open your eyes, and then open your eyes again.</p>
+      <footer class="wds-quote__who">Terry Pratchett, <a href="https://openlibrary.org/works/OL453737W?edition=key%3A/books/OL27489318M">A Hat Full of Sky</a>, 2004, p. 57, read on our <a href="https://stimpunks.org/philosophy/if-i-dont-help-them-who-will/">If I don’t help them, who will?</a> page.</footer>
+    </blockquote>
+    <p>First Sight is seeing what is really there rather than what you were told should be. A great many of us were told, for years, that what we noticed was wrong, too much, or not the point. The Disc is full of people whose senses and passions are the point, and the later books treat them as what they are: what each of them brings.</p>
+    <ul class="wds-cards">
+      <li class="wds-card">
+        <h3>Vimes, at six o’clock</h3>
+        <p class="wds-card__when"><i>Thud!, 2005</i></p>
+        <p>Reads <em>Where’s My Cow?</em> to his son at six every evening, whatever else is happening in the city, and will not let anything make him miss it. A routine kept like a promise.</p>
+      </li>
+      <li class="wds-card">
+        <h3>Angua’s nose and Vimes’s boots</h3>
+        <p class="wds-card__when"><i>the Watch books</i></p>
+        <p>A world mostly smelled, and a city read through the feet. Senses most people do not use, used all the time, and nobody in the books asks either of them to stop.</p>
+      </li>
+      <li class="wds-card">
+        <h3>Detritus in the cold</h3>
+        <p class="wds-card__when"><i>Men at Arms, 1993</i></p>
+        <p>The same troll, slow in a warm room and brilliant in a cold one. Change the room and you change what everybody thinks he is.</p>
+      </li>
+      <li class="wds-card">
+        <h3>Stanley and the pins</h3>
+        <p class="wds-card__when"><i>Going Postal, 2004</i></p>
+        <p>Loves pins, and then stamps, with the whole of himself, and the Post Office runs better because the person who loves them most is the one who knows.</p>
+      </li>
+      <li class="wds-card">
+        <h3>Carrot and the laws</h3>
+        <p class="wds-card__when"><i>Guards! Guards!, 1989</i></p>
+        <p>Read every law of the city and holds everybody to them, the powerful included, because nobody told him he was not supposed to.</p>
+      </li>
+      <li class="wds-card">
+        <h3>Cheery and the bench</h3>
+        <p class="wds-card__when"><i>Feet of Clay, 1996</i></p>
+        <p>Alchemy, the way most people never look at anything: closely, for the pleasure of it, until it says something nobody else heard.</p>
+      </li>
+    </ul>
+    <p><b>We recognise ourselves in these people. We do not diagnose them.</b> They are fiction, and putting a label on somebody who cannot answer is the thing done to us often enough that we are not going to do it to anybody else, as Star Stuff says of their author. Recognition is the other thing: finding yourself on a page that did not know you were coming, and being glad of it.</p>
+    <figure class="wds-figure">
+      <svg class="wds-figure__svg" viewBox="0 0 300 172" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="wds-fig5-title wds-fig5-desc">
+      <title id="wds-fig5-title">First Sight and Second Thoughts as a loop</title>
+      <desc id="wds-fig5-desc">The world feeds into First Sight, which is seeing what is really there rather than what was expected. First Sight feeds a first thought. Second Thoughts watch that first thought and loop back to correct it. Examples are given: the mantis shrimp and the wood wide web for First Sight, and the changelog and the six gates for Second Thoughts.</desc>
+      <rect x="112" y="16" width="76" height="17" rx="3" fill="none" stroke="var(--wds-ink-2)" stroke-opacity="0.6" stroke-width="1.1"/>
+      <text x="150" y="28" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6" fill="var(--wds-ink-2)">what is there</text>
+      <path d="M150 33 V46" stroke="var(--wds-heather)" stroke-opacity="0.6" stroke-width="1.1"/>
+      <rect x="98" y="46" width="104" height="19" rx="3" fill="var(--wds-heather)" fill-opacity="0.12" stroke="var(--wds-heather)" stroke-opacity="0.85" stroke-width="1.3"/>
+      <text x="150" y="59" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6.2" fill="var(--wds-heather)">First Sight</text>
+      <path d="M150 65 V80" stroke="var(--wds-heather)" stroke-opacity="0.6" stroke-width="1.1"/>
+      <rect x="106" y="80" width="88" height="18" rx="3" fill="none" stroke="var(--wds-dawn)" stroke-opacity="0.7" stroke-width="1.1" stroke-dasharray="4 4"/>
+      <text x="150" y="92" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6" fill="var(--wds-dawn)">a first thought</text>
+      <rect x="98" y="112" width="104" height="19" rx="3" fill="var(--wds-river)" fill-opacity="0.12" stroke="var(--wds-river)" stroke-opacity="0.85" stroke-width="1.3"/>
+      <text x="150" y="125" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6.2" fill="var(--wds-river)">Second Thoughts</text>
+      <path d="M150 98 V112" stroke="var(--wds-river)" stroke-opacity="0.6" stroke-width="1.1"/>
+      <path d="M98 121 C 66 121, 66 89, 92 89" fill="none" stroke="var(--wds-river)" stroke-opacity="0.7" stroke-width="1.1"/>
+      <path d="M97 85 L92 89 L97 93" fill="none" stroke="var(--wds-river)" stroke-opacity="0.9" stroke-width="1.1"/>
+      <g font-family="'Space Mono', monospace" font-size="5" fill="var(--wds-ink-3)">
+      <text x="208" y="53">mantis shrimp</text>
+      <text x="208" y="62">wood wide web</text>
+      <text x="208" y="119">the changelog</text>
+      <text x="208" y="128">six gates</text>
+      </g>
+      <path d="M20 142 H280" stroke="var(--wds-heather)" stroke-opacity="0.22" stroke-width="0.9"/>
+      <text x="150" y="156" text-anchor="middle" font-family="'Space Mono', monospace" font-size="7.2" letter-spacing="0.8" fill="var(--wds-ink-2)">the second half is the one you can build</text>
+      <text x="150" y="168" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6.3" letter-spacing="1.2" fill="var(--wds-heather)">Wintersmith, 2006</text>
+      </svg>
+      <figcaption class="wds-figure__words">Star Stuff’s figure, from No. 49: First Sight and Second Thoughts as a loop. Its examples are Star Stuff’s own corrections and checks. Drawn for <a href="https://starstuff.earth/one-atom-of-justice-zine.html">Star Stuff</a>, CC BY-SA 4.0, and recoloured for this room.</figcaption>
+    </figure>
+    <!-- wds:senses:end -->
+  </section>
+
+  <section class="wds-part" aria-labelledby="wds-witches-h">
+    <h2 id="wds-witches-h">Miss Level stores it in other people</h2>
+<!-- wds:witches:begin -->
+    <p>Our witches page is about care work, and it rests on a passage from <em>A Hat Full of Sky</em> in which Miss Level, a witch, explains to Tiffany Aching how a witch gets paid, which is that she does not. What she gives away comes back round, from somebody, some time, and she helps whoever needs it whether it does or not.</p>
+    <blockquote class="wds-quote">
+      <p>I store it in other people. It’s amazing what you can store in other people.</p>
+      <footer class="wds-quote__who">Miss Level, in Terry Pratchett&rsquo;s <a href="https://openlibrary.org/works/OL453737W?edition=key%3A/books/OL27489318M">A Hat Full of Sky</a>, 2004, pp. 116–117, read on our <a href="https://stimpunks.org/philosophy/if-i-dont-help-them-who-will/">If I don’t help them, who will?</a> page.</footer>
+    </blockquote>
+    <blockquote class="wds-quote">
+      <p>You can’t not help people just because they’re stupid or forgetful or unpleasant. Everyone’s poor around here. If I don’t help them, who will?</p>
+      <footer class="wds-quote__who">Miss Level, in Terry Pratchett&rsquo;s <a href="https://openlibrary.org/works/OL453737W?edition=key%3A/books/OL27489318M">A Hat Full of Sky</a>, 2004, pp. 116–117, read on our <a href="https://stimpunks.org/philosophy/if-i-dont-help-them-who-will/">If I don’t help them, who will?</a> page.</footer>
+    </blockquote>
+    <p>That is mutual aid, said better than most of the books about mutual aid say it, and it is how our own <a href="https://stimpunks.org/glossary/mutual-aid/">mutual aid</a> is meant to work. Nobody on the Disc is helped because they deserve it. They are helped because they are there.</p>
+    <!-- wds:witches:end -->
+  </section>
+
+  <section class="wds-part" aria-labelledby="wds-starstuff-h">
+    <h2 id="wds-starstuff-h">From Star Stuff</h2>
+<!-- wds:starstuff:begin -->
+    <p>Star Stuff, our science zine with Helen Edgar’s More Realms, spent a whole issue, No. 49, <a href="https://starstuff.earth/one-atom-of-justice-zine.html">One Atom of Justice</a>, on what this site owes to Discworld, and an essay after it, <a href="https://starstuff.earth/a-promise-not-a-finding.html">A Promise, Not a Finding</a>. Both are CC BY-SA, like this street, so some of them is here, with its drawings, and the rest is one link away.</p>
+    <h3 id="wds-there-is-no-atom-of-justice-in-the-powder">There is no atom of justice in the powder</h3>
+    <p>In <em>Hogfather</em>, Death answers the hardest objection anybody has made to a site like ours. Grind the universe down and sieve it and you will not find justice in it, or mercy, or a molecule of <em>and therefore you belong</em>.</p>
+    <blockquote class="wds-quote">
+      <p>TAKE THE UNIVERSE AND GRIND IT DOWN TO THE FINEST POWDER AND SIEVE IT THROUGH THE FINEST SIEVE AND THEN <em>SHOW</em> ME ONE ATOM OF JUSTICE, ONE MOLECULE OF MERCY.</p>
+      <footer class="wds-quote__who">Death, in Terry Pratchett&rsquo;s <a href="https://openlibrary.org/works/OL453662W/Hogfather?edition=key%3A/books/OL52845680M">Hogfather</a>, 1996, read on Star Stuff&rsquo;s <a href="https://starstuff.earth/a-promise-not-a-finding.html">A Promise, Not a Finding</a>. The middle of a longer speech, which is why it starts where it does.</footer>
+    </blockquote>
+    <blockquote class="wds-quote">
+      <p>NO. YOU NEED TO BELIEVE IN THINGS THAT AREN'T TRUE. HOW ELSE CAN THEY <em>BECOME</em>?</p>
+      <footer class="wds-quote__who">Death, in Terry Pratchett&rsquo;s <a href="https://openlibrary.org/works/OL453662W/Hogfather?edition=key%3A/books/OL52845680M">Hogfather</a>, 1996, read on Star Stuff&rsquo;s <a href="https://starstuff.earth/a-promise-not-a-finding.html">A Promise, Not a Finding</a>. The small capitals and the italic are the novel’s, as Star Stuff checked them against the book.</footer>
+    </blockquote>
+    <blockquote class="wds-quote">
+      <p>A finding can be overturned by the next paper. A promise can only be broken by the people who made it.</p>
+      <footer class="wds-quote__who">Star Stuff, <a href="https://starstuff.earth/a-promise-not-a-finding.html">A Promise, Not a Finding</a></footer>
+    </blockquote>
+    <figure class="wds-figure">
+      <svg class="wds-figure__svg" viewBox="0 0 300 176" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="wds-fig9-title wds-fig9-desc">
+      <title id="wds-fig9-title">What survives the sieve, and what is added</title>
+      <desc id="wds-fig9-desc">Star stuff passes through a sieve and is confirmed as checkable. Justice, mercy and the claim that you are loved do not pass through the sieve. They are shown instead being placed on the far side by hand, labelled promised rather than found.</desc>
+      <text x="76" y="16" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6.2" fill="var(--wds-river)">into the sieve</text>
+      <text x="224" y="16" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6.2" fill="var(--wds-dawn)">put there by us</text>
+      <path d="M150 24 V150" stroke="var(--wds-heather)" stroke-opacity="0.25" stroke-width="0.9" stroke-dasharray="4 4"/>
+      <path d="M28 34 L124 34 L104 56 L48 56 Z" fill="none" stroke="var(--wds-river)" stroke-opacity="0.85" stroke-width="1.4"/>
+      <g stroke="var(--wds-river)" stroke-opacity="0.5" stroke-width="0.8">
+      <path d="M40 46 H112"/>
+      </g>
+      <g font-family="'Space Mono', monospace" font-size="5.4" fill="var(--wds-ink-2)" text-anchor="middle">
+      <text x="76" y="30">star stuff</text>
+      </g>
+      <g fill="var(--wds-river)" fill-opacity="0.85">
+      <circle cx="62" cy="68" r="1.2"/><circle cx="76" cy="76" r="1.1"/>
+      <circle cx="90" cy="68" r="1.3"/><circle cx="70" cy="86" r="1"/>
+      <circle cx="84" cy="90" r="1.1"/>
+      </g>
+      <rect x="34" y="100" width="84" height="18" rx="3" fill="var(--wds-river)" fill-opacity="0.12" stroke="var(--wds-river)" stroke-opacity="0.85" stroke-width="1.2"/>
+      <text x="76" y="112" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.6" fill="var(--wds-river)">checkable</text>
+      <g font-family="'Space Mono', monospace" font-size="5.4" fill="var(--wds-ink-3)" text-anchor="middle">
+      <text x="224" y="36">justice</text>
+      <text x="224" y="48">mercy</text>
+      <text x="224" y="60">&ldquo;you are loved&rdquo;</text>
+      </g>
+      <g stroke="var(--wds-rose)" stroke-opacity="0.7" stroke-width="1" stroke-dasharray="3 3" fill="none">
+      <rect x="188" y="26" width="72" height="42" rx="3"/>
+      </g>
+      <path d="M224 68 V96" stroke="var(--wds-dawn)" stroke-opacity="0.8" stroke-width="1.2"/>
+      <path d="M220 91 L224 96 L228 91" fill="none" stroke="var(--wds-dawn)" stroke-opacity="0.95" stroke-width="1.2"/>
+      <rect x="182" y="100" width="84" height="18" rx="3" fill="var(--wds-dawn)" fill-opacity="0.14" stroke="var(--wds-dawn)" stroke-opacity="0.85" stroke-width="1.2"/>
+      <text x="224" y="112" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.6" fill="var(--wds-dawn)">promised</text>
+      <path d="M20 132 H280" stroke="var(--wds-heather)" stroke-opacity="0.22" stroke-width="0.9"/>
+      <text x="150" y="148" text-anchor="middle" font-family="'Space Mono', monospace" font-size="7.2" letter-spacing="0.8" fill="var(--wds-ink-2)">no atom of justice in the powder</text>
+      <text x="150" y="161" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6.6" letter-spacing="1" fill="var(--wds-dawn)">so we put it there and keep it there</text>
+      <text x="150" y="173" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6" letter-spacing="1.2" fill="var(--wds-heather)">a promise is only broken if we break it</text>
+      </svg>
+      <figcaption class="wds-figure__words">Star Stuff’s figure, from No. 49: what survives the sieve, and what is put there by us. Drawn for <a href="https://starstuff.earth/one-atom-of-justice-zine.html">Star Stuff</a>, CC BY-SA 4.0, and recoloured for this room.</figcaption>
+    </figure>
+    <h3 id="wds-a-technology-arrives-who-pays">A technology arrives. Who pays?</h3>
+    <p>The Industrial Revolution books drop one new thing into the city at a time, the newspaper, the post, paper money, the railway, and then stay in the room for the bill.</p>
+    <blockquote class="wds-quote">
+      <p>The question is never “does it work?” It works. That is what makes the question interesting.</p>
+      <footer class="wds-quote__who">Star Stuff, <a href="https://starstuff.earth/one-atom-of-justice-zine.html">One Atom of Justice</a></footer>
+    </blockquote>
+    <figure class="wds-figure">
+      <svg class="wds-figure__svg" viewBox="0 0 300 174" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="wds-fig6-title wds-fig6-desc">
+      <title id="wds-fig6-title">Two acts or three</title>
+      <desc id="wds-fig6-desc">The default technology story runs invention then wonder and stops. The Industrial Revolution novels add a third act asking who pays, with examples: the clacks workers, the golems who are property, the engravers the press displaced, and the people the timetable owns.</desc>
+      <text x="150" y="15" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6.2" fill="var(--wds-ink-3)">the default story</text>
+      <g fill="none" stroke="var(--wds-ink-3)" stroke-opacity="0.7" stroke-width="1.1">
+      <rect x="52" y="22" width="76" height="16" rx="2"/>
+      <rect x="146" y="22" width="76" height="16" rx="2"/>
+      </g>
+      <text x="90" y="33" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.6" fill="var(--wds-ink-2)">invention</text>
+      <text x="184" y="33" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.6" fill="var(--wds-ink-2)">wonder</text>
+      <path d="M228 30 H248" stroke="var(--wds-ink-3)" stroke-opacity="0.5" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="264" y="32" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.4" fill="var(--wds-ink-3)">stop</text>
+      <path d="M20 50 H280" stroke="var(--wds-heather)" stroke-opacity="0.22" stroke-width="0.9"/>
+      <text x="150" y="66" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6.2" fill="var(--wds-heather)">what Pratchett does</text>
+      <g fill="none" stroke="var(--wds-heather)" stroke-opacity="0.7" stroke-width="1.1">
+      <rect x="20" y="74" width="60" height="16" rx="2"/>
+      <rect x="90" y="74" width="60" height="16" rx="2"/>
+      </g>
+      <rect x="160" y="74" width="82" height="16" rx="2" fill="var(--wds-dawn)" fill-opacity="0.14" stroke="var(--wds-dawn)" stroke-opacity="0.85" stroke-width="1.3"/>
+      <text x="50" y="85" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.6" fill="var(--wds-ink-2)">invention</text>
+      <text x="120" y="85" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.6" fill="var(--wds-ink-2)">wonder</text>
+      <text x="201" y="85" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.8" fill="var(--wds-dawn)">who pays?</text>
+      <g stroke="var(--wds-dawn)" stroke-opacity="0.5" stroke-width="0.9">
+      <path d="M201 90 V98"/><path d="M60 98 H262"/>
+      <path d="M60 98 V104"/><path d="M128 98 V104"/><path d="M196 98 V104"/><path d="M262 98 V104"/>
+      </g>
+      <g font-family="'Space Mono', monospace" font-size="5" fill="var(--wds-ink-3)" text-anchor="middle">
+      <text x="60" y="114">clacks crew</text>
+      <text x="128" y="114">golems</text>
+      <text x="196" y="114">engravers</text>
+      <text x="262" y="114">timetabled</text>
+      </g>
+      <path d="M20 128 H280" stroke="var(--wds-heather)" stroke-opacity="0.22" stroke-width="0.9"/>
+      <text x="150" y="144" text-anchor="middle" font-family="'Space Mono', monospace" font-size="7.2" letter-spacing="0.8" fill="var(--wds-ink-2)">it works. that is what makes it interesting</text>
+      <text x="150" y="158" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6.6" letter-spacing="1" fill="var(--wds-dawn)">the Luddites broke some frames, not all</text>
+      <text x="150" y="170" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6" letter-spacing="1.2" fill="var(--wds-ink-3)">a question about distribution</text>
+      </svg>
+      <figcaption class="wds-figure__words">Star Stuff’s figure, from No. 49: the default technology story has two acts, and the Industrial Revolution books have three. Drawn for <a href="https://starstuff.earth/one-atom-of-justice-zine.html">Star Stuff</a>, CC BY-SA 4.0, and recoloured for this room.</figcaption>
+    </figure>
+    <h3 id="wds-the-interface-not-the-ambition">The interface, not the ambition</h3>
+    <p>Pratchett announced in 2007 that he had posterior cortical atrophy, and called it an embuggerance, his own word, which is neither a battle nor a journey. He went on writing by dictating, and with speech recognition software, until he died in 2015.</p>
+    <blockquote class="wds-quote">
+      <p>Dictation is not a lesser way of writing a book; it is a way of writing a book.</p>
+      <footer class="wds-quote__who">Star Stuff, <a href="https://starstuff.earth/one-atom-of-justice-zine.html">One Atom of Justice</a></footer>
+    </blockquote>
+    <figure class="wds-figure">
+      <svg class="wds-figure__svg" viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="wds-fig8-title wds-fig8-desc">
+      <title id="wds-fig8-title">The method changed, the ambition did not</title>
+      <desc id="wds-fig8-desc">Two rows. Before the diagnosis: typing, leading to novels. After: dictation and speech recognition software, leading to novels. The output box is identical in both rows; only the interface differs.</desc>
+      <text x="150" y="15" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6.2" fill="var(--wds-ink-3)">2007 &rarr; 2015</text>
+      <g font-family="'Space Mono', monospace" font-size="5.6" fill="var(--wds-ink-2)">
+      <text x="20" y="42">before</text>
+      <text x="20" y="88">after</text>
+      </g>
+      <rect x="62" y="30" width="76" height="18" rx="3" fill="none" stroke="var(--wds-heather)" stroke-opacity="0.7" stroke-width="1.1"/>
+      <text x="100" y="42" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.8" fill="var(--wds-heather)">typing</text>
+      <path d="M138 39 H166" stroke="var(--wds-heather)" stroke-opacity="0.6" stroke-width="1.1"/>
+      <path d="M161 35 L166 39 L161 43" fill="none" stroke="var(--wds-heather)" stroke-opacity="0.9" stroke-width="1.1"/>
+      <rect x="166" y="30" width="82" height="18" rx="3" fill="var(--wds-moss)" fill-opacity="0.12" stroke="var(--wds-moss)" stroke-opacity="0.85" stroke-width="1.3"/>
+      <text x="207" y="42" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.8" fill="var(--wds-moss)">novels</text>
+      <rect x="62" y="66" width="76" height="18" rx="3" fill="none" stroke="var(--wds-river)" stroke-opacity="0.75" stroke-width="1.1"/>
+      <text x="100" y="78" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.4" fill="var(--wds-river)">dictation</text>
+      <rect x="62" y="88" width="76" height="18" rx="3" fill="none" stroke="var(--wds-river)" stroke-opacity="0.75" stroke-width="1.1"/>
+      <text x="100" y="100" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5" fill="var(--wds-river)">speech software</text>
+      <path d="M138 87 H166" stroke="var(--wds-river)" stroke-opacity="0.6" stroke-width="1.1"/>
+      <path d="M161 83 L166 87 L161 91" fill="none" stroke="var(--wds-river)" stroke-opacity="0.9" stroke-width="1.1"/>
+      <rect x="166" y="78" width="82" height="18" rx="3" fill="var(--wds-moss)" fill-opacity="0.12" stroke="var(--wds-moss)" stroke-opacity="0.85" stroke-width="1.3"/>
+      <text x="207" y="90" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.8" fill="var(--wds-moss)">novels</text>
+      <path d="M20 118 H280" stroke="var(--wds-heather)" stroke-opacity="0.22" stroke-width="0.9"/>
+      <text x="150" y="134" text-anchor="middle" font-family="'Space Mono', monospace" font-size="7.2" letter-spacing="0.8" fill="var(--wds-ink-2)">the right-hand box never changed</text>
+      <text x="150" y="147" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6.4" letter-spacing="1" fill="var(--wds-dawn)">that is what an accommodation is</text>
+      <text x="150" y="158" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.8" letter-spacing="1.2" fill="var(--wds-ink-3)">not a lesser way of writing a book</text>
+      </svg>
+      <figcaption class="wds-figure__words">Star Stuff’s figure, from No. 49: the method changed and the ambition did not, which is what an accommodation is. Drawn for <a href="https://starstuff.earth/one-atom-of-justice-zine.html">Star Stuff</a>, CC BY-SA 4.0, and recoloured for this room.</figcaption>
+    </figure>
+    <h3 id="wds-gnu">GNU</h3>
+    <p>In <em>Going Postal</em> a name is sent up and down the clacks towers with three letters in front of it, so that it is never logged and never stops. Readers began doing the same thing on the web when he died, in a header nobody has to read. This street sends it too.</p>
+    <blockquote class="wds-quote">
+      <p>it is the exact structural joke, an unlogged message that costs one line of config and turns around at the end of the line.</p>
+      <footer class="wds-quote__who">Star Stuff, <a href="https://starstuff.earth/one-atom-of-justice-zine.html">One Atom of Justice</a></footer>
+    </blockquote>
+    <figure class="wds-figure">
+      <svg class="wds-figure__svg" viewBox="0 0 300 168" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="wds-fig7-title wds-fig7-desc">
+      <title id="wds-fig7-title">GNU, turning around at the end of the line</title>
+      <desc id="wds-fig7-desc">A row of clacks towers. A message travels left to right along the top, marked G for pass it on and N for not logged, then U turns it around at the last tower and it travels back along the bottom, repeating indefinitely.</desc>
+      <g stroke="var(--wds-heather)" stroke-opacity="0.75" stroke-width="1.2" fill="none">
+      <path d="M34 96 V64 M26 96 H42"/><path d="M100 96 V64 M92 96 H108"/>
+      <path d="M166 96 V64 M158 96 H174"/><path d="M232 96 V64 M224 96 H240"/>
+      </g>
+      <g fill="var(--wds-heather)" fill-opacity="0.55">
+      <rect x="28" y="60" width="12" height="8"/><rect x="94" y="60" width="12" height="8"/>
+      <rect x="160" y="60" width="12" height="8"/><rect x="226" y="60" width="12" height="8"/>
+      </g>
+      <path d="M40 50 H226" stroke="var(--wds-dawn)" stroke-opacity="0.85" stroke-width="1.3"/>
+      <path d="M221 46 L226 50 L221 54" fill="none" stroke="var(--wds-dawn)" stroke-opacity="0.95" stroke-width="1.3"/>
+      <path d="M232 50 C 250 50, 250 112, 232 112" fill="none" stroke="var(--wds-dawn)" stroke-opacity="0.85" stroke-width="1.3"/>
+      <path d="M226 112 H40" stroke="var(--wds-dawn)" stroke-opacity="0.85" stroke-width="1.3"/>
+      <path d="M45 108 L40 112 L45 116" fill="none" stroke="var(--wds-dawn)" stroke-opacity="0.95" stroke-width="1.3"/>
+      <path d="M34 112 C 18 112, 18 50, 34 50" fill="none" stroke="var(--wds-dawn)" stroke-opacity="0.5" stroke-width="1.1" stroke-dasharray="3 3"/>
+      <text x="130" y="44" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6" fill="var(--wds-dawn)">GNU John Dearheart</text>
+      <text x="264" y="84" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.6" fill="var(--wds-dawn)">U</text>
+      <text x="130" y="126" text-anchor="middle" font-family="'Space Mono', monospace" font-size="5.4" fill="var(--wds-ink-3)">and back again</text>
+      <g font-family="'Space Mono', monospace" font-size="5.2" fill="var(--wds-ink-2)">
+      <text x="20" y="20">G — pass it on</text>
+      <text x="20" y="30">N — not logged</text>
+      </g>
+      <path d="M20 136 H280" stroke="var(--wds-heather)" stroke-opacity="0.22" stroke-width="0.9"/>
+      <text x="150" y="150" text-anchor="middle" font-family="'Space Mono', monospace" font-size="7.2" letter-spacing="0.8" fill="var(--wds-ink-2)">this street sends the header too</text>
+      <text x="150" y="163" text-anchor="middle" font-family="'Space Mono', monospace" font-size="6.2" letter-spacing="1.2" fill="var(--wds-heather)">a fan convention, not his instruction</text>
+      </svg>
+      <figcaption class="wds-figure__words">Star Stuff’s figure, from No. 49: GNU, sent on, not logged, and turned round at the end of the line. Drawn for <a href="https://starstuff.earth/one-atom-of-justice-zine.html">Star Stuff</a>, CC BY-SA 4.0, and recoloured for this room. One line is changed for this street: it said <q>this site now sends the header</q>, and says <q>this street sends the header too</q> here.</figcaption>
+    </figure>
+    <h3 id="wds-second-thoughts">Second Thoughts</h3>
+    <blockquote class="wds-quote">
+      <p>A witch checks her own thinking where somebody can see her do it.</p>
+      <footer class="wds-quote__who">Star Stuff, <a href="https://starstuff.earth/one-atom-of-justice-zine.html">One Atom of Justice</a></footer>
+    </blockquote>
+    <blockquote class="wds-quote">
+      <p>The ladder is not the problem. The ladder with the top rung painted on is the problem.</p>
+      <footer class="wds-quote__who">Star Stuff, <a href="https://starstuff.earth/one-atom-of-justice-zine.html">One Atom of Justice</a></footer>
+    </blockquote>
+    <p>Which is why this street publishes its own corrections in its <a href="changelog.html">changelog</a>, and why every quotation in this room says where it was read.</p>
+    <!-- wds:starstuff:end -->
+  </section>
+
+  <section class="wds-part" aria-labelledby="wds-rules-h">
+    <h2 id="wds-rules-h">What is not in this city</h2>
+<!-- wds:rules:begin -->
+    <ul class="wds-rules">
+      <li class="wds-card"><strong>Nothing from a fan wiki.</strong> The books are the source for what this room says about them, and our pages and Star Stuff for every quotation. The fan wikis are fan-written descriptions of somebody else’s invented world, and nothing here is copied from one.</li>
+      <li class="wds-card"><strong>No art of theirs.</strong> No cover, no map of the city, no crest, no lettering and no character is drawn. The city in the window is ours, made of crooked roofs anybody might draw, and nobody is in it.</li>
+      <li class="wds-card"><strong>Nobody diagnosed.</strong> Not the people of the Disc and not their author, who named the one condition he had himself. We recognise; we do not label.</li>
+      <li class="wds-card"><strong>Not the estate’s.</strong> Terry Pratchett’s estate has no involvement in this room, was not asked, and has not seen it. Every reading here is ours, and so is every mistake.</li>
+      <li class="wds-card"><strong>Nothing counted.</strong> No ranking of the books, no best character, no favourite. A league table of the Watch would be exactly the thing the Watch is about not being.</li>
+      <li class="wds-card"><strong>Nothing moves.</strong> The morning is caught halfway across the city and stays there, at every setting, MAX GLITTER included. On the Disc, light is slow; here it is patient.</li>
+    </ul>
+    <!-- wds:rules:end -->
+  </section>
+
+  <section class="wds-part" aria-labelledby="wds-next-h">
+    <h2 id="wds-next-h">Next door</h2>
+<!-- wds:elsewhere:begin -->
+    <ul class="wds-next">
+      <li><a href="community-library.html">The Community Library</a>, next door, a celebration of the public library, where the aisle at the back is a little longer on the inside than it is from the outside, and a ball of string runs into L-space.</li>
+      <li><a href="oook.html">Oook</a>, through L-space behind the library, the Disc itself seen from out in the dark, in the Librarian’s own colours.</li>
+      <li><a href="covenstead.html">Covenstead</a>, on the street, where First Sight and Second Thoughts are written up at length in a kitchen full of mismatched china.</li>
+      <li><a href="learning-large.html">Learning Large</a>, where our Competency Networks page’s practices are set out in a glasshouse at night.</li>
+    </ul>
+    <!-- wds:elsewhere:end -->
+  </section>
+
+  <section class="wds-part wds-whose" aria-labelledby="wds-credits-h">
+    <h2 id="wds-credits-h">Whose this is</h2>
+<!-- wds:credits:begin -->
+    <ul class="wds-credits">
+      <li><strong>The Discworld is Terry Pratchett&rsquo;s</strong>, and every line of his here was already quoted on one of our pages or on Star Stuff before this room was built, credited to the book it is from. His estate has no involvement in this room, was not asked, and has not seen it. Discworld is a trade mark, and nothing here is offered as anything of theirs.</li>
+      <li><strong>The city is ours</strong>, crooked roofs anybody might draw, a thin tower, a clacks tower and a bridge, made as code by Claude, an AI model made by Anthropic, to Ryan&rsquo;s brief. It is not a map of anywhere, nobody is in it, and nothing on this page calls an AI while you read it.</li>
+      <li><strong>Five drawings and some of the words are Star Stuff&rsquo;s</strong>, from <a href="https://starstuff.earth/one-atom-of-justice-zine.html">No. 49, One Atom of Justice</a> and <a href="https://starstuff.earth/a-promise-not-a-finding.html">A Promise, Not a Finding</a>, by Stimpunks and Helen Edgar&rsquo;s More Realms, under CC BY-SA 4.0 like this street. The drawings are as the zine has them, in this room&rsquo;s colours, with one line changed and said so.</li>
+      <li><strong>Every other quotation belongs to whoever said it</strong> and is credited where it stands: Karl Spracklen and Ian Lamond, Sonny Jane Wise, Hari Srinivasan, Kristen Gillespie-Lynch and colleagues, @MxOolong and Lori Hogenkamp. The words around them are ours, written for this room, and so is every reading of the books; nothing about the Disc was taken from a fan wiki.</li>
+      <li>Two lines are from Karl Spracklen and Ian Lamond&rsquo;s <a href="https://doi.org/10.1080/01490400.2025.2464552">paper</a> in <cite>Leisure Sciences</cite>, 2025, open access under CC BY-NC-ND 4.0, quoted as they are and not adapted.</li>
+      <li>Every quotation in this room is 40 words or fewer, and was read on 2026-11-02 on the page it names. <code>tools/make-widdershins.py</code> checks each one word for word against our copy of stimpunks.org, Star Stuff&rsquo;s own repository and the paper, whenever they are on the machine.</li>
+      <li>The type is Grenze, by Omnibus-Type, a face between a roman and a blackletter, for the room&rsquo;s name and headings, under the SIL Open Font License, and Proza Libre, by Jasper de Waard, for everything you read, under the SIL Open Font License, both read off their own records. Star Stuff&rsquo;s drawings keep their own Space Mono. More in <a href="liner-notes.html#widdershins">the liner notes</a>.</li>
+    </ul>
+    <!-- wds:credits:end -->
+  </section>
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:wds-cobble:begin -->
+  <details class="quest" data-quest="wds-cobble" data-code="COBBLE" data-accept="widdershins|widershins|withershins">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 29.5 H29" stroke="var(--wds-line)" stroke-width="1.6" stroke-linecap="round"/><path d="M6.5 27.5 C5.5 22 7 17.5 12 16.5 C17 15.6 23 15.8 25.6 18.5 C27.6 21 27 25.5 25.6 27.5 Z" fill="var(--wds-ink-3)" stroke="var(--wds-line)" stroke-width="1.3" stroke-linejoin="round"/><path d="M20.5 16 L26.6 21.5" stroke="var(--wds-dawn)" stroke-width="1.8" stroke-linecap="round"/><path d="M10 23 C12.5 21.5 16 21.2 19 22" fill="none" stroke="var(--wds-line)" stroke-width=".8" opacity=".7"/></svg>
+      <span class="quest__label">Job marker &mdash; a cobblestone come loose from the street, lying on the floor</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> Which way is against the turn?</p>
+      <p class="quest__ask"><b>Before the code:</b> On the Disc there are four directions: hubward, rimward, turnwise and one more. Which one goes against the way the world turns?</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="wds-cobble-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="wds-cobble-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is the name over the door.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It is the arm of the compass that points into the morning.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>Widdershins.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Widdershins</b>. Hubward is to the middle, rimward to the edge, turnwise the way the Disc turns, and widdershins against it. The English word comes from the Middle Low German for against the way.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">COBBLE</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=COBBLE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Hubward is to the middle, rimward to the edge, turnwise the way the Disc turns, and widdershins against it. The English word comes from the Middle Low German for against the way.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">COBBLE</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=COBBLE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:wds-cobble:end -->
+
+  <div style="max-width:400px;margin-top:34px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so &mdash; and in this city nothing moves at any setting, MAX GLITTER included, because on the Disc the light is slow and here it is patient.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="map.html#at-widdershins">Where am I?</a> &middot; <a href="about.html">About</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="mission.html">Mission</a> &middot; <a href="design.html">How it’s made</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+  <p class="signoff__fx" hidden><button type="button" class="signoff__fx-btn" data-fx="{&quot;kind&quot;:&quot;julia&quot;,&quot;c&quot;:[-0.68,0.312],&quot;orbit&quot;:0.018,&quot;bands&quot;:0.05,&quot;ground&quot;:&quot;--wds-night&quot;,&quot;inks&quot;:[&quot;--wds-dawn&quot;,&quot;--wds-heather&quot;,&quot;--wds-river&quot;,&quot;--wds-edge&quot;]}" aria-describedby="signoff-fx-about">Switch on the fractal window</button> <span id="signoff-fx-about">A slow fractal in this room’s own colours, drawn in your browser in a window of its own. It is not synced to any music, it never flashes at any speed, and it runs until you switch it off or leave the room.</span></p>
+</footer>
+<!-- signoff:end -->
+
+<script src="love.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

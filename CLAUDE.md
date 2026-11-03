@@ -5803,6 +5803,23 @@ Hermitage's shelf lesson again; the novel is OL453735W, and stimpunks.org's page
 to correct. **Ranganathan's five laws are Wikipedia's wording**, and the room says the 1931
 printing was not checked. Broken on purpose first; all four caught.
 
+**WIDDERSHINS (§135) IS THE THIRD DISCWORLD ROOM, AND IT IS ON THE GROUND.** Ryan's brief, 2026-11-02: a Discworld
+appreciation with an anti-normative bent, the City Watch books as diversity within a team and a competency network, some
+of Star Stuff's Discworld writing and drawings copied in, Ankh-Morpork evoked. `widdershins.html` is a shopfront next
+door to the Community Library, written by `tools/make-widdershins.py` from `data/widdershins.json`. **Oook is the one to
+watch**: it is the Disc from out in the dark, and this room never draws the Disc, a turtle or an elephant. **The light is
+an edge**: the city is drawn twice, at night and lit, the lit one clipped to one side of a slanting line, the Disc's
+slow morning caught halfway across; every word is on the night side, and the morning only cuts the top corner of a
+card. **Every quotation was read on our pages, on Star Stuff or in one paper**, checked word for word against the
+mirror, `~/Documents/GitHub/Star-Stuff` and the paper's text (pdftotext) when each is on the machine; no Pratchett
+line was typed from a book. **Star Stuff's figures are kept as No. 49 has them** and recoloured by the tool, which
+refuses one the zine no longer carries: copy it again from the zine, never edit it here. What the room says about the
+Watch is our reading in our words; **nobody on the Disc is diagnosed, and nor is their author** (Star Stuff's rule),
+and the tool sweeps for a diagnosis, a ranking, pity and the cure. **The brief linked a fan wiki and a fan site, and
+neither is used**, Sithen's rule; the tool refuses a link to either and any `<img>`. The friendly edits are "Vimes is
+clearly autistic", a best-of list of the books, a cover or Stephen Player's map, and the morning sweeping across at
+MAX.
+
 **CAVENDISH COWORKING IS HENRY CAVENDISH'S HOUSE, AND EVERY DOOR IN IT IS SHUT.** §58 is a Georgian
 house after his library in Bedford Square, green throughout, with a shut and unlocked mahogany door
 onto each of our calls (Ryan's brief, 2026-09-25: the Operations and Editorial meetings are open to
@@ -5923,18 +5940,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §136 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §137 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§136 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§137 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §136 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §137 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

@@ -962,6 +962,13 @@ PTS_DUSK, PTS_CARD, PTS_INK, PTS_INK2, PTS_LINK = "#2A2C45", "#343655", "#EFE7D7
 # undyed linen or on a slip lying on it; nothing set on the window, the loom or
 # a band of weft.
 VOL_LINEN, VOL_CARD, VOL_INK, VOL_INK2, VOL_LINK = "#EEE6D3", "#F8F4EA", "#261E33", "#574A5E", "#7B2340"
+# Widdershins (love.css §135). A crooked city with the morning halfway across
+# it: every word on the night, on a card lying in it, or on one of Star
+# Stuff's figures on its slab; the two compass labels on the night sky; no word
+# on the lit side of the city.
+WDS_NIGHT, WDS_SLAB, WDS_INK, WDS_INK2, WDS_INK3 = "#17161F", "#221F2C", "#EFE6D6", "#C7BDAC", "#A79FB4"
+WDS_DAWN, WDS_EDGE, WDS_SKY = "#F2B95C", "#FFE3A6", "#3A3C57"
+WDS_HEATHER, WDS_RIVER, WDS_MOSS = "#BBA6F0", "#8FD3C5", "#A8D27E"
 # The Haunted House (love.css §132). A set of plywood flats in a dark warehouse:
 # every word on the painted dark or on a painted board lying on it; nothing set
 # in the light, which is only ever a seam.
@@ -3787,6 +3794,29 @@ PAIRS = [
     (VOL_INK,   VOL_CARD,  False, "volunteers: everything on a slip: each thing on the help list, each playbook, "
                                   "the warp's threads and what is not on the loom"),
     (VOL_LINK,  VOL_CARD,  False, "volunteers: every link on a slip, and the focus ring there"),
+    # ── Widdershins (§135) ──────────────────────────────────────────────────
+    # Every word on the night side: the flat night, a card lying in it, or one
+    # of Star Stuff's figures on its slab. Nothing set on the lit city.
+    (WDS_INK,   WDS_NIGHT, False, "widdershins: every paragraph, quotation and card heading's words, the street "
+                                  "door's blurb"),
+    (WDS_INK2,  WDS_NIGHT, False, "widdershins: the trail, the line over the name, the caption under the city, "
+                                  "whose each quotation is, and the credits"),
+    (WDS_INK3,  WDS_NIGHT, False, "widdershins: the job marker's cobblestone, held to the body threshold a marker is"),
+    (WDS_DAWN,  WDS_NIGHT, False, "widdershins: the name, every heading, every link, the backlink, the street "
+                                  "door's name and knock, and the focus ring"),
+    (WDS_EDGE,  WDS_NIGHT, False, "widdershins: a link under the pointer"),
+    (WDS_INK,   WDS_SLAB,  False, "widdershins: everything on a card: each of the Watch, each of the people we "
+                                  "recognise, what is not in the city"),
+    (WDS_INK2,  WDS_SLAB,  False, "widdershins: each card's book and year, each figure's caption, and Star Stuff's "
+                                  "secondary words in its figures"),
+    (WDS_INK3,  WDS_SLAB,  False, "widdershins: Star Stuff's dim words in its figures"),
+    (WDS_DAWN,  WDS_SLAB,  False, "widdershins: each card's name, every link on a card or a caption, the focus ring "
+                                  "there, and Star Stuff's gold in its figures"),
+    (WDS_HEATHER, WDS_SLAB, False, "widdershins: Star Stuff's violet words in its figures"),
+    (WDS_RIVER, WDS_SLAB,  False, "widdershins: Star Stuff's cyan words in its figures"),
+    (WDS_MOSS,  WDS_SLAB,  False, "widdershins: Star Stuff's green words in its figures"),
+    (WDS_INK2,  WDS_SKY,   False, "widdershins: the compass's hubward, rimward and turnwise, in the city's night sky"),
+    (WDS_DAWN,  WDS_SKY,   False, "widdershins: the compass's widdershins, in the city's night sky"),
     # ── Breaker Breaker (§125) ──────────────────────────────────────────────
     # Every word on the dark, which is the cab, the road and the sky alike, or on
     # the screen's glass; no word on a lamp.
@@ -5137,6 +5167,36 @@ ORNAMENT = {
     "#3d3542": "haunted house: the painted porch steps in the drawing, 1.67 on the dark. It carries no word.",
     "#b8612a": "haunted house: the pumpkin nobody lit on the porch steps in the drawing, 4.46 on the dark. It "
                "carries no word.",
+    "#bba6f0": "widdershins: Star Stuff's violet, also the rule beside every quotation, 8.39 on the night, which "
+               "is what marks a quotation as one. It is measured as words in PAIRS too.",
+    "#5e596e": "widdershins: every outline, in the city, round every card and figure and under every heading, "
+               "2.67 on the night, 2.54 on the night roofs and 3.55 on the lit plaster. It carries no word.",
+    "#ffe3a6": "widdershins: the morning's edge across the city and the corner of every card, 8.55 on the night "
+               "sky and 1.16 on the morning sky it is the edge of, where the lit roofs carry it. It is light "
+               "landing; as a link under the pointer it is measured in PAIRS.",
+    "#3a3c57": "widdershins: the city's night sky, 1.68 against the page's night round the picture, carried by the "
+               "picture's outline. It is measured as the ground of the compass's words in PAIRS.",
+    "#f1d39a": "widdershins: the morning sky past the edge, 3.50 against the lit tiles. It carries no word.",
+    "#1c1b25": "widdershins: the roofs at night, 1.59 on the night sky, silhouettes carried by --wds-line round "
+               "every one at 2.54, which is how a skyline looks before the morning. It carries no word.",
+    "#26242f": "widdershins: the walls of the front row at night, 1.43 on the night sky and outlined like the roofs. "
+               "It carries no word.",
+    "#a9583d": "widdershins: the tiles past the morning's edge, and the lit corner of every card and the street "
+               "door's awning, 3.50 on the morning sky and 3.54 on the page's night. It carries no word.",
+    "#d9b78c": "widdershins: the plaster past the morning's edge, 2.68 against the lit tiles and outlined at 3.55. "
+               "It carries no word.",
+    "#121118": "widdershins: the windows, dark on both sides of the edge because nobody has lit a lamp, 9.92 on the "
+               "lit plaster and 1.23 on the night walls. They carry no word.",
+    "#3b3a29": "widdershins: the river at night, 1.56 against the page's night, under the picture's outline. It "
+               "carries no word.",
+    "#4e4c35": "widdershins: the crust on the river at night, 1.32 on the river. It carries no word.",
+    "#8a7d4b": "widdershins: the river in the morning, 2.84 against the morning sky and 2.17 against the lit "
+               "plaster above it. It carries no word.",
+    "#6e6338": "widdershins: the crust on the river in the morning, 1.46 on the lit river. It carries no word.",
+    "#c9a24a": "widdershins: the brass bridge, 4.80 on the river at night and 1.71 on it in the morning, where it "
+               "is lit from behind. It carries no word.",
+    "#ee9cc4": "widdershins: Star Stuff's pink, the dashed box round what does not pass the sieve in its figure, "
+               "7.83 on the slab. It carries no word.",
     "#2e2c30": "breaker breaker: the shapes you can just make out in the dark, the mirror, the dash, the "
                "radio, its knobs and the microphone's cord in the drawing, and the screen's frame, 1.40 on the "
                "night, which is how a dash looks at night. It carries no word.",

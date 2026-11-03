@@ -1153,6 +1153,18 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--cel h1 {{ font-family: 'Rammetto One', sans-serif; font-weight: 400; font-size: 74px; margin-top: 6px !important; line-height: 1.05; color: var(--cel-print); }}
 .og--cel .cel-sub {{ font-size: 24px; margin-top: 8px !important; max-width: 1080px; }}
 
+/* widdershins — THE CITY WITH THE MORNING HALFWAY ACROSS IT. The page's own
+   drawing, lifted rather than redrawn, and every word below it on the night,
+   where the room sets every word. */
+.og--wds {{ width: 100%; padding: 0 0 26px; gap: 0; justify-content: flex-start; }}
+.og--wds .og-room {{ margin: 0 !important; line-height: 0; }}
+.og--wds .og-room svg {{ display: block; width: 1200px; height: auto; max-width: none; border: 0; border-radius: 0; }}
+.og--wds .og-words {{ padding: 14px 60px 0; }}
+.og--wds .og-words > * {{ margin: 0 !important; }}
+.og--wds .wds-over {{ font-size: 17px; }}
+.og--wds h1 {{ font-size: 92px; margin-top: 2px !important; line-height: .95; }}
+.og--wds .wds-sub {{ font-size: 26px; margin-top: 6px !important; max-width: 1080px; }}
+
 /* breaker breaker — THE CONVOY AT NIGHT. The page's own drawing, lifted rather
    than redrawn, cropped to the lamps, and every word below it on the dark, where
    the room sets every word. No lamp is added for the card. */
@@ -4493,6 +4505,39 @@ def card_cel(p):
     )
 
 
+def card_wds(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE CITY ARE LIFTED
+    # FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="wds-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="wds-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: widdershins.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    # The card shows the city from the roofs down, cropped by the drawing's own
+    # viewBox rather than by a margin, with the compass and the morning's edge.
+    city = p["wdscity"].replace('viewBox="0 0 1200 420"', 'viewBox="0 20 1200 380"', 1)
+    if city == p["wdscity"]:
+        raise SystemExit(
+            "REFUSING: widdershins.html's city is no longer 1200 by 420, and the card crops it\n"
+            "by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--wds" data-fit="card">'
+        f'<div class="og-room">{city}</div>'
+        f'<div class="og-words"><p class="wds-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="wds-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A dark card. Across the top, a crowded city of crooked roofs on the bank of a thick river with a brass "
+        f"bridge over it, a thin tower and a clacks tower, and a slanting edge of morning light halfway across "
+        f"it: to the right the plaster is pale and the tiles are red, to the left everything is still night. In "
+        f"the night sky a compass names the Disc's four directions, with widdershins pointing into the morning. "
+        f"Below, small pale capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large "
+        f"amber letters halfway between a roman and a blackletter, and under it: {plain(sub.group(1))}",
+    )
+
+
 def card_bkb(p):
     # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE CONVOY ARE LIFTED
     # FROM THE PAGE, so the card cannot say what the room does not.
@@ -5980,6 +6025,7 @@ CARDS = {
     "room-library": card_library,
     "room-lspace":  card_lspace,
     "room-oook":    card_oook,
+    "widdershins": card_wds,
     "dressup":      card_dressup,
     "bodymind-booth": card_booth,
     "chimera-obscura": card_chimera,
@@ -6140,6 +6186,7 @@ def main():
         ("copeye",   "coping.html",       r'(<svg class="cop-eye".*?</svg>)'),
         ("ptsfloor", "pets.html",         r'(<svg class="pts-floor".*?</svg>)'),
         ("volloom",  "volunteers.html",   r'(<svg class="vol-loom".*?</svg>)'),
+        ("wdscity",  "widdershins.html",  r'(<svg class="wds-city".*?</svg>)'),
         ("hhset",    "haunted-house.html", r'(<svg class="hh-set".*?</svg>)'),
         ("psarch",   "paper-street.html", r'(<svg class="ps-arch".*?</svg>)'),
         ("celsky",   "cel-street.html",   r'(<svg class="cel-sky".*?</svg>)'),

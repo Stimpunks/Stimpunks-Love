@@ -1709,6 +1709,20 @@
       "sections": [
         132
       ]
+    },
+    "grenze": {
+      "where": "Widdershins",
+      "page": "widdershins.html",
+      "sections": [
+        135
+      ]
+    },
+    "proza-libre": {
+      "where": "Widdershins",
+      "page": "widdershins.html",
+      "sections": [
+        135
+      ]
     }
   }
 }

@@ -3294,5 +3294,41 @@
    "src": "https://fonts.gstatic.com/s/domine/v25/L0x8DFMnlVwD4h3hu_qnZypEiw.woff2",
    "note": "Byte-identical to the 400 above, declared again against its weight axis; see that note."
   }
+ ],
+ "grenze": [
+  {
+   "file": "grenze-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 42732,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/grenze/Grenze%5Bwght%5D.ttf",
+   "note": "Widdershins (\u00a7135), the room's name, its headings, the compass in its city and the name on its street door, and nothing at reading size: a face drawn between a roman and a blackletter, which belongs to neither and is at home in a city that never matched. The variable font from the family's own directory in google/fonts, weight axis kept, cut down here with fontTools to the Latin letters and saved as WOFF2. Declared at 700 only. Its copyright line reserves no font name."
+  }
+ ],
+ "proza-libre": [
+  {
+   "file": "proza-libre-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 28992,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/prozalibre/ProzaLibre-Regular.ttf",
+   "note": "Widdershins (\u00a7135), every word that is read: a humanist sans with calligraphic roots, readable at length. The family's own static file in google/fonts, cut down here with fontTools to the Latin letters and saved as WOFF2. Its copyright line reserves no font name."
+  },
+  {
+   "file": "proza-libre-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 31608,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/prozalibre/ProzaLibre-Bold.ttf",
+   "note": "Widdershins (\u00a7135), the bold: each card's name and what is not in the city. The family's own static Bold, cut down the same way."
+  },
+  {
+   "file": "proza-libre-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 28536,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/prozalibre/ProzaLibre-Italic.ttf",
+   "note": "Widdershins (\u00a7135), the italic: the titles of books and the words Death puts weight on. The family's own static Italic, cut down the same way."
+  }
  ]
 }
