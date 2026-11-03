@@ -152,16 +152,6 @@
  ],
  "log": [
   {
-   "id": "89CNkMRMctA",
-   "source": "americas-test-kitchen",
-   "form": "long",
-   "title": "The Best Budget Kitchen Tools We've Tested | Gear Heads",
-   "published": "2026-10-03T15:59:57Z",
-   "state": "screen",
-   "runs": 1062,
-   "channel": "America's Test Kitchen"
-  },
-  {
    "id": "hJ0cAV-sXyw",
    "source": "americas-test-kitchen",
    "form": "long",
@@ -285,30 +275,20 @@
    "id": "tJ1YdMtYDGU",
    "source": "americas-test-kitchen",
    "form": "long",
-   "title": "The Foolproof Science Behind Flaky, Tender All-Butter Pie Crust | Techniquely with Lan Lam",
+   "title": "This Foolproof Pie Dough is Three Doughs in One | Techniquely with Lan Lam",
    "published": "2026-11-01T16:59:57Z",
    "state": "screen",
    "runs": 1088,
    "channel": "America's Test Kitchen"
   },
   {
-   "id": "c-_z5x1zIT4",
+   "id": "7_oNmK2PBnM",
    "source": "americas-test-kitchen",
-   "form": "short",
-   "title": "Best Budget Induction Burner That Actually Works",
-   "published": "2026-10-03T16:00:01Z",
+   "form": "long",
+   "title": "For a Perfect Lattice Pie Crust, Follow this Guide | ATK Classes",
+   "published": "2026-11-02T16:59:51Z",
    "state": "screen",
-   "runs": 67,
-   "channel": "America's Test Kitchen"
-  },
-  {
-   "id": "7Xi2p-xnmNY",
-   "source": "americas-test-kitchen",
-   "form": "short",
-   "title": "Our Favorite Drip Coffee Machine Under $100",
-   "published": "2026-10-03T19:59:52Z",
-   "state": "screen",
-   "runs": 47,
+   "runs": 170,
    "channel": "America's Test Kitchen"
   },
   {
@@ -522,6 +502,36 @@
    "channel": "America's Test Kitchen"
   },
   {
+   "id": "kBSC0XK_GjU",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "The Best Way to Move Pie Dough",
+   "published": "2026-11-02T16:59:57Z",
+   "state": "screen",
+   "runs": 116,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "hV5QMUY1EEc",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "Sub Tea and Vinegar for Red Wine When Making A Braise",
+   "published": "2026-11-02T17:29:50Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "KWDRcbzqRfc",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "How to Crimp Pie Crust Evenly",
+   "published": "2026-11-02T19:59:48Z",
+   "state": "screen",
+   "runs": 53,
+   "channel": "America's Test Kitchen"
+  },
+  {
    "id": "5vk8ANhjoHQ",
    "source": "alton-brown",
    "form": "long",
@@ -652,16 +662,6 @@
    "channel": "Epicurious"
   },
   {
-   "id": "Xr6XiQm-KP4",
-   "source": "nyt-cooking",
-   "form": "long",
-   "title": "How to Catch and Cook Fresh Clams With Melissa Clark | NYT Cooking",
-   "published": "2026-10-03T14:00:19Z",
-   "state": "screen",
-   "runs": 784,
-   "channel": "NYT Cooking"
-  },
-  {
    "id": "t1XoZueC_HE",
    "source": "nyt-cooking",
    "form": "long",
@@ -769,6 +769,16 @@
    "published": "2026-11-01T17:00:23Z",
    "state": "screen",
    "runs": 62,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "QGnnUpUsD54",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "Yotam Ottolenghi’s Ideal Breakfast Is This Feta Frittata | NYT Cooking",
+   "published": "2026-11-02T19:15:37Z",
+   "state": "screen",
+   "runs": 363,
    "channel": "NYT Cooking"
   },
   {
@@ -949,16 +959,6 @@
    "published": "2026-10-29T06:10:20Z",
    "state": "screen",
    "runs": 1565,
-   "channel": "Andy Cooks"
-  },
-  {
-   "id": "aAUKC2T_5bk",
-   "source": "andy-cooks",
-   "form": "short",
-   "title": "The perfect fried eggs requires you to decide how you like them cooked 🍳 ￼",
-   "published": "2026-10-04T10:02:22Z",
-   "state": "screen",
-   "runs": 148,
    "channel": "Andy Cooks"
   },
   {
@@ -1152,14 +1152,14 @@
    "channel": "Andy Cooks"
   },
   {
-   "id": "Ngrx3pU_fqk",
-   "source": "back-of-house",
-   "form": "long",
-   "title": "My Sticky Toffee Pudding",
-   "published": "2026-10-04T06:00:29Z",
+   "id": "R9g3LIbHsUc",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "New products landing this Thursday in Australia and New Zealand, late November everywhere else ✌️",
+   "published": "2026-11-03T09:31:37Z",
    "state": "screen",
-   "runs": 938,
-   "channel": "Back of House"
+   "runs": 33,
+   "channel": "Andy Cooks"
   },
   {
    "id": "pYCcccb_i7E",
@@ -1362,24 +1362,14 @@
    "channel": "The Pasta Queen"
   },
   {
-   "id": "YDGDt3Ycj1Q",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "Why 250 People a Day Rush to This Hidden Mountain Udon Shop for $5 Fried Chicken Meals",
-   "published": "2026-10-03T22:00:09Z",
+   "id": "Vi-avPbsJ-w",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "The HOLIDAY Gnocchi",
+   "published": "2026-11-02T20:50:41Z",
    "state": "screen",
-   "runs": 2650,
-   "channel": "Japanese Food Noodles"
-  },
-  {
-   "id": "7N30ncfII5Y",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "Served in 5 Sec!!! Japan’s $2 Morning Noodle Shop for Hungry Workers!",
-   "published": "2026-10-04T02:00:35Z",
-   "state": "screen",
-   "runs": 1583,
-   "channel": "Japanese Food Noodles"
+   "runs": 88,
+   "channel": "The Pasta Queen"
   },
   {
    "id": "lb3FxArjRRY",
@@ -1882,6 +1872,16 @@
    "channel": "Japanese Food Noodles"
   },
   {
+   "id": "r0YSLqfdpLk",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Only 13 Seats! This Tiny Japanese Ramen Shop Serves Nearly 80 Bowls in 2 Hours",
+   "published": "2026-11-02T22:00:14Z",
+   "state": "screen",
+   "runs": 4133,
+   "channel": "Japanese Food Noodles"
+  },
+  {
    "id": "MStMw9Bfb1A",
    "source": "japanese-cooking-101",
    "form": "short",
@@ -1930,16 +1930,6 @@
    "state": "screen",
    "runs": 3705,
    "channel": "FOOD☆STAR フードスター"
-  },
-  {
-   "id": "1951v7teLn4",
-   "source": "japanese-food-craftsman",
-   "form": "long",
-   "title": "Is this the BEST Chicken Over Rice? Hidden Gem Food Stand Hiroshima",
-   "published": "2026-10-04T09:50:17Z",
-   "state": "screen",
-   "runs": 1046,
-   "channel": "Japanese Food Craftsman"
   },
   {
    "id": "Zpjp2VnkXjI",
@@ -2382,6 +2372,16 @@
    "channel": "Bon Appétit"
   },
   {
+   "id": "4_kWRv6vjP4",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "How a French Chef Makes French Onion Soup",
+   "published": "2026-11-02T17:00:02Z",
+   "state": "screen",
+   "runs": 136,
+   "channel": "Bon Appétit"
+  },
+  {
    "id": "4K5o2RRxvcQ",
    "source": "insider-food",
    "form": "short",
@@ -2732,13 +2732,13 @@
    "channel": "Eater"
   },
   {
-   "id": "X_vPwie7hUk",
+   "id": "aQslmTORUCk",
    "source": "eater",
-   "form": "short",
-   "title": "Is this pastrami, egg, and cheese Philly's best breakfast sandwich?",
-   "published": "2026-10-03T14:00:34Z",
+   "form": "long",
+   "title": "What It Takes to Run One of NYC's Most Popular New Restaurants — Mise En Place",
+   "published": "2026-11-02T15:00:08Z",
    "state": "screen",
-   "runs": 102,
+   "runs": 1069,
    "channel": "Eater"
   },
   {
@@ -2930,16 +2930,6 @@
    "state": "screen",
    "runs": 30,
    "channel": "Joshua Weissman"
-  },
-  {
-   "id": "9lXcT8bh2Zg",
-   "source": "strictly-dumpling",
-   "form": "long",
-   "title": "Trying Florida’s GREATEST All You Can Eat COUNTRY BUFFET! 🍗",
-   "published": "2026-10-03T21:00:19Z",
-   "state": "screen",
-   "runs": 1467,
-   "channel": "Strictly Dumpling"
   },
   {
    "id": "d1AGJHOppxo",
@@ -3210,6 +3200,16 @@
    "state": "screen",
    "runs": 60,
    "channel": "JOLLY"
+  },
+  {
+   "id": "k_8_96TXp8c",
+   "source": "jolly",
+   "form": "short",
+   "title": "British Headmaster invents unhinged Donut Sandwich!",
+   "published": "2026-11-02T17:16:22Z",
+   "state": "screen",
+   "runs": 58,
+   "channel": "JOLLY"
   }
  ],
  "covered": {
@@ -3217,13 +3217,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3231,13 +3231,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3245,13 +3245,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3259,13 +3259,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3273,13 +3273,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3287,13 +3287,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3301,13 +3301,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3315,13 +3315,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3329,13 +3329,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3343,13 +3343,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3357,13 +3357,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3371,13 +3371,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3385,13 +3385,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3399,13 +3399,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3413,13 +3413,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3427,13 +3427,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3441,13 +3441,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3455,13 +3455,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3469,13 +3469,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3483,13 +3483,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3497,13 +3497,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3511,13 +3511,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3525,13 +3525,13 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   },
@@ -3539,16 +3539,16 @@
    "long": [
     [
      "2026-07-25T11:00:12Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ],
    "short": [
     [
      "2026-10-05T22:56:49Z",
-     "2026-11-02T12:25:09Z"
+     "2026-11-03T12:26:57Z"
     ]
    ]
   }
  },
- "set": "2026-11-02T12:25Z"
+ "set": "2026-11-03T12:26Z"
 }
