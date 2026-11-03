@@ -292,6 +292,21 @@ for name, blocks in sections.items():
         elif "figure" in b:
             if b["figure"] not in figures:
                 refuse(f"{where}: figure {b['figure']!r} is not in `figures`.")
+        elif "excerpt" in b:
+            src = pages.get(b["excerpt"])
+            if not src or src.get("from") != "starstuff":
+                refuse(f"{where}: an excerpt is copied from a Star Stuff page in `pages`, and this names none.")
+            elif not b.get("paras"):
+                refuse(f"{where}: an excerpt with no paragraphs.")
+            for k, para in enumerate(b.get("paras") or [], 1):
+                if ENTITY.search(para):
+                    refuse(f"{where} paragraph {k}: carries an HTML entity.")
+                for _, url in LINK.findall(para):
+                    if not url.startswith("https://starstuff.earth/"):
+                        refuse(f"{where} paragraph {k}: a link that is not Star Stuff's own, made absolute.")
+                if b.get("excerpt") in texts and fold(plain(para)) not in texts[b["excerpt"]]:
+                    refuse(f"{where} paragraph {k}: not on {src['url']} word for word. Copy it again from "
+                           "there; never loosen the check.")
         elif not any(k in b for k in ("watch", "recognised")):
             refuse(f"{where}: a block is a q, a p, an h3, a figure, the Watch or the recognised, and this is none.")
 for qid in quotes:
@@ -331,14 +346,18 @@ for i, e in enumerate(d.get("elsewhere") or [], 1):
 if "X-Clacks-Overhead: GNU Terry Pratchett" not in HEADERS.read_text():
     refuse("_headers no longer sends X-Clacks-Overhead: GNU Terry Pratchett, and the room says this street sends it.")
 
-zine = (STARSTUFF / "one-atom-of-justice-zine.html").read_text() if have["starstuff"] else ""
 for fid, f in figures.items():
     svg = str(f.get("svg", ""))
-    if not svg.startswith('<svg class="diagram"'):
-        refuse(f"figures.{fid}: not one of Star Stuff's diagrams as the zine has it.")
+    home = pages.get(f.get("from", "atom"))
+    if not home or home.get("from") != "starstuff":
+        refuse(f"figures.{fid}: `from` names no Star Stuff page in `pages`.")
+        continue
+    if not re.match(r'<svg class="(?:diagram|coda-svg)"', svg):
+        refuse(f"figures.{fid}: not one of Star Stuff's drawings as its page has it.")
+    zine = (STARSTUFF / home["file"]).read_text() if have["starstuff"] else ""
     if zine and svg not in zine:
-        refuse(f"figures.{fid}: No. 49 no longer carries this figure as it is kept here. Star Stuff may have "
-               "corrected it: copy it again from the zine, never edit it here.")
+        refuse(f"figures.{fid}: {home['title']} no longer carries this drawing as it is kept here. Star Stuff "
+               "may have corrected it: copy it again from there, never edit it here.")
     for old, new in [f["change"]] if f.get("change") else []:
         if old not in svg:
             refuse(f"figures.{fid}: the change names {old!r}, which the figure does not say.")
@@ -353,7 +372,10 @@ if problems:
 TINTS = {(167, 139, 250): "heather", (251, 191, 36): "dawn", (34, 211, 238): "river", (74, 222, 128): "moss",
          (244, 114, 182): "rose", (244, 244, 251): "ink-2", (138, 134, 160): "ink-3"}
 NAMES = {"--violet": "heather", "--gold": "dawn", "--cyan": "river", "--green": "moss",
-         "--sp-secondary": "ink-2", "--sp-dim": "ink-3"}
+         "--sp-secondary": "ink-2", "--sp-dim": "ink-3", "--stardust": "ink-2",
+         # The Turtle's occluding shapes: the page's ground is the figure's slab,
+         # and the slightly lighter deep is the night walls' colour.
+         "--void": "slab", "--deep": "wall-night"}
 
 
 def recolour(fid, f):
@@ -374,20 +396,22 @@ def recolour(fid, f):
             raise SystemExit(f"REFUSING: figure {fid} uses var({m.group(1)}), which this room has no ink for.")
         return f"var(--wds-{NAMES[m.group(1)]})"
     svg = re.sub(r"var\((--(?!wds-)[a-z-]+)\)", name, svg)
-    svg = svg.replace('class="diagram"', 'class="wds-figure__svg"')
-    svg = re.sub(r'\bid="(fig\d+-(?:title|desc))"', r'id="wds-\1"', svg)
-    svg = re.sub(r'aria-labelledby="(fig\d+-title) (fig\d+-desc)"', r'aria-labelledby="wds-\1 wds-\2"', svg)
+    svg = re.sub(r'class="(?:diagram|coda-svg)"', 'class="wds-figure__svg"', svg, count=1)
+    svg = re.sub(r"<!--.*?-->", "", svg, flags=re.S)
+    svg = re.sub(r'\bid="([a-z0-9]+-(?:title|desc))"', r'id="wds-\1"', svg)
+    svg = re.sub(r'\bid="elephants"', 'id="wds-elephants"', svg)
+    svg = re.sub(r'aria-labelledby="([a-z0-9]+-title) ([a-z0-9]+-desc)"', r'aria-labelledby="wds-\1 wds-\2"', svg)
     svg = svg.replace("Space Mono, monospace", "'Space Mono', monospace")
     if re.search(r"rgba?\(|#[0-9a-fA-F]{3,6}\b", svg):
         raise SystemExit(f"REFUSING: figure {fid} still carries a colour of its own after recolouring.")
-    svg = "\n".join("      " + line.strip() for line in svg.splitlines())
+    svg = "\n".join("      " + line.strip() for line in svg.splitlines() if line.strip())
     change = ""
     if f.get("change"):
         change = (f' One line is changed for this street: it said <q>{esc(f["change"][0])}</q>, and says '
                   f'<q>{esc(f["change"][1])}</q> here.')
     return (f'    <figure class="wds-figure">\n{svg}\n'
             f'      <figcaption class="wds-figure__words">{esc(f["caption"])} Drawn for '
-            f'<a href="{attr(pages["atom"]["url"])}">Star Stuff</a>, CC BY-SA 4.0, and recoloured for this room.'
+            f'<a href="{attr(pages[f.get("from", "atom")]["url"])}">Star Stuff</a>, CC BY-SA 4.0, and recoloured for this room.'
             f'{change}</figcaption>\n    </figure>')
 
 
@@ -593,6 +617,13 @@ def section(name):
             out.append(f'    <h3 id="wds-{slug(b["h3"])}">{linked(b["h3"])}</h3>')
         elif "figure" in b:
             out.append(recolour(b["figure"], figures[b["figure"]]))
+        elif "excerpt" in b:
+            pg = pages[b["excerpt"]]
+            paras = "\n".join(f"      <p>{linked(x)}</p>" for x in b["paras"])
+            out.append(f'    <blockquote class="wds-excerpt">\n{paras}\n'
+                       f'      <footer class="wds-quote__who">Star Stuff, <a href="{attr(pg["url"])}">'
+                       f'{esc(pg["title"])}</a>, copied whole under CC BY-SA 4.0, its links made absolute.'
+                       f'</footer>\n    </blockquote>')
         elif "watch" in b:
             out.append(watch_list())
         elif "recognised" in b:
@@ -629,11 +660,13 @@ credits = [
     "      <li><strong>The city is ours</strong>, crooked roofs anybody might draw, a thin tower, a clacks tower and "
     "a bridge, made as code by Claude, an AI model made by Anthropic, to Ryan&rsquo;s brief. It is not a map of "
     "anywhere, nobody is in it, and nothing on this page calls an AI while you read it.</li>",
-    "      <li><strong>Five drawings and some of the words are Star Stuff&rsquo;s</strong>, from "
-    f'<a href="{attr(pages["atom"]["url"])}">No. 49, One Atom of Justice</a> and '
-    f'<a href="{attr(pages["promise"]["url"])}">A Promise, Not a Finding</a>, by Stimpunks and Helen '
-    "Edgar&rsquo;s More Realms, under CC BY-SA 4.0 like this street. The drawings are as the zine has them, in "
-    "this room&rsquo;s colours, with one line changed and said so.</li>",
+    "      <li><strong>Six drawings and some of the words are Star Stuff&rsquo;s</strong>, from "
+    f'<a href="{attr(pages["atom"]["url"])}">No. 49, One Atom of Justice</a>, '
+    f'<a href="{attr(pages["promise"]["url"])}">A Promise, Not a Finding</a> and the '
+    f'<a href="{attr(pages["eggs"]["url"])}">Easter Eggs</a> collection, whose closing section The Turtle '
+    "Moves is copied whole, by Stimpunks and Helen Edgar&rsquo;s More Realms, under CC BY-SA 4.0 like this "
+    "street. The drawings are as Star Stuff has them, in this room&rsquo;s colours, with one line changed and "
+    "said so.</li>",
     f"      <li><strong>Every other quotation belongs to whoever said it</strong> and is credited where it stands: "
     f"{esc(names)}. The words around them are ours, written for this room, and so is every reading of the books; "
     "nothing about the Disc was taken from a fan wiki.</li>",

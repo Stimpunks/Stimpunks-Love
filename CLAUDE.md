@@ -5807,7 +5807,7 @@ printing was not checked. Broken on purpose first; all four caught.
 appreciation with an anti-normative bent, the City Watch books as diversity within a team and a competency network, some
 of Star Stuff's Discworld writing and drawings copied in, Ankh-Morpork evoked. `widdershins.html` is a shopfront next
 door to the Community Library, written by `tools/make-widdershins.py` from `data/widdershins.json`. **Oook is the one to
-watch**: it is the Disc from out in the dark, and this room never draws the Disc, a turtle or an elephant. **The light is
+watch**: it is the Disc from out in the dark, and this room's own city never draws the Disc, a turtle or an elephant. **It closes with Star Stuff's The Turtle Moves**, its drawing of Great A'Tuin and its passage copied whole from the Easter Eggs collection (Ryan's ask, the same evening, reversing "never draws" for that one drawing), checked against Star Stuff's repository paragraph by paragraph; an `excerpt` is copied, not quoted, so it is not held to the cap. **The light is
 an edge**: the city is drawn twice, at night and lit, the lit one clipped to one side of a slanting line, the Disc's
 slow morning caught halfway across; every word is on the night side, and the morning only cuts the top corner of a
 card. **Every quotation was read on our pages, on Star Stuff or in one paper**, checked word for word against the

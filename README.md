@@ -245,7 +245,7 @@ data/small-hours.json The diner's quotations, its menu, Up All Night with its pe
 data/repeater.json    The Repeater's two lines of ours and the log's cards, none of which counts anything
 data/nothing-for-sale.json  The lay-by's tables, each a free thing of ours, and the headlights, none alike
 data/library.json     Every quotation in the library, L-space and Oook, with how it was checked; the desk and the threads
-data/widdershins.json The city, the Watch, the people we recognise, Star Stuff's five figures, and every quotation, each read on a page of ours, on Star Stuff or in one paper
+data/widdershins.json The city, the Watch, the people we recognise, Star Stuff's six drawings and The Turtle Moves, and every quotation, each read on a page of ours, on Star Stuff or in one paper
 data/community.json   The community service board: a slot for every room that takes something in, and the words each one holds its room to
 data/broadside.json   The press's sheets, both sides of each, with their two spot inks. No two sheets share a pair
 dance-punks.js        The headset. Tuning is silent while it is off; it asks love-embed.js for the frame
@@ -754,8 +754,9 @@ Library: a Discworld appreciation against the way of normativity. It **draws the
 clips the lit one to one side of a slanting line, so the Disc's slow morning is caught halfway across it; every word
 is on the night side. **Every quotation was read on one of our pages, on Star Stuff or in one paper** and is checked
 word for word against the mirror, Star Stuff's repository beside this one, or the paper's own text (with pdftotext),
-whichever is on the machine. **Five of Star Stuff's figures** are kept exactly as No. 49 publishes them and recoloured
-here, and the tool refuses one the zine no longer carries. It sweeps the room's own words for **a diagnosis, a
+whichever is on the machine. **Six of Star Stuff's drawings** (five of No. 49's and Great A'Tuin from its Easter Eggs
+collection, whose closing section The Turtle Moves is copied whole) are kept exactly as Star Stuff publishes them and
+recoloured here, and the tool refuses one Star Stuff no longer carries. It sweeps the room's own words for **a diagnosis, a
 ranking, pity and the cure** with the negation window, skipping the quotations, refuses a fan wiki, an `<img>`, a form,
 the GNU header gone from `_headers`, and a keyframe, an animation or a transition in §135.
 

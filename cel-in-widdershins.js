@@ -17,8 +17,9 @@
    right to left: widdershins. None of them stands in the morning.
 
    OOOK IS THE ONE TO WATCH, through L-space: the Disc seen from out in the
-   dark. This is on the ground, in a city, and the Disc is never drawn, nor a
-   turtle nor an elephant. NOBODY IS IN THE CITY, the windows are dark because
+   dark. This is on the ground, in a city, and the scene never draws the Disc,
+   a turtle or an elephant: Great A'Tuin is only on the page's last board, in
+   Star Stuff's own drawing. NOBODY IS IN THE CITY, the windows are dark because
    nobody has lit a lamp, and there is no cover, map, crest or character of
    anybody's: the houses are crooked roofs anybody might draw. NOTHING MOVES:
    the morning stays halfway. Every colour is one §135 declares, by name. It
@@ -199,6 +200,7 @@
         'at the board with what Star Stuff wrote and drew',
         'at the board with what is not in this city',
         'at the board with next door',
+        'at the board with The Turtle Moves, Star Stuff’s drawing of Great A’Tuin and its passage',
         'at the board with whose this is'
       ];
       PARTS.forEach(function (words, i) {
@@ -208,7 +210,7 @@
 
       return {
         start: { x: 4, z: 0.6, yaw: 0 },
-        bounds: { x: [-20, 10], z: [-2.4, 2.8] },
+        bounds: { x: [-22, 10], z: [-2.4, 2.8] },
         stops: stops
       };
     }

@@ -29143,7 +29143,11 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
      · OOOK is the other Discworld room, behind the library: the Disc itself
        seen from out in the dark, small, in the Librarian's rust and banana,
        lit from one side by the Disc's little sun. This is on the ground, in a
-       city, and the Disc is never drawn: no turtle, no elephants, no rim.
+       city, and the room's own drawing never shows the Disc. It closes, at
+       Ryan's ask, with Star Stuff's line drawing of Great A'Tuin, copied with
+       its passage from the Easter Eggs collection, small on a slab of its own:
+       a picture somebody else drew, never the room's world, and in this
+       room's colours rather than the Librarian's rust and banana.
      · THE WORLD ROOM is lit by a dawn arriving level along silk, a whole web at
        once. Here the dawn has not arrived: it is a line across the picture,
        and on one side of it nothing is lit at all.
@@ -29233,6 +29237,14 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
 .wds-figure__svg { display: block; width: 100%; height: auto; }
 .wds-figure__words { margin: 12px 0 0; font-size: 15px; line-height: 1.55; color: var(--wds-ink-2); }
 
+/* THE TURTLE MOVES, closing the room as Star Stuff's Easter Eggs closes: its
+   drawing on a slab of its own, centred, and its passage copied whole, set
+   off by the same rule as a quotation because every word of it is Star
+   Stuff's. */
+.wds-part--turtle .wds-figure { margin-left: auto; margin-right: auto; max-width: 560px; }
+.wds-excerpt { margin: 22px 0; padding: 4px 0 4px 20px; border-left: 4px solid var(--wds-dawn); max-width: 68ch; }
+.wds-excerpt p { margin: 0 0 14px; }
+.wds-excerpt strong, .wds-excerpt b { color: var(--wds-ink); }
 .wds-next { margin: 18px 0 0; padding-left: 22px; }
 .wds-next li { margin: 0 0 10px; }
 .wds-whose .wds-credits { margin: 16px 0 0; padding-left: 22px; }

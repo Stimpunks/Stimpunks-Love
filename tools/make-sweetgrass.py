@@ -344,7 +344,7 @@ def hearth_block(h):
             f'          </li>')
     return (
         f'      <div class="swg-plot swg-hearth">\n'
-        f'        <h3>The fire</h3>\n'
+        f'        <h3 id="the-fire">The fire</h3>\n'
         f'        <p class="swg-by">{esc(h["channel"])} &middot; a playlist, so no runtime</p>\n'
         f'        <p>{esc(h["note"])}</p>\n'
         f'        <div class="swg-glass" data-rack-screen="fire" '
@@ -374,8 +374,11 @@ def preview_block(r):
     # ONE PRESS BESIDE THE BOOK, the start of the authorised audiobook in her own
     # voice. It is a store's preview, and the store's buy link is not repeated:
     # the way to the rest is the borrow link under it.
+    # The heading's id is written here, once and from the title, so that
+    # make-heading-ids.py and this tool agree on it and neither takes it off.
+    hid = re.sub(r"[^a-z0-9]+", "-", r["title"].split("\u00b7")[0].lower()).strip("-")
     return (f'      <div class="swg-listen">\n'
-            f'        <h3>{esc(r["title"])}</h3>\n'
+            f'        <h3 id="{hid}">{esc(r["title"])}</h3>\n'
             f'        <p class="swg-by">{esc(r["channel"])} &middot; {esc(r["length"])}</p>\n'
             f'        <p>{esc(r["note"])}</p>\n'
             f'        <button type="button" class="facade" data-embed-id="{esc(r["id"])}"\n'
