@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-11-02T12:17Z",
+  "set": "2026-11-03T12:16Z",
   "springs": [
     {
       "id": "starstuff",
@@ -73,7 +73,7 @@
           "anon": true
         }
       ],
-      "read": "2026-11-02T12:17Z"
+      "read": "2026-11-03T12:16Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-11-02T12:17Z"
+      "read": "2026-11-03T12:16Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-11-02T12:17Z"
+      "read": "2026-11-03T12:16Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-11-02T12:17Z"
+      "read": "2026-11-03T12:16Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-11-02T12:17Z"
+      "read": "2026-11-03T12:16Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-11-02T12:17Z"
+      "read": "2026-11-03T12:16Z"
     },
     {
       "id": "love",
@@ -439,67 +439,67 @@
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
         {
-          "title": "Stimpunks Social catches up with Bluesky",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/1473d951b65643df97e37c101dbcf10901af848a",
-          "date": "2026-11-02T10:57:12Z",
-          "sha": "1473d95",
+          "title": "Champuru: a table in the shade of a lane",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/ce0ad085e9cff16cceb2fdec10f366bed08bc320",
+          "date": "2026-11-03T08:53:12Z",
+          "sha": "ce0ad08",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "DECISIONS: the Stimpunks Social morning fold is installed",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/f1837e575e545bc075fb2c91af4de1512ef57aa5",
-          "date": "2026-11-02T10:45:01Z",
-          "sha": "f1837e5",
+          "title": "Widdershins leads with Raising Steam",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/08479619803f7382b8eea7dafcdf252ad47fef8b",
+          "date": "2026-11-03T02:25:30Z",
+          "sha": "0847961",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Lyrics are allowed on the street, and Stimpunks Social's held posts a…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/fbf4d547204078e85f146e81e62d278e817f8a69",
-          "date": "2026-11-02T10:40:45Z",
-          "sha": "fbf4d54",
+          "title": "Widdershins closes with The Turtle Moves",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/8654d7be3504ad31fb12a102ead621e870f68c61",
+          "date": "2026-11-03T02:14:53Z",
+          "sha": "8654d7b",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Stimpunks Social moves to /social, and the office posts to it",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/8bfb45e8e906cd0cc425aece731372470027d51b",
-          "date": "2026-11-02T10:09:43Z",
-          "sha": "8bfb45e",
+          "title": "Cel Street: Widdershins",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/2b57097a3c068ffd774be4b7f30f662fbb3c288b",
+          "date": "2026-11-03T02:02:25Z",
+          "sha": "2b57097",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "The office's posts: copy and open are two presses, and LinkedIn by it…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/665a34ec7e686d2eca875020a287f65b39a2ab11",
-          "date": "2026-11-02T09:21:57Z",
-          "sha": "665a34e",
+          "title": "Widdershins: a Discworld appreciation against the way of normativity",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/8e1918d72a9b662ad49695c750c52a33a442baef",
+          "date": "2026-11-03T01:25:41Z",
+          "sha": "8e1918d",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "The office: posts to our five networks, and the CB's tests after the …",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/b95fde0084d329e533f0b7b408c80cd201a4a48b",
-          "date": "2026-11-02T08:35:05Z",
-          "sha": "b95fde0",
+          "title": "Cel Street: the caverns' levels",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/2c5a59e1d31d43c4e0fac1e65850fbff0dcf4c2c",
+          "date": "2026-11-03T00:34:26Z",
+          "sha": "2c5a59e",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         }
       ],
-      "read": "2026-11-02T12:17Z"
+      "read": "2026-11-03T12:16Z"
     },
     {
       "id": "garden",
@@ -568,7 +568,7 @@
           "anon": true
         }
       ],
-      "read": "2026-11-02T12:17Z"
+      "read": "2026-11-03T12:16Z"
     }
   ]
 }
