@@ -64,7 +64,7 @@ def main():
             src = re.sub(
                 re.escape(PAVEMENT_BEGIN) + r".*?" + re.escape(PAVEMENT_END),
                 lambda _: f'{PAVEMENT_BEGIN}<a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> '
-                          f'&middot; {signoff.links(page=FRONT)} &middot;{PAVEMENT_END}',
+                          f'&middot; {signoff.links(page=FRONT)} &middot; {signoff.TAIL}{PAVEMENT_END}',
                 src, count=1, flags=re.S)
             if FX_BEGIN not in src or FX_END not in src:
                 raise SystemExit(f"REFUSING: {FRONT}'s pavement has no signoff-fx markers. The fractal "

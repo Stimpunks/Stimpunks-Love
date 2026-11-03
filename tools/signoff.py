@@ -42,6 +42,14 @@ page -- the job markers' reason for all lying on the floor. tools/fractals.py
 writes it, with the room's own recipe on it, and refuses a page it has no recipe
 for; a room the window is off in simply has no second line.
 
+THE LINE ENDS ON WHOSE STREET THIS IS AND WHO HOSTS IT. Netlify's Open Source
+plan, which the street is on from 2026-11-03, asks for a link back to Netlify on
+the main page or on every page, either a badge of theirs or a link reading "This
+site is powered by Netlify". It is the link, in words, on every page: a badge is
+a picture in Netlify's own colours, which no room's ground was measured against,
+and fetched from netlify.com it would be a third party every visitor reached on
+load. The front page's pavement takes the same TAIL.
+
 THE LIST IS HERE ONCE. make-signoff.py writes it into every page; make-foundry.py
 builds its whole page from a template and calls the same function, so a rebuild
 of the Foundry cannot quietly drop it.
@@ -60,6 +68,8 @@ LINKS = [
     ("privacy.html", "Privacy"),
     ("feed.xml", "Feed"),
 ]
+TAIL = ('A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street. '
+        '<a href="https://www.netlify.com/">This site is powered by Netlify</a>.')
 BEGIN, END = "<!-- signoff:begin -->", "<!-- signoff:end -->"
 
 
@@ -89,8 +99,7 @@ def block(absolute=False, page=None, recipes=None, offmap=False):
         f"{BEGIN}\n"
         '<footer class="signoff">\n'
         f'  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a>'
-        f" &middot; {links(absolute, page, offmap)} &middot; "
-        'A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>\n'
+        f" &middot; {links(absolute, page, offmap)} &middot; {TAIL}</p>\n"
         + (f"  {fx}\n" if fx else "") +
         "</footer>\n"
         f"{END}"
