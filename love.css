@@ -20111,6 +20111,38 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
 
 .op-credits { font-size: 16px; color: var(--op-dim); }
 
+/* THE MONITOR BY THE GAUGES, and the rack of cams under it (2026-11-03). The
+   monitor is a screen bolted to the wall in a case of the pipework's steel, and
+   it is as dark as the concrete until somebody presses: the caged lamp is still
+   the only light in here. Every card is a panel of the painted band with the
+   water main's green along its top, because every cam on it is water, which is
+   the room's whole argument: a thing wears the colour of what it carries. */
+.oproom .facade {
+  color: var(--op-text); background: var(--op-concrete); border: 3px solid var(--op-steel); border-radius: 2px;
+  font-family: 'Saira', 'Arial', sans-serif;
+}
+.oproom .facade:hover { background: var(--op-wall); }
+.oproom .facade__play { color: var(--op-yellow); font-family: 'Chakra Petch', 'Arial', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: .08em; }
+.op-screen { margin: 14px 0 0; }
+.op-screen .facade { font-size: 21px; padding: 22px 24px; border-width: 12px; }
+.op-screen__now { margin: 10px 0 0; font-weight: 600; }
+.op-screen__back { margin: 8px 0 0; }
+.op-back, .op-card__big {
+  min-height: 48px; padding: 8px 16px; cursor: pointer; text-align: left;
+  font: 600 17px/1.25 'Saira', 'Arial', sans-serif;
+  color: var(--op-ink); background: var(--op-yellow); border: 2px solid var(--op-yellow); border-radius: 2px;
+}
+.op-back:hover, .op-card__big:hover { background: var(--op-text); border-color: var(--op-text); }
+.op-rack { margin: 22px 0 0; }
+.op-rack > summary { cursor: pointer; font-family: 'Chakra Petch', 'Arial', sans-serif; font-weight: 600; font-size: 21px; letter-spacing: .02em; text-transform: uppercase; }
+.op-cards { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.op-card { display: grid; gap: 8px; align-content: start; padding: 16px; background: var(--op-wall); border-top: 8px solid var(--op-green); border-radius: 2px; }
+.op-card p { margin: 0; }
+.op-card__title { margin: 0; font-family: 'Chakra Petch', 'Arial', sans-serif; font-weight: 600; font-size: 19px; line-height: 1.25; }
+.op-card__who { font-size: 15px; color: var(--op-dim); }
+.op-card__note { font-size: 16px; line-height: 1.5; }
+.op-card .facade { font-size: 17px; }
+
 @media (max-width: 760px) {
   .op-list { padding: 8px 16px 10px; }
   .op-call { padding: 16px; }
@@ -20208,6 +20240,47 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
 .ed-call__fine { font-size: 16px; color: var(--ed-dim); margin-bottom: 0 !important; }
 
 .ed-credits { font-size: 16px; color: var(--ed-dim); }
+
+/* THE FILM ON THE TABLE, and the slides under it (2026-11-03). A cam is laid on
+   the glass like a strip of film, so the screen sits in a mount of the table's
+   own light with crop marks at its corners, and the frame inside it is dark
+   until it is pressed, as film is before you look through it. Every card is a
+   slide in its white mount, dark ink on the glow. Nothing here gives off light
+   of its own: the table is still the only light in the studio. */
+.edroom .facade {
+  color: var(--ed-text); background: var(--ed-studio); border: 2px solid var(--ed-ink); border-radius: 2px;
+  font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+.edroom .facade:hover { background: var(--ed-desk); }
+.edroom .facade__play { color: var(--ed-cyan); font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif; font-weight: 600; font-size: 14px; letter-spacing: .06em; }
+.ed-screen { position: relative; margin: 18px 0 0; padding: 22px; background: var(--ed-glow); }
+.ed-screen::before, .ed-screen::after {
+  content: ""; position: absolute; width: 14px; height: 14px; border: 0 solid var(--ed-ink);
+}
+.ed-screen::before { top: 6px; left: 6px; border-top-width: 1px; border-left-width: 1px; }
+.ed-screen::after { bottom: 6px; right: 6px; border-bottom-width: 1px; border-right-width: 1px; }
+.ed-screen :focus-visible { outline-color: var(--ed-ink); }
+.ed-screen .facade { font-size: 21px; padding: 22px 24px; }
+.ed-screen__now { margin: 10px 0 0; font-weight: 600; }
+.ed-screen__back { margin: 8px 0 0; }
+.ed-back, .ed-card__big {
+  min-height: 48px; padding: 8px 16px; cursor: pointer; text-align: left;
+  font: 600 17px/1.25 'DM Sans', 'Helvetica Neue', Arial, sans-serif; border-radius: 0;
+}
+.ed-back { color: var(--ed-ink); background: var(--ed-cyan); border: 2px solid var(--ed-cyan); }
+.ed-back:hover { background: var(--ed-text); border-color: var(--ed-text); }
+.ed-card__big { color: var(--ed-glow); background: var(--ed-ink); border: 2px solid var(--ed-ink); }
+.ed-card__big:hover { background: var(--ed-mag); border-color: var(--ed-mag); }
+.ed-rack { margin: 22px 0 0; }
+.ed-rack > summary { cursor: pointer; font-family: 'Young Serif', Georgia, serif; font-size: 23px; }
+.ed-cards { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.ed-card { display: grid; gap: 8px; align-content: start; padding: 18px; background: var(--ed-glow); color: var(--ed-ink); border-radius: 8px; }
+.ed-card p { margin: 0; }
+.ed-card :focus-visible { outline-color: var(--ed-ink); }
+.ed-card__title { margin: 0; font-family: 'Young Serif', Georgia, serif; font-weight: 400; font-size: 20px; line-height: 1.25; }
+.ed-card__who { font-size: 15px; font-style: italic; }
+.ed-card__note { font-size: 16px; line-height: 1.5; }
+.ed-card .facade { font-size: 17px; }
 
 @media (max-width: 760px) {
   .ed-list { padding: 12px 18px; }

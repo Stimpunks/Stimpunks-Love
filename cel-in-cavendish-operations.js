@@ -210,9 +210,9 @@
       // THE PAGE'S OWN WORDS on the other walls: why a plant room under the air
       // main, the meeting's own line on the far wall between the tank and the
       // fire main, and whose words beside the gas main.
-      var why = kit.lift(frame, '.op-part', { n: 2, w: 760, h: 620, ww: 1.8, m: at(X0 + 0.06, 0.85, -4.6, LEFT) });
+      var why = kit.lift(frame, '.op-part', { n: 3, w: 760, h: 620, ww: 1.8, m: at(X0 + 0.06, 0.85, -4.6, LEFT) });
       var lede = kit.lift(frame, '.lede', { w: 760, h: 360, ww: 2.0, m: at(0.35, 0.95, FAR + 0.06) });
-      var whose = kit.lift(frame, '.op-part', { n: 3, w: 760, h: 520, ww: 1.5, m: at(X1 - 0.06, 0.7, -6.4, RIGHT) });
+      var whose = kit.lift(frame, '.op-part', { n: 4, w: 760, h: 520, ww: 1.5, m: at(X1 - 0.06, 0.7, -6.4, RIGHT) });
 
       var stops = [
         { name: 'at the foot of the steps from the hall, the plant room running away from you under its one caged lamp', x: 1.2, z: -1.6, yaw: 0.1, pitch: 0.02 },

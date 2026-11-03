@@ -48,6 +48,9 @@ the Events Room keeps Schitt's Creek and takes the Watering Hole's cams too, for
 Solidarity Sesh), each with its own title and its own videos or cams under the
 one screen, each held to the same rules as a rack of one. A shelf may hold a whole
 PLAYLIST as one card (`playlists`), with no runtime and its note saying what is on it.
+A rack or a shelf may take another room's cams by that room's id (`cams_like`), never
+restated: the Events Room, the Operations Room and the Editorial Room all leave the
+Watering Hole's cams on, and a cam added there reaches all of them.
 
 IT ALSO REFUSES:
   · a door with no room behind it, or a room that does not exist, or a room
@@ -406,10 +409,29 @@ RUNTIME = re.compile(r"^(?:\d{1,2}:)?\d{1,2}:\d{2}$")
 LIVE = "live, runs until you close it"
 
 
+def cams_like(r, where, keys=("cams_from", "cams", "rack_title")):
+    """A rack or shelf that says `cams_like` takes another room's cams by that
+    room's id (Ryan, 2026-11-03: the Operations and Editorial Rooms leave the
+    Watering Hole's cams on behind their meetings), so the rooms cannot drift
+    apart: a cam added there is added here. What the rack says itself wins."""
+    if not r.get("cams_like"):
+        return r
+    if r.get("cams") or r.get("cams_from"):
+        refuse(f"{where}: it lists cams of its own and takes {r['cams_like']!r}'s too.")
+    src = next((x for x in doors + suites if x.get("id") == r["cams_like"]), None)
+    rack = (src or {}).get("rack") or {}
+    if not rack.get("cams"):
+        refuse(f"{where}: {r['cams_like']!r} is no room with cams on its rack.")
+        return r
+    took = {**{k: rack[k] for k in keys if k in rack}, **r}
+    took.pop("cams_like")
+    return took
+
+
 def shelves_of(d):
     """A rack's shelves: its own `shelves`, or the rack itself as its one shelf."""
     r = d.get("rack") or {}
-    return r.get("shelves") or ([r] if r else [])
+    return [cams_like(s, f"{d['room']}'s rack") for s in (r.get("shelves") or ([r] if r else []))]
 
 
 def rack_items(d, r):
@@ -579,6 +601,9 @@ def write_room(d, public):
     # a shared screen for watching together, and it is built exactly as a
     # suite's is, from the same rules.
     if d.get("rack"):
+        # The rack's own screen words (`off`) follow the cams it takes, because
+        # they name what the screen opens on.
+        d = {**d, "rack": cams_like(d["rack"], f"{d['room']}'s rack", ("cams_from", "cams", "rack_title", "off"))}
         shelves = [(sh, rack_items(d, sh)) for sh in shelves_of(d)]
         if all(items for _, items in shelves):
             s = swapin(s, page, f"{p}-rack", rack_block(p, d, shelves))

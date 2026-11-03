@@ -125,18 +125,7 @@
       ]
      },
      {
-      "rack_title": "The cams: the waterholes, the otters and the jellies",
-      "cams_from": "data/jungle.json",
-      "cams": [
-       "ydYDqZQpim8",
-       "AeMUdOPFcXI",
-       "9mg9PoFEX2U",
-       "_KXHUb0wFRE",
-       "abbR-Ttd-cA",
-       "LrO-tgqYXXI",
-       "NqOmHpwMUxs",
-       "eQ_foBERmzA"
-      ]
+      "cams_like": "watering-hole"
      }
     ]
    }
@@ -161,7 +150,12 @@
    "page": "cavendish-operations.html",
    "room": "The Operations Room",
    "prefix": "op",
-   "item": "entry"
+   "item": "entry",
+   "rack": {
+    "_why": "Ryan's brief, 2026-11-03: the Watering Hole's cams are what we leave on behind most of our meetings, so this room has a screen and a rack of them too. They are taken from the Watering Hole by its id (`cams_like`), never restated, so a cam added or taken off there is added or taken off here, and the cams themselves are still read out of data/jungle.json by id.",
+    "screen": "the monitor by the gauges",
+    "cams_like": "watering-hole"
+   }
   },
   {
    "id": "editorial",
@@ -183,7 +177,12 @@
    "page": "cavendish-editorial.html",
    "room": "The Editorial Room",
    "prefix": "ed",
-   "item": "proof"
+   "item": "proof",
+   "rack": {
+    "_why": "Ryan's brief, 2026-11-03: the Watering Hole's cams are what we leave on behind most of our meetings, so this room has a screen and a rack of them too. They are taken from the Watering Hole by its id (`cams_like`), never restated, so a cam added or taken off there is added or taken off here, and the cams themselves are still read out of data/jungle.json by id.",
+    "screen": "the light table",
+    "cams_like": "watering-hole"
+   }
   }
  ],
  "_suites": "The Hang Suites are Ryan's, written in his brief of 2026-09-25 and copied here as he gave them, with three changes: both lurking norms said 'camera and video off' and Ryan corrected them to 'camera and mic off' the same day; the Watering Hole's list of norms was headed 'Campfire Norms' in the brief, a slip, and is headed with its own room's name; and the opening line said how many rooms there are, which check-counts.py refuses, so it says 'rooms'. Until 2026-09-28 each suite opened a Proton Meet room; each opens a room of its own now. They are named for Cavendish Space's caves, campfires and watering holes, which are David Thornburg's, and make-coworking.py refuses the section if the room stops naming him. A suite has no times on purpose: they are drop-in rooms, and a suite with hours is a meeting and belongs with the doors.",

@@ -228,7 +228,7 @@
       // words by the door.
       var name = kit.lift(page, '.ed-head', { drop: '.ed-head__art', w: 760, ww: 2.0, m: at(-1.25, 2.0, FAR + 0.02) });
       var table = kit.lift(page, '.ed-part', { n: 0, drop: '.ed-list', w: 760, ww: 2.0, m: at(1.3, 1.95, FAR + 0.02) });
-      var why = kit.lift(page, '.ed-part', { n: 2, w: 760, ww: 1.8, m: at(X1 - 0.02, 1.7, -5.2, RIGHT) });
+      var why = kit.lift(page, '.ed-part', { n: 3, w: 760, ww: 1.8, m: at(X1 - 0.02, 1.7, -5.2, RIGHT) });
       var whose = kit.lift(page, '.ed-credits', { w: 760, ww: 1.5, m: at(X1 - 0.02, 1.6, -1.6, RIGHT) });
 
       kit.wire(page, 'coworking.js');
