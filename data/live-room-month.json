@@ -23,16 +23,6 @@
  ],
  "log": [
   {
-   "id": "viIhdPUSXlU",
-   "source": "acl",
-   "form": "long",
-   "title": "SIENNA SPIRO - Full Episode | Live on Austin City Limits TV",
-   "published": "2026-10-04T02:00:10Z",
-   "state": "screen",
-   "runs": 3202,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "MGtFVEz2JUU",
    "source": "acl",
    "form": "long",
@@ -180,16 +170,6 @@
    "published": "2026-11-01T01:00:07Z",
    "state": "screen",
    "runs": 3201,
-   "channel": "Austin City Limits"
-  },
-  {
-   "id": "SzcrTe23nBQ",
-   "source": "acl",
-   "form": "short",
-   "title": "SIENNA SPIRO'S - ACLTV Debut 📺",
-   "published": "2026-10-04T02:05:23Z",
-   "state": "screen",
-   "runs": 30,
    "channel": "Austin City Limits"
   },
   {
@@ -350,6 +330,16 @@
    "published": "2026-10-30T23:39:27Z",
    "state": "screen",
    "runs": 26,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "3qFPs59URWc",
+   "source": "acl",
+   "form": "short",
+   "title": "Ty Myers - Whiskey River clip | Live From Austin City Limits TV",
+   "published": "2026-11-01T01:20:27Z",
+   "state": "screen",
+   "runs": 60,
    "channel": "Austin City Limits"
   },
   {
@@ -1513,6 +1503,56 @@
    "channel": "KEXP"
   },
   {
+   "id": "dW_7LAB1zF8",
+   "source": "kexp",
+   "form": "long",
+   "title": "Chanpan - Full Performance (Live on KEXP)",
+   "published": "2026-11-02T16:00:21Z",
+   "state": "screen",
+   "runs": 1681,
+   "channel": "KEXP"
+  },
+  {
+   "id": "C1Rz7nEmchk",
+   "source": "kexp",
+   "form": "long",
+   "title": "Çudamani - Sekar Gadung (Live on KEXP)",
+   "published": "2026-11-03T12:00:00Z",
+   "state": "screen",
+   "runs": 515,
+   "channel": "KEXP"
+  },
+  {
+   "id": "HlttcDh5EeA",
+   "source": "kexp",
+   "form": "long",
+   "title": "Çudamani - Rejang Lente (Live on KEXP)",
+   "published": "2026-11-03T12:00:11Z",
+   "state": "screen",
+   "runs": 325,
+   "channel": "KEXP"
+  },
+  {
+   "id": "CJkwHp-IxOY",
+   "source": "kexp",
+   "form": "long",
+   "title": "Çudamani - Lipi Lengis (Live on KEXP)",
+   "published": "2026-11-03T12:00:35Z",
+   "state": "screen",
+   "runs": 332,
+   "channel": "KEXP"
+  },
+  {
+   "id": "V8HVygM1Z6I",
+   "source": "kexp",
+   "form": "long",
+   "title": "Çudamani - Rerejangan (Live on KEXP)",
+   "published": "2026-11-03T12:00:38Z",
+   "state": "screen",
+   "runs": 468,
+   "channel": "KEXP"
+  },
+  {
    "id": "p0xEdSGVYQk",
    "source": "kexp",
    "form": "short",
@@ -1703,6 +1743,16 @@
    "channel": "KEXP"
   },
   {
+   "id": "FirUOSC-_RQ",
+   "source": "kexp",
+   "form": "short",
+   "title": "Chanpan performs \"buzzin\" & more Live on KEXP",
+   "published": "2026-11-02T18:05:27Z",
+   "state": "screen",
+   "runs": 62,
+   "channel": "KEXP"
+  },
+  {
    "id": "Y1kDvjSz-H4",
    "source": "kcrw",
    "form": "long",
@@ -1793,6 +1843,26 @@
    "channel": "KCRW"
   },
   {
+   "id": "VI64E4wSKLQ",
+   "source": "kcrw",
+   "form": "long",
+   "title": "J Mascis of Dinosaur Jr. on touring, old gear, and breaking CD players | KCRW Interview",
+   "published": "2026-11-02T15:00:37Z",
+   "state": "screen",
+   "runs": 753,
+   "channel": "KCRW"
+  },
+  {
+   "id": "YDJJFh6UjpU",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Darkmosphere | 5 Hour Ambient Mix",
+   "published": "2026-11-02T16:00:05Z",
+   "state": "screen",
+   "runs": 18004,
+   "channel": "KCRW"
+  },
+  {
    "id": "GqcyWTBXj54",
    "source": "kcrw",
    "form": "short",
@@ -1828,13 +1898,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-02T12:32:55Z"
+     "2026-11-03T12:34:56Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-02T12:32:55Z"
+     "2026-11-03T12:34:56Z"
     ]
    ]
   },
@@ -1842,13 +1912,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-02T12:32:55Z"
+     "2026-11-03T12:34:56Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-02T12:32:55Z"
+     "2026-11-03T12:34:56Z"
     ]
    ]
   },
@@ -1856,16 +1926,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-02T12:32:55Z"
+     "2026-11-03T12:34:56Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-02T12:32:55Z"
+     "2026-11-03T12:34:56Z"
     ]
    ]
   }
  },
- "set": "2026-11-02T12:32Z"
+ "set": "2026-11-03T12:34Z"
 }
