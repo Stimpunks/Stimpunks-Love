@@ -388,7 +388,8 @@ lines += [
     "",
     "## Attribution",
     "",
-    "- Text and design: CC BY-SA 4.0, Stimpunks Foundation.",
+    "- Text and design: CC BY-SA 4.0, Stimpunks Foundation. The code (tools/, netlify/ and the "
+    "scripts) is MIT, except the pictures and words a script carries; LICENSE says which is which.",
     f"- The typefaces keep their own {typeface_licences()}, family by family, as "
     "https://stimpunks.world/foundry.html records them; the songs keep their own copyright.",
     "- Nothing musical is hosted here. The jukebox is press-to-play facades that link out.",

@@ -85,6 +85,15 @@ reads the mirror, `make-coworking.py`, says the mirror is missing and carries on
 2026-09-26, and `LICENSE` says so. The exclusions still apply to what she brings: photographs,
 recordings of voices, and borrowed names.
 
+**THE CODE IS MIT AND EVERYTHING ELSE IS CC BY-SA.** Ryan's call and Helen's yes, 2026-11-03, for
+Netlify's Open Source plan and because Creative Commons advises against its licences for software:
+`tools/`, `netlify/` and every top-level `.js` file are MIT, and `LICENSE` says so first. **The pictures
+and words a script carries stay CC BY-SA** (the chimeras, avatars, patches, themes, share cards, and
+Helen's designs wherever they are written down), as do inline scripts, stylesheets and anything a
+generator writes into a script from `data/`. A room brought in by `tools/import-room.py` stays its
+maker's under CC BY-SA unless they agree. The friendly edit is calling the whole repository MIT "to keep
+it simple": that releases the street's design, and Helen's, under a licence they did not choose.
+
 ## The rule that matters most: do not tidy this site
 
 **There is no single design system here and there must not become one.** Every room on this

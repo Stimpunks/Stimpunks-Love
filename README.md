@@ -943,6 +943,7 @@ profile card, but never list them.
 
 ## Attribution
 
-Text, markup and design are [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
-The typefaces keep their own SIL Open Font License; the songs keep their own copyright and
+Text, markup and design are [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), and
+the code (`tools/`, `netlify/` and the scripts) is MIT from 2026-11-03, except the pictures and words
+a script carries. The typefaces keep their own OFL or Apache 2.0 licences; the songs keep their own copyright and
 **nothing musical is hosted here**. See `LICENSE` and `liner-notes.html`.
