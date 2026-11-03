@@ -3815,6 +3815,8 @@ PAIRS = [
     (CHP_SEA,   CHP_CLOTH, False, "champuru: each dish's name, and the focus ring on a card"),
     (CHP_BOUGAIN, CHP_CLOTH, False, "champuru: a link on a card"),
     (CHP_HOT,   CHP_CLOTH, False, "champuru: a link on a card under the pointer"),
+    (CHP_CLOTH, CHP_SEA,   False, "champuru: a button's words"),
+    (CHP_CLOTH, CHP_INK,   False, "champuru: a button's words under the pointer, and the empty screen's words"),
     # ── Widdershins (§135) ──────────────────────────────────────────────────
     # Every word on the night side: the flat night, a card lying in it, or one
     # of Star Stuff's figures on its slab. Nothing set on the lit city.

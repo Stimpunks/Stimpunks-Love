@@ -3537,8 +3537,13 @@ eats; the tool refuses it without them. Every dish goes through `check_dish` and
 caffeine, imported: a new ingredient those engines cannot read is taught to them there, with a comment, never copied.
 **The light is the sun off the wall across the lane**, onto a table in shade: if sun ever lands on the table it has
 become the Hermitage with a menu, and if the light comes from nowhere it is the Dairy. Nothing moves at any setting.
-The friendly edits are a line on what a dish is good for, a DASH badge on the plates "since his doctor prescribes it",
-and a rack chosen for him; the telly waits for Ryan's own picks (`DECISIONS.md`).
+**The screen in the doorway is every channel Ryan took on 2026-11-03, to winnow over time**: `data/champuru-month.json`,
+refilled by `tools/pull-nature-month.py champuru` on the morning timer (`tools/daily-champuru.sh`, "daily champuru
+refill"), drawn by `tools/natures.py`'s month rack. **Its titles are the channels' and are not swept**, the Blue Zone
+channels' among them, which sell food by long life; the sentence above the rack says the titles are the channels' own
+and never this table's, and the tool refuses the page without it. To drop a channel, take it out of `sources`. The
+friendly edits are a line on what a dish is good for, a DASH badge on the plates "since his doctor prescribes it", and
+sweeping the titles or dropping the channels whose titles say it, which is Ryan's winnowing to do.
 
 **THE OPEN NOTEBOOK IS RYAN'S PIECE IN FULL, AND THE PIECE IS HIS VOICE, NOT OURS.** §91, Ryan's brief,
 2026-10-03: a journaling shopfront led by his own *Bullet Journaling + Junk Journaling + Interstitial

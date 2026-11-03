@@ -51,7 +51,7 @@ OUT = ROOT / "search-index.json"
 # rewrites part of a page adds its markers here, or the index goes stale daily.
 DAILY = ["ds-cabinet", "ds-set", "ds-counter", "arrivals:hall", "source:hall",
          "vpl:rack", "onb:month", "ll:month", "hgc:month",
-         "grn:latest", "grn:month", "np-bill", "lvr-month", "anm:month", "atn:month",
+         "grn:latest", "grn:month", "np-bill", "lvr-month", "anm:month", "atn:month", "chp:month",
          # Stimpunks Social's posts, which the morning fold rewrites (tools/daily-social.sh).
          "social:posts"]
 # Classes whose whole subtree is left out (see the docstring for each reason).

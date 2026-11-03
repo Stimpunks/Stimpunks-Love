@@ -295,6 +295,9 @@ LISTS = [
     ("all together now's month", "data/all-together-now-month.json", "all-together-now.html"),
     # The Green's third rack: Future in Bloom's month, by the same puller.
     ("the green's month", "data/the-green-month.json", "the-green.html"),
+    # Champuru's screen in the doorway: the latest month of every channel Ryan
+    # took on 2026-11-03 to winnow over time, by the same puller.
+    ("champuru's month", "data/champuru-month.json", "champuru.html"),
     # Wide-Spread Chaos: Claude's picks.
     ("wide-spread chaos", "data/wide-spread-chaos.json", "wide-spread-chaos.html"),
     # The four lots where the buildings stop, each with a rack of Ryan's pick:

@@ -41,6 +41,15 @@ IT REFUSES, and writes nothing when it does:
     his to say.
   · A SCRIPT OF ITS OWN, an id with two owners, and anything moving in its
     section of love.css. Nothing in the lane moves at any setting.
+
+THE SCREEN IN THE DOORWAY is the last month from every channel Ryan took on
+2026-11-03 to winnow over time, refilled every morning by
+tools/pull-nature-month.py champuru (tools/daily-champuru.sh), and drawn by
+tools/natures.py's month rack; this runs with --month so that only the rack is
+redrawn. Nobody watched these first, and THE TITLES ARE THE CHANNELS' AND ARE
+NOT SWEPT: some of them sell food by what it does for a body or for a long
+life, beside a room whose own words never do. The sentence above the rack says
+so, and the tool refuses the page without it.
 """
 import importlib.util
 import json
@@ -55,11 +64,13 @@ import natures as nc  # noqa: E402
 ROOT = nc.ROOT
 TOOLS = ROOT / "tools"
 DATA = ROOT / "data/champuru.json"
+MONTHLY = ROOT / "data/champuru-month.json"
 PAGE = ROOT / "champuru.html"
 NOTES = ROOT / "liner-notes.html"
 CSS = ROOT / "love.css"
 P = "chp"
 SECTION = 136
+SCREEN = ("chp", "the screen in the doorway")
 
 
 def tool(name):
@@ -190,6 +201,17 @@ def kitchen_block(d):
 def rules_block(d):
     items = "\n".join(f"      <li>{nc.esc(r)}</li>" for r in d["rules"])
     return f'    <ul class="{P}-rules">\n{items}\n    </ul>'
+
+
+RACK_SAYS = ("nobody here watched them first", "the channels’ own")
+
+
+def month_block(m):
+    return nc.month_block(m, P, SCREEN[0], SCREEN[1], "Both shores and in between: the latest month, newest first")
+
+
+def check_month(m):
+    nc.check_month(m, MONTHLY.name, problems)
 
 
 def lane_svg():
@@ -325,16 +347,23 @@ def liner(d):
              'and Purrs</a>'),
             ("Ryan&rsquo;s words", "His, from his brief, quoted as he wrote them"),
             ("The lane", "Ours, drawn by tools/make-champuru.py")]
-    return "\n".join(f'      <tr><td>{w}</td><td>{s}</td></tr>' for w, s in rows)
+    return ("\n".join(f'      <tr><td>{w}</td><td>{s}</td></tr>' for w, s in rows)
+            + "\n" + nc.month_credit(json.loads(MONTHLY.read_text())))
 
 
 def sweep_page():
-    body = nc.page_body(PAGE, cut=(f"{P}:lane",))
+    body = nc.page_body(PAGE, cut=(f"{P}:lane", f"{P}:month"))
     nc.sweep(body, PAGE.name, VOCAB, problems)
     src = PAGE.read_text()
     scripts = re.findall(r'<script src="([^"]+)"', src)
-    if sorted(scripts) != sorted(["love.js", "quest.js"]):
-        problems.refuse(f"the restaurant loads {scripts}; it loads love.js and quest.js and nothing else.")
+    if sorted(scripts) != sorted(["love.js", "love-embed.js", "rack.js", "quest.js"]):
+        problems.refuse(f"the restaurant loads {scripts}; it loads love.js, love-embed.js, rack.js and "
+                        "quest.js and nothing else.")
+    said = nc.plain(src[src.index('id="chp-screen-h"'):src.index("<!-- chp:month:begin -->")]).lower()
+    for w in RACK_SAYS:
+        if w not in said:
+            problems.refuse(f"the screen in the doorway no longer says {w!r} above the rack. Its titles are "
+                            "the channels', and the room has to say so where they are.")
     ids = re.findall(r'\bid="([^"]+)"', src)
     dup = sorted({i for i in ids if ids.count(i) > 1})
     if dup:
@@ -351,8 +380,17 @@ def sweep_page():
 
 def main():
     d = json.loads(DATA.read_text())
+    m = json.loads(MONTHLY.read_text())
     check(d)
+    check_month(m)
     problems.stop("the data")
+    if "--month" in sys.argv[1:]:
+        # The morning timer: the rack and nothing else, so it never touches the
+        # rest of the room or the liner notes.
+        nc.swap(PAGE, f"{P}:month", month_block(m), "    ")
+        print("champuru: the screen in the doorway's month redrawn")
+        return
+    nc.swap(PAGE, f"{P}:month", month_block(m), "    ")
     nc.swap(PAGE, f"{P}:lane", lane_svg(), "      ")
     nc.swap(PAGE, f"{P}:name", name_block(d), "    ")
     nc.swap(PAGE, f"{P}:ryan", ryan_block(d), "    ")
