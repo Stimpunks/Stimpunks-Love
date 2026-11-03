@@ -20850,6 +20850,12 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .md-head__art { margin: 20px 0 0; overflow: hidden; background: var(--md-dark); }
 .md-head__art svg { display: block; width: 100%; height: auto; }
 .mdroom .md-lede { margin: 26px 0 0; max-width: 40em; font-size: 21px; }
+/* The room's contents, written by tools/make-town-hall.py off its own headings:
+   a list down the invites' rule, in two columns where there is room. */
+.md-toc { margin: 30px 0 0; max-width: 50em; padding: 2px 0 2px 14px; border-left: 3px solid var(--md-link); }
+.mdroom .md-toc__over { margin: 0 0 8px; font-size: 15px; letter-spacing: .06em; text-transform: uppercase; color: var(--md-dim); }
+.md-toc ol { margin: 0; padding-left: 1.6em; columns: 2 18em; column-gap: 32px; }
+.mdroom .md-toc li { font-size: 16px; line-height: 1.4; margin: 0 0 8px; break-inside: avoid; }
 .md-part { max-width: 50em; }
 .md-part > p { max-width: 42em; }
 .md-list { margin: 0; padding-left: 1.2em; }

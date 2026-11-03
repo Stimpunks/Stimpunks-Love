@@ -92,6 +92,28 @@ def swap(src, where, marker, block):
                   lambda m: begin + "\n" + block + "\n" + end, src, flags=re.S)
 
 
+# A ROOM'S CONTENTS ARE READ OFF ITS OWN HEADINGS, NEVER KEPT BY HAND (Ryan's ask,
+# 2026-11-03, for the Moderators' room, whose desk grows a part at a time). A page
+# with <prefix>-toc markers gets a list of every h2 after them in <main>, in order,
+# linked by the id the heading already has, so a part added to the page is in its
+# contents on the next run. A heading with no id has nowhere to link and is refused.
+def contents(src, r):
+    p = r["prefix"]
+    start = src.index(f"<!-- {p}-toc:end -->")
+    stop = src.find("</main>", start)
+    heads = re.findall(r"<h2\b([^>]*)>(.*?)</h2>", src[start:stop], re.S)
+    if not heads:
+        refuse(f"{r['page']} has {p}-toc markers and no h2 after them to list.")
+    rows = []
+    for attrs, words in heads:
+        hid = re.search(r'\bid="([^"]+)"', attrs)
+        if not hid:
+            refuse(f"{r['page']} has a heading with no id, so its contents cannot link to it: {words.strip()!r}")
+        words = re.sub(r"<[^>]+>", "", words).strip()
+        rows.append(f'      <li><a href="#{hid.group(1)}">{words}</a></li>')
+    return "\n".join(rows)
+
+
 about = MIRROR_ABOUT.read_text() if MIRROR_ABOUT.exists() else None
 MODS = rolemap("MOD_ROOMS")
 STRICT = array("STRICT_ROOMS")
@@ -352,6 +374,8 @@ for r in rooms:
         src = swap(src, r["page"], f"{r['prefix']}-agenda", agenda(r))
     if r.get("governance"):
         src = swap(src, r["page"], f"{r['prefix']}-governance", governance(r))
+    if f"<!-- {r['prefix']}-toc:begin -->" in src:
+        src = swap(src, r["page"], f"{r['prefix']}-toc", contents(src, r))
     for a in re.findall(r'<a [^>]*class="backlink"[^>]*>', src):
         if 'href="town-hall.html' not in a:
             refuse(f"{r['page']}'s way back goes somewhere other than the Town Hall: {a}")
