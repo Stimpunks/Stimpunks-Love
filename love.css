@@ -28992,8 +28992,11 @@ body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-fami
    a picture and carries no word a reader needs. */
 body.cel-street { background: var(--cel-page); color: var(--cel-print); font-family: 'Golos Text', var(--sans); }
 .cel-street .wrap { padding-bottom: 54px; }
-.cel-street a { color: var(--cel-link); text-underline-offset: 3px; }
-.cel-street :focus-visible { outline-color: var(--cel-print); }
+/* Never inside a lifted copy: this section comes after every room's, at the
+   same weight, so `.cel-street a` beat `.frosty a` and every room's link and
+   focus ring came out in Cel Street's colours on that room's own ground. */
+.cel-street a:not(.cel-lifted a) { color: var(--cel-link); text-underline-offset: 3px; }
+.cel-street :focus-visible:not(.cel-lifted *) { outline-color: var(--cel-print); }
 
 .cel-topline { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; justify-content: space-between; padding: 22px 0 0; }
 .cel-trail { margin: 0; font-size: 14px; color: var(--cel-dim); }
