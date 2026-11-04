@@ -19,6 +19,16 @@
    The record shelf holds every record, and scrolls when there are more than
    fit. Her page hangs on the far wall in a timber frame.
 
+   ROUND 2 (Ryan's ask, 2026-11-04, "Do a round 2 on the subrooms of the yurt")
+   brought more of what her page says is in the room: three more of her cases,
+   two either side of the bookcase door and her Poetry at the far end of the
+   right-hand wall; the card catalogue, a cabinet of drawers by the door with
+   her page's own drawers lifted over it; and, drawn, the chandelier of seven
+   candles over the hearthrug, a raven on the mantel and
+   one on two of the arches, a candelabra of three candles either side of the
+   hearth, the sofa's brass and flame cushions and the book left open on it,
+   and the rug, an oval with a brass ring as on her page.
+
    NOTHING MOVES. The fire is drawn, the candles stand still. Every colour is
    one her room declares, by name. It keeps nothing, sends nothing and fetches
    nothing; her page arrives through Cel Street's screen().
@@ -119,7 +129,9 @@
       stops.push({ name: 'by the fire, on the hearthrug', x: -W / 2 + 3.6, z: -6.5, yaw: LEFT });
 
       // THE HEARTHRUG, the sofa facing the fire, and two chairs.
-      box(3.2, 0.03, 2.2, at(-W / 2 + 2.4, 0.015, -6.5), '--rdr-velvet', false, false);
+      // An oval rug with a brass ring, as her page draws it.
+      kit.piece(new T.CylinderGeometry(1, 1, 0.03, 48).scale(1.75, 1, 1.25), at(-W / 2 + 2.6, 0.015, -6.5), '--rdr-velvet', false, false);
+      kit.piece(new T.TorusGeometry(1, 0.03, 4, 56).scale(1.45, 1.0, 1), at(-W / 2 + 2.6, 0.035, -6.5, 0, Math.PI / 2), '--rdr-brass', false, false);
       var sofa = at(-W / 2 + 4.6, 0, -6.5, LEFT);
       box(2.4, 0.45, 0.9, M(sofa, at(0, 0.32, 0)), '--rdr-velvet');
       box(2.4, 0.8, 0.25, M(sofa, at(0, 0.75, -0.42)), '--rdr-velvet');
@@ -159,6 +171,115 @@
         l.position.set(c[0], 2.6, c[1]);
         kit.scene.add(l);
       });
+
+      // A CANDLE standing still: wax in her ink, a flame, as on her page.
+      function candle(g, h) {
+        kit.cyl(0.035, 0.035, h, M(g, at(0, h / 2, 0)), '--rdr-ink', false, 8);
+        kit.flat(new T.ConeGeometry(0.03, 0.1, 6), M(g, at(0, h + 0.05, 0)), '--rdr-flame-2');
+      }
+      // A RAVEN, perched, looking along +x of where it is put: her page's
+      // ravens, drawn in the darkest stone she declares.
+      function raven(g, k) {
+        var r = function (x, y, z, ry, rx, rz) { return M(g, M(new T.Matrix4().makeScale(k, k, k), at(x, y, z, ry, rx, rz))); };
+        kit.piece(new T.SphereGeometry(1, 12, 8).scale(0.17, 0.1, 0.09), r(0, 0.12, 0, 0, 0, 0.2), '--rdr-stone', 0.01);
+        kit.piece(new T.SphereGeometry(0.065, 10, 8), r(0.15, 0.22, 0), '--rdr-stone', 0.01);
+        kit.piece(new T.ConeGeometry(0.025, 0.1, 6), r(0.24, 0.21, 0, 0, 0, -Math.PI / 2), '--rdr-panel', false);
+        box(0.16, 0.02, 0.07, r(-0.2, 0.08, 0, 0, 0, 0.35), '--rdr-stone', false);
+        kit.flat(new T.SphereGeometry(0.01, 6, 4), r(0.18, 0.24, 0.05), '--rdr-brass');
+        kit.flat(new T.SphereGeometry(0.01, 6, 4), r(0.18, 0.24, -0.05), '--rdr-brass');
+        [-0.03, 0.03].forEach(function (z) { box(0.012, 0.06, 0.012, r(0.0, 0.03, z), '--rdr-panel', false); });
+      }
+
+      // THE FIRE'S OPENING drawn up to a point in darker stone, brass firedogs
+      // either side of the logs, and the fire's light lying on the hearthstone.
+      [-1, 1].forEach(function (s) {
+        box(0.12, 1.25, 0.08, M(fp, at(s * 0.72, 0.62, 0.52)), '--rdr-panel', false);
+        box(0.86, 0.12, 0.08, M(fp, at(s * 0.36, 1.42, 0.52, 0, 0, -s * 0.62)), '--rdr-panel', false);
+        kit.cyl(0.02, 0.02, 0.42, M(fp, at(s * 0.52, 0.21, 0.62)), '--rdr-brass', false, 6);
+        kit.flat(new T.SphereGeometry(0.05, 8, 6), M(fp, at(s * 0.52, 0.45, 0.62)), '--rdr-brass');
+      });
+      kit.flat(new T.CircleGeometry(0.9, 24).scale(1, 0.45, 1), M(fp, at(0, 0.11, 1.0, 0, -Math.PI / 2)), '--rdr-ember');
+
+      // THE MANTEL: a raven on it, turned to the room, and a candelabra of
+      // three candles standing on the floor either side of the hearth.
+      raven(M(fp, at(0.1, 2.12, 0.35, -0.7)), 1.6);
+      [-1.65, 1.65].forEach(function (x) {
+        var c = M(fp, at(x, 0, 0.55));
+        kit.cyl(0.14, 0.18, 0.05, M(c, at(0, 0.025, 0)), '--rdr-brass', false, 12);
+        kit.cyl(0.025, 0.03, 1.15, M(c, at(0, 0.6, 0)), '--rdr-brass', false, 8);
+        kit.flat(new T.SphereGeometry(0.05, 8, 6), M(c, at(0, 0.6, 0)), '--rdr-brass');
+        [-1, 1].forEach(function (s) { box(0.34, 0.03, 0.03, M(c, at(s * 0.15, 1.12, 0, 0, 0, s * 0.35)), '--rdr-brass', false); });
+        [[-0.3, 1.24], [0, 1.2], [0.3, 1.24]].forEach(function (k) {
+          var cup = M(c, at(k[0], k[1], 0));
+          kit.cyl(0.05, 0.03, 0.04, cup, '--rdr-brass', false, 8);
+          candle(cup, k[0] ? 0.24 : 0.3);
+        });
+      });
+
+      // THE SOFA'S CUSHIONS, brass and flame, and the book left open on it.
+      box(0.5, 0.42, 0.14, M(sofa, at(-0.75, 0.75, -0.24, 0, -0.25)), '--rdr-brass');
+      box(0.5, 0.42, 0.14, M(sofa, at(0.75, 0.75, -0.24, 0, -0.25)), '--rdr-flame');
+      [-1, 1].forEach(function (s) { box(0.2, 0.012, 0.28, M(sofa, at(s * 0.1, 0.565, 0.12, 0, 0, s * 0.12)), '--rdr-ink', false, false); });
+
+      // THE CHANDELIER over the hearthrug, as on her page: a brass ring hung
+      // from the dark, seven candles, one at the heart of it; nothing flickers.
+      var ch = at(-W / 2 + 2.8, 4.3, -6.5);
+      kit.cyl(0.018, 0.018, H - 4.3 - 0.4, M(ch, at(0, (H - 4.3 + 0.4) / 2, 0)), '--rdr-brass', false, 6);
+      kit.piece(new T.TorusGeometry(0.06, 0.012, 6, 16), M(ch, at(0, 0.42, 0)), '--rdr-brass', false);
+      kit.flat(new T.SphereGeometry(0.07, 10, 8), M(ch, at(0, 0.3, 0)), '--rdr-brass');
+      kit.piece(new T.TorusGeometry(0.85, 0.025, 6, 48), M(ch, at(0, -0.15, 0, 0, Math.PI / 2)), '--rdr-brass', 0.01);
+      for (var a = 0; a < 6; a++) {
+        var t = a / 6 * Math.PI * 2, cx = Math.cos(t) * 0.85, cz = Math.sin(t) * 0.85;
+        box(0.86, 0.025, 0.025, M(ch, at(cx / 2, 0.08, cz / 2, -t, 0, -0.5)), '--rdr-brass', false);
+        var cup = M(ch, at(cx, -0.12, cz));
+        kit.cyl(0.05, 0.03, 0.04, cup, '--rdr-brass', false, 8);
+        candle(cup, 0.22);
+        kit.flat(new T.SphereGeometry(0.018, 6, 4), M(ch, at(Math.cos(t + 0.5) * 0.85, -0.22, Math.sin(t + 0.5) * 0.85)), '--rdr-brass');
+      }
+      candle(M(ch, at(0, 0.34, 0)), 0.26);
+      var cl = new T.PointLight(kit.col('--rdr-flame-2'), 3.2, 6, 1.6);
+      cl.position.set(-W / 2 + 2.8, 4.4, -6.5);
+      kit.scene.add(cl);
+      stops.push({ name: 'by the hearthrug, under the chandelier, its seven candles standing still', x: -0.5, z: -3.4, yaw: 0.72, pitch: 0.16 });
+
+      // THREE MORE OF HER CASES: two either side of the bookcase door, facing
+      // into the room, and her Poetry at the far end of the right-hand wall.
+      [
+        { n: 4, label: 'Earth & Kin', g: at(-3.4, 0, -0.15, Math.PI), h: 1322 * scale, yaw: Math.PI, sx: -3.4, sz: -4.4, pitch: 0.1 },
+        { n: 7, label: 'Neurodivergence', g: at(3.4, 0, -0.15, Math.PI), h: 1032 * scale, yaw: Math.PI, sx: 3.4, sz: -3.8, pitch: 0.06 },
+        { n: 0, label: 'Poetry', g: at(W / 2 - 0.15, 0, -11.6, RIGHT), h: 1612 * scale, yaw: RIGHT, sx: 0.2, sz: -11.4, pitch: 0.14 }
+      ].forEach(function (c) {
+        var it = caseAt(c.n, c.label, c.g, c.h);
+        stops.push({ name: 'at the ' + c.label + ' case', x: c.sx, z: c.sz, yaw: c.yaw, pitch: c.pitch, frame: it.el });
+      });
+      // Ravens on two of the arches.
+      raven(at(-3.6, 1612 * scale + 0.78, back + 0.3, -Math.PI / 2), 1.3);
+      raven(at(W / 2 - 0.3, 1032 * scale + 0.66, -8.8, Math.PI), 1.3);
+      // A sconce either side of the door between it and the cases.
+      [at(-1.7, 2.4, -0.02, Math.PI), at(1.7, 2.4, -0.02, Math.PI), at(W / 2 - 0.02, 2.4, -10.2, RIGHT)].forEach(sconce);
+      [[-1.7, -0.4], [W / 2 - 0.4, -10.2]].forEach(function (c) {
+        var l = new T.PointLight(kit.col('--rdr-flame-2'), 2.2, 5, 1.6);
+        l.position.set(c[0], 2.6, c[1]);
+        kit.scene.add(l);
+      });
+
+      // THE CARD CATALOGUE by the door: a timber cabinet of drawers, each with
+      // a brass pull and a card in its brass holder, and her page's own drawers
+      // pulled out over it, a card for each author.
+      var cg = at(-W / 2 + 0.3, 0, -1.9, LEFT);
+      box(1.8, 1.15, 0.5, M(cg, at(0, 0.575, 0)), '--rdr-timber');
+      box(1.9, 0.06, 0.56, M(cg, at(0, 1.18, 0)), '--rdr-timber');
+      for (var dr = 0; dr < 3; dr++) {
+        for (var dc = 0; dc < 6; dc++) {
+          var dx = -0.75 + dc * 0.3, dy = 0.25 + dr * 0.32;
+          box(0.26, 0.27, 0.02, M(cg, at(dx, dy, 0.26)), '--rdr-panel', false);
+          box(0.1, 0.05, 0.02, M(cg, at(dx, dy + 0.06, 0.275)), '--rdr-brass', false);
+          box(0.08, 0.035, 0.01, M(cg, at(dx, dy + 0.06, 0.29)), '--rdr-ink-2', false, false);
+          box(0.08, 0.02, 0.03, M(cg, at(dx, dy - 0.07, 0.28)), '--rdr-brass', false);
+        }
+      }
+      var cat = kit.lift(frame, '.rdr-cat', { w: 780, h: 1009, ww: 1.7, m: at(-W / 2 + 0.08, 1.35, -1.9, LEFT) });
+      stops.push({ name: 'at the card catalogue, a drawer for each case and a card for each author', x: -W / 2 + 3.1, z: -1.9, yaw: LEFT, pitch: 0.06, frame: cat.el });
 
       return {
         start: { x: 0, z: -1.4, yaw: 0 },

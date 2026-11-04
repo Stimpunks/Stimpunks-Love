@@ -27812,6 +27812,19 @@ html[data-intensity="max"] .rdr-phono__disc { animation: rdr-spin 6s linear infi
   border-radius: 4px; box-shadow: 0 0 0 3px var(--rdr-brass), 0 0 0 16px var(--rdr-timber);
 }
 .rdr-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rdr-wall); }
+/* Round 2 (2026-11-04): her own things, lifted off her page into the scene and
+   dressed by her own rules above. A case stands in its arch on its plinth; the
+   card catalogue's drawers stand over their cabinet; the gramophone and its
+   switch stand on their table on a panel of her own; the shelf of records is
+   long, so it scrolls in a frame of its own rather than standing taller than
+   the room. Nothing here sets a colour she has not declared. */
+.rdr-walk-case > div > .yurt-case { margin: 0; }
+.rdr-walk-cat > div, .rdr-walk-deck > div { padding: 14px; background: var(--rdr-wall); }
+.rdr-walk-cat { max-height: 640px; overflow-y: auto; box-shadow: 0 0 0 3px var(--rdr-brass), 0 0 0 12px var(--rdr-timber); }
+.rdr-walk-record > div { background: transparent; }
+.rdr-walk-deck { box-shadow: 0 0 0 3px var(--rdr-brass); }
+.rdr-walk-lps { max-height: 760px; overflow-y: auto; }
+.rdr-walk-lps > div { background: transparent; }
 
 /* §115 ── SUBROOM: The Music Room (behind the Faery Yurt) ──────────────────
    HELEN'S, LIKE THE YURT AND THE READING ROOM, and asked for on 2026-10-16
@@ -28018,6 +28031,11 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
   border-radius: 4px; box-shadow: 0 0 0 12px var(--rdr-timber), 0 0 0 15px var(--rdr-brass);
 }
 .mus-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rdr-wall); }
+/* Round 2: the phonograph's deck, lifted off her page onto a shelf on the
+   left-hand wall by the window, on her panel in a timber frame, so its words
+   stand on the ground they were chosen for. */
+.mus-walk-deck { --ps-takes: auto; box-sizing: border-box; padding: 14px; background: var(--rdr-wall); border: 8px solid var(--rdr-timber); border-radius: 4px; }
+.mus-walk-deck .mus-deck { margin: 0; }
 
 /* §116 ── SUBROOM: Fantasy Fancy Dress (through the curtain behind the Dopamine Dress-Up Den)
    THE BACK OF A FANCY DRESS SHOP, LIT ONLY FROM BEHIND, THROUGH SHEER STUFF.
@@ -28933,15 +28951,28 @@ html[data-intensity="max"] .cin-proj__reel { animation: cin-turn 4s linear infin
    ask, 2026-11-04). Ours, in the colours Helen's room wears, hers to keep or
    send back. Paper Street's stage takes her picture palace's clothes while you
    are in it: its frame is her brass, the printed night goes and the dark of
-   the house is everything above. Her page is up on the silver screen, edged in
-   the cream the screen is lit with and the gilt of its arch; it is the one
-   thing in the scene that takes a pointer. */
+   the house is everything above. Her page hangs in a frame by the door you
+   came in by (round 2; it was on the silver screen in round 1), edged in the
+   cream the screen is lit with and the gilt of its arch; it, her rails of
+   reels and her screen are the things in the scene that take a pointer. */
 .cin-walk { --ps-frame: var(--rdr-brass); --ps-back: var(--rdr-stone); --ps-backcloth: none; }
 .cin-walk-screen {
   --ps-takes: auto; overflow: hidden; background: var(--rdr-panel);
   border-radius: 2px; box-shadow: 0 0 0 4px var(--rdr-ink), 0 0 0 12px var(--rdr-brass);
 }
 .cin-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rdr-panel); }
+/* Round 2: her own things, lifted off her page. A rail of reels hangs on the
+   wall over the brass rail and scrolls when it holds more than fit, every
+   reel still reachable by the keyboard; her screen stands in the gilt arch,
+   and the line saying what is showing and the way to take it off stand on the
+   stage under it, on the wall's own ground. */
+.cin-walk-rail { max-height: 460px; overflow-y: auto; box-shadow: 0 0 0 3px var(--rdr-brass), 0 0 0 9px var(--rdr-timber); }
+.cin-walk-rail > div { padding: 4px 16px 18px; }
+.cin-walk-rail .cin-shelf { margin: 0; }
+.cin-walk-silver .cin-screen { margin: 0; }
+.cin-walk-line { height: 64px; }
+.cin-walk-line > div { text-align: center; }
+.cin-walk-line .cin-screen__now, .cin-walk-line .cin-screen__back { margin: 0; padding: 4px 10px; }
 
 /* §122 ── ROOM: Community Care (a shopfront on the street) ────────────────────
    The street's room for asking. Ryan's brief, 2026-10-22: our mutual aid and
@@ -30153,6 +30184,11 @@ html[data-intensity="max"] .myth-glint { animation: myth-glint 3.4s ease-in-out 
   border-radius: 4px; box-shadow: -6px 0 0 4px var(--myth-amber), 6px 0 0 4px var(--myth-amethyst-2), 0 0 0 14px var(--rdr-timber);
 }
 .myth-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rdr-wall); }
+/* Round 2: her Wheel of the Year and her Story or Fact cards, lifted off her
+   page onto the side walls, each a panel of her room edged amber and amethyst,
+   scrolling inside its board rather than running down the wall. */
+.myth-walk-lift { max-height: 540px; overflow-y: auto; border-radius: 6px; box-shadow: -4px 0 0 2px var(--myth-amber), 4px 0 0 2px var(--myth-amethyst-2), 0 0 0 12px var(--rdr-timber); }
+.myth-walk-lift > div { padding: 18px 22px; background: var(--rdr-wall); border-radius: 6px; }
 
 /* §129 ── SUBROOM: Glow Wild Hollow (behind the Faery Yurt, down through the glowing mushroom)
    HELEN'S, LIKE THE YURT AND ITS OTHER ROOMS, and asked for at the keyboard on
@@ -30621,6 +30657,10 @@ html[data-intensity="max"] .ppd-lamp[data-lamp="on"] .ppd-scene__glow { animatio
   border-radius: 10px; box-shadow: 0 0 0 10px var(--ppd-tray), 0 0 0 14px var(--ppd-uv);
 }
 .ppd-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ppd-night); }
+/* Round two: her film for the pod, lifted off her page onto a bracket on the
+   right-hand wall. It keeps its own tray, edged in the tube's violet like the
+   page. */
+.ppd-walk-film .ppd-vid { box-shadow: 0 0 0 4px var(--ppd-uv); }
 
 /* §132 ── TURNING: The Haunted House (turning 09 off The Outskirts) ─────────
    An empty warehouse at the end of the road with a haunted house built inside
