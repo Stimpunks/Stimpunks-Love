@@ -1563,8 +1563,8 @@ on the jacket and on a sticker is one string from one function. Never hand-edit 
 `patches:data` / `patch:ids`. **A new patch is an entry in the data, a pair of `patch:<id>` markers in its room**
 (outside that room's own generated markers), and a run. The tool holds lettering to 4.5 against its patch,
 refuses a colour or a face `love.css` does not declare, words that run off the patch, two patches alike, and a
-price, count or rarity: **a patch in a shop says it is free to take**, because nothing here is for sale but the
-honesty box, and a collection that tells you how much of it you are missing is a tally. **`love.js` loads
+price, count or rarity: **a patch in a shop says it is free to take**, because nothing the street itself offers is
+for sale but the honesty box (a member's own business link, signed, is the one exception, below), and a collection that tells you how much of it you are missing is a tally. **`love.js` loads
 `patches.js` on a page with a patch**, so no room's own script list changes. **The jacket is the fourth thing kept
 under a person** (`patches/<pet key>`, which patches, sorted, nothing about when; nothing lists a patch's takers),
 taken only by a patch's own button, signed on; Forget me and deleting the username take every patch off, and
@@ -3532,6 +3532,36 @@ are the cooks' and are not swept**, which matters more here than anywhere: cooki
 protein and what a dish does for you, beside a house rule of ours that says nobody in here does. The
 friendly edit is to sweep them, or to drop the videos whose titles say it; the sentence beside the
 telly is the answer instead. It sits after the stereo so Now Playing's line for the room stays put.
+
+**EXCURSIONS (§141) IS A RACK, AND EVERY BROCHURE ON IT IS ITS MAKER'S PAGE.** Ryan's brief and name, 2026-11-04, to
+hold Norah Hobbs's Retail Therapy and the pages like it that come after: each part room, part announcement and part run
+of show, made for one of our gatherings. The room is a visitor centre's lobby after closing, lit only by the backlit map
+on its wall, with a wire rack beside it; every brochure is the same paper and the same cut, lit on the edge turned to the
+map. **The brochures never wear their excursions' colours**, the Map's rule: a rack in every excursion's colours is a
+swatch book. **The Feed is the collision to watch**: its light comes through a black mask and only the letters are lit;
+here the whole map glows in printed colour, carries no word, and its light lands on paper beside it. `tools/make-excursions.py`
+writes the rack between `exc:rack` markers out of `data/excursions.json`, newest first by the day of the gathering, with
+each brochure's title read off its page's `<h1>`, and refuses a page that does not link back to the rack, a `holds` its
+page no longer says, and a count or ranking of outings. **An excursion is a room behind Excursions** (`data/map.json`),
+with its own section, card, job and fractal like any room, and the street's conventions arrive in it as they do in
+anybody's own space. **Retail Therapy (§142) came in by hand, not through `tools/import-room.py`**, because Norah's page
+was not made from the Your Room prompt and the importer would have refused nearly every line; the Faery Yurt's
+precedent instead: her words, colours, faces, drawing and script, with every class given `rth-`, her written-out colours
+named in §2, `data-lights` on `<body>` rather than `<html>`, "next week" dated, the dark scheme her page had for a device
+set to dark left out, and one focus ring with the lights off given the floor's colour (her yellow measured 1.65 on the
+directory board). Each is in her liner-notes entry and the page's head comment. **Anything else of hers is hers to
+change.** Her two palettes are both in `check-contrast.py`, because the live checker sees only the lights low: the hunt
+ships hidden. **She is credited as Norah Hobbs**, and her page and script are excluded from the MIT licence in `LICENSE`
+as an imported room's are. The friendly edits are a brochure in its excursion's colours, a count of excursions, and a
+new excursion written straight onto the rack rather than as its own page.
+
+**A COMMUNITY MEMBER MAY LINK TO THEIR OWN BUSINESS IN WHAT THEY MAKE HERE, SIGNED AS ONE.** Ryan's call, 2026-11-04,
+when Retail Therapy arrived with a signed link to the Stimpunks Foundation's merch store: "I would like to let all
+community members include links to their businesses." It narrows the street's habit that nothing here is for sale, which
+stays true of every room that says so about itself (Nothing For Sale, the patches, Glow Go Gee Gaws, the caverns): those
+are each room's own promises, and this is about what a member brings. Signed means the link says it takes money, as
+Retail Therapy's shop does in her words. The friendly edits are a referral code or a pitch in somebody else's room, and a
+shop link added to a room whose own page says nothing in it is for sale.
 
 **CHAMPURU (§136) IS RYAN'S OWN TABLE, AND NOTHING ON IT SAYS WHAT FOOD DOES FOR A BODY.** Ryan's brief, 2026-11-03:
 a restaurant to sit in when he eats, next door to Vital Plant Living, with Mediterranean and Okinawan dishes and the
@@ -6025,18 +6055,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §142 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §144 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§142 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§144 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §142 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §144 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

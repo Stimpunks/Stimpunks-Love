@@ -2349,7 +2349,10 @@
     },
     "glow-wild-hollow.html": {
       "kind": "julia",
-      "c": [0.32, 0.043],
+      "c": [
+        0.32,
+        0.043
+      ],
       "orbit": 0.02,
       "bands": 0.06,
       "ground": "--gwh-night",
@@ -2362,7 +2365,10 @@
     },
     "play-pod.html": {
       "kind": "phoenix",
-      "c": [0.5667, 0.0],
+      "c": [
+        0.5667,
+        0.0
+      ],
       "p": -0.5,
       "orbit": 0.015,
       "swing": 0.06,
@@ -2391,6 +2397,38 @@
         "--rdr-ember",
         "--rdr-flame",
         "--rdr-flame-2"
+      ]
+    },
+    "excursions.html": {
+      "kind": "julia",
+      "c": [
+        -0.4012,
+        0.5917
+      ],
+      "orbit": 0.017,
+      "bands": 0.07,
+      "ground": "--exc-lobby",
+      "inks": [
+        "--exc-glow",
+        "--exc-water",
+        "--exc-park",
+        "--exc-route"
+      ]
+    },
+    "retail-therapy.html": {
+      "kind": "julia",
+      "c": [
+        0.2961,
+        0.0533
+      ],
+      "orbit": 0.014,
+      "bands": 0.05,
+      "ground": "--rth-floor",
+      "inks": [
+        "--rth-register",
+        "--rth-tag",
+        "--rth-brick",
+        "--rth-glass"
       ]
     }
   }

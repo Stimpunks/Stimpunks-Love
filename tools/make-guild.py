@@ -436,6 +436,21 @@ DRAW = {
     # bracts in --chp-bougain, 6.13 on the shade it lies in and over the body
     # threshold a marker is held to, round a small pale flower in --chp-sun,
     # with the floor line in --chp-ink-2. It lies in the shade and does not move.
+    # Excursions: a brochure fallen out of the rack onto the terrazzo, folded in
+    # three and lying half open, its lit panel turned up. The paper is
+    # --exc-paper, 14.9 on the lobby and over the body threshold a marker is held
+    # to, the inside panel --exc-glow, with the route printed on it in
+    # --exc-route. The floor line is --exc-ink-2 and carries nothing. It lies
+    # still.
+    "exc-fold": """<path d="M3 29 H29" stroke="var(--exc-ink-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 25 L11 13 L18 16 L12.5 27.5 Z" fill="var(--exc-paper)"/><path d="M18 16 L26.5 11.5 L21.5 25 L12.5 27.5 Z" fill="var(--exc-glow)"/><path d="M14.5 23.5 C17 20 19 19 23 15.5" fill="none" stroke="var(--exc-route)" stroke-width="1.6" stroke-linecap="round"/><path d="M7.5 22.5 L11.5 15.5 M9 24.5 L13 17.5" stroke="var(--exc-print-2)" stroke-width="1.1" stroke-linecap="round"/>""",
+    # Retail Therapy: a blank price tag come off a shelf, lying on the shop
+    # floor with its string in a loop, because every shelf in that shop holds a
+    # question instead of a price. Drawn in Norah Hobbs's own colours: the tag
+    # --rth-tag outlined in --rth-tag-ink, 15.2 on her floor and over the body
+    # threshold a marker is held to, its hole --rth-floor, the string
+    # --rth-quiet and the floor line --rth-rule, which carries nothing. With the
+    # lights off the tag stands out on the dark floor by its fill. It lies still.
+    "rth-receipt": """<path d="M3 29 H29" stroke="var(--rth-rule)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 25.5 L8 15 L13 10 L18 15 L18 25.5 Z" fill="var(--rth-tag)" stroke="var(--rth-tag-ink)" stroke-width="1.4" stroke-linejoin="round"/><circle cx="13" cy="14.6" r="1.6" fill="var(--rth-floor)" stroke="var(--rth-tag-ink)" stroke-width="1"/><path d="M13 13 C15 6 23 5 25 11 C27 17 20 20 18 24" fill="none" stroke="var(--rth-quiet)" stroke-width="1.2" stroke-linecap="round"/>""",
     "chp-bract": """<path d="M3 29 H29" stroke="var(--chp-ink-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 20 C10 20 6 15 8 10 C12 10 16 14 16 20 Z" fill="var(--chp-bougain)"/><path d="M16 20 C17 13 22 9 27 11 C27 16 22 20 16 20 Z" fill="var(--chp-bougain)"/><path d="M16 20 C12 23 12 27 16 28 C20 27 20 23 16 20 Z" fill="var(--chp-bougain)"/><path d="M16 20 L16 15" stroke="var(--chp-ink-2)" stroke-width="1.2" stroke-linecap="round"/><circle cx="16" cy="14.5" r="1.8" fill="var(--chp-sun)" stroke="var(--chp-ink-2)" stroke-width=".8"/>""",
     # The Comfort Station: a glass prism fallen out of the pavement onto the
     # terrazzo, a squat round lens of aged violet glass lying on its side. The

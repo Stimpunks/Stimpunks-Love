@@ -687,6 +687,16 @@
    "room": "Loo With a View"
   },
   {
+   "id": "exc-fold",
+   "title": "What is in a brochure?",
+   "room": "Excursions"
+  },
+  {
+   "id": "rth-receipt",
+   "title": "How does checkout work?",
+   "room": "Retail Therapy"
+  },
+  {
    "id": "bkb-mic",
    "title": "Breaker one-nine",
    "room": "Breaker Breaker"

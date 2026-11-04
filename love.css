@@ -4578,6 +4578,52 @@
   --qst-shade: #3A3340;  --qst-cork: #B48A5F;  --qst-cork-dark: #7F5D3F;
   --qst-blanket: #7A5E86;  --qst-free: #86AE8F;  --qst-busy: #D69276;
 
+  /* §141 Excursions: a visitor centre's lobby after the doors are locked, lit
+     only by the backlit map of the area on its wall. The page: --exc-lobby its
+     ground; --exc-ink every word on it and --exc-ink-2 the quieter ones;
+     --exc-sign the name and the headings, the yellow of the "i"; --exc-route
+     the links, the orange of the routes printed on the map, --exc-route-hot a
+     link under the pointer. A brochure in the rack: --exc-paper its paper,
+     --exc-print every word on it, --exc-print-2 the quieter ones,
+     --exc-print-link and --exc-print-hot a link on it. Drawn in no word:
+     --exc-glow the map's lit face and the edge of every brochure turned to it,
+     --exc-water and --exc-park the map's lakes and woods, --exc-wire the rack,
+     --exc-floor the terrazzo under it. */
+  --exc-lobby: #1C2128;  --exc-ink: #ECE8DF;  --exc-ink-2: #B6BAC1;
+  --exc-sign: #F2C14E;  --exc-route: #F3A05C;  --exc-route-hot: #FFD08A;
+  --exc-paper: #F3EFE4;  --exc-print: #22262C;  --exc-print-2: #4C515A;
+  --exc-print-link: #9E400C;  --exc-print-hot: #6E2A05;  --exc-glow: #F7F0D8;
+  --exc-water: #5DA9D6;  --exc-park: #5E9F63;  --exc-wire: #8A9099;
+  --exc-floor: #2A2F37;
+
+  /* §142 Retail Therapy: Norah Hobbs's shop that sells nothing, brought onto
+     the street from the page she made for Infodumplings, 2026-11-05. Her
+     colours exactly as she declared them, under her names with rth- before
+     them. With the lights low: --rth-floor the floor and the page, --rth-shelf
+     a shelf, a card or a tag, --rth-ink every word, --rth-quiet the quieter
+     ones, --rth-rule a rule, --rth-register the name, the links and the focus
+     ring, --rth-tag and --rth-tag-ink a price tag and its words, --rth-glass
+     the shop windows, --rth-brick the front and the one till, --rth-sky the
+     night over the front. With the lights off, the shop after closing:
+     --rth-off-* the same jobs. What her page wrote out literally is named
+     here too: --rth-white the words on the brick, --rth-wood the little free
+     library's house, --rth-shutter and --rth-shutter-line the shutters that
+     come down, and the seven book spines and their inks. Nothing of hers was
+     changed but the dark scheme her page also had for a device set to dark,
+     which the street's own low-stimulation modes stand in for here. */
+  --rth-floor: #E6E9E1;  --rth-shelf: #EEF0E9;  --rth-ink: #1E2A2B;
+  --rth-quiet: #55625F;  --rth-rule: #C9D3CB;  --rth-register: #1F6F66;
+  --rth-tag: #E2C866;  --rth-tag-ink: #2A2408;  --rth-glass: #E8DDB2;
+  --rth-brick: #B24A4F;  --rth-sky: #DCE6E0;  --rth-white: #FFFFFF;
+  --rth-off-floor: #11151F;  --rth-off-shelf: #191E2B;  --rth-off-ink: #DDE0E6;
+  --rth-off-quiet: #9097A8;  --rth-off-rule: #2C3344;  --rth-off-register: #4BD08A;
+  --rth-off-tag: #C9AE3A;  --rth-off-tag-ink: #1A1606;  --rth-off-glass: #232A3B;
+  --rth-off-brick: #3A2A33;  --rth-off-sky: #0B0E16;
+  --rth-wood: #7A5232;  --rth-shutter: #3B4252;  --rth-shutter-line: #2A303D;
+  --rth-book-blue: #2E5E8C;  --rth-book-wine: #8E3A3F;  --rth-book-green: #3F7D5C;
+  --rth-book-lilac: #C9B8E6;  --rth-book-lilac-ink: #221A33;
+  --rth-book-amber: #D9824B;  --rth-book-amber-ink: #24130A;
+
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -5787,6 +5833,23 @@ div.facade--square { border: 0; background: none; }
 .door--chp .door__name  { font-family: 'Klee One', var(--sans); font-weight: 600; color: var(--chp-sea); font-size: 32px; line-height: 1.08; font-synthesis: none; }
 .door--chp .door__blurb { font-family: 'M PLUS 2', var(--sans); color: var(--chp-ink-2); font-size: 16px; line-height: 1.45; font-synthesis: none; }
 .door--chp .door__knock { font-family: 'M PLUS 2', var(--sans); font-weight: 700; font-size: 15px; color: var(--chp-bougain); font-synthesis: none; }
+
+/* Excursions (§141). THE ONE FRONT IN THE ROW WHOSE AWNING IS A MAP: the
+   backlit map of the area on the lobby wall, a lake, a wood and an orange
+   route across it, glowing over a dark front. The name is the visitor
+   centre's yellow sign. Every ink here is on --exc-lobby and is measured in
+   check-contrast.py. */
+.door--exc { background: var(--exc-lobby); border-color: var(--exc-wire); }
+.door--exc .door__awning {
+  background-color: var(--exc-glow);
+  background-image: linear-gradient(104deg, transparent 0 46%, var(--exc-route) 46% 49%, transparent 49%),
+                    radial-gradient(ellipse 26px 9px at 76% 42%, var(--exc-water) 0 96%, transparent 100%),
+                    linear-gradient(0deg, var(--exc-park) 0 7px, transparent 7px);
+  border-bottom-color: var(--exc-wire);
+}
+.door--exc .door__name  { font-family: 'Josefin Sans', var(--sans); font-weight: 600; color: var(--exc-sign); font-size: 30px; line-height: 1.1; font-synthesis: none; }
+.door--exc .door__blurb { font-family: 'Public Sans', var(--sans); color: var(--exc-ink); }
+.door--exc .door__knock { font-family: 'Public Sans', var(--sans); font-weight: 700; font-size: 15px; color: var(--exc-route); }
 
 /* The Comfort Station's door: white tile with its green band, and over the
    door the vault lights' grid of glass dots, the sign in Newsreader in the
@@ -19278,7 +19341,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §142
+   class on it is `bb-`, its sizes are in points and millimetres, and §144
    prints it and nothing else. */
 
 .room-broadside {
@@ -19339,7 +19402,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §142 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §144 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -31975,7 +32038,274 @@ body.seaside { background: var(--sea-haze); color: var(--sea-ink); font-family: 
 }
 .qst-walk-wool iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--qst-felt); }
 
-/* §141 ── Small screens───────────────────────────────────────────────────────
+/* §141 ── ROOM: Excursions (a shopfront on the street) ─────────────────────────
+   A visitor centre's lobby after the doors are locked. The one light left on
+   is the backlit map of the area on the wall, a lightbox printed with lakes,
+   woods and orange routes, and beside it stands a wire rack of brochures, one
+   for every outing we took together, the newest in the top pocket. Every
+   brochure is lit along the edge turned to the map and throws its shadow away
+   from it, so the light in this room always comes from the left and from a
+   picture of somewhere else.
+
+   AN EXCURSION IS PART ROOM, PART ANNOUNCEMENT AND PART RUN OF SHOW, and each
+   one is its maker's page, in its maker's look: this room is only the rack.
+   So the brochures are all the same paper and the same cut, and nothing of
+   any excursion's colours is laid on them. The Map's rule: a rack that painted
+   each brochure in its excursion's colours would be a swatch book saying the
+   excursions belong to one set.
+
+   THE COLLISIONS. The Feed is the one to watch: also a board lit from inside
+   in a dark hall. Its light comes through a black mask, so only the letters
+   are lit and the enamel between them is dead; here the whole map glows in
+   printed colour, nothing on it is a word, and the light leaves it and lands
+   on paper beside it. If the map ever grows lettering, or the brochures go
+   into rows on a board, it has become The Feed. The Editorial Room is the
+   other light table, and its light comes up through the proofs; here it comes
+   sideways off the wall. The Map is the street as a model in daylight. The
+   Community Center's service board sorts what other rooms take; this rack
+   keeps what we did. Nothing moves at any setting. */
+body.excursions { background: var(--exc-lobby); color: var(--exc-ink); font-family: 'Public Sans', var(--sans); }
+.excursions a { color: var(--exc-route); text-underline-offset: .18em; }
+.excursions a:hover { color: var(--exc-route-hot); }
+.excursions :focus-visible { outline-color: var(--exc-sign); }
+.excursions .backlink { color: var(--exc-route); }
+.exc-topline { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; margin: 0 0 18px; }
+.exc-trail { margin: 0; color: var(--exc-ink-2); font-size: 14px; }
+.exc-head { margin: 0 0 8px; }
+.exc-over { margin: 0 0 6px; color: var(--exc-ink-2); font-size: 14px; letter-spacing: .12em; text-transform: uppercase; }
+.excursions h1 { font-family: 'Josefin Sans', var(--sans); font-weight: 600; color: var(--exc-sign); font-size: clamp(44px, 8vw, 76px); line-height: 1; letter-spacing: .02em; margin: 0 0 12px; }
+.exc-sub { margin: 0; font-size: 20px; line-height: 1.45; max-width: 36em; }
+.excursions h2 { font-family: 'Josefin Sans', var(--sans); font-weight: 600; color: var(--exc-sign); font-size: 30px; line-height: 1.15; margin: 44px 0 12px; }
+.excursions p, .excursions li { line-height: 1.6; }
+.exc-lede { font-size: 18px; max-width: 40em; }
+.exc-view { margin: 24px 0 8px; }
+.exc-view svg { display: block; width: 100%; height: auto; max-width: 880px; }
+.exc-rack { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 22px; max-width: 46em; }
+.exc-brochure {
+  background: var(--exc-paper); color: var(--exc-print);
+  border-left: 8px solid var(--exc-glow); border-radius: 2px;
+  padding: 18px 22px 20px; box-shadow: 10px 8px 0 var(--exc-floor);
+}
+.exc-brochure a { color: var(--exc-print-link); }
+.exc-brochure a:hover { color: var(--exc-print-hot); }
+.exc-brochure :focus-visible { outline-color: var(--exc-print); }
+.exc-when { margin: 0 0 6px; color: var(--exc-print-2); font-size: 14px; letter-spacing: .08em; text-transform: uppercase; }
+.excursions .exc-brochure h3 { font-family: 'Josefin Sans', var(--sans); font-weight: 600; font-size: 28px; line-height: 1.1; margin: 0 0 8px; }
+.exc-who { margin: 0 0 8px; color: var(--exc-print-2); font-size: 15px; }
+.exc-line { margin: 0; }
+.exc-credits { margin-top: 40px; color: var(--exc-ink-2); font-size: 15px; max-width: 46em; }
+
+/* §142 ── SUBROOM: Retail Therapy (an excursion on the rack in Excursions) ───────
+   NORAH HOBBS'S SHOP THAT SELLS NOTHING, made with Claude for Infodumplings on
+   Thursday 5 November 2026. Everything below is her stylesheet, rule for rule,
+   with rth- in front of every class, every rule scoped to the page, and the
+   colours she wrote out named in §2. What she drew is hers and is not ours to
+   redesign: her sage floor and teal register, Shrikhand for the name and the
+   departments, Atkinson Hyperlegible for every word read, the storefront, the
+   mall map board, the price tags and the little free library.
+
+   HER LIGHTS ARE TWO PALETTES ON ONE PAGE. With the lights low it is the shop
+   in sensory hours; with the lights off, the shop after closing, shutters
+   down and the exit sign the only light. retail-therapy.js sets data-lights on
+   <body>, and the page's own --rt-* names follow it, so every rule below
+   is written once. The scheme her page also had for a device set to dark was
+   left out, and the street's low-stimulation modes stand in for it.
+
+   THE COLLISIONS are hers to mind, and none of them is close: Pink Pony Club
+   also sets Shrikhand, in cream on flat hot pink; this is teal on pale sage.
+   The Haunted House lent her the shape of two ways through one list. */
+body.retail-therapy {
+  --rt-floor: var(--rth-floor); --rt-shelf: var(--rth-shelf); --rt-ink: var(--rth-ink);
+  --rt-quiet: var(--rth-quiet); --rt-rule: var(--rth-rule); --rt-register: var(--rth-register);
+  --rt-tag: var(--rth-tag); --rt-tag-ink: var(--rth-tag-ink); --rt-glass: var(--rth-glass);
+  --rt-brick: var(--rth-brick); --rt-sky: var(--rth-sky); --rt-exit: var(--rth-register);
+  --rt-tile0-ink: var(--rth-floor); --rt-spine-edge: rgba(0, 0, 0, .18);
+  background: var(--rt-floor); color: var(--rt-ink);
+  font-family: 'Atkinson Hyperlegible', 'Verdana', 'Segoe UI', sans-serif;
+  font-size: 1.125rem; line-height: 1.55;
+}
+body.retail-therapy[data-lights="down"] {
+  --rt-floor: var(--rth-off-floor); --rt-shelf: var(--rth-off-shelf); --rt-ink: var(--rth-off-ink);
+  --rt-quiet: var(--rth-off-quiet); --rt-rule: var(--rth-off-rule); --rt-register: var(--rth-off-register);
+  --rt-tag: var(--rth-off-tag); --rt-tag-ink: var(--rth-off-tag-ink); --rt-glass: var(--rth-off-glass);
+  --rt-brick: var(--rth-off-brick); --rt-sky: var(--rth-off-sky); --rt-exit: var(--rth-off-register);
+  --rt-tile0-ink: var(--rth-off-floor);
+}
+.retail-therapy a { color: var(--rt-register); text-underline-offset: .18em; }
+.retail-therapy .backlink { color: var(--rt-register); }
+.retail-therapy :focus-visible { outline: 3px solid var(--rt-register); outline-offset: 3px; }
+.retail-therapy .rth-sprite { position: absolute; width: 0; height: 0; }
+.retail-therapy .rth-wrap { max-width: 42rem; margin: 0 auto; padding: 0 1.25rem 54px; }
+.retail-therapy .rth-topline { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; margin: 0 0 14px; }
+.retail-therapy .rth-trail { margin: 0; color: var(--rt-quiet); font-size: 1rem; }
+
+/* The storefront */
+.retail-therapy .rth-front { background: var(--rt-sky); border-bottom: 6px solid var(--rt-register); margin: 0 -1.25rem; }
+.retail-therapy .rth-front svg { display: block; width: 100%; height: auto; max-width: 56rem; margin: 0 auto; }
+.retail-therapy .rth-facade { fill: var(--rt-brick); }
+.retail-therapy .rth-trim { fill: var(--rt-ink); opacity: .85; }
+.retail-therapy .rth-glass { fill: var(--rt-glass); }
+.retail-therapy .rth-sign-board { fill: var(--rt-register); }
+.retail-therapy .rth-sign-text { fill: var(--rt-floor); font-family: 'Shrikhand', Georgia, serif; font-size: 34px; }
+.retail-therapy .rth-stock { fill: var(--rt-ink); opacity: .55; }
+.retail-therapy .rth-awning-a { fill: var(--rt-register); }
+.retail-therapy .rth-awning-b { fill: var(--rt-floor); }
+.retail-therapy .rth-door-sign { fill: var(--rt-tag); }
+.retail-therapy .rth-door-text { fill: var(--rt-tag-ink); font-family: 'Atkinson Hyperlegible', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .04em; }
+.retail-therapy .rth-cart-line { fill: none; stroke: var(--rt-ink); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.retail-therapy .rth-cart-seat { fill: var(--rt-register); }
+.retail-therapy .rth-cart-wheel { fill: var(--rt-ink); }
+.retail-therapy .rth-shutter { fill: var(--rth-shutter); display: none; }
+.retail-therapy .rth-shutter-line { stroke: var(--rth-shutter-line); stroke-width: 2; display: none; }
+.retail-therapy .rth-gap-light, .retail-therapy .rth-exit-glow { fill: var(--rt-exit); display: none; }
+.retail-therapy .rth-closed-text { display: none; }
+.retail-therapy[data-lights="down"] .rth-shutter,
+.retail-therapy[data-lights="down"] .rth-shutter-line,
+.retail-therapy[data-lights="down"] .rth-gap-light,
+.retail-therapy[data-lights="down"] .rth-exit-glow,
+.retail-therapy[data-lights="down"] .rth-closed-text { display: inline; }
+.retail-therapy[data-lights="down"] .rth-open-text { display: none; }
+.retail-therapy[data-lights="down"] .rth-stock { opacity: .15; }
+
+.retail-therapy .rth-title { padding: 2.25rem 0 .5rem; }
+.retail-therapy h1 { font-family: 'Shrikhand', Georgia, serif; font-weight: 400; font-size: clamp(2.6rem, 9vw, 4.2rem); line-height: 1.02; margin: 0 0 .75rem; color: var(--rt-register); }
+.retail-therapy .rth-dek { font-size: 1.3rem; line-height: 1.4; margin: 0 0 1.5rem; }
+.retail-therapy h2 { font-family: 'Atkinson Hyperlegible', sans-serif; font-weight: 700; font-size: 1.55rem; line-height: 1.2; margin: 3rem 0 .75rem; color: var(--rt-ink); }
+.retail-therapy h3 { font-family: 'Atkinson Hyperlegible', sans-serif; font-weight: 700; font-size: 1.2rem; line-height: 1.25; margin: 0 0 .35rem; color: var(--rt-ink); }
+
+.retail-therapy .rth-sensory, .retail-therapy .rth-come, .retail-therapy .rth-cafe,
+.retail-therapy .rth-library, .retail-therapy .rth-ride { margin: 2rem 0; }
+.retail-therapy .rth-sensory h2, .retail-therapy .rth-come h2, .retail-therapy .rth-cafe h2,
+.retail-therapy .rth-library h2, .retail-therapy .rth-ride h2 { margin-top: 0; }
+.retail-therapy .rth-promise { font-size: 1.3rem; line-height: 1.4; }
+.retail-therapy .rth-host { background: var(--rt-shelf); border: 1px solid var(--rt-rule); border-radius: 6px; padding: .85rem 1.1rem; font-size: 1rem; }
+.retail-therapy .rth-bench { border-left: .6rem solid var(--rt-exit); padding: .25rem 0 .25rem 1.1rem; margin: 2rem 0; }
+.retail-therapy .rth-bench h2 { margin-top: 0; }
+.retail-therapy .rth-bench p { margin: 0 0 .75rem; }
+.retail-therapy .rth-bring { background: var(--rt-shelf); border: 1px solid var(--rt-rule); border-radius: 6px; padding: 1rem 1.25rem; margin: 1.5rem 0; }
+.retail-therapy .rth-bring h2 { margin-top: 0; font-size: 1.25rem; }
+.retail-therapy .rth-bring ul { margin: 0; padding-left: 1.2rem; }
+
+/* The light switch: the one bold thing on the page */
+.retail-therapy .rth-lights { margin: 2.5rem 0 1rem; }
+.retail-therapy .rth-lights__label { font-weight: 700; margin: 0 0 .5rem; }
+.retail-therapy .rth-lights__row { display: flex; flex-wrap: wrap; gap: .75rem; }
+.retail-therapy .rth-lights__btn {
+  font: inherit; font-weight: 700; flex: 1 1 14rem; text-align: left;
+  padding: .9rem 1rem; border-radius: 6px; border: 2px solid var(--rt-ink);
+  background: var(--rt-shelf); color: var(--rt-ink); cursor: pointer;
+}
+.retail-therapy .rth-lights__btn[aria-pressed="true"] { background: var(--rt-tag); color: var(--rt-tag-ink); border-color: var(--rt-tag); }
+.retail-therapy .rth-lights__btn small { display: block; font-weight: 400; font-size: .95rem; }
+.retail-therapy .rth-lights__note { color: var(--rt-quiet); margin: .6rem 0 0; min-height: 1.5em; }
+
+/* Lights off: the hunt */
+.retail-therapy .rth-rooms { list-style: none; padding: 0; margin: 1.5rem 0 0; }
+.retail-therapy .rth-room { border-top: 1px solid var(--rt-rule); padding: 1.5rem 0; }
+.retail-therapy .rth-room__name { font-family: 'Shrikhand', Georgia, serif; font-weight: 400; font-size: 1.6rem; color: var(--rt-exit); margin: 0 0 .3rem; }
+.retail-therapy .rth-room__line { color: var(--rt-quiet); margin: 0 0 1rem; }
+.retail-therapy .rth-places { list-style: none; padding: 0; margin: 0; display: grid; gap: .6rem; }
+.retail-therapy .rth-look {
+  font: inherit; width: 100%; text-align: left; padding: .75rem 1rem; border-radius: 4px;
+  border: 1px dashed var(--rt-quiet); background: transparent; color: var(--rt-ink); cursor: pointer;
+}
+.retail-therapy .rth-look[aria-expanded="true"] { border-style: solid; border-color: var(--rt-exit); }
+.retail-therapy .rth-found { margin: .5rem 0 .25rem; }
+.retail-therapy .rth-out { margin: 1rem 0 0; font-size: 1rem; color: var(--rt-quiet); }
+
+/* Lights on: one list, every prompt on its own price tag */
+.retail-therapy .rth-things { padding: 0; margin: 1.5rem 0 0; list-style: none; counter-reset: rth-thing; }
+.retail-therapy .rth-thing { counter-increment: rth-thing; margin: 0 0 1rem; }
+.retail-therapy .rth-thing__body {
+  position: relative; background: var(--rt-shelf); border: 1px solid var(--rt-rule);
+  border-left: .6rem solid var(--rt-tag); border-radius: 4px; padding: 1rem 1.25rem;
+}
+.retail-therapy .rth-things .rth-thing__body h3::before { content: counter(rth-thing) ". "; color: var(--rt-quiet); font-weight: 400; }
+.retail-therapy .rth-thing__body p { margin: 0 0 .5rem; }
+.retail-therapy .rth-where { font-size: .95rem; color: var(--rt-quiet); margin: 0 !important; }
+.retail-therapy .rth-thing__body::before {
+  content: ""; position: absolute; left: -.45rem; top: 1.05rem; width: .45rem; height: .45rem;
+  border-radius: 50%; background: var(--rt-floor); box-shadow: inset 0 0 0 1px var(--rt-rule);
+}
+.retail-therapy .rth-rules { padding-left: 1.2rem; }
+.retail-therapy .rth-rules li { margin-bottom: .6rem; }
+.retail-therapy .rth-credits { border-top: 1px solid var(--rt-rule); margin-top: 3rem; padding: 1.5rem 0 1rem; color: var(--rt-quiet); font-size: 1rem; }
+
+/* the Stimpunks shop: the one till */
+.retail-therapy .rth-merch { margin: 3rem 0; padding: 1.25rem; background: var(--rt-shelf); border: 3px solid var(--rt-brick); border-radius: 10px; }
+.retail-therapy .rth-merch h2 { margin-top: .5rem; }
+.retail-therapy .rth-merch__sign { display: inline-block; margin: 0; background: var(--rt-brick); color: var(--rth-white); font-weight: 700; font-size: .9rem; letter-spacing: .04em; text-transform: uppercase; padding: .2rem .65rem; border-radius: 4px; }
+.retail-therapy .rth-merch__go { display: inline-block; background: var(--rt-tag); color: var(--rt-tag-ink); font-weight: 700; text-decoration: none; padding: .75rem 1.1rem; border-radius: 6px; border: 2px solid var(--rt-tag-ink); }
+.retail-therapy .rth-merch__go:hover { text-decoration: underline; }
+.retail-therapy .rth-merch__note { display: block; font-weight: 400; font-size: .9rem; }
+.retail-therapy .rth-neighbor { margin: 3rem 0; }
+
+/* icons */
+.retail-therapy .rth-ico { width: 1.6em; height: 1.6em; vertical-align: -.35em; margin-right: .45rem; flex: none; }
+.retail-therapy .rth-room__name .rth-ico { width: 1.3em; height: 1.3em; }
+
+/* store directory: a mall map board */
+.retail-therapy .rth-directory { margin: 2rem 0 1rem; background: var(--rt-ink); color: var(--rt-floor); border-radius: 10px; padding: 1.25rem; }
+.retail-therapy .rth-directory h2 { margin-top: 0; font-family: 'Shrikhand', Georgia, serif; font-weight: 400; color: var(--rt-tag); }
+.retail-therapy .rth-directory p { margin: 0 0 1rem; }
+.retail-therapy .rth-directory :focus-visible { outline-color: var(--rt-tag); }
+.retail-therapy .rth-tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: .6rem; }
+.retail-therapy .rth-tile {
+  position: relative; width: 100%; height: 100%; min-height: 7.5rem;
+  font: inherit; text-align: left; cursor: pointer;
+  display: flex; flex-direction: column; gap: .2rem;
+  padding: .75rem; border-radius: 8px; border: 2px solid transparent;
+}
+.retail-therapy .rth-tile .rth-ico { width: 2.2rem; height: 2.2rem; margin: 0 0 .25rem; }
+.retail-therapy .rth-tile__name { font-weight: 700; line-height: 1.2; }
+.retail-therapy .rth-tile__sub { font-size: .9rem; line-height: 1.3; }
+.retail-therapy .rth-tile--0 { background: var(--rt-register); color: var(--rt-tile0-ink); }
+.retail-therapy .rth-tile--1 { background: var(--rt-tag); color: var(--rt-tag-ink); }
+.retail-therapy .rth-tile--2 { background: var(--rt-shelf); color: var(--rt-ink); }
+.retail-therapy .rth-tile--3 { background: var(--rt-floor); color: var(--rt-ink); }
+.retail-therapy .rth-tile--shop { background: var(--rt-brick); color: var(--rth-white); }
+.retail-therapy .rth-tile--link, .retail-therapy .rth-tile--shop { text-decoration: none; }
+.retail-therapy .rth-tile:hover { border-color: var(--rt-tag); }
+.retail-therapy .rth-here { position: absolute; top: .5rem; right: .5rem; background: var(--rt-brick); color: var(--rth-white); font-size: .75rem; font-weight: 700; padding: .1rem .45rem; border-radius: 999px; }
+.retail-therapy[data-lights="down"] .rth-directory h2 { color: var(--rt-floor); }
+/* The one ring changed on the way in: her yellow ring on the directory board measures 1.65 against the board with the lights off, so there it takes the floor's colour, 13.8. */
+.retail-therapy[data-lights="down"] .rth-directory :focus-visible { outline-color: var(--rt-floor); }
+
+/* little free library */
+.retail-therapy .rth-lfl { margin: 3rem 0; }
+.retail-therapy .rth-lfl__house { max-width: 26rem; margin: 1.5rem auto 0; }
+.retail-therapy .rth-lfl__roof { height: 3rem; background: var(--rt-brick); clip-path: polygon(50% 0, 100% 100%, 0 100%); margin: 0 -.75rem; }
+.retail-therapy .rth-lfl__books {
+  list-style: none; margin: 0; padding: 1rem 1rem .6rem;
+  background: var(--rt-shelf); border: .6rem solid var(--rth-wood); border-top: 0;
+  display: flex; flex-direction: column-reverse; gap: .3rem;
+  box-shadow: inset 0 -.5rem 0 var(--rth-wood);
+}
+.retail-therapy .rth-book { margin-left: var(--x); width: var(--w); }
+.retail-therapy .rth-book__spine {
+  font: inherit; font-weight: 700; width: 100%; text-align: left; cursor: pointer;
+  padding: .7rem 1rem; border: 0; border-radius: 3px;
+  background: var(--bg); color: var(--fg);
+  box-shadow: inset .55rem 0 0 var(--rt-spine-edge), inset -.55rem 0 0 var(--rt-spine-edge);
+}
+.retail-therapy .rth-book--blue  { --bg: var(--rth-book-blue);  --fg: var(--rth-white); }
+.retail-therapy .rth-book--tag   { --bg: var(--rth-tag);        --fg: var(--rth-tag-ink); }
+.retail-therapy .rth-book--wine  { --bg: var(--rth-book-wine);  --fg: var(--rth-white); }
+.retail-therapy .rth-book--green { --bg: var(--rth-book-green); --fg: var(--rth-white); }
+.retail-therapy .rth-book--lilac { --bg: var(--rth-book-lilac); --fg: var(--rth-book-lilac-ink); }
+.retail-therapy .rth-book--amber { --bg: var(--rth-book-amber); --fg: var(--rth-book-amber-ink); }
+.retail-therapy .rth-book--teal  { --bg: var(--rth-register);   --fg: var(--rth-white); }
+.retail-therapy .rth-book__spine[aria-expanded="true"] { outline: 3px solid var(--rt-ink); outline-offset: 2px; }
+.retail-therapy .rth-book__page { margin: .35rem 0 .5rem; padding: .75rem 1rem; background: var(--rt-floor); border: 1px solid var(--rt-rule); border-radius: 3px; }
+.retail-therapy .rth-lfl__books :focus-visible { outline-color: var(--rt-ink); }
+/* Her motion, kept to what she asked of it: a press sinks a tile or a spine a
+   little, and the lights change over a quarter of a second. §3 takes both away
+   at Gentle. */
+.retail-therapy .rth-tile, .retail-therapy .rth-book__spine { transition: transform .12s ease; }
+.retail-therapy .rth-tile:active, .retail-therapy .rth-book__spine:active { transform: scale(.98); }
+body.retail-therapy, .retail-therapy .rth-lights__btn { transition: background-color .25s, color .25s; }
+
+/* §143 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -32079,7 +32409,7 @@ body.seaside { background: var(--sea-haze); color: var(--sea-ink); font-family: 
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §141 says every
+   shipped with no rule here at all — which on a street whose §143 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -32203,7 +32533,7 @@ body.seaside { background: var(--sea-haze); color: var(--sea-ink); font-family: 
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §142 ── Print ───────────────────────────────────────────────────────────────
+/* §144 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

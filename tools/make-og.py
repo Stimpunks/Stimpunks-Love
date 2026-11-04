@@ -1474,6 +1474,26 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--champuru h1 {{ font-size: 76px; line-height: 1; margin: 0 0 16px !important; }}
 .og--champuru .og-lede {{ font-family: 'M PLUS 2', sans-serif; color: var(--chp-ink); font-size: 22px; line-height: 1.45; margin: 0; }}
 
+/* excursions — THE LOBBY, lifted whole, beside the name: the backlit map and
+   the rack of brochures lit off it, framed in the rack's wire. */
+.og--excursions {{ flex-direction: row; align-items: center; gap: 32px; padding: 40px 46px; }}
+.og--excursions .og-words {{ flex: 0 0 420px; }}
+.og--excursions .og-view {{ flex: 0 0 660px; border: 3px solid var(--exc-wire); border-radius: 4px; overflow: hidden; }}
+.og--excursions .og-view svg {{ display: block; width: 100%; height: auto; }}
+.og--excursions .exc-over {{ font-size: 14px; margin: 0 0 10px !important; }}
+.og--excursions h1 {{ font-size: 72px; line-height: 1; margin: 0 0 16px !important; }}
+.og--excursions .og-lede {{ font-family: 'Public Sans', sans-serif; color: var(--exc-ink); font-size: 22px; line-height: 1.45; margin: 0; }}
+
+/* retail therapy — NORAH HOBBS'S STOREFRONT, lifted whole off her page, across
+   the top of the card on her night sky, and her name for it in her teal
+   Shrikhand on her sage floor under it. */
+.og--retail-therapy {{ flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0; padding: 0; }}
+.og--retail-therapy .og-view {{ background: var(--rt-sky); border-bottom: 6px solid var(--rt-register); }}
+.og--retail-therapy .og-view svg {{ display: block; width: 100%; max-width: 900px; height: auto; margin: 0 auto; }}
+.og--retail-therapy .og-words {{ padding: 24px 60px 0; }}
+.og--retail-therapy h1 {{ font-size: 78px; line-height: 1.02; margin: 0 0 10px !important; }}
+.og--retail-therapy .og-lede {{ font-family: 'Atkinson Hyperlegible', sans-serif; color: var(--rt-ink); font-size: 23px; line-height: 1.4; margin: 0; }}
+
 /* the comfort station — THE HALL, lifted whole, across the top of the card
    down to the terrazzo, over the tile's green band, and the name under it in
    the band's green on the white tile. */
@@ -5444,6 +5464,55 @@ def card_champuru(p):
     )
 
 
+def card_excursions(p):
+    # THE LOBBY AND THE NAME ARE LIFTED WHOLE, so the card cannot show a rack
+    # the page does not, and the lede is the page's og:description.
+    draw = re.search(r'<figure class="exc-view"[^>]*>.*?(<svg.*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="exc-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: excursions.html has lost its lobby or its header, and the\n"
+            "card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--excursions" data-fit="card">'
+        f'<div class="og-words"><p class="exc-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-view">{draw.group(1)}</div>'
+        f'</div>',
+        f"A near-black card, the colour of a lobby after the lights are off. On the right, framed in grey wire: "
+        f"a backlit map glowing on the wall, pale cream with blue lakes, green woods and an orange route, and "
+        f"beside it a wire rack of cream brochures, each lit along its left edge and throwing its shadow to the "
+        f"right, with the map's light lying across the floor between them. On the left, small grey capitals "
+        f"reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in tall yellow capitals, then: "
+        f"{p['desc_plain']}",
+    )
+
+
+def card_retail_therapy(p):
+    # NORAH HOBBS'S STOREFRONT IS LIFTED WHOLE off her page, so the card shows
+    # the shop she drew and nothing of ours, and the lede is the page's
+    # og:description.
+    draw = re.search(r'<div class="rth-front"[^>]*>\s*(<svg.*?</svg>)', p["src"], re.S)
+    if not (draw and p["h1"]):
+        raise SystemExit(
+            "REFUSING: retail-therapy.html has lost its storefront or its name,\n"
+            "and the card is those. Redesign the card on purpose, with Norah.")
+    return (
+        "",
+        f'<div class="og og--retail-therapy" data-fit="card">'
+        f'<div class="og-view">{draw.group(1)}</div>'
+        f'<div class="og-words">{p["h1"]}<p class="og-lede">{p["desc"]}</p></div>'
+        f'</div>',
+        f"A pale sage card. Across the top, on a pale night sky over a teal line, a red-brick shopfront: a teal "
+        f"sign reading Retail Therapy in a round, heavy script, a teal and cream striped awning, two shop "
+        f"windows with shapes on their shelves, a glass door with a yellow sign reading QUIET HRS, and a shopping "
+        f"cart with a big teal seat parked outside. Below, \u201c{p['h1text']}\u201d in the same teal script, "
+        f"then: {p['desc_plain']}",
+    )
+
+
 def card_source(p):
     # THE HILLSIDE AND THE NAME ARE LIFTED WHOLE, so the card cannot show a hill
     # the page does not, and the lede is the page's og:description.
@@ -6212,6 +6281,8 @@ CARDS = {
     "honestybox":   card_honestybox,
     "dairy":        card_dairy,
     "champuru":     card_champuru,
+    "excursions":   card_excursions,
+    "retail-therapy": card_retail_therapy,
     "comfort-station": card_comfort_station,
     "mixedfarm":    card_mixedfarm,
     # A room you have to know the address of, and the room behind its door

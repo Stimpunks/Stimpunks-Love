@@ -4550,6 +4550,72 @@
    ]
   }
  },
+ {
+  "id": "exc-fold",
+  "page": "excursions.html",
+  "room": "Excursions",
+  "title": "What is in a brochure?",
+  "posted": "Past Cavendish Coworking there is a visitor centre after closing, with a rack of brochures beside a backlit map. Its sign says what every brochure in the rack is made of. Go and read it.",
+  "rank": 1,
+  "takes": "about as long as it takes to read a sign by the door",
+  "target": "a brochure fallen out of the rack onto the floor",
+  "code": "BROCHURE",
+  "learned": "An excursion is part room, part announcement and part run of show: somewhere to go for one gathering, the when and where and what to bring, and the way round on the night. Every one is its maker's page, and after the night it stays on the rack so anybody can take the same walk round on their own.",
+  "hints": [
+   "On the street itself, in the row of shopfronts, just past Cavendish Coworking: the front with a glowing map on its awning.",
+   "In the section headed What an excursion is.",
+   "Right at the foot of the room, on the floor, where a brochure has slipped out of the rack."
+  ],
+  "ask": {
+   "question": "An excursion is part room, part announcement and part what?",
+   "accept": [
+    "run of show",
+    "a run of show",
+    "the run of show",
+    "runofshow"
+   ],
+   "answer": "Run of show",
+   "why": "An excursion carries the way round on the night: the questions in order and the way out of every one of them. That is its run of show.",
+   "hints": [
+    "It is in the section headed What an excursion is.",
+    "It is the order a show runs in.",
+    "Run of s..."
+   ]
+  }
+ },
+ {
+  "id": "rth-receipt",
+  "page": "retail-therapy.html",
+  "room": "Retail Therapy",
+  "title": "How does checkout work?",
+  "posted": "On the rack in Excursions there is a brochure for a shop that sells nothing, open late for one sensory-friendly night. Its checkout works like something else. Go and find out what.",
+  "rank": 1,
+  "takes": "about as long as a wander round a quiet shop",
+  "target": "a blank price tag come off a shelf",
+  "code": "LAYAWAY",
+  "learned": "In Retail Therapy nothing is sealed and nothing has a price tag. Picking something up, squishing it and stimming with it is shopping too, so checkout works like a lending library: take what you need, keep it as long as you need it, and there are no late fees and no questions at the register.",
+  "hints": [
+   "Behind Excursions, on the street past Cavendish Coworking: take the brochure off the rack.",
+   "In the section headed Checkout works like a lending library.",
+   "Right at the foot of the shop, on the floor, where a price tag has come off a shelf."
+  ],
+  "ask": {
+   "question": "In Retail Therapy, checkout works like what?",
+   "accept": [
+    "a lending library",
+    "lending library",
+    "library",
+    "a library"
+   ],
+   "answer": "A lending library",
+   "why": "Nothing in the shop is sealed or priced: take what you need, bring it back when you are done or don't, with no late fees and no questions at the register.",
+   "hints": [
+    "It is in a heading near the top of the shop.",
+    "Somewhere you borrow books.",
+    "A lending l..."
+   ]
+  }
+ },
   {
    "id": "bkb-mic",
    "page": "breaker-breaker.html",

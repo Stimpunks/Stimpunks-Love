@@ -967,6 +967,21 @@ QST_INK, QST_INK2, QST_PLUM = "#2A2430", "#4D4454", "#6B2F62"
 # Champuru (love.css §136). A table in the shade of a lane, lit by the sunlit
 # wall across from it: every word on the shade or on the cloth lying in it;
 # no word on the lit wall, the lane or the light down a card's side.
+# Excursions (§141): a lobby after closing, lit by a backlit map; and the
+# brochures in the rack beside it.
+EXC_LOBBY, EXC_INK, EXC_INK2, EXC_SIGN = "#1C2128", "#ECE8DF", "#B6BAC1", "#F2C14E"
+EXC_ROUTE, EXC_HOT = "#F3A05C", "#FFD08A"
+EXC_PAPER, EXC_PRINT, EXC_PRINT2 = "#F3EFE4", "#22262C", "#4C515A"
+EXC_PLINK, EXC_PHOT = "#9E400C", "#6E2A05"
+# Retail Therapy (§142): Norah Hobbs's colours, with the lights low and with
+# the lights off, exactly as her page declared them.
+RTH_FLOOR, RTH_SHELF, RTH_INK, RTH_QUIET = "#E6E9E1", "#EEF0E9", "#1E2A2B", "#55625F"
+RTH_REG, RTH_TAG, RTH_TAGINK, RTH_BRICK, RTH_WHITE = "#1F6F66", "#E2C866", "#2A2408", "#B24A4F", "#FFFFFF"
+RTH_OFLOOR, RTH_OSHELF, RTH_OINK, RTH_OQUIET = "#11151F", "#191E2B", "#DDE0E6", "#9097A8"
+RTH_OREG, RTH_OTAG, RTH_OTAGINK, RTH_OBRICK = "#4BD08A", "#C9AE3A", "#1A1606", "#3A2A33"
+RTH_BOOKS = (("#2E5E8C", RTH_WHITE, "blue"), ("#8E3A3F", RTH_WHITE, "wine"), ("#3F7D5C", RTH_WHITE, "green"),
+             ("#C9B8E6", "#221A33", "lilac"), ("#D9824B", "#24130A", "amber"), (RTH_REG, RTH_WHITE, "teal"),
+             (RTH_TAG, RTH_TAGINK, "tag"))
 CHP_SHADE, CHP_CLOTH, CHP_INK, CHP_INK2 = "#E6E1E8", "#F4F0EE", "#2B2236", "#51475C"
 CHP_SEA, CHP_BOUGAIN, CHP_HOT = "#0C5A63", "#9A1A57", "#6E0F3D"
 # Loo With a View (love.css §137): a public restroom lit from behind by the
@@ -3866,6 +3881,47 @@ PAIRS = [
     (CHP_HOT,   CHP_CLOTH, False, "champuru: a link on a card under the pointer"),
     (CHP_CLOTH, CHP_SEA,   False, "champuru: a button's words"),
     (CHP_CLOTH, CHP_INK,   False, "champuru: a button's words under the pointer, and the empty screen's words"),
+    # ── Excursions (§141) ───────────────────────────────────────────────────
+    # Every word on the dark lobby, or on a brochure's paper in the rack. The
+    # street door's words are the lobby's.
+    (EXC_INK,   EXC_LOBBY, False, "excursions: every paragraph, the lede, the street door's blurb"),
+    (EXC_INK2,  EXC_LOBBY, False, "excursions: the trail, the line over the name, the credits"),
+    (EXC_SIGN,  EXC_LOBBY, False, "excursions: the name, every heading, the street door's name, and the focus ring"),
+    (EXC_ROUTE, EXC_LOBBY, False, "excursions: every link, the backlink and the street door's knock"),
+    (EXC_HOT,   EXC_LOBBY, False, "excursions: a link under the pointer"),
+    (EXC_PRINT, EXC_PAPER, False, "excursions: a brochure's line and its title, and the focus ring on a brochure"),
+    (EXC_PRINT2, EXC_PAPER, False, "excursions: a brochure's day and gathering, and who made it"),
+    (EXC_PLINK, EXC_PAPER, False, "excursions: a brochure's title, which is its link"),
+    (EXC_PHOT,  EXC_PAPER, False, "excursions: a brochure's title under the pointer"),
+    # ── Retail Therapy (§142) ───────────────────────────────────────────────
+    # Norah Hobbs's pairs, with the lights low and then with the lights off,
+    # because her page is two palettes and the live checker only sees the
+    # first: the hunt ships hidden until somebody turns the lights off.
+    (RTH_INK,   RTH_FLOOR, False, "retail therapy, lights low: every paragraph and every heading on the floor"),
+    (RTH_INK,   RTH_SHELF, False, "retail therapy, lights low: every word on a shelf, a tag or a card, and a light switch's words"),
+    (RTH_QUIET, RTH_FLOOR, False, "retail therapy, lights low: the trail, the switch's note, the way out of a department, the credits"),
+    (RTH_QUIET, RTH_SHELF, False, "retail therapy, lights low: where a question hides, and a tag's number"),
+    (RTH_REG,   RTH_FLOOR, False, "retail therapy, lights low: the name, every link, the backlink and the focus ring"),
+    (RTH_REG,   RTH_SHELF, False, "retail therapy, lights low: a link on a tag or a card, and the focus ring there"),
+    (RTH_TAGINK, RTH_TAG,  False, "retail therapy: a light switch that is on, the yellow directory tile, the till's button, the door sign"),
+    (RTH_FLOOR, RTH_REG,   False, "retail therapy, lights low: a teal directory tile's words, and the sign over the shop"),
+    (RTH_FLOOR, RTH_INK,   False, "retail therapy, lights low: the store directory's words"),
+    (RTH_TAG,   RTH_INK,   True,  "retail therapy, lights low: the store directory's heading, and the focus ring on a tile"),
+    (RTH_WHITE, RTH_BRICK, False, "retail therapy, lights low: the till's sign, the shop tile, and You are here"),
+    (RTH_OINK,  RTH_OFLOOR, False, "retail therapy, lights off: every paragraph and every heading on the floor"),
+    (RTH_OINK,  RTH_OSHELF, False, "retail therapy, lights off: every word on a shelf, a tag or a card"),
+    (RTH_OQUIET, RTH_OFLOOR, False, "retail therapy, lights off: the switch's note, the way out of a department"),
+    (RTH_OQUIET, RTH_OSHELF, False, "retail therapy, lights off: where a question hides"),
+    (RTH_OREG,  RTH_OFLOOR, False, "retail therapy, lights off: every link, every department's name, the focus ring"),
+    (RTH_OREG,  RTH_OSHELF, False, "retail therapy, lights off: a link on a card"),
+    (RTH_OTAGINK, RTH_OTAG, False, "retail therapy, lights off: a light switch that is on, the yellow tile"),
+    (RTH_OFLOOR, RTH_OREG, False, "retail therapy, lights off: a green directory tile's words"),
+    (RTH_OFLOOR, RTH_OINK, False, "retail therapy, lights off: the store directory's words and heading, and the focus ring on a tile"),
+    (RTH_WHITE, RTH_OBRICK, False, "retail therapy, lights off: the till's sign, the shop tile, and You are here"),
+] + [
+    (fg, bg, False, f"retail therapy: the {name} book spine's words in the little free library")
+    for bg, fg, name in RTH_BOOKS
+] + [
     # ── The Comfort Station (§138) ──────────────────────────────────────────
     (CST_INK,   CST_TILE,  False, "comfort station: every paragraph, the lede, the house rules, every quotation"),
     (CST_INK2,  CST_TILE,  False, "comfort station: the trail, the line over the name, the hall in words, the credits "
@@ -4409,6 +4465,27 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#f7f0d8": "excursions: the backlit map's lit face and the edge of every brochure turned to it, 14.19 on the "
+               "lobby. It carries no word: the map is drawn with none.",
+    "#5da9d6": "excursions: the lakes on the backlit map, 2.27 on its face. They carry no word.",
+    "#5e9f63": "excursions: the woods on the backlit map, 2.78 on its face. They carry no word.",
+    "#8a9099": "excursions: the wire of the rack and the map's frame, 5.03 on the lobby. They carry no word.",
+    "#2a2f37": "excursions: the terrazzo under the rack and every brochure's shadow, 1.20 on the lobby. It "
+               "carries no word.",
+    "#c9d3cb": "retail therapy: Norah Hobbs's rules between departments and round every card, 1.25 on her "
+               "floor. They carry no word.",
+    "#e8ddb2": "retail therapy: the shop windows in Norah Hobbs's storefront, 3.87 on the brick. They carry no word.",
+    "#7a5232": "retail therapy: the little free library's wooden house, 5.93 on the shelf inside it. It carries "
+               "no word.",
+    "#3b4252": "retail therapy: the shutters that come down over the windows with the lights off, 1.91 on the "
+               "brick. They carry no word.",
+    "#2a303d": "retail therapy: the slats in the shutters, 1.31 on them. They carry no word.",
+    "#2c3344": "retail therapy, lights off: the rules between departments, 1.45 on the dark floor. They carry "
+               "no word.",
+    "#232a3b": "retail therapy, lights off: the shop windows behind the shutters, 1.06 on the dark brick. They "
+               "carry no word.",
+    "#0b0e16": "retail therapy, lights off: the night over the shop front, 1.43 against the dark brick. It "
+               "carries no word.",
     "#dce6ce": "garden on Cel Street: --gd-sky, the softer sky over the garden walked into, 1.26 against a limewashed board. Drawn only in that scene; it carries no word.",
     "#d1d7bc": "garden on Cel Street: --gd-gravel, the path, 1.45 under a limewashed board, so the board is still the palest thing there. It carries no word.",
     "#bcc4a4": "garden on Cel Street: --gd-gravel-2, the leaf shadow and the pebbles on the path, 1.22 on the gravel. It carries no word.",

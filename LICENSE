@@ -31,6 +31,9 @@ What MIT does not reach, even inside those files:
     of the pages, under CC BY-SA 4.0.
   - Anything in a room somebody brought in through tools/import-room.py. It is
     its maker's, under CC BY-SA 4.0, unless they agree otherwise.
+  - An excursion somebody made and brought to Excursions, script and all:
+    retail-therapy.html and retail-therapy.js are Norah Hobbs's, under
+    CC BY-SA 4.0 with her yes (2026-11-04), unless she agrees otherwise.
   - three.js, in vendor/, which is already MIT under its own authors'
     copyright (vendor/three-LICENSE.txt).
 

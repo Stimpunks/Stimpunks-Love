@@ -62,6 +62,8 @@
     "collection-collection.html": ["art"],
     "vital-plant-living.html": ["pubs-and-restaurants", "music", "videos"],
     "champuru.html": ["pubs-and-restaurants", "videos"],
+    "excursions.html": ["meetings", "areas"],
+    "retail-therapy.html": ["meetings", "games"],
     "comfort-station.html": ["restrooms", "coping"],
     "community-center.html": ["calm", "meetings"],
     "town-hall.html": ["meetings"],

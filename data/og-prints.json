@@ -187,6 +187,10 @@
   "made_from": "59d4a8d95a9b768b9075906ac476cfde9fb4c1a64f9ed0bf6028d943a91a0ddb",
   "png": "04bab6d689a299c9fce0bbae26938efc2f7c9142b5fcd99512316c8e462d157d"
  },
+ "excursions": {
+  "made_from": "5f0f2b16df23e1510d85d406a2e8809e1c0924e0020b97257410fee94d8ca0a1",
+  "png": "24d96e4c88aabf378461879990a7e942398fd74dda31900c3a2634f6d6c1c610"
+ },
  "faery-cinema-room": {
   "made_from": "5070ee24f71d210e32c9f788a303632ed3a004e6353635a5c8e3c7ea6203b7ba",
   "png": "2548cdcf469c45c3be0dd6a95ec4e321422e575fe3c7c6f1f78f4e72f2e8506b"
@@ -430,6 +434,10 @@
  "rescue-small-animals": {
   "made_from": "768251606670501f9dede04ac2ed4344b57227e783a7b4db94560cf7837085bf",
   "png": "1478bb2058c115044008f7c9c172141828316ce717c92634a1bd3a36f716197d"
+ },
+ "retail-therapy": {
+  "made_from": "99306b36e7c6e9ac1e640f294b1af50c82284b8674472a0287e72a88bdcea43d",
+  "png": "dd9cee489e55c8262149aa55a109d4ce49cba16ea59fab7f3350957a9c325da3"
  },
  "samefood-cafe": {
   "made_from": "903e200aa256f547bc05fd15b8144503dbadcfdb344b4d5641cead1ee1331531",

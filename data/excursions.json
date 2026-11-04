@@ -1,0 +1,15 @@
+{
+  "_what": "The rack in Excursions (excursions.html, §141): one brochure for every outing we take together, newest at the top. tools/make-excursions.py writes the rack between exc:rack markers out of this file and each excursion's own page, which is its maker's. Ryan's brief, 2026-11-04: a room to hold Norah Hobbs's Retail Therapy and the artifacts like it that come after, each part room, part announcement and part run of show; Ryan named it Excursions.",
+  "_rules": "An entry names its page, the day of the gathering it was made for (date, which is the order), the gathering, who made it as they asked to be named (made_by), what they made it with (with, or null), one line of ours, and holds: words its page still says, so the line cannot go on describing a page that has changed. The brochure's title is the page's own <h1>, never typed here. No count of excursions anywhere, and no ranking: the order is the date.",
+  "excursions": [
+    {
+      "page": "retail-therapy.html",
+      "date": "2026-11-05",
+      "gathering": "Infodumplings",
+      "made_by": "Norah Hobbs",
+      "with": "Claude",
+      "line": "A shop that sells nothing, open late for one sensory-friendly night: bring your cart, your wishlist and your cope and carry, or sit on the bench by the fountain and watch everybody else’s carts go by.",
+      "holds": ["A shop that sells nothing", "sensory-friendly night", "your cope and carry", "bench by the fountain"]
+    }
+  ]
+}
