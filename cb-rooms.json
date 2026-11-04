@@ -417,6 +417,12 @@
    "about": "A multi-user dungeon with nobody to fight. Out the back door of a boot room on the street is the Slake, a tidal estuary made of words and drawn as a map: a marsh, a mill, a hut full of things people found in the mud, and an island you can walk to while the tide is out. Explore it by typing or by pressing, and the people out there tell you what they are doing and what our glossary calls it. Nothing is counted, and the tide turns when you wait for it."
   },
   {
+   "tag": "seaside-convenience",
+   "name": "The Seaside Convenience",
+   "path": "/seaside-convenience.html",
+   "about": "A public restroom on the street: a Victorian convenience of painted cast iron and glazed tile on a seaside promenade, under a glass canopy, in the glare off the sea. For everybody, free, step-free, with toilets and urinals in private cubicles, changing tables for babies and adults, free menstrual products and condoms, sharps boxes, naloxone, benches facing the sea, and no air dryers."
+  },
+  {
    "tag": "pando-calrissian",
    "name": "Pando Calrissian",
    "path": "/pando-calrissian.html",

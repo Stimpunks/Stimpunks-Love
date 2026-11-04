@@ -967,6 +967,12 @@ VOL_LINEN, VOL_CARD, VOL_INK, VOL_INK2, VOL_LINK = "#EEE6D3", "#F8F4EA", "#261E3
 # no word on the lit wall, the lane or the light down a card's side.
 CHP_SHADE, CHP_CLOTH, CHP_INK, CHP_INK2 = "#E6E1E8", "#F4F0EE", "#2B2236", "#51475C"
 CHP_SEA, CHP_BOUGAIN, CHP_HOT = "#0C5A63", "#9A1A57", "#6E0F3D"
+# The Seaside Convenience (love.css §139). A convenience on the promenade in the
+# glare off the sea: every word on the haze or on a card of cream enamel, and
+# the words on an enamel sign, cream on the iron green. Nothing set on the sea,
+# the tiles or the glass.
+SEA_HAZE, SEA_CREAM, SEA_INK, SEA_INK2 = "#EDF3F2", "#FBF6E6", "#15332E", "#3E5953"
+SEA_IRON, SEA_BUOY, SEA_HOT = "#1F5A4E", "#A3301F", "#76221A"
 # Widdershins (love.css §135). A crooked city with the morning halfway across
 # it: every word on the night, on a card lying in it, or on one of Star
 # Stuff's figures on its slab; the two compass labels on the night sky; no word
@@ -3817,6 +3823,24 @@ PAIRS = [
     (CHP_HOT,   CHP_CLOTH, False, "champuru: a link on a card under the pointer"),
     (CHP_CLOTH, CHP_SEA,   False, "champuru: a button's words"),
     (CHP_CLOTH, CHP_INK,   False, "champuru: a button's words under the pointer, and the empty screen's words"),
+    # ── The Seaside Convenience (§139) ──────────────────────────────────────
+    # Every word on the haze over the front, or on a card of cream enamel; the
+    # enamel signs cream on the iron green. Nothing set on the drawing.
+    (SEA_INK,   SEA_HAZE,  False, "seaside convenience: every paragraph, the lede, every quotation, what is not "
+                                  "here and the credits"),
+    (SEA_INK2,  SEA_HAZE,  False, "seaside convenience: the trail, the line over the name, the caption under the "
+                                  "front, and who said each quotation"),
+    (SEA_IRON,  SEA_HAZE,  False, "seaside convenience: the name, every heading, and the focus ring"),
+    (SEA_BUOY,  SEA_HAZE,  False, "seaside convenience: every link, the backlink, the job marker's link"),
+    (SEA_HOT,   SEA_HAZE,  False, "seaside convenience: a link under the pointer"),
+    (SEA_INK,   SEA_CREAM, False, "seaside convenience: everything on a card: each thing on the list and every "
+                                  "quotation, and the street door's blurb"),
+    (SEA_INK2,  SEA_CREAM, False, "seaside convenience: how this room does each thing, under it on its card"),
+    (SEA_IRON,  SEA_CREAM, False, "seaside convenience: each thing's name on its card, the street door's name, "
+                                  "and the focus ring on a card"),
+    (SEA_BUOY,  SEA_CREAM, False, "seaside convenience: a link on a card, and the street door's knock"),
+    (SEA_HOT,   SEA_CREAM, False, "seaside convenience: a link on a card under the pointer"),
+    (SEA_CREAM, SEA_IRON,  False, "seaside convenience: the enamel sign on the street door and in the drawing"),
     # ── Widdershins (§135) ──────────────────────────────────────────────────
     # Every word on the night side: the flat night, a card lying in it, or one
     # of Star Stuff's figures on its slab. Nothing set on the lit city.
@@ -5218,6 +5242,27 @@ ORNAMENT = {
     "#cbc4d1": "champuru: the soft shadows on the paving, falling away from the sunlit wall, and the paving's "
                "joints, 1.32 on the shade. They carry no word.",
     "#6b3a8c": "champuru: the purple sweet potato on a plate, 8.05 on the plate. It carries no word.",
+    "#dde9ee": "seaside convenience: the hazy sky in the drawing, 6.45 against the iron round it. It carries "
+               "no word.",
+    "#8db8c2": "seaside convenience: the sea in the drawing, 1.74 under the sky and 1.91 against the page's "
+               "haze, told from both by the iron railings in front of it. It carries no word.",
+    "#fffffb": "seaside convenience: the glare lying on the sea in the drawing, 2.14 on the water. It carries "
+               "no word.",
+    "#cfe4d8": "seaside convenience: the glazed tile walls of the pavilion in the drawing, 5.98 against the "
+               "iron frame round them. They carry no word.",
+    "#a9cdbd": "seaside convenience: the darker band of tile at the foot of the pavilion, the tile joints, and "
+               "the street door's plinth, 1.30 on the tile and 1.60 on the cream. They carry no word.",
+    "#d7e8ec": "seaside convenience: the glass canopy in the drawing and the street door's awning, 6.33 "
+               "against the iron ribs over it. It carries no word.",
+    "#c8d6e2": "seaside convenience: the faint blue shadows on the promenade, 1.10 on the paving, faint on "
+               "purpose: the light is the haze. They carry no word.",
+    "#e8ddbf": "seaside convenience: the promenade's paving in the drawing, 1.59 against the sea beyond the "
+               "railings. It carries no word.",
+    "#2e7d4f": "seaside convenience: the little lamp over a free cubicle in the drawing, 4.67 on the cream "
+               "door under it. The words Free and In use say the same on the page, so the colour is never the "
+               "only way to tell.",
+    "#b23a2e": "seaside convenience: the little lamp over a cubicle in use in the drawing, 5.49 on the cream "
+               "door under it. The words say the same on the page.",
     "#bba6f0": "widdershins: Star Stuff's violet, also the rule beside every quotation, 8.39 on the night, which "
                "is what marks a quotation as one. It is measured as words in PAIRS too.",
     "#5e596e": "widdershins: every outline, in the city, round every card and figure and under every heading, "

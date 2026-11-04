@@ -532,6 +532,11 @@
    "room": "The MUD Room"
   },
   {
+   "id": "sea-spade",
+   "title": "The word for getting in the way",
+   "room": "The Seaside Convenience"
+  },
+  {
    "id": "pando-leaf",
    "title": "How often will the tree take water?",
    "room": "Pando Calrissian"

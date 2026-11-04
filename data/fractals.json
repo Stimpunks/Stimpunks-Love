@@ -1424,6 +1424,22 @@
         "--mud-welly"
       ]
     },
+    "seaside-convenience.html": {
+      "kind": "julia",
+      "c": [
+        -0.7458,
+        0.1196
+      ],
+      "orbit": 0.012,
+      "bands": 0.05,
+      "ground": "--sea-haze",
+      "inks": [
+        "--sea-iron",
+        "--sea-buoy",
+        "--sea-sea",
+        "--sea-ink-2"
+      ]
+    },
     "cavendish-events.html": {
       "kind": "orbit",
       "trap": "ring",
