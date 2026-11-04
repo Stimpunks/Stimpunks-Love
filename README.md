@@ -171,7 +171,7 @@ glow-go-gee-gaws.html  Level B3. Glow toys in every colour; charged at the rail,
 glow.js               The glow toys' charge and fade; silent, keeps nothing
 big-steep-fermentables.html  Level B1. A brewery and cellar; alcohol-free first, every strength before the pour
 mycelium-munchies.html  Level B2. A mushroom farm and restaurant; everything grown here
-stay-frosty.html      Level B5, the bottom. 68F all year; nothing to press, nothing moves
+stay-frosty.html      Level B5, the bottom. 68F all year; nothing moves, nothing to press but the dial
 stay-breezy.html      Behind Stay Frosty. A hall full of fans, synthesised; nothing plays until switched on
 stay-breezy.js        The fans' sound, made in the browser; nothing fetched, sent or kept
 liner-notes.html      Who made this noise

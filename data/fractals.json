@@ -1124,7 +1124,7 @@
       ]
     },
     "stay-frosty.html": {
-      "off": "Stay Frosty promises on its own page that there is nothing to press in it and that nothing in it moves, at any setting. A switch in its sign-off would make the first false and the window the second."
+      "off": "Stay Frosty promises on its own page that nothing in it moves, at any setting, and that the dial is the only thing in it to press. A window there would make both false."
     },
     "swaying-sweetgrass.html": {
       "kind": "orbit",

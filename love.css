@@ -19083,7 +19083,8 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 /* A ledge: a shelf of flowstone, flat, with the rail's reflections along its
    lip. The glints are a strip of their own above the shelf and never under a
    word; the words stand on the flat --fro-ledge. */
-.fro-ledge { position: relative; margin: 38px 0 0; padding: 22px 24px; background: var(--fro-ledge); border-radius: 18px 18px 6px 6px; }
+/* flow-root: a ledge keeps to its side of the dial rather than running under it. */
+.fro-ledge { position: relative; display: flow-root; margin: 38px 0 0; padding: 22px 24px; background: var(--fro-ledge); border-radius: 18px 18px 6px 6px; }
 .fro-ledge::before {
   content: ""; position: absolute; left: 14px; right: 14px; top: -10px; height: 6px;
   background:

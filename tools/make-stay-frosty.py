@@ -18,10 +18,11 @@ WHAT IT REFUSES:
   · ANY OTHER TEMPERATURE IN THE ROOM. Outside the markers, stay-frosty.html may
     not state a degree at all. A second number in a room whose one claim is that
     the number never changes is the room contradicting itself.
-  · A BUTTON, A PLAYER, A FRAME, A SCRIPT OF ITS OWN. "There is nothing to press"
-    and "nothing in the room makes a sound" are sentences on the page. The guild's
-    marker is the one exception and is cut out before looking, because its
-    hand-in box is the guild's and not the room's.
+  · A BUTTON, A PLAYER, A FRAME, A SCRIPT OF ITS OWN. "The only thing to press is
+    the dial" and "nothing in the room makes a sound" are sentences on the page.
+    The dial (Ryan's call, 2026-11-04, reversing "there is nothing to press": it
+    is in every room) and the guild's marker are cut out before looking, because
+    the dial is the street's and the marker's hand-in box is the guild's.
   · MOTION IN ITS SECTION OF love.css. No animation, no transition, no keyframes,
     no transform: "nothing moves, at any setting" is on the page, and the one way
     to keep a sentence like that true is to refuse the property rather than trust
@@ -174,12 +175,16 @@ for m in re.finditer(r"\d+\s*(?:&deg;|°|º)\s*[FC]\b", stripped):
     problems.append(f"stay-frosty.html states {m.group(0)!r} outside the markers. The room has one "
                     "temperature, written from the data file; a second is the room contradicting itself.")
 
-room_only = re.sub(r"<!-- quest:[^:]+:begin -->.*?<!-- quest:[^:]+:end -->", " ", room_out, flags=re.S)
+room_only = re.sub(r"<!-- quest:[^:]+:begin -->.*?<!-- quest:[^:]+:end -->|<!-- dial:begin -->.*?<!-- dial:end -->",
+                   " ", room_out, flags=re.S)
+if "<!-- dial:begin -->" not in room_out:
+    problems.append("stay-frosty.html has no dial. Every room has one, and the room says it is the one "
+                    "thing in it to press: run tools/make-dials.py.")
 for pat, what in ((r"<button\b", "a button"), (r"<audio\b|<video\b", "a player"),
                   (r"<iframe\b|data-embed-src", "a frame"), (r"\bsetInterval\b|\bsetTimeout\b", "a timer")):
     if re.search(pat, room_only):
-        problems.append(f"stay-frosty.html has {what}. The room says there is nothing to press and "
-                        "nothing that plays, and it has to stay true.")
+        problems.append(f"stay-frosty.html has {what}. The room says the dial is the only thing to "
+                        "press and nothing plays, and it has to stay true.")
 scripts = set(re.findall(r'<script src="([^"]+)"', room_out))
 if scripts - {"love.js", "quest.js"}:
     problems.append(f"stay-frosty.html loads {sorted(scripts - {'love.js', 'quest.js'})}. The room has no "
@@ -209,4 +214,4 @@ for path, before, after in ((ROOM, room_src, room_out), (CAVERNS, cav_src, cav_o
     if after != before:
         path.write_text(after)
 print(f"stay frosty: {t['f']}F ({t['c']}C) from {t['measured_by']}, written into the room and its plate; "
-      "nothing to press, nothing moves, nothing is for anything")
+      "nothing to press but the dial, nothing moves, nothing is for anything")

@@ -33,10 +33,10 @@ import windows  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 BEGIN, END = "<!-- dial:begin -->", "<!-- dial:end -->"
-NO_DIAL = {
-    "stay-frosty.html": "says on its own page that there is nothing in it to press, and "
-                        "tools/make-stay-frosty.py refuses a button there; Ryan's call whether that changes",
-}
+# Stay Frosty was here until Ryan's call of 2026-11-04 ("Add it there too"): its
+# page now says the dial is the only thing in it to press. A page goes in this
+# list only with a reason its own published words give.
+NO_DIAL = {}
 # Pages whose next thing after the header is wide (a stage, a model), where a
 # floating dial would squeeze it: the dial stands above it instead.
 STACK = {"cel-street.html", "paper-street.html", "map.html"}
@@ -87,7 +87,7 @@ def main():
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1
     print(f"dials: every room has one, {kept} placed by their rooms and the rest written here "
-          f"({written} rewritten); none in the windows, the chat app, or {', '.join(sorted(NO_DIAL))}")
+          f"({written} rewritten); none in the windows or the chat app" + (f", or {', '.join(sorted(NO_DIAL))}" if NO_DIAL else ""))
     return 0
 
 

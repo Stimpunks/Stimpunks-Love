@@ -4043,7 +4043,7 @@ rooms never set it. **The piano's other shelf is people playing** (Ryan's call, 
 *nobody lights a lamp.* excused *A lamp is lit on every table.* in the next sentence. The other rooms' sweeps are still
 the old way.
 
-**EVERY ROOM HAS THE DIAL, AND `tools/make-dials.py` HOLDS IT** (Ryan, 2026-11-04: "I thought every room had a dial box"): a page with no dial of its own gets the same dial between `dial:begin` and `dial:end` markers straight after its header, in a `.dial-dock` that floats it right on a wide screen (stacked instead on Cel Street, Paper Street and the Map, whose next thing is wide); it runs after the generators, so a page a tool rewrites keeps it, and it refuses a page with no dial and no header to stand one after. A room may move its dial into its own layout by hand. **None in the windows, the chat app, or `NO_DIAL`**, which holds Stay Frosty, whose page promises nothing to press: changing that is Ryan's call, and the friendly edit is to add it there anyway.
+**EVERY ROOM HAS THE DIAL, AND `tools/make-dials.py` HOLDS IT** (Ryan, 2026-11-04: "I thought every room had a dial box"): a page with no dial of its own gets the same dial between `dial:begin` and `dial:end` markers straight after its header, in a `.dial-dock` that floats it right on a wide screen (stacked instead on Cel Street, Paper Street and the Map, whose next thing is wide); it runs after the generators, so a page a tool rewrites keeps it, and it refuses a page with no dial and no header to stand one after. A room may move its dial into its own layout by hand. **None in the windows or the chat app.** `NO_DIAL` is for a room whose own published words give a reason, and is empty: Stay Frosty was in it until Ryan's call the same day ("Add it there too"), and its page now says the dial is the only thing in it to press.
 
 **WALK THIS ROOM IS THE SIGN-OFF'S, AND THE DIAL'S BOX COPIES IT** (Ryan's ask, 2026-11-04): `tools/signoff.py`'s `walk()` writes a line under the sign-off's links for every page with `cel-in-<page>.js` or `walk-<page>.js`, so a room built for either street gets its link with nothing listed by hand, and it works with no script; `love.js`'s `walkButtons()` copies those links into the dial's box as buttons under the bodymind break, never in a frame (Cel Street stands rooms' pages in frames). One list, two places. The friendly edit is a separate panel beside the dial: the dial sits somewhere different in every room's header, and a second panel would be laid out room by room.
 
@@ -6195,8 +6195,9 @@ instead, and the tool refuses any other degree on the room's page.
     negation window for rest as an investment, **cold as a treatment** (plunges, ice baths, cryo,
     biohacking, resets, boosts, calming your nervous system) and medical claims. Do not add a line
     about what the room does for a body.
-  · **nothing to press, nothing moves, nothing makes a sound, no clock**, and all four are sentences
-    on the page, so the tool refuses a button (the guild's marker cut out first), a player, a frame,
+  · **nothing to press but the dial, nothing moves, nothing makes a sound, no clock**, and all four
+    are sentences on the page, so the tool refuses a button (the dial and the guild's marker cut out
+    first; the dial since Ryan's call of 2026-11-04, reversing "nothing to press", and refused missing), a player, a frame,
     a timer, a script of its own, and any `animation`, `transition`, `@keyframes` or `transform` in
     its section of `love.css`. **The CB stays upstairs** with `data-cb="off"`, the Healing
     Checkpoint's mechanism, because a squelch is a sound. The room counts and keeps nothing, scoped
@@ -6209,7 +6210,7 @@ instead, and the tool refuses any other degree on the room's page.
 2026-09-26, in his own words on the page: *"Even in a 68°F room, I need a fan blowing on me."* A
 hall full of fans, synthesised in the browser by `stay-breezy.js` out of `data/stay-breezy.json`,
 built by `tools/make-stay-breezy.py`. **A subroom shares nothing with its parent, and here that runs
-backwards**: Frosty is dark, cool, wet, lit by reflections in points, with nothing to press and no
+backwards**: Frosty is dark, cool, wet, lit by reflections in points, with nothing to press but the dial and no
 sound; Breezy is pale, warm, dry, lit by a lamp under every ceiling fan, and made of controls. If
 §64 ever goes dark or cool it has become Frosty with a fan in it; if §63 ever hums, the reverse.
 The number in Ryan's quotation is a `frosty:f` marker filled by `make-stay-frosty.py`.

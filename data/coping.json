@@ -250,7 +250,7 @@
       "seed": "sensory",
       "line": "Too much coming in. These rooms have less of it.",
       "doors": [
-        {"page": "stay-frosty.html", "form": "lift", "line": "the bottom of the caverns, where nothing moves, nothing makes a sound and there is nothing to press.", "holds": ["There is nothing to press", "Nothing moves, at any setting"]},
+        {"page": "stay-frosty.html", "form": "lift", "line": "the bottom of the caverns, where nothing moves, nothing makes a sound and nothing is for anything.", "holds": ["Nothing moves, at any setting", "It is not for anything"]},
         {"page": "cooldown-room.html", "form": "padded", "line": "a small, soft room to come down in, with couches, cold water and the doors shut on the noise.", "holds": ["Somewhere small and soft to come down in", "the doors shut on the noise"]}
       ]
     },
