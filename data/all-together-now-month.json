@@ -9,34 +9,24 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-03T12:33Z",
+ "set": "2026-11-04T12:33Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-03T12:33:43Z"
+     "2026-11-04T12:33:48Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-03T12:33:43Z"
+     "2026-11-04T12:33:48Z"
     ]
    ]
   }
  },
  "log": [
-  {
-   "id": "fcQz65U2qo0",
-   "source": "farming-while-beige",
-   "form": "long",
-   "title": "“Race Treason” and Other Insane Notions",
-   "published": "2026-10-04T20:58:46Z",
-   "state": "screen",
-   "runs": 258,
-   "channel": "Farming While Beige"
-  },
   {
    "id": "6D5jrR_N6mQ",
    "source": "farming-while-beige",
@@ -595,6 +585,26 @@
    "published": "2026-11-03T00:22:32Z",
    "state": "screen",
    "runs": 94,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "qW1iAVv3UaY",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Willow and Oak… and communism…",
+   "published": "2026-11-03T17:29:08Z",
+   "state": "screen",
+   "runs": 49,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "IcOl8XYL31o",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "The stickers have finally arrived!",
+   "published": "2026-11-03T22:49:30Z",
+   "state": "screen",
+   "runs": 46,
    "channel": "Farming While Beige"
   }
  ]
