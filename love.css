@@ -4504,6 +4504,27 @@
   --lwv-low: #F6D7A2;  --lwv-sun: #FFF3D8;  --lwv-ridge: #3A4653;
   --lwv-fjord: #2F4A58;  --lwv-glare: #F8DFA8;  --lwv-concrete: #4A545E;
   --lwv-corten: #7A3F24;  --lwv-larch: #8C6B4A;  --lwv-line: #151B22;
+  /* The Comfort Station (§138): a public restroom down the steps under the
+     park, lit by daylight through glass prisms set in the path overhead.
+     --cst-tile is the white glazed tile, the ground every word on the page
+     stands on; --cst-panel the tiled panels each stall's things are on;
+     --cst-ink every word, --cst-ink-2 the quieter lines; --cst-trim the green
+     band at the height of a hand, the name and every heading; --cst-link
+     every link and the focus ring, in the prisms' own violet, darkened, and
+     --cst-link-hot a link under the pointer; --cst-inuse the IN USE plate. The
+     rest carry no word but the plates' and are measured in check-contrast.py:
+     --cst-glow the daylight off a prism, --cst-prism the aged violet glass,
+     --cst-iron the grid it is set in, --cst-daylight the day at the top of
+     the steps, --cst-grout the grout, --cst-brass the rails and fittings,
+     --cst-oak the stall doors and the bench, --cst-terrazzo the floor and
+     --cst-chip-1 to -3 the chips in it. */
+  --cst-tile: #F2F1EC;  --cst-panel: #E7E4EE;  --cst-ink: #1D2130;
+  --cst-ink-2: #4A4D5E;  --cst-trim: #28564F;  --cst-link: #5A2A82;
+  --cst-link-hot: #3B1757;  --cst-inuse: #8A2D2D;  --cst-glow: #FBF8FF;
+  --cst-prism: #C3B3E6;  --cst-iron: #34343D;  --cst-daylight: #FFFEF3;
+  --cst-grout: #C9C5BC;  --cst-brass: #A98638;  --cst-oak: #7A5432;
+  --cst-terrazzo: #DED7CA;  --cst-chip-1: #8B8378;  --cst-chip-2: #B39C72;
+  --cst-chip-3: #6C7884;
 
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
@@ -5684,6 +5705,20 @@ div.facade--square { border: 0; background: none; }
 .door--chp .door__name  { font-family: 'Klee One', var(--sans); font-weight: 600; color: var(--chp-sea); font-size: 32px; line-height: 1.08; font-synthesis: none; }
 .door--chp .door__blurb { font-family: 'M PLUS 2', var(--sans); color: var(--chp-ink-2); font-size: 16px; line-height: 1.45; font-synthesis: none; }
 .door--chp .door__knock { font-family: 'M PLUS 2', var(--sans); font-weight: 700; font-size: 15px; color: var(--chp-bougain); font-synthesis: none; }
+
+/* The Comfort Station's door: white tile with its green band, and over the
+   door the vault lights' grid of glass dots, the sign in Newsreader in the
+   band's green: a public restroom, said in words, for everybody. */
+.door--cst { background: var(--cst-tile); border-color: var(--cst-ink); box-shadow: inset 0 -10px 0 var(--cst-trim); }
+.door--cst .door__awning {
+  background-color: var(--cst-iron);
+  background-image: radial-gradient(circle 5px at 50% 50%, var(--cst-prism) 0 96%, transparent 100%);
+  background-size: 18px 100%;
+  border-bottom-color: var(--cst-trim);
+}
+.door--cst .door__name  { font-family: 'Newsreader', Georgia, serif; font-weight: 400; color: var(--cst-trim); font-size: 31px; line-height: 1.08; font-synthesis: none; }
+.door--cst .door__blurb { font-family: 'Atkinson Hyperlegible Next', var(--sans); color: var(--cst-ink-2); font-size: 16px; line-height: 1.45; font-synthesis: none; }
+.door--cst .door__knock { font-family: 'Atkinson Hyperlegible Next', var(--sans); font-weight: 700; font-size: 15px; color: var(--cst-link); font-synthesis: none; }
 
 /* The Community Center (§51). THE ONE FRONT IN THE ROW WITH A HILL IN ITS
    WINDOW: the awning is the window's view, two soft slopes of the hillside
@@ -29710,6 +29745,116 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
 @media (max-width: 720px) {
   .loo-with-a-view .wrap { width: calc(100% - 32px); }
   .lwv-has { grid-template-columns: 1fr; }
+/* §138 ── ROOM: The Comfort Station (a public restroom on the street) ────────
+   One of the street's public restrooms, Ryan Boren's brief, 2026-11-03: a
+   comfort station of the old municipal kind, down a flight of steps under a
+   park with a lift beside them, white glazed tile, a terrazzo floor, brass
+   rails and a row of oak doors. tools/make-comfort-station.py writes the room
+   out of data/comfort-station.json, and tools/restrooms.py holds it to the
+   list every restroom on the street carries.
+
+   THE LIGHT IS DAYLIGHT THROUGH THE PAVEMENT. Vault lights, round glass
+   prisms in an iron grid set into the path overhead, bend the day down into
+   the hall: the ceiling is a grid of small lit points and the light lies on
+   the floor in a grid of dots. The glass has gone faintly violet with age.
+   On the page that is --cst-tile, the white tile, with the grid of dots in
+   the header's drawing and a row of them along the top of every panel, where
+   no word is.
+
+   THE COLLISIONS:
+     · ARLESGLAD CAVERNS is under the street too, and lit only by a handrail's
+       band at hand height along a route in bare rock. This is a built room in
+       daylight, lit from above, every surface tiled.
+     · THE RABBIT HOLE is a vertical shaft daylit from one end and darkening
+       as you go down, wet slate. This is a hall one flight down, evenly lit
+       by a whole grid of points, and white.
+     · THE DOOM SCOOP is lit by one tube in a cabinet over the tubs. Here there
+       is no tube and no lamp at all by day: the light is the sun's, in dots.
+     · LAUGHINGSTOCK is a cellar too, with one hard pool of light on brick.
+       This is a hundred small points, none hard, on white tile.
+     · THE DOPAMINE DRESS-UP DEN takes sunlight apart through a crystal into
+       rainbows on its wall. These prisms make dots, not spectra: there is no
+       rainbow down these steps, ever.
+     · A QUIET PINT and THE COMMUNITY LIBRARY are daylit by windows you can see
+       out of. Nobody sees out of a vault light; it is a lit ceiling.
+   If a rainbow ever lands on the tile, this has become the Den with plumbing;
+   if the light ever comes from a lamp, it has become the Doom Scoop's parlour.
+
+   NOTHING MOVES, AT ANY SETTING, MAX GLITTER INCLUDED: the dots lie where the
+   sun puts them. The tool refuses a keyframe, an animation, a transition or a
+   literal colour here. Newsreader sets the name and the headings, like the
+   enamel signs; Atkinson Hyperlegible Next, drawn to be told apart letter from
+   letter, sets everything read. */
+
+.comfort-station {
+  background-color: var(--cst-tile); color: var(--cst-ink);
+  font-family: 'Atkinson Hyperlegible Next', var(--sans); font-synthesis: none;
+}
+.comfort-station .wrap { width: min(1000px, 100% - 44px); }
+.comfort-station a { color: var(--cst-link); text-underline-offset: 3px; }
+.comfort-station a:hover { color: var(--cst-link-hot); }
+.comfort-station :focus-visible { outline-color: var(--cst-link); }
+.comfort-station :where(p, li) { font-size: 18px; line-height: 1.65; }
+.comfort-station .backlink { font-family: 'Atkinson Hyperlegible Next', var(--sans); font-weight: 700; font-size: 16px; color: var(--cst-link); }
+.cst-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.cst-trail { margin: 0; font-size: 15px; color: var(--cst-ink-2); }
+
+.cst-head { margin: 30px 0 0; padding: 0 0 18px; border-bottom: 10px solid var(--cst-trim); }
+.cst-over { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--cst-ink-2); }
+.comfort-station h1 {
+  margin: 6px 0 10px; font-family: 'Newsreader', Georgia, serif; font-weight: 400; font-style: normal;
+  font-size: clamp(50px, 11vw, 108px); line-height: 1; letter-spacing: -.01em; color: var(--cst-trim);
+}
+.cst-sub { margin: 0; font-size: 22px; line-height: 1.45; max-width: 44ch; }
+.cst-lede { margin: 26px 0 0; max-width: 66ch; font-size: 20px; line-height: 1.6; }
+
+.cst-part { margin: 54px 0 0; }
+.cst-part > p, .cst-part > blockquote, .cst-part > ul { max-width: 68ch; }
+.cst-part > p { margin: 0 0 16px; }
+.comfort-station h2 {
+  margin: 0 0 18px; padding-bottom: 8px; border-bottom: 3px solid var(--cst-trim);
+  font-family: 'Newsreader', Georgia, serif; font-weight: 400; font-size: clamp(30px, 5vw, 44px); line-height: 1.15; color: var(--cst-trim);
+}
+
+.cst-hall { margin: 0; border: 3px solid var(--cst-ink); border-radius: 4px; overflow: hidden; background: var(--cst-tile); }
+.cst-hall__draw { display: block; width: 100%; height: auto; }
+.cst-hall__plate { font: 700 11px 'Atkinson Hyperlegible Next', var(--sans); letter-spacing: .06em; }
+.cst-hall__words { margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: var(--cst-ink-2); max-width: 70ch; }
+
+/* WHAT EVERY STALL HAS: each a tiled panel with the green band along its foot
+   and a row of the prisms' dots along its top, where no word is. */
+.cst-has-intro { color: var(--cst-ink-2); }
+.cst-part > .cst-has { max-width: none; }
+.cst-has { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); }
+.cst-has__item {
+  margin: 0; padding: 22px 18px 16px; background-color: var(--cst-panel);
+  border: 1px solid var(--cst-grout); border-bottom: 6px solid var(--cst-trim); border-radius: 3px;
+  position: relative;
+}
+.cst-has__item::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 10px;
+  background-image: radial-gradient(circle 3px at 50% 50%, var(--cst-prism) 0 96%, transparent 100%);
+  background-size: 14px 10px; background-color: var(--cst-iron); border-radius: 2px 2px 0 0;
+}
+.comfort-station .cst-has__name { margin: 0 0 6px; font-family: 'Newsreader', Georgia, serif; font-weight: 400; font-size: 25px; line-height: 1.2; color: var(--cst-trim); }
+.cst-has__item p { margin: 0 0 8px; font-size: 16px; line-height: 1.55; }
+.cst-has__item p:last-child { margin: 0; }
+.comfort-station .cst-has__how { color: var(--cst-ink-2); }
+
+.cst-quote { margin: 0 0 18px; padding: 4px 0 4px 20px; border-left: 6px solid var(--cst-trim); max-width: 66ch; }
+.cst-quote p { margin: 0 0 6px; font-size: 19px; line-height: 1.55; }
+.cst-quote footer { font-size: 15px; color: var(--cst-ink-2); }
+.cst-rules { margin: 0; padding-left: 22px; }
+.cst-rules li { margin: 0 0 10px; }
+.comfort-station strong { font-weight: 700; }
+.cst-whose .cst-credits { margin: 0; padding-left: 22px; }
+.cst-credits li { margin: 0 0 12px; font-size: 17px; color: var(--cst-ink-2); }
+.cst-credits strong { color: var(--cst-ink); }
+
+@media (max-width: 720px) {
+  .comfort-station .wrap { width: calc(100% - 32px); }
+  .cst-has { grid-template-columns: 1fr; }
+  .cst-lede { font-size: 18px; }
 }
 
 /* §141 ── Small screens───────────────────────────────────────────────────────

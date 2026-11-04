@@ -1,0 +1,36 @@
+{
+  "_what": "The Comfort Station, one of the street's public restrooms (Ryan Boren's brief, 2026-11-03). A comfort station of the old municipal kind, down a flight of steps under a park with a lift beside them, tiled white, floored in terrazzo, fitted in brass and oak, and lit by day through vault lights, the glass prisms set in the path overhead. tools/make-comfort-station.py writes the room out of this file and data/restrooms.json, and holds every word here to tools/restrooms.py's sweep. `how` says, in the room's own words, how it does every one of the things every restroom on the street does; the tool refuses one left out.",
+  "lede": "A comfort station is what an American city called a public restroom a hundred years ago, when it built them under its parks and squares, down a flight of steps with a lamp at the top. This one goes down from the path through the park, with a lift beside the steps. At the bottom is a long hall of white glazed tile, a terrazzo floor, brass rails and a row of oak doors, and <strong>the light comes through the path you were just walking on</strong>: set into it are vault lights, round glass prisms in an iron grid, so the ceiling is a grid of small lit points and the daylight falls on the floor in a grid of dots. It is for everybody, it is free, and nobody down here asks anybody anything.",
+  "hall": "The hall from the foot of the steps: the steps and the lift going up on the left to the daylight in the path; the ceiling a grid of glass prisms, each a lit point; the white tile with its green band at the height of a hand; the basins under one long mirror with a step folded away under the lowest; a bench with cushions; the cabinet by the steps; and the row of oak doors, each with a little brass plate over it saying FREE or IN USE. The light lies on the terrazzo in a grid of dots, and nothing moves.",
+  "light": [
+    "The light comes through the pavement. Set into the path overhead are vault lights: round glass prisms in a cast-iron grid, the old way of getting daylight into a room under a street. Each prism takes the light that falls on it and bends it down into the room, so the ceiling is a grid of small lit points and the light lies on the terrazzo in a grid of dots, brightest under the bench.",
+    "The glass has gone faintly violet with age, the way old glass with manganese in it does after a century in the sun, so the dots are the colour of daylight with a little violet in it. Prisms bend light without spreading it into colours here: there is no rainbow down these steps, only dots.",
+    "By day no lamp is needed. Nothing down here moves at any setting: the dots lie where the sun puts them, and the sun is not hurried."
+  ],
+  "how": {
+    "everybody": "Over the steps the enamel sign says COMFORT STATION and nothing else: no figure in a skirt and no figure in trousers, because every door down here is for whoever comes down the steps, and for whoever is helping them.",
+    "toilets": "The toilets are white porcelain with oak seats, and the urinals stand behind oak doors of their own, the same height as every other door in the row.",
+    "wheelchair": "Beside the steps a lift goes down to the hall with a door that opens at the press of a big brass button, the hall is wide enough to turn round anywhere in it, and there are brass grab bars beside and behind every toilet.",
+    "step": "The basins are a long row of white porcelain under one long mirror, and under the lowest of them a Step &rsquo;n Wash folds out at a nudge of the foot and folds itself away again.",
+    "changing": "At the end of the row is a room of its own with a changing table that folds down from the tile for a baby, and a long one that rises and lowers for an adult, with a hoist on a track across the ceiling.",
+    "menstrual": "A brass dispenser on the wall of every stall gives pads and tampons with no slot for a coin, because there is nothing to pay.",
+    "condoms": "Condoms are in a glass bowl on the shelf by the basins, where anybody can take a handful without anybody noticing.",
+    "sharps": "Every stall has a sharps box set into the tile with a yellow lid, so a needle has somewhere safe to go.",
+    "naloxone": "The naloxone is in a glass-fronted cabinet at the foot of the steps, with how to use it painted on the inside of its door, and the cabinet is never locked.",
+    "seating": "Along the wall across from the stalls runs a long bench with cushions, under the brightest dots from the prisms, for whoever is waiting, whoever is helping, and whoever needs a minute.",
+    "washing": "The soap is in brass pumps along the basins and the paper towels in oak boxes beside the mirror, and the water comes warm.",
+    "quiet": "There is no air dryer down here, and the tile, which says every sound twice, would make one unbearable.",
+    "stalls": "Each stall is a small oak room with its door from the floor to the ceiling, and over every door a small brass plate lights up FREE on green or IN USE on red, in words as well as colour.",
+    "belongings": "Inside every door is a shelf of white tile and a brass hook, high enough for a coat and low enough to reach from a chair.",
+    "signs": "Every sign is enamel, white letters on the tile's own green, big enough to read from the foot of the steps, hung low enough to read sitting down, with raised letters and braille under every word.",
+    "free": "There is no turnstile at the top of the steps and no booth at the bottom, and nobody down here asks anybody anything."
+  },
+  "quotes": ["stallbatting", "construct", "multiple", "naloxone", "condoms"],
+  "rules": [
+    "Everybody is welcome down these steps, of every gender and none, and whoever is helping them.",
+    "Nobody gets between anybody and the door they choose. That is stallbatting, and it does not happen here.",
+    "Nobody asks why you are here, how long you will be, or who you have come with.",
+    "Nothing down here is counted: not who comes, not how often, not how long anybody stays.",
+    "Nothing moves by itself: the light lies where the sun puts it."
+  ]
+}

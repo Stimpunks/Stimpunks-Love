@@ -242,6 +242,12 @@
    "about": "Ryan Boren’s restaurant on the street: a table in the shade of a lane at noon, lit by the sun off the whitewashed wall across from it. Mediterranean and Okinawan dishes and what comes of mixing the two, each saying what is in it and its allergens. First and foremost for Ryan and his tastes, and nobody’s advice."
   },
   {
+   "tag": "comfort-station",
+   "name": "The Comfort Station",
+   "path": "/comfort-station.html",
+   "about": "One of the street’s public restrooms: a comfort station of the old municipal kind, down a flight of steps under a park with a lift beside them, white glazed tile, terrazzo, brass and oak, lit by daylight through glass prisms set in the path overhead. For everybody, free, with everything every restroom on the street has, and nobody asking anybody anything."
+  },
+  {
    "tag": "community-center",
    "name": "Community Center",
    "path": "/community-center.html",

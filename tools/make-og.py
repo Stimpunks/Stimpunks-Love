@@ -1448,6 +1448,17 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--champuru h1 {{ font-size: 76px; line-height: 1; margin: 0 0 16px !important; }}
 .og--champuru .og-lede {{ font-family: 'M PLUS 2', sans-serif; color: var(--chp-ink); font-size: 22px; line-height: 1.45; margin: 0; }}
 
+/* the comfort station — THE HALL, lifted whole, across the top of the card
+   down to the terrazzo, over the tile's green band, and the name under it in
+   the band's green on the white tile. */
+.og--cst {{ flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0; padding: 0; }}
+.og--cst .og-view {{ flex: 0 0 auto; height: 352px; overflow: hidden; border-bottom: 12px solid var(--cst-trim); }}
+.og--cst .og-view svg {{ display: block; width: 1200px; height: auto; }}
+.og--cst .og-words {{ padding: 22px 52px 0; }}
+.og--cst .cst-over {{ font-size: 15px; margin: 0 0 4px !important; }}
+.og--cst h1 {{ font-size: 72px; line-height: 1; margin: 0 0 12px !important; }}
+.og--cst .og-lede {{ font-family: 'Atkinson Hyperlegible Next', sans-serif; color: var(--cst-ink); font-size: 23px; line-height: 1.4; margin: 0; max-width: 1060px; }}
+
 /* the source — THE HILL OF WHITE TERRACES, lifted whole, beside the name on the
    sunlit stone. Its rounded top is the page's own; nothing on it is straight. */
 .og--source {{ flex-direction: row; align-items: center; gap: 32px; padding: 40px 46px; }}
@@ -5294,6 +5305,29 @@ def card_dairy(p):
     )
 
 
+def card_comfort_station(p):
+    # THE HALL AND THE NAME ARE LIFTED WHOLE, so the card cannot show a hall the
+    # page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="cst-hall__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="cst-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: comfort-station.html has lost its hall or its header, and the\n"
+            "card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--cst" data-fit="card">'
+        f'<div class="og-view">{draw.group(1)}</div>'
+        f'<div class="og-words"><p class="cst-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'</div>',
+        f"A card the colour of white glazed tile. Across the top, a long tiled hall under a ceiling of small violet glass dots set in a dark iron grid: on the left, steps going up to daylight and a lift with brass doors beside them; then a glass-fronted cabinet, a row of white basins under one long brass-framed mirror, a bench with cushions, and a row of oak doors, each with a small plate over it reading FREE on green or IN USE on red. A green band runs along the tile at the height of a hand, and daylight lies on the terrazzo floor in a grid of pale dots. "
+        f"Under a thick green band, small capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in "
+        f"green serif letters, then: {p['desc_plain']}",
+    )
+
+
 def card_champuru(p):
     # THE LANE AND THE NAME ARE LIFTED WHOLE, so the card cannot show a lane
     # the page does not, and the lede is the page's og:description.
@@ -6085,6 +6119,7 @@ CARDS = {
     "honestybox":   card_honestybox,
     "dairy":        card_dairy,
     "champuru":     card_champuru,
+    "comfort-station": card_comfort_station,
     "mixedfarm":    card_mixedfarm,
     # A room you have to know the address of, and the room behind its door
     # (tools/unlisted.py). Each its own card, for every room's reason.

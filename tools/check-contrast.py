@@ -972,6 +972,12 @@ CHP_SEA, CHP_BOUGAIN, CHP_HOT = "#0C5A63", "#9A1A57", "#6E0F3D"
 # everything's face toward you, LWV_SHADE, or on a larch panel in it, LWV_CARD;
 # the gold the sun lays along every far edge is every link, the name and the ring.
 LWV_SHADE, LWV_CARD, LWV_INK, LWV_INK2, LWV_RIM = "#29323D", "#333D4A", "#EDF0F2", "#B8C2CC", "#F2C46D"
+# The Comfort Station (love.css §138). A public restroom down the steps under
+# the park, lit through glass prisms in the path overhead: every word on the
+# white tile or a tiled panel; the plates over the doors and the lift say
+# their words in the daylight's own white on green or red.
+CST_TILE, CST_PANEL, CST_INK, CST_INK2 = "#F2F1EC", "#E7E4EE", "#1D2130", "#4A4D5E"
+CST_TRIM, CST_LINK, CST_HOT, CST_INUSE, CST_GLOW = "#28564F", "#5A2A82", "#3B1757", "#8A2D2D", "#FBF8FF"
 # Widdershins (love.css §135). A crooked city with the morning halfway across
 # it: every word on the night, on a card lying in it, or on one of Star
 # Stuff's figures on its slab; the two compass labels on the night sky; no word
@@ -3836,6 +3842,19 @@ PAIRS = [
     (CHP_HOT,   CHP_CLOTH, False, "champuru: a link on a card under the pointer"),
     (CHP_CLOTH, CHP_SEA,   False, "champuru: a button's words"),
     (CHP_CLOTH, CHP_INK,   False, "champuru: a button's words under the pointer, and the empty screen's words"),
+    # ── The Comfort Station (§138) ──────────────────────────────────────────
+    (CST_INK,   CST_TILE,  False, "comfort station: every paragraph, the lede, the house rules, every quotation"),
+    (CST_INK2,  CST_TILE,  False, "comfort station: the trail, the line over the name, the hall in words, the credits "
+                                  "and every quotation's credit"),
+    (CST_TRIM,  CST_TILE,  False, "comfort station: the name, every heading, and the street door's name"),
+    (CST_LINK,  CST_TILE,  False, "comfort station: every link, the backlink, the street door's knock, and the focus ring"),
+    (CST_HOT,   CST_TILE,  False, "comfort station: a link under the pointer"),
+    (CST_INK,   CST_PANEL, False, "comfort station: what every restroom has, on each tiled panel"),
+    (CST_INK2,  CST_PANEL, False, "comfort station: how the comfort station does each thing, on its panel"),
+    (CST_TRIM,  CST_PANEL, False, "comfort station: the name of each thing on its panel"),
+    (CST_LINK,  CST_PANEL, False, "comfort station: a link on a panel, and the focus ring there"),
+    (CST_GLOW,  CST_TRIM,  False, "comfort station: FREE and LIFT on the green plates in the hall's drawing"),
+    (CST_GLOW,  CST_INUSE, False, "comfort station: IN USE on the red plates in the hall's drawing"),
     # ── Widdershins (§135) ──────────────────────────────────────────────────
     # Every word on the night side: the flat night, a card lying in it, or one
     # of Star Stuff's figures on its slab. Nothing set on the lit city.
@@ -5247,6 +5266,23 @@ ORNAMENT = {
     "#cbc4d1": "champuru: the soft shadows on the paving, falling away from the sunlit wall, and the paving's "
                "joints, 1.32 on the shade. They carry no word.",
     "#6b3a8c": "champuru: the purple sweet potato on a plate, 8.05 on the plate. It carries no word.",
+    "#c3b3e6": "comfort station: the aged violet glass of the vault lights, in the hall's ceiling, the door's "
+               "awning and along the top of every panel, 6.40 on the iron it is set in and 1.70 on the tile; the "
+               "job marker's prism is carried by its outline in --cst-ink. It carries no word.",
+    "#34343d": "comfort station: the cast-iron grid the prisms are set in, 10.89 on the tile. It carries no word.",
+    "#fffef3": "comfort station: the day at the top of the steps, 1.12 on the tile and 12.16 on the iron round it. "
+               "It carries no word.",
+    "#c9c5bc": "comfort station: the grout between the tiles, in the drawing and round every panel, 1.52 on the "
+               "tile. It carries no word, and no word sits on the tiling.",
+    "#a98638": "comfort station: the brass rails, the lift's doors, the taps, the mirror's frame and the plates' "
+               "edges, 3.02 on the tile. It carries no word.",
+    "#7a5432": "comfort station: the oak stall doors, the towel box and the bench, 5.91 on the tile. It carries "
+               "no word.",
+    "#ded7ca": "comfort station: the terrazzo floor and the steps, 1.26 on the tile, and the daylight lies on it in "
+               "dots of --cst-glow, 1.36. It carries no word.",
+    "#8b8378": "comfort station: a chip in the terrazzo, 2.61 on it. It carries no word.",
+    "#b39c72": "comfort station: a chip in the terrazzo, 1.85 on it. It carries no word.",
+    "#6c7884": "comfort station: a chip in the terrazzo, 3.15 on it. It carries no word.",
     "#bba6f0": "widdershins: Star Stuff's violet, also the rule beside every quotation, 8.39 on the night, which "
                "is what marks a quotation as one. It is measured as words in PAIRS too.",
     "#5e596e": "widdershins: every outline, in the city, round every card and figure and under every heading, "
