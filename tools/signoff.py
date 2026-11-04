@@ -50,13 +50,24 @@ a picture in Netlify's own colours, which no room's ground was measured against,
 and fetched from netlify.com it would be a third party every visitor reached on
 load. The front page's pavement takes the same TAIL.
 
+WALK THIS ROOM IS ON EVERY PAGE THAT HAS A ROOM TO WALK (Ryan's ask,
+2026-11-04): a line under the links taking the room to its own room on Cel
+Street, and on Paper Street where that has one, worked out from whether
+cel-in-<page>.js and walk-<page>.js exist, so a room built for either street
+gets its line on the next run with nothing listed by hand. It is plain links,
+in the room's own ink, so it works with no script; love.js copies the same
+links into the dial's box where a page has one, so there is one list.
+
 THE LIST IS HERE ONCE. make-signoff.py writes it into every page; make-foundry.py
 builds its whole page from a template and calls the same function, so a rebuild
 of the Foundry cannot quietly drop it.
 """
 import html
+from pathlib import Path
 
 import fractals
+
+ROOT = Path(__file__).resolve().parent.parent
 
 LINKS = [
     ("about.html", "About"),
@@ -91,15 +102,33 @@ def links(absolute=False, page=None, offmap=False):
         [f'<a href="{pre}{href}">{html.escape(text)}</a>' for href, text in LINKS])
 
 
+def walk(page):
+    """Walk this room, on Cel Street and on Paper Street, for a page that has a
+    room on either; empty for one that has none."""
+    if not page or not page.endswith(".html"):
+        return ""
+    name = page[:-5]
+    ways = []
+    if (ROOT / f"cel-in-{name}.js").exists():
+        ways.append(f'<a href="cel-street.html#in={name}" aria-label="Walk this room on Cel Street" data-walk="cel">on Cel Street</a>')
+    if (ROOT / f"walk-{name}.js").exists():
+        ways.append(f'<a href="paper-street.html#in={name}" aria-label="Walk this room on Paper Street" data-walk="paper">on Paper Street</a>')
+    if not ways:
+        return ""
+    return '<p class="signoff__walk">Walk this room: ' + " &middot; ".join(ways) + "</p>"
+
+
 def block(absolute=False, page=None, recipes=None, offmap=False):
     """The whole sign-off, between its markers. A <footer> directly in <body>,
     so it is the page's contentinfo landmark and a screen reader can jump to it."""
     fx = fractals.switch(page, recipes) if page else ""
+    wk = walk(page) if page and not absolute else ""
     return (
         f"{BEGIN}\n"
         '<footer class="signoff">\n'
         f'  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a>'
         f" &middot; {links(absolute, page, offmap)} &middot; {TAIL}</p>\n"
+        + (f"  {wk}\n" if wk else "")
         + (f"  {fx}\n" if fx else "") +
         "</footer>\n"
         f"{END}"

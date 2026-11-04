@@ -50,6 +50,39 @@
     document.addEventListener('love-low', show);
     document.addEventListener('love-intensity', show);
     breakButton(box);
+    walkButtons(box);
+  }
+
+  /* WALK THIS ROOM (Ryan's ask, 2026-11-04): the sign-off's own links to this
+     room on Cel Street and on Paper Street (tools/signoff.py writes them, from
+     whether the room has a walk-in room on either), copied into the dial's box
+     so they are near the top as well as at the foot. One list, so the two
+     cannot disagree; a page with no such links gets nothing here; and not
+     inside a frame, where Cel Street stands a room's own page. */
+  function walkButtons(box) {
+    try { if (window.top !== window.self) return; } catch (e) { return; }
+    var ways = document.querySelectorAll('.signoff__walk a[data-walk]');
+    if (!ways.length) return;
+    var wrap = document.createElement('div');
+    wrap.className = 'dial__walk';
+    wrap.setAttribute('role', 'group');
+    wrap.setAttribute('aria-labelledby', 'dial-walk-label');
+    var label = document.createElement('p');
+    label.className = 'dial__walk-label';
+    label.id = 'dial-walk-label';
+    label.textContent = 'Walk this room';
+    var row = document.createElement('div');
+    row.className = 'dial__walk-row';
+    Array.prototype.forEach.call(ways, function (a) {
+      var go = document.createElement('a');
+      go.className = 'dial__go';
+      go.href = a.getAttribute('href');
+      go.textContent = a.getAttribute('data-walk') === 'paper' ? 'On Paper Street' : 'On Cel Street';
+      row.appendChild(go);
+    });
+    wrap.appendChild(label);
+    wrap.appendChild(row);
+    box.appendChild(wrap);
   }
 
   /* A LEVEL, from the dial on the page or from the CB's Glitter dial (cb.js,

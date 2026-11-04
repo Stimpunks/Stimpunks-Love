@@ -4745,6 +4745,20 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 }
 .dial .dial__break:hover { border-color: #fff; color: #fff; }
 .dial .dial__break:focus-visible { outline-color: var(--yellow) !important; }
+/* WALK THIS ROOM (2026-11-04): the sign-off's links to the room on Cel Street
+   and on Paper Street, copied into the box by love.js under the break. In the
+   dial's own clothes, a row of plain-faced buttons, their edge the dial's
+   yellow; (0,2,0) and the yellow ring for the break's reasons. */
+.dial .dial__walk { margin-top: 11px; padding-top: 9px; border-top: 1px solid var(--ink-3); }
+.dial .dial__walk-label { margin: 0 0 7px; font: 700 12px/1.3 'Atkinson Hyperlegible', var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--chalk); }
+.dial .dial__walk-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.dial .dial__go {
+  flex: 1 1 auto; display: block; min-height: 44px; padding: 10px; text-align: center; text-decoration: none;
+  font: 700 14px/1.25 'Atkinson Hyperlegible', var(--sans); letter-spacing: 0; text-transform: none;
+  border-radius: 9px; border: 3px solid var(--yellow); background: var(--ink); color: var(--chalk);
+}
+.dial .dial__go:hover { border-color: #fff; color: #fff; }
+.dial .dial__go:focus-visible { outline-color: var(--yellow) !important; }
 
 /* FEELING OVERWHELMED? ESCAPE TO A LOW-STIMULATION MODE (2026-10-24): Warm
    Light, Cool Dark, Plant Green and Red Light, four buttons love.js puts in the
@@ -5160,6 +5174,9 @@ html[data-low] {
 /* The fractal window's switch, on a line of its own under the links. It is a
    button, so it is reset to the sentence around it: the room's own ink and face,
    underlined because it does something. Still no colour of its own. */
+/* Walk this room, on Cel Street and on Paper Street, on a line of its own
+   under the links, in the room's own ink like the rest. */
+.signoff__walk { margin: 6px 0 0; }
 .signoff__fx { margin: 6px 0 0; }
 .signoff__fx .signoff__fx-btn {
   font: inherit; color: inherit; background: none; border: 0; border-radius: 0;
