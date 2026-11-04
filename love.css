@@ -4732,6 +4732,21 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
   margin-top: 9px; padding-top: 9px; font-size: 12px; color: var(--chalk);
   border-top: 1px solid var(--ink-3);
 }
+/* THE DIAL'S DOCK (2026-11-04): where tools/make-dials.py stands the dial in a
+   room that had none, straight after the room's header, at the right and at
+   the dial's own measure. Layout and nothing else: the dial brings its own
+   clothes, and the room its own ground round it. */
+.dial-dock { margin: 18px 0 22px; }
+.dial-dock .dial { width: 100%; }
+/* On a wide screen it floats at the right, so the room's first words run down
+   beside it rather than leaving a gap; a page whose next thing is wide (a
+   stage, a model) stacks it instead, at the right, with nothing beside it. */
+@media (min-width: 900px) {
+  .dial-dock { float: right; width: min(340px, 38%); margin: 4px 0 20px 28px; }
+  .dial-dock--stack { float: none; width: auto; display: flex; justify-content: flex-end; margin: 18px 0 22px; }
+  .dial-dock--stack .dial { width: min(360px, 100%); }
+}
+
 /* I NEED A BODYMIND BREAK (2026-10-24), built into the box by love.js and
    opening bodymind-break.js's calm screen. In the dial's own clothes, a whole
    row under the fine print, and in the radio's plain face rather than Bungee,
