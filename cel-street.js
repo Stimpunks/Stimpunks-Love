@@ -1459,14 +1459,24 @@ function start() {
   // Standard mapping: left stick walks, right stick turns and looks, the
   // triggers zoom, the bumpers go to the place before and after, A goes in,
   // B backs out, X faces ahead and Y climbs.
-  var pads = 0, padFrame = 0, padLast = 0, padWas = {}, padStepped = {};
+  var pads = 0, padFrame = 0, padLast = 0, padWas = {}, padStepped = {}, placeAt = -1;
   var DEAD = 0.2;
+  var padEl = document.querySelector('[data-cel-pad]');
+  function padSay() { if (padEl) padEl.hidden = !pads; }
   function axis(v) { return Math.abs(v) < DEAD ? 0 : (v - Math.sign(v) * DEAD) / (1 - DEAD); }
+  // The place before or after: counted from the place a bumper last went to
+  // while a glide is still on its way there, or else from where you stand.
   function placeBy(n) {
     if (!stops.length) return;
-    var s = nearest(), i = s ? stops.indexOf(s) : -1;
+    var s = nearest(), i = glide && placeAt >= 0 && placeAt < stops.length ? placeAt : s ? stops.indexOf(s) : -1;
     i = i < 0 ? (n > 0 ? 0 : stops.length - 1) : (i + n + stops.length) % stops.length;
+    placeAt = i;
     standAt(stops[i]);
+  }
+  // A goes in the way a press on Walk into does, when there is one to press.
+  function padIn() {
+    var w = hereEl && hereEl.querySelector('.cel-walkin');
+    if (w) w.click(); else goIn();
   }
   function padTick(now) {
     padFrame = 0;
@@ -1478,9 +1488,10 @@ function start() {
     for (var n = 0; n < list.length; n++) {
       var g = list[n];
       if (!g) continue;
-      var b = function (k) { return g.buttons[k] && g.buttons[k].pressed; };
+      // Some controllers' drivers give a button's value and leave pressed false.
+      var b = function (k) { var x = g.buttons[k]; return !!x && (x.pressed || x.value > 0.5); };
       var once = function (k) { var key = g.index + ':' + k, was = padWas[key]; padWas[key] = b(k); return b(k) && !was; };
-      if (once(0)) goIn();
+      if (once(0)) padIn();
       if (once(1) && inside) outOfRoom();
       if (once(2)) { stepOnce('ahead'); }
       if (once(3)) { stepOnce('climb'); }
@@ -1512,11 +1523,11 @@ function start() {
     padFrame = requestAnimationFrame(padTick);
   }
   window.addEventListener('gamepadconnected', function () {
-    pads++;
+    pads++; padSay();
     if (!padFrame) { padLast = 0; padFrame = requestAnimationFrame(padTick); }
   });
   window.addEventListener('gamepaddisconnected', function () {
-    pads = Math.max(0, pads - 1);
+    pads = Math.max(0, pads - 1); padSay();
     if (!pads && padFrame) { cancelAnimationFrame(padFrame); padFrame = 0; padWas = {}; padStepped = {}; }
   });
 

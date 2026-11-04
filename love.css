@@ -29112,6 +29112,21 @@ body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-fami
 .ps-more { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; flex: 1 1 260px; }
 .ps-page { font-size: 18px; }
 .ps-familiar, .ps-said { margin: 0; font-size: 17px; line-height: 1.5; color: var(--ps-cream); }
+.ps-see { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.ps-zoom {
+  min-height: 44px; padding: 6px 12px; cursor: pointer;
+  background: var(--ps-bill); color: var(--ps-print);
+  border: 3px solid var(--ps-print); border-radius: 6px;
+  font-family: 'Holtwood One SC', Georgia, serif; font-size: 13px; letter-spacing: .04em;
+}
+.ps-zoom:focus-visible { outline: 3px solid var(--ps-ring); outline-offset: 3px; }
+.ps-zoomed { margin: 0; font-size: 17px; line-height: 1.5; color: var(--ps-cream); }
+/* FULL SCREEN: the stage, the words under it and its buttons on the page's
+   own ground, the stage taking what the buttons leave. */
+.ps-world:fullscreen { overflow-y: auto; padding: 14px 18px 24px; background: var(--ps-sky); }
+.ps-world:fullscreen .ps-stage { margin: 0; height: calc(100vh - 250px); min-height: 320px; }
+.ps-world:-webkit-full-screen { overflow-y: auto; padding: 14px 18px 24px; background: var(--ps-sky); }
+.ps-world:-webkit-full-screen .ps-stage { margin: 0; height: calc(100vh - 250px); min-height: 320px; }
 
 .ps-notes { margin: 34px 0 0; max-width: 46em; }
 @media (max-width: 600px) { .ps-stage { height: clamp(360px, 54vh, 520px); height: clamp(360px, 54svh, 520px); border-width: 6px; border-radius: 40px 40px 6px 6px; } }

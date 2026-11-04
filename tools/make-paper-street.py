@@ -21,7 +21,8 @@ WHAT IT REFUSES IN paper-street.js:
     anywhere but the Bring my avatar press.
   · a timer: nothing moves by itself, so nothing waits on a clock. Movement is
     requestAnimationFrame, and only while a key or button is held or a glide is
-    on its way to a door.
+    on its way to a door; a game controller is read each frame only while one
+    is connected, because a browser has no event for a stick.
   · a skew or a raw matrix. Rotation is allowed since 2026-10-31 (Ryan's
     call): the street is real 3D and the browser does the seeing. Nothing moves
     by itself, which is the rule the old refusal stood for.

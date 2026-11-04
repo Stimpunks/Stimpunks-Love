@@ -39,7 +39,9 @@
    with no motion at all, and are where Gentle starts; Glide walks you smoothly
    while a key or a button is held, and is where Regular and MAX start. The
    switch overrides either, for this visit only. Tab moves you down the street:
-   the keyboard going to a door stands you in front of it.
+   the keyboard going to a door stands you in front of it. A game controller is
+   read each frame only while one is connected, because a browser has no
+   event for a stick moving; a frame with nothing asked of it does nothing.
 
    LOOKING AROUND turns the rig, and looking up and down slides the horizon,
    the way the old games did it, so the floor drops away and the roof comes
@@ -99,6 +101,11 @@
   var held = {};         // keys and buttons held down
   var last = 0, running = false;
   var F = 600, W = 0, H = 0, HORIZON = 0, EYE = 165, BASE = 0;
+  // ZOOM: how many times longer the eye's focal length is than F. Only the
+  // view's perspective and the eye's place in the rig use it, so the street
+  // and every page in it come closer together while nothing moves in the
+  // world and your companions stay by you.
+  var ZOOM = 1;
   var yaw = 0, pitch = 0;   // which way you face (radians, right is more) and how far up you look (pixels)
   var TURN = 1.3, LOOK = 320, STEP_TURN = Math.PI / 6;
   var mode = null, chosen = false;
@@ -285,7 +292,7 @@
     EYE = scene ? scene.eye : 165;
     BASE = H * (scene ? scene.horizon : 0.4);
     lookAt();
-    view.style.perspective = F + 'px';
+    view.style.perspective = (F * ZOOM) + 'px';
   }
 
   // Looking up slides the horizon down the stage, so the roof comes in from
@@ -317,7 +324,7 @@
   // you face. A point in the world (x across, y up, z away) is (x, -y, -z) in
   // the page's own axes, so this puts your eye at the stage's perspective.
   function rig() {
-    flatsEl.style.transform = 'translate3d(' + (W / 2).toFixed(1) + 'px,' + HORIZON.toFixed(1) + 'px,' + F.toFixed(1) + 'px) rotateY(' +
+    flatsEl.style.transform = 'translate3d(' + (W / 2).toFixed(1) + 'px,' + HORIZON.toFixed(1) + 'px,' + (F * ZOOM).toFixed(1) + 'px) rotateY(' +
       yaw.toFixed(5) + 'rad) translate3d(' + (-cam.x).toFixed(1) + 'px,' + EYE.toFixed(1) + 'px,' + cam.z.toFixed(1) + 'px)';
   }
 
@@ -566,8 +573,14 @@
                q: 'turnl', Q: 'turnl', e: 'turnr', E: 'turnr', r: 'lookup', R: 'lookup', f: 'lookdown', F: 'lookdown',
                x: 'ahead', X: 'ahead' };
 
+  // Shift and an arrow turns and looks instead of walking, as Q, E, R and F do.
+  var SHIFTED = { ArrowUp: 'lookup', ArrowDown: 'lookdown', ArrowLeft: 'turnl', ArrowRight: 'turnr' };
   stage.addEventListener('keydown', function (e) {
-    var dir = KEYS[e.key];
+    if (!e.altKey && !e.ctrlKey && !e.metaKey && (e.target === stage || e.target.tagName === 'A')) {
+      var z = e.key === '+' || e.key === '=' ? 'in' : e.key === '-' || e.key === '_' ? 'out' : e.key === '0' ? 'reset' : null;
+      if (z) { e.preventDefault(); zoom(z); return; }
+    }
+    var dir = e.shiftKey && SHIFTED[e.key] ? SHIFTED[e.key] : KEYS[e.key];
     if (!dir || e.altKey || e.ctrlKey || e.metaKey) return;
     e.preventDefault();
     if (dir === 'ahead') { if (!e.repeat) faceAhead(); return; }
@@ -577,6 +590,8 @@
   stage.addEventListener('keyup', function (e) {
     var dir = KEYS[e.key];
     if (dir) held[dir] = false;
+    if (SHIFTED[e.key]) held[SHIFTED[e.key]] = false;
+    if (e.key === 'Shift') Object.keys(SHIFTED).forEach(function (k) { held[SHIFTED[k]] = false; });
   });
   stage.addEventListener('focusout', function (e) {
     if (!stage.contains(e.relatedTarget)) held = {};
@@ -639,6 +654,139 @@
   stage.addEventListener('click', function (e) {
     if (dragged) { e.preventDefault(); e.stopPropagation(); dragged = false; }
   }, true);
+
+  /* ── Zoom, full screen and a game controller ──────────────────────────── */
+  // ZOOM, so the words on a door or a page in a room can be read from where
+  // you stand: a quarter again at each press, up to four times, for this
+  // visit, and nothing remembers it.
+  var ZOOMS = [1, 1.25, 1.6, 2, 2.5, 3.2, 4], zoomAt = 0;
+  var zoomedEl = document.querySelector('[data-ps-zoomed]');
+  function zoom(how) {
+    zoomAt = how === 'in' ? Math.min(ZOOMS.length - 1, zoomAt + 1) : how === 'out' ? Math.max(0, zoomAt - 1) : 0;
+    ZOOM = ZOOMS[zoomAt];
+    if (!scene) return;
+    view.style.perspective = (F * ZOOM) + 'px';
+    draw();
+    if (zoomedEl) zoomedEl.textContent = zoomAt ? 'Zoomed in ' + ZOOM + ' times' : 'Normal size';
+  }
+  Array.prototype.forEach.call(controls.querySelectorAll('[data-ps-zoom]'), function (b) {
+    b.addEventListener('click', function () { zoom(b.getAttribute('data-ps-zoom')); });
+  });
+  // A pinch on a trackpad arrives as the wheel with Control held.
+  var pinch = 0;
+  stage.addEventListener('wheel', function (e) {
+    if (!e.ctrlKey) return;
+    e.preventDefault();
+    pinch += e.deltaY;
+    if (Math.abs(pinch) > 40) { zoom(pinch < 0 ? 'in' : 'out'); pinch = 0; }
+  }, { passive: false });
+
+  // FULL SCREEN: the street, the words under it and its buttons fill the
+  // screen, and Escape or the same button brings them back. Inside a room the
+  // stage changing size sets the room up again, as any change of size does.
+  var fullEl = document.querySelector('[data-ps-full]');
+  var fullBtn = controls.querySelector('[data-ps-fullscreen]');
+  function fullNow() { return document.fullscreenElement || document.webkitFullscreenElement; }
+  if (fullBtn && fullEl && (document.fullscreenEnabled || document.webkitFullscreenEnabled)) {
+    fullBtn.hidden = false;
+    fullBtn.addEventListener('click', function () {
+      if (fullNow()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      else {
+        var asked = (fullEl.requestFullscreen || fullEl.webkitRequestFullscreen).call(fullEl);
+        if (asked && asked.catch) asked.catch(function () {});
+      }
+    });
+    var flipped = function () {
+      fullBtn.textContent = fullNow() ? 'Leave full screen' : 'Full screen';
+      if (fullNow()) stage.focus({ preventScroll: true });
+    };
+    document.addEventListener('fullscreenchange', flipped);
+    document.addEventListener('webkitfullscreenchange', flipped);
+  }
+
+  // A GAME CONTROLLER, such as an Xbox controller on a Mac. A browser shows a
+  // page a controller only once one of its buttons has been pressed there,
+  // and has no event for a stick moving, so while one is connected, and only
+  // then, the page reads it once a frame; a frame with nothing asked of it
+  // moves and draws nothing. Standard mapping: the left stick walks, the right
+  // stick turns and looks, the triggers zoom, the bumpers go to the door or
+  // place before and after, A goes in, B backs out and X faces ahead.
+  var pads = 0, padFrame = 0, padLast = 0, padWas = {}, padStepped = {};
+  var DEAD = 0.2;
+  var padEl = controls.querySelector('[data-ps-pad]');
+  function padSay() { if (padEl) padEl.hidden = !pads; }
+  function axis(v) { return Math.abs(v) < DEAD ? 0 : (v - (v < 0 ? -DEAD : DEAD)) / (1 - DEAD); }
+  function placeBy(n) {
+    var list = scene ? scene.stops : [];
+    if (!list.length) return;
+    var i = list.indexOf(nearest());
+    var next = list[i < 0 ? 0 : Math.max(0, Math.min(list.length - 1, i + n))];
+    standAt(next);
+    if (next.link) next.link.focus({ preventScroll: true });
+  }
+  function padIn() {
+    var s = nearest();
+    if (!s) return;
+    if (s.link) { s.link.click(); return; }
+    var t = s.el && s.el.querySelector('iframe, button, a[href], summary, [tabindex]');
+    if (t) t.focus({ preventScroll: true });
+  }
+  function padTick(t) {
+    padFrame = 0;
+    if (!pads) return;
+    var dt = padLast ? Math.min(0.1, (t - padLast) / 1000) : 0;
+    padLast = t;
+    var all = navigator.getGamepads ? navigator.getGamepads() : [];
+    var moved = false;
+    for (var n = 0; n < all.length; n++) {
+      var g = all[n];
+      if (!g || !scene) continue;
+      // Some controllers' drivers give a button's value and leave pressed false.
+      var b = function (k) { var x = g.buttons[k]; return !!x && (x.pressed || x.value > 0.5); };
+      var once = function (k) { var key = g.index + ':' + k, was = padWas[key]; padWas[key] = b(k); return b(k) && !was; };
+      if (once(0)) padIn();
+      if (once(1) && outBtn && !outBtn.hidden) outBtn.click();
+      if (once(2)) faceAhead();
+      if (once(4)) placeBy(-1);
+      if (once(5)) placeBy(1);
+      if (once(6)) zoom('out');
+      if (once(7)) zoom('in');
+      var fwd = -axis(g.axes[1] || 0) + (b(12) ? 1 : 0) - (b(13) ? 1 : 0);
+      var across = axis(g.axes[0] || 0) + (b(15) ? 1 : 0) - (b(14) ? 1 : 0);
+      var turn = axis(g.axes[2] || 0), up = -axis(g.axes[3] || 0);
+      if (!steps()) {
+        if (fwd || across || turn || up) {
+          goal = null;
+          var c = Math.cos(yaw), si = Math.sin(yaw);
+          cam.x += (fwd * SPEED * si + across * SIDEWAYS * c) * dt;
+          cam.z += (fwd * SPEED * c - across * SIDEWAYS * si) * dt;
+          yaw += turn * TURN * dt;
+          pitch += up * LOOK * dt;
+          lookAt();
+          moved = true;
+        }
+      } else {
+        // In steps, a push of a stick is one step, and it has to come back
+        // before the next.
+        [['fwd', fwd > 0.6], ['back', fwd < -0.6], ['right', across > 0.6], ['left', across < -0.6],
+         ['turnr', turn > 0.6], ['turnl', turn < -0.6], ['lookup', up > 0.6], ['lookdown', up < -0.6]].forEach(function (q) {
+          var key = g.index + ':' + q[0];
+          if (q[1] && !padStepped[key]) step(q[0]);
+          padStepped[key] = q[1];
+        });
+      }
+    }
+    if (moved) { clamp(); draw(); }
+    padFrame = requestAnimationFrame(padTick);
+  }
+  window.addEventListener('gamepadconnected', function () {
+    pads++; padSay();
+    if (!padFrame) { padLast = 0; padFrame = requestAnimationFrame(padTick); }
+  });
+  window.addEventListener('gamepaddisconnected', function () {
+    pads = Math.max(0, pads - 1); padSay();
+    if (!pads && padFrame) { cancelAnimationFrame(padFrame); padFrame = 0; padWas = {}; padStepped = {}; }
+  });
 
   /* ── Steps or Glide ───────────────────────────────────────────────────── */
   var modeBtn = controls.querySelector('[data-ps-mode]');
