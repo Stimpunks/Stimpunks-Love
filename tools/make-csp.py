@@ -187,7 +187,9 @@ for feat in ("camera", "microphone", "display-capture"):
 # refusals (the Repeater, Stay Breezy, Cavendish) notwithstanding, because a
 # script nobody's tool watches is where it would arrive. The call asks from
 # inside 8x8's frame, which is 8x8's code and not in this repository.
-SKIP = {"tools", "netlify", "node_modules", ".netlify", ".git"}
+# .claude holds the app's settings and the worktrees its helpers build in,
+# copies of this repository that are never part of the site.
+SKIP = {"tools", "netlify", "node_modules", ".netlify", ".git", ".claude"}
 asks = re.compile(r"getUserMedia|getDisplayMedia")
 askers = sorted(str(p.relative_to(ROOT)) for p in ROOT.rglob("*.js")
                 if p.relative_to(ROOT).parts[0] not in SKIP and asks.search(p.read_text(errors="replace")))

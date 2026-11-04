@@ -29801,6 +29801,8 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
 @media (max-width: 720px) {
   .loo-with-a-view .wrap { width: calc(100% - 32px); }
   .lwv-has { grid-template-columns: 1fr; }
+}
+
 /* §138 ── ROOM: The Comfort Station (a public restroom on the street) ────────
    One of the street's public restrooms, Ryan Boren's brief, 2026-11-03: a
    comfort station of the old municipal kind, down a flight of steps under a
