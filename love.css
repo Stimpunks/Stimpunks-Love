@@ -4525,6 +4525,23 @@
   --cst-grout: #C9C5BC;  --cst-brass: #A98638;  --cst-oak: #7A5432;
   --cst-terrazzo: #DED7CA;  --cst-chip-1: #8B8378;  --cst-chip-2: #B39C72;
   --cst-chip-3: #6C7884;
+  /* The Seaside Convenience (§139): a Victorian convenience on a promenade in
+     the glare off the sea. The page: --sea-haze its ground, the pale hazy air
+     over the front; --sea-cream the cream enamel every card is painted in;
+     --sea-ink every word, --sea-ink-2 the quieter words; --sea-iron the
+     ironwork's green, the name, every heading and the focus ring;
+     --sea-buoy the links, a lifebuoy's red, --sea-buoy-hot a link under the
+     pointer. Drawn, carrying no word: --sea-sky the hazy sky, --sea-sea the
+     water, --sea-glare the glare lying on it, --sea-tile and --sea-tile-2 the
+     glazed tiles, --sea-glass the canopy, --sea-shade the faint blue
+     shadows, --sea-sand the promenade, and the little lamps over the
+     cubicles, --sea-free and --sea-inuse, which say so in words beside. */
+  --sea-haze: #EDF3F2;  --sea-cream: #FBF6E6;  --sea-ink: #15332E;
+  --sea-ink-2: #3E5953;  --sea-iron: #1F5A4E;  --sea-buoy: #A3301F;
+  --sea-buoy-hot: #76221A;  --sea-sky: #DDE9EE;  --sea-sea: #8DB8C2;
+  --sea-glare: #FFFFFB;  --sea-tile: #CFE4D8;  --sea-tile-2: #A9CDBD;
+  --sea-glass: #D7E8EC;  --sea-shade: #C8D6E2;  --sea-sand: #E8DDBF;
+  --sea-free: #2E7D4F;  --sea-inuse: #B23A2E;
 
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
@@ -5877,6 +5894,15 @@ div.facade--square { border: 0; background: none; }
 .door--mud .door__name  { font-family: 'Castoro', Georgia, serif; color: var(--mud-sky); font-size: 30px; font-synthesis: none; }
 .door--mud .door__blurb { font-family: 'Castoro', Georgia, serif; color: var(--mud-text); }
 .door--mud .door__knock { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .06em; color: var(--mud-welly); }
+/* The Seaside Convenience's door: cream enamel under a green iron frame, the
+   awning a glass canopy on its iron ribs, and the name in the room's own
+   Playfair. A clear restroom sign in words, never a figure on a door. */
+.door--sea { background-color: var(--sea-cream); border-color: var(--sea-iron); box-shadow: inset 0 -10px 0 var(--sea-tile-2); }
+.door--sea .door__awning { background-color: var(--sea-glass); background-image: repeating-linear-gradient(90deg, var(--sea-iron) 0 3px, transparent 3px 28px); border-bottom: 5px solid var(--sea-iron); }
+.door--sea .door__name  { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; color: var(--sea-iron); font-size: 28px; line-height: 1.08; font-synthesis: none; }
+.door--sea .door__blurb { font-family: 'Newsreader', Georgia, serif; color: var(--sea-ink); font-size: 16px; line-height: 1.4; font-synthesis: none; }
+.door--sea .door__sign  { display: inline-block; margin: 0 0 8px; padding: 3px 10px; background: var(--sea-iron); color: var(--sea-cream); font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 15px; letter-spacing: .12em; border-radius: 3px; }
+.door--sea .door__knock { font-family: 'Newsreader', Georgia, serif; font-weight: 400; font-style: italic; font-size: 16px; color: var(--sea-buoy); font-synthesis: none; }
 
 /* PANDO CALRISSIAN'S DOOR IS A GAP BETWEEN THE SHOPFRONTS WITH THE HILL IN IT:
    aspen stems standing up the awning against the sky after sunset, the pink
@@ -29856,6 +29882,67 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   .cst-has { grid-template-columns: 1fr; }
   .cst-lede { font-size: 18px; }
 }
+/* §139 ── ROOM: The Seaside Convenience (a public restroom on the street) ───────
+   A Victorian public convenience on a seaside promenade: painted cast iron in
+   green and cream, glazed tile, a glass canopy on curly brackets, and the sea
+   past the railings. One of the street's public restrooms, each a room with a
+   name and a theme of its own (Ryan's brief, 2026-11-03); the list they all
+   carry is data/restrooms.json, written in here by tools/restrooms.py in this
+   room's own classes, and tools/make-seaside-convenience.py writes the rest.
+
+   THE LIGHT IS THE ROOM. A bright hazy sky over the sea and the glare off the
+   water coming in from the sea side: everything pale and high-key, the shadows
+   faint and blue (--sea-shade), and nothing lit from inside. Every word sits on
+   the haze or on a card of cream enamel.
+
+   ITS COLLISIONS, and what keeps it clear of each:
+   · THE MUD ROOM'S SLAKE is the other shore on the street, and the one to
+     watch: an estuary under overcast, olive mud with the sky lying in it, the
+     longest view on the street and nothing built. This is a built front in
+     sun-haze, cream and iron green, the water blue-grey and glaring. If the
+     haze ever goes overcast or the greens go olive, it has become the Slake
+     with a toilet on it, and it is this room that moves.
+   · THE SOLARPUNK HERMITAGE is the other daylight, a low morning sun with a
+     direction, warm plaster and long shadows. Here the light has no direction
+     but the sea's, and the shadows are faint and blue, never long or warm.
+   · COVENSTEAD is the other side-lit pale room, one window's warm patch on
+     pink limewash. Here nothing is warm and nothing lands in a patch: the
+     whole front is in the glare.
+   · CHAMPURU's lane has the sea at its end too, seen from shade under a
+     sunlit wall. Here there is no shade to sit in but the canopy's, and the
+     sea is right there past the railings, not at the end of anything.
+
+   NOTHING MOVES AT ANY SETTING, the sea, the glare and the gulls included, and
+   the tool refuses a keyframe, an animation or a transition here. */
+body.seaside { background: var(--sea-haze); color: var(--sea-ink); font-family: 'Newsreader', Georgia, serif; font-synthesis: none; }
+.seaside a { color: var(--sea-buoy); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+.seaside a:hover { color: var(--sea-buoy-hot); }
+.seaside :focus-visible { outline-color: var(--sea-iron); }
+.seaside .backlink { font-family: 'Newsreader', Georgia, serif; font-weight: 400; font-size: 17px; color: var(--sea-buoy); }
+.sea-topline { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px; align-items: baseline; padding-top: 22px; }
+.sea-trail { margin: 0; font-size: 15px; font-style: italic; color: var(--sea-ink-2); }
+.sea-head { margin: 26px 0 0; }
+.sea-over { margin: 0; font-size: 17px; font-style: italic; color: var(--sea-ink-2); }
+.seaside h1 { margin: 6px 0 0; font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: clamp(40px, 7vw, 76px); line-height: 1.02; color: var(--sea-iron); }
+.sea-sub { margin: 12px 0 0; font-size: 22px; line-height: 1.45; max-width: 40em; }
+.sea-view { margin: 26px 0 0; }
+.sea-front { display: block; width: 100%; height: auto; border: 4px solid var(--sea-iron); border-radius: 6px; background: var(--sea-sky); }
+.sea-front__caption { margin: 10px 0 0; font-size: 15px; font-style: italic; color: var(--sea-ink-2); max-width: 52em; }
+.sea-part { margin: 40px 0 0; max-width: 52em; }
+.seaside h2 { margin: 0 0 12px; font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 30px; line-height: 1.15; color: var(--sea-iron); padding-bottom: 6px; border-bottom: 3px double var(--sea-iron); }
+.sea-lede, .sea-para { margin: 0 0 14px; font-size: 19px; line-height: 1.6; }
+.sea-has { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.sea-has__item { background: var(--sea-cream); border: 2px solid var(--sea-iron); border-top-width: 8px; border-radius: 4px; padding: 14px 16px 16px; }
+.sea-has__name { margin: 0 0 6px; font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 20px; line-height: 1.2; color: var(--sea-iron); }
+.sea-has__line { margin: 0 0 8px; font-size: 17px; line-height: 1.5; }
+.sea-has__how { margin: 0; font-size: 16px; line-height: 1.5; font-style: italic; color: var(--sea-ink-2); }
+.sea-quote { margin: 18px 0; padding: 12px 18px; background: var(--sea-cream); border-left: 6px solid var(--sea-iron); }
+.sea-quote p { margin: 0; font-size: 19px; line-height: 1.55; }
+.sea-quote footer { margin: 8px 0 0; font-size: 15px; color: var(--sea-ink-2); }
+.sea-rules, .sea-credits { margin: 0; padding-left: 1.2em; }
+.sea-rules li, .sea-credits li { margin: 0 0 10px; font-size: 18px; line-height: 1.55; }
+.sea-credits li { font-size: 16px; }
+@media (max-width: 600px) { .seaside h2 { font-size: 25px; } .sea-sub { font-size: 19px; } }
 
 /* §141 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */

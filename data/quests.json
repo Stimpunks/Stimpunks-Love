@@ -3520,6 +3520,38 @@
    "learned": "A world can wait for you. Nothing on the Slake changes until you ask it to."
   },
   {
+   "id": "sea-spade",
+   "page": "seaside-convenience.html",
+   "room": "The Seaside Convenience",
+   "title": "The word for getting in the way",
+   "posted": "There is a shopfront on the street whose door opens onto a promenade, where a public convenience of painted iron and glazed tile stands in the glare off the sea. It quotes a word a young Stimpunk made up for getting between somebody and the toilet they chose. Go and find out what it is.",
+   "rank": 1,
+   "takes": "about as long as it takes to wash your hands properly",
+   "target": "a child’s bucket and spade, left by a bench under the canopy",
+   "code": "PROMENADE",
+   "learned": "A young Stimpunk, a baseball fan, coined stallbatting: interfering with someone going to the bathroom of their choosing. Every public restroom on the street is for everybody, so nobody there can do it.",
+   "hints": [
+    "On the street itself, in the row of shopfronts, just after the MUD Room: the one whose door has a sign that says Toilets.",
+    "It is in the first quotation under Why a convenience should be this good.",
+    "Right at the foot of the room, on the promenade, by a bench."
+   ],
+   "ask": {
+    "question": "A young Stimpunk, a baseball fan, coined a word for interfering with someone going to the bathroom of their choosing. What is the word?",
+    "accept": [
+     "stallbatting",
+     "stall batting",
+     "stall-batting"
+    ],
+    "answer": "Stallbatting",
+    "why": "Our Bathroom Access page says a young Stimpunk, a baseball fan, coined stallbatting for interfering with someone going to the bathroom of their choosing. Every restroom on the street is for everybody, so there is nobody there to do it to.",
+    "hints": [
+     "It is in the first quotation in the room.",
+     "It is a word from baseball with a toilet in it.",
+     "Stallbatting."
+    ]
+   }
+  },
+  {
    "id": "pando-leaf",
    "page": "pando-calrissian.html",
    "room": "Pando Calrissian",

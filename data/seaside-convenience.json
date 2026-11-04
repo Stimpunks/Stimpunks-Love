@@ -1,0 +1,42 @@
+{
+  "_what": "The Seaside Convenience: a public restroom on the street, a Victorian convenience of painted cast iron and glazed tile on a seaside promenade, under a glass canopy, with the sea beyond the railings. Ryan's brief, 2026-11-03 (see data/restrooms.json). tools/make-seaside-convenience.py writes the room from this file and tools/restrooms.py, and holds every line here to the list every restroom on the street carries. Every word in this file is the room's own; the quotations are only data/restrooms.json's.",
+  "_light": "A bright hazy sky over the sea, and the glare off the water coming in from the sea side: everything pale and high-key, the shadows faint and blue, and nothing lit from inside.",
+  "trail": "on the street &middot; down onto the front &middot; under the glass canopy &middot; the sea past the railings",
+  "over": "A shopfront on the street that opens onto the promenade",
+  "sub": "A public convenience on the front: painted iron, glazed tile, a glass roof, and the sea right there.",
+  "lede": [
+    "Go in at the shop door and you come out on a promenade, in the glare off the sea. Along the railings stands a convenience of the old seaside sort: a long pavilion of cast iron painted green and cream, its walls glazed tile, its roof a canopy of glass on curly brackets, so the whole inside is lit by the sky. It is a public toilet, and it is the nicest building on the front.",
+    "It is for everybody. There is nothing to pay at the turnstile, because there is no turnstile, and nobody at the door, because there is no need for anybody at the door. The sea is loud enough for both of you, and the building is quiet."
+  ],
+  "how": {
+    "everybody": "There is one door off the promenade and one tiled hall behind it, and every cubicle opens off the hall. The enamel sign over the arch says Toilets, and that is all it says.",
+    "toilets": "The toilets are in cubicles along the land side, and the urinals in cubicles of their own along the sea side, each behind a door like all the others.",
+    "wheelchair": "A ramp comes down from the promenade at the gentlest slope the railings allow, beside the steps, and the doors open on a push plate and wait for you.",
+    "step": "The basins are a long run of white porcelain under the window to the sea, and a Step &rsquo;n Wash folds out from under each one, so a small person can see the water while they wash.",
+    "changing": "The end cubicle is the biggest, with a window over the water: the baby&rsquo;s changing table folds down from its wall, and the adult one stands in the middle on its own pillar, with a hoist on a rail over it.",
+    "menstrual": "In every cubicle there is a painted tin on the shelf with pads and tampons in it, filled every morning before the first walkers come along the front.",
+    "condoms": "A china bowl of condoms sits on the ledge by the door, where you can take a few on your way in or out and nobody can see which way you were going.",
+    "sharps": "A sharps box is screwed to the tiles in every cubicle, at a height you can reach from the seat or from a chair.",
+    "naloxone": "The naloxone is in a cabinet painted the same green as the ironwork, by the arch and never locked, with how to use it printed on the inside of its door in big letters.",
+    "seating": "Iron benches with wooden slats stand under the glass canopy, facing the sea, so whoever is waiting for somebody has the best seat on the front.",
+    "washing": "Every basin has soap in a china dispenser, warm water from a tap you can turn with the side of a hand, and a tin of paper towels beside it.",
+    "quiet": "There is nothing on the walls that roars, so the loudest thing in the hall is the sea through the window.",
+    "stalls": "Every cubicle is a small tiled room of its own, its door down to the floor and up to the iron frame of the canopy, and over each door a little enamel lamp says Free in green or In use in red, in words big enough to read from the benches.",
+    "belongings": "There is a shelf in every cubicle for a bag, a hook up high and another low on the back of the door, and a peg by the basin for a bucket and spade.",
+    "signs": "The signs are enamel on iron, cream letters on green, big enough to read from the railings, hung low enough to read from a chair, with the same words raised underneath and in braille.",
+    "free": "It is free, it is open from before the first walker until after the last and all night in between, and nobody on the front will ask why you are going in."
+  },
+  "why": [
+    "A building like this used to be a town&rsquo;s way of showing off: the cast iron came out of a foundry catalogue, the tiles came out of a kiln by the trainload, and the whole thing said that a town that cared about you would build you somewhere good to go. Norway still builds its rest stops that way, along roads people drive to look at, and showed them off in October 2026 when it was called a name. This room is built in that spirit, on a front of our own.",
+    "Somebody needing a toilet is a fact about having a body. Every rule a restroom adds about who may use which door is a rule somebody gets caught on, and our Bathroom Access page names it."
+  ],
+  "rules": [
+    "<strong>No sign says who may come in.</strong> The arch says Toilets, and every cubicle is for everybody.",
+    "<strong>Nothing to pay.</strong> No turnstile, no coin slot, nothing to buy at the kiosk first.",
+    "<strong>Nothing roars.</strong> No air dryers, and nothing else that shouts.",
+    "<strong>Nobody keeps watch.</strong> Nobody counts who comes in, how long anybody stays, or how often.",
+    "<strong>Nothing moves at any setting.</strong> The sea in the drawing lies still, and so do the gulls."
+  ],
+  "quotes": ["stallbatting", "construct", "multiple", "naloxone", "condoms"],
+  "job": "A child&rsquo;s bucket and spade, left by a bench under the canopy."
+}

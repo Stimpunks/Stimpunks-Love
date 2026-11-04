@@ -1178,6 +1178,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--wds h1 {{ font-size: 92px; margin-top: 2px !important; line-height: .95; }}
 .og--wds .wds-sub {{ font-size: 26px; margin-top: 6px !important; max-width: 1080px; }}
 
+/* the seaside convenience — THE PAVILION ON THE PROMENADE. The page's own
+   drawing, lifted rather than redrawn, cropped to the canopy, the cubicle doors
+   and the sea, and every word below it on the haze over the front, where the
+   room sets every word. */
+.og--sea {{ width: 100%; padding: 0 0 26px; gap: 0; justify-content: flex-start; }}
+.og--sea .og-room {{ margin: 0 !important; line-height: 0; }}
+.og--sea .og-room svg {{ display: block; width: 1200px; height: auto; max-width: none; border: 0; border-bottom: 4px solid var(--sea-iron); border-radius: 0; }}
+.og--sea .og-words {{ padding: 16px 60px 0; }}
+.og--sea .og-words > * {{ margin: 0 !important; }}
+.og--sea .sea-over {{ font-size: 18px; }}
+.og--sea h1 {{ font-size: 84px; margin-top: 6px !important; line-height: 1; }}
+.og--sea .sea-sub {{ font-size: 27px; margin-top: 8px !important; max-width: 1080px; }}
+
 /* breaker breaker — THE CONVOY AT NIGHT. The page's own drawing, lifted rather
    than redrawn, cropped to the lamps, and every word below it on the dark, where
    the room sets every word. No lamp is added for the card. */
@@ -4573,6 +4586,39 @@ def card_cel(p):
     )
 
 
+def card_sea(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE FRONT ARE LIFTED
+    # FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="sea-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="sea-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: seaside-convenience.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    # The card shows the canopy, the doors and the sea, cropped by the
+    # drawing's own viewBox rather than by a margin.
+    front = p["seafront"].replace('viewBox="0 0 1200 380"', 'viewBox="0 30 1200 350"', 1)
+    if front == p["seafront"]:
+        raise SystemExit(
+            "REFUSING: seaside-convenience.html's front is no longer 1200 by 380, and the card\n"
+            "crops it by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--sea" data-fit="card">'
+        f'<div class="og-room">{front}</div>'
+        f'<div class="og-words"><p class="sea-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="sea-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A pale card in the glare off the sea. Across the top, a long pavilion of green glazed tile under a glass "
+        f"canopy on curly iron brackets stands on a promenade, with a row of cream cubicle doors and a little lamp "
+        f"over each, an arch with an enamel sign that says Toilets, iron benches facing the water, and the "
+        f"railings, the hazy sea and its glare beyond. Below, small grey italic words reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large iron-green serif letters, and under it: "
+        f"{plain(sub.group(1))}",
+    )
+
+
 def card_wds(p):
     # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE CITY ARE LIFTED
     # FROM THE PAGE, so the card cannot say what the room does not.
@@ -6150,6 +6196,7 @@ CARDS = {
     "pets": card_pts,
     "volunteers": card_vol,
     "loo-with-a-view": card_lwv,
+    "seaside": card_sea,
     "haunted": card_hh,
     "paper-street": card_ps,
     "cel-street": card_cel,
@@ -6304,6 +6351,7 @@ def main():
         ("ptsfloor", "pets.html",         r'(<svg class="pts-floor".*?</svg>)'),
         ("volloom",  "volunteers.html",   r'(<svg class="vol-loom".*?</svg>)'),
         ("lwvview",  "loo-with-a-view.html", r'(<svg class="lwv-view".*?</svg>)'),
+        ("seafront", "seaside-convenience.html", r'(<svg class="sea-front".*?</svg>)'),
         ("wdscity",  "widdershins.html",  r'(<svg class="wds-city".*?</svg>)'),
         ("hhset",    "haunted-house.html", r'(<svg class="hh-set".*?</svg>)'),
         ("psarch",   "paper-street.html", r'(<svg class="ps-arch".*?</svg>)'),
