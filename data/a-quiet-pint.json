@@ -1275,5 +1275,286 @@
       "licence": "Public domain (PD-old)"
     }
   ],
-  "_rolls": "THE PLAYER PIANO'S ROLLS. Each is a recording of a real piano roll, on its own page on Wikimedia Commons, where it is public domain, and the pub streams the MP3 Commons makes of it: nothing musical is hosted here, and nothing is fetched until somebody presses a roll. A roll is a strip, not a screen, so the pub's homage holds: nothing behind the bar has a screen. Every roll was chosen on 2026-10-06 from Commons' own descriptions, which say which roll it is and what it was played on; files that turned out to be notation software playing sheet music rather than a roll were left off. Every composer died more than seventy years ago, checked on Wikipedia against this year, so the music is public domain everywhere and not only in the United States, the Doomscroll's bar; that left off several rolls of songs whose writers died too recently, and one whose lyricist's dates could not be found. Every runtime was measured off the MP3 with ffprobe. How each recording was made is said only where its Commons page says it, and left out where it does not."
+  "_rolls": "THE PLAYER PIANO'S ROLLS. Each is a recording of a real piano roll, on its own page on Wikimedia Commons, where it is public domain, and the pub streams the MP3 Commons makes of it: nothing musical is hosted here, and nothing is fetched until somebody presses a roll. A roll is a strip, not a screen, so the pub's homage holds: nothing behind the bar has a screen. Every roll was chosen on 2026-10-06 from Commons' own descriptions, which say which roll it is and what it was played on; files that turned out to be notation software playing sheet music rather than a roll were left off. Every composer died more than seventy years ago, checked on Wikipedia against this year, so the music is public domain everywhere and not only in the United States, the Doomscroll's bar; that left off several rolls of songs whose writers died too recently, and one whose lyricist's dates could not be found. Every runtime was measured off the MP3 with ffprobe. How each recording was made is said only where its Commons page says it, and left out where it does not.",
+  "standards": [
+    {
+      "key": "entertainer",
+      "title": "The Entertainer",
+      "published": 1902,
+      "by": [
+        {
+          "name": "Scott Joplin",
+          "born": 1868,
+          "died": 1917
+        }
+      ],
+      "instrumental": true,
+      "played": "Played live in 2007, without a metronome, on an electronic keyboard, by a Wikipedia user who goes by IE, who released it into the public domain.",
+      "file": "File:The Entertainer - Scott Joplin.ogg",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/1/1b/The_Entertainer_-_Scott_Joplin.ogg/The_Entertainer_-_Scott_Joplin.ogg.mp3",
+      "runtime": "3:54",
+      "licence": "Public domain (PD-user: released by its player; the composition PD-old)"
+    },
+    {
+      "key": "clair",
+      "title": "Clair de lune, from the Suite bergamasque",
+      "published": 1905,
+      "by": [
+        {
+          "name": "Claude Debussy",
+          "born": 1862,
+          "died": 1918
+        }
+      ],
+      "instrumental": true,
+      "played": "Played by Laurens Goedhart in 2011.",
+      "file": "File:Clair de lune (Claude Debussy) Suite bergamasque.ogg",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/be/Clair_de_lune_%28Claude_Debussy%29_Suite_bergamasque.ogg/Clair_de_lune_%28Claude_Debussy%29_Suite_bergamasque.ogg.mp3",
+      "runtime": "5:04",
+      "licence": "CC BY 3.0 (the recording, Laurens Goedhart); the composition public domain"
+    },
+    {
+      "key": "solace",
+      "title": "Solace",
+      "published": 1909,
+      "by": [
+        {
+          "name": "Scott Joplin",
+          "born": 1868,
+          "died": 1917
+        }
+      ],
+      "instrumental": true,
+      "played": "Played by Constantin Stephan in 2022.",
+      "file": "File:Joplin-Solace-Stephan.ogg",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b5/Joplin-Solace-Stephan.ogg/Joplin-Solace-Stephan.ogg.mp3",
+      "runtime": "6:57",
+      "licence": "CC BY-SA 4.0 (the recording, Constantin Stephan)"
+    },
+    {
+      "key": "nocturne",
+      "title": "Nocturne in E-flat major, Op. 9 No. 2",
+      "published": 1832,
+      "by": [
+        {
+          "name": "Frédéric Chopin",
+          "born": 1810,
+          "died": 1849
+        }
+      ],
+      "instrumental": true,
+      "played": "Played by Frank Lévy for Musopen’s Set Chopin Free.",
+      "file": "File:Chopin - Nocturne No. 2 in E-flat major, Op. 9 No. 2 (Frank Levy).flac",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/8/89/Chopin_-_Nocturne_No._2_in_E-flat_major%2C_Op._9_No._2_%28Frank_Levy%29.flac/Chopin_-_Nocturne_No._2_in_E-flat_major%2C_Op._9_No._2_%28Frank_Levy%29.flac.mp3",
+      "runtime": "4:31",
+      "licence": "Public domain (the recording given away by Musopen; the composition PD-old)"
+    },
+    {
+      "key": "heliotrope",
+      "title": "Heliotrope Bouquet",
+      "published": 1907,
+      "by": [
+        {
+          "name": "Louis Chauvin",
+          "born": 1881,
+          "died": 1908
+        },
+        {
+          "name": "Scott Joplin",
+          "born": 1868,
+          "died": 1917
+        }
+      ],
+      "instrumental": true,
+      "played": "Played on the piano by John Robson, around 2007.",
+      "file": "File:Louis Chauvin and Scott Joplin's \"Heliotrope Bouquet\" (1907), performed by John Robson on piano c. 2007.flac",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/e/ed/Louis_Chauvin_and_Scott_Joplin%27s_%22Heliotrope_Bouquet%22_%281907%29%2C_performed_by_John_Robson_on_piano_c._2007.flac/Louis_Chauvin_and_Scott_Joplin%27s_%22Heliotrope_Bouquet%22_%281907%29%2C_performed_by_John_Robson_on_piano_c._2007.flac.mp3",
+      "runtime": "4:27",
+      "licence": "CC BY-SA 4.0 (the recording, John Robson); the composition public domain"
+    },
+    {
+      "key": "gymnopedie",
+      "title": "Gymnopédie No. 1",
+      "published": 1888,
+      "by": [
+        {
+          "name": "Erik Satie",
+          "born": 1866,
+          "died": 1925
+        }
+      ],
+      "instrumental": true,
+      "played": "Played by Robin Alciatore for Musopen, around 2008.",
+      "file": "File:Erik Satie - gymnopedies - la 1 ere. lent et douloureux.ogg",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/9/90/Erik_Satie_-_gymnopedies_-_la_1_ere._lent_et_douloureux.ogg/Erik_Satie_-_gymnopedies_-_la_1_ere._lent_et_douloureux.ogg.mp3",
+      "runtime": "3:04",
+      "licence": "Public domain (the recording given away by Musopen; the composition PD-old)"
+    },
+    {
+      "key": "jazzin",
+      "title": "Jazzin’ Babies Blues",
+      "published": 1923,
+      "by": [
+        {
+          "name": "Richard M. Jones",
+          "born": 1892,
+          "died": 1945
+        }
+      ],
+      "instrumental": true,
+      "played": "Played by Richard M. Jones himself, recorded in Richmond, Indiana, on 1 June 1923 and released by Gennett that September.",
+      "file": "File:Jazzin' Babies Blues - Richard M Jones (1923).mp3",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/7/7c/Jazzin%27_Babies_Blues_-_Richard_M_Jones_%281923%29.mp3",
+      "runtime": "2:42",
+      "licence": "Public domain (the record’s term has run out in the United States; the composition PD-old)",
+      "record": 1923
+    },
+    {
+      "key": "ritmato",
+      "title": "Prelude No. 1, Allegro ben ritmato e deciso",
+      "published": 1927,
+      "by": [
+        {
+          "name": "George Gershwin",
+          "born": 1898,
+          "died": 1937
+        }
+      ],
+      "instrumental": true,
+      "played": "Played by María Cueva Méndez in 2020.",
+      "file": "File:Gershwin - Three Preludes - 1. Allegro ben ritmato e deciso (María Cueva Méndez).mp3",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Gershwin_-_Three_Preludes_-_1._Allegro_ben_ritmato_e_deciso_%28Mar%C3%ADa_Cueva_M%C3%A9ndez%29.mp3",
+      "runtime": "1:47",
+      "licence": "CC BY 4.0 (the recording, María Cueva Méndez); the composition public domain"
+    },
+    {
+      "key": "blues",
+      "title": "Prelude No. 2, the blues one",
+      "published": 1927,
+      "by": [
+        {
+          "name": "George Gershwin",
+          "born": 1898,
+          "died": 1937
+        }
+      ],
+      "instrumental": true,
+      "played": "Played on the piano by Brian E. Young in 2005.",
+      "file": "File:Gershwin Prelude No 2 Brian E Young.ogg",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/7/73/Gershwin_Prelude_No_2_Brian_E_Young.ogg/Gershwin_Prelude_No_2_Brian_E_Young.ogg.mp3",
+      "runtime": "3:21",
+      "licence": "CC BY-SA 1.0 (the recording, Brian E. Young)"
+    },
+    {
+      "key": "moonlight",
+      "title": "Piano Sonata No. 14, the “Moonlight”: its first movement",
+      "published": 1802,
+      "by": [
+        {
+          "name": "Ludwig van Beethoven",
+          "born": 1770,
+          "died": 1827
+        }
+      ],
+      "instrumental": true,
+      "played": "Played by Paul Pitman for Musopen.",
+      "file": "File:Ludwig van Beethoven - sonata no. 14 in c sharp minor 'moonlight', op. 27 no. 2 - i. adagio sostenuto.ogg",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/4/48/Ludwig_van_Beethoven_-_sonata_no._14_in_c_sharp_minor_%27moonlight%27%2C_op._27_no._2_-_i._adagio_sostenuto.ogg/Ludwig_van_Beethoven_-_sonata_no._14_in_c_sharp_minor_%27moonlight%27%2C_op._27_no._2_-_i._adagio_sostenuto.ogg.mp3",
+      "runtime": "5:36",
+      "licence": "Public domain (the recording given away by Musopen; the composition PD-old)"
+    },
+    {
+      "key": "march",
+      "title": "Combination March",
+      "published": 1896,
+      "by": [
+        {
+          "name": "Scott Joplin",
+          "born": 1868,
+          "died": 1917
+        }
+      ],
+      "instrumental": true,
+      "played": "Played and recorded by Lucas Werkmeister in 2017.",
+      "file": "File:Scott Joplin's \"Combination March\" performed by Lucas Werkmeister.flac",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c1/Scott_Joplin%27s_%22Combination_March%22_performed_by_Lucas_Werkmeister.flac/Scott_Joplin%27s_%22Combination_March%22_performed_by_Lucas_Werkmeister.flac.mp3",
+      "runtime": "3:24",
+      "licence": "CC BY-SA 4.0 (the recording, Lucas Werkmeister)"
+    },
+    {
+      "key": "minute",
+      "title": "Waltz in D-flat major, Op. 64 No. 1, the “Minute”",
+      "published": 1847,
+      "by": [
+        {
+          "name": "Frédéric Chopin",
+          "born": 1810,
+          "died": 1849
+        }
+      ],
+      "instrumental": true,
+      "played": "Played by Olga Gurevich for Musopen’s Set Chopin Free.",
+      "file": "File:Chopin - Waltz No. 6 in D-flat major, Op. 64, No. 1 'Minute' (Olga Gurevich).flac",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/9/93/Chopin_-_Waltz_No._6_in_D-flat_major%2C_Op._64%2C_No._1_%27Minute%27_%28Olga_Gurevich%29.flac/Chopin_-_Waltz_No._6_in_D-flat_major%2C_Op._64%2C_No._1_%27Minute%27_%28Olga_Gurevich%29.flac.mp3",
+      "runtime": "1:47",
+      "licence": "Public domain (the recording given away by Musopen; the composition PD-old)"
+    },
+    {
+      "key": "liebestraum",
+      "title": "Liebestraum No. 3",
+      "published": 1850,
+      "by": [
+        {
+          "name": "Franz Liszt",
+          "born": 1811,
+          "died": 1886
+        }
+      ],
+      "instrumental": true,
+      "played": "Played by Wilhelm Backhaus, recorded in London in October 1923 and first released by HMV in 1924, from the Swiss Foundation Public Domain’s collection of old records.",
+      "file": "File:PDP-CH - Wilhelm Backhaus - Liebestraum No. 3 in A-flat major, S.541-3 (Liszt) - Hmv-d788-05754.flac",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f0/PDP-CH_-_Wilhelm_Backhaus_-_Liebestraum_No._3_in_A-flat_major%2C_S.541-3_%28Liszt%29_-_Hmv-d788-05754.flac/PDP-CH_-_Wilhelm_Backhaus_-_Liebestraum_No._3_in_A-flat_major%2C_S.541-3_%28Liszt%29_-_Hmv-d788-05754.flac.mp3",
+      "runtime": "3:58",
+      "licence": "Public domain (the record’s term has run out; the composition PD-old)",
+      "record": 1924
+    },
+    {
+      "key": "rachmaninoff",
+      "title": "Prelude in C-sharp minor, Op. 3 No. 2",
+      "published": 1893,
+      "by": [
+        {
+          "name": "Sergei Rachmaninoff",
+          "born": 1873,
+          "died": 1943
+        }
+      ],
+      "instrumental": true,
+      "played": "Played by Sergei Rachmaninoff himself, for an Edison Diamond Disc recorded in 1919 and released in December 1920.",
+      "file": "File:Sergei Rachmaninoff performs Rachmaninoff's Prelude in C sharp minor, Op. 3.ogg",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b9/Sergei_Rachmaninoff_performs_Rachmaninoff%27s_Prelude_in_C_sharp_minor%2C_Op._3.ogg/Sergei_Rachmaninoff_performs_Rachmaninoff%27s_Prelude_in_C_sharp_minor%2C_Op._3.ogg.mp3",
+      "runtime": "3:48",
+      "licence": "Public domain (the record’s term has run out; the composition PD-old)",
+      "record": 1920
+    },
+    {
+      "key": "prelude",
+      "title": "Prelude in C major, BWV 846, from The Well-Tempered Clavier",
+      "published": 1801,
+      "by": [
+        {
+          "name": "Johann Sebastian Bach",
+          "born": 1685,
+          "died": 1750
+        }
+      ],
+      "instrumental": true,
+      "played": "Played by Kimiko Ishizaka, for her Open Well-Tempered Clavier.",
+      "file": "File:Kimiko Ishizaka - Bach - Well-Tempered Clavier, Book 1 - 01 Prelude No. 1 in C major, BWV 846.ogg",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b6/Kimiko_Ishizaka_-_Bach_-_Well-Tempered_Clavier%2C_Book_1_-_01_Prelude_No._1_in_C_major%2C_BWV_846.ogg/Kimiko_Ishizaka_-_Bach_-_Well-Tempered_Clavier%2C_Book_1_-_01_Prelude_No._1_in_C_major%2C_BWV_846.ogg.mp3",
+      "runtime": "2:43",
+      "licence": "CC0 (the recording, Kimiko Ishizaka)"
+    }
+  ],
+  "_standards": "THE PIANO'S OTHER SHELF: PEOPLE PLAYING. Ryan's ask, 2026-11-03, for more than player piano tunes when hanging out in here, breaking from the books, where the piano plays only rolls: popular jazz, ragtime and classical piano standards, played by people, each a recording on its own page on Wikimedia Commons and streamed from Commons' MP3, never hosted here, and nothing fetched until somebody presses. Every one is held to the room's bar, public domain everywhere, which here is three tests, all counted against this year: every composer died more than seventy years ago; the work was first published more than ninety-five years ago, so it is free in the United States too; and an old record was first released more than a hundred years ago, the United States' term for a record from before 1947. Modern recordings are free by their players' own licences, read on each file's own page: public domain or CC0 dedications, and CC BY or CC BY-SA, whose players are credited as the page names them. Only instrumental works, so no lyricist's words come in with a tune. Chosen on 2026-11-03 from the files' own descriptions; a recording uploaded to Commons as an MP3 plays from Commons' own upload path, which love-embed.js's AUDIO_ORIGINS has carried beside the transcodes since that day; left off: Gershwin's Rhapsody in Blue with Paul Whiteman (Ferde Grofé's 1924 arrangement, and Grofé died in 1972), Joseph Lamb's rags (Lamb died in 1960), Tiger Rag (its Original Dixieland Jass Band composers died in the 1960s), every MuseScore and MIDI rendering and every recording of a roll, which are not people playing, and Musopen's Träumerei, whose page names no player."
 }

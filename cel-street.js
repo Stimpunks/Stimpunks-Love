@@ -131,7 +131,11 @@ function start() {
         ].join('\n'))
         .replace('vec4 diffuseColor = vec4( diffuse, opacity );', [
           'vec4 diffuseColor = vec4( diffuse, opacity );',
-          'float paintN = paintNoise(vPaintAt * 0.32) * 0.55 + paintNoise(vec3(vPaintAt.x * 2.6, vPaintAt.y * 0.55, vPaintAt.z * 2.6)) * 0.45;',
+          // A pale wall shows a fine streak as corrugation close up, so the
+          // paler the colour the more of its texture is the soft mottle.
+          'float paintLum = dot(diffuse, vec3(0.299, 0.587, 0.114));',
+          'float paintStreak = mix(0.45, 0.12, smoothstep(0.45, 0.85, paintLum));',
+          'float paintN = paintNoise(vPaintAt * 0.32) * (1.0 - paintStreak) + paintNoise(vec3(vPaintAt.x * 2.6, vPaintAt.y * 0.55, vPaintAt.z * 2.6)) * paintStreak;',
           'diffuseColor.rgb *= 1.0 + (paintN - 0.5) * ' + PAINT.toFixed(3) + ';'
         ].join('\n'));
     };
@@ -1442,7 +1446,7 @@ function start() {
   function standAt(s) {
     if (up) { up = false; if (climbBtn) climbBtn.textContent = 'Climb up over the roofs'; }
     var to = { x: s.x, z: s.z, yaw: s.yaw, pitch: s.pitch != null ? s.pitch : 0.13 };
-    if (!gliding) { me.x = to.x; me.z = to.z; me.yaw = to.yaw; me.pitch = to.pitch; draw(); tell(); return; }
+    if (!gliding) { glide = null; me.x = to.x; me.z = to.z; me.yaw = to.yaw; me.pitch = to.pitch; draw(); tell(); return; }
     glide = { from: { x: me.x, z: me.z, yaw: me.yaw, pitch: me.pitch }, to: to, t: 0,
       len: Math.min(2.2, 0.6 + Math.hypot(to.x - me.x, to.z - me.z) / 14) };
     soon();

@@ -44,7 +44,9 @@
       // THE NIGHT, AND NO LAMP. One cool fill from the night sky and nothing
       // else: a light that reached across the edge would warm the night side
       // of the city, so the morning is carried by the lit houses' own colours.
-      kit.scene.background = kit.col('--wds-night');
+      // Wherever you look past the split sky, it is still the night sky on
+      // this side, and the morning's sky stands all along the far right.
+      kit.scene.background = kit.col('--wds-sky-night');
       kit.scene.add(new T.HemisphereLight(kit.col('--wds-ink'), kit.col('--wds-sky-night'), 2.0));
       // And the night sky itself, from up and over to the left, cool and
       // faint: enough to give every roof a side the sky catches and a side it
@@ -52,6 +54,19 @@
       var nightSky = new T.DirectionalLight(kit.col('--wds-ink-3'), 0.55);
       nightSky.position.set(-30, 40, 12);
       kit.scene.add(nightSky);
+      // The night sky's light, gathered over the night half only: a wide soft
+      // cone from high up over the quay on the left, aimed into the night side
+      // of the city and falling away before the morning's edge, so the night
+      // houses, the bridge and the quay have their shapes without anything on
+      // the day side being lit twice. It is the sky's own cool, never a lamp.
+      var nightFill = new T.SpotLight(kit.col('--wds-ink-3'), 3.2, 0, 0.42, 0.85, 0);
+      nightFill.position.set(-26, 30, 22);
+      nightFill.target.position.set(-11, 1, -14);
+      kit.scene.add(nightFill, nightFill.target);
+      var quayFill = new T.SpotLight(kit.col('--wds-ink-2'), 1.3, 0, 0.55, 0.9, 0);
+      quayFill.position.set(-4, 18, -12);
+      quayFill.target.position.set(-6, 0, 5);
+      kit.scene.add(quayFill, quayFill.target);
 
       // THE SKY behind the city, split at the morning's edge: night on the
       // left, the morning sky on the right, and the edge itself between.
@@ -67,6 +82,7 @@
       quad([[-SKYW / 2, 0], [ex, 0], [ex - LEAN * SKYH, SKYH], [-SKYW / 2, SKYH]], SKYZ, '--wds-sky-night');
       quad([[ex, 0], [SKYW / 2, 0], [SKYW / 2, SKYH], [ex - LEAN * SKYH, SKYH]], SKYZ, '--wds-sky-day');
       quad([[ex - 0.5, 0], [ex + 0.5, 0], [ex + 0.5 - LEAN * SKYH, SKYH], [ex - 0.5 - LEAN * SKYH, SKYH]], SKYZ + 0.05, '--wds-edge');
+      kit.flat(new T.PlaneGeometry(220, SKYH), at(SKYW / 2 - 1, SKYH / 2 - 2, SKYZ + 110, -Math.PI / 2), '--wds-sky-day');
 
       // THE COMPASS in the night sky, on a sheet of paper drawn in the room's
       // own inks: the Disc's four directions, widdershins pointing right.
@@ -167,35 +183,75 @@
         var dx = (hash(x * 5.5 + z) - 0.5) * (w - 0.9);
         box(0.6, 1.15, 0.06, M(G, at(x + dx, 0.08, z + d / 2 + 0.03)), beam, false, false);
         box(0.9, 0.16, 0.35, M(G, at(x + dx, -0.42, z + d / 2 + 0.16)), wall, 0.02, false);
-        // Windows, dark on both sides of the edge, because nobody has lit a lamp.
-        for (var wy = 1.1; wy < h - 0.9; wy += 1.3) {
+        // Windows, dark on both sides of the edge, because nobody has lit a
+        // lamp. Every house has its own: how big, how far apart, how many to a
+        // floor, how many are missing or shuttered, and how crooked the sills
+        // are, so no two fronts are the same grid.
+        var seed = x * 17.3 + z * 3.1 + h;
+        var ww = 0.3 + hash(seed + 1) * 0.2, wh = 0.42 + hash(seed + 2) * 0.28;
+        var stepX = 0.82 + hash(seed + 3) * 0.42, stepY = 1.15 + hash(seed + 4) * 0.35;
+        var gone = 0.25 + hash(seed + 5) * 0.3, shut = hash(seed + 6) * 0.35;
+        var startX = -w / 2 + 0.4 + hash(seed + 7) * 0.3;
+        for (var wy = 1.05 + hash(seed + 8) * 0.2; wy < h - 0.9; wy += stepY) {
           var jutAt = Math.floor(wy / fh) * 0.12;
-          for (var wx = -w / 2 + 0.55; wx < w / 2 - 0.35; wx += 0.95) {
-            if (hash(x * 13 + wy * 7 + wx) < 0.4) continue;
+          for (var wx = startX; wx < w / 2 - 0.3; wx += stepX) {
+            var wk = hash(x * 13 + wy * 7 + wx);
+            if (wk < gone) continue;
             if (wy < 1.4 && Math.abs(wx - dx) < 0.7) continue;
-            var zf = z + d / 2 + jutAt / 2 + 0.03, wxx = x + wx + off(wy);
-            box(0.38, 0.55, 0.05, M(G, at(wxx, wy - 0.5, zf, 0, 0, lean)), '--wds-window', false, false);
-            // Some windows keep their shutters open, one either side.
-            if (hash(wx * 7.7 + wy + x) > 0.62) {
+            var zf = z + d / 2 + jutAt / 2 + 0.03, wxx = x + wx + off(wy) + (hash(wx * 3 + wy) - 0.5) * 0.08;
+            var wyy = wy + (hash(wx + wy * 5) - 0.5) * 0.12, tip = (hash(wx * 9 + wy) - 0.5) * 0.12;
+            box(ww, wh, 0.05, M(G, at(wxx, wyy - 0.5, zf, 0, 0, lean)), '--wds-window', false, false);
+            if (wk < gone + shut) {
+              // Shuttered: both leaves closed over it.
+              box(ww + 0.06, wh + 0.04, 0.05, M(G, at(wxx, wyy - 0.5, zf + 0.03, 0, 0, lean)), beam, false, false);
+              box(0.02, wh, 0.06, M(G, at(wxx, wyy - 0.5, zf + 0.04, 0, 0, lean)), wall, false, false);
+            } else if (hash(wx * 7.7 + wy + x) > 0.55) {
+              // Some keep their shutters open, one either side.
               [-1, 1].forEach(function (sd) {
-                box(0.2, 0.6, 0.04, M(G, at(wxx + sd * 0.31, wy - 0.5, zf + 0.02, 0, 0, lean)), beam, false, false);
+                box(ww * 0.52, wh + 0.05, 0.04, M(G, at(wxx + sd * (ww * 0.78), wyy - 0.5, zf + 0.02, 0, 0, lean + sd * 0.03)), beam, false, false);
               });
             }
-            // and a sill under it.
-            box(0.5, 0.06, 0.12, M(G, at(wxx, wy - 0.82, zf + 0.04, 0, 0, lean)), beam, false, false);
+            // and a sill under it, never quite level.
+            box(ww + 0.12, 0.06, 0.12, M(G, at(wxx, wyy - 0.5 - wh / 2 - 0.04, zf + 0.04, 0, 0, lean + tip)), beam, false, false);
+          }
+        }
+        // ON THE NIGHT SIDE THE SKY CATCHES THE EDGES: a thin line of the
+        // night's own pale along the ridge and the gable of a roof, and along
+        // the top of a flat one, the way a roofline shows against the dark.
+        if (!day) {
+          var rim = '--wds-ink-3';
+          if (roof) {
+            var gy = h - 0.5, gz = z + (topD + 0.3) / 2 + 0.01, half = topW / 2 + 0.15, peak = topW * 0.5;
+            var slope = Math.hypot(half, peak), ang = Math.atan2(peak, half);
+            [-1, 1].forEach(function (sd) {
+              box(slope, 0.045, 0.04, M(G, at(x + ox + sd * half / 2, gy + peak / 2, gz, 0, 0, lean - sd * ang)), rim, false, false);
+            });
+            box(0.045, 0.045, topD + 0.3, M(G, at(x + ox, gy + peak + 0.01, z, 0, 0, lean)), rim, false, false);
+          } else {
+            box(topW + 0.27, 0.04, 0.04, M(G, at(x + ox, h - 0.27, z + (topD + 0.25) / 2 + 0.01, 0, 0, lean)), rim, false, false);
           }
         }
       }
       var ID = at(0, 0, 0);
+      var BX = -6, BW = 2.6, LANE = 1.7;   // the bridge, and the lane it lands in on the far bank
       [[FAR - 4.5, 3.2, 7.5, 11], [FAR, 2.6, 3.5, 7]].forEach(function (row, ri) {
         var x = -30, n = 0;
         while (x < 30) {
           var w = 1.6 + hash(ri * 100 + n * 1.3) * 1.7;
           var h = row[2] + hash(ri * 50 + n * 2.9) * (row[3] - row[2]);
+          // The front row leaves a lane where the bridge comes down, so the
+          // bridge lands somewhere rather than at a wall.
+          if (ri === 1 && x < BX + LANE && x + w > BX - LANE) { x = BX + LANE; n++; continue; }
           house(ID, x + w / 2, row[0], w, row[1], h, (hash(n * 4.4 + ri) - 0.5) * 0.08, hash(n * 6.1 + ri * 3) > 0.3, lit(x + w / 2, h * 0.6));
           x += w - 0.12; n++;
         }
       });
+      // The lane's cobbles, from the bridge's end to the back row's doors.
+      box(LANE * 2, 0.06, 4.0, at(BX, -0.29, FAR - 0.8), '--wds-wall-night', false, false);
+      for (var lc = 0; lc < 24; lc++) {
+        var lcg = new T.SphereGeometry(0.22, 8, 5); lcg.scale(1.6, 0.35, 1);
+        kit.piece(lcg, at(BX - 1.2 + (lc % 5) * 0.6 + (Math.floor(lc / 5) % 2) * 0.3, -0.26, FAR + 1.0 - Math.floor(lc / 5) * 0.7, hash(lc * 2.7)), '--wds-roof-night', false, false);
+      }
       // AND THE CITY GOING ON BEHIND, row after row, too far off to have any
       // more than an outline, and each row further into the air than the one
       // in front: the houses' own colours laid thinner and thinner over the
@@ -244,36 +300,56 @@
       }
 
       // THE BRASS BRIDGE, over the water from this bank to the far one, on the
-      // night side: one long low arch on stone piers, its deck laid in
-      // lengths that follow the curve, a brass parapet each side on posts,
-      // and lamps on it that nobody has lit.
-      var BX = -6, BZ0 = -3.3, BZ1 = FAR + 0.6, RISE = 1.7, BW = 2.6, LENGTHS = 22;
-      function arch(t) { return { z: BZ0 + (BZ1 - BZ0) * t, y: 0.3 + RISE * Math.sin(Math.PI * t) }; }
-      for (var bi = 0; bi < LENGTHS; bi++) {
-        var p0 = arch(bi / LENGTHS), p1 = arch((bi + 1) / LENGTHS);
-        var len = Math.hypot(p1.z - p0.z, p1.y - p0.y), tilt = Math.atan2(p1.y - p0.y, p0.z - p1.z);
-        var mz = (p0.z + p1.z) / 2, my = (p0.y + p1.y) / 2;
-        box(BW, 0.28, len + 0.02, at(BX, my, mz, 0, tilt), '--wds-brass', 0.02);
-        // The parapet's rail, and a post at every other length.
-        [-1, 1].forEach(function (sd) {
-          box(0.1, 0.1, len + 0.02, at(BX + sd * (BW / 2 - 0.05), my + 0.95, mz, 0, tilt), '--wds-brass', false, false);
-          box(0.06, 0.06, len + 0.02, at(BX + sd * (BW / 2 - 0.05), my + 0.5, mz, 0, tilt), '--wds-brass', false, false);
-          if (bi % 2 === 0) box(0.14, 1.0, 0.14, at(BX + sd * (BW / 2 - 0.05), p0.y + 0.5, p0.z), '--wds-brass', 0.015, false);
-        });
-      }
-      // The piers, standing in the crust under the arch.
-      [0.3, 0.7].forEach(function (t) {
-        var pp = arch(t);
-        box(BW + 0.4, pp.y + 0.7, 1.1, at(BX, (pp.y - 0.7) / 2 - 0.05, pp.z), '--wds-wall-night', 0.03);
-        box(BW + 0.7, 0.3, 1.5, at(BX, -0.45, pp.z), '--wds-roof-night', 0.02, false);
+      // night side. Its deck is level with the quay, so you can walk out on
+      // it, and the brass is in the two bowed arches that stand up either side
+      // of the deck, with hangers down from them to its edges: a city that
+      // makes its bridges out of something that shines. Stone piers stand in
+      // the crust under it, cutwaters to the current, coursed, with a string
+      // course under the deck and weed where the river meets them. Its lamps
+      // are on the arches' feet and nobody has lit them.
+      var BZ0 = -3.3, BZ1 = FAR + 1.3, RISE = 2.3, DECK = 0.12;
+      function arch(t) { return { z: BZ0 + (BZ1 - BZ0) * t, y: DECK + RISE * Math.sin(Math.PI * t) }; }
+      var span = BZ0 - BZ1;
+      box(BW, 0.2, span + 0.2, at(BX, DECK - 0.1, (BZ0 + BZ1) / 2), '--wds-brass', 0.02);
+      for (var pl = 0; pl < 26; pl++) box(BW - 0.2, 0.02, 0.05, at(BX, DECK + 0.01, BZ0 - 0.25 - pl * (span - 0.5) / 25), '--wds-line', false, false);
+      [-1, 1].forEach(function (sd) {
+        var ax = BX + sd * (BW / 2 + 0.02);
+        box(0.12, 0.22, span + 0.2, at(ax, DECK + 0.1, (BZ0 + BZ1) / 2), '--wds-brass', 0.015);
+        box(0.06, 0.06, span, at(ax, DECK + 1.0, (BZ0 + BZ1) / 2), '--wds-brass', false, false);
+        for (var ai = 0; ai < 18; ai++) {
+          var p0 = arch(ai / 18), p1 = arch((ai + 1) / 18);
+          var len = Math.hypot(p1.z - p0.z, p1.y - p0.y), tilt = Math.atan2(p1.y - p0.y, p0.z - p1.z);
+          box(0.16, 0.2, len + 0.03, at(ax, (p0.y + p1.y) / 2, (p0.z + p1.z) / 2, 0, tilt), '--wds-brass', 0.02);
+          if (ai && ai % 2 === 0) box(0.045, p0.y - DECK - 0.1, 0.045, at(ax, (p0.y + DECK + 0.1) / 2, p0.z), '--wds-brass', false, false);
+        }
       });
-      // Its lamps, on the parapet posts at either end and the crown, unlit.
-      [0.06, 0.5, 0.94].forEach(function (t) {
-        var lp = arch(t);
+      [0.32, 0.68].forEach(function (t) {
+        var pz = BZ0 + (BZ1 - BZ0) * t, ph = DECK + 0.6;
+        var py = (DECK - 0.2 - 0.6) / 2;
+        box(BW + 0.2, ph, 1.0, at(BX, py, pz), '--wds-wall-night', 0.03);
+        // Cutwaters, upstream and down, pointing along the river.
         [-1, 1].forEach(function (sd) {
-          cyl(0.05, 0.07, 1.8, at(BX + sd * (BW / 2 - 0.05), lp.y + 1.2, lp.z), '--wds-brass', 0.015, 6);
-          box(0.3, 0.38, 0.3, at(BX + sd * (BW / 2 - 0.05), lp.y + 2.25, lp.z), '--wds-window', 0.02);
-          kit.piece(new T.ConeGeometry(0.26, 0.26, 4), at(BX + sd * (BW / 2 - 0.05), lp.y + 2.56, lp.z, Math.PI / 4), '--wds-brass', 0.015);
+          var cw = new T.CylinderGeometry(0.71, 0.71, ph, 3, 1);
+          kit.piece(cw, at(BX + sd * (BW / 2 + 0.1), py, pz, sd * Math.PI / 2), '--wds-wall-night', 0.03);
+        });
+        // Its courses, and the string course under the deck.
+        for (var co = 0; co < 3; co++) box(BW + 0.24, 0.035, 1.04, at(BX, -0.5 + co * 0.2, pz), '--wds-roof-night', false, false);
+        box(BW + 0.5, 0.1, 1.2, at(BX, DECK - 0.24, pz), '--wds-wall-night', 0.02);
+        // Weed where the river meets the stone.
+        for (var wd = 0; wd < 10; wd++) {
+          var wg = new T.SphereGeometry(0.13 + hash(wd + t * 9) * 0.1, 6, 4); wg.scale(1.5, 0.5, 1);
+          var wa = wd / 10 * Math.PI * 2;
+          kit.piece(wg, at(BX + Math.cos(wa) * (BW / 2 + 0.55), -0.48, pz + Math.sin(wa) * 0.62, wa), '--wds-moss', false, false);
+        }
+      });
+      // Its lamps, on the feet of the arches at either end, unlit.
+      [0.04, 0.96].forEach(function (t) {
+        var lz = BZ0 + (BZ1 - BZ0) * t;
+        [-1, 1].forEach(function (sd) {
+          var lx = BX + sd * (BW / 2 + (t < 0.5 ? 1.1 : 0.25));
+          cyl(0.05, 0.07, 1.8, at(lx, DECK + 0.9, lz), '--wds-brass', 0.015, 6);
+          box(0.3, 0.38, 0.3, at(lx, DECK + 1.95, lz), '--wds-window', 0.02);
+          kit.piece(new T.ConeGeometry(0.26, 0.26, 4), at(lx, DECK + 2.26, lz, Math.PI / 4), '--wds-brass', 0.015);
         });
       });
 
@@ -345,13 +421,17 @@
       // where you come in, facing the river with its back to the street.
       var pw = 2.4, ph = pw * 800 / 1180;
       box(pw + 0.14, ph + 0.14, 0.08, at(8.6, 0.75 + ph / 2, 4.1, Math.PI), '--wds-line', 0.01);
-      var page = kit.screen(1180, 800, pw, at(8.6, 0.75 + ph / 2, 4.05, Math.PI), 'Widdershins’ own page, on a board at the end of the quay');
+      // The boards and the page show only while you stand along the back of
+      // the quay in front of them: a page laid over the picture behind you
+      // would otherwise be drawn across the river when you face the city.
+      var BACKSIDE = [-24, 11, 1.0, 2.9];
+      var page = kit.screen(1180, 800, pw, at(8.6, 0.75 + ph / 2, 4.05, Math.PI), 'Widdershins’ own page, on a board at the end of the quay', BACKSIDE);
 
       // THE PAGE'S WORDS on boards along the back of the quay, read with your
       // back to the river, walked right to left: widdershins.
       var BACKZ = 4.2, STAND = 2.4;
       function board(sel, n, x, w, ww, h) {
-        var it = kit.lift(page, sel, { n: n, w: w, ww: ww, h: h, m: at(x, 0.5, BACKZ, Math.PI) });
+        var it = kit.lift(page, sel, { n: n, w: w, ww: ww, h: h, m: at(x, 0.5, BACKZ, Math.PI), zone: BACKSIDE });
         box(ww + 0.12, 0.1, 0.12, at(x, 0.45, BACKZ + 0.05, Math.PI), '--wds-line', 0.01);
         // Two posts and a little roof over it, so the words stand on a board
         // that was put up on the quay rather than hanging in the night.
@@ -362,11 +442,13 @@
         { name: 'on the quay, the city across the river and the morning halfway across it', x: 4, z: 0.6, yaw: 0, pitch: 0.12 },
         { name: 'at the river wall, looking at the morning’s edge on the far bank', x: EDGE, z: -2.2, yaw: 0, pitch: 0.18 },
         { name: 'by the bridge, the night side of the city in front of you', x: -6, z: -2.2, yaw: 0, pitch: 0.16 },
+        { name: 'out on the bridge, over the river, the morning’s edge off to the right', x: BX, z: (BZ0 + BZ1) / 2, yaw: -0.35, pitch: 0.1 },
         { name: 'looking up at the compass, widdershins pointing into the morning', x: -12, z: -1.6, yaw: 0.28, pitch: 0.5 }
       ];
       function named(s, name) { s.name = name; stops.push(s); return s; }
       named(board('.wds-head', 0, 5.6, 900, 1.7), 'at the board with the room’s name');
-      named(board('.wds-view__words', 0, 3.4, 640, 1.3), 'at the board saying what the city is');
+      var viewBoard = named(board('.wds-view__words', 0, 3.4, 520, 1.9), 'at the board saying what the city is');
+      viewBoard.z = BACKZ - 1.9; viewBoard.pitch = -0.02;
       named(board('.wds-lede', 0, 1.2, 640, 1.4, 640), 'at the board with what widdershins means');
       var PARTS = [
         'at the board with a city that never matched',
@@ -386,7 +468,11 @@
 
       return {
         start: { x: 4, z: 0.6, yaw: 0 },
-        bounds: { x: [-22, 10], z: [-2.4, 2.8] },
+        // The quay, and the bridge's deck out over the river and down its lane.
+        bounds: { x: [-22, 10], z: [-2.4, 2.8], areas: [
+          { x: [-22, 10], z: [-2.4, 2.8] },
+          { x: [BX - BW / 2 + 0.35, BX + BW / 2 - 0.35], z: [FAR - 1.6, -2.4] }
+        ] },
         stops: stops
       };
     }

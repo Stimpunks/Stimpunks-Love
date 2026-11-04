@@ -395,14 +395,20 @@
      jukebox plays them from there, because Stimpunks helped produce them and
      the band's own shelf is where they belong.
 
-     Wikimedia Commons' MP3 transcodes, and nothing else on that host. A Quiet
-     Pint's player piano plays its rolls from there (2026-10-06): recordings of
-     old piano rolls, each public domain on its own Commons page, streamed as
-     the MP3 Commons makes of every audio file so Safari plays them too. The
-     pub has no screen, and an <audio> strip is not one. */
+     Wikimedia Commons' MP3 transcodes. A Quiet Pint's player piano plays its
+     rolls from there (2026-10-06): recordings of old piano rolls, each public
+     domain on its own Commons page, streamed as the MP3 Commons makes of
+     every audio file so Safari plays them too. The pub has no screen, and an
+     <audio> strip is not one.
+
+     And Commons' own uploads, for a recording uploaded to Commons as an MP3,
+     which Commons makes no second MP3 of (2026-11-03, for the people playing
+     on the pub's other shelf). Commons and nothing else on that host: not
+     another wiki's uploads, and nothing elsewhere on upload.wikimedia.org. */
   var AUDIO_ORIGINS = [
     'https://josephmooon.wordpress.com/wp-content/uploads/',
-    'https://upload.wikimedia.org/wikipedia/commons/transcoded/'
+    'https://upload.wikimedia.org/wikipedia/commons/transcoded/',
+    'https://upload.wikimedia.org/wikipedia/commons/'
   ];
 
   /* ONE RECORDING AT A TIME. A jukebox that let two songs play over each other

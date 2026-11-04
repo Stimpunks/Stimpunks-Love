@@ -59,9 +59,36 @@
         var top = BALL.clone(); top.scale(r * 0.7, r * 0.6, r * 0.7);
         kit.piece(top, at(x, y + r * 0.45, z), inks[0], ink === undefined ? 0.04 : ink);
       }
+      // A tree the way a painted background draws one: a trunk that forks
+      // into a few limbs, and a canopy of several clumps of different sizes,
+      // each of many small lobes, so its edge against the sky is broken up
+      // rather than one round lump. The lit lobes are on the sun's side.
+      var LOBE = new T.IcosahedronGeometry(1, 1);
+      function canopy(x, y, z, r, seed) {
+        var n = 9 + Math.floor(hash(seed, 21, 1) * 6);
+        for (var q = 0; q < n; q++) {
+          var a2 = hash(seed, q, 22) * Math.PI * 2, up = hash(seed, q, 23), d2 = r * (0.35 + hash(seed, q, 24) * 0.55);
+          var rr = r * (0.22 + hash(seed, q, 25) * 0.3) * (1 - up * 0.35);
+          var lx = Math.cos(a2) * d2, lz = Math.sin(a2) * d2, ly = (up - 0.35) * r * 0.9;
+          var g = LOBE.clone(); g.scale(rr, rr * 0.82, rr);
+          // The sun is in the east (+x): lobes on that side catch it.
+          var ink = lx > r * 0.2 ? '--sprout' : lx < -r * 0.25 || ly < -r * 0.2 ? '--turf' : '--sprout-2';
+          kit.piece(g, at(x + lx, y + ly, z + lz, q), ink, 0.035);
+        }
+        var core = LOBE.clone(); core.scale(r * 0.62, r * 0.5, r * 0.62);
+        kit.piece(core, at(x, y, z), '--sprout-2', 0.035);
+      }
       function tree(x, z, h, seed) {
         kit.cyl(0.12 * h / 4, 0.2 * h / 4, h * 0.55, at(x, h * 0.27, z), '--furrow-2', 0.03, 7);
-        clump(x, h * 0.72, z, h * 0.32, seed, ['--sprout', '--sprout-2', '--turf']);
+        var limbs = 2 + Math.floor(hash(seed, 26, 1) * 2);
+        for (var lb = 0; lb < limbs; lb++) {
+          var la = hash(seed, lb, 27) * Math.PI * 2, lean = 0.5 + hash(seed, lb, 28) * 0.3;
+          kit.cyl(0.04 * h / 4, 0.08 * h / 4, h * 0.3, at(x + Math.cos(la) * h * 0.06, h * 0.62, z + Math.sin(la) * h * 0.06, -la, 0, lean), '--furrow-2', 0.02, 6);
+        }
+        var big = h * 0.3;
+        canopy(x, h * 0.74, z, big, seed);
+        canopy(x + big * 0.55, h * 0.66, z + big * 0.2, big * 0.62, seed + 500);
+        canopy(x - big * 0.5, h * 0.7, z - big * 0.25, big * 0.7, seed + 900);
       }
       // A pot with something green in it.
       function potted(x, y, z, r, seed, trail) {
@@ -139,12 +166,27 @@
         var hill = BALL.clone(), hr = 26 + hash(k, 3, 2) * 18; hill.scale(hr, hr * 0.32, hr * 0.7);
         kit.piece(hill, at(Math.sin(ha) * hd, -2, -14 - Math.cos(ha) * hd, k), k % 2 ? '--sprout-2' : '--sprout', false);
       }
+      // A cloud bank: a flat, shaded underside, a row of big domes on it and
+      // smaller ones piled on those, the tops lit.
+      var DOME = new T.SphereGeometry(1, 18, 10, 0, Math.PI * 2, 0, Math.PI * 0.52);
+      function cloudBank(cx, cy, cz, w, seed, turn) {
+        var g0 = at(cx, cy, cz, turn);
+        var base = new T.CircleGeometry(1, 24); base.scale(w * 0.55, w * 0.16, 1);
+        kit.piece(base, M(g0, at(0, -0.02, 0, 0, Math.PI / 2)), '--daysky-2', false, false);
+        var n = 5 + Math.floor(hash(seed, 30, 1) * 3);
+        for (var q = 0; q < n; q++) {
+          var u = (q / (n - 1) - 0.5) * w * 0.9, r = w * (0.12 + hash(seed, q, 31) * 0.1) * (1 - Math.abs(u) / w);
+          var dm = DOME.clone(); dm.scale(r * 1.25, r * 0.9, r);
+          kit.piece(dm, M(g0, at(u, 0, (hash(seed, q, 32) - 0.5) * w * 0.12)), q % 3 ? '--noon' : '--daysky-2', false, false);
+          if (hash(seed, q, 33) > 0.35) {
+            var top = DOME.clone(), tr = r * (0.55 + hash(seed, q, 34) * 0.25); top.scale(tr * 1.2, tr * 0.9, tr);
+            kit.piece(top, M(g0, at(u + (hash(seed, q, 35) - 0.5) * r, r * 0.55, 0)), '--noon', false, false);
+          }
+        }
+      }
       for (k = 0; k < 7; k++) {
         var ca = -1.1 + k / 6 * 2.2, cd = 110 + hash(k, 4, 1) * 30, cy = 30 + hash(k, 4, 2) * 18;
-        for (var cq = 0; cq < 5; cq++) {
-          var puff = BALL.clone(), pr = 4.5 + hash(k, cq, 5) * 4; puff.scale(pr * 1.4, pr * 0.6, pr);
-          kit.piece(puff, at(Math.sin(ca) * cd + (cq - 2) * 7, cy + hash(k, cq, 6) * 3, -14 - Math.cos(ca) * cd), cq % 2 ? '--noon' : '--daysky-2', false, false);
-        }
+        cloudBank(Math.sin(ca) * cd, cy, -14 - Math.cos(ca) * cd, 28 + hash(k, 4, 3) * 22, k, -ca);
       }
       // Wildflowers in the meadow, and longer grass in clumps.
       for (k = 0; k < 90; k++) {
@@ -201,11 +243,20 @@
       [X0, X1].forEach(function (x) { box(TH, H, D + TH, at(x, FL + H / 2, CZ), '--noon'); });
       [[X0, ZF], [X0, ZB], [X1, ZF], [X1, ZB]].forEach(function (c) { box(0.2, H + 0.02, 0.2, at(c[0], FL + H / 2, c[1]), '--cedar', false); });
       box(L + 0.1, 0.14, TH + 0.06, at(CX, FL + 0.07, ZF), '--cedar', false);
-      // The frames of the small windows, and their glass.
+      // A window's frame is four bars of cedar round the hole, inked as one
+      // outline; a small window has a thin pane of glass in the middle of
+      // the wall, and a glazing bar across it.
+      function frameBars(w, z, bar) {
+        var cx = (w.x0 + w.x1) / 2, cy = FL + (w.y0 + w.y1) / 2, ww = w.x1 - w.x0, hh = w.y1 - w.y0, d = TH + 0.05;
+        box(ww + bar * 2, bar, d, at(cx, FL + w.y1 + bar / 2, z), '--cedar', 0.01);
+        box(ww + bar * 2 + 0.08, bar, d + 0.08, at(cx, FL + w.y0 - bar / 2, z), '--cedar', 0.01);
+        [w.x0 - bar / 2, w.x1 + bar / 2].forEach(function (x) { box(bar, hh, d, at(x, cy, z), '--cedar', 0.01); });
+      }
       [[LOW, ZF], [BACK[0], ZB], [BACK[1], ZB]].forEach(function (pair) {
         var w = pair[0], z = pair[1];
-        box(w.x1 - w.x0 + 0.16, w.y1 - w.y0 + 0.16, TH + 0.04, at((w.x0 + w.x1) / 2, FL + (w.y0 + w.y1) / 2, z), '--cedar', false);
-        box(w.x1 - w.x0, w.y1 - w.y0, TH + 0.06, at((w.x0 + w.x1) / 2, FL + (w.y0 + w.y1) / 2, z), '--daysky-2', false);
+        frameBars(w, z, 0.08);
+        box(w.x1 - w.x0, w.y1 - w.y0, 0.02, at((w.x0 + w.x1) / 2, FL + (w.y0 + w.y1) / 2, z), '--daysky-2', false, false);
+        box(0.04, w.y1 - w.y0, 0.05, at((w.x0 + w.x1) / 2, FL + (w.y0 + w.y1) / 2, z), '--cedar', false);
       });
       // The ceiling inside, and the roof over it: two slopes, panels on the
       // one facing the path.
@@ -242,8 +293,9 @@
       // THE BIG WINDOW, with the room's own page in it, read from the path;
       // from inside it is the glass.
       var wx0 = (WIN.x0 + WIN.x1) / 2, wy0 = FL + (WIN.y0 + WIN.y1) / 2, wh = WIN.y1 - WIN.y0;
-      box(WW + 0.22, wh + 0.22, TH + 0.04, at(wx0, wy0, ZF), '--cedar', false);
-      box(WW, wh, 0.04, at(wx0, wy0, ZF - 0.02), '--daysky-2', false);
+      // Its frame is bars, so from inside you look out through it onto the
+      // meadow; from the path the page stands in it.
+      frameBars(WIN, ZF, 0.11);
       var frame = kit.screen(1180, 800, WW, at(wx0, wy0, ZF + TH / 2 + 0.03), 'The Solarpunk Hermitage’s own page, in the cabin’s big window', OUT);
       frame.style.backfaceVisibility = 'hidden';
 
@@ -277,17 +329,79 @@
 
       /* ── THE CAVE: velvet on every side, the shelves and the speaker ───── */
       box(CAVE - X0, 0.03, D, at((X0 + CAVE) / 2, FL + 0.05, CZ), '--velvet-3', false, false);
-      function curtain(x0, z0, x1, z1, gap) {
-        var len = Math.hypot(x1 - x0, z1 - z0), n = Math.round(len / 0.32), ang = Math.atan2(x1 - x0, z1 - z0);
-        for (var i = 0; i <= n; i++) {
-          var u = i / n, cx = x0 + (x1 - x0) * u, cz = z0 + (z1 - z0) * u;
-          if (gap && Math.abs(cz - gap[0]) < gap[1]) continue;
-          var fr = 0.12 + hash(i, Math.round(x0 * 10 + z0), 19) * 0.07;
-          kit.cyl(fr, fr + 0.04, H - 0.1, at(cx, FL + H / 2, cz, ang), i % 3 === 0 ? '--velvet-2' : i % 3 === 1 ? '--velvet' : '--velvet-3', false, 8);
+      // HEAVY CLOTH, not columns. A curtain is drops of velvet, each a sheet
+      // folded into uneven waves along the rail and stood up to the floor,
+      // the next drop lapping over the last; a deeper hem along the foot; a
+      // row of swags under the pelmet; and where the cloth is drawn back from
+      // the way through, it is gathered in to a gilt tie-back and flares out
+      // again below it.
+      function foldShape(len, seed, deep) {
+        var sh = new T.Shape(), pts = [], step = 0.04, t = 0, ph = hash(seed, 1, 40) * 6;
+        while (t <= len + 1e-6) {
+          var amp = deep * (0.55 + 0.45 * Math.sin(t * 1.7 + ph) * Math.sin(t * 0.6 + ph * 2));
+          var per = 0.3 + 0.12 * Math.sin(t * 0.9 + ph);
+          pts.push([t, Math.abs(amp) * Math.sin(t / per * Math.PI * 2 + ph)]);
+          t += step;
         }
-        // A pelmet along the top, with a fringe of gilt under it.
+        sh.moveTo(pts[0][0], pts[0][1] - 0.02);
+        pts.forEach(function (q) { sh.lineTo(q[0], q[1] - 0.02); });
+        for (var i = pts.length - 1; i >= 0; i--) sh.lineTo(pts[i][0], pts[i][1] + 0.02);
+        return sh;
+      }
+      function along(x0, z0, x1, z1, off, y) {
+        var len = Math.hypot(x1 - x0, z1 - z0), dx = (x1 - x0) / len, dz = (z1 - z0) / len;
+        var m = new T.Matrix4().makeBasis(new T.Vector3(dx, 0, dz), new T.Vector3(dz, 0, -dx), new T.Vector3(0, 1, 0));
+        m.setPosition(x0 + dz * off, y, z0 - dx * off);
+        return m;
+      }
+      var INKS = ['--velvet-2', '--velvet', '--velvet-2', '--velvet-3'];
+      function drop(x0, z0, x1, z1, seed, off) {
+        var len = Math.hypot(x1 - x0, z1 - z0);
+        if (len < 0.2) return;
+        var cloth = new T.ExtrudeGeometry(foldShape(len, seed, 0.1), { depth: H - 0.12, bevelEnabled: false, curveSegments: 1 });
+        kit.piece(cloth, along(x0, z0, x1, z1, off, FL + 0.03), INKS[seed % INKS.length], false);
+        var hem = new T.ExtrudeGeometry(foldShape(len, seed, 0.115), { depth: 0.12, bevelEnabled: false, curveSegments: 1 });
+        kit.piece(hem, along(x0, z0, x1, z1, off + 0.012, FL + 0.03), '--velvet-3', false);
+      }
+      var SWAG = new T.TorusGeometry(1, 0.09, 6, 18, Math.PI);
+      function curtain(x0, z0, x1, z1, gap) {
+        var len = Math.hypot(x1 - x0, z1 - z0), ang = Math.atan2(x1 - x0, z1 - z0), dx = (x1 - x0) / len, dz = (z1 - z0) / len;
+        var seed0 = Math.round(Math.abs(x0 * 13 + z0 * 7));
+        // The drops, each one 1.1 to 1.6 metres of cloth, lapping the last.
+        var spans = gap ? [[0, Math.abs(gap[0] - z0) - gap[1]], [Math.abs(gap[0] - z0) + gap[1], len]] : [[0, len]];
+        spans.forEach(function (sp, si) {
+          var u = sp[0], n = 0;
+          while (u < sp[1] - 0.05) {
+            var w = Math.min(sp[1] - u, 1.1 + hash(seed0, n + si * 10, 41) * 0.5);
+            drop(x0 + dx * u, z0 + dz * u, x0 + dx * (u + w + 0.12 > sp[1] ? w : w + 0.12), z0 + dz * (u + w + 0.12 > sp[1] ? w : w + 0.12), seed0 + n + si * 7, (n % 2) * 0.06);
+            u += w; n++;
+          }
+        });
+        // The pelmet along the top, with a fringe of gilt under it, and a row
+        // of swags hung from it.
         box(len, 0.34, 0.12, at((x0 + x1) / 2, FL + H - 0.24, (z0 + z1) / 2, ang + Math.PI / 2), '--velvet-2', 0.012);
         box(len, 0.05, 0.13, at((x0 + x1) / 2, FL + H - 0.43, (z0 + z1) / 2, ang + Math.PI / 2), '--gilt', false);
+        var sw = Math.max(1, Math.round(len / 0.9)), sl = len / sw;
+        for (var q = 0; q < sw; q++) {
+          var mid = (q + 0.5) * sl, g = SWAG.clone(); g.scale(sl / 2, 0.32, 1);
+          var sm = M(along(x0, z0, x1, z1, 0.1, FL + H - 0.42), at(mid, 0, 0, 0, -Math.PI / 2, 0));
+          kit.piece(g, sm, q % 2 ? '--velvet' : '--velvet-3', false);
+        }
+        // Drawn back from the way through: gathered into a tie-back each side.
+        if (gap) [gap[0] - gap[1] + 0.05, gap[0] + gap[1] - 0.05].forEach(function (gz, gi) {
+          var u = Math.abs(gz - z0), gx = x0 + dx * u, gzz = z0 + dz * u;
+          var prof = [];
+          for (var t = 0; t <= 12; t++) {
+            var y = t / 12 * (H - 0.12), waist = FL + 1.05;
+            var r = 0.09 + 0.16 * Math.min(1, Math.abs(y - (waist - FL)) / 1.0);
+            prof.push(new T.Vector2(r, y));
+          }
+          var bunch = new T.LatheGeometry(prof, 14); bunch.scale(1, 1, 0.55);
+          kit.piece(bunch, at(gx, FL + 0.03, gzz, ang), gi ? '--velvet' : '--velvet-2', false);
+          var tie = new T.TorusGeometry(0.12, 0.025, 6, 16); tie.scale(1, 1, 0.6);
+          kit.piece(tie, at(gx, FL + 1.05, gzz, ang, Math.PI / 2), '--gilt', false);
+          kit.piece(new T.SphereGeometry(0.05, 8, 6), at(gx + dz * 0.13, FL + 0.9, gzz - dx * 0.13), '--gilt', false);
+        });
       }
       curtain(X0 + 0.25, ZF - 0.25, X0 + 0.25, ZB + 0.25);
       curtain(X0 + 0.25, ZB + 0.25, CAVE, ZB + 0.25);
@@ -447,7 +561,7 @@
       });
       // Trailing plants hung from the beams, and pots along the sills.
       [[-1.5, -14.2], [1.8, -14.2], [5.5, -14.0], [7.8, -19.6]].forEach(function (hp, i) {
-        kit.cyl(0.006, 0.006, 0.6, at(hp[0], FL + H - 0.45, hp[1]), '--furrow-2', false, 4);
+        kit.cyl(0.011, 0.011, 0.6, at(hp[0], FL + H - 0.45, hp[1]), '--furrow-2', false, 4);
         potted(hp[0], FL + H - 1.05, hp[1], 0.14, 40 + i, true);
       });
       potted(-2.2, FL, -19.9, 0.26, 50);
@@ -467,10 +581,15 @@
       });
       // The workshop: a pegboard of tools over the herbarium, stools at the
       // benches, and jars of seed on a shelf.
-      box(2.0, 1.1, 0.04, at(HOLE + 1.2, FL + 1.9, ZF - TH / 2 - 0.03), '--noon-2', 0.012);
-      [[-0.7, 0.15, 0.06, 0.5], [-0.35, 0.1, 0.05, 0.6], [0, 0.2, 0.3, 0.06], [0.4, 0.12, 0.08, 0.45], [0.75, 0.1, 0.22, 0.22]].forEach(function (tl) {
-        box(tl[2], tl[3], 0.05, at(HOLE + 1.2 + tl[0], FL + 1.95 + tl[1] * 0.5, ZF - TH / 2 - 0.07), '--furrow-2', 0.01);
+      // (Between the door and the big window, where the wall is whole, so
+      // it covers no glass; a stop of its own faces it.)
+      var PEG = 3.9;
+      box(1.2, 1.0, 0.04, at(PEG, FL + 1.85, ZF - TH / 2 - 0.03), '--noon-2', 0.012);
+      for (var ph2 = 0; ph2 < 30; ph2++) kit.cyl(0.012, 0.012, 0.01, at(PEG - 0.5 + (ph2 % 6) * 0.2, FL + 1.45 + Math.floor(ph2 / 6) * 0.2, ZF - TH / 2 - 0.055, 0, Math.PI / 2), '--furrow-2', false, 6);
+      [[-0.42, 0.15, 0.05, 0.45], [-0.2, 0.1, 0.04, 0.55], [0.05, 0.25, 0.28, 0.05], [0.3, 0.05, 0.07, 0.4], [0.46, 0.18, 0.14, 0.16], [0.02, -0.25, 0.36, 0.05]].forEach(function (tl) {
+        box(tl[2], tl[3], 0.05, at(PEG + tl[0], FL + 1.85 + tl[1], ZF - TH / 2 - 0.08), '--furrow-2', 0.01);
       });
+      kit.cyl(0.08, 0.08, 0.05, at(PEG + 0.3, FL + 1.55, ZF - TH / 2 - 0.08, 0, Math.PI / 2), '--cell', 0.01, 12);
       [[HOLE + 0.6, -15.1], [HOLE + 1.8, -15.2], [5.6, ZB + 1.6], [7.2, ZB + 1.6]].forEach(function (sp) {
         kit.cyl(0.2, 0.2, 0.06, at(sp[0], FL + 0.62, sp[1]), '--cedar', 0.012, 12);
         [0, 1, 2].forEach(function (q) { var la = q / 3 * Math.PI * 2; kit.cyl(0.02, 0.025, 0.6, at(sp[0] + Math.cos(la) * 0.14, FL + 0.3, sp[1] + Math.sin(la) * 0.14), '--cedar', false, 5); });
@@ -492,7 +611,59 @@
       ['--bloom', '--turf', '--noon-2', '--sprout', '--bloom', '--cedar'].forEach(function (c3, i) {
         box(1.0, 0.24, 0.02, at(-2.6, FL + 2.3 - i * 0.24, ZB + 0.13), c3, false);
       });
-      for (k = 0; k < 8; k++) kit.cyl(0.006, 0.006, 0.18, at(-3.05 + k * 0.13, FL + 0.92, ZB + 0.13), '--cedar', false, 3);
+      for (k = 0; k < 8; k++) kit.cyl(0.011, 0.011, 0.18, at(-3.05 + k * 0.13, FL + 0.92, ZB + 0.13), '--cedar', false, 3);
+
+      /* ── THE PLASTER, finished: skirting, a picture rail, another shelf ──── */
+      // Cedar along the foot of every plaster wall of the campfire and the
+      // workshop and a picture rail round them, broken at the door and the
+      // big window; none of it in the cave, which has no wood in it.
+      function trim(ax, az, bx, bz, y, hgt, cuts) {
+        var len = Math.hypot(bx - ax, bz - az), dx = (bx - ax) / len, dz = (bz - az) / len;
+        var pts = [0].concat(cuts || []).concat([len]);
+        for (var i = 0; i + 1 < pts.length; i += 2) {
+          var u0 = pts[i], u1 = pts[i + 1];
+          if (u1 - u0 < 0.05) continue;
+          box(u1 - u0, hgt, 0.04, at(ax + dx * (u0 + u1) / 2, FL + y, az + dz * (u0 + u1) / 2, Math.atan2(dx, dz) - Math.PI / 2), '--cedar', 0.008);
+        }
+      }
+      var IN_F = ZF - TH / 2 - 0.02, IN_B = ZB + TH / 2 + 0.02, IN_E = X1 - TH / 2 - 0.02;
+      trim(CAVE, IN_F, X1, IN_F, 0.07, 0.14, [DOOR.x0 - CAVE, DOOR.x1 - CAVE]);
+      trim(CAVE, IN_B, X1, IN_B, 0.07, 0.14);
+      trim(IN_E, ZF, IN_E, ZB, 0.07, 0.14);
+      trim(CAVE, IN_F, X1, IN_F, 2.45, 0.05, [DOOR.x0 - 0.1 - CAVE, DOOR.x1 + 0.1 - CAVE, WIN.x0 - 0.12 - CAVE, WIN.x1 + 0.12 - CAVE]);
+      trim(CAVE, IN_B, X1, IN_B, 2.45, 0.05);
+      trim(IN_E, ZF, IN_E, ZB, 2.45, 0.05);
+      // A shelf on the end wall by the front, books and a plant on it.
+      box(0.26, 0.05, 1.3, at(X1 - 0.25, FL + 1.85, -14.3), '--cedar', 0.012);
+      for (k = 0; k < 8; k++) box(0.2, 0.22 + hash(k, 19, 1) * 0.1, 0.06, at(X1 - 0.25, FL + 1.99 + hash(k, 19, 1) * 0.05, -14.85 + k * 0.08, 0, 0, (k === 7 ? 0.25 : 0)), ['--bloom', '--sprout-2', '--cell', '--cedar'][k % 4], 0.006);
+      potted(X1 - 0.25, FL + 1.88, -14.0, 0.1, 70, true);
+      // THE MORNING THROUGH THE DOOR AND THE BIG WINDOW: the sun is low in
+      // the east, so what comes in lies long across the boards toward the
+      // cave, soft at its edges. Painted on, the way a background does it.
+      var glowTex = kit.paper(128, 128, function (c, w, h) {
+        c.fillStyle = kit.ink('--noon');
+        for (var r = 0; r < 14; r++) { c.globalAlpha = 0.1; c.fillRect(r * 2.5, r * 2.5, w - r * 5, h - r * 5); }
+        c.globalAlpha = 1;
+      });
+      var sd = sun.position.clone().sub(sun.target.position).normalize();
+      function patch(x0, x1, y0, y1, opacity) {
+        // Where the corners of an opening land on the floor, along the sun.
+        var land = function (x, y) { var t = y / sd.y; return new T.Vector2(x - sd.x * t, -(ZF - sd.z * t)); };
+        var a = land(x0, y0), b = land(x1, y0), c = land(x1, y1), d = land(x0, y1);
+        var sh = new T.Shape([a, b, c, d]);
+        var g = new T.ShapeGeometry(sh);
+        var uv = g.attributes.uv, pos = g.attributes.position;
+        for (var i = 0; i < uv.count; i++) {
+          var px = pos.getX(i), py = pos.getY(i);
+          uv.setXY(i, (px - Math.min(a.x, d.x)) / (Math.max(b.x, c.x) - Math.min(a.x, d.x)), (py - Math.min(a.y, b.y)) / (Math.max(c.y, d.y) - Math.min(a.y, b.y)));
+        }
+        var mesh = new T.Mesh(g, new T.MeshBasicMaterial({ map: glowTex, transparent: true, opacity: opacity, depthWrite: false }));
+        mesh.rotation.x = -Math.PI / 2; mesh.position.y = FL + 0.045;
+        mesh.matrixAutoUpdate = false; mesh.updateMatrix(); mesh.matrixWorldNeedsUpdate = true;
+        kit.scene.add(mesh);
+      }
+      patch(DOOR.x0, DOOR.x1, 0.02, DOOR.y1, 0.5);
+      patch(WIN.x0, WIN.x1, WIN.y0, WIN.y1, 0.42);
 
       /* ── THE CAVE, softer: the rail, cushions, a deep rug, books in piles ─ */
       kit.cyl(0.03, 0.03, CAVE - X0, at((X0 + CAVE) / 2, FL + H - 0.08, ZB + 0.25, 0, 0, Math.PI / 2), '--gilt', false, 6);
@@ -523,10 +694,11 @@
           { name: 'at the campfire, with the chairs all pointed at the television', x: 0, z: -14.0, yaw: 0, frame: tv.el },
           { name: 'at the coffee table, with the remote', x: 0, z: -15.1, yaw: 0, pitch: -0.5, frame: remote.el },
           { name: 'at the channel listing beside the television', x: 2.9, z: -18.6, yaw: 0, frame: guide.el },
-          { name: 'at the stereo along the wall behind the chairs', x: -0.6, z: -16.4, yaw: Math.PI, frame: hifi.el },
+          { name: 'at the stereo along the wall behind the chairs', x: -0.6, z: -16.4, yaw: Math.PI, pitch: -0.2, frame: hifi.el },
           { name: 'in the cave, at the shelves', x: -6.3, z: -18.2, yaw: 0, frame: shelves.el },
           { name: 'in the cave, by the speaker in the curtain', x: -6.4, z: -15.2, yaw: Math.PI / 2, frame: speaker.el },
           { name: 'at the herbarium', x: HOLE + 1.2, z: -13.4, yaw: 0 },
+          { name: 'at the pegboard of tools over the herbarium bench', x: PEG, z: -15.6, yaw: Math.PI, pitch: 0.1 },
           { name: 'at the solar bench, with its films', x: 6.4, z: -18.0, yaw: 0, frame: lays[0].el },
           { name: 'at the Star Stuff table', x: X1 - 2.8, z: -16.6, yaw: -Math.PI / 2 }
         ]

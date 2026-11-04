@@ -58,6 +58,17 @@
       var moon = new T.DirectionalLight(kit.col('--moonstone-2'), 0.45);
       moon.position.set(0.6, 10, 0.4);
       kit.scene.add(moon);
+      // The fairy lights strung round the wall throw a little of their own
+      // warmth onto the canvas just under them, so the lower walls and the
+      // lattice catch the light rather than going to the dark of the night
+      // outside: a soft wash between the things round the wall, never on
+      // them, in her candle colour.
+      [-160, -128, -84, -52, 8, 52, 88, 126, 160].forEach(function (deg) {
+        var wash = new T.PointLight(kit.col('--candle'), 5.5, 4.2, 1.3);
+        var wa = deg * Math.PI / 180;
+        wash.position.set((R - 1.3) * Math.sin(wa), 1.25, -(R - 1.3) * Math.cos(wa));
+        kit.scene.add(wash);
+      });
 
       // THE FLOOR: boards laid across, each joint a dark line, and a round
       // rug woven in rings: an ember edge, a band of little diamonds, ivy and
@@ -232,15 +243,30 @@
       box(0.8, 0.7, 0.6, M(ph, at(0, 0.35, 0)), '--timber');
       box(0.5, 0.18, 0.44, M(ph, at(0, 0.79, 0)), '--canvas-2');
       kit.cyl(0.2, 0.2, 0.02, M(ph, at(0, 0.89, 0)), '--hearth', false, 20);
-      var horn = new T.ConeGeometry(0.32, 0.6, 18, 1, true);
-      // The horn's bell turned out to the room and a little up, as a
-      // phonograph's is, its narrow end down into the box on a short arm.
-      kit.piece(horn, M(ph, at(0, 1.12, 0.12, 0, -1.87)), '--ember-2', false);
-      kit.flat(new T.CircleGeometry(0.3, 18), M(ph, at(0, 1.2, 0.4, 0, -0.294)), '--ember');
-      kit.flat(new T.CircleGeometry(0.17, 16), M(ph, at(0, 1.2, 0.404, 0, -0.294)), '--ember-2');
-      kit.flat(new T.CircleGeometry(0.06, 12), M(ph, at(0, 1.2, 0.408, 0, -0.294)), '--hearth');
-      kit.piece(new T.TorusGeometry(0.32, 0.018, 5, 22), M(ph, at(0, 1.207, 0.405, 0, -0.294)), '--ember-2', 0.008);
-      kit.cyl(0.02, 0.02, 0.25, M(ph, at(0, 0.96, -0.1, 0, 0.5)), '--hearth', false, 6);
+      // The horn: a real flared bell, turned out to the room and a little
+      // up, as a phonograph's is, its narrow throat down to the box on a
+      // short arm. Drawn twice, outside and in, so the inside of the bell is
+      // there when you look into it, and darker the deeper it goes.
+      var flare = [];
+      for (var hp = 0; hp <= 14; hp++) {
+        var hv = hp / 14;
+        flare.push(new T.Vector2(0.025 + 0.31 * Math.pow(hv, 3.2), hv * 0.62));
+      }
+      var hornDir = new T.Vector3(-0.5, 0.42, 0.5).normalize();
+      var hornTurn = new T.Quaternion().setFromUnitVectors(new T.Vector3(0, 1, 0), hornDir);
+      var outer = new T.LatheGeometry(flare, 26);
+      outer.applyQuaternion(hornTurn); outer.translate(0, 0.98, -0.16);
+      kit.piece(outer, ph, '--ember-2', 0.01);
+      var innerHorn = new T.LatheGeometry(flare.map(function (v) { return new T.Vector2(v.x * 0.94, v.y); }), 26);
+      innerHorn.scale(-1, 1, 1);
+      innerHorn.applyQuaternion(hornTurn); innerHorn.translate(0, 0.98, -0.16);
+      kit.piece(innerHorn, ph, '--ember', false);
+      var bellAt = hornDir.clone().multiplyScalar(0.62).add(new T.Vector3(0, 0.98, -0.16));
+      var rim = new T.TorusGeometry(0.335, 0.016, 6, 26);
+      rim.applyQuaternion(new T.Quaternion().setFromUnitVectors(new T.Vector3(0, 0, 1), hornDir));
+      rim.translate(bellAt.x, bellAt.y, bellAt.z);
+      kit.piece(rim, ph, '--ember-2', 0.008);
+      kit.cyl(0.03, 0.03, 0.14, M(ph, at(0, 0.92, -0.16)), '--hearth', false, 8);
       stop(70 * DEG, 'at the phonograph, the way through to the Music Room', 'faery-music-room.html', 'The Music Room');
 
       // THE CURTAIN, to the Cinema: canvas drawn back from a doorway.
@@ -339,7 +365,8 @@
       toadstool(M(sp, at(0.3, 0.2, 0.3)), 0.8);
 
       // THE ALCHEMIST'S ARCH, to Myths and Legends: an arch of ivy.
-      var ar = round(-118 * DEG, R - 0.15, 0);
+      var ARCH = -112 * DEG;
+      var ar = round(ARCH, R - 0.15, 0);
       box(1.2, 1.9, 0.05, M(ar, at(0, 0.95, -0.02)), '--hearth', false);
       [-1, 1].forEach(function (s) { box(0.18, 1.6, 0.18, M(ar, at(s * 0.68, 0.8, 0.05)), '--ivy-2'); });
       kit.piece(new T.TorusGeometry(0.68, 0.1, 8, 16, Math.PI), M(ar, at(0, 1.6, 0.05)), '--ivy-2', 0.02);
@@ -350,14 +377,22 @@
         var leaf = new T.SphereGeometry(0.07, 6, 4); leaf.scale(1, 0.5, 0.3);
         kit.piece(leaf, M(ar, at(lx, ly, 0.16, 0, 0, hash(q, 3, 4) * 3)), '--ivy', false);
       }
-      stop(-118 * DEG, 'at the Alchemist’s Arch, the way through to Myths and Legends', 'faery-myths-room.html', 'Myths & Legends');
+      // A candle's warmth just in front of the arch, so its ivy is seen.
+      var archLight = new T.PointLight(kit.col('--candle'), 3.4, 3.4, 1.3);
+      archLight.position.set((R - 1.3) * Math.sin(ARCH), 1.4, -(R - 1.3) * Math.cos(ARCH));
+      kit.scene.add(archLight);
+      // Stood back from it, turned a touch away from the round door beside
+      // it, so the arch is what is in front of you.
+      stops.push({ name: 'at the Alchemist’s Arch, the way through to Myths and Legends', room: 'Myths & Legends', page: 'faery-myths-room.html',
+                   x: (R - 3.5) * Math.sin(ARCH + 4 * DEG), z: -(R - 3.5) * Math.cos(ARCH + 4 * DEG), yaw: -ARCH - 9 * DEG, pitch: -0.06 });
 
       // THE ROUND DOOR, to the Play Pod.
-      var rd = round(-148 * DEG, R - 0.12, 0);
+      var DOOR = -154 * DEG;
+      var rd = round(DOOR, R - 0.12, 0);
       kit.cyl(0.8, 0.8, 0.08, M(rd, at(0, 0.82, 0, 0, Math.PI / 2)), '--timber', 0.02, 28);
       kit.cyl(0.68, 0.68, 0.1, M(rd, at(0, 0.82, 0.01, 0, Math.PI / 2)), '--ember', false, 28);
       kit.piece(new T.SphereGeometry(0.05, 8, 6), M(rd, at(0.4, 0.82, 0.08)), '--candle', false);
-      stop(-148 * DEG, 'at the round door, the way through to the Play Pod', 'play-pod.html', 'The Play Pod');
+      stop(DOOR, 'at the round door, the way through to the Play Pod', 'play-pod.html', 'The Play Pod');
 
       // THE GLIMMER WINDOW, arched, its sash dark and glimmering, and her
       // moon stone on the ledge; the glowing mushroom under it on the floor.
@@ -371,7 +406,11 @@
       box(1.3, 0.06, 0.24, M(gw, at(0, 0.72, 0.1)), '--timber');
       var stone = new T.DodecahedronGeometry(0.1, 0); stone.scale(1.3, 0.8, 1);
       kit.piece(stone, M(gw, at(0.35, 0.82, 0.14, 0.4)), '--moonstone-2', 0.015);
-      stops.push({ name: 'at the Glimmer Window, with her moon stone on the ledge', x: (R - 2.5) * Math.sin(-38 * DEG), z: -(R - 2.5) * Math.cos(-38 * DEG), yaw: 38 * DEG });
+      // The moon through her window lies on its sill and her stone.
+      var glim = new T.PointLight(kit.col('--moonstone-2'), 3.2, 3.2, 1.3);
+      glim.position.set((R - 1.0) * Math.sin(-38 * DEG), 1.35, -(R - 1.0) * Math.cos(-38 * DEG));
+      kit.scene.add(glim);
+      stops.push({ name: 'at the Glimmer Window, with her moon stone on the ledge', x: (R - 3.7) * Math.sin(-38 * DEG), z: -(R - 3.7) * Math.cos(-38 * DEG), yaw: 38 * DEG, pitch: -0.04 });
       // The glowing mushroom, the way down to Glow Wild Hollow.
       var ms = round(-22 * DEG, R - 0.9, 0);
       kit.cyl(0.08, 0.11, 0.5, M(ms, at(0, 0.25, 0)), '--tallow-2', false, 10);

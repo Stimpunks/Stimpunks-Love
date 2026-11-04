@@ -4039,7 +4039,7 @@ writer died in the 1960s is refused even though it is public domain in the Unite
 because Commons says "piano roll" near it**: several are notation software playing sheet music, and the data file
 says they were left off. How each recording was made is said only where its Commons page says it. **`table.js` gained an optional
 `data-table-tell`**, the sentence an order says, which `pint.js` sets for fetching or having it brought; the other
-rooms never set it. **The pub's sweep anchors its negation window** to the word it excuses: written the old way,
+rooms never set it. **The piano's other shelf is people playing** (Ryan's call, 2026-11-03, breaking from the books' pub, which has only the roll): `standards` beside `rolls` in `data/a-quiet-pint.json`, human recordings on Commons, still audio and never a screen, each free for us on its own page (public domain, CC0, CC BY or CC BY-SA) with its player named; **free everywhere is three tests**, every composer dead more than seventy years, the work published more than ninety-five years ago (the US term), and a historic record released more than a hundred years ago, so instrumental works only, because a lyricist's life counts too. `AUDIO_ORIGINS` names Commons' own uploads beside its transcodes for a file uploaded as an MP3. The friendly edits are a Gershwin song "since Gershwin died in 1937" (Ira's words) and a YouTube playlist on the shelf, which is the screen behind the bar. **The pub's sweep anchors its negation window** to the word it excuses: written the old way,
 *nobody lights a lamp.* excused *A lamp is lit on every table.* in the next sentence. The other rooms' sweeps are still
 the old way.
 

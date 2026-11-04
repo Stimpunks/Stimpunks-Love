@@ -119,13 +119,64 @@
       // The left wall runs from the far end to the door, with the doorway
       // through to the Chappell in it, at z -9.25 (x along the wall is -z).
       wall(D + 2, at(-W / 2, 0, -D / 2 + 1, Math.PI / 2), [-(-9.25) - (D / 2 - 1), 0.98, true]);
-      // The right wall leaves its bays clear where the decks' board stands.
-      wall(D + 2, at(W / 2, 0, -D / 2 + 1, -Math.PI / 2), [-8.5 + (D / 2 - 1), 2.1]);
+      // The right wall leaves its bays clear where the decks' boards stand.
+      wall(D + 2, at(W / 2, 0, -D / 2 + 1, -Math.PI / 2), [-8.5 + (D / 2 - 1), 2.85]);
       wall(W, at(0, 0, back, 0), [0, 3.8]);
-      // The plum ceiling, with a cream rose where the ball's line comes down.
-      box(W + 0.8, 0.3, D + 2, at(0, H + 0.15, -D / 2 + 1), '--pony-ink', false, false);
-      cyl(0.5, 0.5, 0.06, at(0, H - 0.03, -11), '--cream', 0.02, 24);
-      cyl(0.3, 0.36, 0.08, at(0, H - 0.08, -11), '--pony-ball', 0.02, 20);
+      // THE CEILING: plum, coffered by cream mouldings into deep square
+      // panels, each with a pink fillet inside its edge; round the rose where
+      // the ball's line comes down, a round recess edged in pink and cream;
+      // and still pools of pink light lying on it where the truss's upturned
+      // cans throw them, painted flat, the way a cel paints light.
+      box(W + 0.8, 0.3, D + 2, at(0, H + 0.45, -D / 2 + 1), '--pony-ink', false, false);
+      var CX = 5, CZ = 8, cw2 = W / CX, cd2 = (D + 1.2) / CZ, cz0 = 1.0;
+      // The mouldings stop where they meet the rose's recess, so none runs
+      // across it: each is laid in the lengths left outside the circle.
+      var RZ = -11, RR = 2.02;
+      function outside(a0, a1, off) {
+        // The parts of [a0, a1] along a moulding `off` from the rose's centre
+        // that lie outside its recess.
+        if (Math.abs(off) >= RR) return [[a0, a1]];
+        var h = Math.sqrt(RR * RR - off * off);
+        return [[a0, -h], [h, a1]].filter(function (r) { return r[1] - r[0] > 0.05; });
+      }
+      for (var bi2 = 0; bi2 <= CX; bi2++) {
+        var bx2 = -W / 2 + bi2 * cw2;
+        outside(-(cz0 - RZ) - 0, (D + 1.2) - (cz0 - RZ), bx2).forEach(function (r) {
+          // r is measured from the rose along -z.
+          var za = RZ - r[0], zb = RZ - r[1];
+          box(0.16, 0.3, za - zb, at(bx2, H + 0.15, (za + zb) / 2), '--cream', 0.015);
+        });
+      }
+      for (var bj = 0; bj <= CZ; bj++) {
+        var bz2 = cz0 - bj * cd2;
+        outside(-W / 2, W / 2, bz2 - RZ).forEach(function (r) {
+          box(r[1] - r[0], 0.3, 0.16, at((r[0] + r[1]) / 2, H + 0.15, bz2), '--cream', 0.015);
+        });
+      }
+      var UP = -Math.PI / 2;  // a flat thing turned to face the floor
+      for (bi2 = 0; bi2 < CX; bi2++) {
+        for (bj = 0; bj < CZ; bj++) {
+          var px2 = -W / 2 + (bi2 + 0.5) * cw2, pz2 = cz0 - (bj + 0.5) * cd2;
+          if (Math.hypot(px2, pz2 - RZ) < RR + 1.0) continue;   // the rose's recess
+          // The fillet: four thin pink strips just inside the moulding.
+          box(cw2 - 0.32, 0.04, 0.06, at(px2, H + 0.27, pz2 + cd2 / 2 - 0.16), '--pink', false, false);
+          box(cw2 - 0.32, 0.04, 0.06, at(px2, H + 0.27, pz2 - cd2 / 2 + 0.16), '--pink', false, false);
+          box(0.06, 0.04, cd2 - 0.32, at(px2 + cw2 / 2 - 0.16, H + 0.27, pz2), '--pink', false, false);
+          box(0.06, 0.04, cd2 - 0.32, at(px2 - cw2 / 2 + 0.16, H + 0.27, pz2), '--pink', false, false);
+        }
+      }
+      // The recess round the rose: a ring of pink inside a cream moulding.
+      kit.flat(new T.CircleGeometry(2.0, 40), at(0, H + 0.29, -11, 0, Math.PI / 2), '--pony-ink');
+      kit.flat(new T.RingGeometry(1.62, 1.95, 40), at(0, H + 0.28, -11, 0, Math.PI / 2), '--pink');
+      kit.piece(new T.TorusGeometry(2.02, 0.09, 6, 48), at(0, H + 0.12, -11, 0, Math.PI / 2), '--cream', 0.015);
+      kit.piece(new T.TorusGeometry(1.6, 0.05, 6, 40), at(0, H + 0.26, -11, 0, Math.PI / 2), '--cream', false);
+      cyl(0.5, 0.5, 0.06, at(0, H + 0.27, -11), '--cream', 0.02, 24);
+      cyl(0.3, 0.36, 0.08, at(0, H + 0.22, -11), '--pony-ball', 0.02, 20);
+      // The pools on the ceiling, still: a lit pink disc with its hotter heart.
+      [[-2.8, -3.35], [2.8, -3.35], [-2.8, -17.85], [2.8, -17.85], [-5.6, -6.25], [5.6, -14.95]].forEach(function (c) {
+        kit.flat(new T.CircleGeometry(0.82, 28), at(c[0], H + 0.285, c[1], 0, Math.PI / 2), '--pink');
+        kit.flat(new T.CircleGeometry(0.46, 24), at(c[0], H + 0.282, c[1], 0, Math.PI / 2), '--hot');
+      });
 
       // The wall you came in by, with its doorway in cream, and two hooks
       // either side of it with a coat on one.
@@ -142,21 +193,40 @@
       box(0.56, 0.12, 0.16, at(2.5, 1.74, 0.86), '--pink', 0.015);
 
       // THE LIGHTING TRUSS: two cream rails across the room on drop rods,
-      // and plum cans hanging from them with cream lenses, aimed at the floor.
+      // and plum cans hanging from them with cream lenses. The outer ones are
+      // aimed at the floor; the inner ones at the ball, the decks and the
+      // jukebox.
+      var AIM = {
+        '-6:-1.1': new T.Vector3(0, 3.4, -11), '-6:1.1': new T.Vector3(W / 2 - 0.1, 3.0, -8.5),
+        '-15:-1.1': new T.Vector3(-1.2, 2.6, -D + 0.2), '-15:1.1': new T.Vector3(1.2, 2.6, -D + 0.2)
+      };
       [-6, -15].forEach(function (z) {
         [-0.18, 0.18].forEach(function (o) { box(W - 1.2, 0.08, 0.08, at(0, 4.5 + o * 0, z + o), '--cream', 0.015); });
         for (var r = -W / 2 + 1.4; r <= W / 2 - 1.3; r += 0.9) box(0.04, 0.04, 0.4, at(r, 4.5, z, 0, 0.6), '--cream', false);
         [-4.8, 4.8].forEach(function (x) { box(0.05, H - 4.5, 0.05, at(x, 4.5 + (H - 4.5) / 2, z), '--cream', false); });
         [-3.2, -1.1, 1.1, 3.2].forEach(function (x) {
-          cyl(0.13, 0.18, 0.42, at(x, 4.16, z + 0.15, 0, -0.35), '--pony-ink', 0.02, 14);
-          kit.flat(new T.CircleGeometry(0.15, 16), at(x, 3.96, z + 0.22, 0, -Math.PI / 2 - 0.35), '--cream');
+          var aim = AIM[z + ':' + x];
+          var from = new T.Vector3(x, 4.16, z);
+          var dir = aim ? aim.clone().sub(from).normalize() : new T.Vector3(x * 0.6 - x, -4.16, -0.6).normalize();
+          var q = new T.Quaternion().setFromUnitVectors(new T.Vector3(0, -1, 0), dir);
+          var m = new T.Matrix4().compose(from, q, new T.Vector3(1, 1, 1));
+          cyl(0.13, 0.18, 0.42, m, '--pony-ink', 0.02, 14);
+          kit.flat(new T.CircleGeometry(0.15, 16), M(m, at(0, -0.215, 0, 0, Math.PI / 2)), '--cream');
           box(0.04, 0.2, 0.04, at(x, 4.38, z), '--cream', false);
         });
+      });
+      // The cans that are aimed at something light it, still: a pin spot on
+      // the ball, one on the decks' boards, and a wash on the jukebox.
+      [[AIM['-6:-1.1'], '--cream', 30, 0.18, -6, -1.1], [AIM['-6:1.1'], '--cream', 18, 0.42, -6, 1.1],
+       [AIM['-15:-1.1'], '--pink', 22, 0.5, -15, -1.1], [AIM['-15:1.1'], '--pink', 22, 0.5, -15, 1.1]].forEach(function (a) {
+        var sp = new T.SpotLight(kit.col(a[1]), a[2], 16, a[3], 0.6, 1.1);
+        sp.position.set(a[5], 4.0, a[4]); sp.target.position.copy(a[0]);
+        kit.scene.add(sp, sp.target);
       });
 
       // THE MIRRORBALL on its line, finely faceted, a cream cap and ring,
       // still at every setting.
-      cyl(0.02, 0.02, H - 3.4, at(0, 3.4 + (H - 3.4) / 2, -11), '--cream', false, 6);
+      cyl(0.02, 0.02, H + 0.24 - 3.4, at(0, 3.4 + (H + 0.24 - 3.4) / 2, -11), '--cream', false, 6);
       kit.facets(new T.IcosahedronGeometry(0.85, 2), at(0, 3.4, -11), '--pony-ball');
       cyl(0.16, 0.2, 0.14, at(0, 4.28, -11), '--cream', 0.02, 14);
       // Its glints on the floor and the walls, above Gentle only.
@@ -251,8 +321,16 @@
       // THE DECKS THEMSELVES, lifted off the room's page onto a cream board
       // behind the table, in the jukebox's own tray: press one to put it on.
       // Nothing stands between it and the floor, so it shows from anywhere.
-      var deckBoard = at(W / 2 - 0.06, 0, tz, -Math.PI / 2);
-      box(3.9, 2.9, 0.06, M(deckBoard, at(0, 3.0, -0.02)), '--cream', 0.02);
+      // A board for each record, side by side, so every record on the decks
+      // is there to read and press without scrolling.
+      var DECKS = 2, DB = 2.5, deckBoards = [];
+      for (var db = 0; db < DECKS; db++) {
+        var dbz = tz + (db - (DECKS - 1) / 2) * (DB + 0.2);
+        var dm = at(W / 2 - 0.06, 0, dbz, -Math.PI / 2);
+        box(DB, 2.35, 0.06, M(dm, at(0, 3.02, -0.02)), '--cream', 0.02);
+        box(DB + 0.16, 0.1, 0.1, M(dm, at(0, 4.22, 0.02)), '--pink', 0.015);
+        deckBoards.push(dm);
+      }
 
       // THE JUKEBOX on the far wall: a plum plinth, the cream tray with a
       // pink band inside its edge and pony-grey trim posts either side, and
@@ -266,7 +344,9 @@
         [sy - sh / 2 - 0.3, sy + sh / 2 + 0.3].forEach(function (y) { kit.piece(new T.SphereGeometry(0.14, 12, 10), at(s * (sw / 2 + 0.42), y, back + 0.22), '--cream', 0.02); });
       });
       var frame = kit.screen(1180, 800, sw, at(0, sy, back + 0.2), 'Pink Pony Club’s own page, in the jukebox’s tray');
-      var decks = kit.lift(frame, '.decks', { w: 820, h: 620, ww: 3.6, m: M(deckBoard, at(0, 1.62, 0.03)) });
+      var decks = deckBoards.map(function (dm, n) {
+        return kit.lift(frame, '.decks__rec', { n: n, w: 600, h: 560, ww: 2.3, m: M(dm, at(0, 1.92, 0.03)) });
+      });
       var name = kit.paper(1200, 260, function (c, w, h) {
         c.fillStyle = kit.ink('--pony-ink'); c.fillRect(0, 0, w, h);
         c.strokeStyle = kit.ink('--pink'); c.lineWidth = 12; c.strokeRect(14, 14, w - 28, h - 28);
@@ -305,15 +385,30 @@
       box(0.5, 2.6, 0.15, at(-W / 2 + 0.05, 1.3, -8.4), '--cream', 0.03);
       box(0.5, 0.15, 1.85, at(-W / 2 + 0.05, 2.6, -9.25), '--cream', 0.03);
       box(0.4, 0.06, 0.5, at(-W / 2 + 0.25, 0.03, -9.25), '--cream', false);
+      // A square surround in the room's own joinery, so the doorway reads from
+      // across the floor: pink panels either side, a cream lintel over them,
+      // and a cream plate over the lintel lettered in the room's own face.
+      [-10.55, -7.95].forEach(function (z) { box(0.1, 2.9, 0.55, at(-W / 2 + 0.06, 1.45, z), '--pink', 0.02); });
+      box(0.16, 0.24, 3.2, at(-W / 2 + 0.08, 3.02, -9.25), '--cream', 0.02);
+      var plate = kit.paper(640, 220, function (c, w, h) {
+        c.fillStyle = kit.ink('--cream'); c.fillRect(0, 0, w, h);
+        c.strokeStyle = kit.ink('--pony-ink'); c.lineWidth = 10; c.strokeRect(10, 10, w - 20, h - 20);
+        c.fillStyle = kit.ink('--pony-ink'); c.textAlign = 'center'; c.textBaseline = 'middle';
+        var fs = 86;
+        do { c.font = fs + 'px "Shrikhand"'; fs -= 4; } while (c.measureText('the Chappell').width > w - 70 && fs > 30);
+        c.fillText('the Chappell', w / 2, h / 2 + 6);
+      });
+      box(0.06, 0.5, 1.56, at(-W / 2 + 0.05, 3.48, -9.25), '--pony-ink', 0.01);
+      kit.sheet(plate, 1.5, 0.48, at(-W / 2 + 0.09, 3.48, -9.25, Math.PI / 2));
 
       return {
         start: { x: 0, z: -0.6, yaw: 0 },
         bounds: { x: [-W / 2 + 1.9, W / 2 - 2.8], z: [back + 1.6, -0.4] },
         stops: [
           { name: 'at the edge of the dancefloor', x: 0, z: -0.6, yaw: 0 },
-          { name: 'at the decks’ table', where: 'up by the DJ’s riser, the decks on their board behind the table', x: 2.4, z: tz, yaw: -Math.PI / 2, pitch: 0.16, frame: decks.el },
-          { name: 'under the mirrorball', x: 0, z: -8, yaw: 0 },
-          { name: 'The Chappell', room: 'the Chappell', where: 'at the doorway in the left-hand wall, through to the Chappell', x: -W / 2 + 3.6, z: -9.25, yaw: Math.PI / 2, page: 'the-chappell.html' },
+          { name: 'at the decks’ table', where: 'up by the DJ’s riser, a board for each record behind the table', x: 2.6, z: tz, yaw: -Math.PI / 2, pitch: 0.18, frame: decks[0].el },
+          { name: 'under the mirrorball', where: 'on the dancefloor, the mirrorball on its line ahead and its glints on the floor', x: 0, z: -4.6, yaw: 0, pitch: 0.2 },
+          { name: 'The Chappell', room: 'the Chappell', where: 'at the doorway in the left-hand wall, through to the Chappell', x: -W / 2 + 5.0, z: -9.25, yaw: Math.PI / 2, pitch: 0.05, page: 'the-chappell.html' },
           { name: 'at the jukebox, with the room’s own page in its tray', x: 0, z: back + 2.9, yaw: 0, page: kit.page, frame: frame }
         ]
       };

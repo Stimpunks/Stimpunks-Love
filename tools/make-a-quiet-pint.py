@@ -950,6 +950,83 @@ def check_rolls(d):
         refuse("two rolls on the shelf are the same recording.")
 
 
+STANDARD_KEYS = {"key", "title", "published", "by", "instrumental", "played", "file", "src", "runtime", "licence", "record"}
+# A recording's own licence, as its Commons page gives it: given away (public
+# domain or CC0) or CC BY or CC BY-SA, which only ask for the player's name.
+# Never NC or ND, which this site's CC BY-SA cannot carry.
+FREE_RECORDING = re.compile(r"^(Public domain|CC0|CC BY(?:-SA)? \d\.\d)\b")
+
+
+def check_standards(d, year=None):
+    """THE PIANO'S OTHER SHELF: people playing standards (Ryan's ask,
+    2026-11-03, breaking from the books, where the piano plays only rolls).
+    Public domain everywhere is three tests here, all against this year: every
+    composer died more than seventy years ago; the work was first published
+    more than ninety-five years ago, so it is free in the United States as
+    well; and an old record was first released more than a hundred years ago,
+    the United States' term for a record from before 1947. A modern recording
+    is free by its player's own licence, which must say so, and its player is
+    named. Instrumental only, so no lyricist's words come in with a tune.
+    It plays from Commons' MP3 of a file, or, for a file uploaded to Commons
+    as an MP3, from Commons' own upload path, both in love-embed.js's
+    AUDIO_ORIGINS."""
+    from datetime import date
+    year = year or date.today().year
+    origins = audio_origins()
+    standards = d.get("standards") or []
+    if not standards:
+        refuse("the piano's other shelf, people playing, is empty.")
+    keys = {r.get("key") for r in d.get("rolls") or []}
+    for r in standards:
+        where = f"{DATA.name}, standard {r.get('key')!r}"
+        if set(r) - STANDARD_KEYS:
+            refuse(f"{where} carries {sorted(set(r) - STANDARD_KEYS)}, which nothing reads.")
+        if r.get("key") in keys or not re.fullmatch(r"[a-z]+", r.get("key") or ""):
+            refuse(f"{where} has no plain key of its own, apart from every roll's.")
+        keys.add(r.get("key"))
+        for f in ("title", "played", "file", "src", "licence"):
+            if not (r.get(f) or "").strip():
+                refuse(f"{where} has no {f}.")
+        if r.get("instrumental") is not True:
+            refuse(f"{where} is not marked instrumental. Only instrumental works go on this shelf, so no "
+                   "lyricist's words come in with a tune.")
+        if not any((r.get("src") or "").startswith(o) for o in origins):
+            refuse(f"{where}: {r.get('src')} is not from an origin in love-embed.js's AUDIO_ORIGINS, which "
+                   "would refuse it quietly, and the button would never play.")
+        if not (r.get("src") or "").endswith(".mp3"):
+            refuse(f"{where} is not an MP3 on Commons, which every browser plays: the MP3 Commons makes of a file, "
+                   "or a file uploaded to Commons as one.")
+        if not (r.get("file") or "").startswith("File:"):
+            refuse(f"{where} does not name its file on Commons, where its licence is.")
+        if not RUNTIME.match(r.get("runtime") or ""):
+            refuse(f"{where} has no runtime. Every press-to-play control here says how long before the press.")
+        if not FREE_RECORDING.match(str(r.get("licence") or "")) or re.search(r"\bNC\b|\bND\b|-NC|-ND", str(r.get("licence"))):
+            refuse(f"{where}: its recording is not given away or CC BY or CC BY-SA on its own page: "
+                   f"{r.get('licence')!r}.")
+        pub = r.get("published")
+        if not isinstance(pub, int):
+            refuse(f"{where} does not say the year the work was first published.")
+        elif pub + 95 >= year:
+            refuse(f"{where} was first published in {pub}, ninety-five years ago or less, so it is not free in the "
+                   "United States yet.")
+        rec = r.get("record")
+        if rec is not None and (not isinstance(rec, int) or rec + 100 >= year):
+            refuse(f"{where}: its record was first released in {rec}, a hundred years ago or less, so the record "
+                   "is not free in the United States yet.")
+        by = r.get("by") or []
+        if not by:
+            refuse(f"{where} names no composer.")
+        for c in by:
+            if not (c.get("name") and isinstance(c.get("born"), int) and isinstance(c.get("died"), int)):
+                refuse(f"{where}: a composer without a name or both years.")
+            elif c["died"] + 70 >= year:
+                refuse(f"{where}: {c['name']} died in {c['died']}, seventy years ago or less, so the music is not "
+                       "public domain everywhere. The Doomscroll's bar, counted against this year.")
+    srcs = [r.get("src") for r in d.get("rolls") or []] + [r.get("src") for r in standards]
+    if len(set(srcs)) != len(srcs):
+        refuse("two things on the piano's shelves are the same recording.")
+
+
 # ── The room, from a seat at the south end ───────────────────────────────────
 # One-point perspective, from a seat: the eye is 50 inches up, which is where
 # most people in a pub are, sitting down. Everything is drawn from the plan, so
@@ -1789,6 +1866,26 @@ def rolls_block(d):
     return "\n".join(out)
 
 
+def standards_block(d):
+    """People playing, in the room's own clothes: the roll cards' classes,
+    without a roll drawn on them, because a person is not a roll."""
+    out = ['    <ul class="aqp-rolls">']
+    for r in d["standards"]:
+        name = f'{r["title"]}, by {" and ".join(c["name"] for c in r["by"])}, on the pub’s piano'
+        lines = [f'<p class="aqp-roll__by">By {esc(by_words(r))}.</p>',
+                 f'<p class="aqp-roll__what">{esc(r["played"])}</p>',
+                 f'<p class="aqp-roll__src"><a href="https://commons.wikimedia.org/wiki/{attr(r["file"].replace(" ", "_"))}">'
+                 f'Its page on Wikimedia Commons</a>: {esc(r["licence"])}.</p>']
+        out.append(f'      <li class="aqp-roll" id="aqp-played-{r["key"]}">\n'
+                   f'        <h3 class="aqp-roll__title">{esc(r["title"])} ({r["published"]})</h3>\n'
+                   f'        ' + "\n        ".join(lines) + '\n'
+                   f'        <button type="button" class="facade facade--audio aqp-play" data-audio-src="{attr(r["src"])}" '
+                   f'data-embed-title="{attr(name)}">Press to play &middot; {esc(r["runtime"])}</button>\n'
+                   '      </li>')
+    out.append('    </ul>')
+    return "\n".join(out)
+
+
 # ── The tables in words, and the plan ────────────────────────────────────────
 
 SHAPE_WORDS = {"round": "Round", "square": "Square", "long": "Long"}
@@ -1984,6 +2081,14 @@ def liner_sources(d):
                  "Recordings of piano rolls on Wikimedia Commons, each public domain on its own page, chosen on "
                  "2026-10-06 and streamed from there, never hosted here: " + ", ".join(links[:-1]) + " and " + links[-1]
                  + ". Every composer’s years were read on Wikipedia, and every runtime measured off the file"))
+    played = [f'<a href="https://commons.wikimedia.org/wiki/{attr(r["file"].replace(" ", "_"))}">{esc(r["title"])}</a>, '
+              + esc(r["played"].rstrip(".").replace("Played", "played", 1)) + f' ({esc(r["licence"].split(" (")[0])})'
+              for r in d["standards"]]
+    rows.append(("People playing on the piano’s other shelf",
+                 "Recordings of people playing on Wikimedia Commons, chosen on 2026-11-03 and streamed from there, "
+                 "never hosted here, each credited to its player as its own page names them: " + "; ".join(played)
+                 + ". Every composer’s years, and every work’s first publication, were read against this year, and "
+                 "every runtime measured off the file"))
     rows.append(("Allergens and caffeine on every card",
                  'Worked out by the same engines as <a href="hey-good-cookin.html">Hey, Good Cookin’</a>, '
                  '<a href="pekoe-and-purrs.html">Pekoe and Purrs</a> and <a href="truckin-food-court.html">the Truck '
@@ -2088,11 +2193,16 @@ def main():
     check_words(d)
     check_columns(d)
     check_rolls(d)
+    check_standards(d)
+    for r in d.get("standards") or []:
+        words = " ".join(str(r.get(f, "")) for f in ("title", "played"))
+        sweep(words, f"{DATA.name}, standard {r.get('key')!r}")
+        sweep(words, f"{DATA.name}, standard {r.get('key')!r}", [(WORLD, "Jim Butcher's invented world on a record.")])
     for r in d.get("rolls") or []:
         words = " ".join(str(r.get(f, "")) for f in ("title", "roll", "heard"))
         sweep(words, f"{DATA.name}, roll {r.get('key')!r}")
         sweep(words, f"{DATA.name}, roll {r.get('key')!r}", [(WORLD, "Jim Butcher's invented world on a roll.")])
-    for k in ("_what", "_light", "_thirteen", "_rolls"):
+    for k in ("_what", "_light", "_thirteen", "_rolls", "_standards"):
         sweep(d.get(k, ""), f"{DATA.name} {k}")
     for group in ("pints", "glasses", "stove_food"):
         for x in d.get(group) or []:
@@ -2118,6 +2228,7 @@ def main():
     swap(PAGE, "aqp:columns", columns_block(d, fx), "    ")
     swap(PAGE, "aqp:menu", menu_block(d), "    ")
     swap(PAGE, "aqp:rolls", rolls_block(d), "    ")
+    swap(PAGE, "aqp:played", standards_block(d), "    ")
     for q in d["quotes"]:
         swap(PAGE, f"aqp:quote:{q['key']}", quote_block(q, d), "    ")
     swap(PAGE, "aqp:third", third_block(d), "    ")

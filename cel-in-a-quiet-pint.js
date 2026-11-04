@@ -86,8 +86,8 @@
       // ceiling stop it everywhere else. A low grey fill is what the mirrors
       // and the pale walls give back.
       kit.scene.background = kit.col('--aqp-street');
-      kit.scene.add(new T.HemisphereLight(kit.col('--aqp-light'), kit.col('--aqp-wall'), 5));
-      var day = new T.DirectionalLight(kit.col('--aqp-light'), 2.6);
+      kit.scene.add(new T.HemisphereLight(kit.col('--aqp-light'), kit.col('--aqp-wall'), 6.2));
+      var day = new T.DirectionalLight(kit.col('--aqp-light'), 3.0);
       day.position.set(X(360), 12, 9);
       day.target.position.set(X(360), 0, -3);
       day.castShadow = true;
@@ -97,6 +97,14 @@
       day.shadow.camera.near = 1; day.shadow.camera.far = 40;
       day.shadow.bias = -0.0008; day.shadow.normalBias = 0.04;
       kit.scene.add(day, day.target);
+      // The same grey daylight, thrown back up off the boards where it lands
+      // under the windows and off the pale walls, onto the undersides of the
+      // beams and the boards of the ceiling: the only light the ceiling gets,
+      // and still the street's, so nothing up there is lit warm.
+      var bounce = new T.DirectionalLight(kit.col('--aqp-light'), 3.0);
+      bounce.position.set(X(360), -10, Z(60));
+      bounce.target.position.set(X(360), 6, Z(300));
+      kit.scene.add(bounce, bounce.target);
 
       // THE ROOM: boards running away from the street wall, the walls with a
       // painted line round them at the height of a chair back, the ceiling.
@@ -420,14 +428,31 @@
       pcyl(711, 296, 4, 0, 2.6, '--aqp-glaze', 0.005, 16);
       pcyl(711, 296, 3.3, 2.1, 2.65, '--aqp-water', false, 16);
       // Coats on a rail of hooks on the east wall above the armchairs, each
-      // its own length and colour, and a scarf.
-      pbox(W - 1.2, W, 82, 118, 70, 71.5, '--aqp-col2', 0.004);
-      [[87, 30, '--aqp-leather2'], [97, 24, '--aqp-col2'], [110, 34, '--aqp-mat']].forEach(function (c) {
-        pbox(W - 3, W - 1.2, c[0] - 0.5, c[0] + 0.5, 69, 71, '--aqp-iron', false);
-        pbox(W - 5, W - 1.2, c[0] - 5, c[0] + 5, 70 - c[1], 68.5, c[2], 0.006);
-        pbox(W - 5.4, W - 4.9, c[0] - 3.5, c[0] + 3.5, 70 - c[1] * 0.75, 66, c[2], false);
+      // its own length and colour, hung by its collar: shoulders, a body that
+      // falls a little wider to its hem, two sleeves hanging at its sides, a
+      // fold or two, the line of its front and its buttons. A scarf between.
+      pbox(W - 1.2, W, 80, 122, 70.5, 72.5, '--aqp-col2', 0.004);
+      [84, 92, 100, 108, 116].forEach(function (hy) {
+        pbox(W - 3.6, W - 1.2, hy - 0.5, hy + 0.5, 70.8, 71.8, '--aqp-iron', false);
+        pbox(W - 4.2, W - 3.4, hy - 0.7, hy + 0.7, 70.8, 73, '--aqp-iron', false);
       });
-      pbox(W - 3.2, W - 1.4, 103, 105, 46, 68.5, '--aqp-sea', 0.004);
+      [[86, 31, '--aqp-leather2', 0], [99, 25, '--aqp-col2', 1], [112, 36, '--aqp-mat', 2]].forEach(function (c) {
+        var cy = c[0], L = c[1], top = 70, hem = top - L, ink = c[2];
+        pbox(W - 4.8, W - 1.4, cy - 1.8, cy + 1.8, top - 2.2, top + 0.6, ink, 0.005);
+        pbox(W - 5.6, W - 1.3, cy - 5.6, cy + 5.6, top - 5, top - 1.8, ink, 0.006);
+        pbox(W - 5.3, W - 1.3, cy - 4.8, cy + 4.8, hem + 3, top - 4.6, ink, 0.006);
+        pbox(W - 5.6, W - 1.3, cy - 5.4, cy + 5.4, hem, hem + 3.2, ink, 0.006);
+        [-1, 1].forEach(function (sd) {
+          pbox(W - 6.2, W - 3, cy + sd * 5.0 - 1.1, cy + sd * 5.0 + 1.1, top - 4.4 - L * 0.62, top - 3.2, ink, 0.005);
+          pbox(W - 6.3, W - 3.1, cy + sd * 5.0 - 1.2, cy + sd * 5.0 + 1.2, top - 4.4 - L * 0.62 - 1.2, top - 4.4 - L * 0.62, '--aqp-deep', false);
+        });
+        pbox(W - 5.42, W - 5.32, cy - 0.15, cy + 0.15, hem, top - 2.4, '--aqp-line', false, false);
+        [cy - 2.6, cy + 2.8].forEach(function (fy, k) { pbox(W - 5.4, W - 5.33, fy - 0.2, fy + 0.2, hem + 1, top - 7 - k * 3, '--aqp-deep', false, false); });
+        if (c[3] !== 1) for (var bt = 0; bt < 3; bt++) pbox(W - 5.6, W - 5.35, cy + 0.6, cy + 1.3, top - 8 - bt * 6, top - 7.3 - bt * 6, '--aqp-rim', false, false);
+        else pbox(W - 5.5, W - 5.3, cy - 4.8, cy + 4.8, top - 14, top - 12.6, '--aqp-deep', false, false);
+      });
+      pbox(W - 3.4, W - 1.4, 104.6, 106.6, 45, 69, '--aqp-sea', 0.004);
+      pbox(W - 3.6, W - 1.4, 104.2, 107, 43.5, 45, '--aqp-sea', false);
       // A rack of folded papers on the east wall by the stove.
       pbox(W - 2, W, 166, 196, 40, 58, '--aqp-col2', 0.006);
       [[169, 55, 52], [176, 52, 50], [184, 57, 53], [191, 53, 51]].forEach(function (n) {
@@ -475,6 +500,70 @@
       pcyl(dish[0], dish[1], 4.2, dz, dz + 0.5, '--aqp-plate', 0.004, 18);
       kit.piece(new T.SphereGeometry(I(3.6), 14, 6, 0, Math.PI * 2, 0, Math.PI / 2), at(X(dish[0]), I(dz + 0.5), Z(dish[1])), '--aqp-rim', 0.004);
 
+      // ON THE TABLES, what people have left there or are in the middle of:
+      // no two tables alike, and one left bare for whoever comes in next.
+      // Wherever a pint without alcohol stands beside one with, it is put
+      // down first, in the same glass. Nothing on a table is lit.
+      function half(x, y, z, ink) {
+        pbox(x - 2.2, x + 2.2, y - 2.2, y + 2.2, z, z + 0.15, '--aqp-mat', false, false);
+        kit.piece(new T.CylinderGeometry(I(1.55), I(1.35), I(2.6), 12), at(X(x), I(z + 0.15 + 1.3), Z(y)), ink, 0.005);
+        kit.piece(new T.CylinderGeometry(I(1.7), I(1.55), I(2.8), 12), at(X(x), I(z + 0.15 + 2.6 + 1.4), Z(y)), '--aqp-rim', 0.004);
+      }
+      function plateOf(x, y, z, food) {
+        pcyl(x, y, 4.2, z, z + 0.45, '--aqp-plate', 0.004, 18);
+        food.forEach(function (f, k) {
+          var a = k * 2.1 + 0.4, r = k ? 1.8 : 0.4;
+          kit.piece(new T.SphereGeometry(I(f[1]), 8, 5, 0, Math.PI * 2, 0, Math.PI / 2), at(X(x + Math.cos(a) * r), I(z + 0.45), Z(y + Math.sin(a) * r)), f[0], false);
+        });
+      }
+      function paper(x, y, z, wide) {
+        var a = wide ? 7 : 5, b = wide ? 5 : 7;
+        pbox(x - a, x + a, y - b, y + b, z, z + 0.3, '--aqp-plate', 0.003);
+        for (var ln = 0; ln < 5; ln++) pbox(x - a + 1, x + a - 1 - (ln % 2) * 2, y - b + 1.4 + ln * 2.4, y - b + 1.9 + ln * 2.4, z + 0.3, z + 0.34, '--aqp-line', false, false);
+      }
+      function mug(x, y, z) {
+        pcyl(x, y, 1.6, z, z + 3.6, '--aqp-glaze', 0.004, 12);
+        pbox(x - 0.4, x + 0.4, y + 1.6, y + 2.8, z + 1, z + 3, '--aqp-glaze', false);
+        pcyl(x, y, 1.3, z + 3.55, z + 3.65, '--aqp-stout', false, 12);
+      }
+      function book(x, y, z, ink) {
+        pbox(x - 3, x + 3, y - 4.2, y + 4.2, z, z + 1.6, ink, 0.004);
+        pbox(x - 2.8, x + 3.05, y - 4, y + 4, z + 0.2, z + 1.4, '--aqp-crumb', false, false);
+      }
+      function cards(x, y, z) {
+        [[0, 0], [1.8, 1], [3.6, 0.4], [-2.4, 3.6]].forEach(function (c) { pbox(x + c[0] - 1.2, x + c[0] + 1.2, y + c[1] - 1.7, y + c[1] + 1.7, z, z + 0.08, '--aqp-plate', 0.002); });
+      }
+      function jugOf(x, y, z) {
+        kit.piece(new T.CylinderGeometry(I(1.8), I(2.3), I(7), 12), at(X(x), I(z + 3.5), Z(y)), '--aqp-water', 0.006);
+      }
+      function teapot(x, y, z) {
+        kit.piece(new T.SphereGeometry(I(2.8), 12, 8), at(X(x), I(z + 2.5), Z(y)), '--aqp-glaze', 0.006);
+        cyl(I(0.4), I(0.65), I(2.8), at(X(x + 2.8), I(z + 3), Z(y), 0, 0, -0.9), '--aqp-glaze', false, 6);
+      }
+      var TABLE_THINGS = {
+        1: function (t, z) { pint(t.x - 5, t.y - 3, z, '--aqp-lemon'); pint(t.x + 5, t.y + 3, z, '--aqp-ale'); },
+        2: function (t, z) { pint(t.x - 22, t.y, z, '--aqp-water'); half(t.x - 14, t.y + 2, z, '--aqp-stout'); plateOf(t.x + 10, t.y, z, [['--aqp-bread', 2.2], ['--aqp-crumb', 1.0]]); },
+        3: function (t, z) { teapot(t.x - 3, t.y, z); mug(t.x + 5, t.y + 3, z); },
+        4: function (t, z) { paper(t.x - 6, t.y - 4, z, true); half(t.x + 9, t.y + 7, z, '--aqp-stout'); },
+        5: function (t, z) {
+          plateOf(t.x - 9, t.y - 6, z, [['--aqp-steak', 2.0], ['--aqp-chip', 1.1], ['--aqp-onion', 0.9]]);
+          plateOf(t.x + 10, t.y + 4, z, [['--aqp-mush', 1.6], ['--aqp-bread', 1.8]]);
+          pint(t.x + 2, t.y - 11, z, '--aqp-water'); pint(t.x - 3, t.y + 12, z, '--aqp-cider'); jugOf(t.x + 12, t.y - 9, z);
+        },
+        6: function (t, z) { mug(t.x - 4, t.y - 6, z); book(t.x + 4, t.y + 4, z, '--aqp-leather'); },
+        8: function (t, z) { cards(t.x - 4, t.y - 3, z); half(t.x + 7, t.y + 5, z, '--aqp-ale'); },
+        9: function (t, z) {
+          plateOf(t.x - 16, t.y - 3, z, [['--aqp-chip', 1.2], ['--aqp-steak', 1.9]]);
+          plateOf(t.x + 14, t.y + 3, z, [['--aqp-bread', 2.4], ['--aqp-onion', 1.0]]);
+          pint(t.x - 4, t.y + 7, z, '--aqp-lemon'); pint(t.x + 2, t.y - 8, z, '--aqp-stout');
+        },
+        10: function (t, z) { paper(t.x, t.y - 2, z, false); },
+        11: function (t, z) { pint(t.x - 8, t.y, z, '--aqp-water'); pint(t.x + 2, t.y - 9, z, '--aqp-water'); pint(t.x + 6, t.y + 8, z, '--aqp-water'); paper(t.x - 4, t.y + 10, z, true); },
+        12: function (t, z) { book(t.x - 8, t.y, z, '--aqp-leather2'); mug(t.x + 8, t.y - 2, z); },
+        13: function (t, z) { plateOf(t.x - 2, t.y + 2, z, [['--aqp-crumb', 1.4]]); half(t.x + 6, t.y - 5, z, '--aqp-cider'); }
+      };
+      PLAN.tables.forEach(function (t) { if (TABLE_THINGS[t.n]) TABLE_THINGS[t.n](t, t.h); });
+
       // By the stove: a kettle on its top, kept warm and never boiling, and a
       // basket of logs against the wall beside it.
       var sv2 = PLAN.stove, kx2 = (sv2.x0 + sv2.x1) / 2 - 7, ky2 = sv2.y0 + 9;
@@ -487,10 +576,16 @@
       }
       // The boards worn paler where everybody walks: in at the door, along the
       // bar, and round to the stove.
-      [[620, 40, 34, 70, 0.2], [540, 120, 70, 40, -0.4], [175, 240, 40, 300, 0.05], [600, 210, 60, 46, 0.6], [420, 300, 90, 40, 0.3]].forEach(function (wr) {
-        var gw = new T.CircleGeometry(1, 24); gw.scale(I(wr[2]) / 2, I(wr[3]) / 2, 1);
-        var worn = kit.flat(gw, at(X(wr[0]), 0.003, Z(wr[1]), wr[4], -Math.PI / 2), '--aqp-grain');
-        worn.material.transparent = true; worn.material.opacity = 0.55; worn.material.depthWrite = false;
+      var wornTex = kit.paper(256, 256, function (c, w, h) {
+        c.fillStyle = kit.ink('--aqp-col');
+        for (var ring = 28; ring > 0; ring--) { c.globalAlpha = 0.085; c.beginPath(); c.ellipse(w / 2, h / 2, (w / 2) * ring / 28, (h / 2) * ring / 28, 0, 0, Math.PI * 2); c.fill(); }
+        c.globalAlpha = 1;
+      });
+      [[620, 40, 34, 80, 0.2], [540, 120, 80, 44, -0.4], [175, 240, 44, 320, 0.05], [600, 210, 70, 50, 0.6], [420, 300, 100, 44, 0.3], [350, 200, 60, 40, 1.1]].forEach(function (wr) {
+        var worn = new T.Mesh(new T.PlaneGeometry(I(wr[2]), I(wr[3])), new T.MeshBasicMaterial({ map: wornTex, transparent: true, opacity: 0.7, depthWrite: false }));
+        worn.position.set(X(wr[0]), 0.004, Z(wr[1])); worn.rotation.set(-Math.PI / 2, 0, wr[4]);
+        worn.matrixAutoUpdate = false; worn.updateMatrix(); worn.matrixWorldNeedsUpdate = true;
+        kit.scene.add(worn);
       });
       // Outside, in the areaway under the windows, a trough of plants for the
       // street to look down on, clear of the way to the steps.
@@ -513,6 +608,12 @@
       box(pw + 0.12, ph + 0.12, 0.06, M(pg, at(0, 0.9 + ph / 2, 0.01)), '--aqp-col2');
       var frame = kit.screen(1180, 800, pw, M(pg, at(0, 0.9 + ph / 2, 0.05)), 'A Quiet Pint’s own page, on the far wall', INSIDE);
       var rolls = kit.lift(frame, '.aqp-rolls', { w: 560, h: 480, ww: 0.8, m: at(X((pn.x0 + pn.x1) / 2), I(pn.h + 1.5) + 0.01, Z(14), Math.PI), zone: INSIDE });
+      // The piano's other shelf, the page's second list: people playing the
+      // standards, on a board on the street wall beside the piano, over a
+      // little shelf of its own.
+      pbox(305, 345, 0, 5, 24, 25.6, '--aqp-col2', 0.004);
+      pbox(303, 347, 0, 0.8, 25.6, 61, '--aqp-col2', 0.004);
+      var played = kit.lift(frame, '.aqp-rolls', { n: 1, w: 560, h: 520, ww: 1.0, m: at(X(325), I(26.5), Z(1.0), Math.PI), zone: INSIDE });
       var boards = [[130, 114], [200, 106], [330, 103]].map(function (b, n) {
         return kit.lift(frame, '.aqp-board', { n: n, w: 480, h: 520, ww: 0.85, m: at(X(b[1]), I(42) + 0.01, Z(b[0]), RIGHT), drop: '.aqp-item__go', zone: INSIDE });
       });
@@ -530,11 +631,13 @@
         { name: 'among the columns, no two carved with the same tale', x: X(390), z: Z(215), yaw: aim(390, 215, 360, 96), pitch: 0.12 },
         { name: 'at a table in a patch of the light a mirror passes round', x: X(338), z: Z(240), yaw: Math.PI, pitch: -0.4 },
         { name: 'at the piano, with its rolls standing on it', x: X(265), z: Z(95), yaw: Math.PI, pitch: 0.12, frame: rolls.el },
+        { name: 'at the piano’s other shelf, people playing the standards', x: X(325), z: Z(64), yaw: Math.PI, pitch: -0.1, frame: played.el },
         { name: 'at the bar, with the pints on the board', x: X(176), z: Z(130), yaw: RIGHT, frame: boards[0].el },
         { name: 'at the bar, with what comes in a glass', x: X(176), z: Z(200), yaw: RIGHT, frame: boards[1].el },
         { name: 'where the bar dips, low enough to be served at sitting down', x: X(176), z: Z(263), yaw: RIGHT, pitch: -0.2 },
         { name: 'at the bar, with what comes off the stove', x: X(176), z: Z(330), yaw: RIGHT, frame: boards[2].el },
         { name: 'by the stove, shut, warm and giving off no light', x: X(650), z: Z(185), yaw: aim(650, 185, 700, 238), pitch: -0.2 },
+        { name: 'by the armchairs, under the coats on their hooks', x: X(630), z: Z(96), yaw: aim(630, 96, 720, 100), pitch: 0.16 },
         { name: 'at the far wall, with the room’s own page on it, where you order and find your table', x: X(498), z: Z(382), yaw: 0, page: kit.page, frame: frame },
         { name: 'at the far wall, with Jim Butcher’s words and where this pub parts from them', x: X(640), z: Z(398), yaw: 0, frame: homage.el },
         { name: 'at the house rules', x: X(296), z: Z(408), yaw: 0, frame: rules.el },
