@@ -181,9 +181,39 @@
       var bar = PLAN.bar, f = bar.front;
       pbox(0, 18, 20, D - 16, 0, 40, '--aqp-beam', 0.008);
       pbox(0, 20, 20, D - 16, 40, 41.5, '--aqp-col2', 0.006);
-      [[44, 12, '--aqp-glass'], [63, 9, '--aqp-sheen'], [101, 13, '--aqp-glass'], [184, 10, '--aqp-sheen'],
-       [262, 14, '--aqp-glass'], [279, 8, '--aqp-glass'], [352, 11, '--aqp-sheen'], [423, 12, '--aqp-glass']].forEach(function (b) {
-        pcyl(9, b[0], 1.6, 41.5, 41.5 + b[1], b[2], 0.006, 10);
+      // A bottle: its body, its shoulder and its neck, standing at (x, y) on z0.
+      function bottle(x, y, z0, h, r, ink) {
+        var body = h * 0.62;
+        pcyl(x, y, r, z0, z0 + body, ink, 0.005, 10);
+        kit.piece(new T.CylinderGeometry(I(r * 0.38), I(r), I(h * 0.16), 10), at(X(x), I(z0 + body + h * 0.08), Z(y)), ink, 0.005);
+        pcyl(x, y, r * 0.36, z0 + body + h * 0.16, z0 + h, ink, false, 8);
+      }
+      var INKS = ['--aqp-glass', '--aqp-sheen', '--aqp-stout', '--aqp-glaze', '--aqp-cider', '--aqp-glass', '--aqp-mat', '--aqp-ale'];
+      function hash(a, b) { var n = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return n - Math.floor(n); }
+      // On the back bar's top, a crowd of bottles at no even spacing, every
+      // one its own height and colour, and between the mirrors above it the
+      // shelves, each at its own height, with more.
+      for (var bb = 0, by = 26; by < D - 22; bb++) {
+        bottle(4 + hash(bb, 1) * 9, by, 41.5, 9 + hash(bb, 2) * 7, 1.2 + hash(bb, 3) * 0.7, INKS[Math.floor(hash(bb, 4) * INKS.length)]);
+        by += 4 + hash(bb, 5) * 9;
+      }
+      var westMirrors = PLAN.mirrors.filter(function (m) { return m.wall === 'west'; })
+        .map(function (m) { return [m.at - m.w / 2 - 3, m.at + m.w / 2 + 3]; }).sort(function (a, b) { return a[0] - b[0]; });
+      var shelfFrom = 22;
+      westMirrors.concat([[D - 18, D]]).forEach(function (gap, gi) {
+        var y0 = shelfFrom, y1 = gap[0];
+        shelfFrom = gap[1];
+        if (y1 - y0 < 14) return;
+        [54 + (gi * 7) % 9, 70 + (gi * 5) % 8].forEach(function (z, si) {
+          pbox(0, 7, y0, y1, z - 1, z, '--aqp-col2', 0.006);
+          pbox(0, 7.5, y0, y0 + 1, z - 4, z, '--aqp-col2', false);
+          pbox(0, 7.5, y1 - 1, y1, z - 4, z, '--aqp-col2', false);
+          for (var bq = 0, yy = y0 + 2.5; yy < y1 - 2.5; bq++) {
+            var k = gi * 31 + si * 13 + bq;
+            if (hash(k, 9) < 0.82) bottle(3.5, yy, z, 6 + hash(k, 6) * 6, 1 + hash(k, 7) * 0.6, INKS[Math.floor(hash(k, 8) * INKS.length)]);
+            yy += 3 + hash(k, 10) * 3.5;
+          }
+        });
       });
       for (var i = 0; i < f.length - 1; i++) {
         var a = f[i], b = f[i + 1], h = bar.heights[i], dp = bar.depth;
@@ -352,6 +382,127 @@
       pbox(W, W + 40, -rw, -8, 0, up, '--aqp-out', 0.008);
       pbox(-40, W + 40, -420, -190, 0, up, '--aqp-street', false);
       pbox(-40, W + 40, -196, -190, up, up + 6, '--aqp-kerb', 0.008);
+
+      // WHAT A PUB IS LIVED IN BY, none of it on a table and none of it in the
+      // way: everything here stands on the bar, on the back bar, against a
+      // wall, up between the beams or on a sill.
+      // The ceiling's boards, joists running between the beams.
+      for (var bi = 0; bi < PLAN.beams.length - 1; bi++) {
+        var ya = PLAN.beams[bi] + 4, yb = PLAN.beams[bi + 1] - 4;
+        for (var jx = 14 + (bi * 9) % 13; jx < W - 6; jx += 26 + (bi * 7 + jx) % 9) pbox(jx - 1.5, jx + 1.5, ya, yb, C - 3.5, C, '--aqp-beam2', false, false);
+      }
+      // Panelling below the painted line, on every wall with nothing built
+      // against it at that height: boards, their seams, and a rail along the top.
+      // fixed: the boards' depth off the wall; rail: the rail's, a little deeper.
+      function panel(axis, fixed, rail, a0, a1, z1) {
+        for (var u = a0; u < a1 - 0.5; u += 5.5) {
+          var u1 = Math.min(a1, u + 5.5);
+          if (axis === 'x') pbox(u + 0.15, u1 - 0.15, fixed[0], fixed[1], 0, z1, '--aqp-wood', false, false);
+          else pbox(fixed[0], fixed[1], u + 0.15, u1 - 0.15, 0, z1, '--aqp-wood', false, false);
+        }
+        if (axis === 'x') pbox(a0, a1, rail[0], rail[1], z1, z1 + 1.6, '--aqp-col2', 0.004);
+        else pbox(rail[0], rail[1], a0, a1, z1, z1 + 1.6, '--aqp-col2', 0.004);
+      }
+      panel('x', [D - 0.6, D], [D - 1.2, D], 0, W, 32);
+      panel('y', [W - 0.6, W], [W - 1.2, W], 0, D, 32);
+      panel('x', [0, 0.6], [0, 1.2], 0, dr.x0 - 3, 32);
+      panel('x', [0, 0.6], [0, 1.2], dr.x1 + 3, W, 32);
+      // The mat inside the door, for the street's wet feet.
+      pbox(604, 636, 3, 28, 0, 0.35, '--aqp-mat', false, false);
+      // An umbrella stand by the door, against the wall, with three umbrellas
+      // in it, no two alike, and a bowl of water down by the east wall for
+      // whoever brought a dog.
+      pcyl(588, 7, 4.5, 0, 18, '--aqp-iron2', 0.006, 14);
+      [[586.5, 6, 32, '--aqp-leather', 0.12], [590, 8.5, 29, '--aqp-stout', -0.1], [588.5, 5.2, 34, '--aqp-mat', 0.05]].forEach(function (u) {
+        cyl(I(0.8), I(1.8), I(u[2] - 12), at(X(u[0]), I(12 + (u[2] - 12) / 2), Z(u[1]), 0, u[4], u[4] * 0.6), u[3], 0.004, 8);
+        cyl(I(0.3), I(0.3), I(4), at(X(u[0]), I(u[2] + 1.5), Z(u[1])), '--aqp-iron', false, 6);
+      });
+      pcyl(711, 296, 4, 0, 2.6, '--aqp-glaze', 0.005, 16);
+      pcyl(711, 296, 3.3, 2.1, 2.65, '--aqp-water', false, 16);
+      // Coats on a rail of hooks on the east wall above the armchairs, each
+      // its own length and colour, and a scarf.
+      pbox(W - 1.2, W, 82, 118, 70, 71.5, '--aqp-col2', 0.004);
+      [[87, 30, '--aqp-leather2'], [97, 24, '--aqp-col2'], [110, 34, '--aqp-mat']].forEach(function (c) {
+        pbox(W - 3, W - 1.2, c[0] - 0.5, c[0] + 0.5, 69, 71, '--aqp-iron', false);
+        pbox(W - 5, W - 1.2, c[0] - 5, c[0] + 5, 70 - c[1], 68.5, c[2], 0.006);
+        pbox(W - 5.4, W - 4.9, c[0] - 3.5, c[0] + 3.5, 70 - c[1] * 0.75, 66, c[2], false);
+      });
+      pbox(W - 3.2, W - 1.4, 103, 105, 46, 68.5, '--aqp-sea', 0.004);
+      // A rack of folded papers on the east wall by the stove.
+      pbox(W - 2, W, 166, 196, 40, 58, '--aqp-col2', 0.006);
+      [[169, 55, 52], [176, 52, 50], [184, 57, 53], [191, 53, 51]].forEach(function (n) {
+        pbox(W - 3.2, W - 2, n[0] - 3, n[0] + 3, 41, n[1], '--aqp-plate', false);
+        pbox(W - 3.25, W - 3.2, n[0] - 2.4, n[0] + 2.4, n[2], n[2] + 0.8, '--aqp-line', false, false);
+      });
+      // Plants on a few of the sills, in pots, reaching for the street's light.
+      [1, 5, 9, 12].forEach(function (wi, k) {
+        var w = PLAN.windows[wi], mx = w.x + w.w * (0.3 + 0.4 * hash(k, 20));
+        pbox(w.x, w.x + w.w, 0, 4, R.window_sill - 1, R.window_sill, '--aqp-col', false);
+        pcyl(mx, 2.4, 2.2, R.window_sill, R.window_sill + 4, '--aqp-mush', 0.005, 10);
+        for (var lf = 0; lf < 5; lf++) {
+          var la = lf * 1.3 + k, lh = 4 + hash(k, lf) * 6;
+          kit.piece(new T.SphereGeometry(I(1.6 + hash(lf, k) * 1.2), 6, 4), at(X(mx + Math.cos(la) * 2), I(R.window_sill + 4 + lh), Z(2.4 + Math.sin(la) * 1.2)), lf % 2 ? '--aqp-mat' : '--aqp-glaze', 0.004);
+        }
+      });
+      // ON THE BAR: what has been poured and not yet carried away, standing
+      // on its mats along the counter, at no even spacing; a pot of tea, a
+      // jug of water, a towel over the low stretch, and something off the
+      // stove under its plate. Every pint is the same glass, whichever it is.
+      var POURS = ['--aqp-ale', '--aqp-stout', '--aqp-cider', '--aqp-lemon', '--aqp-ale', '--aqp-water'];
+      function along(i, u) {
+        var a = f[i], b = f[i + 1];
+        return [a[0] + (b[0] - a[0]) * u - bar.depth * 0.45, a[1] + (b[1] - a[1]) * u];
+      }
+      function pint(x, y, z, ink) {
+        pbox(x - 2.2, x + 2.2, y - 2.2, y + 2.2, z, z + 0.15, '--aqp-mat', false, false);
+        kit.piece(new T.CylinderGeometry(I(1.7), I(1.35), I(5.4), 12), at(X(x), I(z + 0.15 + 2.7), Z(y)), ink, 0.005);
+        if (ink !== '--aqp-water' && ink !== '--aqp-lemon') pcyl(x, y, 1.72, z + 5.0, z + 6.0, '--aqp-froth', false, 12);
+        else pcyl(x, y, 0.7, z + 3.6, z + 5.0, '--aqp-cube', false, 6);
+      }
+      [[0, 0.3], [0, 0.8], [1, 0.55], [2, 0.2], [2, 0.65], [4, 0.4], [5, 0.15], [5, 0.7]].forEach(function (pt, k) {
+        var q = along(pt[0], pt[1]);
+        pint(q[0] + (hash(k, 30) - 0.5) * 6, q[1], bar.heights[pt[0]], POURS[k % POURS.length]);
+      });
+      var tea = along(1, 0.15), hz = bar.heights[1];
+      kit.piece(new T.SphereGeometry(I(3), 12, 8), at(X(tea[0]), I(hz + 2.6), Z(tea[1])), '--aqp-glaze', 0.006);
+      cyl(I(0.45), I(0.7), I(3), at(X(tea[0] + 3), I(hz + 3.2), Z(tea[1]), 0, 0, -0.9), '--aqp-glaze', false, 6);
+      pcyl(tea[0] - 0.5, tea[1] + 5, 1.4, hz, hz + 2.2, '--aqp-plate', 0.004, 10);
+      var jug = along(4, 0.75), jz = bar.heights[4];
+      kit.piece(new T.CylinderGeometry(I(1.8), I(2.3), I(7), 12), at(X(jug[0]), I(jz + 3.5), Z(jug[1])), '--aqp-water', 0.006);
+      var low = along(3, 0.5), lz = bar.heights[3];
+      pbox(low[0] - 3, low[0] + 3, low[1] - 5, low[1] + 5, lz, lz + 0.5, '--aqp-froth', 0.004);
+      var dish = along(2, 0.88), dz = bar.heights[2];
+      pcyl(dish[0], dish[1], 4.2, dz, dz + 0.5, '--aqp-plate', 0.004, 18);
+      kit.piece(new T.SphereGeometry(I(3.6), 14, 6, 0, Math.PI * 2, 0, Math.PI / 2), at(X(dish[0]), I(dz + 0.5), Z(dish[1])), '--aqp-rim', 0.004);
+
+      // By the stove: a kettle on its top, kept warm and never boiling, and a
+      // basket of logs against the wall beside it.
+      var sv2 = PLAN.stove, kx2 = (sv2.x0 + sv2.x1) / 2 - 7, ky2 = sv2.y0 + 9;
+      kit.piece(new T.CylinderGeometry(I(3.2), I(4.2), I(5), 14), at(X(kx2), I(sv2.h + 1.2 + 2.5), Z(ky2)), '--aqp-iron2', 0.006);
+      pcyl(kx2, ky2, 0.9, sv2.h + 6.2, sv2.h + 7.2, '--aqp-iron2', false, 8);
+      cyl(I(0.5), I(0.9), I(4), at(X(kx2 - 4), I(sv2.h + 5), Z(ky2), 0, 0, 0.9), '--aqp-iron2', false, 6);
+      pbox(701, 716, 260, 276, 0, 11, '--aqp-col2', 0.006);
+      for (var lg = 0; lg < 6; lg++) {
+        cyl(I(1.9 + hash(lg, 40) * 0.8), I(1.9 + hash(lg, 41) * 0.8), I(14), at(X(703.5 + (lg % 3) * 4.4), I(12 + Math.floor(lg / 3) * 3.4), Z(268), 0, Math.PI / 2 + (hash(lg, 42) - 0.5) * 0.2, Math.PI / 2), lg % 2 ? '--aqp-plank' : '--aqp-grain', 0.004, 8);
+      }
+      // The boards worn paler where everybody walks: in at the door, along the
+      // bar, and round to the stove.
+      [[620, 40, 34, 70, 0.2], [540, 120, 70, 40, -0.4], [175, 240, 40, 300, 0.05], [600, 210, 60, 46, 0.6], [420, 300, 90, 40, 0.3]].forEach(function (wr) {
+        var gw = new T.CircleGeometry(1, 24); gw.scale(I(wr[2]) / 2, I(wr[3]) / 2, 1);
+        var worn = kit.flat(gw, at(X(wr[0]), 0.003, Z(wr[1]), wr[4], -Math.PI / 2), '--aqp-grain');
+        worn.material.transparent = true; worn.material.opacity = 0.55; worn.material.depthWrite = false;
+      });
+      // Outside, in the areaway under the windows, a trough of plants for the
+      // street to look down on, clear of the way to the steps.
+      pbox(688, 718, -17, -9, 0, 13, '--aqp-col2', 0.006);
+      for (var pl = 0; pl < 9; pl++) {
+        kit.piece(new T.SphereGeometry(I(2.6 + hash(pl, 50) * 1.6), 6, 4), at(X(690 + pl * 3.3), I(13 + 1.5 + hash(pl, 51) * 4), Z(-13 + (hash(pl, 52) - 0.5) * 3)), pl % 3 ? '--aqp-mat' : '--aqp-glaze', 0.004);
+      }
+      // The areaway's walls laid in courses, so they read as stone.
+      for (var cz = 8; cz < up; cz += 8) {
+        pbox(W - st.width - 0.3, W - st.width, -190, -rw - flight, cz - 0.4, cz, '--aqp-plank', false, false);
+        pbox(land - r1.run - rp.landing, land, -2 * rw + 0.3, -2 * rw, cz - 0.4, cz, '--aqp-plank', false, false);
+      }
 
       // THE PUB'S OWN PAGE, on the far wall, where ordering and your table
       // are; and what the page has that can stand in the room.

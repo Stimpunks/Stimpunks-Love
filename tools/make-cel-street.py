@@ -293,6 +293,31 @@ else:
             if new != src:
                 f.write_text(new)
 
+# Danny the Street's banners: our words in Danny's manner, out of
+# data/danny-says.json, onto the street between cel:danny markers in
+# cel-street.js and as a list between cel:danny markers in cel-street.html, so
+# anybody the picture does not reach reads the same words. Never a line of
+# DC's; Danny is they; nothing counted; short enough for a banner.
+danny = json.loads((ROOT / "data" / "danny-says.json").read_text()).get("says") or []
+if not danny:
+    refuse("data/danny-says.json says nothing, and Cel Street hangs Danny's banners from it.")
+for line in danny:
+    if len(line) > 36:
+        refuse(f"Danny's banner {line!r} is longer than 36 characters, too long to read across the road.")
+    if re.search(r"\b(he|him|his|himself)\b", line, re.I):
+        refuse(f"Danny's banner {line!r} calls Danny he. Danny is they here.")
+    if re.search(r"\d|\b(one|two|three|four|five|six|seven|eight|nine|ten|hundred|dozen)\b", line, re.I):
+        refuse(f"Danny's banner {line!r} counts something. Nothing on the street does.")
+write_list("cel-street.js", "danny", "DANNY_SAYS", danny, "  ")
+page_src = PAGE.read_text()
+if "<!-- cel:danny:begin -->" not in page_src:
+    refuse("cel-street.html has lost its cel:danny markers, where Danny's banners are written out in words.")
+else:
+    items = "\n".join("      <li>" + html.escape(l) + "</li>" for l in danny)
+    new = re.sub(r"(<!-- cel:danny:begin -->\n).*?(<!-- cel:danny:end -->)", lambda m: m.group(1) + items + "\n" + m.group(2), page_src, flags=re.S)
+    if new != page_src:
+        PAGE.write_text(new)
+
 # The World room hangs a garden for every part of the Map its directory has,
 # with that part's heading; written between cel:parts markers, never by hand.
 # Its gardens stand in pairs down both sides in three rows before the web, so a

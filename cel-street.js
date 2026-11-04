@@ -104,14 +104,48 @@ function start() {
   gradient.magFilter = THREE.NearestFilter;
   gradient.needsUpdate = true;
 
+  // PAINTED, NOT PRINTED. Every solid thing's colour is laid on as if with a
+  // brush: a soft mottle a few metres across and a finer streak running up
+  // and down, worked out from where the surface is in the world, so it never
+  // stretches with a piece's size and nothing has to be unwrapped for it. It
+  // moves a colour a few per cent lighter or darker and never to another
+  // colour, so a thing stays in the ink it was drawn in; a sheet that carries
+  // words or a picture (a material with a map) is never painted over.
+  var PAINT = 0.16;
+  function painted(mat) {
+    if (mat.map) return mat;
+    mat.onBeforeCompile = function (sh) {
+      sh.vertexShader = sh.vertexShader
+        .replace('#include <common>', '#include <common>\nvarying vec3 vPaintAt;')
+        .replace('#include <project_vertex>', '#include <project_vertex>\nvPaintAt = (modelMatrix * vec4(transformed, 1.0)).xyz;');
+      sh.fragmentShader = sh.fragmentShader
+        .replace('#include <common>', [
+          '#include <common>',
+          'varying vec3 vPaintAt;',
+          'float paintHash(vec3 p) { p = fract(p * 0.3183099 + 0.1); p *= 17.0; return fract(p.x * p.y * p.z * (p.x + p.y + p.z)); }',
+          'float paintNoise(vec3 x) {',
+          '  vec3 i = floor(x), f = fract(x); f = f * f * (3.0 - 2.0 * f);',
+          '  return mix(mix(mix(paintHash(i), paintHash(i + vec3(1.0, 0.0, 0.0)), f.x), mix(paintHash(i + vec3(0.0, 1.0, 0.0)), paintHash(i + vec3(1.0, 1.0, 0.0)), f.x), f.y),',
+          '             mix(mix(paintHash(i + vec3(0.0, 0.0, 1.0)), paintHash(i + vec3(1.0, 0.0, 1.0)), f.x), mix(paintHash(i + vec3(0.0, 1.0, 1.0)), paintHash(i + vec3(1.0, 1.0, 1.0)), f.x), f.y), f.z);',
+          '}'
+        ].join('\n'))
+        .replace('vec4 diffuseColor = vec4( diffuse, opacity );', [
+          'vec4 diffuseColor = vec4( diffuse, opacity );',
+          'float paintN = paintNoise(vPaintAt * 0.32) * 0.55 + paintNoise(vec3(vPaintAt.x * 2.6, vPaintAt.y * 0.55, vPaintAt.z * 2.6)) * 0.45;',
+          'diffuseColor.rgb *= 1.0 + (paintN - 0.5) * ' + PAINT.toFixed(3) + ';'
+        ].join('\n'));
+    };
+    mat.customProgramCacheKey = function () { return 'painted'; };
+    return mat;
+  }
   var mats = {};
   function toon(name) {
-    if (!mats[name]) mats[name] = new THREE.MeshToonMaterial({ color: col(name), gradientMap: gradient });
+    if (!mats[name]) mats[name] = painted(new THREE.MeshToonMaterial({ color: col(name), gradientMap: gradient }));
     return mats[name];
   }
   function toonColor(c) {
     var key = 'c' + c.getHexString();
-    if (!mats[key]) mats[key] = new THREE.MeshToonMaterial({ color: c, gradientMap: gradient });
+    if (!mats[key]) mats[key] = painted(new THREE.MeshToonMaterial({ color: c, gradientMap: gradient }));
     return mats[key];
   }
   var inkMat = new THREE.MeshBasicMaterial({ color: col('--cel-ink'), side: THREE.BackSide });
@@ -397,6 +431,7 @@ function start() {
       for (var k = 0; k < cols; k++) {
         var x = -W / 2 + (k + 0.5) * (W / cols);
         plane(1.15, 1.45, at(x, y, front + 0.02, 0, 0, 0, g), winMat, 'win');
+        lived(d.name + f + ':' + k, x, y, front, g, balc, W / cols);
         if (balc) {
           box(W / cols - 0.25, 0.14, 0.9, at(x, y - 1.05, front + 0.45, 0, 0, 0, g), '--cel-kerb');
           box(W / cols - 0.25, 0.85, 0.07, at(x, y - 0.55, front + 0.88, 0, 0, 0, g), '--cel-kerb', 0.03);
@@ -404,6 +439,11 @@ function start() {
         }
       }
     }
+    // ON THE PAVEMENT IN FRONT OF SOME SHOPS, a table and two chairs, or a
+    // planter by the door: somebody lives and works here.
+    var out = hash(d.name + 'out');
+    if (out < 0.28) cafe(at(W / 2 - 1.6, 0.25, front + 1.3, 0, 0, 0, g), d.name);
+    else if (out < 0.6) planter(at(-W / 2 + 0.45, 0.25, front + 0.45, 0, 0, 0, g), d.name, 0.7);
     // THE ROOF: rows of solar panels on racks, tipped toward the sun, and on
     // some a water tank among them.
     solar(g, W, D, H, r3 > 0.7);
@@ -413,6 +453,61 @@ function start() {
     // An invisible box to press on, the size of the building.
     hitbox(i, W, H + 1, D, at(0, H / 2, 0, 0, 0, 0, g));
     return H;
+  }
+
+  // THE LIFE IN THE WINDOWS: a sill under every one, and in some a curtain
+  // drawn to one side, a box of flowers on the sill, or a pot plant on the
+  // balcony, chosen by the window's own hash so the street is the same street
+  // every time. Every colour is Cel Street's own.
+  var FLOWERS = ['--cel-sign-red', '--cel-sign-yellow', '--cel-wall-2', '--cel-cloud'];
+  var CURTAINS = ['--cel-wall-2', '--cel-sign-yellow', '--cel-wall-4', '--cel-cloud', '--cel-sign-red'];
+  var BLOOM = new THREE.IcosahedronGeometry(0.07, 0), BUSH = new THREE.IcosahedronGeometry(1, 1);
+  function flowers(m, wide, deep, key, n) {
+    for (var q = 0; q < n; q++) {
+      var fx = (hash(key + 'fx' + q) - 0.5) * wide, fz = (hash(key + 'fz' + q) - 0.5) * deep;
+      piece(BLOOM.clone(), new THREE.Matrix4().multiplyMatrices(m, at(fx, 0.02 + hash(key + 'fy' + q) * 0.08, fz)),
+        toon(FLOWERS[Math.floor(hash(key + 'fc' + q) * FLOWERS.length)]), FLOWERS[Math.floor(hash(key + 'fc' + q) * FLOWERS.length)], false);
+    }
+  }
+  function lived(key, x, y, front, g, balc, cw) {
+    box(1.35, 0.08, 0.16, at(x, y - 0.78, front + 0.08, 0, 0, 0, g), '--cel-kerb', 0.02);
+    var r = hash(key);
+    if (r < 0.35) {
+      var c = CURTAINS[Math.floor(hash(key + 'c') * CURTAINS.length)];
+      box(0.34, 1.3, 0.02, at(x + (r < 0.17 ? -0.38 : 0.38), y, front + 0.035, 0, 0, 0, g), c, false, false);
+    }
+    if (!balc && hash(key + 'b') < 0.32) {
+      var bm = at(x, y - 0.66, front + 0.2, 0, 0, 0, g);
+      box(1.2, 0.22, 0.26, bm, '--cel-trunk', 0.02);
+      var bush = BUSH.clone(); bush.scale(0.58, 0.16, 0.13);
+      piece(bush, new THREE.Matrix4().multiplyMatrices(bm, at(0, 0.16, 0)), toon('--cel-leaf'), '--cel-leaf', 0.02);
+      flowers(new THREE.Matrix4().multiplyMatrices(bm, at(0, 0.2, 0)), 1.0, 0.18, key, 6);
+    }
+    if (balc && hash(key + 'p') < 0.4) {
+      var pm = at(x + (hash(key + 'px') - 0.5) * (cw - 1.0), y - 0.98, front + 0.62, 0, 0, 0, g);
+      cyl(0.16, 0.12, 0.3, new THREE.Matrix4().multiplyMatrices(pm, at(0, 0.15, 0)), '--cel-wall-3', 0.02, 10);
+      var leaf = BUSH.clone(); leaf.scale(0.26, 0.34, 0.26);
+      piece(leaf, new THREE.Matrix4().multiplyMatrices(pm, at(0, 0.5, 0)), toon('--cel-leaf'), '--cel-leaf', 0.03);
+    }
+  }
+  // A table and two chairs outside a shop, and a planter of flowers.
+  function cafe(m, key) {
+    function on(x, y, z, ry) { return new THREE.Matrix4().multiplyMatrices(m, at(x, y, z, ry || 0)); }
+    cyl(0.4, 0.4, 0.05, on(0, 0.74, 0), '--cel-cloud', 0.02, 16);
+    cyl(0.04, 0.05, 0.72, on(0, 0.37, 0), '--cel-ink', false, 6);
+    cyl(0.22, 0.22, 0.03, on(0, 0.02, 0), '--cel-ink', false, 12);
+    [-0.7, 0.7].forEach(function (o, k) {
+      box(0.42, 0.05, 0.42, on(o, 0.46, 0.05), k ? '--cel-sign-yellow' : '--cel-sign-blue', 0.02);
+      box(0.42, 0.45, 0.05, on(o + (k ? 0.2 : -0.2), 0.7, 0.05, Math.PI / 2), k ? '--cel-sign-yellow' : '--cel-sign-blue', 0.02);
+      [[-0.17, -0.17], [0.17, -0.17], [-0.17, 0.17], [0.17, 0.17]].forEach(function (l) { box(0.04, 0.44, 0.04, on(o + l[0], 0.22, 0.05 + l[1]), '--cel-ink', false); });
+    });
+    cyl(0.07, 0.07, 0.14, on(0, 0.84, 0), '--cel-leaf', 0.01, 8);
+  }
+  function planter(m, key, size) {
+    box(size, 0.5, size * 0.7, new THREE.Matrix4().multiplyMatrices(m, at(0, 0.25, 0)), '--cel-wall-3', 0.03);
+    var bush = BUSH.clone(); bush.scale(size * 0.48, 0.32, size * 0.34);
+    piece(bush, new THREE.Matrix4().multiplyMatrices(m, at(0, 0.62, 0)), toon('--cel-leaf'), '--cel-leaf', 0.03);
+    flowers(new THREE.Matrix4().multiplyMatrices(m, at(0, 0.78, 0)), size * 0.8, size * 0.5, key + 'pl', 9);
   }
 
   // Rows of solar panels on racks across a roof, tipped toward the sun; tank
@@ -534,6 +629,7 @@ function start() {
   function furnish(d, i) {
     var shop = new THREE.Color(d.ground), mat = toonColor(shop), key = 'c' + shop.getHexString();
     var z = FURNITURE[d.kind].z, face = Math.PI / 2;
+    taken.push({ x: d.kind === 'column' ? KERB_L - 0.75 : WALL_L + 0.6, z: z, r: 1.4 });
     function own(w, h, dd) { var b = BOX.clone(); b.scale(w, h, dd); return b; }
     if (d.kind === 'board') {
       var g = at(WALL_L + 0.7, 0, z, face);
@@ -635,6 +731,7 @@ function start() {
     for (var z = 4, n = 0; z > -zEnd - 10; z -= 15, n++) {
       [-1, 1].forEach(function (s) {
         var x = s * (ROAD + 0.7), zz = z + (s > 0 ? -5 : 0);
+        for (var nudge = 0; nudge < 12 && !clearOfDoor(s, zz, 2.4); nudge++) zz -= 0.6;
         cyl(0.13, 0.19, 10, at(x, 5, zz), '--cel-pole', 0.03, 8);
         box(2.0, 0.14, 0.14, at(x, 9.3, zz), '--cel-pole', 0.03);
         box(1.4, 0.12, 0.12, at(x, 8.4, zz), '--cel-pole', 0.03);
@@ -646,6 +743,14 @@ function start() {
         // Rungs up the pole.
         for (var y = 2.6; y < 8; y += 0.6) box(0.36, 0.04, 0.04, at(x, y, zz, (y * 7) % 2 ? Math.PI / 2 : 0), '--cel-frame', false);
         tops[s].push({ x: x, z: zz });
+        taken.push({ x: x, z: zz, r: 0.6 });
+        // A basket of flowers hung on the pole, on the road side.
+        var hb = at(x - s * 0.42, 3.3, zz);
+        box(0.36, 0.05, 0.05, at(x - s * 0.21, 3.75, zz), '--cel-frame', false);
+        cyl(0.26, 0.18, 0.24, hb, '--cel-trunk', 0.02, 10);
+        var hang = BUSH.clone(); hang.scale(0.3, 0.2, 0.3);
+        piece(hang, new THREE.Matrix4().multiplyMatrices(hb, at(0, 0.16, 0)), toon('--cel-leaf'), '--cel-leaf', 0.02);
+        flowers(new THREE.Matrix4().multiplyMatrices(hb, at(0, 0.24, 0)), 0.5, 0.5, 'hb' + zz + s, 7);
       });
     }
     [-1, 1].forEach(function (s) {
@@ -663,6 +768,7 @@ function start() {
         if (i % 2) wire(new THREE.Vector3(a.x, 6.9, a.z), new THREE.Vector3(s * FRONT, 4.7, a.z + 2.5), 0.25, 0.03);
       }
     });
+    dannySays(tops);
     // Across the road, every other pole.
     for (var i = 0; i < tops['-1'].length && i < tops['1'].length; i += 2) {
       var a = tops['-1'][i], b = tops['1'][i];
@@ -672,6 +778,7 @@ function start() {
   }
 
   function tree(x, z, r) {
+    taken.push({ x: x, z: z, r: 1.7 });
     cyl(0.16, 0.24, 3.2, at(x, 1.85, z), '--cel-trunk', 0.03, 8);
     var leaf = new THREE.IcosahedronGeometry(1, 1);
     [[0, 3.9, 0, 1.5], [0.8, 3.4, 0.4, 1.1], [-0.7, 3.5, -0.3, 1.15], [0.1, 4.7, -0.2, 1.05]].forEach(function (b, k) {
@@ -681,6 +788,7 @@ function start() {
   }
 
   function signpost(x, z, faceTex, red) {
+    taken.push({ x: x, z: z, r: 0.7 });
     cyl(0.04, 0.04, 2.8, at(x, 1.5, z), '--cel-frame', 0.02, 6);
     put(new THREE.Mesh(new THREE.CircleGeometry(0.42, 28), new THREE.MeshToonMaterial({ map: faceTex, gradientMap: gradient })), at(x, 2.65, z + 0.03));
     cyl(0.45, 0.45, 0.04, at(x, 2.65, z - 0.01, 0, Math.PI / 2), red ? '--cel-sign-red' : '--cel-sign-blue', 0.02, 28);
@@ -699,6 +807,7 @@ function start() {
   });
 
   function vending(x, z, side) {
+    taken.push({ x: x, z: z, r: 1.0 });
     var m = at(x, 0.25, z, side < 0 ? Math.PI / 2 : -Math.PI / 2);
     box(1.0, 1.85, 0.8, new THREE.Matrix4().multiplyMatrices(m, at(0, 0.925, 0)), side < 0 ? '--cel-sign-red' : '--cel-sign-blue');
     var front = tex(128, 220, function (g, w, h) {
@@ -713,6 +822,7 @@ function start() {
   }
 
   function bicycle(x, z) {
+    taken.push({ x: x, z: z, r: 1.0 });
     var m = at(x, 0.25, z, Math.PI, 0, 0.18);
     var wheel = new THREE.TorusGeometry(0.33, 0.035, 6, 20);
     [-0.52, 0.52].forEach(function (o) {
@@ -739,9 +849,118 @@ function start() {
   }
 
   function mirror(x, z, s) {
+    taken.push({ x: x, z: z, r: 0.6 });
     cyl(0.05, 0.05, 3.2, at(x, 1.85, z), '--cel-wall-2', 0.02, 6);
     put(new THREE.Mesh(new THREE.CircleGeometry(0.4, 28), new THREE.MeshToonMaterial({ map: windowTex, gradientMap: gradient })), at(x, 3.45, z, s < 0 ? 0.6 : -0.6));
     cyl(0.45, 0.45, 0.06, at(x, 3.45, z, s < 0 ? 0.6 : -0.6, Math.PI / 2), '--cel-wall-2', 0.02, 28);
+  }
+
+  // THE STREET AS SOMEWHERE PEOPLE LIVE: benches facing the shops with a bin
+  // beside them, lamp posts down the kerbs, planters of flowers, bollards at
+  // the crossings and a post box near the stoop, each put only where nothing
+  // else already stands. None of it lights up or moves: the sun is out.
+  var taken = [];
+  // Where the shops' middles are, side by side, so nothing tall is put in
+  // front of one: the poles, the street trees, the parked cars, the lamps.
+  var doorsNow = [];
+  function clearOfDoor(sd, z, half) { return doorsNow.every(function (p) { return p.side !== sd || Math.abs(p.z - z) > (half || 2.6); }); }
+  function free(x, z, r) { return taken.every(function (t) { return Math.hypot(t.x - x, t.z - z) > t.r + r; }); }
+  function bench(x, z, s) {
+    var m = at(x, 0.25, z, s < 0 ? Math.PI / 2 : -Math.PI / 2);
+    function on(a, y, b) { return new THREE.Matrix4().multiplyMatrices(m, at(a, y, b)); }
+    [-0.14, 0, 0.14].forEach(function (o) { box(1.7, 0.05, 0.12, on(0, 0.45, o), '--cel-trunk', 0.015); });
+    [0.62, 0.8].forEach(function (y) { box(1.7, 0.12, 0.05, on(0, y, -0.2), '--cel-trunk', 0.015); });
+    [-0.75, 0.75].forEach(function (a) { box(0.06, 0.45, 0.42, on(a, 0.22, 0), '--cel-ink', false); box(0.06, 0.5, 0.05, on(a, 0.68, -0.22), '--cel-ink', false); });
+    taken.push({ x: x, z: z, r: 1.0 });
+  }
+  function bin(x, z) {
+    cyl(0.26, 0.22, 0.8, at(x, 0.65, z), '--cel-leaf', 0.02, 12);
+    cyl(0.28, 0.28, 0.08, at(x, 1.07, z), '--cel-ink', false, 12);
+    taken.push({ x: x, z: z, r: 0.4 });
+  }
+  function lamp(x, z, s) {
+    cyl(0.07, 0.1, 4.6, at(x, 2.55, z), '--cel-panel', 0.02, 8);
+    box(0.9, 0.06, 0.06, at(x - s * 0.42, 4.8, z), '--cel-panel', 0.015);
+    box(0.5, 0.16, 0.3, at(x - s * 0.82, 4.72, z), '--cel-panel', 0.02);
+    box(0.4, 0.03, 0.22, at(x - s * 0.82, 4.63, z), '--cel-glint', false, false);
+    taken.push({ x: x, z: z, r: 0.5 });
+  }
+  function bollard(x, z) {
+    cyl(0.1, 0.1, 0.9, at(x, 0.7, z), '--cel-ink', false, 10);
+    cyl(0.105, 0.105, 0.1, at(x, 0.95, z), '--cel-paint', false, 10);
+    taken.push({ x: x, z: z, r: 0.3 });
+  }
+  function postbox(x, z) {
+    cyl(0.32, 0.32, 1.35, at(x, 0.93, z), '--cel-sign-red', 0.03, 16);
+    cyl(0.36, 0.36, 0.12, at(x, 1.64, z), '--cel-sign-red', 0.02, 16);
+    box(0.36, 0.05, 0.04, at(x - 0.31, 1.3, z, Math.PI / 2), '--cel-ink', false);
+    taken.push({ x: x, z: z, r: 0.5 });
+  }
+  function livable(zEnd, crossings, lotsFrom, placed) {
+    var last = Math.max(-zEnd + 3, lotsFrom);
+    // Nothing tall stands in front of the middle of a shop, where you stand
+    // to read its sign.
+    function clearOf(sd, z) { return clearOfDoor(sd, z, 2.6); }
+    crossings.forEach(function (c) {
+      [-1, 1].forEach(function (s) { [-2.1, -1.2, 1.2, 2.1].forEach(function (o) { if (free(s * (ROAD + 0.3), c + o, 0.3)) bollard(s * (ROAD + 0.3), c + o); }); });
+    });
+    if (free(ROAD + 0.75, -4.4, 0.5)) postbox(ROAD + 0.75, -4.4);
+    for (var z = -7, k = 0; z > last; z -= 13, k++) {
+      var s = k % 2 ? 1 : -1, x = s * (ROAD + 0.35);
+      if (free(x, z, 0.5) && clearOf(s, z)) lamp(x, z, s);
+    }
+    for (z = -15, k = 0; z > last; z -= 29, k++) {
+      s = k % 2 ? -1 : 1;
+      var bx = s * (ROAD + 0.85);
+      if (free(bx, z, 1.0) && free(bx, z - 1.4, 0.4) && clearOf(s, z) && clearOf(s, z - 1.4)) { bench(bx, z, s); bin(bx, z - 1.4); }
+    }
+    for (z = -3, k = 0; z > last; z -= 17, k++) {
+      s = k % 2 ? 1 : -1;
+      var px = s * (ROAD + 0.5);
+      if (free(px, z, 0.6)) { planter(at(px, 0.25, z, Math.PI / 2), 'kerb' + z, 1.0); taken.push({ x: px, z: z, r: 0.6 }); }
+    }
+  }
+
+  // DANNY THE STREET SAYS SO. In the comics and on television the street
+  // talks by changing its own signs; these are banners strung across the
+  // road between the poles, every few, with words of ours in Danny's manner,
+  // never a line of DC's. They are written by tools/make-cel-street.py out of
+  // data/danny-says.json between the cel:danny markers, never by hand, and
+  // the same words are a list on the page for anybody the picture does not
+  // reach. Danny is they.
+  // cel:danny:begin
+  var DANNY_SAYS = ["DANNY IS GLAD YOU CAME", "STAY AS LONG AS YOU LIKE", "NOBODY HERE NEEDS EXPLAINING", "COME AS YOU ARE. DANNY DID", "LOUD OR QUIET, DANNY LIKES YOU", "THERE IS ALWAYS A BENCH", "DANNY THINKS YOUR STIMS ARE LOVELY", "QUEER WITHOUT FEAR, SAYS DANNY", "DANNY KEEPS NO RECORD OF YOU", "LOST? DANNY WILL FIND YOU A DOOR", "REST HERE. DANNY IS IN NO HURRY", "ALL OF YOU IS WELCOME ON DANNY"];
+  // cel:danny:end
+  var DANNY_GROUNDS = [['--cel-sign-yellow', '--cel-print'], ['--cel-cloud', '--cel-sign-red'], ['--cel-sign-blue', '--cel-cloud'], ['--cel-paint', '--cel-print']];
+  function dannySays(tops) {
+    if (!DANNY_SAYS.length) return;
+    var n = 0;
+    for (var i = 1; i < tops['-1'].length && i < tops['1'].length; i += 2) {
+      var a = tops['-1'][i], b = tops['1'][i];
+      var said = DANNY_SAYS[n % DANNY_SAYS.length], pair = DANNY_GROUNDS[n % DANNY_GROUNDS.length];
+      n++;
+      var dx = b.x - a.x, dz = b.z - a.z, len = Math.hypot(dx, dz), w = len * 0.72, h = 1.0;
+      var mx = (a.x + b.x) / 2, mz = (a.z + b.z) / 2, turn = -Math.atan2(dz, dx);
+      var face = tex(1024, Math.round(1024 * h / w), function (c, cw, ch) {
+        c.fillStyle = css(pair[0]); c.fillRect(0, 0, cw, ch);
+        c.strokeStyle = css(pair[1]); c.lineWidth = 8; c.strokeRect(10, 10, cw - 20, ch - 20);
+        c.fillStyle = css(pair[1]); c.textAlign = 'center'; c.textBaseline = 'middle';
+        var size = Math.round(ch * 0.42);
+        do { c.font = size + 'px "Rammetto One"'; size -= 2; } while (c.measureText(said).width > cw - 70 && size > 18);
+        c.fillText(said, cw / 2, ch / 2 + 2);
+      });
+      [0, Math.PI].forEach(function (back) {
+        var m = at(mx, 6.1, mz, turn + back);
+        put(new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: face, fog: true })), new THREE.Matrix4().multiplyMatrices(m, at(0, 0, 0.012)));
+      });
+      box(w + 0.06, h + 0.06, 0.02, at(mx, 6.1, mz, turn), '--cel-ink', false);
+      // The cords from its corners to the poles.
+      [[a, -1], [b, 1]].forEach(function (end) {
+        var cx = mx + Math.cos(-turn) * end[1] * w / 2, cz = mz + Math.sin(-turn) * end[1] * w / 2;
+        wire(new THREE.Vector3(cx, 6.55, cz), new THREE.Vector3(end[0].x, 6.9, end[0].z), 0.05, 0.02);
+        wire(new THREE.Vector3(cx, 5.65, cz), new THREE.Vector3(end[0].x, 5.6, end[0].z), 0.05, 0.02);
+      });
+    }
   }
 
   // Far blocks past the end of the street, and hills in the haze behind.
@@ -893,7 +1112,7 @@ function start() {
       tint: function (name, to) { toon(name).color.copy(col(to)); },
       piece: function (geo, m, ink, ink2, shadow) { piece(geo, m, toon(ink), ink, ink2, shadow); },
       facets: function (geo, m, ink) {
-        var mat = new THREE.MeshToonMaterial({ color: col(ink), gradientMap: gradient, flatShading: true });
+        var mat = painted(new THREE.MeshToonMaterial({ color: col(ink), gradientMap: gradient }));
         var mesh = put(new THREE.Mesh(geo, mat), m);
         mesh.castShadow = true;
         return mesh;
@@ -1247,6 +1466,7 @@ function start() {
     var lift = things.filter(function (t) { return t.kind === 'lift'; })[0];
     var furniture = things.filter(function (t) { return FURNITURE[t.kind]; });
     var along = { '-1': -2, '1': -2 }, placed = [], open = [];
+    doorsNow = placed;
     function stand(d, side, W, make) {
       var zc = along[side] - W / 2;
       along[side] -= W + 1.2;
@@ -1277,7 +1497,11 @@ function start() {
     for (z = -6, k = 0; z > -zEnd; z -= 19) {
       k++;
       if (z < -zEnd + lots.length * 17.2 + 4) continue;
-      tree(((k % 2) ? 1 : -1) * (ROAD + 1.6), z, 1);
+      // A street tree never stands in front of the middle of a shop, where
+      // you stand to read its sign; it moves along to the gap.
+      var ts = (k % 2) ? 1 : -1, tz = z;
+      while (!clearOfDoor(ts, tz, 3.4) && tz > z - 9) tz -= 0.8;
+      if (clearOfDoor(ts, tz, 3.4)) tree(ts * (ROAD + 1.6), tz, 1);
     }
     var k;
     crossings.forEach(function (c, n) {
@@ -1290,11 +1514,12 @@ function start() {
     // wall, a bicycle against a pole, a car at the kerb.
     for (z = -20, k = 0; z > -zEnd + 20; z -= 77, k++) vending((k % 2 ? 1 : -1) * (FRONT - 0.6), z, k % 2 ? 1 : -1);
     for (z = -9.4, k = 0; z > -zEnd + 20; z -= 60, k++) bicycle((k % 2 ? 1 : -1) * (ROAD + 1.0), z);
-    for (z = -32, k = 0; z > -zEnd + 20; z -= 71, k++) car((k % 2 ? -1 : 1) * (ROAD - 0.95), z);
+    for (z = -32, k = 0; z > -zEnd + 20; z -= 71, k++) { var cs = k % 2 ? -1 : 1; if (clearOfDoor(cs, z, 4.2)) car(cs * (ROAD - 0.95), z); }
     if (field) treeline(field, 'field');
-    if (lift) liftHead(lift, 'lift');
+    if (lift) { liftHead(lift, 'lift'); taken.push({ x: ROAD + 2.0, z: LIFT_Z, r: 2.6 }); }
     furniture.forEach(function (d, n) { furnish(d, 'f' + n); });
     if (road) roadOut(road, 'road', zEnd);
+    livable(zEnd, crossings, lots.length ? -zEnd + lots.length * 17.2 + 4 : -zEnd, placed);
     beyond(zEnd, open, !!road);
     sky();
     bake();
@@ -1581,6 +1806,7 @@ function start() {
       });
       var worn = wear(items);
       var faces = worn.map(function (d) { return document.fonts ? document.fonts.load(d.weight + ' 64px ' + d.face, d.name).catch(function () {}) : null; });
+      if (document.fonts) faces.push(document.fonts.load('64px "Rammetto One"').catch(function () {}));
       return Promise.all(faces).then(function () { build(worn); });
     })
     .catch(function (e) { fail(); if (window.console) console.error('Cel Street could not be built:', e); });

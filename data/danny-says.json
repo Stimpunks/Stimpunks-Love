@@ -1,0 +1,17 @@
+{
+  "_what": "What Danny the Street says on the banners strung across Cel Street, in the order they hang from the stoop's end down. In the comics and on television the street talks by changing its own signs. These are our words in Danny's manner, never a line of DC's: no line here may be quoted or adapted from Doom Patrol in print or on screen. Danny is they. tools/make-cel-street.py writes them into cel-street.js between the cel:danny markers and onto cel-street.html between the cel:danny markers, and refuses a line too long for a banner, a count, and Danny as he, him or his.",
+  "says": [
+    "DANNY IS GLAD YOU CAME",
+    "STAY AS LONG AS YOU LIKE",
+    "NOBODY HERE NEEDS EXPLAINING",
+    "COME AS YOU ARE. DANNY DID",
+    "LOUD OR QUIET, DANNY LIKES YOU",
+    "THERE IS ALWAYS A BENCH",
+    "DANNY THINKS YOUR STIMS ARE LOVELY",
+    "QUEER WITHOUT FEAR, SAYS DANNY",
+    "DANNY KEEPS NO RECORD OF YOU",
+    "LOST? DANNY WILL FIND YOU A DOOR",
+    "REST HERE. DANNY IS IN NO HURRY",
+    "ALL OF YOU IS WELCOME ON DANNY"
+  ]
+}
