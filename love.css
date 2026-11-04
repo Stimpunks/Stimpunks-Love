@@ -29225,6 +29225,22 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   touch-action: none; user-select: none;
 }
 .cel-more { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.cel-see { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.cel-zoom {
+  min-height: 44px; padding: 6px 12px; cursor: pointer;
+  background: var(--cel-cloud); color: var(--cel-print);
+  border: 3px solid var(--cel-ink); border-radius: 12px; box-shadow: 0 4px 0 var(--cel-ink);
+  font-family: 'Golos Text', var(--sans); font-weight: 700; font-size: 14px;
+}
+.cel-zoom:focus-visible { outline: 3px solid var(--cel-link); outline-offset: 4px; }
+.cel-zoomed { margin: 0; font-size: 15px; color: var(--cel-print); }
+/* FULL SCREEN: the street, its words, its buttons and its places, filling the
+   screen on Cel Street's own page colour, the street taking what is left
+   after the buttons and the rest scrolling under it. */
+.cel-world:fullscreen { overflow-y: auto; padding: 14px 18px 24px; background: var(--cel-page); color: var(--cel-print); }
+.cel-world:fullscreen .cel-stage { margin: 0; height: calc(100vh - 230px); min-height: 320px; }
+.cel-world:-webkit-full-screen { overflow-y: auto; padding: 14px 18px 24px; background: var(--cel-page); color: var(--cel-print); }
+.cel-world:-webkit-full-screen .cel-stage { margin: 0; height: calc(100vh - 230px); min-height: 320px; }
 .cel-go:focus-visible, .cel-mode:focus-visible { outline: 3px solid var(--cel-link); outline-offset: 4px; }
 
 .cel-notes { margin: 34px 0 0; max-width: 46em; }

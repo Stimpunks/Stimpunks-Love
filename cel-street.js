@@ -23,6 +23,9 @@
    NOTHING MOVES BY ITSELF. The scene is drawn when something changes and then
    not again: no clouds drift, no wires sway. Movement is requestAnimationFrame,
    and only while a key or button is held or a glide is on its way to a door.
+   A game controller is the one thing read every frame, and only while one is
+   connected, because a browser has no event for a stick moving; reading it
+   draws nothing unless it asks for something.
    Gentle starts in steps, which jump with nothing in between.
 
    IT KEEPS NOTHING AND SENDS NOTHING. It reads index.html once, and the doors
@@ -60,6 +63,9 @@ function start() {
   var climbBtn = document.querySelector('[data-cel-go="climb"]');
   var outBtn = document.querySelector('[data-cel-out]');
   var placesEl = document.querySelector('[data-cel-places]');
+  var zoomedEl = document.querySelector('[data-cel-zoomed]');
+  var fullEl = document.querySelector('[data-cel-full]');
+  var fullBtn = document.querySelector('[data-cel-fullscreen]');
 
   function fail(words) {
     if (failed) { failed.hidden = false; if (words) failed.firstChild.textContent = words + ' '; }
@@ -1345,26 +1351,40 @@ function start() {
   }
   if (window.ResizeObserver) new ResizeObserver(resize).observe(stage);
 
+  // Enter, or A on a controller: into the page you are standing at, or into
+  // the room or the page through the door you are standing at.
+  function goIn() {
+    var s = nearest();
+    if (s && s.frame) {
+      var into = s.frame.tagName === 'IFRAME' ? s.frame : s.frame.querySelector('button, a[href], summary, [tabindex]');
+      if (into) into.focus({ preventScroll: true });
+    }
+    else if (s && ROOMS[s.page] && !(inside && s.page === inside.page)) enter(s.page);
+    else if (s && s.page) window.location.href = s.page;
+  }
+  // Shift and an arrow turns and looks instead of walking, as Q, E, R and F do.
+  var SHIFTED = { ArrowUp: 'lookup', ArrowDown: 'lookdown', ArrowLeft: 'turnl', ArrowRight: 'turnr' };
+  function keyFor(e) { return e.shiftKey && SHIFTED[e.key] ? SHIFTED[e.key] : KEYS[e.key]; }
   stage.addEventListener('keydown', function (e) {
     if (e.target !== stage) return;
     if (e.key === 'Escape' && inside) { e.preventDefault(); outOfRoom(); return; }
-    if (e.key === 'Enter') {
-      var s = nearest();
-      if (s && s.frame) {
-        var into = s.frame.tagName === 'IFRAME' ? s.frame : s.frame.querySelector('button, a[href], summary, [tabindex]');
-        if (into) into.focus({ preventScroll: true });
-      }
-      else if (s && ROOMS[s.page] && !(inside && s.page === inside.page)) enter(s.page);
-      else if (s && s.page) window.location.href = s.page;
-      return;
+    if (e.key === 'Enter') { goIn(); return; }
+    if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+      var z = e.key === '+' || e.key === '=' ? 'in' : e.key === '-' || e.key === '_' ? 'out' : e.key === '0' ? 'reset' : null;
+      if (z) { e.preventDefault(); zoom(z); return; }
     }
-    var what = KEYS[e.key];
+    var what = keyFor(e);
     if (!what) return;
     e.preventDefault();
     if (!gliding || what === 'ahead' || what === 'climb') { stepOnce(what); return; }
     if (!held[what]) { held[what] = true; glide = null; soon(); }
   });
-  stage.addEventListener('keyup', function (e) { var w = KEYS[e.key]; if (w) held[w] = false; });
+  stage.addEventListener('keyup', function (e) {
+    var w = KEYS[e.key];
+    if (w) held[w] = false;
+    if (SHIFTED[e.key]) held[SHIFTED[e.key]] = false;
+    if (e.key === 'Shift') Object.keys(SHIFTED).forEach(function (k) { held[SHIFTED[k]] = false; });
+  });
   stage.addEventListener('blur', function () { held = {}; });
 
   if (controls) {
@@ -1384,6 +1404,121 @@ function start() {
     });
   }
   if (modeBtn) modeBtn.addEventListener('click', function () { setMode(!gliding); held = {}; glide = null; });
+
+  // ZOOM, so the words in a room can be read from where you stand: the
+  // camera's own zoom, a quarter again at each press, up to four times. The
+  // pages stood in a room are drawn through the same camera, so they grow
+  // with the picture. It lasts this visit and nothing remembers it.
+  var ZOOMS = [1, 1.25, 1.6, 2, 2.5, 3.2, 4], zoomAt = 0;
+  function zoom(how) {
+    zoomAt = how === 'in' ? Math.min(ZOOMS.length - 1, zoomAt + 1) : how === 'out' ? Math.max(0, zoomAt - 1) : 0;
+    camera.zoom = ZOOMS[zoomAt];
+    camera.updateProjectionMatrix();
+    draw();
+    if (zoomedEl) zoomedEl.textContent = zoomAt ? 'Zoomed in ' + ZOOMS[zoomAt] + ' times' : 'Normal size';
+  }
+  document.querySelectorAll('[data-cel-zoom]').forEach(function (b) {
+    b.addEventListener('click', function () { zoom(b.getAttribute('data-cel-zoom')); });
+  });
+  // A pinch on a trackpad arrives as the wheel with Control held.
+  var pinch = 0;
+  stage.addEventListener('wheel', function (e) {
+    if (!e.ctrlKey) return;
+    e.preventDefault();
+    pinch += e.deltaY;
+    if (Math.abs(pinch) > 40) { zoom(pinch < 0 ? 'in' : 'out'); pinch = 0; }
+  }, { passive: false });
+
+  // FULL SCREEN: the street, the words under it, its buttons and its places
+  // fill the screen, and Escape or the same button brings them back.
+  function fullNow() { return document.fullscreenElement || document.webkitFullscreenElement; }
+  if (fullBtn && fullEl && (document.fullscreenEnabled || document.webkitFullscreenEnabled)) {
+    fullBtn.hidden = false;
+    fullBtn.addEventListener('click', function () {
+      if (fullNow()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      else {
+        var ask = fullEl.requestFullscreen || fullEl.webkitRequestFullscreen;
+        var p = ask.call(fullEl);
+        if (p && p.catch) p.catch(function () {});
+      }
+    });
+    var flipped = function () {
+      fullBtn.textContent = fullNow() ? 'Leave full screen' : 'Full screen';
+      if (fullNow()) stage.focus({ preventScroll: true });
+      resize();
+    };
+    document.addEventListener('fullscreenchange', flipped);
+    document.addEventListener('webkitfullscreenchange', flipped);
+  }
+
+  // A GAME CONTROLLER, such as an Xbox controller on a Mac. A browser shows a
+  // page a controller only once one of its buttons has been pressed there,
+  // and has no event for a stick moving, so while one is connected, and only
+  // then, the page reads it once a frame. Reading it moves nothing: the
+  // street is drawn again only when the controller asks for something.
+  // Standard mapping: left stick walks, right stick turns and looks, the
+  // triggers zoom, the bumpers go to the place before and after, A goes in,
+  // B backs out, X faces ahead and Y climbs.
+  var pads = 0, padFrame = 0, padLast = 0, padWas = {}, padStepped = {};
+  var DEAD = 0.2;
+  function axis(v) { return Math.abs(v) < DEAD ? 0 : (v - Math.sign(v) * DEAD) / (1 - DEAD); }
+  function placeBy(n) {
+    if (!stops.length) return;
+    var s = nearest(), i = s ? stops.indexOf(s) : -1;
+    i = i < 0 ? (n > 0 ? 0 : stops.length - 1) : (i + n + stops.length) % stops.length;
+    standAt(stops[i]);
+  }
+  function padTick(now) {
+    padFrame = 0;
+    if (!pads) return;
+    var dt = padLast ? Math.min((now - padLast) / 1000, 0.1) : 0;
+    padLast = now;
+    var list = navigator.getGamepads ? navigator.getGamepads() : [];
+    var moved = false;
+    for (var n = 0; n < list.length; n++) {
+      var g = list[n];
+      if (!g) continue;
+      var b = function (k) { return g.buttons[k] && g.buttons[k].pressed; };
+      var once = function (k) { var key = g.index + ':' + k, was = padWas[key]; padWas[key] = b(k); return b(k) && !was; };
+      if (once(0)) goIn();
+      if (once(1) && inside) outOfRoom();
+      if (once(2)) { stepOnce('ahead'); }
+      if (once(3)) { stepOnce('climb'); }
+      if (once(4)) placeBy(-1);
+      if (once(5)) placeBy(1);
+      if (once(6)) zoom('out');
+      if (once(7)) zoom('in');
+      var fwd = -axis(g.axes[1] || 0) + (b(12) ? 1 : 0) - (b(13) ? 1 : 0);
+      var side = axis(g.axes[0] || 0) + (b(15) ? 1 : 0) - (b(14) ? 1 : 0);
+      var turn = -axis(g.axes[2] || 0), look = -axis(g.axes[3] || 0);
+      if (gliding) {
+        if (fwd || side || turn || look) {
+          glide = null;
+          move(fwd, side, turn, look, { m: WALK * dt, t: TURN * dt });
+          moved = true;
+        }
+      } else {
+        // In steps, a push of a stick is one step, and letting it go is needed
+        // before the next.
+        [['fwd', fwd > 0.6], ['back', fwd < -0.6], ['right', side > 0.6], ['left', side < -0.6],
+         ['turnl', turn > 0.6], ['turnr', turn < -0.6], ['lookup', look > 0.6], ['lookdown', look < -0.6]].forEach(function (p) {
+          var key = g.index + ':' + p[0];
+          if (p[1] && !padStepped[key]) stepOnce(p[0]);
+          padStepped[key] = p[1];
+        });
+      }
+    }
+    if (moved) { draw(); tell(); }
+    padFrame = requestAnimationFrame(padTick);
+  }
+  window.addEventListener('gamepadconnected', function () {
+    pads++;
+    if (!padFrame) { padLast = 0; padFrame = requestAnimationFrame(padTick); }
+  });
+  window.addEventListener('gamepaddisconnected', function () {
+    pads = Math.max(0, pads - 1);
+    if (!pads && padFrame) { cancelAnimationFrame(padFrame); padFrame = 0; padWas = {}; padStepped = {}; }
+  });
 
   var drag = null, moved = false;
   canvas.addEventListener('pointerdown', function (e) { drag = { x: e.clientX, y: e.clientY, mouse: e.pointerType === 'mouse' }; moved = false; });

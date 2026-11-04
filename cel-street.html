@@ -59,7 +59,8 @@
 
   <p class="cel-lede">An animation cel is one painted sheet of a cartoon: flat colour inside an inked line, and the light in two steps, lit and shadow, with nothing in between. Cel Street is the whole street built that way, in WebGL. Every shop on its ground floors is the front page&rsquo;s own door, read when you open this page and wearing that door&rsquo;s own colours and lettering, and pressing it takes you into its room. Halfway down, the garden gate stands in a wall between two shops, and past the last building the lots lie behind a fence, each with a gate in its own colours. It stands by the front door beside <a href="paper-street.html">Paper Street</a>, which walks the same street in card.</p>
 
-  <section class="cel-stage" data-cel-stage tabindex="0" aria-label="Cel Street, in 3D. Arrow keys or W, A, S and D walk; Q and E turn; R and F look up and down; X faces ahead; C climbs up over the roofs and back; Enter goes in at the door you are standing at. The doors are also a list of links after the street." aria-describedby="cel-how">
+  <div class="cel-world" data-cel-full>
+  <section class="cel-stage" data-cel-stage tabindex="0" aria-label="Cel Street, in 3D. Arrow keys or W, A, S and D walk; Shift and the arrow keys, or Q and E and R and F, turn and look up and down; plus and minus zoom; X faces ahead; C climbs up over the roofs and back; Enter goes in at the door you are standing at. The doors are also a list of links after the street." aria-describedby="cel-how">
     <p class="cel-failed" data-cel-failed hidden><span>The street could not be read just now, so there is nothing to build.</span> <a href="index.html">The street itself is here.</a></p>
     <noscript><p class="cel-failed">Cel Street is built by a script that reads the front page. Without it, <a href="index.html">the street itself is here</a>, every door the same.</p></noscript>
   </section>
@@ -85,6 +86,13 @@
       <button type="button" class="cel-go cel-go--climb" data-cel-go="climb">Climb up over the roofs</button>
       <button type="button" class="cel-go cel-out" data-cel-out hidden>Back out onto the street</button>
     </div>
+    <div class="cel-see" role="group" aria-label="Seeing">
+      <button type="button" class="cel-zoom" data-cel-zoom="in">Zoom in</button>
+      <button type="button" class="cel-zoom" data-cel-zoom="out">Zoom out</button>
+      <button type="button" class="cel-zoom" data-cel-zoom="reset">Normal size</button>
+      <p class="cel-zoomed" data-cel-zoomed aria-live="polite">Normal size</p>
+      <button type="button" class="cel-zoom" data-cel-fullscreen hidden>Full screen</button>
+    </div>
   </div>
 
   <nav class="cel-places" data-cel-places hidden aria-labelledby="places-in-this-room">
@@ -92,6 +100,7 @@
     <p>Each one stands you there, facing what is there, as walking up to it does.</p>
     <ol></ol>
   </nav>
+  </div>
 
   <section class="cel-notes">
     <h2 id="the-doors-on-this-stretch">The doors on the street</h2>
@@ -101,7 +110,9 @@
     <h2 id="how-to-walk-it">How to walk it</h2>
     <ul class="cel-keys" id="cel-how">
       <li><b>Arrow keys, or W, A, S and D,</b> walk you ahead, back and across the road while the street has the keyboard. The buttons under the street do the same, by pressing or by holding.</li>
-      <li><b>Q and E turn you</b> left and right, <b>R and F look up and down</b>, and <b>X faces ahead</b> again, and <b>C climbs you up over the roofs</b>, to look down on the solar panels, and back down. Dragging across the street looks round too; on a touch screen a sideways drag turns and the page still scrolls under your thumb.</li>
+      <li><b>Shift and the arrow keys</b> turn you and look up and down instead of walking, and so do <b>Q and E</b>, which turn you left and right, and <b>R and F</b>, which look up and down. <b>X faces ahead</b> again, and <b>C climbs you up over the roofs</b>, to look down on the solar panels, and back down. Dragging across the street looks round too; on a touch screen a sideways drag turns and the page still scrolls under your thumb.</li>
+      <li><b>Zoom in and Zoom out</b>, or <b>plus and minus</b> while the street has the keyboard, bring the picture closer so the words in a room are bigger, the way a pair of binoculars would, and <b>Normal size</b> or <b>0</b> puts it back. On a trackpad, pinching on the street zooms too. <b>Full screen</b> fills the screen with the street, its buttons and its places, and <b>Escape</b> or the same button brings it back.</li>
+      <li><b>A game controller</b> works too, such as an Xbox controller connected to a Mac: press any button on it while this page is open, and the left stick walks, the right stick turns and looks, the triggers zoom, the bumpers go to the place before and after, <b>A</b> goes in, <b>B</b> backs out, <b>X</b> faces ahead and <b>Y</b> climbs. The browser only lets the page see a controller after one of its buttons has been pressed here, and the page only listens to it while it is connected.</li>
       <li><b>Pressing a building</b> walks you to its door, and so does moving to its name in the list of doors. <b>Enter</b> goes in. At a door marked <b>Walk into</b>, you walk into the room itself, and <b>Escape</b>, Back or <b>Back out onto the street</b> brings you out where you were. Inside a room, <b>Places in this room</b>, under the buttons, stands you at each of its places in turn.</li>
       <li><b>Steps or gliding.</b> In steps, every press jumps you a couple of paces, or turns you a twelfth of the way round, with nothing moving in between. Gliding walks you smoothly for as long as you hold a key or a button. Gentle starts in steps and Regular and MAX start gliding; the switch changes it for this visit, and nothing remembers which you chose.</li>
       <li><b>Nothing moves by itself.</b> The street is drawn when you move and then left alone, at every setting of the dial: no cloud drifts, no wire sways, and nothing on it flashes. A room changes only when you press something in it: the mountain cabin's strips and fire follow its panel, and the Play Pod goes to daylight when its lamp is switched off.</li>
