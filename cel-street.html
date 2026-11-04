@@ -35,7 +35,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/cel-street.html#webpage","url":"https://stimpunks.world/cel-street.html","name":"Cel Street — Stimpunks.World","description":"The whole street built in 3D and drawn like an animation cel: the front page’s own shops on the ground floors of apartment blocks, the garden gate halfway down and the lots past the last building, under a summer sky, with solar panels on every roof, power lines tangled between the poles and every edge inked. Walk down it in steps or a glide and go in at any door. It stands by the front door beside Paper Street.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
 <!-- structured-data:end -->
 </head>
-<body class="cel-street" id="top">
+<body class="cel-street" id="top" data-familiar="walks">
 <a class="skip" href="#main">Skip to the street</a>
 
 <main id="main" class="wrap">
@@ -62,6 +62,7 @@
   <div class="cel-world" data-cel-full>
   <section class="cel-stage" data-cel-stage tabindex="0" aria-label="Cel Street, in 3D. Arrow keys or W, A, S and D walk; Shift and the arrow keys, or Q and E and R and F, turn and look up and down; plus and minus zoom; X faces ahead; C climbs up over the roofs and back; Enter goes in at the door you are standing at. The doors are also a list of links after the street." aria-describedby="cel-how">
     <p class="cel-plate" data-cel-plate aria-hidden="true" hidden></p>
+    <div class="cel-folk" data-cel-folk aria-hidden="true"></div>
     <p class="cel-failed" data-cel-failed hidden><span>The street could not be read just now, so there is nothing to build.</span> <a href="index.html">The street itself is here.</a></p>
     <noscript><p class="cel-failed">Cel Street is built by a script that reads the front page. Without it, <a href="index.html">the street itself is here</a>, every door the same.</p></noscript>
   </section>
@@ -69,6 +70,15 @@
   <p class="cel-here" data-cel-here role="status"></p>
 
   <div class="cel-controls" data-cel-controls hidden>
+    <form class="cel-tele" data-cel-tele role="search">
+      <label class="cel-tele__label" for="cel-tele-q">Teleport to a room</label>
+      <div class="cel-tele__row">
+        <input class="cel-tele__q" id="cel-tele-q" type="search" list="cel-tele-rooms" autocomplete="off" spellcheck="false" placeholder="Start typing its name">
+        <datalist id="cel-tele-rooms"></datalist>
+        <button type="submit" class="cel-zoom">Teleport</button>
+      </div>
+      <p class="cel-zoomed" data-cel-tele-said aria-live="polite"></p>
+    </form>
     <div class="cel-pad" role="group" aria-label="Walking">
       <button type="button" class="cel-go cel-go--fwd" data-cel-go="fwd">Ahead</button>
       <button type="button" class="cel-go cel-go--left" data-cel-go="left">Left</button>
@@ -86,6 +96,9 @@
       <button type="button" class="cel-mode" data-cel-mode aria-pressed="false">Gliding: switch to steps</button>
       <button type="button" class="cel-go cel-go--climb" data-cel-go="climb">Climb up over the roofs</button>
       <button type="button" class="cel-go cel-out" data-cel-out hidden>Back out onto the street</button>
+      <button type="button" class="cel-go cel-bring" data-cel-bring-fam hidden>Send my chimera home</button>
+      <button type="button" class="cel-go cel-bring" data-cel-bring-me hidden>Bring my avatar</button>
+      <p class="cel-zoomed cel-folk-said" data-cel-folk-said aria-live="polite"></p>
     </div>
     <div class="cel-see" role="group" aria-label="Seeing">
       <button type="button" class="cel-zoom" data-cel-zoom="in">Zoom in</button>
@@ -131,6 +144,7 @@
       <li><b>Zoom in and Zoom out</b>, or <b>plus and minus</b> while the street has the keyboard, bring the picture closer so the words in a room are bigger, the way a pair of binoculars would, and <b>Normal size</b> or <b>0</b> puts it back. On a trackpad, pinching on the street zooms too. <b>Full screen</b> fills the screen with the street, its buttons and its places, and <b>Escape</b> or the same button brings it back.</li>
       <li><b>A game controller</b> works too, such as an Xbox controller connected to a Mac: press any button on it while this page is open, and the left stick walks, the right stick turns and looks, the triggers zoom, the bumpers go to the place before and after, <b>A</b> goes in, <b>B</b> backs out, <b>X</b> faces ahead and <b>Y</b> climbs. The browser only lets the page see a controller after one of its buttons has been pressed here, and the page only listens to it while it is connected.</li>
       <li><b>Pressing a building</b> walks you to its door, and so does moving to its name in the list of doors. <b>Enter</b> goes in. At a door marked <b>Walk into</b>, you walk into the room itself, and <b>Escape</b>, Back or <b>Back out onto the street</b> brings you out where you were. Inside a room, <b>Places in this room</b>, under the buttons, stands you at each of its places in turn.</li>
+      <li><b>Teleport to a room</b>, first of the controls under the street, takes you straight into any room you can walk into here: start typing its name, pick it from the list, and you are there, from the street or from inside another room. Pick <b>Cel Street itself</b> to come back out onto the street. The browser&rsquo;s Back takes you to where you were.</li>
       <li><b>Steps or gliding.</b> In steps, every press jumps you a couple of paces, or turns you a twelfth of the way round, with nothing moving in between. Gliding walks you smoothly for as long as you hold a key or a button. Gentle starts in steps and Regular and MAX start gliding; the switch changes it for this visit, and nothing remembers which you chose.</li>
       <li><b>Nothing moves by itself.</b> The street is drawn when you move and then left alone, at every setting of the dial: no cloud drifts, no wire sways, and nothing on it flashes. A room changes only when you press something in it: the mountain cabin's strips and fire follow its panel, and the Play Pod goes to daylight when its lamp is switched off.</li>
     </ul>
@@ -162,8 +176,11 @@
     <p>The light is a summer afternoon&rsquo;s, from high up and to one side, and it comes in two steps: a thing is lit or it is in shadow, and its shadow side takes the blue of the sky. Every solid thing is inked round its edge. The shops are the street&rsquo;s own doors on the ground floors of apartment blocks, each sign lettered in its door&rsquo;s own face and each awning in its door&rsquo;s own stripes, and the garden gate and the lots&rsquo; gates wear their own colours too; everything above and round them is Cel Street&rsquo;s. Only the part of the street near you is drawn, so the whole of it walks as lightly as one stretch would. Every roof carries solar panels tipped toward the sun, and the wires between the poles are many and tangled, the way they are on a real street with no plan behind its wiring.</p>
     <p>It is drawn with <a href="https://threejs.org/">three.js</a>, by the three.js authors, under the MIT licence; the copy here is served from this site, so nothing on this page reaches anywhere else.</p>
 
+    <h2 id="who-walks-with-you">Who walks with you</h2>
+    <p>If a chimera out of <a href="chimera-obscura.html">Chimera Obscura</a> is following you round the street as your familiar, it walks with you here too, standing at the right of the picture wherever you look, and <b>Send it home</b> sends it away for this visit. Signed on to the CB, <b>Bring my avatar</b> stands the avatar you wear on the CB at the left, and you walk as it; until you do, or if you have none, you walk with no body at all, because nobody here is handed one.</p>
+
     <h2 id="what-it-keeps">What it keeps</h2>
-    <p>Nothing. Opening the page reads the front page, once. Where you walked is not written down anywhere, and nothing here is counted.</p>
+    <p>Nothing. Opening the page reads the front page, once. Bring my avatar asks for your avatars, once, when you press it, with the pass the radio already keeps. Your chimera is read from your own browser, where it already is. Where you walked, and where you teleported to, is not written down anywhere, and nothing here is counted.</p>
   </section>
   <!-- quest:cel-solar:begin -->
   <details class="quest" data-quest="cel-solar" data-code="TWOTONE" data-accept="|two|twosteps">

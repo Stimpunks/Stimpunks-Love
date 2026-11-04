@@ -4204,6 +4204,18 @@ which wraps and moves the page under it on every long name, and scrolling to the
 first build called that function `named`, which `cel-street.js` already used for the doors' names, and the street
 stopped building**: the same lesson as `street`, a second time.
 
+**THE TELEPORTER ON BOTH STREETS GOES STRAIGHT TO A ROOM BY ITS NAME, AND YOUR COMPANIONS WALK CEL STREET TOO.**
+Ryan's asks, 2026-11-04. `make-cel-street.py` and `make-paper-street.py` write `NAMES` beside `ROOMS` between the same
+markers (a room file's own `name:`, else its page's title), so the teleporter, a `<datalist>` under **Teleport to a
+room** first in each street's controls, asks for nothing; picking a name goes at once, typing waits for Enter, and going
+leaves every room you are in first and is a step in the tab's history (`teleport()`). On Cel Street your chimera (your
+familiar, read from `love-familiar`) stands at the right foot of the picture unless you send it home, and **Bring my
+avatar** asks `/cb/avatars` once on the press and stands the avatar you wear at the left (`.cel-folk`, over the
+picture, taking no pointer), Paper Street's arrangement: the page says `data-familiar="walks"`, and `make-cel-street.py`
+now lets `cel-street.js` read those two storage keys and that one GET, and nothing more, as `make-paper-street.py`
+does. The friendly edits are a teleporter that fetches `cb-rooms.json` for every page's name, and the avatar fetched
+on arrival "to save a press".
+
 **THE ABOUT PAGE'S FILM IS A CLAUDE MOTION FILM, AND THE MP4 IS AN EXPORT OF IT, NOT ITS SOURCE.**
 Ryan, 2026-10-15, for people shown the street who say they do not get it. `about.html` is paperwork
 (`room-plain`, first of the credits in the sitemap, pinned on the map, no job marker), linked under the

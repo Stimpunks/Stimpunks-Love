@@ -46,6 +46,7 @@ function start() {
   // hand-edit between the markers.
   // cel:rooms:begin
   var ROOMS = {'a-quiet-pint.html': 'cel-in-a-quiet-pint.js', 'adventurers-guild.html': 'cel-in-adventurers-guild.js', 'all-needs-met.html': 'cel-in-all-needs-met.js', 'all-together-now.html': 'cel-in-all-together-now.js', 'arcade.html': 'cel-in-arcade.js', 'arlesglad-caverns.html': 'cel-in-arlesglad-caverns.js', 'big-steep-fermentables.html': 'cel-in-big-steep-fermentables.js', 'black-leather-lagoon.html': 'cel-in-black-leather-lagoon.js', 'bodymind-booth.html': 'cel-in-bodymind-booth.js', 'brass-tacks-board.html': 'cel-in-brass-tacks-board.js', 'breaker-breaker.html': 'cel-in-breaker-breaker.js', 'brew-and-stew.html': 'cel-in-brew-and-stew.js', 'brighter-days.html': 'cel-in-brighter-days.js', 'broadsheet-broadside.html': 'cel-in-broadsheet-broadside.js', 'campgrounds.html': 'cel-in-campgrounds.js', 'cavendish-campfire.html': 'cel-in-cavendish-campfire.js', 'cavendish-cave.html': 'cel-in-cavendish-cave.js', 'cavendish-coworking.html': 'cel-in-cavendish-coworking.js', 'cavendish-editorial.html': 'cel-in-cavendish-editorial.js', 'cavendish-events.html': 'cel-in-cavendish-events.js', 'cavendish-operations.html': 'cel-in-cavendish-operations.js', 'cavendish-watering-hole.html': 'cel-in-cavendish-watering-hole.js', 'champuru.html': 'cel-in-champuru.js', 'chimera-obscura.html': 'cel-in-chimera-obscura.js', 'club-chronic.html': 'cel-in-club-chronic.js', 'collection-collection.html': 'cel-in-collection-collection.js', 'comfort-station.html': 'cel-in-comfort-station.js', 'community-care.html': 'cel-in-community-care.js', 'community-center.html': 'cel-in-community-center.js', 'community-library.html': 'cel-in-community-library.js', 'cooldown-room.html': 'cel-in-cooldown-room.js', 'coping.html': 'cel-in-coping.js', 'count-me-in.html': 'cel-in-count-me-in.js', 'covenstead.html': 'cel-in-covenstead.js', 'dance-punks.html': 'cel-in-dance-punks.js', 'danny-the-street.html': 'cel-in-danny-the-street.js', 'dead-tired-society.html': 'cel-in-dead-tired-society.js', 'dopamine-dress-up-den.html': 'cel-in-dopamine-dress-up-den.js', 'enids-room.html': 'cel-in-enids-room.js', 'faery-cinema-room.html': 'cel-in-faery-cinema-room.js', 'faery-music-room.html': 'cel-in-faery-music-room.js', 'faery-myths-room.html': 'cel-in-faery-myths-room.js', 'faery-reading-room.html': 'cel-in-faery-reading-room.js', 'faery-yurt.html': 'cel-in-faery-yurt.js', 'fantasy-fancy-dress.html': 'cel-in-fantasy-fancy-dress.js', 'foundry.html': 'cel-in-foundry.js', 'fridge-of-sighs.html': 'cel-in-fridge-of-sighs.js', 'gentle-help.html': 'cel-in-gentle-help.js', 'glow-go-gee-gaws.html': 'cel-in-glow-go-gee-gaws.js', 'glow-wild-hollow.html': 'cel-in-glow-wild-hollow.js', 'haunted-house.html': 'cel-in-haunted-house.js', 'healing-checkpoint.html': 'cel-in-healing-checkpoint.js', 'hear-queer-here.html': 'cel-in-hear-queer-here.js', 'hey-good-cookin.html': 'cel-in-hey-good-cookin.js', 'jungle-room.html': 'cel-in-jungle-room.js', 'l-space.html': 'cel-in-l-space.js', 'latibulum.html': 'cel-in-latibulum.js', 'laughingstock.html': 'cel-in-laughingstock.js', 'learning-large.html': 'cel-in-learning-large.js', 'lightbulb-picture-house.html': 'cel-in-lightbulb-picture-house.js', 'live-room.html': 'cel-in-live-room.js', 'loo-with-a-view.html': 'cel-in-loo-with-a-view.js', 'looming-rocks.html': 'cel-in-looming-rocks.js', 'mycelium-munchies.html': 'cel-in-mycelium-munchies.js', 'natures-contribution.html': 'cel-in-natures-contribution.js', 'neurohome.html': 'cel-in-neurohome.js', 'nothing-for-sale.html': 'cel-in-nothing-for-sale.js', 'now-playing.html': 'cel-in-now-playing.js', 'oook.html': 'cel-in-oook.js', 'oracle-deck.html': 'cel-in-oracle-deck.js', 'otterly-adorbs.html': 'cel-in-otterly-adorbs.js', 'pando-calrissian.html': 'cel-in-pando-calrissian.js', 'pebble-board.html': 'cel-in-pebble-board.js', 'pekoe-and-purrs.html': 'cel-in-pekoe-and-purrs.js', 'penguin-pebbling.html': 'cel-in-penguin-pebbling.js', 'pets.html': 'cel-in-pets.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js', 'play-pod.html': 'cel-in-play-pod.js', 'playhouse.html': 'cel-in-playhouse.js', 'plural-mural.html': 'cel-in-plural-mural.js', 'polaroids.html': 'cel-in-polaroids.js', 'quill-drift.html': 'cel-in-quill-drift.js', 'rabbit-hole.html': 'cel-in-rabbit-hole.js', 'rebellion-rave-room.html': 'cel-in-rebellion-rave-room.js', 'repeater.html': 'cel-in-repeater.js', 'rescue-a-cat.html': 'cel-in-rescue-a-cat.js', 'rescue-a-dog.html': 'cel-in-rescue-a-dog.js', 'rescue-small-animals.html': 'cel-in-rescue-small-animals.js', 'samefood-cafe.html': 'cel-in-samefood-cafe.js', 'sandbox.html': 'cel-in-sandbox.js', 'seaside-convenience.html': 'cel-in-seaside-convenience.js', 'show-your-work.html': 'cel-in-show-your-work.js', 'sithen.html': 'cel-in-sithen.js', 'small-hours.html': 'cel-in-small-hours.js', 'solarpunk-hermitage.html': 'cel-in-solarpunk-hermitage.js', 'stay-breezy.html': 'cel-in-stay-breezy.js', 'stay-frosty.html': 'cel-in-stay-frosty.js', 'swaying-sweetgrass.html': 'cel-in-swaying-sweetgrass.js', 'the-bough-house.html': 'cel-in-the-bough-house.js', 'the-chappell.html': 'cel-in-the-chappell.js', 'the-dairy.html': 'cel-in-the-dairy.js', 'the-den.html': 'cel-in-the-den.js', 'the-doom-scoop.html': 'cel-in-the-doom-scoop.js', 'the-doomscroll.html': 'cel-in-the-doomscroll.js', 'the-feed.html': 'cel-in-the-feed.js', 'the-garden.html': 'cel-in-the-garden.js', 'the-green.html': 'cel-in-the-green.js', 'the-honesty-box.html': 'cel-in-the-honesty-box.js', 'the-mopery.html': 'cel-in-the-mopery.js', 'the-mountain-cabin.html': 'cel-in-the-mountain-cabin.js', 'the-mud-room.html': 'cel-in-the-mud-room.js', 'the-open-notebook.html': 'cel-in-the-open-notebook.js', 'the-outskirts.html': 'cel-in-the-outskirts.js', 'the-pile.html': 'cel-in-the-pile.js', 'the-quiet-stall.html': 'cel-in-the-quiet-stall.js', 'the-run.html': 'cel-in-the-run.js', 'the-source.html': 'cel-in-the-source.js', 'town-hall-board.html': 'cel-in-town-hall-board.js', 'town-hall-directors.html': 'cel-in-town-hall-directors.js', 'town-hall-executive-session.html': 'cel-in-town-hall-executive-session.js', 'town-hall-fishbowl.html': 'cel-in-town-hall-fishbowl.js', 'town-hall-moderators.html': 'cel-in-town-hall-moderators.js', 'town-hall.html': 'cel-in-town-hall.js', 'truckin-food-court.html': 'cel-in-truckin-food-court.js', 'vital-plant-living.html': 'cel-in-vital-plant-living.js', 'volunteers.html': 'cel-in-volunteers.js', 'widdershins.html': 'cel-in-widdershins.js', 'wide-spread-chaos.html': 'cel-in-wide-spread-chaos.js', 'words-bud-beats.html': 'cel-in-words-bud-beats.js', 'world.html': 'cel-in-world.js', 'your-room.html': 'cel-in-your-room.js', 'zibaldone.html': 'cel-in-zibaldone.js', 'zine-issue-2.html': 'cel-in-zine-issue-2.js', 'zine-table.html': 'cel-in-zine-table.js'};
+  var NAMES = {"a-quiet-pint.html": "A Quiet Pint", "adventurers-guild.html": "The Adventurer’s Guild", "all-needs-met.html": "All Needs Met Wildlife Sanctuary", "all-together-now.html": "All Together Now Farms", "arcade.html": "The Arcade", "arlesglad-caverns.html": "Arlesglad Caverns", "big-steep-fermentables.html": "Big Steep Fermentables", "black-leather-lagoon.html": "Black Leather Lagoon", "bodymind-booth.html": "The Bodymind Booth", "brass-tacks-board.html": "The Brass Tacks Board", "breaker-breaker.html": "Breaker Breaker", "brew-and-stew.html": "Brew and Stew", "brighter-days.html": "Brighter Days Solar Farm", "broadsheet-broadside.html": "The Broadsheet Broadside", "campgrounds.html": "The Campgrounds", "cavendish-campfire.html": "The Campfire", "cavendish-cave.html": "The Cave", "cavendish-coworking.html": "Cavendish Coworking", "cavendish-editorial.html": "The Editorial Room", "cavendish-events.html": "The Events Room", "cavendish-operations.html": "The Operations Room", "cavendish-watering-hole.html": "The Watering Hole", "champuru.html": "Champuru", "chimera-obscura.html": "Chimera Obscura", "club-chronic.html": "Club Chronic", "collection-collection.html": "The Collection Collection", "comfort-station.html": "The Comfort Station", "community-care.html": "Community Care", "community-center.html": "The Community Center", "community-library.html": "The Community Library", "cooldown-room.html": "The Cooldown Room", "coping.html": "Coping", "count-me-in.html": "Count Me In", "covenstead.html": "Covenstead", "dance-punks.html": "Dance, Punks", "danny-the-street.html": "Danny the Street", "dead-tired-society.html": "Dead Tired Society", "dopamine-dress-up-den.html": "The Dopamine Dress-Up Den", "enids-room.html": "Enid's Room", "faery-cinema-room.html": "The Cinema", "faery-music-room.html": "The Music Room", "faery-myths-room.html": "Myths & Legends", "faery-reading-room.html": "The Reading Room", "faery-yurt.html": "The Faery Yurt", "fantasy-fancy-dress.html": "Fantasy Fancy Dress", "foundry.html": "The Foundry", "fridge-of-sighs.html": "The Fridge of Sighs", "gentle-help.html": "Gentle Help Cannabis Farm", "glow-go-gee-gaws.html": "Glow Go Gee Gaws", "glow-wild-hollow.html": "Glow Wild Hollow", "haunted-house.html": "The Haunted House", "healing-checkpoint.html": "The Healing Checkpoint", "hear-queer-here.html": "Hear Queer Here", "hey-good-cookin.html": "Hey, Good Cookin’", "jungle-room.html": "The Jungle Room", "l-space.html": "L-Space", "latibulum.html": "The Latibulum", "laughingstock.html": "Laughingstock", "learning-large.html": "Learning Large", "lightbulb-picture-house.html": "The Lightbulb Picture House", "live-room.html": "The Live Room", "loo-with-a-view.html": "Loo With a View", "looming-rocks.html": "Looming Rocks Amphitheatre", "mycelium-munchies.html": "Mycelium Munchies", "natures-contribution.html": "Nature’s Contribution", "neurohome.html": "NeuroHome", "nothing-for-sale.html": "Nothing For Sale", "now-playing.html": "Now Playing", "oook.html": "Oook", "oracle-deck.html": "The Oracle Deck", "otterly-adorbs.html": "Otterly Adorbs", "pando-calrissian.html": "Pando Calrissian", "pebble-board.html": "The Pebble Board", "pekoe-and-purrs.html": "Pekoe and Purrs", "penguin-pebbling.html": "Penguin Pebbling", "pets.html": "Pets", "pink-pony-club.html": "Pink Pony Club", "play-pod.html": "The Play Pod", "playhouse.html": "The Playhouse", "plural-mural.html": "Plural Mural", "polaroids.html": "The Polaroid Wall", "quill-drift.html": "Quill Drift", "rabbit-hole.html": "The Rabbit Hole", "rebellion-rave-room.html": "Rebellion Rave Room", "repeater.html": "The Repeater", "rescue-a-cat.html": "Rescue A Cat", "rescue-a-dog.html": "Rescue A Dog", "rescue-small-animals.html": "Rescue Small Animals", "samefood-cafe.html": "Samefood Cafe", "sandbox.html": "The Sandbox", "seaside-convenience.html": "The Seaside Convenience", "show-your-work.html": "Show Your Work", "sithen.html": "Sithen", "small-hours.html": "The Small Hours", "solarpunk-hermitage.html": "The Solarpunk Hermitage", "stay-breezy.html": "Stay Breezy", "stay-frosty.html": "Stay Frosty", "swaying-sweetgrass.html": "Swaying Sweetgrass", "the-bough-house.html": "The Bough House", "the-chappell.html": "The Chappell", "the-dairy.html": "The Dairy", "the-den.html": "The Den", "the-doom-scoop.html": "The Doom Scoop", "the-doomscroll.html": "The Doomscroll", "the-feed.html": "The Feed", "the-garden.html": "The Garden", "the-green.html": "The Green", "the-honesty-box.html": "The Honesty Box", "the-mopery.html": "The Mopery", "the-mountain-cabin.html": "The Emergent Future Worlds Meets Mountain Man", "the-mud-room.html": "The MUD Room", "the-open-notebook.html": "The Open Notebook", "the-outskirts.html": "The Outskirts", "the-pile.html": "The Pile", "the-quiet-stall.html": "The Quiet Stall", "the-run.html": "The Run", "the-source.html": "The Source", "town-hall-board.html": "The Board room", "town-hall-directors.html": "The Directors’ room", "town-hall-executive-session.html": "Executive Session", "town-hall-fishbowl.html": "The Fishbowl", "town-hall-moderators.html": "The Moderators’ room", "town-hall.html": "The Town Hall", "truckin-food-court.html": "Truckin’ Food Court", "vital-plant-living.html": "Vital Plant Living", "volunteers.html": "Volunteers", "widdershins.html": "Widdershins", "wide-spread-chaos.html": "Wide-Spread Chaos Gardens", "words-bud-beats.html": "Words, Bud, Beats", "world.html": "World", "your-room.html": "Your Room", "zibaldone.html": "The Zibaldone", "zine-issue-2.html": "Issue #2, One Root, Two Rainbows", "zine-table.html": "The Zine Table"};
   // cel:rooms:end
   var CHUNK = 60;            // the street is drawn in lengths this long
   var VIEW = 300;            // and only the lengths this near you are drawn
@@ -70,6 +71,8 @@ function start() {
   var outBtn = document.querySelector('[data-cel-out]');
   var placesEl = document.querySelector('[data-cel-places]');
   var zoomedEl = document.querySelector('[data-cel-zoomed]');
+  var teleForm = document.querySelector('[data-cel-tele]');
+  var teleSaid = document.querySelector('[data-cel-tele-said]');
   var fullEl = document.querySelector('[data-cel-full]');
   var fullBtn = document.querySelector('[data-cel-fullscreen]');
 
@@ -1426,6 +1429,159 @@ function start() {
   });
   if (outBtn) outBtn.addEventListener('click', outOfRoom);
 
+  // YOUR COMPANIONS: your chimera and your avatar, standing at the foot of the
+  // picture with you wherever you look, on a layer of their own over the
+  // street (Ryan, 2026-11-04, as on Paper Street). Your chimera is your
+  // familiar, read from your own browser where familiar.js already keeps it,
+  // and comes along unless you send it home; the page says data-familiar=
+  // "walks", so it is not put on the page as well. Your avatar comes only on
+  // a press: Bring my avatar asks the CB for your avatars once, with the pass
+  // the radio keeps, and brings the one you wear. Nothing here keeps either.
+  var folkEl = document.querySelector('[data-cel-folk]');
+  var bringMe = document.querySelector('[data-cel-bring-me]');
+  var bringFam = document.querySelector('[data-cel-bring-fam]');
+  var folkSaid = document.querySelector('[data-cel-folk-said]');
+  var meFig = null, famFig = null, famName = '';
+  function loadScript(src, ready) {
+    if (ready()) return Promise.resolve();
+    return new Promise(function (ok, no) {
+      var sc = document.createElement('script');
+      sc.src = src; sc.defer = true;
+      sc.onload = function () { ready() ? ok() : no(); };
+      sc.onerror = no;
+      document.head.appendChild(sc);
+    });
+  }
+  function stored(which) {
+    try { return JSON.parse((which === 'pass' ? localStorage.getItem('love-cb') : localStorage.getItem('love-familiar')) || 'null'); }
+    catch (e) { return null; }
+  }
+  function companion(node, cls) {
+    var el = document.createElement('div');
+    el.className = 'cel-figure ' + cls;
+    var vb = (node.getAttribute('viewBox') || '0 0 1 1').split(/[\s,]+/).map(Number);
+    if (vb[2] > 0 && vb[3] > 0) el.style.aspectRatio = vb[2] + ' / ' + vb[3];
+    el.appendChild(node);
+    folkEl.appendChild(el);
+    return el;
+  }
+  function folkTell(words) { if (folkSaid) folkSaid.textContent = words; }
+  function familiarOut() {
+    var v = stored('familiar');
+    if (!folkEl || !v || !v.parts) return;
+    loadScript('chimera.js', function () { return !!window.loveChimera; }).then(function () {
+      var C = window.loveChimera, p = C.clean(v.parts);
+      var node = p && C.draw(p, { prefix: 'celf', cls: 'cel-figure__art' });
+      if (!node) return;
+      famFig = companion(node, 'cel-figure--familiar');
+      famName = typeof v.name === 'string' && v.name ? v.name : 'Your chimera';
+      if (bringFam) { bringFam.hidden = false; bringFam.textContent = 'Send ' + famName + ' home'; }
+      folkTell(famName + ' is walking with you.');
+    }, function () {});
+  }
+  if (bringFam) bringFam.addEventListener('click', function () {
+    if (famFig) {
+      famFig.remove(); famFig = null;
+      bringFam.textContent = 'Bring ' + famName + ' back';
+      folkTell(famName + ' has gone home. It is still your familiar everywhere else on the street.');
+    } else {
+      familiarOut();
+    }
+  });
+  var cbPass = stored('pass');
+  cbPass = cbPass && cbPass.pass ? cbPass.pass : null;
+  if (bringMe && folkEl && cbPass) {
+    bringMe.hidden = false;
+    bringMe.addEventListener('click', function () {
+      if (meFig) {
+        meFig.remove(); meFig = null;
+        bringMe.textContent = 'Bring my avatar';
+        folkTell('Your avatar has gone home. You walk with no body now.');
+        return;
+      }
+      folkTell('Fetching your avatar\u2026');
+      fetch('/cb/avatars', { method: 'GET', credentials: 'omit', cache: 'no-store',
+        headers: { accept: 'application/json', authorization: 'Bearer ' + cbPass } })
+        .then(function (r) { return r.json().then(function (b) { return { status: r.status, body: b }; }); })
+        .then(function (r) {
+          var list = r.body && r.body.avatars;
+          if (r.status === 401) { folkTell('This username has been signed off. Sign on again and press it again.'); return; }
+          if (r.status !== 200 || !list) { folkTell('Your avatars could not be fetched just now.'); return; }
+          if (!list.length) { folkTell('You have no avatar kept yet. The Bodymind Booth is where one is drawn.'); return; }
+          var a = list.filter(function (x) { return x.id === r.body.wearing; })[0] || list[0];
+          return loadScript('avatar.js', function () { return !!window.loveAvatar; }).then(function () {
+            var node = window.loveAvatar.draw(a.look, { cls: 'cel-figure__art' });
+            if (!node) { folkTell('That avatar could not be drawn.'); return; }
+            meFig = companion(node, 'cel-figure--you');
+            bringMe.textContent = 'Send my avatar home';
+            folkTell('You are walking as ' + (a.name || 'your avatar') + (a.id === r.body.wearing ? ', the one you wear on the CB.' : '.'));
+          });
+        })
+        .catch(function () { folkTell('The street could not be reached just now.'); });
+    });
+  }
+
+  // THE TELEPORTER: a room by its name, from anywhere on the street or in any
+  // room, straight there (Ryan, 2026-11-04). The names come with ROOMS, so it
+  // asks for nothing. It leaves every room you are in first, so Back out goes
+  // to the street (or through the room a room opens off), and it is a step in
+  // the tab's history like walking in.
+  var STREET_NAME = 'Cel Street itself';
+  function sortName(n) { return n.replace(/^(the|a|an) /i, '').toLowerCase(); }
+  function teleList() {
+    if (!teleForm) return;
+    var dl = teleForm.querySelector('datalist');
+    var names = Object.keys(NAMES).map(function (p) { return NAMES[p]; });
+    names.sort(function (a, b) { return sortName(a) < sortName(b) ? -1 : sortName(a) > sortName(b) ? 1 : 0; });
+    [STREET_NAME].concat(names).forEach(function (n) {
+      var o = document.createElement('option'); o.value = n; dl.appendChild(o);
+    });
+  }
+  function teleFind(q) {
+    q = q.trim().toLowerCase();
+    if (!q) return { none: true };
+    if (q === STREET_NAME.toLowerCase() || q === 'cel street' || q === 'the street') return { page: '' };
+    var pages = Object.keys(NAMES);
+    var exact = pages.filter(function (p) { return NAMES[p].toLowerCase() === q; });
+    if (exact.length) return { page: exact[0] };
+    var some = pages.filter(function (p) { return NAMES[p].toLowerCase().indexOf(q) >= 0; });
+    return some.length === 1 ? { page: some[0] } : some.length ? { many: true } : { none: true };
+  }
+  function teleport(page) {
+    if (page === '' ? !inside : inside && inside.page === page) {
+      if (teleSaid) teleSaid.textContent = 'You are already there.';
+      return;
+    }
+    while (inside) leave();
+    if (page === '') {
+      history.pushState(null, '', location.pathname + location.search);
+      if (teleSaid) teleSaid.textContent = 'Back out on Cel Street.';
+      stage.focus({ preventScroll: true });
+      return;
+    }
+    history.pushState({ celIn: page }, '', '#in=' + page.replace(/\.html$/, ''));
+    if (teleSaid) teleSaid.textContent = 'Teleporting to ' + NAMES[page] + '\u2026';
+    enter(page, false, function () {
+      if (teleSaid) teleSaid.textContent = 'You are in ' + NAMES[page] + '.';
+      stage.focus({ preventScroll: true });
+    });
+  }
+  if (teleForm) {
+    var teleQ = teleForm.querySelector('input');
+    teleForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var f = teleFind(teleQ.value);
+      if (f.page !== undefined) { teleQ.value = ''; teleport(f.page); stage.scrollIntoView({ block: 'nearest' }); }
+      else if (teleSaid) teleSaid.textContent = f.many ? 'Several rooms have that in their names: keep typing, or pick one from the list.' : 'No room on Cel Street goes by that name.';
+    });
+    // Picking a name from the list goes there at once; typing waits for Enter.
+    teleQ.addEventListener('input', function (e) {
+      if (e.inputType && e.inputType !== 'insertReplacementText') return;
+      var f = teleFind(teleQ.value);
+      if (f.page !== undefined && (f.page === '' || NAMES[f.page].toLowerCase() === teleQ.value.trim().toLowerCase())) teleForm.requestSubmit();
+    });
+  }
+
   // A room that is more than one rectangle (a narrow passage opening into a
   // wide hollow) gives its bounds as areas, and you keep to whichever you are
   // in, or are brought back into the nearest.
@@ -1607,6 +1763,8 @@ function start() {
       list.hidden = false;
     }
     if (controls) controls.hidden = false;
+    teleList();
+    familiarOut();
     // Arriving at a room by its address (a room's Walk this room), the stage
     // comes to the top of the window once, so the room is above the fold;
     // never if you have already scrolled, and never again as you walk.

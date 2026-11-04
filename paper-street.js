@@ -91,6 +91,7 @@
      hand-edit between the markers. */
   // walk:rooms:begin
   var ROOMS = {'arcade.html': 'walk-arcade.js', 'jungle-room.html': 'walk-jungle-room.js', 'latibulum.html': 'walk-latibulum.js', 'pink-pony-club.html': 'walk-pink-pony-club.js', 'the-mopery.html': 'walk-the-mopery.js'};
+  var NAMES = {"arcade.html": "The Arcade", "jungle-room.html": "The Jungle Room", "latibulum.html": "The Latibulum", "pink-pony-club.html": "Pink Pony Club", "the-mopery.html": "The Mopery"};
   // walk:rooms:end
   window.lovePaperRooms = window.lovePaperRooms || {};
 
@@ -1037,6 +1038,64 @@
     leave();
     history.replaceState({}, '', location.pathname);
   });
+  // THE TELEPORTER: a room by its name, from the street or from inside any
+  // room, straight there (Ryan, 2026-11-04). The names come with ROOMS, so it
+  // asks for nothing, and going is a step in the tab's history like walking in.
+  var teleForm = document.querySelector('[data-ps-tele]');
+  var teleSaid = document.querySelector('[data-ps-tele-said]');
+  var STREET_NAME = 'Paper Street itself';
+  function sortName(n) { return n.replace(/^(the|a|an) /i, '').toLowerCase(); }
+  function teleList() {
+    if (!teleForm) return;
+    var dl = teleForm.querySelector('datalist');
+    var names = Object.keys(NAMES).map(function (p) { return NAMES[p]; });
+    names.sort(function (a, b) { return sortName(a) < sortName(b) ? -1 : sortName(a) > sortName(b) ? 1 : 0; });
+    [STREET_NAME].concat(names).forEach(function (n) {
+      var o = document.createElement('option'); o.value = n; dl.appendChild(o);
+    });
+  }
+  function teleFind(q) {
+    q = q.trim().toLowerCase();
+    if (!q) return { none: true };
+    if (q === STREET_NAME.toLowerCase() || q === 'paper street' || q === 'the street') return { page: '' };
+    var pages = Object.keys(NAMES);
+    var exact = pages.filter(function (p) { return NAMES[p].toLowerCase() === q; });
+    if (exact.length) return { page: exact[0] };
+    var some = pages.filter(function (p) { return NAMES[p].toLowerCase().indexOf(q) >= 0; });
+    return some.length === 1 ? { page: some[0] } : some.length ? { many: true } : { none: true };
+  }
+  function teleport(page) {
+    var now = scene && scene.room ? scene.room.page : '';
+    if (page === now) { speak(teleSaid, 'You are already there.'); return; }
+    if (page === '') {
+      leave();
+      history.pushState({}, '', location.pathname);
+      speak(teleSaid, 'Back out on Paper Street.');
+      stage.focus({ preventScroll: true });
+      return;
+    }
+    history.pushState({ psIn: page }, '', '#in=' + page.replace(/\.html$/, ''));
+    speak(teleSaid, 'Teleporting to ' + NAMES[page] + '\u2026');
+    enter(page, false).then(function (ok) {
+      if (ok) { speak(teleSaid, 'You are in ' + NAMES[page] + '.'); stage.focus({ preventScroll: true }); }
+    });
+  }
+  if (teleForm) {
+    var teleQ = teleForm.querySelector('input');
+    teleForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!street) return;
+      var f = teleFind(teleQ.value);
+      if (f.page !== undefined) { teleQ.value = ''; teleport(f.page); stage.scrollIntoView({ block: 'nearest' }); }
+      else speak(teleSaid, f.many ? 'Several rooms have that in their names: keep typing, or pick one from the list.' : 'No room on Paper Street goes by that name.');
+    });
+    // Picking a name from the list goes there at once; typing waits for Enter.
+    teleQ.addEventListener('input', function (e) {
+      if (e.inputType && e.inputType !== 'insertReplacementText') return;
+      var f = teleFind(teleQ.value);
+      if (f.page !== undefined && (f.page === '' || NAMES[f.page].toLowerCase() === teleQ.value.trim().toLowerCase())) teleForm.requestSubmit();
+    });
+  }
   window.addEventListener('popstate', function () {
     var want = roomInAddress();
     if (want && (!scene.room || scene.room.page !== want)) enter(want, false);
@@ -1159,6 +1218,7 @@
     // Faces arriving change every flat's height.
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); if (scene === street) draw(); });
     plateUp();
+    teleList();
     // Arriving at a room by its address (a room's Walk this room), the stage
     // comes to the top of the window once, so the room is above the fold;
     // never if you have already scrolled, and never again as you walk.

@@ -71,6 +71,15 @@
   <p class="ps-here" data-ps-here role="status"></p>
 
   <div class="ps-controls" data-ps-controls hidden>
+    <form class="ps-tele" data-ps-tele role="search">
+      <label class="ps-tele__label" for="ps-tele-q">Teleport to a room</label>
+      <div class="ps-tele__row">
+        <input class="ps-tele__q" id="ps-tele-q" type="search" list="ps-tele-rooms" autocomplete="off" spellcheck="false" placeholder="Start typing its name">
+        <datalist id="ps-tele-rooms"></datalist>
+        <button type="submit" class="ps-zoom">Teleport</button>
+      </div>
+      <p class="ps-zoomed" data-ps-tele-said aria-live="polite"></p>
+    </form>
     <div class="ps-pad" role="group" aria-label="Walking">
       <button type="button" class="ps-go ps-go--fwd" data-ps-go="fwd">Ahead</button>
       <button type="button" class="ps-go ps-go--left" data-ps-go="left">Left</button>
@@ -126,6 +135,7 @@
       <li><b>Zoom in and Zoom out</b>, or <b>plus and minus</b> while the street has the keyboard, bring the street closer so the words on a door or a room&rsquo;s page are bigger, the way a pair of binoculars would, and <b>Normal size</b> or <b>0</b> puts it back. On a trackpad, pinching on the street zooms too. <b>Full screen</b> fills the screen with the street and its buttons, and <b>Escape</b> or the same button brings it back; inside a room, the room is set up again at its new size.</li>
       <li><b>A game controller</b> works too, such as an Xbox controller connected to a Mac: press any button on it while this page is open, and the left stick walks, the right stick turns and looks, the triggers zoom, the bumpers go to the door before and after, <b>A</b> goes in, <b>B</b> backs out and <b>X</b> faces ahead. The browser only lets the page see a controller after one of its buttons has been pressed here, and the page only listens to it while it is connected.</li>
       <li><b>Tab</b> goes from door to door down the street, and stands you in front of each one. <b>Enter</b> goes in.</li>
+      <li><b>Teleport to a room</b>, first of the controls under the street, takes you straight into any room you can walk into here: start typing its name, pick it from the list, and you are there, from the street or from inside another room. Pick <b>Paper Street itself</b> to come back out onto the street. The browser&rsquo;s Back takes you to where you were.</li>
       <li><b>Steps or gliding.</b> In steps, every press jumps you one stop, or turns you a twelfth of the way round, with nothing moving in between. Gliding walks you smoothly for as long as you hold a key or a button. Gentle starts in steps and Regular and MAX start gliding; the switch changes it for this visit, and nothing remembers which you chose.</li>
       <li><b>Nothing moves by itself.</b> The street stands still until you walk, at every setting of the dial, and nothing on it flashes.</li>
     </ul>

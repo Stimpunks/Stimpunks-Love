@@ -21,8 +21,14 @@ while the front page has those parts, and at runtime a missing part would only
 look like a broken game, so this tool reads index.html for them.
 
 WHAT IT REFUSES IN cel-street.js:
-  · any import but the vendored three.js, and any request but index.html;
-  · storage of any kind, and anything sent some other way than fetch;
+  · any import but the vendored three.js, and any request but index.html and,
+    on the Bring my avatar press, a GET of /cb/avatars (Ryan, 2026-11-04:
+    your avatar and your chimera on Cel Street, as on Paper Street);
+  · storage written, of any kind, and storage read but love-familiar (your
+    chimera, which familiar.js keeps) and love-cb (the radio's pass, for that
+    one GET); and anything sent some other way than fetch;
+  · a page without data-familiar="walks", which love.js and familiar.js read
+    so the familiar is not put on the page as well as on the street;
   · a timer: nothing moves by itself, so nothing waits on a clock;
   · markup written from a string;
   · a colour written into the script, or a --cel- name love.css does not
@@ -105,10 +111,21 @@ if imports != ["./vendor/three.module.min.js", "./vendor/CSS3DRenderer.js"]:
 if re.search(r"\bimport\s*\(", code):
     refuse("cel-street.js imports something at runtime.")
 for m in re.finditer(r"fetch\(\s*([^,)]+)", code):
-    if m.group(1).strip() != "'index.html'":
-        refuse(f"cel-street.js fetches {m.group(1).strip()}; it reads the front page and nothing else.")
-if re.search(r"localStorage|sessionStorage|indexedDB|document\.cookie", code):
-    refuse("cel-street.js touches storage. The page keeps nothing.")
+    if m.group(1).strip() not in ("'index.html'", "'/cb/avatars'"):
+        refuse(f"cel-street.js fetches {m.group(1).strip()}; it reads the front page and, on a press, your avatars, and nothing else.")
+if re.search(r"method:\s*'(POST|PUT|DELETE|PATCH)'", code):
+    refuse("cel-street.js writes to the server. It only reads.")
+avatars = code.find("'/cb/avatars'")
+press = code.rfind("addEventListener('click'", 0, avatars)
+if avatars != -1 and (press == -1 or code.find("bringMe") > press):
+    refuse("cel-street.js asks /cb/avatars outside the Bring my avatar press.")
+if re.search(r"localStorage\.(setItem|removeItem|clear)|sessionStorage|indexedDB|document\.cookie", code):
+    refuse("cel-street.js writes to storage. The page keeps nothing; familiar.js alone keeps a familiar.")
+for key in re.findall(r"localStorage\.getItem\(\s*([^)]+)\)", code):
+    if key.strip() not in ("'love-familiar'", "'love-cb'"):
+        refuse(f"cel-street.js reads {key.strip()} from storage; it reads your familiar and the radio's pass, and nothing else.")
+if not re.search(r'<body[^>]*\bdata-familiar="walks"', (ROOT / "cel-street.html").read_text()):
+    refuse('cel-street.html\'s <body> has lost data-familiar="walks", and the familiar would be on the page as well as the street.')
 if re.search(r"XMLHttpRequest|sendBeacon|EventSource|WebSocket", code):
     refuse("cel-street.js sends something some other way than fetch.")
 if re.search(r"\bset(Interval|Timeout)\b", code):
@@ -463,6 +480,15 @@ if problems:
     sys.exit(2)
 
 line = "  var ROOMS = {" + ", ".join(f"'{k}': '{v}'" for k, v in sorted(rooms.items())) + "};"
+# Each room's name, for the teleporter: the name its own file gives itself, or
+# else its page's title, so jumping to a room needs no request.
+def room_name(rpage, fname):
+    m = re.search(r"loveCelRooms\[[^\]]+\]\s*=\s*\{\s*name:\s*'((?:[^'\\]|\\.)*)'", (ROOT / fname).read_text())
+    if m:
+        return m.group(1).replace("\\'", "'")
+    t = re.search(r"<title>(.*?)</title>", (ROOT / rpage).read_text(), re.S)
+    return html.unescape(t.group(1)).split(" \u2014 ")[0].strip() if t else rpage
+line += "\n  var NAMES = " + json.dumps({k: room_name(k, v) for k, v in sorted(rooms.items())}, ensure_ascii=False) + ";"
 js_new = re.sub(r"(// cel:rooms:begin\n).*?(\n\s*// cel:rooms:end)", lambda m: m.group(1) + line + m.group(2), js, flags=re.S)
 if "// cel:rooms:begin" not in js:
     print("REFUSING: cel-street.js has lost its cel:rooms markers.")

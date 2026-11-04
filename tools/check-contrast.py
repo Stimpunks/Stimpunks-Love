@@ -5761,6 +5761,30 @@ ORNAMENT = {
                "text -- love.css has said so since that room was built -- and they are "
                "deep because stained glass is. Lifting them to 3:1 would not make the "
                "window clearer, it would make it not a window.",
+    # The Chappell walked into on Cel Street (cel-in-the-chappell.js): the glass
+    # with the day behind it, the light it throws, and the building. Drawing in
+    # a WebGL scene; no word is set in any of them. Measured on the nave, and
+    # the glass also on the lead it is set in and the wall it stands in.
+    "#e0244f": "chappell on cel street: --chap-ruby, lit ruby glass and the light it throws, "
+               "3.99 on the nave, 4.27 on the lead, 3.18 on the wall. It carries no word.",
+    "#2f7bea": "chappell on cel street: --chap-sapphire, lit sapphire glass and its light, "
+               "4.53 on the nave, 4.85 on the lead, 3.61 on the wall. It carries no word.",
+    "#27c47f": "chappell on cel street: --chap-emerald, lit emerald glass and its light, "
+               "8.18 on the nave, 8.75 on the lead, 6.52 on the wall. It carries no word.",
+    "#b16cff": "chappell on cel street: --chap-amethyst, lit amethyst glass, the rose's light "
+               "and its halo, 5.69 on the nave, 6.09 on the lead, 4.53 on the wall. It carries no word.",
+    "#f1e6ff": "chappell on cel street: --chap-pale, the stones in the rose's rim, the eyes of "
+               "the medallions and the shafts of light in the air, 15.42 on the nave. It carries no word.",
+    "#4b3680": "chappell on cel street: --chap-stone, the piers and the chancel steps, 1.88 on "
+               "the nave and 1.50 on the wall. Stone in the dark; every edge is inked. No word.",
+    "#2c1f52": "chappell on cel street: --chap-wall, the walls and the piers' bases, 1.26 on the "
+               "nave. The dark the glass glows in; it carries no word.",
+    "#2f38a6": "chappell on cel street: --chap-vault, the starred vault, 1.97 on the nave; its "
+               "gold stars and ribs are 5.69 on it. It carries no word.",
+    "#33265c": "chappell on cel street: --chap-flag, a flagstone, 1.39 on the nave and 1.16 "
+               "against the other flag; the gold studs are 8.09 on it. Floor, no word.",
+    "#281c4b": "chappell on cel street: --chap-flag-2, the other flagstone, 1.20 on the nave. "
+               "Floor, no word.",
     "#143a24": "jungle: the hairline round a gallery panel and a stripe in that door's "
                "awning, 1.30 on the understory. A separator inside a room that is dark "
                "on purpose; every word in there is measured against the shaft composite.",

@@ -1885,6 +1885,16 @@
      colours are decorative only and never carry text. */
   --nave: #1A0A33;  --niche: #170A2B;  --glass: #0E0520;  --leaf: #F0C453;
   --ruby: #8B0E33;  --sapphire: #14406E;  --emerald: #0E5C3A;  --amethyst: #5B2A8F;
+  /* The Chappell walked into on Cel Street (cel-in-the-chappell.js): the same
+     four glass colours with the day behind them, as glass looks from inside,
+     and the light they throw on the floor; a pale for the shafts in the air;
+     and the building, indigo stone, the starred vault and the flags. Drawing
+     only: no word is set in any of them, and every one is measured as
+     ornament in check-contrast.py. */
+  --chap-ruby: #E0244F;  --chap-sapphire: #2F7BEA;  --chap-emerald: #27C47F;
+  --chap-amethyst: #B16CFF;  --chap-pale: #F1E6FF;
+  --chap-stone: #4B3680;  --chap-wall: #2C1F52;  --chap-vault: #2F38A6;
+  --chap-flag: #33265C;  --chap-flag-2: #281C4B;
 
   /* The Campgrounds (§13). Cold dusk: spruce dark, bone, lichen, one moon. The
      street is night-black under neon; this is night-blue under nothing. */
@@ -29280,6 +29290,18 @@ body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-fami
 .ps-more { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; flex: 1 1 260px; }
 .ps-page { font-size: 18px; }
 .ps-familiar, .ps-said { margin: 0; font-size: 17px; line-height: 1.5; color: var(--ps-cream); }
+/* The teleporter, first of the controls: a name, typed or picked, and you are there. */
+.ps-tele { flex: 1 1 100%; margin: 0; }
+.ps-tele__label { display: block; margin: 0 0 6px; font-family: 'Holtwood One SC', Georgia, serif; font-size: 15px; letter-spacing: .04em; color: var(--ps-cream); }
+.ps-tele__row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.ps-tele__q {
+  flex: 1 1 260px; max-width: 460px; min-height: 44px; padding: 6px 12px;
+  background: var(--ps-bill); color: var(--ps-print);
+  border: 3px solid var(--ps-print); border-radius: 6px; font-size: 17px;
+}
+.ps-tele__q::placeholder { color: var(--ps-print); opacity: .7; }
+.ps-tele__q:focus-visible { outline: 3px solid var(--ps-ring); outline-offset: 3px; }
+.ps-tele .ps-zoomed { margin-top: 6px; min-height: 1.5em; }
 .ps-see { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
 .ps-zoom {
   min-height: 44px; padding: 6px 12px; cursor: pointer;
@@ -29419,6 +29441,27 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   touch-action: none; user-select: none;
 }
 .cel-more { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+/* Your companions stand at the foot of the picture, your avatar at the left and
+   your chimera at the right, never in the middle where the thing you came to
+   is. They are drawn on a layer over the street that takes no pointer. */
+.cel-folk { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.cel-figure { position: absolute; bottom: 0; }
+.cel-figure--you { left: 2%; height: 44%; }
+.cel-figure--familiar { right: 3%; height: 24%; }
+.cel-figure svg { display: block; width: 100%; height: 100%; }
+/* The teleporter, first of the controls: a name, typed or picked, and you are there. */
+.cel-tele { flex: 1 1 100%; margin: 0; }
+.cel-tele__label { display: block; margin: 0 0 6px; font-family: 'Rammetto One', var(--sans); font-size: 17px; color: var(--cel-print); }
+.cel-tele__row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.cel-tele__q {
+  flex: 1 1 260px; max-width: 460px; min-height: 44px; padding: 6px 12px;
+  background: var(--cel-cloud); color: var(--cel-print);
+  border: 3px solid var(--cel-ink); border-radius: 12px;
+  font-family: 'Golos Text', var(--sans); font-size: 17px;
+}
+.cel-tele__q::placeholder { color: var(--cel-dim); opacity: 1; }
+.cel-tele__q:focus-visible { outline: 3px solid var(--cel-link); outline-offset: 4px; }
+.cel-tele .cel-zoomed { margin-top: 6px; min-height: 1.4em; }
 .cel-see { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
 .cel-zoom {
   min-height: 44px; padding: 6px 12px; cursor: pointer;

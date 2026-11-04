@@ -33,6 +33,8 @@ AND THE PAGE must keep data-familiar="walks", which love.js and familiar.js
 read so the familiar is not put on the page twice.
 """
 import random
+import html
+import json
 import re
 import sys
 from pathlib import Path
@@ -271,6 +273,12 @@ if problems:
 
 # The list of rooms you can walk into, into paper-street.js.
 listed = "  var ROOMS = {" + ", ".join(f"'{p}': '{f}'" for p, f in rooms.items()) + "};"
+# Each room's name, for the teleporter: its page's title, so jumping to a room
+# needs no request.
+def room_name(rpage):
+    t = re.search(r"<title>(.*?)</title>", (ROOT / rpage).read_text(), re.S)
+    return html.unescape(t.group(1)).split(" \u2014 ")[0].strip() if t else rpage
+listed += "\n  var NAMES = " + json.dumps({p: room_name(p) for p in rooms}, ensure_ascii=False) + ";"
 js_new = re.sub(r"(  // walk:rooms:begin\n).*?(\n  // walk:rooms:end)", lambda m: m.group(1) + listed + m.group(2), js, flags=re.S)
 if "// walk:rooms:begin" not in js:
     print("REFUSING  paper-street.js has no walk:rooms markers for the rooms you can walk into.")
