@@ -1,0 +1,133 @@
+{
+  "_what": "What every public restroom on the street has, and why. Ryan's brief, 2026-11-03: public restrooms on Danny the Street, each a room with a name and a theme, all genders, toilets and urinals, wheelchair accessible, Step 'n Wash, changing tables, free menstrual products, free condoms, safe sharps disposal, naloxone, comfortable seating, soap and paper towels, no noisy air dryers, private stalls with availability indicators, shelves and hooks for belongings, pleasant decor and clear signage. Inspired by Norway's scenic-route rest stops, which Visit Norway showed off in October 2026, by Step 'n Wash's own writing on restroom design, and by our Bathroom Access page. Every room's tool imports tools/restrooms.py, which writes this list into the room in the room's own classes and holds every room to all of it: a room that leaves one out, or says how it does one in words that break the list's promises, does not build. The rooms never say how many restrooms the street has.",
+  "_sources": {
+    "bathrooms": "https://stimpunks.org/access/bathrooms/",
+    "spaces": "https://stimpunks.org/access/making-spaces-safer/",
+    "stepnwash": "https://stepnwash.com/blogs/news/public-restroom-design",
+    "norway": "https://www.theguardian.com/world/2026/oct/29/trump-norway-shithouse-toilets"
+  },
+  "amenities": [
+    {
+      "id": "everybody",
+      "name": "For everybody",
+      "line": "Every stall is for everybody, of every gender and none, and for anybody helping somebody else. No sign on the door says who may come in."
+    },
+    {
+      "id": "toilets",
+      "name": "Toilets and urinals",
+      "line": "Toilets, and urinals too, each behind its own door."
+    },
+    {
+      "id": "wheelchair",
+      "name": "Wheelchair accessible",
+      "line": "Step-free from the street, with a door that opens without a fight, room to turn a wheelchair right round, and grab bars beside and behind every toilet."
+    },
+    {
+      "id": "step",
+      "name": "A step at the sink",
+      "line": "A Step &rsquo;n Wash under the basins: a step that folds out from under the sink for children, and for anybody else the basin is too high for, and folds itself away again."
+    },
+    {
+      "id": "changing",
+      "name": "Changing tables",
+      "line": "A changing table for a baby, and a height-adjustable one big enough for an adult, with a hoist, because a grown body needs changing too and almost nowhere has room for it."
+    },
+    {
+      "id": "menstrual",
+      "name": "Menstrual products",
+      "line": "Pads and tampons, free, in every stall, so nobody has to ask or carry anything."
+    },
+    {
+      "id": "condoms",
+      "name": "Condoms",
+      "line": "Condoms, free, in a bowl you can take from without being seen."
+    },
+    {
+      "id": "sharps",
+      "name": "Sharps disposal",
+      "line": "A sharps box for needles, fixed to the wall in every stall, so nobody has to find somewhere else to put one."
+    },
+    {
+      "id": "naloxone",
+      "name": "Naloxone",
+      "line": "Naloxone, free, in a cabinet by the door with how to use it written on the inside, because it reverses an opioid overdose and somebody may need it before help comes."
+    },
+    {
+      "id": "seating",
+      "name": "Somewhere to sit",
+      "line": "Comfortable seats outside the stalls, for waiting, for whoever is helping somebody, and for a minute to yourself."
+    },
+    {
+      "id": "washing",
+      "name": "Soap and paper towels",
+      "line": "Soap, warm water and paper towels."
+    },
+    {
+      "id": "quiet",
+      "name": "No air dryers",
+      "line": "No air dryers. They are loud enough to hurt, and some of us cannot go in a room that has one."
+    },
+    {
+      "id": "stalls",
+      "name": "Private stalls",
+      "line": "Every stall a small room of its own, its door down to the floor and up to the ceiling, with a light over it that says free or in use in words as well as colour."
+    },
+    {
+      "id": "belongings",
+      "name": "Shelves and hooks",
+      "line": "A shelf and a hook in every stall, for a bag, a coat, a cane or a phone, so nothing goes on the floor."
+    },
+    {
+      "id": "signs",
+      "name": "Clear signs",
+      "line": "Signs in words and pictures, big, at a height you can read sitting down, with raised letters and braille."
+    },
+    {
+      "id": "free",
+      "name": "Free, and nobody asks",
+      "line": "Free to use, at any hour, with nothing to buy first and nobody asking why you are there."
+    }
+  ],
+  "quotes": [
+    {
+      "key": "stallbatting",
+      "text": "A young Stimpunk, a baseball fan, coined the term “stallbatting”. Stallbatting is interfering with someone going to the bathroom of their choosing.",
+      "who": "Stimpunks",
+      "work": "Bathroom Access",
+      "href": "https://stimpunks.org/access/bathrooms/",
+      "mirror": "pages/access__bathrooms.md"
+    },
+    {
+      "key": "construct",
+      "text": "Everyone uses the bathroom and gender is a construct.",
+      "who": "Stimpunks",
+      "work": "Bathroom Access",
+      "href": "https://stimpunks.org/access/bathrooms/",
+      "mirror": "pages/access__bathrooms.md"
+    },
+    {
+      "key": "multiple",
+      "text": "The right to safe and accessible public restrooms is also important for adults and older children who need accommodation, assistance, or supervision.",
+      "who": "Stimpunks",
+      "work": "Bathroom Access",
+      "href": "https://stimpunks.org/access/bathrooms/",
+      "mirror": "pages/access__bathrooms.md"
+    },
+    {
+      "key": "naloxone",
+      "text": "Naloxone, also known as Narcan, is a medication used to prevent overdoses by blocking the effects of opioids.",
+      "who": "Shawna Potter",
+      "work": "Making Spaces Safer (AK Press, 2019), read on our Making Spaces Safer page",
+      "href": "https://stimpunks.org/access/making-spaces-safer/",
+      "mirror": "pages/access__making-spaces-safer.md"
+    },
+    {
+      "key": "condoms",
+      "text": "Offer condoms and tampons, with signage in the bathrooms to let people know where or from whom to get them.",
+      "who": "Shawna Potter",
+      "work": "Making Spaces Safer (AK Press, 2019), read on our Making Spaces Safer page",
+      "href": "https://stimpunks.org/access/making-spaces-safer/",
+      "mirror": "pages/access__making-spaces-safer.md"
+    }
+  ]
+}

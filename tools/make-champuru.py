@@ -371,9 +371,9 @@ def sweep_page():
     if re.search(r"<(?:form|input|textarea|select)\b", re.sub(r"<!-- quest:.*?:end -->", "", src, flags=re.S)):
         problems.refuse("the restaurant has a form in it. Nothing is ordered, sent or kept here.")
     css = CSS.read_text()
-    sec = re.search(rf"/\* §{SECTION} ── ROOM: Champuru.*?(?=/\* §{SECTION + 1} )", css, re.S)
+    sec = re.search(rf"/\* §{SECTION} ── ROOM: Champuru.*?(?=/\* §\d+ ── )", css, re.S)
     if not sec:
-        problems.refuse(f"love.css has no §{SECTION} for Champuru before §{SECTION + 1}.")
+        problems.refuse(f"love.css has no §{SECTION} for Champuru before the next section.")
     elif re.search(r"@keyframes|\banimation\b|\btransition\b", re.sub(r"/\*.*?\*/", "", sec.group(0), flags=re.S)):
         problems.refuse(f"§{SECTION} moves something. Nothing in the lane moves at any setting.")
 

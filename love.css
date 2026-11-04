@@ -18354,7 +18354,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §138
+   class on it is `bb-`, its sizes are in points and millimetres, and §142
    prints it and nothing else. */
 
 .room-broadside {
@@ -18415,7 +18415,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §138 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §142 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -29573,7 +29573,7 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   .chp-lede { font-size: 18px; }
 }
 
-/* §137 ── Small screens───────────────────────────────────────────────────────
+/* §141 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -29677,7 +29677,7 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §137 says every
+   shipped with no rule here at all — which on a street whose §141 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -29801,7 +29801,7 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §138 ── Print ───────────────────────────────────────────────────────────────
+/* §142 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 
