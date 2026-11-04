@@ -2347,6 +2347,14 @@
   --gd-edge: #9DB183;
   --gd-loam: #2B2013;   --gd-loam-2: #5A462C;
   --gd-leaf: #2F6B1E;   --gd-leaf-2: #55893A;  --gd-bloom: #A8390B;
+  /* The garden walked into on Cel Street, and nowhere on its page: a softer
+     sky, a gravel path darker than the limewashed boards, the lawn, the
+     pond, its stone, and two more flowers. None carries a word. */
+  --gd-sky: #DCE6CE;    --gd-gravel: #D1D7BC;  --gd-gravel-2: #BCC4A4;
+  --gd-lawn: #7FA458;   --gd-lawn-2: #6E9449;
+  --gd-water: #3E6C64;  --gd-water-2: #6A958C;
+  --gd-stone: #B7B4A0;  --gd-stone-2: #8F8C79;
+  --gd-petal: #D88AA0;  --gd-sun: #E2B53C;
 
   /* The Zibaldone (§29). A BOOK LYING ON A DESK, LIT FROM ONE SIDE, and that
      sentence is the whole of its separation from every other paper room on

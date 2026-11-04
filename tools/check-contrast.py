@@ -4409,6 +4409,17 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#dce6ce": "garden on Cel Street: --gd-sky, the softer sky over the garden walked into, 1.26 against a limewashed board. Drawn only in that scene; it carries no word.",
+    "#d1d7bc": "garden on Cel Street: --gd-gravel, the path, 1.45 under a limewashed board, so the board is still the palest thing there. It carries no word.",
+    "#bcc4a4": "garden on Cel Street: --gd-gravel-2, the leaf shadow and the pebbles on the path, 1.22 on the gravel. It carries no word.",
+    "#7fa458": "garden on Cel Street: --gd-lawn, the lawn and its mown stripes, 1.23 against --gd-lawn-2. It carries no word.",
+    "#6e9449": "garden on Cel Street: --gd-lawn-2, the lawn's darker stripe and the grass, 2.36 against the gravel. It carries no word.",
+    "#3e6c64": "garden on Cel Street: --gd-water, the pond and the fountain's still water, 4.01 against the gravel. It carries no word.",
+    "#6a958c": "garden on Cel Street: --gd-water-2, the sky lying on the still water, 1.78 on --gd-water. It carries no word.",
+    "#b7b4a0": "garden on Cel Street: --gd-stone, the fountain, the pond's rim and the gazebos' floors, 1.41 on the gravel. It carries no word.",
+    "#8f8c79": "garden on Cel Street: --gd-stone-2, the shaded side of the stone and the benches' iron, 1.62 on --gd-stone. It carries no word.",
+    "#d88aa0": "garden on Cel Street: --gd-petal, a rose and a flower in the borders, 1.34 on the lawn. It carries no word.",
+    "#e2b53c": "garden on Cel Street: --gd-sun, a yellow flower in the borders, 1.82 on the lawn. It carries no word.",
     "#8a5cff": "play pod: --ppd-uv, the UV tube and its glow, the trays' rims and the panels' edges, 4.67 on the night. The lamp's light; it carries no word.",
     "#ff5cc8": "play pod: --ppd-pink, the foam paint glowing in the drawing and an idea's edge, 7.04 on the night. It carries no word, though it would clear the bar.",
     "#5cffa3": "play pod: --ppd-green, foam paint and a glow stick in the drawing and an idea's edge, 15.05 on the night. It carries no word.",
