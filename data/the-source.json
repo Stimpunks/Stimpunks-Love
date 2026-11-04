@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-11-03T12:16Z",
+  "set": "2026-11-04T12:17Z",
   "springs": [
     {
       "id": "starstuff",
@@ -12,6 +12,16 @@
       "feed": "https://github.com/Stimpunks/Star-Stuff/commits/main.atom",
       "note": "Every zine, field guide, broadside and working paper on starstuff.earth, and the tools that check each one before it goes up.",
       "items": [
+        {
+          "title": "The code is MIT, and the collection stays CC BY-SA",
+          "url": "https://github.com/Stimpunks/Star-Stuff/commit/85467102d1b9e02e1fe5faaa8982737a9472e8a6",
+          "date": "2026-11-03T23:51:03Z",
+          "sha": "8546710",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
         {
           "title": "Regenerate the derived files for Glimmer Wire edition ten, and repair…",
           "url": "https://github.com/Stimpunks/Star-Stuff/commit/29ec841be728a7e3fc745381e84c2da0f3a6b134",
@@ -61,19 +71,9 @@
             "Claude Opus 5"
           ],
           "anon": true
-        },
-        {
-          "title": "Glimmer Wire, edition eight: eight filed, eight held, nine papers rea…",
-          "url": "https://github.com/Stimpunks/Star-Stuff/commit/1959092cc848aa5d8461d6d40e902ed448adcc07",
-          "date": "2026-10-16T12:54:35Z",
-          "sha": "1959092",
-          "by": [
-            "Claude Opus 5"
-          ],
-          "anon": true
         }
       ],
-      "read": "2026-11-03T12:16Z"
+      "read": "2026-11-04T12:17Z"
     },
     {
       "id": "queering",
@@ -83,6 +83,16 @@
       "feed": "https://github.com/Stimpunks/Queering-Earth/commits/main.atom",
       "note": "The cabinet of sheets at queering.earth, a Stimpunks Foundation and More Realms collaboration with Helen Edgar.",
       "items": [
+        {
+          "title": "The code is MIT, and everything else stays CC BY-SA",
+          "url": "https://github.com/Stimpunks/Queering-Earth/commit/b0013c083abb0a0f3a8e60ace2150062ff508344",
+          "date": "2026-11-03T23:38:24Z",
+          "sha": "b0013c0",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
         {
           "title": "Sheet No. 15 corrected on its mounting day: it was still speaking as …",
           "url": "https://github.com/Stimpunks/Queering-Earth/commit/65a4dd45ab61757449a3b4237a586a005a844095",
@@ -132,19 +142,9 @@
             "ryanboren",
             "Claude Opus 5"
           ]
-        },
-        {
-          "title": "What the search-index merge rule actually does, measured rather than …",
-          "url": "https://github.com/Stimpunks/Queering-Earth/commit/3e9b215102c988d5e006028243f1f7d9a0583d4d",
-          "date": "2026-09-14T17:00:34Z",
-          "sha": "3e9b215",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5"
-          ]
         }
       ],
-      "read": "2026-11-03T12:16Z"
+      "read": "2026-11-04T12:17Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-11-03T12:16Z"
+      "read": "2026-11-04T12:17Z"
     },
     {
       "id": "pebbling",
@@ -225,6 +225,16 @@
       "feed": "https://github.com/Stimpunks/Penguin-Pebbling/commits/main.atom",
       "note": "Helen Edgar and Ryan Boren's card game about bringing somebody a small thing for no reason.",
       "items": [
+        {
+          "title": "The code is MIT; the game stays CC BY-NC-SA 4.0",
+          "url": "https://github.com/Stimpunks/Penguin-Pebbling/commit/b6f85bb86cf08d46b11a92d9504db8966d2f1450",
+          "date": "2026-11-03T23:35:49Z",
+          "sha": "b6f85bb",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
         {
           "title": "Stop _headers claiming to be generated, and say what actually reads it",
           "url": "https://github.com/Stimpunks/Penguin-Pebbling/commit/cb4a876040af192a9162aaefd9d7837d104d125b",
@@ -274,19 +284,9 @@
             "ryanboren",
             "Claude Opus 5"
           ]
-        },
-        {
-          "title": "CSP: add connect-src 'self', without which the worker cached nothing",
-          "url": "https://github.com/Stimpunks/Penguin-Pebbling/commit/827e98811154778996c03ea552d7663aed345f12",
-          "date": "2026-09-15T11:11:59Z",
-          "sha": "827e988",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5"
-          ]
         }
       ],
-      "read": "2026-11-03T12:16Z"
+      "read": "2026-11-04T12:17Z"
     },
     {
       "id": "monotropic",
@@ -296,6 +296,16 @@
       "feed": "https://github.com/Stimpunks/Monotropic-Map/commits/main.atom",
       "note": "The map you can walk and the tool for drawing your own, with Helen Edgar of Autistic Realms.",
       "items": [
+        {
+          "title": "The code is MIT, and the map stays CC BY-SA",
+          "url": "https://github.com/Stimpunks/Monotropic-Map/commit/1e8ea9875d7ac12efa498244c812afe60ab649ad",
+          "date": "2026-11-03T23:34:12Z",
+          "sha": "1e8ea98",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
         {
           "title": "Publish Helen's Mapping Monotropism in Education",
           "url": "https://github.com/Stimpunks/Monotropic-Map/commit/44f677fda1d21b0b0cae27c22ae1ed8acf317c46",
@@ -345,19 +355,9 @@
             "ryanboren",
             "Claude Opus 5"
           ]
-        },
-        {
-          "title": "Drag shapes out of the tray, and download the map",
-          "url": "https://github.com/Stimpunks/Monotropic-Map/commit/c3cb442db7ac3591ddcd67407f19bdecabb3ccfe",
-          "date": "2026-09-16T20:56:14Z",
-          "sha": "c3cb442",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5"
-          ]
         }
       ],
-      "read": "2026-11-03T12:16Z"
+      "read": "2026-11-04T12:17Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-11-03T12:16Z"
+      "read": "2026-11-04T12:17Z"
     },
     {
       "id": "love",
@@ -439,67 +439,67 @@
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
         {
-          "title": "Champuru: a table in the shade of a lane",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/ce0ad085e9cff16cceb2fdec10f366bed08bc320",
-          "date": "2026-11-03T08:53:12Z",
-          "sha": "ce0ad08",
+          "title": "Cel Street and Paper Street say which room you are in",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/9c019dfa4c70aae38dba7871e55c6c6bcc98de56",
+          "date": "2026-11-04T12:05:47Z",
+          "sha": "9c019df",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Widdershins leads with Raising Steam",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/08479619803f7382b8eea7dafcdf252ad47fef8b",
-          "date": "2026-11-03T02:25:30Z",
-          "sha": "0847961",
+          "title": "The dial stands beside the room's words",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/1ef33c6973fa31ffe5104317e0a8eb5ba988c933",
+          "date": "2026-11-04T10:16:20Z",
+          "sha": "1ef33c6",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Widdershins closes with The Turtle Moves",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/8654d7be3504ad31fb12a102ead621e870f68c61",
-          "date": "2026-11-03T02:14:53Z",
-          "sha": "8654d7b",
+          "title": "Stay Frosty has the dial too",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/5336e82eb1da6def1d568d6a519c86bb440e922c",
+          "date": "2026-11-04T09:06:58Z",
+          "sha": "5336e82",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Cel Street: Widdershins",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/2b57097a3c068ffd774be4b7f30f662fbb3c288b",
-          "date": "2026-11-03T02:02:25Z",
-          "sha": "2b57097",
+          "title": "The dial in every room",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/63ce563f7b12da9311fc0373b087a0598c27bf29",
+          "date": "2026-11-04T08:45:54Z",
+          "sha": "63ce563",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Widdershins: a Discworld appreciation against the way of normativity",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/8e1918d72a9b662ad49695c750c52a33a442baef",
-          "date": "2026-11-03T01:25:41Z",
-          "sha": "8e1918d",
+          "title": "Walk this room, from every room's page to its room on Cel Street",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/f61399f59efd9ca3e18eaf5897ca4aefd3b5cb8f",
+          "date": "2026-11-04T08:31:14Z",
+          "sha": "f61399f",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Cel Street: the caverns' levels",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/2c5a59e1d31d43c4e0fac1e65850fbff0dcf4c2c",
-          "date": "2026-11-03T00:34:26Z",
-          "sha": "2c5a59e",
+          "title": "Cel Street: a second pass on more rooms, and Champuru walks in",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/6aa30085cfc061b466f6da3afda29c118827f75e",
+          "date": "2026-11-04T07:53:18Z",
+          "sha": "6aa3008",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         }
       ],
-      "read": "2026-11-03T12:16Z"
+      "read": "2026-11-04T12:17Z"
     },
     {
       "id": "garden",
@@ -568,7 +568,7 @@
           "anon": true
         }
       ],
-      "read": "2026-11-03T12:16Z"
+      "read": "2026-11-04T12:17Z"
     }
   ]
 }
