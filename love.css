@@ -6745,6 +6745,34 @@ html[data-intensity="gentle"] .pullquote .tape { transform: none; }
 .keeps dt { font-weight: 700; }
 .keeps dd { margin: 3px 0 0; font-size: 13.5px; line-height: 1.5; }
 
+/* THE ZINE TABLE, WALKED INTO ON PAPER STREET (walk-zine-table.js, round 1,
+   2026-11-04). Paper Street's stage takes the copy room's clothes while you
+   are in it: its frame is photocopier black, the printed night goes and white
+   paper is everything behind. The page is taped up on the end wall as one big
+   sheet, two strips of tape across its top corners; it is the one thing in
+   the scene that takes a pointer. */
+.zine-walk { --ps-frame: var(--ink); --ps-back: var(--paper); --ps-backcloth: none; }
+.zine-walk-sheet { --ps-takes: auto; overflow: hidden; background: var(--paper); box-shadow: 0 0 0 3px var(--ink); }
+.zine-walk-sheet iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--paper); }
+.zine-walk-sheet::before, .zine-walk-sheet::after {
+  content: ""; position: absolute; top: 0; width: 120px; height: 28px; pointer-events: none;
+  background: var(--paper); border: 2px solid var(--ink);
+}
+.zine-walk-sheet::before { left: -10px; }
+.zine-walk-sheet::after { right: -10px; }
+
+/* ISSUE #2, WALKED INTO ON PAPER STREET (walk-zine-issue-2.js, round 1,
+   2026-11-04). Its own scene in the Zine Table's colours: the stage's frame is
+   photocopier black and everything behind is the black of two in the morning,
+   with the sheet lying on it as the floor. The cut-outs lifted off the page
+   stand on white paper with a black cut edge, and the page stands up at the
+   head of the sheet as the paper it is; those are what take a pointer. */
+.zine-issue-walk { --ps-frame: var(--ink); --ps-back: var(--ink); --ps-backcloth: none; }
+.zine-issue-walk-cut > div { padding: 14px 18px; background: var(--paper); box-shadow: 0 0 0 3px var(--ink); }
+.zine-issue-walk-sheet { --ps-takes: auto; overflow: hidden; background: var(--paper); box-shadow: 0 0 0 4px var(--paper), 0 0 0 7px var(--ink); }
+.zine-issue-walk-sheet iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--paper); }
+
+
 
 
 /* §8 ── ROOM: Hear Queer Here ────────────────────────────────────────────────
@@ -6831,6 +6859,19 @@ html[data-intensity="gentle"] .pullquote .tape { transform: none; }
 .fringe[data-state="a"]::after  { display: none; }
 .fringe[data-state="b"]::before { display: none; }
 
+/* HEAR QUEER HERE, WALKED INTO ON PAPER STREET (walk-hear-queer-here.js, round
+   one, 2026-11-04). Paper Street's stage takes the experiment's clothes while
+   you are in it: its frame is the street's own dark ink, the printed night goes
+   and deep space is everything behind. The page is set in the detector at the
+   far end, edged in the measuring green, cyan beyond it; it is the one thing in
+   the scene that takes a pointer. */
+.quantum-walk { --ps-frame: var(--ink-3); --ps-back: var(--ink); --ps-backcloth: none; }
+.quantum-walk-detector {
+  --ps-takes: auto; overflow: hidden; background: var(--ink);
+  border-radius: 12px; box-shadow: 0 0 0 4px var(--green), 0 0 0 10px var(--ink), 0 0 0 13px var(--cyan);
+}
+.quantum-walk-detector iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ink); }
+
 /* §9 ── ROOM: Enid's Room ────────────────────────────────────────────────────
    Black walls, technicolour everything else. The room for the one who does not
    match the house — and the template the empty storefront is built from. */
@@ -6899,6 +6940,17 @@ html[data-intensity="gentle"] .polaroid { transform: none; }
 .boombox { border: 2px solid #2a2a34; border-radius: 12px; padding: 15px; display: flex; gap: 11px; align-items: center; }
 .boombox .cone { width: 44px; height: 44px; border-radius: 50%; border: 3px solid #6d6a7a; flex: none; }
 
+/* ENID'S ROOM, WALKED INTO ON PAPER STREET (walk-enids-room.js, Ryan's ask,
+   2026-11-04). Paper Street's stage takes Enid's clothes while you are in it:
+   its frame is her pink, the printed night goes and the black walls are
+   everything behind. The page hangs on the far wall edged in her green; it is
+   the one thing in the scene that takes a pointer. */
+.enid-walk { --ps-frame: var(--pink); --ps-back: var(--ink); --ps-backcloth: none; }
+.enid-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--ink);
+  border-radius: 18px; box-shadow: 0 0 0 4px var(--green), 0 0 0 10px var(--ink-3);
+}
+.enid-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ink); }
 
 /* §10 ── ROOM: The Playhouse ─────────────────────────────────────────────────
    Saturated primaries, checkerboard floor, everything is a real button. */
@@ -7228,6 +7280,18 @@ html[data-intensity="max"] .burst--confetti span { animation: pb-confetti 1.5s e
 .floor span { background: #101014; padding: 9px 22px; border-radius: 30px; font-family: 'Bungee', var(--sans); font-size: 14px; color: var(--yellow); letter-spacing: 1px; }
 
 
+/* THE PLAYHOUSE, WALKED INTO ON PAPER STREET (walk-playhouse.js, 2026-11-04).
+   The stage takes the room's clothes in broad day: its frame is the yellow and
+   the blue is behind everything. The room's own page hangs on the back wall in
+   a cream card with the room's hard ink edge, and it is the one thing in the
+   scene that takes a pointer. Nothing moves and nothing makes a sound. */
+.play-walk { --ps-frame: var(--yellow); --ps-back: var(--blue); --ps-backcloth: none; }
+.play-walk-page {
+  --ps-takes: auto; overflow: hidden; background: var(--blue);
+  border-radius: 14px; box-shadow: 0 0 0 10px var(--cream), 0 0 0 16px var(--ink);
+}
+.play-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--blue); }
+
 /* §11 ── The plain rooms: Your Room, Liner Notes, Changelog and the others ───
    The pages that have a job rather than a vibe: Your Room, the liner notes,
    how the site is made, privacy and the changelog. They take the street's night
@@ -7286,6 +7350,35 @@ html[data-intensity="max"] .burst--confetti span { animation: pb-confetti 1.5s e
    page sideways costs reading it. */
 .room-plain .plain-table th, .room-plain .plain-table td { overflow-wrap: anywhere; }
 
+/* YOUR ROOM, WALKED INTO ON PAPER STREET (walk-your-room.js, round 1,
+   2026-11-04). Paper Street's stage takes the plain rooms' clothes while you
+   are in Your Room: its frame is the night's third step, the printed night
+   goes and the bare night ground is everything behind. The page is pinned up
+   on the far wall with two of the plain rooms' yellow pins, nothing framing
+   it; it is the one thing in the scene that takes a pointer. */
+.yr-walk { --ps-frame: var(--ink-3); --ps-back: var(--ink); --ps-backcloth: none; }
+.yr-walk-pinned { --ps-takes: auto; overflow: hidden; background: var(--ink); box-shadow: 0 0 0 3px var(--ink-3); }
+.yr-walk-pinned iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ink); }
+.yr-walk-pinned::before, .yr-walk-pinned::after {
+  content: ""; position: absolute; top: 10px; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--yellow); pointer-events: none;
+}
+.yr-walk-pinned::before { left: 10px; }
+.yr-walk-pinned::after { right: 10px; }
+
+
+
+/* THE POLAROID WALL, WALKED INTO ON PAPER STREET (walk-polaroids.js,
+   2026-11-04). A plain room's clothes: the stage's frame is the plain rooms'
+   yellow and their ink is behind everything. The room's own page hangs on the
+   left-hand wall in a paper edge, and it is the one thing in the scene that
+   takes a pointer; every frame on the far wall is empty. Nothing moves. */
+.pol-walk { --ps-frame: var(--yellow); --ps-back: var(--ink); --ps-backcloth: none; }
+.pol-walk-page {
+  --ps-takes: auto; overflow: hidden; background: var(--ink);
+  border-radius: 4px; box-shadow: 0 0 0 10px var(--paper), 0 0 0 13px var(--ink-3);
+}
+.pol-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ink); }
 
 /* §12 ── SUBROOM: The Chappell (off Pink Pony Club) ──────────────────────────
    RHINESTONE VATICAN. A chapel built by somebody who thinks a chapel should
@@ -7467,6 +7560,18 @@ html[data-intensity="gentle"] .room-chappell h1 { text-shadow: none; }
 .gloria h2 { margin: 0 0 9px; }
 .gloria p { margin: 0; font-size: 15px; line-height: 1.56; color: #EFE4FF; }
 
+/* THE CHAPPELL, WALKED INTO ON PAPER STREET (walk-the-chappell.js, 2026-11-04).
+   Paper Street's stage takes the nave's clothes while you are in it: its frame
+   is gold leaf and what is behind is the nave's votive indigo, and not one of
+   the dancefloor's colours. The room's own page stands in the great arch of
+   the chancel under the rose, edged in gold, and it is the one thing in the
+   scene that takes a pointer. */
+.chappell-walk { --ps-frame: var(--leaf); --ps-back: var(--nave); --ps-backcloth: none; }
+.chappell-walk-chancel {
+  --ps-takes: auto; overflow: hidden; background: var(--nave);
+  box-shadow: 0 0 0 4px var(--leaf), 0 0 0 14px var(--niche);
+}
+.chappell-walk-chancel iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--nave); }
 
 /* §13 ── THE CAMPGROUNDS (off the end of the street) ─────────────────────────
    AN AREA, NOT A ROOM. The street is a row of shopfronts shoulder to shoulder under
@@ -7612,6 +7717,14 @@ html[data-intensity="gentle"] .room-chappell h1 { text-shadow: none; }
    field. The yurt's fairy lights twinkle on its own page; out here they are
    still, because this is the field's drawing of it and not the room. */
 
+/* THE FIELD, WALKED INTO ON PAPER STREET (walk-campgrounds.js): the stage is
+   framed in bark and the night behind is the dusk, with no stars printed on
+   it, because the field is lit by nothing and the moon over the treeline is
+   drawn. The board in the middle of the field holds the field's own page in a
+   frame of bark and is the one thing in the scene that takes a pointer. */
+.camp-walk { --ps-frame: var(--bark); --ps-back: var(--dusk); --ps-backcloth: none; }
+.camp-walk-board { --ps-takes: auto; overflow: hidden; background: var(--spruce); box-shadow: 0 0 0 10px var(--bark); }
+.camp-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--spruce); }
 
 /* §14 ── PITCH 1: The Faery Yurt (in the campgrounds) ────────────────────────
    HELEN'S ROOM, AND IT IS HERS. Built from the mockup Helen Edgar sent on
@@ -8473,6 +8586,20 @@ html[data-intensity="gentle"] .yurt-notebook__sweep.is-turning { animation: none
   .room-yurt .yurt-logs .pebbles__stone { padding: 16px 18px 18px; border-radius: 28px 34px 30px 36px / 32px 28px 36px 30px; }
 }
 
+/* THE FAERY YURT, WALKED INTO ON PAPER STREET (walk-faery-yurt.js, Ryan's ask,
+   2026-11-04). Ours, in Helen's own declared colours, hers to keep or send
+   back. Paper Street's stage takes her yurt's clothes while you are in it: its
+   frame is her timber, the printed night goes and the dark of the crown is
+   everything behind. Her page hangs on the far wall in a timber frame with a
+   candle-coloured edge, cream on dark as her room is; it is the one thing in
+   the scene that takes a pointer. */
+.yurt-walk { --ps-frame: var(--timber); --ps-back: var(--tent); --ps-backcloth: none; }
+.yurt-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--hearth);
+  border-radius: 10px; box-shadow: 0 0 0 4px var(--candle), 0 0 0 14px var(--timber);
+}
+.yurt-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--hearth); }
+
 /* §15 ── ROOM: The Arcade ────────────────────────────────────────────────────
    The only room on this street with a game in it. Coin-op at
    midnight: a grape carpet, a cabinet built out of hard blocks, and a screen
@@ -8877,6 +9004,34 @@ html[data-intensity="max"] .bulbs span { animation: bulbchase 1.6s steps(2) infi
   border-radius: 6px; box-shadow: 0 0 0 4px var(--carpet), 0 0 0 8px var(--tube-2);
 }
 .arc-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--crt); }
+
+/* OTTERLY ADORBS, WALKED INTO ON PAPER STREET (walk-otterly-adorbs.js, round
+   one, 2026-11-04). The Arcade's body, and the otter's machine's screen:
+   Paper Street's stage takes the cabinet's clothes while you are in it, its
+   frame the cabinet's body and the carpet the dark, as the foyer's does,
+   because that is what an arcade is. The page is on the otter's cabinet's
+   screen, in the bay's own dark; it is the one thing in the scene that takes a
+   pointer. Nothing moves and nothing sounds, at any setting. */
+.otter-walk { --ps-frame: var(--cab); --ps-back: var(--carpet); --ps-backcloth: none; }
+.otter-walk-screen {
+  --ps-takes: auto; overflow: hidden; background: var(--bay);
+  border-radius: 6px; box-shadow: 0 0 0 4px var(--shoal), 0 0 0 8px var(--tube-2);
+}
+.otter-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--bay); }
+
+/* PENGUIN PEBBLING AND QUILL DRIFT, WALKED INTO ON PAPER STREET
+   (walk-penguin-pebbling.js, walk-quill-drift.js, 2026-11-04). Each game's
+   bay is the foyer's body, as an arcade's machines are: the stage's frame is the
+   cabinet's purple and the carpet's grape is behind everything, the same for
+   both, because the worlds here are the screens. Each game's own page hangs on
+   a wall of its bay in a coin edge, and it is the one thing in its scene that
+   takes a pointer. Nothing moves and nothing makes a sound. */
+.peb-walk, .quill-walk { --ps-frame: var(--cab); --ps-back: var(--carpet); --ps-backcloth: none; }
+.peb-walk-glass, .quill-walk-glass {
+  --ps-takes: auto; overflow: hidden; background: var(--crt);
+  border-radius: 6px; box-shadow: 0 0 0 8px var(--coin), 0 0 0 14px var(--carpet);
+}
+.peb-walk-glass iframe, .quill-walk-glass iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--crt); }
 
 /* §16 ── ROOM: The Latibulum ─────────────────────────────────────────────────
    A BURROW, NOT A TENT, AND THE DIFFERENCE IS LOAD-BEARING. This is the second
@@ -9580,6 +9735,19 @@ html[data-intensity="max"] .falls__water { animation: den-fall 7s ease-in-out in
 
 .den-note { font-size: 14.5px; line-height: 1.6; color: var(--rattan); }
 
+/* THE DEN, WALKED INTO ON PAPER STREET (walk-the-den.js, 2026-11-04). Paper
+   Street's stage takes the den's clothes while you are in it: its frame is the
+   panelling's teak and what is behind is cocoa brown, no green and no sky; the
+   green is on the floor. The room's own page hangs on the north wall in a
+   carved frame of teak with its corners notched out, and it is the one thing in
+   the scene that takes a pointer. */
+.den-walk { --ps-frame: var(--teak); --ps-back: var(--cocoa); --ps-backcloth: none; }
+.den-walk-frame {
+  --ps-takes: auto; overflow: hidden; background: var(--cocoa);
+  box-shadow: 0 0 0 16px var(--teak), 0 0 0 20px var(--tiki);
+  clip-path: polygon(-20px 0, 0 -20px, calc(100% + 0px) -20px, calc(100% + 20px) 0, calc(100% + 20px) 100%, 100% calc(100% + 20px), 0 calc(100% + 20px), -20px 100%);
+}
+.den-walk-frame iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cocoa); }
 
 /* §19 ── ROOM: The Solarpunk Hermitage (pitch 03 in the campgrounds) ─────────
    RYAN'S OWN PITCH, and the first DAYLIT room on this street. That is not a
@@ -10097,6 +10265,19 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 }
 .hermitage .pebbles__go:hover, .hermitage .pebbles__lift:hover { background: var(--furrow); border-color: var(--furrow); }
 
+/* THE SOLARPUNK HERMITAGE, WALKED INTO ON PAPER STREET (walk-solarpunk-hermitage.js,
+   2026-11-04). Paper Street's stage takes the pitch's morning while you are on
+   it: its frame is the cabin's cedar and what is behind is the day sky, the one
+   room on Paper Street that is daylit all round. The room's own page is in the
+   cabin's big window, framed in the cabin's pale trim, and it is the one thing
+   in the scene that takes a pointer. */
+.hermit-walk { --ps-frame: var(--cedar); --ps-back: var(--daysky); --ps-backcloth: none; }
+.hermit-walk-window {
+  --ps-takes: auto; overflow: hidden; background: var(--noon);
+  box-shadow: 0 0 0 8px var(--bakelite);
+}
+.hermit-walk-window iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--noon); }
+
 /* §20 ── ROOM: Club Chronic ──────────────────────────────────────────────────
    A BLACK WALL WITH PAPER STUCK TO IT. Every other room on this street is a
    ground with things drawn on it; this is a ground with things GLUED on,
@@ -10309,6 +10490,20 @@ html[data-intensity="max"] .candle-flame { animation: guttering 3.4s ease-in-out
 .policy li { margin: 0 0 9px; }
 .policy li::marker { color: var(--siren); }
 .policy li:last-child { margin-bottom: 0; }
+
+/* CLUB CHRONIC, WALKED INTO ON PAPER STREET (walk-club-chronic.js, Ryan's ask,
+   2026-11-04). Paper Street's stage takes the basement's clothes while you are
+   in it: its frame is the grime, the printed night goes and the brick-black is
+   everything behind. The page is pasted up behind the stage like the biggest
+   flyer in the room, square and flat with a paste edge, the one thing in the
+   scene that takes a pointer. Nothing strobes and nothing moves, at any
+   setting. */
+.club-walk { --ps-frame: var(--grime); --ps-back: var(--brick); --ps-backcloth: none; }
+.club-walk-bill {
+  --ps-takes: auto; overflow: hidden; background: var(--brick);
+  box-shadow: 0 0 0 8px var(--paste), 0 0 0 11px var(--staple);
+}
+.club-walk-bill iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--brick); }
 
 /* §21 ── THE PEBBLE BOARD (street furniture, not a storefront) ───────────────
    A community noticeboard bolted to the pavement outside the shops. It is NOT
@@ -10620,6 +10815,18 @@ html[data-intensity="gentle"] .pb-tape { transform: translateX(-50%); }
 .pb-rack ul { margin: 12px 0 0; padding-left: 20px; font-size: 15.5px; line-height: 1.7; }
 .pb-rack a { color: var(--pblamp); }
 
+
+/* THE PEBBLE BOARD, WALKED INTO ON PAPER STREET (walk-pebble-board.js,
+   2026-11-04). The stage takes the board's clothes: its frame is the case's
+   painted timber and behind everything is the street's own night. The edition's
+   page is pinned at the near end of the case behind the glass, in a timber edge,
+   and it is the one thing in the scene that takes a pointer. Nothing moves. */
+.pb-walk { --ps-frame: var(--pbframe); --ps-back: var(--pbnight); --ps-backcloth: none; }
+.pb-walk-sheet {
+  --ps-takes: auto; overflow: hidden; background: var(--pbcork);
+  border-radius: 2px; box-shadow: 0 0 0 6px var(--pbpaper), 0 0 0 10px var(--pbframe-lit);
+}
+.pb-walk-sheet iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--pbnight); }
 
 /* §22 ── ROOM: The Mopery ────────────────────────────────────────────────────
    A dark academia library, a reading nook and a parlour with one screen in it.
@@ -11225,6 +11432,18 @@ html[data-intensity="max"] .mop-drip::before { animation: mop-flicker 3.1s ease-
   font-size: 14.5px; line-height: 1.7; color: var(--orc-dim); }
 .orc-foot a { color: var(--orc-brass); }
 
+/* THE ORACLE DECK, WALKED INTO ON PAPER STREET (walk-oracle-deck.js, round
+   one, 2026-11-04). Paper Street's stage takes the deck's clothes while you
+   are in it: its frame is the cards' edge, the printed night goes and the
+   ash, lit from nowhere, is everything behind. The page stands at the far end
+   in a card's cut edge; it is the one thing in the scene that takes a pointer.
+   No blue, and no gold on indigo. */
+.orc-walk { --ps-frame: var(--orc-edge); --ps-back: var(--orc-slate); --ps-backcloth: none; }
+.orc-walk-face {
+  --ps-takes: auto; overflow: hidden; background: var(--orc-deep);
+  border-radius: 14px; box-shadow: 0 0 0 8px var(--orc-cut), 0 0 0 12px var(--orc-edge);
+}
+.orc-walk-face iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--orc-deep); }
 
 /* §24 ── SUBROOM: The Doomscroll (off the Mopery's library) ──────────────────
    Public domain poems of doom, laid out as a feed, newest first, on a scroll.
@@ -11365,6 +11584,18 @@ html[data-intensity="max"] .mop-drip::before { animation: mop-flicker 3.1s ease-
   font-size: 14.5px; line-height: 1.7; color: var(--dsc-paper); }
 .dsc-foot a { color: var(--dsc-paper); }
 
+/* THE DOOMSCROLL, WALKED INTO ON PAPER STREET (walk-the-doomscroll.js,
+   2026-11-04). Paper Street's stage takes the small room's clothes while you
+   are in it: its frame is the dark desk and what is behind is the room's own
+   dark. The room's own page is the roll of foxed newsprint unrolled down the
+   desk, never white, square at its sides and uncut, and it is the one thing in
+   the scene that takes a pointer. */
+.dsc-walk { --ps-frame: var(--dsc-ink-2); --ps-back: var(--dsc-desk); --ps-backcloth: none; }
+.dsc-walk-roll {
+  --ps-takes: auto; overflow: hidden; background: var(--dsc-paper);
+  box-shadow: 0 0 0 6px var(--dsc-paper-2);
+}
+.dsc-walk-roll iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--dsc-paper); }
 
 /* §25 ── ROOM: Swaying Sweetgrass (pitch 02 in the campgrounds) ──────────────
    A MEADOW LEFT ALONE, with one path cut into it and a fire pit at the end of
@@ -11698,6 +11929,18 @@ html[data-intensity="max"]     .meadow .swg-flit { animation: swg-drift 11s ease
 
 .swg-foot { margin: 40px 0 0; font-size: 15px; color: var(--awn); max-width: 64ch; }
 
+/* SWAYING SWEETGRASS, WALKED INTO ON PAPER STREET (walk-swaying-sweetgrass.js,
+   2026-11-04). Paper Street's stage takes the meadow's clothes while you are in
+   it: its frame is the stems' green and what is behind is the shade under the
+   grass. The room's own page is on the plate beyond the fire ring, soil and
+   seed as the room's plate is, and it is the one thing in the scene that takes
+   a pointer. The grass stands still here at every setting. */
+.swg-walk { --ps-frame: var(--stem); --ps-back: var(--shade); --ps-backcloth: none; }
+.swg-walk-plate {
+  --ps-takes: auto; overflow: hidden; background: var(--soil);
+  border-radius: 8px; box-shadow: 0 0 0 6px var(--seed), 0 0 0 14px var(--soil);
+}
+.swg-walk-plate iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--soil); }
 
 /* §26 ── ROOM: The Adventurer's Guild ────────────────────────────────────────
    A JOB BOARD, AND THE ONE TIDY ROOM ON THIS STREET.
@@ -12001,6 +12244,15 @@ html[data-intensity="max"] .guild-spark { animation: gu-rise 2.1s ease-out forwa
 .hand__bring { margin-top: 10px; }
 .hand__cb-said { margin: 10px 0 0; font-size: 14.5px; line-height: 1.55; max-width: 64ch; }
 .hand__cb-said:empty { display: none; }
+
+/* THE GUILD, WALKED INTO ON PAPER STREET (walk-adventurers-guild.js): the
+   stage is framed in the guild's ink and the paper is everything behind, lit
+   from nowhere. The page is posted square over the counter in a plain ink
+   rule, with no shadow and no rounded corner, and is the one thing in the
+   scene that takes a pointer. */
+.gu-walk { --ps-frame: var(--gu-ink); --ps-back: var(--gu-paper); --ps-backcloth: none; }
+.gu-walk-sheet { --ps-takes: auto; overflow: hidden; background: var(--gu-paper); outline: 8px solid var(--gu-ink); }
+.gu-walk-sheet iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--gu-paper); }
 
 /* §27 ── ROOM: The Feed ──────────────────────────────────────────────────────
    AN ARRIVALS BOARD IN A DARK CONCOURSE, AND THE ONLY MACHINE ON THIS STREET.
@@ -12323,6 +12575,19 @@ html[data-intensity="max"] :where(.flap:nth-child(6)) { animation-delay: .50s; }
   .enamel { gap: 5px 14px; }
 }
 
+/* THE FEED, WALKED INTO ON PAPER STREET (walk-the-feed.js, 2026-11-04). Paper
+   Street's stage takes the concourse's clothes while you are in it: its frame
+   is the girders' grey and what is behind is the hall, darker than nothing but
+   the boards. The room's own page stands on the last board at the far end, in
+   its enamel carcass on its legs, and it is the one thing in the scene that
+   takes a pointer. The flaps do not flip. */
+.feed-walk { --ps-frame: var(--fd-girder); --ps-back: var(--fd-hall); --ps-backcloth: none; }
+.feed-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--fd-enamel);
+  box-shadow: 0 0 0 14px var(--fd-enamel), 0 0 0 18px var(--fd-girder);
+}
+.feed-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--fd-enamel); }
+
 /* §28 ── THE GARDEN (through the gate in the wall, halfway down the street) ───
    NOT A ROOM AND NOT AN AREA EITHER. The campgrounds is a field with pitches on
    it and every pitch is a page of ours; this is a garden whose beds are OTHER
@@ -12638,6 +12903,17 @@ html[data-intensity="max"]     .gd-dapple { animation: gd-breeze 17s ease-in-out
    panel borrows this room's ink and ground from §4. Nothing to do here but let
    it. */
 
+/* THE GARDEN, WALKED INTO ON PAPER STREET (walk-the-garden.js, 2026-11-04).
+   Paper Street's stage takes the garden's midday while you are in it: its
+   frame is the bed's edge and what is behind is the day through leaves. The
+   room's own page is on a limewashed board, the palest thing here, carried by
+   its edge, and it is the one thing in the scene that takes a pointer. */
+.gd-walk { --ps-frame: var(--gd-edge); --ps-back: var(--gd-day); --ps-backcloth: none; }
+.gd-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--gd-board);
+  box-shadow: 0 0 0 12px var(--gd-board), 0 0 0 16px var(--gd-edge);
+}
+.gd-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--gd-day); }
 
 /* §29 ── ROOM: The Zibaldone ──────────────────────────────────────────────────
    A commonplace book left open on a desk. Asked for by somebody in our
@@ -12969,6 +13245,23 @@ html[data-intensity="max"] .zb-flyleaf, html[data-intensity="max"] .zb-sheet {
   50%      { background-position: 0 0, 0 0, 42% 0; }
 }
 
+/* THE ZIBALDONE, WALKED INTO ON PAPER STREET (walk-zibaldone.js, round 1,
+   2026-11-04). Paper Street's stage takes the room's clothes while you are in
+   it: its frame is the desk's lighter walnut, the printed night goes and the
+   dark of the desk running off past the book is everything behind. The page is
+   tipped in at the head of the book as one big leaf, taped at its top corners,
+   its shadow thrown down and to the right, away from the lamp on the left; it
+   is the one thing in the scene that takes a pointer. */
+.zb-walk { --ps-frame: var(--zb-desk-2); --ps-back: var(--zb-desk); --ps-backcloth: none; }
+.zb-walk-leaf { --ps-takes: auto; overflow: hidden; background: var(--zb-laid); box-shadow: 18px 18px 0 var(--zb-gutter); }
+.zb-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--zb-desk); }
+.zb-walk-leaf::before, .zb-walk-leaf::after {
+  content: ""; position: absolute; top: 0; width: 110px; height: 30px; background: var(--zb-tape); pointer-events: none;
+}
+.zb-walk-leaf::before { left: 0; }
+.zb-walk-leaf::after { right: 0; }
+
+
 
 /* §30 ── ROOM: The Rabbit Hole ────────────────────────────────────────────────
    A shaft with things hanging in it. Ryan's brief, 2026-09-22: a room on rabbit
@@ -13246,6 +13539,22 @@ body.room-rabbit-hole {
 .rh-shaft { position: relative; z-index: 1; }
 
 
+/* THE RABBIT HOLE, WALKED INTO ON PAPER STREET (walk-rabbit-hole.js,
+   2026-11-04). The stage takes the shaft's clothes: its frame is wet slate, and
+   behind everything is the dark the shaft goes down into, palest at the top
+   where the daylight you came in by still reaches. The room's own page hangs on
+   the far wall across the drop in a slate edge, and it is the one thing in the
+   scene that takes a pointer. No brown, no candle; nothing moves. */
+.rh-walk {
+  --ps-frame: var(--rh-slate); --ps-back: var(--rh-deep);
+  --ps-backcloth: linear-gradient(180deg, var(--rh-graphite) 0%, var(--rh-slate-2) 30%, var(--rh-deep) 60%);
+}
+.rh-walk-page {
+  --ps-takes: auto; overflow: hidden; background: var(--rh-deep);
+  border-radius: 2px; box-shadow: 0 0 0 8px var(--rh-slate), 0 0 0 11px var(--rh-daylight);
+}
+.rh-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rh-deep); }
+
 /* §31 ── ROOM: The Healing Checkpoint (room 429) ─────────────────────────────
    A SAVE ROOM WITH THE LIGHT IN THE FLOOR, and that one physical fact is the
    whole of its separation from a street already crowded with warm enclosed
@@ -13513,6 +13822,18 @@ html[data-intensity="max"] .room-checkpoint .glow {
    a pair nobody measured. */
 .room-checkpoint .quest { margin-top: 40px; }
 
+/* THE HEALING CHECKPOINT, WALKED INTO ON PAPER STREET
+   (walk-healing-checkpoint.js, Ryan's ask, 2026-11-04). Paper Street's stage
+   takes room 429's clothes while you are in it: its frame is the chamber's
+   lit stone, the printed night goes and the dark of the dome is everything
+   above. The page stands on the curved wall with the spring's light along its
+   foot, never over it; it is the one thing in the scene that takes a pointer. */
+.hc-walk { --ps-frame: var(--hc-lit); --ps-back: var(--hc-vault); --ps-backcloth: none; }
+.hc-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--hc-chamber);
+  border-radius: 18px; box-shadow: 0 0 0 8px var(--hc-alcove), 0 10px 0 8px var(--hc-glim);
+}
+.hc-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--hc-chamber); }
 
 /* §32 ── ROOM: The Foundry ────────────────────────────────────────────────────
    A TYPE FOUNDRY: a grey iron workshop, lit through a dirty sawtooth roof, with
@@ -13791,6 +14112,19 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .fo-sort__meta { margin: 4px 0 0; font-size: 12.5px; color: var(--fo-oil); }
 .fo-sort__vf { display: block; margin-top: 3px; color: var(--fo-oil); }
 
+/* THE FOUNDRY, WALKED INTO ON PAPER STREET (walk-foundry.js, Ryan's ask,
+   2026-11-04). Paper Street's stage takes the workshop's clothes while you are
+   in it: its frame is the bench's iron, the printed night goes and the grey of
+   the metal is everything behind, neither black nor white. The page stands on
+   the iron easel edged in the bench's iron and nothing warmer; it is the one
+   thing in the scene that takes a pointer. */
+.fo-walk { --ps-frame: var(--fo-bench); --ps-back: var(--fo-roof); --ps-backcloth: none; }
+.fo-walk-page {
+  --ps-takes: auto; overflow: hidden; background: var(--fo-floor);
+  border-radius: 2px; box-shadow: 0 0 0 10px var(--fo-bench);
+}
+.fo-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--fo-floor); }
+
 /* §33 ── ROOM: Danny the Street (the page about the name) ────────────────────
    THE ROAD SURFACE, SEEN FROM DIRECTLY ABOVE, UNDER ONE SODIUM LAMP AT FOUR IN
    THE MORNING. This page says where the street's name came from, so it is the
@@ -14066,6 +14400,18 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 /* The dial, at the end of the road, where every room keeps it. */
 .dn-desk { margin: 40px 0 0; max-width: 460px; }
 
+/* DANNY THE STREET, WALKED INTO ON PAPER STREET (walk-danny-the-street.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the road's clothes while
+   you are on it: its frame is the kerbstone, the printed night goes and the
+   tar is everything behind, one hue under one lamp. The page is propped at the
+   end of the road in the lamp's pool, edged in chalk like a road marking; it
+   is the one thing standing up, and the one that takes a pointer. */
+.dn-walk { --ps-frame: var(--dn-kerb); --ps-back: var(--dn-tar); --ps-backcloth: none; }
+.dn-walk-page {
+  --ps-takes: auto; overflow: hidden; background: var(--dn-tar);
+  border-radius: 2px; box-shadow: 0 0 0 6px var(--dn-chalk), 0 0 0 10px var(--dn-kerb);
+}
+.dn-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--dn-tar); }
 
 /* §34 ── THE OUTSKIRTS (past the last streetlight, off the street) ───────────
    THE SECOND AREA, AND THE ONE THAT HAD TO BE KEPT OFF THE FIRST. The
@@ -14166,6 +14512,18 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .turning--dark h3 { color: var(--osk-dim); }
 .turning--dark .turning__who { color: var(--osk-rust); }
 
+/* THE OUTSKIRTS, WALKED DOWN ON PAPER STREET (walk-the-outskirts.js, Ryan's
+   ask, 2026-11-04). Paper Street's stage takes the road's clothes while you are
+   on it: its frame is the painted boards' rust, the printed night goes and the
+   night past the beam is everything behind, with no sky in it. The page is on
+   the last board at the far edge of the headlights, bone with a rust border
+   painted round it; it is the one thing in the scene that takes a pointer. */
+.osk-walk { --ps-frame: var(--osk-rust); --ps-back: var(--osk-night); --ps-backcloth: none; }
+.osk-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--osk-night);
+  box-shadow: 0 0 0 6px var(--osk-beam);
+}
+.osk-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--osk-night); }
 
 /* §35 ── ROOM: Black Leather Lagoon (turning 01 in The Outskirts) ────────────
    A DRIVE-IN SCREEN STANDING IN BLACK WATER, showing to reeds. Turning 01 off
@@ -14292,6 +14650,15 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .further p { margin: 0 0 13px; }
 .further__go { margin: 0; font-size: 15px; }
 
+/* THE LAGOON, WALKED INTO ON PAPER STREET (walk-black-leather-lagoon.js): the
+   stage is framed in the reeds' acid and the dark behind is the night over
+   the water, with no stars, because the screen is the only light. The screen
+   holds the room's own page, square, and is the one thing that takes a
+   pointer. It does not flicker. */
+.lag-walk { --ps-frame: var(--lag-acid); --ps-back: var(--lag-water); --ps-backcloth: none; }
+.lag-walk-screen { --ps-takes: auto; overflow: hidden; background: var(--lag-water); }
+.lag-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--lag-water); }
+
 /* §36 ── ROOM: Sithen (turning 02 in The Outskirts) ──────────────────────────
    A FAIRY FORT SEEN FROM THE OUTSIDE, UNDER A FULL MOON. Turning 02 off The
    Outskirts, and the second thing to stand on that road, which is where an area
@@ -14387,6 +14754,19 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .creditors p { margin: 0 0 13px; }
 .creditors__go { font-size: 15.5px; }
 .creditors__src { margin: 0; font-size: 14.5px; color: var(--sth-dim); }
+
+/* SITHEN, WALKED INTO ON PAPER STREET (walk-sithen.js, 2026-11-04). Paper
+   Street's stage takes the field's clothes while you are in it: its frame is
+   the thorn's grey-violet and the dark behind is the night, with no green in
+   either. The room's own page stands on a low panel of the bank's earth at the
+   foot of the ring, its top silvered by the moon, and it is the one thing in
+   the scene that takes a pointer. */
+.sithen-walk { --ps-frame: var(--sth-thorn); --ps-back: var(--sth-night); --ps-backcloth: none; }
+.sithen-walk-panel {
+  --ps-takes: auto; overflow: hidden; background: var(--sth-night);
+  border-radius: 4px; box-shadow: 0 0 0 12px var(--sth-bank), 0 -16px 0 12px var(--sth-moon);
+}
+.sithen-walk-panel iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--sth-night); }
 
 /* §37 ── ROOM: Covenstead (a shopfront on the street) ────────────────────────
    A KITCHEN IN THE AFTERNOON, WITH ONE WINDOW AND THE MISMATCHED CHINA OUT.
@@ -14515,6 +14895,19 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .seat__quote cite { display: block; margin: 8px 0 0; font-family: 'Asap', system-ui, sans-serif; font-style: normal; font-size: 14px; color: var(--cov-ink-2); }
 .seat__quote--more { border-left-color: var(--cov-ink-2); }
 .seat__quote--more p { font-size: 17px; }
+
+/* COVENSTEAD, WALKED INTO ON PAPER STREET (walk-covenstead.js, Ryan's ask,
+   2026-11-04). Paper Street's stage takes the kitchen's clothes while you are
+   in it: its frame is the room's soft dark ink, the printed night goes and the
+   warm limewash is everything behind. The page hangs on the far wall beside the
+   dresser in a delft edge, the one thing in the scene that takes a pointer; the
+   sun lands in one patch, and nothing moves. */
+.cov-walk { --ps-frame: var(--cov-ink-2); --ps-back: var(--cov-wash); --ps-backcloth: none; }
+.cov-walk-leaf {
+  --ps-takes: auto; overflow: hidden; background: var(--cov-wash);
+  border-radius: 4px; box-shadow: 0 0 0 4px var(--cov-delft), 0 0 0 10px var(--cov-ink-2);
+}
+.cov-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cov-wash); }
 
 /* §38 ── ROOM: Looming Rocks Amphitheatre (turning 03 in The Outskirts) ──────
    AN OPEN-AIR VENUE AT THE FOOT OF ENORMOUS ROCK FACES, AFTER DARK. Turning 03
@@ -14661,6 +15054,19 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
 .glowwall .scree { flex: 1 1 46ch; margin-top: 32px; }
 .glowwall__art { flex: 1 1 200px; max-width: 320px; line-height: 0; }
 .glowwall__art svg { display: block; width: 100%; height: auto; }
+
+/* LOOMING ROCKS, WALKED INTO ON PAPER STREET (walk-looming-rocks.js, round
+   one, 2026-11-04). Paper Street's stage takes the venue's clothes while you
+   are in it: its frame is the floods' violet, the printed night goes and the
+   rock's dark is everything behind, with nothing overhead. The page is the
+   set on the stage, edged in the lichen's cyan; it is the one thing in the
+   scene that takes a pointer. */
+.looming-walk { --ps-frame: var(--lr-uv); --ps-back: var(--lr-rock); --ps-backcloth: none; }
+.looming-walk-set {
+  --ps-takes: auto; overflow: hidden; background: var(--lr-rock);
+  border-radius: 4px; box-shadow: 0 0 0 4px var(--lr-lichen), 0 0 0 10px var(--lr-face);
+}
+.looming-walk-set iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--lr-rock); }
 
 /* §39 ── THE ADDRESS THAT IS NOT ON THE STREET (404.html) ────────────────────
    WHAT NETLIFY SERVES AT ANY ADDRESS NOBODY BUILT, WITH A 404 STATUS. It is
@@ -14989,6 +15395,18 @@ html[data-intensity="max"] .dts-dust circle:nth-child(5) { animation-duration: 1
   .dts-lede { font-size: 18px; }
 }
 
+/* DEAD TIRED SOCIETY, WALKED INTO ON PAPER STREET (walk-dead-tired-society.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the borrowed room's
+   clothes while you are in it: its frame is the room's dim edge, the printed
+   night goes and the room's own plum is everything behind. The page hangs on
+   the far wall in the shade, framed in the room's deep dark and never in the
+   corridor's light; it is the one thing in the scene that takes a pointer. */
+.dts-walk { --ps-frame: var(--dts-edge); --ps-back: var(--dts-room); --ps-backcloth: none; }
+.dts-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--dts-room);
+  border-radius: 4px; box-shadow: 0 0 0 8px var(--dts-deep), 0 0 0 11px var(--dts-edge);
+}
+.dts-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--dts-room); }
 
 /* §41 ── ROOM: Laughingstock (a shopfront on the street) ─────────────────────
    A COMEDY CELLAR SEEN FROM THE BACK OF THE HOUSE. Disabled comics on their own
@@ -15186,6 +15604,19 @@ html[data-intensity="max"] .ls-fizz circle:nth-child(4) { animation-duration: 3.
   .ls-act h3 { font-size: 40px; }
 }
 
+/* LAUGHINGSTOCK, WALKED INTO ON PAPER STREET (walk-laughingstock.js, round
+   one, 2026-11-04). Paper Street's stage takes the cellar's clothes while you
+   are in it: its frame is the brick in the dark, the printed night goes and
+   the house is everything behind. The page stands in the house on a board by
+   the way in, in the dark with the audience and never in the pool, which is
+   only ever where the light lands; it is the one thing in the scene that takes
+   a pointer. */
+.laughs-walk { --ps-frame: var(--ls-wall); --ps-back: var(--ls-deep); --ps-backcloth: none; }
+.laughs-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--ls-house);
+  border-radius: 4px; box-shadow: 0 0 0 6px var(--ls-edge);
+}
+.laughs-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ls-house); }
 
 /* §42 ── ROOM: The Lightbulb Picture House (a shopfront on the street) ───────
    A PICTURE HOUSE WHERE EVERY SCREENING IS A RELAXED SCREENING. Screens of
@@ -15344,6 +15775,19 @@ html[data-intensity="max"] .lph-pop circle:nth-child(4) { animation-delay: -.8s;
   .lph-lede p { font-size: 18px; }
 }
 
+/* THE LIGHTBULB PICTURE HOUSE, WALKED INTO ON PAPER STREET
+   (walk-lightbulb-picture-house.js, round one, 2026-11-04). Paper Street's
+   stage takes the picture house's clothes while you are in it: its frame is
+   the sconces' brass, the printed night goes and lit velvet is everything
+   behind, because the house lights stay up. The page is on the screen, the
+   palest thing in the room, in a brass edge; it is the one thing in the scene
+   that takes a pointer. Nothing here is blue. */
+.lph-walk { --ps-frame: var(--lph-brass); --ps-back: var(--lph-velvet); --ps-backcloth: none; }
+.lph-walk-screen {
+  --ps-takes: auto; overflow: hidden; background: var(--lph-screen);
+  border-radius: 2px; box-shadow: 0 0 0 8px var(--lph-screen), 0 0 0 12px var(--lph-gold);
+}
+.lph-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--lph-velvet); }
 
 /* §43 ── ROOM: Dance, Punks (turning 04 in The Outskirts) ────────────────────
    A SILENT DISCO ON AN OLD AIRSTRIP, and the light is the whole separation. It
@@ -15471,6 +15915,18 @@ html[data-intensity="max"] .lph-pop circle:nth-child(4) { animation-delay: -.8s;
 .dp-rules li + li { margin-top: 8px; }
 .dance-punks .quest { margin-top: 44px; }
 
+/* DANCE, PUNKS, WALKED INTO ON PAPER STREET (walk-dance-punks.js, Ryan's ask,
+   2026-11-04). Paper Street's stage takes the airstrip's clothes while you are
+   in it: its frame is the runway's worn paint, the printed night goes and the
+   night over the tarmac is everything behind. The page stands on a board at
+   the runway's edge, the one thing in the scene that takes a pointer; the
+   headsets glow steadily or not at all, and nothing moves or flashes. */
+.dp-walk { --ps-frame: var(--dp-paint); --ps-back: var(--dp-deep); --ps-backcloth: none; }
+.dp-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--dp-tarmac);
+  border-radius: 3px; box-shadow: 0 0 0 4px var(--dp-paint), 0 0 0 7px var(--dp-body);
+}
+.dp-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--dp-tarmac); }
 
 /* §44 ── ROOM: The Small Hours (turning 05 in The Outskirts) ────────────────
    AN ALL-NIGHT DINER SEEN FROM THE CAR PARK, and the light is the whole
@@ -15669,6 +16125,18 @@ html[data-intensity="max"] .lph-pop circle:nth-child(4) { animation-delay: -.8s;
   .sh-lede p { font-size: 18px; }
 }
 
+/* THE SMALL HOURS, WALKED INTO ON PAPER STREET (walk-small-hours.js,
+   2026-11-04). Paper Street's stage takes the car park's clothes while you are
+   on it: its frame is the diner's chrome and the dark behind is the lot. The
+   room's own page is in the diner's middle window, lit evenly from inside, in
+   a chrome frame, and it is the one thing in the scene that takes a pointer.
+   The sign on the roof is steady and nothing moves, at any setting. */
+.sh-walk { --ps-frame: var(--sh-chrome); --ps-back: var(--sh-lot); --ps-backcloth: none; }
+.sh-walk-window {
+  --ps-takes: auto; overflow: hidden; background: var(--sh-glass);
+  box-shadow: 0 0 0 10px var(--sh-chrome), 0 0 0 16px var(--sh-line);
+}
+.sh-walk-window iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--sh-lot); }
 
 /* §45 ── ROOM: The Repeater (turning 06 in The Outskirts) ────────────────────
    A RADIO MAST ON THE RIDGE AT THE FAR END OF THE ROAD, and everything in it is
@@ -15765,6 +16233,22 @@ html[data-intensity="max"] .lph-pop circle:nth-child(4) { animation-delay: -.8s;
 .repeater .quest { margin-top: 44px; }
 
 
+/* THE REPEATER, WALKED INTO ON PAPER STREET (walk-repeater.js, 2026-11-04). The
+   stage takes the ridge's clothes: its frame is the ridge's black and the
+   backcloth is the sky lit from beneath by somebody else's light, the glow low
+   along the horizon and the warm cloud above. The room's own page stands on a
+   board by the track in a black edge, and it is the one thing in the scene that
+   takes a pointer. Nothing has a lit face; the lamps are steady. */
+.rp-walk {
+  --ps-frame: var(--rp-ridge); --ps-back: var(--rp-ridge);
+  --ps-backcloth: linear-gradient(180deg, var(--rp-cloud) 0%, var(--rp-deep) 28%, var(--rp-glow) 48%, var(--rp-ridge) 50%);
+}
+.rp-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--rp-cloud);
+  border-radius: 2px; box-shadow: 0 0 0 12px var(--rp-ridge);
+}
+.rp-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rp-cloud); }
+
 /* §46 ── ROOM: Nothing For Sale (turning 07 in The Outskirts) ──────────────
    A FREE MARKET IN A LAY-BY, lit by a ring of parked cars with their
    headlights left on and pointed at the middle. Everything is lit from every
@@ -15843,6 +16327,18 @@ html[data-intensity="max"] .lph-pop circle:nth-child(4) { animation-delay: -.8s;
 .nfs-rules li:last-child { border-bottom: 1px solid var(--nfs-lit); }
 .nothing-for-sale .quest { margin-top: 44px; }
 
+/* NOTHING FOR SALE, WALKED INTO ON PAPER STREET (walk-nothing-for-sale.js,
+   round one, 2026-11-04). Paper Street's stage takes the lay-by's clothes
+   while you are in it: its frame is the tables' dark, the printed night goes
+   and the gravel's is everything behind. The page stands on the far table in
+   everybody's headlights, edged in halogen; it is the one thing in the scene
+   that takes a pointer. Nothing in the ring moves. */
+.nfs-walk { --ps-frame: var(--nfs-lit); --ps-back: var(--nfs-gravel); --ps-backcloth: none; }
+.nfs-walk-sign {
+  --ps-takes: auto; overflow: hidden; background: var(--nfs-gravel);
+  border-radius: 2px; box-shadow: 0 0 0 4px var(--nfs-halogen), 0 0 0 10px var(--nfs-table);
+}
+.nfs-walk-sign iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--nfs-gravel); }
 
 /* §47 ── ROOM: Samefood Cafe (a shopfront on the street) ────────────────────
    A CAFE SEEN FROM DIRECTLY ABOVE THE TABLE, UNDER ONE EVEN LIGHT THAT DOES NOT
@@ -16022,6 +16518,19 @@ html[data-intensity="max"] .sf-plate:hover { box-shadow: 0 0 0 9px var(--sf-rim)
 }
 
 
+/* SAMEFOOD CAFE, WALKED INTO ON PAPER STREET (walk-samefood-cafe.js,
+   2026-11-04). The stage takes the café's clothes under its one even light: its
+   frame is the plate's rim and the pale wall is behind everything. The café's
+   own page hangs on the back wall in the house plate's white with its rim, and
+   it is the one thing in the scene that takes a pointer. No blue; nothing
+   moves. */
+.sf-walk { --ps-frame: var(--sf-rim); --ps-back: var(--sf-well); --ps-backcloth: none; }
+.sf-walk-page {
+  --ps-takes: auto; overflow: hidden; background: var(--sf-table);
+  border-radius: 10px; box-shadow: 0 0 0 10px var(--sf-plate), 0 0 0 14px var(--sf-rim);
+}
+.sf-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--sf-table); }
+
 /* §48 ── ROOM: The Collection Collection (a shopfront on the street) ───────────
    A DARK GALLERY WITH NO LIGHT OF ITS OWN, FULL OF OTHER PEOPLE'S COLLECTIONS,
    EACH IN A CABINET OF ITS OWN UNDER A LAMP OF ITS OWN, AND NO TWO LAMPS ALIKE.
@@ -16196,6 +16705,18 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
   .cc-items { grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
 }
 
+/* THE COLLECTION COLLECTION, WALKED INTO ON PAPER STREET (walk-collection-collection.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the gallery's clothes
+   while you are in it: its frame is the cabinets' dim line, the printed night
+   goes and the gallery's own dark is everything behind. The page stands at the
+   end of the gallery on a label card's edge, the one thing in the scene that
+   takes a pointer; only the daylight lamp is lit, and nothing moves. */
+.cc-walk { --ps-frame: var(--cc-line); --ps-back: var(--cc-dark); --ps-backcloth: none; }
+.cc-walk-card {
+  --ps-takes: auto; overflow: hidden; background: var(--cc-dark);
+  border-radius: 2px; box-shadow: 0 0 0 4px var(--cc-card), 0 0 0 10px var(--cc-body);
+}
+.cc-walk-card iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cc-dark); }
 
 /* §49 ── THE MAP (street furniture: a model on a table by the stoop) ─────────
    THE WHOLE STREET AS A MODEL IN WHITE CARD, STANDING ON A CUTTING MAT. Every
@@ -16960,6 +17481,21 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
   .vpl-vid { padding: 12px; }
 }
 
+/* VITAL PLANT LIVING, WALKED INTO ON PAPER STREET (walk-vital-plant-living.js,
+   round 1, 2026-11-04). Paper Street's stage takes the kitchen's clothes while
+   you are in it: its frame is the room's ink, the printed night goes and the
+   turmeric wall is everything behind. The page is on the back wall on the
+   room's own panel, rice paper with a thick ink edge, sitting on what is under
+   it: the shadow is flat, hard and straight down, because in a section nothing
+   floats. It is the one thing in the scene that takes a pointer. */
+.vpl-walk { --ps-frame: var(--vpl-ink); --ps-back: var(--vpl-wall); --ps-backcloth: none; }
+.vpl-walk-panel {
+  --ps-takes: auto; overflow: hidden; background: var(--vpl-panel);
+  border: 6px solid var(--vpl-ink); border-radius: 6px; box-shadow: 0 16px 0 var(--vpl-ink);
+}
+.vpl-walk-panel iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--vpl-wall); }
+
+
 
 /* §51 ── ROOM: The Community Center (a shopfront on the street) ─────────────
    THE STREET'S COMMUNITY CENTER, AND THE ONLY DOOR THE CB IS BEHIND. A quiet
@@ -17236,6 +17772,19 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
    the room supplies the ground it lies on, which is the plaster's own paint. */
 .community .quest { margin-top: 40px; }
 
+/* THE COMMUNITY CENTER, WALKED INTO ON PAPER STREET (walk-community-center.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the room's clothes while
+   you are in it: its frame is the ash's grain, the printed night goes and the
+   sage plaster is everything behind. The page hangs on the left-hand wall by
+   the window, flat on the plaster it was written for in a thin ash edge, the
+   one thing in the scene that takes a pointer; no sun lands anywhere, and
+   nothing moves. */
+.ctr-walk { --ps-frame: var(--ctr-grain); --ps-back: var(--ctr-plaster); --ps-backcloth: none; }
+.ctr-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--ctr-plaster);
+  border-radius: 4px; box-shadow: 0 0 0 8px var(--ctr-ash), 0 0 0 10px var(--ctr-grain);
+}
+.ctr-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ctr-plaster); }
 
 /* §52 ── ROOM: The Dopamine Dress-Up Den (a shopfront on the street) ────────
    A BOUTIQUE FOR DOPAMINE DRESSING, Helen Edgar's idea and her name for it: a
@@ -17538,6 +18087,20 @@ textarea.dd-fallback {
   .dd-hangers { grid-template-columns: 1fr; }
 }
 
+/* THE DOPAMINE DRESS-UP DEN, WALKED INTO ON PAPER STREET
+   (walk-dopamine-dress-up-den.js, Ryan's ask, 2026-11-04). Paper Street's
+   stage takes the boutique's clothes while you are in it: its frame is the
+   valet stand's wood, the printed night goes and the lavender wall is
+   everything behind. The page hangs on the back wall on the room's pale
+   panel, edged in its ink; it is the one thing in the scene that takes a
+   pointer. */
+.dd-walk { --ps-frame: var(--dd-wood); --ps-back: var(--dd-wall); --ps-backcloth: none; }
+.dd-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--dd-panel);
+  border-radius: 14px; box-shadow: 0 0 0 4px var(--dd-ink-2), 0 0 0 12px var(--dd-wood);
+}
+.dd-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--dd-panel); }
+
 /* §53 ── Now Playing (street furniture: the poster column beside the board) ──
    One bill, screenprinted, pasted round a column on the pavement. Every room on
    the street with something to press and play, and what it puts on first --
@@ -17669,6 +18232,19 @@ textarea.dd-fallback {
   .np-inks { max-width: 220px; }
   .np-bill__name { font-size: 22px; }
 }
+
+/* NOW PLAYING, WALKED INTO ON PAPER STREET (walk-now-playing.js, round one,
+   2026-11-04). Paper Street's stage takes the column's clothes while you are
+   in it: its frame is the drum's painted green, the printed night goes and the
+   pavement's night is everything behind. The page is the bill on the face
+   toward the shop windows, flat stock with no black on it, edged in the
+   overprint; it is the one thing in the scene that takes a pointer. */
+.np-walk { --ps-frame: var(--np-drum); --ps-back: var(--np-night); --ps-backcloth: none; }
+.np-walk-bill {
+  --ps-takes: auto; overflow: hidden; background: var(--np-stock);
+  box-shadow: 0 0 0 4px var(--np-both), 0 0 0 40px var(--np-drum-2);
+}
+.np-walk-bill iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--np-stock); }
 
 /* §54 ── ROOM: Plural Mural (a shopfront on the street) ────────────────────────
    An end wall on the street, and never the same mural twice. Ryan's brief,
@@ -17826,6 +18402,21 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .pm-wall::after { right: 3px; width: 8px; }
 }
 
+/* PLURAL MURAL, WALKED INTO ON PAPER STREET (walk-plural-mural.js, 2026-11-04).
+   The stage takes the evening's clothes: its frame is the chalkboard's wood and
+   the backcloth is the sky at golden hour over the wall. The mural is the
+   page's own paint, lifted onto the wall with nothing round it. The room's own
+   page stands on a board at the kerb, never on the wall, in the road's own
+   ground with the markings' white edge, and it is the one thing in the scene
+   that takes a pointer. Nothing moves. */
+.pm-walk { --ps-frame: var(--pm-frame); --ps-back: var(--pm-road); --ps-backcloth: linear-gradient(180deg, var(--pm-sky) 0 50%, var(--pm-road) 50%); }
+.pm-walk-mural > div { background: none; }
+.pm-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--pm-road);
+  border-radius: 3px; box-shadow: 0 0 0 8px var(--pm-line), 0 0 0 14px var(--pm-slate);
+}
+.pm-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--pm-road); }
+
 /* §55 ── ROOM: Community Library (a shopfront on the street) ─────────────────
    A public reading room at eleven in the morning. Ryan's brief, 2026-09-25: our
    Library in this street's clothes, led by a celebration of the public library.
@@ -17954,6 +18545,19 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .cl-desk { padding: 12px; gap: 8px; }
 }
 
+/* THE COMMUNITY LIBRARY, WALKED INTO ON PAPER STREET (walk-community-library.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the reading room's clothes
+   while you are in it: its frame is the oak, the printed night goes and the
+   plaster under the high windows is everything behind. The page hangs over the
+   front desk in a stone edge, the one thing in the scene that takes a pointer;
+   no flame anywhere, the only riot the spines, and nothing moves. */
+.cl-walk { --ps-frame: var(--cl-oak); --ps-back: var(--cl-wall); --ps-backcloth: none; }
+.cl-walk-leaf {
+  --ps-takes: auto; overflow: hidden; background: var(--cl-wall);
+  border-radius: 2px; box-shadow: 0 0 0 4px var(--cl-oak), 0 0 0 16px var(--cl-stone);
+}
+.cl-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cl-wall); }
+
 /* §56 ── SUBROOM: L-Space (behind the Community Library) ──────────────────────
    The space between the shelves of every library at once. Terry Pratchett's, from
    the Discworld books, and credited in the room and in the liner notes.
@@ -18034,6 +18638,19 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 .room-lspace .quest { margin-top: 40px; }
 .lsp-dial { max-width: 400px; margin-top: 34px; }
 
+/* L-SPACE, WALKED INTO ON PAPER STREET (walk-l-space.js, round one,
+   2026-11-04). Paper Street's stage takes the space's clothes while you are in
+   it: its frame is the shelving's violet, the printed night goes and the void
+   is everything behind. The page hangs where the string leaves, framed in the
+   string's own colour, the one straight promise; it is the one thing in the
+   scene that takes a pointer. */
+.lspace-walk { --ps-frame: var(--lsp-shelf); --ps-back: var(--lsp-void); --ps-backcloth: none; }
+.lspace-walk-leaf {
+  --ps-takes: auto; overflow: hidden; background: var(--lsp-void);
+  border-radius: 4px; box-shadow: 0 0 0 4px var(--lsp-string), 0 0 0 12px var(--lsp-well);
+}
+.lspace-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--lsp-void); }
+
 /* §57 ── SUBROOM: Oook (behind L-Space, at the far end of the string) ─────────
    A Discworld homage, in the Librarian's own colours. Ryan's brief, 2026-09-25:
    a Discworld room you reach through L-space. Terry Pratchett's world, credited
@@ -18110,6 +18727,18 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 @media (max-width: 640px) {
   .ook-topline .backlink:last-child { margin-left: 0; }
 }
+
+/* OOOK, WALKED INTO ON PAPER STREET (walk-oook.js, round one, 2026-11-04).
+   Paper Street's stage takes the room's clothes while you are in it: its frame
+   is banana, the printed night goes and the rust of his coat is everything
+   behind, out in space. The page stands beside the way you came in, framed in
+   banana; it is the one thing in the scene that takes a pointer. */
+.oook-walk { --ps-frame: var(--ook-banana); --ps-back: var(--ook-coat); --ps-backcloth: none; }
+.oook-walk-sign {
+  --ps-takes: auto; overflow: hidden; background: var(--ook-coat);
+  border-radius: 14px; box-shadow: 0 0 0 6px var(--ook-banana);
+}
+.oook-walk-sign iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ook-coat); }
 
 /* §58 ── ROOM: Cavendish Coworking (a shopfront on the street) ────────────────
    Henry Cavendish's house in Bedford Square, where he kept his library and
@@ -18262,6 +18891,15 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 .cw-said cite { display: block; margin-top: 8px; font-style: normal; font-size: 15px; color: var(--cw-dim); }
 .cavendish .cw-further { font-size: 16px; color: var(--cw-dim); }
 .cavendish code { font-size: .88em; }
+
+/* THE HOUSE, WALKED INTO ON PAPER STREET (walk-cavendish-coworking.js): the
+   stage is framed in mahogany and the green is everything behind, with no
+   stars, because it is day in the house. The page hangs between the front
+   windows in a brass edge and is the one thing in the scene that takes a
+   pointer. Every door in the hall is drawn shut. */
+.cw-walk { --ps-frame: var(--cw-mahogany); --ps-back: var(--cw-wall); --ps-backcloth: none; }
+.cw-walk-page { --ps-takes: auto; overflow: hidden; background: var(--cw-wall); box-shadow: 0 0 0 8px var(--cw-brass); }
+.cw-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cw-wall); }
 
 /* §59 ── ROOM: The Live Room (a shopfront on the street) ───────────────────────
    A recording studio, seen from the control room, over the desk, through the
@@ -18467,6 +19105,19 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .lvr-glass { padding: 8px; }
 }
 
+/* THE LIVE ROOM, WALKED INTO ON PAPER STREET (walk-live-room.js, round one,
+   2026-11-04). Paper Street's stage takes the control room's clothes while you
+   are in it: its frame is a faceplate in the caps' grey, the printed night
+   goes and the control room's dim is everything behind. The page is in the
+   studio glass, the live room's own pale round it in the window's dark; it is
+   the one thing in the scene that takes a pointer. */
+.lvr-walk { --ps-frame: var(--lvr-cap); --ps-back: var(--lvr-room); --ps-backcloth: none; }
+.lvr-walk-glass {
+  --ps-takes: auto; overflow: hidden; background: var(--lvr-room);
+  border-radius: 2px; box-shadow: 0 0 0 6px var(--lvr-glass), 0 0 0 12px var(--lvr-well);
+}
+.lvr-walk-glass iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--lvr-room); }
+
 /* §60 ── ROOM: The Broadsheet Broadside (a shopfront on the street) ─────────────
    A broadsheet press for this street, which prints broadsides the way the
    Stimpunks broadsides on stimpunks.org and whysheet.press are printed: one
@@ -18669,6 +19320,15 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .bb-mast { flex-direction: column; gap: 2mm; }
   .room-broadside .bb-mast__side { text-align: left; }
 }
+
+/* THE PRESS, WALKED INTO ON PAPER STREET (walk-broadsheet-broadside.js): the
+   stage is framed in the tarred hull and the haze behind is the sky the sun is
+   somewhere up in, with no stars. The biggest gunport holds the room's own
+   page, its edge the band's ochre, and is the one thing that takes a pointer.
+   No gun is drawn anywhere. */
+.bb-walk { --ps-frame: var(--bb-hull); --ps-back: var(--bb-haze); --ps-backcloth: none; }
+.bb-walk-sheet { --ps-takes: auto; overflow: hidden; background: var(--bb-hull); box-shadow: 0 0 0 10px var(--bb-hull), 0 0 0 16px var(--bb-ochre); }
+.bb-walk-sheet iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--bb-hull); }
 
 /* §61 ── ROOM: The Doom Scoop (a shopfront on the street) ─────────────────────
    Daily news, usually bad. An ice cream parlour after closing, with a tub in
@@ -18882,6 +19542,19 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .ds-scoops--tall { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 }
 
+/* THE DOOM SCOOP, WALKED INTO ON PAPER STREET (walk-the-doom-scoop.js,
+   2026-11-04). Paper Street's stage takes the closed parlour's clothes while
+   you are in it: its frame is the cabinet's steel and what is behind is the
+   shop with its lights off. The room's own page stands in the middle of the
+   dipping cabinet with frost round its edge, in the tube's light, and it is the
+   one thing in the scene that takes a pointer. No pink, no amber, no paper. */
+.ds-walk { --ps-frame: var(--ds-steel); --ps-back: var(--ds-shop); --ps-backcloth: none; }
+.ds-walk-glass {
+  --ps-takes: auto; overflow: hidden; background: var(--ds-shop);
+  border-radius: 10px; box-shadow: 0 0 0 6px var(--ds-frost), 0 0 0 12px var(--ds-rime), 0 0 0 20px var(--ds-front);
+}
+.ds-walk-glass iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ds-shop); }
+
 /* §62 ── ARLESGLAD CAVERNS (under the street, by lift or stair) ─────────────
    THE THIRD AREA, AND THE FIRST ONE YOU REACH BY GOING DOWN. The campgrounds
    is past the treeline and The Outskirts is past the last streetlight, and
@@ -19016,6 +19689,14 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .caverns h3 { font-size: 20px; }
 }
 
+/* THE CAVERNS, WALKED INTO ON PAPER STREET (walk-arlesglad-caverns.js): the
+   stage is framed in the lift's steel and the dark behind it is the rock,
+   with no stars, because there is no sky down here. The board between the
+   lift and the stair holds the page with the rail's light along its foot, as
+   every notice down here has, and is the one thing that takes a pointer. */
+.cav-walk { --ps-frame: var(--cav-steel); --ps-back: var(--cav-rock); --ps-backcloth: none; }
+.cav-walk-board { --ps-takes: auto; overflow: hidden; background: var(--cav-wall); border-bottom: 12px solid var(--cav-rail); }
+.cav-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cav-wall); }
 
 /* §63 ── ROOM: Stay Frosty (level B5 of Arlesglad Caverns) ─────────────────
    THE BOTTOM OF THE CAVERNS, AND THE ROOM WHERE NOTHING CHANGES. A quiet place
@@ -19118,6 +19799,18 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   .fro-dial__f { font-size: 50px; }
 }
 
+/* STAY FROSTY, WALKED INTO ON PAPER STREET (walk-stay-frosty.js, 2026-11-04).
+   Paper Street's stage takes the chamber's clothes while you are in it: its
+   frame is the damp beads' grey and what is behind is the rock itself, with no
+   lamp anywhere. The room's own page is on a flat face of the rock, edged in
+   the ledge's dark, and it is the one thing in the scene that takes a pointer.
+   No glow gathers round it: nothing here is a pool, a wedge or a gradient. */
+.fro-walk { --ps-frame: var(--fro-bead); --ps-back: var(--fro-rock); --ps-backcloth: none; }
+.fro-walk-face {
+  --ps-takes: auto; overflow: hidden; background: var(--fro-rock);
+  border-radius: 6px; box-shadow: 0 0 0 12px var(--fro-ledge);
+}
+.fro-walk-face iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--fro-rock); }
 
 /* §64 ── SUBROOM: Stay Breezy (behind Stay Frosty) ──────────────────────────
    A HALL FULL OF FANS, AND THE ONE PLACE IN THE CAVERNS WHERE THE AIR MOVES.
@@ -19269,6 +19962,18 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
   .bz-words p { font-size: 18px; }
 }
 
+/* STAY BREEZY, WALKED INTO ON PAPER STREET (walk-stay-breezy.js, 2026-11-04).
+   Paper Street's stage takes the hall's clothes while you are in it: its frame
+   is the fans' teal and what is behind is the hall's pale warm wall, the
+   opposite of Stay Frosty's in every way. The room's own page is on a card at
+   the end of the hall, and it is the one thing in the scene that takes a
+   pointer. Nothing in the scene turns, at any setting. */
+.bz-walk { --ps-frame: var(--bz-blade); --ps-back: var(--bz-wall); --ps-backcloth: none; }
+.bz-walk-card {
+  --ps-takes: auto; overflow: hidden; background: var(--bz-card);
+  border-radius: 12px; box-shadow: 0 0 0 10px var(--bz-card), 0 0 0 14px var(--bz-cage);
+}
+.bz-walk-card iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--bz-wall); }
 
 /* §65 ── ROOM: Mycelium Munchies (level B2 of Arlesglad Caverns) ───────────
    A MUSHROOM FARM WITH A RESTAURANT AT THE END OF THE GROWING ROOMS. Ryan's
@@ -19401,6 +20106,18 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
   .myc-quote p { font-size: 19px; }
 }
 
+/* MYCELIUM MUNCHIES, WALKED INTO ON PAPER STREET (walk-mycelium-munchies.js,
+   round one, 2026-11-04). Paper Street's stage takes the farm's clothes while
+   you are in it: its frame is the pass's steel, the printed night goes and the
+   farm's dark is everything behind. The page hangs on the kitchen wall behind
+   the pass, edged in the counter's grey, under the heat lamps; it is the one
+   thing in the scene that takes a pointer. */
+.myc-walk { --ps-frame: var(--myc-steel); --ps-back: var(--myc-dark); --ps-backcloth: none; }
+.myc-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--myc-dark);
+  border-radius: 2px; box-shadow: 0 0 0 6px var(--myc-grey), 0 0 0 12px var(--myc-steel);
+}
+.myc-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--myc-dark); }
 
 /* §66 ── ROOM: Big Steep Fermentables (level B1 of Arlesglad Caverns) ───────
    A BREWERY AND CELLAR IN THE ROCK, for wine, beer and kombucha. Ryan's brief,
@@ -19554,6 +20271,14 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
   .bs-ledge { padding: 18px; }
 }
 
+/* BIG STEEP, WALKED INTO ON PAPER STREET (walk-big-steep-fermentables.js):
+   the stage is framed in the racks' steel and the dark behind is bare rock,
+   with no stars, because the cellar has no sky. The screen in the rock holds
+   the room's own page in a niche of darker rock and is the one thing in the
+   scene that takes a pointer. No wood. */
+.bs-walk { --ps-frame: var(--bs-rack); --ps-back: var(--bs-rock); --ps-backcloth: none; }
+.bs-walk-screen { --ps-takes: auto; overflow: hidden; background: var(--bs-rock); border-radius: 18px; box-shadow: 0 0 0 8px var(--bs-rack); }
+.bs-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--bs-rock); }
 
 /* §67 ── ROOM: Glow Go Gee Gaws (level B3 of Arlesglad Caverns) ────────────
    GLOW-IN-THE-DARK TOYS AND TRINKETS, IN EVERY COLOUR GLOW COMES IN. Ryan's
@@ -19649,6 +20374,18 @@ html[data-intensity="max"] .gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 14
   .gg-ledge { padding: 18px; }
 }
 
+/* GLOW GO GEE GAWS, WALKED INTO ON PAPER STREET (walk-glow-go-gee-gaws.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the dark shop's clothes
+   while you are in it: its frame is the shelves' edge, the printed night goes
+   and the shop's own dark is everything behind. Nothing in the scene glows.
+   The page hangs on the back wall, edged in the rail's steady pale; it is the
+   one thing in the scene that takes a pointer, and the toys charge on it. */
+.gg-walk { --ps-frame: var(--gg-shelf-line); --ps-back: var(--gg-dark); --ps-backcloth: none; }
+.gg-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--gg-dark);
+  border-radius: 8px; box-shadow: 0 0 0 3px var(--gg-dim), 0 0 0 12px var(--gg-shelf);
+}
+.gg-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--gg-dark); }
 
 /* §68 ── ROOM: Rebellion Rave Room (turning 08 in The Outskirts) ───────────
    AN OLD AIRCRAFT HANGAR BY THE AIRSTRIP, TAKEN OVER BY THE SENSORY SEEKERS.
@@ -19799,6 +20536,19 @@ html[data-intensity="max"] .gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 14
 .rr-whose p:last-child { margin-bottom: 0; }
 .rr-whose__go { font-size: 14.5px; }
 
+/* THE REBELLION RAVE ROOM, WALKED INTO ON PAPER STREET (walk-rebellion-rave-
+   room.js, 2026-11-04). The stage takes the hangar's clothes: its frame is the
+   scaffold's steel and the hangar's black is behind everything. The room's own
+   page hangs on the ante-chamber wall in a hazard edge, its warning first, and
+   it is the one thing in the scene that takes a pointer. The beams are still,
+   nothing in the scene flashes, and nothing here is the strobe's white. */
+.rr-walk { --ps-frame: var(--rr-steel); --ps-back: var(--rr-hangar); --ps-backcloth: none; }
+.rr-walk-page {
+  --ps-takes: auto; overflow: hidden; background: var(--rr-hangar);
+  border-radius: 4px; box-shadow: 0 0 0 8px var(--rr-hazard), 0 0 0 14px var(--rr-steel);
+}
+.rr-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rr-hangar); }
+
 /* §69 ── SUBROOM: The Cooldown Room (off the Rebellion Rave Room) ──────────
    THE OTHER DOOR IN THE ANTE-CHAMBER, and a subroom shares nothing with the
    room it hangs off, which here runs the long way: the hangar is immense,
@@ -19886,6 +20636,19 @@ html[data-intensity="max"] .gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 14
   .cool-machine__body { grid-template-columns: minmax(0, 1fr); }
   .cool-slots { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* THE COOLDOWN ROOM, WALKED INTO ON PAPER STREET (walk-cooldown-room.js, Ryan's
+   ask, 2026-11-04). Paper Street's stage takes the room's clothes while you are
+   in it: its frame is the machine's cabinet, the printed night goes and the
+   room's soft dark is everything behind. The page hangs on the far wall over
+   the couch in a pale edge of the machine's glass, the one thing in the scene
+   that takes a pointer; the machine is the only light, and nothing moves. */
+.cool-walk { --ps-frame: var(--cool-cabinet); --ps-back: var(--cool-room); --ps-backcloth: none; }
+.cool-walk-leaf {
+  --ps-takes: auto; overflow: hidden; background: var(--cool-room);
+  border-radius: 8px; box-shadow: 0 0 0 3px var(--cool-glass), 0 0 0 12px var(--cool-couch);
+}
+.cool-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cool-room); }
 
 /* §70 ── ROOM: The MUD Room (a shopfront on the street, and the Slake behind it)
    A MULTI-USER DUNGEON WITH NOBODY TO FIGHT. The shop is a boot room, and out
@@ -20047,6 +20810,19 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .mud-side { order: 1; }
 }
 
+/* THE MUD ROOM, WALKED INTO ON PAPER STREET (walk-the-mud-room.js, Ryan's ask,
+   2026-11-04). Paper Street's stage takes the boot room's clothes while you are
+   in it: its frame is the bank's olive, the printed night goes and the mud's
+   own dark is everything behind. The page hangs on the back wall beside the
+   open door, framed in the deep olive; it is the one thing in the scene that
+   takes a pointer, and the Slake is played on it. */
+.mud-walk { --ps-frame: var(--mud-bank); --ps-back: var(--mud-deep); --ps-backcloth: none; }
+.mud-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--mud-ground);
+  border-radius: 3px; box-shadow: 0 0 0 10px var(--mud-deep);
+}
+.mud-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--mud-ground); }
+
 /* §71 ── SUBROOM: The Events Room (behind Cavendish Coworking's Events door) ───
    A LIGHTHOUSE KEEPER'S WATCH ROOM, THE ROUND ROOM UNDER THE LANTERN. Ryan's
    brief, 2026-09-28: Proton goes, and every door at Cavendish opens onto a room
@@ -20186,6 +20962,20 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .wr-call { padding: 16px; }
 }
 
+/* THE EVENTS ROOM, WALKED INTO ON PAPER STREET (walk-cavendish-events.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the watch room's clothes
+   while you are in it: its frame is the wall's rail, the printed night goes and
+   the stone of the tower is everything behind. The page hangs on the far curve
+   of the wall in the chart table's lit cream, the one thing in the scene that
+   takes a pointer; the column comes down onto the table only, and nothing
+   moves. */
+.wr-walk { --ps-frame: var(--wr-rail); --ps-back: var(--wr-stone); --ps-backcloth: none; }
+.wr-walk-leaf {
+  --ps-takes: auto; overflow: hidden; background: var(--wr-stone);
+  border-radius: 4px; box-shadow: 0 0 0 4px var(--wr-lit), 0 0 0 14px var(--wr-rail);
+}
+.wr-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--wr-stone); }
+
 /* §72 ── SUBROOM: The Operations Room (behind Cavendish Coworking's Operations door)
    A BUILDING'S PLANT ROOM, WHERE THE THING RUNS. The door says it in our events
    page's words: where we run the thing, a task scrub each week, triage,
@@ -20314,6 +21104,20 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .op-list { padding: 8px 16px 10px; }
   .op-call { padding: 16px; }
 }
+
+/* THE OPERATIONS ROOM, WALKED INTO ON PAPER STREET (walk-cavendish-operations.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the plant room's clothes
+   while you are in it: its frame is steel, the printed night goes and the
+   concrete is everything behind. The page hangs on the far wall in a steel
+   frame on its own concrete ground, so no bar of the lamp's guard crosses a
+   word; it is the one thing in the scene that takes a pointer, and nothing
+   moves. */
+.op-walk { --ps-frame: var(--op-steel); --ps-back: var(--op-concrete); --ps-backcloth: none; }
+.op-walk-leaf {
+  --ps-takes: auto; overflow: hidden; background: var(--op-concrete);
+  border-radius: 2px; box-shadow: 0 0 0 6px var(--op-steel), 0 0 0 10px var(--op-brass);
+}
+.op-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--op-concrete); }
 
 /* §73 ── SUBROOM: The Editorial Room (behind Cavendish Coworking's Editorial door)
    A DESIGNER'S LIGHT TABLE, AT NIGHT, WITH EVERY LAMP IN THE STUDIO OFF. The
@@ -20454,6 +21258,19 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .ed-call { padding: 16px; }
 }
 
+/* THE EDITORIAL ROOM, WALKED INTO ON PAPER STREET (walk-cavendish-editorial.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the studio's clothes
+   while you are in it: its frame is the dark desk, the printed night goes and
+   the studio's own dark is everything behind. The page hangs on the far wall
+   in a thin edge of the proofs' own glow, the one thing in the scene that takes
+   a pointer; the light table is the only light, and nothing moves. */
+.ed-walk { --ps-frame: var(--ed-desk); --ps-back: var(--ed-studio); --ps-backcloth: none; }
+.ed-walk-leaf {
+  --ps-takes: auto; overflow: hidden; background: var(--ed-studio);
+  border-radius: 2px; box-shadow: 0 0 0 3px var(--ed-glow), 0 0 0 14px var(--ed-desk);
+}
+.ed-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ed-studio); }
+
 /* §74 ── SUBROOM: The Watering Hole (behind Cavendish Coworking's Watering Hole door)
    A PAN OF WATER IN THE DESERT, AT NOON. The door says it in Ryan's words:
    open, come-and-go, group watercooler chat where random and off-topic are
@@ -20555,6 +21372,19 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .wh-call { padding: 16px; }
 }
 
+/* THE WATERING HOLE, WALKED INTO ON PAPER STREET (walk-cavendish-watering-hole.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the pan's clothes while
+   you are in it: its frame is the dunes' sand, the printed night goes and the
+   bleached noon sky is everything behind. The page is on a board left out in
+   the sun, the one thing in the scene that takes a pointer, and nothing moves,
+   the heat shimmer included. */
+.wh-walk { --ps-frame: var(--wh-dune); --ps-back: var(--wh-board); --ps-backcloth: none; }
+.wh-walk-leaf {
+  --ps-takes: auto; overflow: hidden; background: var(--wh-sand);
+  border-radius: 3px; box-shadow: 0 0 0 4px var(--wh-dim);
+}
+.wh-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--wh-sand); }
+
 /* §75 ── SUBROOM: The Campfire (behind Cavendish Coworking's Campfire door)
    A FIRE IN A CLEARING, AT NIGHT, WITH A RING OF LOGS ROUND IT. The door says
    it in Ryan's words: for small groups and teams working on something
@@ -20649,6 +21479,15 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .cf-call { padding: 16px; }
 }
 
+/* THE CAMPFIRE, WALKED INTO ON PAPER STREET (walk-cavendish-campfire.js): the
+   stage is framed in bark and the night behind is the black past the trees,
+   with no stars, because the fire is the only light. The room's own page
+   stands on the far side of the fire, its edge lit from it, and is the one
+   thing in the scene that takes a pointer. Nothing flickers. */
+.cf-walk { --ps-frame: var(--cf-bark); --ps-back: var(--cf-night); --ps-backcloth: none; }
+.cf-walk-page { --ps-takes: auto; overflow: hidden; background: var(--cf-night); box-shadow: 0 0 0 8px var(--cf-log), 0 0 0 12px var(--cf-lit); }
+.cf-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cf-night); }
+
 /* §76 ── SUBROOM: The Cave (behind Cavendish Coworking's Cave door)
    INSIDE THE ICE. The door says it in Ryan's words: the Cave, the Quiet Room,
    for quiet co-presence, ambient togetherness and low-demand connection, with
@@ -20741,6 +21580,15 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
   .cv-call { padding: 16px; }
 }
 
+/* THE CAVE, WALKED INTO ON PAPER STREET (walk-cavendish-cave.js): the stage is
+   framed in the ice's seam blue and the dark behind is the thick ice, with no
+   stars, because there is no sky in a glacier. A ledge cut in the ice wall
+   holds the room's own page with a crack's near-white along its edge, and is
+   the one thing in the scene that takes a pointer. */
+.cv-walk { --ps-frame: var(--cv-seam); --ps-back: var(--cv-deep); --ps-backcloth: none; }
+.cv-walk-ledge { --ps-takes: auto; overflow: hidden; background: var(--cv-shelf); border-radius: 22px; box-shadow: 0 0 0 4px var(--cv-crack); }
+.cv-walk-ledge iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cv-shelf); }
+
 /* §77 ── ROOM: The Town Hall (a shopfront on the street) ─────────────────────
    A ROTUNDA AT NOON. Ryan's brief, 2026-09-29: the street's town hall, where
    Stimpunks meets to run itself, with doors round its wall to the Fishbowl and
@@ -20817,6 +21665,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 
 .townhall .th-credits p { font-size: 16px; color: var(--th-dim); }
 
+/* THE TOWN HALL, WALKED INTO ON PAPER STREET (walk-town-hall.js, Ryan's ask,
+   2026-11-04). Paper Street's stage takes the rotunda's clothes while you are
+   in it: its frame is granite, the printed night goes and the dome's shade is
+   everything behind. The page is on the wall across the floor, in the shade
+   like every word here, edged in porphyry; it is the one thing in the scene
+   that takes a pointer, and the disc of sun on the floor is never under it. */
+.th-walk { --ps-frame: var(--th-granite); --ps-back: var(--th-shade); --ps-backcloth: none; }
+.th-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--th-shade);
+  border-radius: 4px; box-shadow: 0 0 0 10px var(--th-porphyry);
+}
+.th-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--th-shade); }
+
 /* §78 ── SUBROOM: The Fishbowl (through a door off the Town Hall) ────────────
    A GLASS BOWL OF WATER ON A SUNNY SILL. The door says it in Ryan's words: a
    room for community Fishbowl Meetings for anyone with CB access. A fishbowl is
@@ -20888,6 +21749,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .fbroom .fb-call__fine { font-size: 16px; color: var(--fb-ink-2); margin-bottom: 0; }
 .fbroom .fb-credits p { font-size: 16px; color: var(--fb-ink-2); }
 
+/* THE FISHBOWL, WALKED INTO ON PAPER STREET (walk-town-hall-fishbowl.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the bowl's clothes while
+   you are in it: its frame is the glass, the printed night goes and the pale
+   water is everything behind. The page is through the glass at the far side,
+   edged in the glass's own green; it is the one thing in the scene that takes
+   a pointer. */
+.fb-walk { --ps-frame: var(--fb-glass); --ps-back: var(--fb-water); --ps-backcloth: none; }
+.fb-walk-glass {
+  --ps-takes: auto; overflow: hidden; background: var(--fb-water);
+  border-radius: 10px; box-shadow: 0 0 0 8px var(--fb-glass);
+}
+.fb-walk-glass iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--fb-water); }
+
 /* §79 ── SUBROOM: The Directors' room (through a door off the Town Hall) ─────
    A ROOM LIT ONLY THROUGH THE FROSTED PANE IN ITS DOOR. The door says it in
    Ryan's words: a room for Stimpunks Directors to meet. Anybody can walk in and
@@ -20955,6 +21829,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .dr-call__said { font-weight: 700; }
 .drroom .dr-call__fine { font-size: 16px; color: var(--dr-dim); margin-bottom: 0; }
 .drroom .dr-credits p { font-size: 16px; color: var(--dr-dim); }
+
+/* THE DIRECTORS' ROOM, WALKED INTO ON PAPER STREET (walk-town-hall-directors.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the room's clothes while
+   you are in it: its frame is the door's dark frame, the printed night goes and
+   the room's own dark is everything behind. The page is on the far wall in a
+   plain dark frame with no light of its own; it is the one thing in the scene
+   that takes a pointer. */
+.dr-walk { --ps-frame: var(--dr-frame); --ps-back: var(--dr-dark); --ps-backcloth: none; }
+.dr-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--dr-dark);
+  border-radius: 3px; box-shadow: 0 0 0 10px var(--dr-frame);
+}
+.dr-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--dr-dark); }
 
 /* §80 ── SUBROOM: The Board room (through a door off the Town Hall) ─────────
    ONE LONG TABLE WITH THE SAME LAMP AT EVERY SEAT. The door says it in Ryan's
@@ -21040,6 +21927,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .bd-call__said { font-weight: 700; }
 .bdroom .bd-call__fine { font-size: 16px; color: var(--bd-dim); margin-bottom: 0; }
 .bdroom .bd-credits p { font-size: 16px; color: var(--bd-dim); }
+
+/* THE BOARD ROOM, WALKED INTO ON PAPER STREET (walk-town-hall-board.js, Ryan's
+   ask, 2026-11-04). Paper Street's stage takes the room's clothes while you are
+   in it: its frame is the table's edge, the printed night goes and the dark
+   room is everything behind. The page hangs on the long wall halfway down the
+   table, not at its head, in a plain frame with no lamp of its own; it is the
+   one thing in the scene that takes a pointer. */
+.bd-walk { --ps-frame: var(--bd-edge); --ps-back: var(--bd-room); --ps-backcloth: none; }
+.bd-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--bd-room);
+  border-radius: 3px; box-shadow: 0 0 0 8px var(--bd-edge);
+}
+.bd-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--bd-room); }
 
 /* §81 ── SUBROOM: The Moderators' room (through a door off the Town Hall) ────
    ABOVE THE STREET AT NIGHT, LIT BY THE STREET. The door says it in Ryan's
@@ -21170,6 +22070,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .mdroom .md-call__fine { font-size: 15.5px; color: var(--md-dim); margin-bottom: 0; }
 .mdroom .md-credits p { font-size: 15.5px; color: var(--md-dim); }
 
+/* THE MODERATORS' ROOM, WALKED INTO ON PAPER STREET
+   (walk-town-hall-moderators.js, Ryan's ask, 2026-11-04). Paper Street's stage
+   takes the room's clothes while you are in it: its frame is the window's
+   frame, the printed night goes and the dark room is everything behind. The
+   page hangs beside the window in a plain dark frame and makes no light of its
+   own; it is the one thing in the scene that takes a pointer. */
+.md-walk { --ps-frame: var(--md-frame); --ps-back: var(--md-dark); --ps-backcloth: none; }
+.md-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--md-dark);
+  border-radius: 3px; box-shadow: 0 0 0 8px var(--md-frame);
+}
+.md-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--md-dark); }
+
 /* §82 ── SUBROOM: Executive Session (through a door off the Town Hall) ───────
    THE BOARD WITHOUT STAFF, IN A DARK ROOM LIT ONLY BY THE EXIT SIGN. Ryan's
    brief, 2026-09-29: a Town Hall subroom for those with the board role only,
@@ -21239,6 +22152,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .es-call__said { font-weight: 700; }
 .esroom .es-call__fine { font-size: 16px; color: var(--es-dim); margin-bottom: 0; }
 .esroom .es-credits p { font-size: 16px; color: var(--es-dim); }
+
+/* EXECUTIVE SESSION, WALKED INTO ON PAPER STREET
+   (walk-town-hall-executive-session.js, Ryan's ask, 2026-11-04). Paper
+   Street's stage takes the room's clothes while you are in it: its frame is the
+   door frame's dark, the printed night goes and the dark room is everything
+   behind. The page is on the far wall in a plain dark frame, the sign's green
+   not reaching it; it is the one thing in the scene that takes a pointer. */
+.es-walk { --ps-frame: var(--es-frame); --ps-back: var(--es-dark); --ps-backcloth: none; }
+.es-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--es-dark);
+  border-radius: 3px; box-shadow: 0 0 0 8px var(--es-frame);
+}
+.es-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--es-dark); }
 
 /* import:neurohome:section:begin */
 /* §83 ── ROOM: NeuroHome (a shopfront on the street) ──────────────────────────
@@ -21419,6 +22345,20 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
    1.09 on her meadow floor. It takes her ring, in her colour. */
 .room-neurohome :where(summary, input):focus-visible { outline-color: var(--nh-link); }
 
+/* NeuroHome, walked into on Paper Street (walk-neurohome.js, round one,
+   2026-11-04): ours, drawn in Isha's declared colours and outside the import
+   markers, and theirs to keep or send back. Paper Street's stage takes their
+   room's clothes while you are in it: its frame is their wood, the printed
+   night goes and their hall's pale is everything behind. The page hangs on the
+   far wall where their art hangs, framed in their dark wood; it is the one
+   thing in the scene that takes a pointer. */
+.nh-walk { --ps-frame: var(--nh-wood); --ps-back: var(--nh-hall); --ps-backcloth: none; }
+.nh-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--nh-paper);
+  border-radius: 4px; box-shadow: 0 0 0 10px var(--nh-darkwood);
+}
+.nh-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--nh-paper); }
+
 /* §84 ── ROOM: Pando Calrissian (a shopfront on the street) ─────────────────────
    A hillside of aspen behind a gap between the shopfronts, and one tree on it
    that is all of us. Ryan's brief, 2026-09-30, after the grow-a-tree game in
@@ -21567,6 +22507,22 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .pdo-count b { font-size: 28px; }
 }
 
+/* PANDO CALRISSIAN, WALKED INTO ON PAPER STREET (walk-pando-calrissian.js,
+   2026-11-04). The stage takes the hillside's clothes while you are on it: the
+   frame is the board's blue, and the backcloth is the sky after the sun has
+   gone, the pink belt over the earth's blue shadow along the horizon. The page
+   stands at the fence in the board's blue, and it is the one thing in the scene
+   that takes a pointer. Nothing moves. */
+.pdo-walk {
+  --ps-frame: var(--pdo-board); --ps-back: var(--pdo-soil);
+  --ps-backcloth: linear-gradient(180deg, var(--pdo-sky) 0%, var(--pdo-belt) 30%, var(--pdo-glow) 40%, var(--pdo-shade) 46%);
+}
+.pdo-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--pdo-shade);
+  border-radius: 4px; box-shadow: 0 0 0 10px var(--pdo-board), 0 0 0 14px var(--pdo-soil);
+}
+.pdo-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--pdo-shade); }
+
 /* §85 ── ROOM: The Fridge of Sighs (a shopfront on the street) ──────────────────
    A kitchen, and the door of its fridge, covered in word magnets. Ryan's brief,
    2026-09-30, after the sentence builder in our Discord's Collaborative Nonsense
@@ -21686,6 +22642,20 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fos-tile { font-size: 18px; }
 }
 
+/* THE FRIDGE OF SIGHS, WALKED INTO ON PAPER STREET (walk-fridge-of-sighs.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the kitchen's clothes
+   while you are in it: its frame is the fridge's dark edge, the printed night
+   goes and the kitchen's tiles are everything behind. The page hangs on the
+   left-hand wall on the fridge door's own turquoise, edged in chrome; it is
+   the one thing in the scene that takes a pointer, and the only place a word
+   goes up. */
+.fos-walk { --ps-frame: var(--fos-edge); --ps-back: var(--fos-tile); --ps-backcloth: none; }
+.fos-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--fos-door);
+  border-radius: 24px; box-shadow: 0 0 0 8px var(--fos-chrome), 0 0 0 11px var(--fos-edge);
+}
+.fos-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--fos-door); }
+
 /* §86 ── ROOM: Count Me In (a shopfront on the street) ─────────────────────────
    Through a fire door, the stairwell of a public building, going up and never
    stopping. Ryan's brief, 2026-09-30, after the counting game in our Discord's
@@ -21791,6 +22761,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .cmi-landing { grid-template-columns: 1fr; }
 }
 
+/* COUNT ME IN, WALKED INTO ON PAPER STREET (walk-count-me-in.js, Ryan's ask,
+   2026-11-04). Paper Street's stage takes the stairwell's clothes while you are
+   in it: its frame is the dark gloss dado, the printed night goes and the eau
+   de nil paint is everything behind. The page hangs on the left-hand wall by
+   the foot of the stair with the nosing's white round it, the one thing in the
+   scene that takes a pointer; a lamp on every landing, and nothing moves. */
+.cmi-walk { --ps-frame: var(--cmi-dado); --ps-back: var(--cmi-wall); --ps-backcloth: none; }
+.cmi-walk-leaf {
+  --ps-takes: auto; overflow: hidden; background: var(--cmi-wall);
+  border-radius: 2px; box-shadow: 0 0 0 6px var(--cmi-nosing), 0 0 0 10px var(--cmi-dado);
+}
+.cmi-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cmi-wall); }
+
 /* §87 ── ROOM: Rescue A Cat (a shopfront on the street) ───────────────────────
    A street with the lights out, a torch, and somewhere in the dark a cat that
    needs bringing in. Ryan's brief, 2026-09-30, after the catch-a-cat game in our
@@ -21895,6 +22878,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .rac-out { grid-template-columns: 1fr; }
 }
 
+/* RESCUE A CAT, WALKED INTO ON PAPER STREET (walk-rescue-a-cat.js, 2026-11-04).
+   The stage takes this end of the street with the lights out: its frame is the
+   panel's dark and the night is behind everything. The shelter's own page
+   stands on a board by the kerb in a panel edge, and it is the one thing in the
+   scene that takes a pointer. The only colour anywhere is eyeshine; nothing
+   blinks and nothing moves. */
+.rac-walk { --ps-frame: var(--rac-panel); --ps-back: var(--rac-night); --ps-backcloth: none; }
+.rac-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--rac-night);
+  border-radius: 4px; box-shadow: 0 0 0 10px var(--rac-panel), 0 0 0 13px var(--rac-stripe);
+}
+.rac-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rac-night); }
+
 /* §88 ── ROOM: Rescue A Dog (a shopfront on the street) ────────────────────────
    The park the morning after snow, and somewhere in it a dog that needs
    bringing in. Ryan's brief, 2026-09-30, beside Rescue A Cat, with adoption for
@@ -21996,6 +22992,22 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .rad-out { grid-template-columns: 1fr; }
 }
 
+/* RESCUE A DOG, WALKED INTO ON PAPER STREET (walk-rescue-a-dog.js, 2026-11-04).
+   The stage takes the park's clothes the morning after snow: its frame is the
+   wood of the gate and the bench, and the backcloth is the winter sky, palest
+   where the low sun is, over the snow. The shelter's own page is on the
+   noticeboard by the path in a wooden edge, and it is the one thing in the scene
+   that takes a pointer. No dog is drawn; nothing moves. */
+.rad-walk {
+  --ps-frame: var(--rad-stripe); --ps-back: var(--rad-snow);
+  --ps-backcloth: linear-gradient(180deg, var(--rad-sky) 0%, var(--rad-sun) 50%, var(--rad-snow) 50%);
+}
+.rad-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--rad-card);
+  border-radius: 4px; box-shadow: 0 0 0 12px var(--rad-stripe);
+}
+.rad-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rad-card); }
+
 /* §89 ── ROOM: Rescue Small Animals (a shopfront on the street) ─────────────────
    Under the floorboards of a shop, and somewhere down there a rabbit, a rat, a
    mouse, a hamster, a gerbil, a guinea pig, a chinchilla, a ferret or a hedgehog
@@ -22096,6 +23108,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 @media (max-width: 620px) {
   .rsa-out { grid-template-columns: 1fr; }
 }
+
+/* RESCUE SMALL ANIMALS, WALKED INTO ON PAPER STREET (walk-rescue-small-
+   animals.js, 2026-11-04). The stage takes the space under the floorboards: its
+   frame is the boards' dark and the boards are behind everything. The
+   shelter's own page stands on a board in a strip of the day, in a dust edge,
+   and it is the one thing in the scene that takes a pointer. No lamp, no
+   animal drawn, nothing moves. */
+.rsa-walk { --ps-frame: var(--rsa-board); --ps-back: var(--rsa-board); --ps-backcloth: none; }
+.rsa-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--rsa-dust);
+  border-radius: 3px; box-shadow: 0 0 0 10px var(--rsa-board), 0 0 0 13px var(--rsa-lit);
+}
+.rsa-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rsa-dust); }
 
 /* §90 ── STREET FURNITURE: The Brass Tacks Board (beside the Pebble Board) ─────
    For things meant to persist: news, notices, events, celebrations, posts.
@@ -22225,6 +23250,15 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 @media (max-width: 620px) {
   .btb-plate { padding: 28px 20px 22px; }
 }
+
+/* THE BOARD, WALKED INTO ON PAPER STREET (walk-brass-tacks-board.js): the
+   stage is framed in brass and the dark behind is the verdigris, matte, with
+   no stars, because nothing here shines but the metal. The biggest plate
+   holds the room's own page, with the hard line of light along its top edge
+   that every plate has, and is the one thing that takes a pointer. */
+.btb-walk { --ps-frame: var(--btb-brass2); --ps-back: var(--btb-wall); --ps-backcloth: none; }
+.btb-walk-plate { --ps-takes: auto; overflow: hidden; background: var(--btb-wall); border-top: 8px solid var(--btb-shine); }
+.btb-walk-plate iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--btb-wall); }
 
 /* §91 ── ROOM: The Open Notebook (a shopfront on the street) ────────────────────
    A desk under a window with a notebook lying open on it, and a laptop beside
@@ -22499,6 +23533,20 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .onb-stk__sheets--one { grid-template-columns: minmax(0, 300px); }
 }
 
+/* THE OPEN NOTEBOOK, WALKED INTO ON PAPER STREET (walk-the-open-notebook.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the room's clothes while
+   you are in it: its frame is the dim ink of the window's frame, the printed
+   night goes and the pale page is everything behind. The page is taped up on
+   the wall beside the window with washi across its corners, laid straight,
+   with no frame and nothing turned; it is the one thing in the scene that
+   takes a pointer. */
+.onb-walk { --ps-frame: var(--onb-dim); --ps-back: var(--onb-card); --ps-backcloth: none; }
+.onb-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--onb-page);
+  box-shadow: 0 0 0 2px var(--onb-dot);
+}
+.onb-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--onb-page); }
+
 /* §92 ── ROOM: Learning Large (a shopfront on the street) ───────────────────────
    A glasshouse at night with every grow lamp on. Ryan's brief, 2026-10-03: a
    room about learning, making and knowledge gardening with generative AI, with
@@ -22756,6 +23804,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .ll-screen { padding: 8px; }
   .ll-spectrum__axis, .ll-spectrum__key { font-size: 22px; }
 }
+
+/* LEARNING LARGE, WALKED INTO ON PAPER STREET (walk-learning-large.js, round
+   one, 2026-11-04). Paper Street's stage takes the glasshouse's clothes while
+   you are in it: its frame is the glazing bars, the printed night goes and the
+   glasshouse's night is everything behind. The page is on the propagation
+   bench's screen at the far end, its rim the lamps' own; it is the one thing in
+   the scene that takes a pointer. Nothing here is green. */
+.glasshouse-walk { --ps-frame: var(--ll-bar); --ps-back: var(--ll-night); --ps-backcloth: none; }
+.glasshouse-walk-screen {
+  --ps-takes: auto; overflow: hidden; background: var(--ll-night);
+  border-radius: 6px; box-shadow: 0 0 0 4px var(--ll-rim), 0 0 0 12px var(--ll-bar);
+}
+.glasshouse-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ll-night); }
 
 /* §93 ── ROOM: Hey, Good Cookin' (a shopfront on the street) ───────────────────
    A community kitchen. Ryan's brief, 2026-10-04: nobody is turned away,
@@ -23020,6 +24081,20 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .hgc-temps th, .hgc-temps td { padding: 9px 10px; }
 }
 
+/* HEY, GOOD COOKIN', WALKED INTO ON PAPER STREET (walk-hey-good-cookin.js,
+   round one, 2026-11-04). Paper Street's stage takes the kitchen's clothes
+   while you are in it: its frame is the soup kettle's enamel, the printed night
+   goes and the hall's own wall is everything behind, daylight through steam.
+   The page hangs on the far wall in an enamel frame; it is the one thing in the
+   scene that takes a pointer. No green, yellow or red here: those are the
+   placards', drawn on the tables in the scene. */
+.cookin-walk { --ps-frame: var(--hgc-enamel); --ps-back: var(--hgc-wall); --ps-backcloth: none; }
+.cookin-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--hgc-wall);
+  border-radius: 6px; box-shadow: 0 0 0 10px var(--hgc-enamel), 0 0 0 14px var(--hgc-enamel-deep);
+}
+.cookin-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--hgc-wall); }
+
 /* §94 ── ROOM: Pekoe and Purrs (a shopfront on the street) ───────────────────
    A cat café. Ryan's brief, 2026-10-04: coffee, tea, tea sandwiches, and cats
    from the rescue waiting for adoption, roaming among toys, lofts and wall
@@ -23232,6 +24307,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .pkp-card__pic { max-width: 180px; }
 }
 
+/* PEKOE AND PURRS, WALKED INTO ON PAPER STREET (walk-pekoe-and-purrs.js,
+   2026-11-04). The stage takes the café's clothes: its frame is the teal of the
+   mug every table has, and the coral wall is what is behind everything. The
+   café's own page hangs on the right-hand wall in a card edge outlined in the
+   room's ink, and it is the one thing in the scene that takes a pointer. No cat
+   is drawn; the shelter's cats are on the page. Nothing moves. */
+.pkp-walk { --ps-frame: var(--pkp-mug); --ps-back: var(--pkp-wall); --ps-backcloth: none; }
+.pkp-walk-page {
+  --ps-takes: auto; overflow: hidden; background: var(--pkp-card);
+  border-radius: 6px; box-shadow: 0 0 0 10px var(--pkp-card), 0 0 0 16px var(--pkp-ink);
+}
+.pkp-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--pkp-wall); }
+
 /* §95 ── ROOM: Brew and Stew (pitch 04 on the Campgrounds) ────────────────────
    A woodland tea room in a cabin at the edge of the trees. Ryan's brief,
    2026-10-04: herbal teas, plant-based soups and breads, flowers, grasses and
@@ -23367,6 +24455,15 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .bns-rules, .bns-keeps { margin: 8px 0 0; padding-left: 22px; max-width: 68ch; }
 .bns-rules li, .bns-keeps li { margin: 0 0 8px; }
 .brewstew .quest { margin-top: 40px; }
+
+/* THE TEA ROOM, WALKED INTO ON PAPER STREET (walk-brew-and-stew.js): the stage
+   is framed in the logs and the dark behind is the heather night, with no
+   stars, because the light in here grows in the wood and nowhere else. The
+   board on the back wall holds the room's own page with the foxfire's glow
+   along its edge, and is the one thing that takes a pointer. No flame. */
+.bns-walk { --ps-frame: var(--bns-log); --ps-back: var(--bns-night); --ps-backcloth: none; }
+.bns-walk-board { --ps-takes: auto; overflow: hidden; background: var(--bns-night); border-radius: 10px; box-shadow: 0 0 0 8px var(--bns-log), 0 0 0 12px var(--bns-glow); }
+.bns-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--bns-night); }
 
 /* §96 ── ROOM: The Run (the first lot through the fence, where the buildings stop)
    A dog park. Ryan's brief, 2026-10-05: an outdoor dog park on the street with
@@ -23562,6 +24659,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .run-card__pic { max-width: 180px; }
 }
 
+/* THE RUN, WALKED INTO ON PAPER STREET (walk-the-run.js, Ryan's ask,
+   2026-11-04). Paper Street's stage takes the Run's clothes while you are in
+   it: its frame is the porch's slate, the printed night goes and a dog's blue
+   sky is everything behind. The page is on the porch's back wall, edged in its
+   straw boards; it is the one thing in the scene that takes a pointer. Every
+   colour here is a blue, a yellow or a grey. */
+.run-walk { --ps-frame: var(--run-roof); --ps-back: var(--run-sky); --ps-backcloth: none; }
+.run-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--run-paper);
+  border-radius: 4px; box-shadow: 0 0 0 8px var(--run-board);
+}
+.run-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--run-paper); }
+
 /* §97 ── ROOM: Truckin' Food Court (the second lot, between the Run and the Green)
    An outdoor food court, which everybody calls the Truck Stop. Ryan's brief,
    2026-10-05: food trucks that each serve one thing several ways -- tacos,
@@ -23707,6 +24817,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .tks-rules, .tks-keeps { margin: 8px 0 0; padding-left: 22px; max-width: 68ch; }
 .tks-rules li, .tks-keeps li { margin: 0 0 8px; }
 .truckstop .quest { margin-top: 40px; }
+
+/* TRUCKIN' FOOD COURT, WALKED INTO ON PAPER STREET (walk-truckin-food-court.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the lot's clothes while
+   you are on it: its frame is the porch roof's slate, the printed night goes
+   and the day's pale sky is everything behind. The page is on the board under
+   the porch roof, on paper, with no stripe under its words and nothing
+   tilted; it is the one thing in the scene that takes a pointer. */
+.tks-walk { --ps-frame: var(--tks-roof); --ps-back: var(--tks-day); --ps-backcloth: none; }
+.tks-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--tks-paper);
+  border-radius: 4px; box-shadow: 0 0 0 8px var(--tks-plank);
+}
+.tks-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--tks-paper); }
 
 /* §98 ── ROOM: The Green (the third lot, between the Truck Stop and the Pile) ──
    A community green space. Ryan's brief, 2026-10-05: heavily wooded, with a
@@ -23862,6 +24985,20 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .grn-sign__list { grid-template-columns: 1fr; }
 }
 
+/* THE GREEN, WALKED INTO ON PAPER STREET (walk-the-green.js, Ryan's ask,
+   2026-11-04). Paper Street's stage takes the Green's clothes while you are in
+   it: its frame is the boardwalk's timber, the printed night goes and the pale
+   sky after rain is everything behind the wood. The page is on the trailhead
+   sign past the pond, edged in the sign's board with no shadow round it,
+   because nothing here casts one; it is the one thing in the scene that takes
+   a pointer. */
+.grn-stroll { --ps-frame: var(--grn-timber); --ps-back: var(--grn-sky); --ps-backcloth: none; }
+.grn-stroll-board {
+  --ps-takes: auto; overflow: hidden; background: var(--grn-paper);
+  border-radius: 4px; outline: 6px solid var(--grn-board);
+}
+.grn-stroll-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--grn-paper); }
+
 /* §99 ── ROOM: The Pile (the last lot through the fence, past the Green) ───────
    A junk playground. Ryan's brief, 2026-10-05: an adventure playground of duct
    tape, fabric, bubble wrap, sand, old wooden furniture, tempera paint,
@@ -23982,6 +25119,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .pil-rules, .pil-keeps { margin: 8px 0 0; padding-left: 22px; max-width: 68ch; }
 .pil-rules li, .pil-keeps li { margin: 0 0 8px; }
 .junkpile .quest { margin-top: 40px; }
+
+/* THE PILE, WALKED INTO ON PAPER STREET (walk-the-pile.js, Ryan's ask,
+   2026-11-04). Paper Street's stage takes the Pile's clothes while you are on
+   it: its frame is raw plywood, the printed night goes and the plain sky is
+   everything behind. The page is pinned to a sheet of plywood at the back,
+   outlined in the ink like every piece of junk here and turned nowhere; it is
+   the one thing in the scene that takes a pointer. */
+.pil-walk { --ps-frame: var(--pil-ply); --ps-back: var(--pil-sky); --ps-backcloth: none; }
+.pil-walk-sheet {
+  --ps-takes: auto; overflow: hidden; background: var(--pil-paper);
+  box-shadow: 0 0 0 5px var(--pil-ink);
+}
+.pil-walk-sheet iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--pil-paper); }
 
 /* §100 ── ROOM: A Quiet Pint (a shopfront on the street) ───────────────────────
    A pub a few steps down from the street, made like McAnally's in Jim Butcher's
@@ -24192,6 +25342,17 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .aqp-pour .aqp-item__draw { width: 76px; }
   .pint h2 { font-size: 32px; }
 }
+
+/* A QUIET PINT, WALKED INTO ON PAPER STREET (walk-a-quiet-pint.js): the stage
+   is framed in the pub's beams and the dark above the horizon is its low
+   ceiling. The board at the far end holds the pub's own page, in a carved
+   edge, and is the one thing in the scene that takes a pointer. */
+.aqp-walk { --ps-frame: var(--aqp-beam); --ps-back: var(--aqp-ceil); --ps-backcloth: none; }
+.aqp-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--aqp-wood);
+  box-shadow: 0 0 0 10px var(--aqp-carve), 0 0 0 14px var(--aqp-beam);
+}
+.aqp-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--aqp-wood); }
 
 /* §101 ── UNLISTED: the door marked E (beyond the usual paths, in the woods) ──
    A room you have to know the address of (tools/unlisted.py): nothing on the
@@ -24782,6 +25943,22 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 /* import:words-bud-beats:section:end */
 
+/* WORDS, BUD, BEATS, WALKED INTO ON PAPER STREET (walk-words-bud-beats.js,
+   round 1, 2026-11-04). Ours, after the room's own markers so a new version of
+   her room keeps it, in her room's own colours and nothing else; hers to keep
+   or send back. Paper Street's stage takes her room's clothes while you are in
+   it: its frame is the window's wood, the printed night goes and the dusk is
+   everything behind. Her page hangs on the far wall in the patch the west
+   window lights, framed in the sill's wood; it is the one thing in the scene
+   that takes a pointer. */
+.wbb-walk { --ps-frame: var(--wbb-frame); --ps-back: var(--wbb-dusk); --ps-backcloth: none; }
+.wbb-walk-patch {
+  --ps-takes: auto; overflow: hidden; background: var(--wbb-ground);
+  border-radius: 3px; box-shadow: 0 0 0 10px var(--wbb-sill);
+}
+.wbb-walk-patch iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--wbb-ground); }
+
+
 /* §104 ── NATURE'S CONTRIBUTION (past the campgrounds, through the wood) ──────
    Ryan's brief, 2026-10-11: land kept for balancing conservation, agriculture
    and renewable energy, after Brock, Roehrdanz, Beringer et al. in Nature
@@ -24887,6 +26064,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .ncx-arm__board { margin-right: 26px; }
   .ncx-arm__board::after { right: -24px; width: 24px; }
 }
+
+/* NATURE'S CONTRIBUTION, WALKED INTO ON PAPER STREET
+   (walk-natures-contribution.js, round one, 2026-11-04). Paper Street's stage
+   takes the land's clothes while you are in it: its frame is the stile's wood,
+   the printed night goes and the afternoon sky is everything behind. The page
+   is on a board by the stile, in the cloud's shade you stand in, framed in the
+   fingerpost's white; it is the one thing in the scene that takes a pointer. */
+.ncx-walk { --ps-frame: var(--ncx-stile); --ps-back: var(--ncx-sky); --ps-backcloth: none; }
+.ncx-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--ncx-shade);
+  border-radius: 2px; box-shadow: 0 0 0 6px var(--ncx-post), 0 0 0 9px var(--ncx-letter);
+}
+.ncx-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ncx-shade); }
 
 /* §105 ── ROOM: All Needs Met Wildlife Sanctuary (in Nature's Contribution) ──
    Ryan's brief, 2026-10-11: a wildlife preserve for local wildlife and a
@@ -24998,6 +26188,15 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .anm-view, .anm-screen { padding: 6px; }
 }
 
+/* THE SANCTUARY, WALKED INTO ON PAPER STREET (walk-all-needs-met.js): the
+   stage is framed in the viewer's edge grey and the night behind is its sky,
+   with no stars, because the viewer sees warmth and a star gives none. The
+   screen in the keepers' hut holds the room's own page and is the one thing in
+   the scene that takes a pointer. Every colour is a grey with no hue. */
+.anm-walk { --ps-frame: var(--anm-edge); --ps-back: var(--anm-sky); --ps-backcloth: none; }
+.anm-walk-screen { --ps-takes: auto; overflow: hidden; background: var(--anm-night); box-shadow: 0 0 0 8px var(--anm-edge); }
+.anm-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--anm-night); }
+
 /* §106 ── ROOM: Brighter Days Solar Farm (in Nature's Contribution) ─────────
    Ryan's brief, 2026-10-11: agrivoltaics that power everything on the land and
    much of the street, after Star Stuff's Two Peppers, north of the stile.
@@ -25095,6 +26294,15 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 @media (max-width: 560px) {
   .bds-screen { padding: 6px; }
 }
+
+/* THE SOLAR FARM, WALKED INTO ON PAPER STREET (walk-brighter-days.js): the
+   stage is framed in the panels' frame and the sky behind is noon, with no
+   stars. The battery shed's screen holds the room's own page in the panels'
+   deep glass with the hard white line along its top, and is the one thing in
+   the scene that takes a pointer. */
+.bds-walk { --ps-frame: var(--bds-frame); --ps-back: var(--bds-sky); --ps-backcloth: none; }
+.bds-walk-screen { --ps-takes: auto; overflow: hidden; background: var(--bds-glass); border-top: 8px solid var(--bds-glint); }
+.bds-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--bds-glass); }
 
 /* §107 ── ROOM: Gentle Help Cannabis Farm (in Nature's Contribution) ────────
    Ryan's brief, 2026-10-11: cannabis grown with companion plants, kind,
@@ -25198,6 +26406,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .ghc-screen { padding: 6px; }
   .ghc-strains { font-size: 14.5px; }
 }
+
+/* GENTLE HELP CANNABIS FARM, WALKED INTO ON PAPER STREET (walk-gentle-help.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the hoop house's
+   clothes while you are in it: its frame is the house's rib, the printed
+   night goes and the glowing skin is everything behind. The page stands in
+   the lit doorway at the far end, on the room's own card, edged in the rib;
+   it is the one thing in the scene that takes a pointer. */
+.ghc-walk { --ps-frame: var(--ghc-rib); --ps-back: var(--ghc-skin); --ps-backcloth: none; }
+.ghc-walk-door {
+  --ps-takes: auto; overflow: hidden; background: var(--ghc-skin);
+  border-radius: 6px; box-shadow: 0 0 0 6px var(--ghc-rib), 0 0 0 9px var(--ghc-head);
+}
+.ghc-walk-door iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ghc-skin); }
 
 /* §108 ── ROOM: All Together Now Farms (in Nature's Contribution) ───────────
    Ryan's brief, 2026-10-11: mixed farming and agroforestry, the Three Sisters,
@@ -25310,6 +26531,21 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .atn-screen { padding: 6px; }
 }
 
+/* THE FARM, WALKED INTO ON PAPER STREET (walk-all-together-now.js): the sky
+   behind the stage runs from the sun's apricot on the west to the moon's
+   periwinkle on the east, the two lights at once, over the flat sky the page
+   measures against. The barn's doorway holds the page, with the two lights on
+   its two edges, and is the one thing in the scene that takes a pointer. */
+.atn-walk {
+  --ps-frame: var(--atn-roof); --ps-back: var(--atn-sky);
+  --ps-backcloth: linear-gradient(90deg, var(--atn-west), var(--atn-sky) 50%, var(--atn-east));
+}
+.atn-walk-door {
+  --ps-takes: auto; overflow: hidden; background: var(--atn-card);
+  border-left: 10px solid var(--atn-rim-warm); border-right: 10px solid var(--atn-rim-cool);
+}
+.atn-walk-door iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--atn-card); }
+
 /* §109 ── SUBROOM: The Dairy (behind All Together Now Farms) ─────────────────
    Ryan's brief, 2026-10-11: a café at the farm with a menu made from every
    edible offering in Nature's Contribution, everything pasteurised. It is in the
@@ -25376,6 +26612,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .dry-pantry, .dry-rules ul { margin: 0; padding-left: 22px; max-width: 72ch; }
 .dry-pantry li, .dry-rules li { margin: 0 0 10px; font-size: 16.5px; line-height: 1.6; }
 
+/* THE DAIRY, WALKED INTO ON PAPER STREET (walk-the-dairy.js, 2026-11-04).
+   Paper Street's stage takes the old dairy's clothes while you are in it: its
+   frame is the band of green tile and what is behind is the glaze's grout, lit
+   from everywhere and casting nothing. The room's own page is the menu, on a
+   card on the back wall with the green band along its foot, and it is the one
+   thing in the scene that takes a pointer. */
+.dry-walk { --ps-frame: var(--dry-band); --ps-back: var(--dry-grout); --ps-backcloth: none; }
+.dry-walk-menu {
+  --ps-takes: auto; overflow: hidden; background: var(--dry-card);
+  box-shadow: 0 0 0 10px var(--dry-card), 0 10px 0 10px var(--dry-band);
+}
+.dry-walk-menu iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--dry-tile); }
+
 /* §110 ── ROOM: The Honesty Box (a shopfront on the street) ─────────────────
    Ryan's brief, 2026-10-11: a shopfront selling the goods of All Together Now
    Farms and its neighbours in Nature's Contribution, pasteurised and lawful,
@@ -25434,6 +26683,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .honestybox .hbx-shelf :focus-visible { outline-color: var(--hbx-ink); }
 .hbx-how ul, .hbx-not ul { margin: 0; padding-left: 22px; max-width: 70ch; }
 .hbx-how li, .hbx-not li { margin: 0 0 10px; font-size: 17px; line-height: 1.6; }
+
+/* THE HONESTY BOX, WALKED UP TO ON PAPER STREET (walk-the-honesty-box.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the stand's clothes while
+   you are at it: its frame is the stand's wood, the printed night goes and the
+   dark olive night is everything behind. The page is on the painted board by
+   the kerb, edged in the board's paint; it is the one thing in the scene that
+   takes a pointer. */
+.hbx-walk { --ps-frame: var(--hbx-wood); --ps-back: var(--hbx-night); --ps-backcloth: none; }
+.hbx-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--hbx-night);
+  border-radius: 4px; box-shadow: 0 0 0 8px var(--hbx-board), 0 0 0 12px var(--hbx-paint);
+}
+.hbx-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--hbx-night); }
 
 /* §111 ── ROOM: Wide-Spread Chaos Gardens (in Nature's Contribution) ────────
    Ryan's brief, 2026-10-11: an ornamental and food garden sown by chaos
@@ -25538,6 +26800,22 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .chaosgarden .wsc-vid__door { margin-top: auto; font-weight: 700; }
 
 /* import:sandbox:section:begin */
+
+/* WIDE-SPREAD CHAOS GARDENS, WALKED INTO ON PAPER STREET
+   (walk-wide-spread-chaos.js, round 1, 2026-11-04). Paper Street's stage takes
+   the garden's clothes while you are in it: its frame is the labels' rim, the
+   printed night goes and the clear sky is everything behind, with not a cloud
+   in it. The page stands on a big plant label at the far side, cream with the
+   rim round it; it and the label lifted off the page are the things in the
+   scene that take a pointer. */
+.wsc-walk { --ps-frame: var(--wsc-rim); --ps-back: var(--wsc-sky); --ps-backcloth: none; }
+.wsc-walk-label {
+  --ps-takes: auto; overflow: hidden; background: var(--wsc-label);
+  border-radius: 8px 8px 3px 3px; box-shadow: 0 0 0 10px var(--wsc-label), 0 0 0 14px var(--wsc-rim);
+}
+.wsc-walk-label iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--wsc-sky); }
+.wsc-walk-tag .wsc-label { margin: 0; }
+
 /* §112 ── ROOM: The Sandbox (a shopfront on the street) ───────────────────────
    SOMEBODY'S OWN ROOM, AND NOT OURS TO REDESIGN; THEY ARE NAMED IN ITS CREDITS ONLY,
    AT THEIR ASK, SO DO NOT NAME THEM HERE OR ANYWHERE ELSE. Built with
@@ -25892,6 +27170,19 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .room-sandbox .sbs-fine { font-size: .95rem; margin-top: 2rem; }
 /* street:sandbox:board:end */
 
+/* THE SANDBOX, WALKED INTO ON PAPER STREET (walk-sandbox.js, 2026-11-04). Ours,
+   not its maker's, and theirs to keep or send back: Paper Street's stage takes
+   the room's dusk while you are in it, its frame the sand's deep edge, and the
+   laptop's screen at the far side of the pit holds the room's own page, the
+   one light in the playground and the one thing in the scene that takes a
+   pointer. */
+.sb-walk { --ps-frame: var(--sb-sanddeep); --ps-back: var(--sb-dusk); --ps-backcloth: none; }
+.sb-walk-screen {
+  --ps-takes: auto; overflow: hidden; background: var(--sb-screen);
+  border-radius: 10px; box-shadow: 0 0 0 14px var(--sb-ink), 0 0 0 18px var(--sb-metal);
+}
+.sb-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--sb-dusk); }
+
 /* §113 ── ROOM: The Bodymind Booth (a shopfront on the street, next door to the Dress-Up Den)
    A PHOTO BOOTH WITH NO CAMERA IN IT. You have pulled the curtain and sat on
    the stool: the page is the curtain behind you, tangerine corduroy in soft
@@ -26089,6 +27380,18 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .bmb-photo { height: min(34vh, 300px); width: auto; max-height: none; }
   .bmb-readout, .bmb-do { padding: 0 2px; }
 }
+
+/* THE BOOTH, WALKED INTO ON PAPER STREET (walk-bodymind-booth.js): the stage is
+   framed in the booth's cream enamel and the corduroy is everything behind.
+   The page hangs on the curtain in an enamel frame with its rims lit both
+   sides, as every plate in the booth is, and is the one thing in the scene
+   that takes a pointer. No flash. */
+.bmb-walk { --ps-frame: var(--bmb-chrome); --ps-back: var(--bmb-curtain); --ps-backcloth: none; }
+.bmb-walk-frame {
+  --ps-takes: auto; overflow: hidden; background: var(--bmb-curtain); border-radius: 14px;
+  box-shadow: 0 0 0 12px var(--bmb-chrome), 0 0 0 16px var(--bmb-steel);
+}
+.bmb-walk-frame iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--bmb-curtain); }
 
 /* §114 ── SUBROOM: The Reading Room (behind the Faery Yurt) ──────────────────
    HELEN'S, LIKE THE YURT IT IS BEHIND, and asked for on 2026-10-15 when the
@@ -26354,6 +27657,20 @@ html[data-intensity="max"] .rdr-phono__disc { animation: rdr-spin 6s linear infi
 .room-reading a.rdr-lp__sleeve--door:hover { outline-color: var(--rdr-flame-2); }
 .room-reading a.rdr-lp__sleeve--door:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 3px; }
 
+/* THE READING ROOM, WALKED INTO ON PAPER STREET (walk-faery-reading-room.js,
+   Ryan's ask, 2026-11-04). Ours, in the colours Helen's room declares, hers to
+   keep or send back. Paper Street's stage takes her library's clothes while
+   you are in it: its frame is her timber, the printed night goes and the dark
+   of the ceiling the fire does not reach is everything above. Her page hangs
+   on the far wall in a timber frame with a brass edge; it is the one thing in
+   the scene that takes a pointer. */
+.rdr-walk { --ps-frame: var(--rdr-timber); --ps-back: var(--rdr-stone); --ps-backcloth: none; }
+.rdr-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--rdr-wall);
+  border-radius: 4px; box-shadow: 0 0 0 3px var(--rdr-brass), 0 0 0 16px var(--rdr-timber);
+}
+.rdr-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rdr-wall); }
+
 /* §115 ── SUBROOM: The Music Room (behind the Faery Yurt) ──────────────────
    HELEN'S, LIKE THE YURT AND THE READING ROOM, and asked for on 2026-10-16
    "for those who just want to listen and not scroll": the phonograph, the whole
@@ -26546,6 +27863,19 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .room-music a.mus-lp__sleeve--door:hover { outline-color: var(--rdr-flame-2); }
 .room-music a.mus-lp__sleeve--door:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 3px; }
 
+/* THE MUSIC ROOM, WALKED INTO ON PAPER STREET (walk-faery-music-room.js,
+   Ryan's ask, 2026-11-04). Ours, in the colours Helen's room wears, hers to
+   keep or send back. Paper Street's stage takes her music room's clothes while
+   you are in it: its frame is her timber, the printed night goes and the dark
+   of the ceiling the candles do not reach is everything above. Her page hangs
+   on the right-hand wall in a timber frame; it is the one thing in the scene
+   that takes a pointer. */
+.mus-walk { --ps-frame: var(--rdr-timber); --ps-back: var(--rdr-stone); --ps-backcloth: none; }
+.mus-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--rdr-wall);
+  border-radius: 4px; box-shadow: 0 0 0 12px var(--rdr-timber), 0 0 0 15px var(--rdr-brass);
+}
+.mus-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rdr-wall); }
 
 /* §116 ── SUBROOM: Fantasy Fancy Dress (through the curtain behind the Dopamine Dress-Up Den)
    THE BACK OF A FANCY DRESS SHOP, LIT ONLY FROM BEHIND, THROUGH SHEER STUFF.
@@ -26697,6 +28027,20 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
   .fancy-dress .ffd-said { margin: 4px 0 0; min-height: 0; font-size: 13px; }
 }
 
+/* FANTASY FANCY DRESS, WALKED INTO ON PAPER STREET
+   (walk-fantasy-fancy-dress.js, Ryan's ask, 2026-11-04). Paper Street's stage
+   takes the shop's clothes while you are in it: its frame is the shop's edge,
+   the printed night goes and the hush of the shop is everything behind, the
+   light only at the far end, through the sheers. The page hangs on the left
+   wall on the dark, never in the light; it is the one thing in the scene that
+   takes a pointer. */
+.ffd-walk { --ps-frame: var(--ffd-edge); --ps-back: var(--ffd-hush); --ps-backcloth: none; }
+.ffd-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--ffd-ground);
+  border-radius: 12px; box-shadow: 0 0 0 4px var(--ffd-edge), 0 0 0 10px var(--ffd-panel);
+}
+.ffd-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ffd-ground); }
+
 /* §117 ── PITCH 5: The Bough House (in the campgrounds) ───────────────────────
    Jess's tree house, from her brief as Helen Edgar passed it on, 2026-10-17: a
    tree house in a grove, the tree growing up through it and wrapped round it,
@@ -26798,6 +28142,19 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
   .bgh-player button.facade { font-size: 17px; padding: 14px 16px; }
   .bgh-player .facade__play { inset: auto auto 12px 16px; }
 }
+
+/* THE BOUGH HOUSE, WALKED INTO ON PAPER STREET (walk-the-bough-house.js,
+   2026-11-04). Paper Street's stage takes the tree house's clothes while you
+   are in it: its frame is the bark and what is behind is the late-afternoon
+   sky between the boughs. The room's own page hangs on the north wall in a
+   frame of silvered plank, and it is the one thing in the scene that takes a
+   pointer. The planks stay grey: weathered timber goes silver. */
+.bgh-walk { --ps-frame: var(--bgh-bark-2); --ps-back: var(--bgh-sky); --ps-backcloth: none; }
+.bgh-walk-frame {
+  --ps-takes: auto; overflow: hidden; background: var(--bgh-sky);
+  box-shadow: 0 0 0 14px var(--bgh-grain), 0 0 0 18px var(--bgh-bark-2);
+}
+.bgh-walk-frame iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--bgh-sky); }
 
 /* §118 ── THE SUMMIT: The Emergent Future Worlds Meets Mountain Man (up the mountain from the campgrounds)
    David's cabin at the top of the mountain that stands over the Campgrounds,
@@ -26996,6 +28353,20 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
   .efw-screen .facade__play { inset: auto auto 12px 16px; }
 }
 
+/* THE CABIN, WALKED INTO ON PAPER STREET (walk-the-mountain-cabin.js, Ryan's
+   ask, 2026-11-04). Paper Street's stage takes the cabin's clothes while you
+   are in it: its frame is the stove's iron, the printed night goes and the
+   blue-charcoal of a smart home at night is everything behind, never brown.
+   The page is on the big screen in front of the window wall, framed in iron
+   with the strips' teal under it; it is the one thing in the scene that takes
+   a pointer. */
+.efw-walk { --ps-frame: var(--efw-iron); --ps-back: var(--efw-night); --ps-backcloth: none; }
+.efw-walk-screen {
+  --ps-takes: auto; overflow: hidden; background: var(--efw-screen);
+  border-radius: 6px; box-shadow: 0 0 0 14px var(--efw-iron), 0 10px 0 14px var(--efw-led-1);
+}
+.efw-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--efw-night); }
+
 /* §119 ── ROOM: World (past the Garden, on the garden spider's web) ─────────────
    Ryan's brief and calls, 2026-10-18: a list of every room on the street, who
    is in each and which have a call going, in a room whose own channel and call
@@ -27087,6 +28458,20 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 /* THE JOB MARKER on the room's floor, in the silk. */
 .room-world .quest { margin-top: 30px; color: var(--www-silk); }
 .room-world .quest__panel a { color: var(--www-dawn); }
+
+/* WORLD, WALKED INTO ON PAPER STREET (walk-world.js, round 1, 2026-11-04).
+   Paper Street's stage takes the room's clothes while you are in it: its frame
+   is the room's rim, the printed night goes and the deep sky before the dawn
+   is everything behind, and under you, because there is no ground. The page
+   hangs from the biggest web on the room's panel, ringed in its silk; it is
+   the one thing in the scene that takes a pointer. */
+.www-walk { --ps-frame: var(--www-rim); --ps-back: var(--www-sky); --ps-backcloth: none; }
+.www-walk-panel {
+  --ps-takes: auto; overflow: hidden; background: var(--www-panel);
+  border-radius: 6px; box-shadow: 0 0 0 4px var(--www-thread), 0 0 0 10px var(--www-rim);
+}
+.www-walk-panel iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--www-sky); }
+
 
 /* §120 ── ROOM: Chimera Obscura (a shopfront on the street) ──────────────────
    Ryan's brief, 2026-10-18: a builder for making one creature out of two
@@ -27223,6 +28608,20 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
   .chm-disc { width: min(100%, 42vh); margin: 0 auto; }
   .chm-named { font-size: 24px; }
 }
+
+/* CHIMERA OBSCURA, WALKED INTO ON PAPER STREET (walk-chimera-obscura.js, Ryan's
+   ask, 2026-11-04). Paper Street's stage takes the camera obscura's clothes
+   while you are in it: its frame is the rail's dark, the printed night goes and
+   the room's matte black is everything behind. The page hangs on the black wall
+   past the table in a brass edge, the one thing in the scene that takes a
+   pointer; the lens's light lands on the table and nowhere else, and nothing
+   moves. */
+.chm-walk { --ps-frame: var(--chm-rail); --ps-back: var(--chm-room); --ps-backcloth: none; }
+.chm-walk-leaf {
+  --ps-takes: auto; overflow: hidden; background: var(--chm-room);
+  border-radius: 2px; box-shadow: 0 0 0 3px var(--chm-brass), 0 0 0 12px var(--chm-plinth);
+}
+.chm-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--chm-room); }
 
 /* §121 ── SUBROOM: The Cinema (behind the Faery Yurt) ───────────────────────
    HELEN'S, LIKE THE YURT, THE READING ROOM AND THE MUSIC ROOM, and asked for
@@ -27388,6 +28787,19 @@ html[data-intensity="max"] .cin-proj__reel { animation: cin-turn 4s linear infin
 .room-cinema .cin-reel--door .cin-reel__label { border-style: dashed; border-color: rgba(242,230,212,.55); }
 .room-cinema .cin-reel--door:hover .cin-reel__label { border-color: var(--rdr-flame-2); }
 
+/* THE CINEMA, WALKED INTO ON PAPER STREET (walk-faery-cinema-room.js, Ryan's
+   ask, 2026-11-04). Ours, in the colours Helen's room wears, hers to keep or
+   send back. Paper Street's stage takes her picture palace's clothes while you
+   are in it: its frame is her brass, the printed night goes and the dark of
+   the house is everything above. Her page is up on the silver screen, edged in
+   the cream the screen is lit with and the gilt of its arch; it is the one
+   thing in the scene that takes a pointer. */
+.cin-walk { --ps-frame: var(--rdr-brass); --ps-back: var(--rdr-stone); --ps-backcloth: none; }
+.cin-walk-screen {
+  --ps-takes: auto; overflow: hidden; background: var(--rdr-panel);
+  border-radius: 2px; box-shadow: 0 0 0 4px var(--rdr-ink), 0 0 0 12px var(--rdr-brass);
+}
+.cin-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rdr-panel); }
 
 /* §122 ── ROOM: Community Care (a shopfront on the street) ────────────────────
    The street's room for asking. Ryan's brief, 2026-10-22: our mutual aid and
@@ -27525,6 +28937,19 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
 .cmc-whose li { font-size: 17px; color: var(--cmc-dim); }
 .cmc-whose code { font-size: 15px; }
 
+/* COMMUNITY CARE, WALKED INTO ON PAPER STREET (walk-community-care.js, Ryan's
+   ask, 2026-11-04). Paper Street's stage takes the street's clothes while you
+   are in it: its frame is the umbrellas' dark ribs, the printed night goes and
+   the grey rain sky is everything behind. The page hangs on the shopfront at
+   the end of the roof, dry, in a loose edge of the ties' cord, the one thing in
+   the scene that takes a pointer; no sun, no colour on the ground, and nothing
+   moves. */
+.cmc-walk { --ps-frame: var(--cmc-rib); --ps-back: var(--cmc-sky); --ps-backcloth: none; }
+.cmc-walk-sign {
+  --ps-takes: auto; overflow: hidden; background: var(--cmc-under);
+  border-radius: 4px; box-shadow: 0 0 0 4px var(--cmc-tie), 0 0 0 12px var(--cmc-slab);
+}
+.cmc-walk-sign iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cmc-under); }
 
 /* §123 ── SUBROOM: The Source (up the hill behind The Feed) ─────────────────
    WHITE TERRACES UNDER A WARM SPRING, AND EVERY ONE OF THEM WAS LAID DOWN BY
@@ -27626,6 +29051,18 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
   .src-part--dial { grid-template-columns: 1fr; }
 }
 
+/* THE SOURCE, WALKED UP ON PAPER STREET (walk-the-source.js, Ryan's ask,
+   2026-11-04). Paper Street's stage takes the hill's clothes while you are on
+   it: its frame is the white stone's lip, the printed night goes and the noon
+   sky is everything behind, paler than the stone is bright. The page stands
+   on the stone under the spring with its corners worn round, nothing square
+   about it; it is the one thing in the scene that takes a pointer. */
+.src-walk { --ps-frame: var(--src-shade); --ps-back: var(--src-sky); --ps-backcloth: none; }
+.src-walk-face {
+  --ps-takes: auto; overflow: hidden; background: var(--src-stone);
+  border-radius: 48px; box-shadow: 0 0 0 10px var(--src-lip), 0 14px 0 10px var(--src-shade);
+}
+.src-walk-face iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--src-stone); }
 
 /* §124 ── ROOM: Show Your Work (a shopfront on the street) ──────────────────
    A garage with the door rolled up, where the work of folks in our community
@@ -27780,6 +29217,24 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
 @media (max-width: 600px) {
   .syw-bench { grid-template-columns: 1fr; }
 }
+
+/* SHOW YOUR WORK, WALKED INTO ON PAPER STREET (walk-show-your-work.js,
+   2026-11-04). Paper Street's stage takes the garage's clothes while you are
+   in it: its frame is the bench's dark and the dark beyond the light is the
+   garage's shade. The room's own page is pinned up over the bench with masking
+   tape at its corners, lit flat with no shadow, as the cards are, and it is
+   the one thing in the scene that takes a pointer. */
+.syw-walk { --ps-frame: var(--syw-ink-2); --ps-back: var(--syw-shade); --ps-backcloth: none; }
+.syw-walk-card {
+  --ps-takes: auto; background: var(--syw-shade);
+  box-shadow: 0 0 0 8px var(--syw-card);
+}
+.syw-walk-card::before, .syw-walk-card::after {
+  content: ""; position: absolute; top: -22px; width: 120px; height: 34px; background: var(--syw-tape); z-index: 1;
+}
+.syw-walk-card::before { left: -30px; }
+.syw-walk-card::after { right: -30px; }
+.syw-walk-card iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--syw-shade); }
 
 /* §125 ── ROOM: Breaker Breaker (a shopfront on the street) ────────────────
    CB radios, CB slang, CB history and trucking, with Dale Watson's trucking
@@ -27956,6 +29411,15 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
 @media (max-width: 600px) {
   .bkb-board, .bkb-records { grid-template-columns: 1fr; }
 }
+
+/* THE CAB, WALKED INTO ON PAPER STREET (walk-breaker-breaker.js): the stage is
+   framed in the road's line grey and the dark behind is the night, as dark as
+   the road and with no glow in it. The rig ahead's back doors hold the room's
+   own page, outlined in its red lamps, which do not blink, and are the one
+   thing in the scene that takes a pointer. */
+.bkb-walk { --ps-frame: var(--bkb-line); --ps-back: var(--bkb-night); --ps-backcloth: none; }
+.bkb-walk-doors { --ps-takes: auto; overflow: hidden; background: var(--bkb-night); outline: 6px dotted var(--bkb-red); outline-offset: 4px; }
+.bkb-walk-doors iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--bkb-night); }
 
 /* §126 ── ROOM: Coping (a shopfront on the street) ─────────────────────────
    The eye of the storm. Ryan's brief, 2026-10-24: a room that synthesizes and
@@ -28175,6 +29639,19 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
   .cop-seeds, .cop-scripts { grid-template-columns: 1fr; }
 }
 
+/* COPING, WALKED INTO ON PAPER STREET (walk-coping.js, Ryan's ask, 2026-11-04).
+   Paper Street's stage takes the eye's clothes while you are in it: its frame is
+   the storm's slate, the printed night goes and the clear sky straight up is
+   everything behind. The page stands on its slip in the middle of the floor of
+   the eye, the sun's gold line along its top, the one thing in the scene that
+   takes a pointer; no rain falls inside the wall, and nothing moves. */
+.cop-walk { --ps-frame: var(--cop-storm); --ps-back: var(--cop-sky); --ps-backcloth: none; }
+.cop-walk-slip {
+  --ps-takes: auto; overflow: hidden; background: var(--cop-floor);
+  border-radius: 2px; box-shadow: 0 -4px 0 0 var(--cop-sun), 0 0 0 4px var(--cop-shade);
+}
+.cop-walk-slip iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cop-floor); }
+
 /* §127 ── ROOM: Pets (a shopfront on the street) ────────────────────────────
    Down on the floor with the animals at the end of the day. Ryan's brief,
    2026-10-24: a Pets room, its channel under Community on the chat page,
@@ -28321,6 +29798,18 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
   .pts-doors { grid-template-columns: 1fr; }
   .pts-door__art { max-width: 220px; }
 }
+
+/* PETS, WALKED INTO ON PAPER STREET (walk-pets.js, 2026-11-04). The stage takes
+   the room's clothes at the end of the day: its frame is the skirting's dark,
+   and the dusk of the walls is behind everything. The room's own page hangs on
+   the back wall over the pet flaps, in the skirting's edge, and it is the one
+   thing in the scene that takes a pointer. The lamp stays off; nothing moves. */
+.pts-walk { --ps-frame: var(--pts-skirting); --ps-back: var(--pts-wall); --ps-backcloth: none; }
+.pts-walk-page {
+  --ps-takes: auto; overflow: hidden; background: var(--pts-dusk);
+  border-radius: 6px; box-shadow: 0 0 0 10px var(--pts-skirting), 0 0 0 13px var(--pts-flap);
+}
+.pts-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--pts-dusk); }
 
 /* §128 ── SUBROOM: Myths & Legends (behind the Faery Yurt, through the Alchemist's Arch)
    HELEN'S, LIKE THE YURT AND ITS OTHER ROOMS, and asked for at the keyboard on
@@ -28509,6 +29998,20 @@ html[data-intensity="max"] .myth-glint { animation: myth-glint 3.4s ease-in-out 
 @keyframes myth-glow { from { opacity: .55; } to { opacity: 1; } }
 @keyframes myth-glint { 0%, 70%, 100% { opacity: .25; } 85% { opacity: 1; } }
 
+/* MYTHS & LEGENDS, WALKED INTO ON PAPER STREET (walk-faery-myths-room.js,
+   Ryan's ask, 2026-11-04). Ours, in the colours Helen's rooms declare, hers to
+   keep or send back. Paper Street's stage takes her room's clothes while you
+   are in it: its frame is her brass, the printed night goes and the dark above
+   the stones is everything behind. Her page hangs on the far wall edged in
+   amber on one side and amethyst on the other, as every panel in her room is;
+   it is the one thing in the scene that takes a pointer. */
+.myth-walk { --ps-frame: var(--rdr-brass); --ps-back: var(--rdr-stone); --ps-backcloth: none; }
+.myth-walk-wall {
+  --ps-takes: auto; overflow: hidden; background: var(--rdr-wall);
+  border-radius: 4px; box-shadow: -6px 0 0 4px var(--myth-amber), 6px 0 0 4px var(--myth-amethyst-2), 0 0 0 14px var(--rdr-timber);
+}
+.myth-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rdr-wall); }
+
 /* §129 ── SUBROOM: Glow Wild Hollow (behind the Faery Yurt, down through the glowing mushroom)
    HELEN'S, LIKE THE YURT AND ITS OTHER ROOMS, and asked for at the keyboard on
    2026-10-27, after Kew's "How nature glows wild": something about how nature
@@ -28657,6 +30160,21 @@ html[data-intensity="max"] .hollow-scene__glow { animation: hollow-breathe 6s ea
 html[data-intensity="max"] .hollow-jelly__body { animation: hollow-drift 8s ease-in-out infinite alternate; }
 @keyframes hollow-breathe { from { opacity: .55; } to { opacity: 1; } }
 @keyframes hollow-drift { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+
+/* GLOW WILD HOLLOW, WALKED INTO ON PAPER STREET (walk-glow-wild-hollow.js,
+   Ryan's ask, 2026-11-04). Ours, in the colours Helen's hollow declares, hers
+   to keep or send back. Paper Street's stage takes her hollow's clothes while
+   you are in it: its frame is the bank's dark, the printed night goes and the
+   hollow's own night is everything above, with no moon and no star in it. Her
+   page stands on the shore on the deep water's dark, edged in it; no living
+   light falls on it, and it is the one thing in the scene that takes a
+   pointer. */
+.hollow-walk { --ps-frame: var(--gwh-hill); --ps-back: var(--gwh-night); --ps-backcloth: none; }
+.hollow-walk-page {
+  --ps-takes: auto; overflow: hidden; background: var(--gwh-night);
+  border-radius: 10px; box-shadow: 0 0 0 10px var(--gwh-deep);
+}
+.hollow-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--gwh-night); }
 
 /* §130 ── ROOM: Volunteers (a shopfront on the street) ──────────────────────
    A cloth on the loom, half woven. Ryan's brief, 2026-10-27: a Volunteers
@@ -28809,6 +30327,20 @@ html[data-intensity="max"] .hollow-jelly__body { animation: hollow-drift 8s ease
   .vol-bands, .vol-books { grid-template-columns: 1fr; }
 }
 
+/* VOLUNTEERS, WALKED INTO ON PAPER STREET (walk-volunteers.js, round 1,
+   2026-11-04). Paper Street's stage takes the room's clothes while you are in
+   it: its frame is the loom's wood, the printed night goes and the plain
+   plaster wall is everything behind. The page hangs on flat undyed linen in a
+   wooden frame, with nothing striped, woven or lit behind it; it is the one
+   thing in the scene that takes a pointer. */
+.vol-walk { --ps-frame: var(--vol-wood); --ps-back: var(--vol-wall); --ps-backcloth: none; }
+.vol-walk-linen {
+  --ps-takes: auto; overflow: hidden; background: var(--vol-linen);
+  border-radius: 3px; box-shadow: 0 0 0 14px var(--vol-linen), 0 0 0 22px var(--vol-wood);
+}
+.vol-walk-linen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--vol-linen); }
+
+
 
 /* §131 ── SUBROOM: Play Pod (behind the Faery Yurt, through the door under the Glimmer Window)
    HELEN'S, LIKE THE YURT AND ITS OTHER ROOMS, and asked for at the keyboard on
@@ -28934,6 +30466,19 @@ html[data-intensity="max"] .hollow-jelly__body { animation: hollow-drift 8s ease
 .room-pod .facade__play { color: var(--ppd-yellow); }
 html[data-intensity="max"] .ppd-lamp[data-lamp="on"] .ppd-scene__glow { animation: ppd-breathe 6s ease-in-out infinite alternate; }
 @keyframes ppd-breathe { from { opacity: .6; } to { opacity: 1; } }
+
+/* THE PLAY POD, WALKED INTO ON PAPER STREET (walk-play-pod.js, 2026-11-04).
+   Ours, in Helen's own colours, and hers to keep or send back. The stage takes
+   her pod's clothes with the lamp on: its frame is the tube's violet and the
+   pod's night is behind everything. Her page hangs on the left-hand wall in the
+   tray's dark edge, and it is the one thing in the scene that takes a pointer.
+   Nothing moves. */
+.ppd-walk { --ps-frame: var(--ppd-uv); --ps-back: var(--ppd-night); --ps-backcloth: none; }
+.ppd-walk-page {
+  --ps-takes: auto; overflow: hidden; background: var(--ppd-night);
+  border-radius: 10px; box-shadow: 0 0 0 10px var(--ppd-tray), 0 0 0 14px var(--ppd-uv);
+}
+.ppd-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ppd-night); }
 
 /* §132 ── TURNING: The Haunted House (turning 09 off The Outskirts) ─────────
    An empty warehouse at the end of the road with a haunted house built inside
@@ -29114,6 +30659,19 @@ html[data-intensity="max"] .ppd-lamp[data-lamp="on"] .ppd-scene__glow { animatio
   .haunted .wrap { width: calc(100% - 32px); }
   .hh-things { grid-template-columns: 1fr; }
 }
+
+/* THE HAUNTED HOUSE, WALKED INTO ON PAPER STREET (walk-haunted-house.js, Ryan's
+   ask, 2026-11-04). Paper Street's stage takes the warehouse's clothes while
+   you are in it: its frame is the painted trim, the printed night goes and the
+   warehouse's dark is everything behind. The page stands on a painted board by
+   the way in, on the painted dark and edged in the board's timber, never in a
+   seam's light; it is the one thing in the scene that takes a pointer. */
+.hh-walk { --ps-frame: var(--hh-paint); --ps-back: var(--hh-dark); --ps-backcloth: none; }
+.hh-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--hh-ground);
+  border-radius: 2px; box-shadow: 0 0 0 10px var(--hh-board), 0 0 0 13px var(--hh-timber);
+}
+.hh-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--hh-ground); }
 
 /* §133 ── ROOM: Paper Street (the street, walked as paper) ──────────────────
    Ryan's ask, 2026-10-30: a sandbox game on the web, walking down the street
@@ -29643,6 +31201,21 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   .wds-figure { padding: 12px 10px 10px; }
 }
 
+/* WIDDERSHINS, WALKED INTO ON PAPER STREET (walk-widdershins.js, round 1,
+   2026-11-04). Paper Street's stage takes the room's clothes while you are in
+   it: its frame is the quay's stone line, the printed night goes and the night
+   sky over the city is everything behind it; the morning is only ever in the
+   city's own drawing. The page stands on a board on the quay, on the flat
+   night with a brass edge, and no word of it is in the morning; it is the one
+   thing in the scene that takes a pointer. */
+.wds-walk { --ps-frame: var(--wds-line); --ps-back: var(--wds-sky-night); --ps-backcloth: none; }
+.wds-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--wds-night);
+  border-radius: 4px; box-shadow: 0 0 0 8px var(--wds-slab), 0 0 0 12px var(--wds-brass);
+}
+.wds-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--wds-night); }
+
+
 /* §136 ── ROOM: Champuru (a shopfront on the street) ─────────────────────────
    Ryan Boren's restaurant: a table to sit at when he eats, with a broader
    palette than Vital Plant Living next door, Mediterranean and Okinawan
@@ -29795,6 +31368,19 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   .chp-lede { font-size: 18px; }
 }
 
+/* CHAMPURU, WALKED INTO ON PAPER STREET (walk-champuru.js, Ryan's ask,
+   2026-11-04). Paper Street's stage takes the lane's clothes while you are in
+   it: its frame is the coral stone, the printed night goes and the sky over
+   the sea at the lane's end is everything behind. The page hangs in the
+   restaurant's doorway in its teal door frame, the one thing in the scene that
+   takes a pointer; no sun lands in the lane, and nothing moves. */
+.chp-walk { --ps-frame: var(--chp-coral-dark); --ps-back: var(--chp-sky); --ps-backcloth: none; }
+.chp-walk-door {
+  --ps-takes: auto; overflow: hidden; background: var(--chp-shade);
+  border-radius: 2px; box-shadow: 0 0 0 10px var(--chp-door);
+}
+.chp-walk-door iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--chp-shade); }
+
 /* §137 ── ROOM: Loo With a View (a public restroom on the street) ─────────────
    A rest stop at the top of a mountain road, half dug into the hillside and
    half out over a fjord: board-marked concrete, rusted steel, larch, and one
@@ -29898,6 +31484,19 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   .loo-with-a-view .wrap { width: calc(100% - 32px); }
   .lwv-has { grid-template-columns: 1fr; }
 }
+
+/* LOO WITH A VIEW, WALKED INTO ON PAPER STREET (walk-loo-with-a-view.js, round
+   one, 2026-11-04). Paper Street's stage takes the rest stop's clothes while
+   you are in it: its frame is the rusted steel, the printed night goes and the
+   cool shadow every face is in is everything behind. The page hangs on the
+   board-marked concrete beside the glass, its far edge caught gold as
+   everything is; it is the one thing in the scene that takes a pointer. */
+.lwv-walk { --ps-frame: var(--lwv-corten); --ps-back: var(--lwv-shade); --ps-backcloth: none; }
+.lwv-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--lwv-shade);
+  border-radius: 2px; box-shadow: 0 -4px 0 0 var(--lwv-rim), 0 0 0 10px var(--lwv-line);
+}
+.lwv-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--lwv-shade); }
 
 /* §138 ── ROOM: The Comfort Station (a public restroom on the street) ────────
    One of the street's public restrooms, Ryan Boren's brief, 2026-11-03: a
@@ -30010,6 +31609,21 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   .cst-has { grid-template-columns: 1fr; }
   .cst-lede { font-size: 18px; }
 }
+
+/* THE COMFORT STATION, WALKED INTO ON PAPER STREET (walk-comfort-station.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the hall's clothes while
+   you are in it: its frame is the iron of the vault lights, the printed night
+   goes and the white tile is everything behind. The page is on an enamel board
+   in the room's green band at the far end, the one thing in the scene that
+   takes a pointer; the day comes through the pavement in dots, and nothing
+   moves. */
+.cst-walk { --ps-frame: var(--cst-iron); --ps-back: var(--cst-tile); --ps-backcloth: none; }
+.cst-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--cst-tile);
+  border-radius: 6px; box-shadow: 0 0 0 6px var(--cst-trim), 0 0 0 9px var(--cst-brass);
+}
+.cst-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cst-tile); }
+
 /* §139 ── ROOM: The Seaside Convenience (a public restroom on the street) ───────
    A Victorian public convenience on a seaside promenade: painted cast iron in
    green and cream, glazed tile, a glass canopy on curly brackets, and the sea
@@ -30071,6 +31685,20 @@ body.seaside { background: var(--sea-haze); color: var(--sea-ink); font-family: 
 .sea-rules li, .sea-credits li { margin: 0 0 10px; font-size: 18px; line-height: 1.55; }
 .sea-credits li { font-size: 16px; }
 @media (max-width: 600px) { .seaside h2 { font-size: 25px; } .sea-sub { font-size: 19px; } }
+
+/* THE SEASIDE CONVENIENCE, WALKED INTO ON PAPER STREET (walk-seaside-convenience.js,
+   2026-11-04). Paper Street's stage takes the promenade's clothes while you are
+   on it: its frame is the iron's green and the dark behind is the haze. The
+   room's own page stands on a cream enamel board under the canopy, edged in
+   iron as the room's cards are, and it is the one thing in the scene that
+   takes a pointer. Nothing moves, at any setting. */
+.sea-walk { --ps-frame: var(--sea-iron); --ps-back: var(--sea-haze); --ps-backcloth: none; }
+.sea-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--sea-cream);
+  border-radius: 6px; box-shadow: 0 0 0 10px var(--sea-cream), 0 0 0 16px var(--sea-iron);
+}
+.sea-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--sea-haze); }
+
 /* §140 ── ROOM: The Quiet Stall (a public restroom on the street) ─────────────
    Felt on the walls, cork on the floor, every corner rounded, and the light
    from coves hidden along the tops of the walls, so the ceiling is the
@@ -30133,6 +31761,19 @@ body.seaside { background: var(--sea-haze); color: var(--sea-ink); font-family: 
 .qst-rules li, .qst-credits li { font-size: 17px; line-height: 1.6; }
 .qst-rules li + li, .qst-credits li + li { margin-top: 8px; }
 .quiet-stall .quest { margin-top: 40px; }
+
+/* THE QUIET STALL, WALKED INTO ON PAPER STREET (walk-the-quiet-stall.js,
+   Ryan's ask, 2026-11-04). Paper Street's stage takes the room's clothes while
+   you are in it: its frame is felt, rounded, the printed night goes and the
+   shade under the coves is everything behind. The page hangs at the end on a
+   band of flat wool with every corner rounded, never on the light's
+   gradient; it is the one thing in the scene that takes a pointer. */
+.qst-walk { --ps-frame: var(--qst-felt); --ps-back: var(--qst-shade); --ps-backcloth: none; }
+.qst-walk-wool {
+  --ps-takes: auto; overflow: hidden; background: var(--qst-felt);
+  border-radius: 24px; box-shadow: 0 0 0 12px var(--qst-wool);
+}
+.qst-walk-wool iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--qst-felt); }
 
 /* §141 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */

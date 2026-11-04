@@ -4204,6 +4204,16 @@ which wraps and moves the page under it on every long name, and scrolling to the
 first build called that function `named`, which `cel-street.js` already used for the doors' names, and the street
 stopped building**: the same lesson as `street`, a second time.
 
+**PAPER STREET WALKS INTO EVERY ROOM CEL STREET DOES, ROUND 1** (Ryan's ask, 2026-11-04, built by eight helper agents
+from one brief): a `walk-<page>.js` for each, its walk classes at the end of that room's own section of love.css, its page
+up through `kit.screen()`, a few drawn things in its own declared colours and no new tokens. **A room's name is `NAMES[page]`
+first**, then the street's door, so a room reached by its address or the teleporter is never named by its filename. Paper
+Street's kit has no way from one room into another, so a room that opens off another is reached by its address or the
+teleporter, and Back out goes to the street. **A Tab into a page standing in the scene puts the window back** (`keepWindow`
+in `paper-street.js`): the browser scrolls the window to show a focused frame, and in a 3D scene a frame can seem to be
+anywhere. The rooms Helen made, the rooms somebody brought in and David's cabin say in their headers that the scene is ours
+and theirs to keep or send back.
+
 **THE TELEPORTER ON BOTH STREETS GOES STRAIGHT TO A ROOM BY ITS NAME, AND YOUR COMPANIONS WALK CEL STREET TOO.**
 Ryan's asks, 2026-11-04. `make-cel-street.py` and `make-paper-street.py` write `NAMES` beside `ROOMS` between the same
 markers (a room file's own `name:`, else its page's title), so the teleporter, a `<datalist>` under **Teleport to a
