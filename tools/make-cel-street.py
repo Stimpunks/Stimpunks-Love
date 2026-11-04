@@ -84,12 +84,19 @@ if not re.search(r'<a class="roadout" href="the-outskirts\.html">', index) or 'c
     refuse("index.html has lost its road out to the Outskirts, which Cel Street stands at the far end.")
 if not re.search(r'<a class="liftdown" href="arlesglad-caverns\.html">', index) or 'class="liftdown__to"' not in index:
     refuse("index.html has lost its lift down to the caverns, which Cel Street stands by the stoop.")
+for cls, page, part, what in (("noticeboard", "pebble-board.html", "noticeboard__what", "the Pebble Board"),
+                              ("brasstacks", "brass-tacks-board.html", "brasstacks__what", "the Brass Tacks Board"),
+                              ("postercol", "now-playing.html", "postercol__what", "the Now Playing column")):
+    if not re.search(r'<a class="' + cls + r'" href="' + re.escape(page) + '">', index) or f'class="{part}"' not in index:
+        refuse(f"index.html has lost {what}, which Cel Street stands on the pavement by the front door.")
+if not re.search(r'class="masthead__who".*?<a href="danny-the-street\.html">', index, re.S):
+    refuse("index.html's masthead no longer names Danny the Street, whose name Cel Street puts on a plate on the end wall.")
 
 # ── What cel-street.js promises ─────────────────────────────────────────────
 js = JS.read_text()
 code = re.sub(r"/\*.*?\*/", "", js, flags=re.S)
 code = re.sub(r"(?m)^\s*//.*$", "", code)
-for selector in ("ul.doors", ":scope > li > a.door", ".door__awning", ".door__name", "a.signpost", ".signpost__to", "a.roadout", ".roadout__to", "a.liftdown", ".liftdown__to"):
+for selector in ("ul.doors", ":scope > li > a.door", ".door__awning", ".door__name", "a.signpost", ".signpost__to", "a.roadout", ".roadout__to", "a.liftdown", ".liftdown__to", "a.noticeboard", ".noticeboard__what", "a.brasstacks", ".brasstacks__what", "a.postercol", ".postercol__what", '.masthead__who a[href="danny-the-street.html"]'):
     if selector not in code:
         refuse(f"cel-street.js no longer reads {selector!r}; change this tool's list with it, on purpose.")
 imports = re.findall(r"^\s*import\b[^;]*?from\s*'([^']+)'", code, re.M)
@@ -268,6 +275,23 @@ write_list("cel-in-arlesglad-caverns.js", "levels", "LEVELS",
 # read off the page's own post; written between cel:arms markers, never by hand.
 write_list("cel-in-natures-contribution.js", "arms", "ARMS",
            board_of("natures-contribution.html", "ncx-arm", "ncx-arm__no", "ncx-arm--raising", "fingerpost arm"), "  ")
+
+# The Pebble Board's room pins a slot for every spread the edition on the
+# page has; counted off pebble-board.html and written between cel:spreads
+# markers, never by hand, because the board is replaced edition by edition.
+spreads = len(re.findall(r'<[a-z]+ class="pb-spread[ "]', (ROOT / "pebble-board.html").read_text()))
+if not spreads:
+    refuse("pebble-board.html has no spreads the Pebble Board's room on Cel Street can pin.")
+else:
+    f = ROOT / "cel-in-pebble-board.js"
+    if f.exists():
+        src = f.read_text()
+        if "// cel:spreads:begin" not in src:
+            refuse("cel-in-pebble-board.js has lost its cel:spreads markers.")
+        else:
+            new = re.sub(r"(// cel:spreads:begin\n).*?(\n\s*// cel:spreads:end)", lambda m: m.group(1) + "  var SPREADS = " + str(spreads) + ";" + m.group(2), src, flags=re.S)
+            if new != src:
+                f.write_text(new)
 
 # The World room hangs a garden for every part of the Map its directory has,
 # with that part's heading; written between cel:parts markers, never by hand.

@@ -42,7 +42,7 @@ function start() {
   // here by tools/make-cel-street.py from the cel-in-*.js files. Do not
   // hand-edit between the markers.
   // cel:rooms:begin
-  var ROOMS = {'a-quiet-pint.html': 'cel-in-a-quiet-pint.js', 'adventurers-guild.html': 'cel-in-adventurers-guild.js', 'all-needs-met.html': 'cel-in-all-needs-met.js', 'all-together-now.html': 'cel-in-all-together-now.js', 'arcade.html': 'cel-in-arcade.js', 'arlesglad-caverns.html': 'cel-in-arlesglad-caverns.js', 'big-steep-fermentables.html': 'cel-in-big-steep-fermentables.js', 'black-leather-lagoon.html': 'cel-in-black-leather-lagoon.js', 'bodymind-booth.html': 'cel-in-bodymind-booth.js', 'breaker-breaker.html': 'cel-in-breaker-breaker.js', 'brew-and-stew.html': 'cel-in-brew-and-stew.js', 'brighter-days.html': 'cel-in-brighter-days.js', 'broadsheet-broadside.html': 'cel-in-broadsheet-broadside.js', 'campgrounds.html': 'cel-in-campgrounds.js', 'cavendish-campfire.html': 'cel-in-cavendish-campfire.js', 'cavendish-cave.html': 'cel-in-cavendish-cave.js', 'cavendish-coworking.html': 'cel-in-cavendish-coworking.js', 'cavendish-editorial.html': 'cel-in-cavendish-editorial.js', 'cavendish-events.html': 'cel-in-cavendish-events.js', 'cavendish-operations.html': 'cel-in-cavendish-operations.js', 'cavendish-watering-hole.html': 'cel-in-cavendish-watering-hole.js', 'chimera-obscura.html': 'cel-in-chimera-obscura.js', 'club-chronic.html': 'cel-in-club-chronic.js', 'collection-collection.html': 'cel-in-collection-collection.js', 'community-care.html': 'cel-in-community-care.js', 'community-center.html': 'cel-in-community-center.js', 'community-library.html': 'cel-in-community-library.js', 'cooldown-room.html': 'cel-in-cooldown-room.js', 'coping.html': 'cel-in-coping.js', 'count-me-in.html': 'cel-in-count-me-in.js', 'covenstead.html': 'cel-in-covenstead.js', 'dance-punks.html': 'cel-in-dance-punks.js', 'dead-tired-society.html': 'cel-in-dead-tired-society.js', 'dopamine-dress-up-den.html': 'cel-in-dopamine-dress-up-den.js', 'enids-room.html': 'cel-in-enids-room.js', 'faery-cinema-room.html': 'cel-in-faery-cinema-room.js', 'faery-music-room.html': 'cel-in-faery-music-room.js', 'faery-myths-room.html': 'cel-in-faery-myths-room.js', 'faery-reading-room.html': 'cel-in-faery-reading-room.js', 'faery-yurt.html': 'cel-in-faery-yurt.js', 'fantasy-fancy-dress.html': 'cel-in-fantasy-fancy-dress.js', 'foundry.html': 'cel-in-foundry.js', 'fridge-of-sighs.html': 'cel-in-fridge-of-sighs.js', 'gentle-help.html': 'cel-in-gentle-help.js', 'glow-go-gee-gaws.html': 'cel-in-glow-go-gee-gaws.js', 'glow-wild-hollow.html': 'cel-in-glow-wild-hollow.js', 'haunted-house.html': 'cel-in-haunted-house.js', 'healing-checkpoint.html': 'cel-in-healing-checkpoint.js', 'hear-queer-here.html': 'cel-in-hear-queer-here.js', 'hey-good-cookin.html': 'cel-in-hey-good-cookin.js', 'jungle-room.html': 'cel-in-jungle-room.js', 'l-space.html': 'cel-in-l-space.js', 'latibulum.html': 'cel-in-latibulum.js', 'laughingstock.html': 'cel-in-laughingstock.js', 'learning-large.html': 'cel-in-learning-large.js', 'lightbulb-picture-house.html': 'cel-in-lightbulb-picture-house.js', 'live-room.html': 'cel-in-live-room.js', 'looming-rocks.html': 'cel-in-looming-rocks.js', 'mycelium-munchies.html': 'cel-in-mycelium-munchies.js', 'natures-contribution.html': 'cel-in-natures-contribution.js', 'neurohome.html': 'cel-in-neurohome.js', 'nothing-for-sale.html': 'cel-in-nothing-for-sale.js', 'oook.html': 'cel-in-oook.js', 'oracle-deck.html': 'cel-in-oracle-deck.js', 'otterly-adorbs.html': 'cel-in-otterly-adorbs.js', 'pando-calrissian.html': 'cel-in-pando-calrissian.js', 'pekoe-and-purrs.html': 'cel-in-pekoe-and-purrs.js', 'penguin-pebbling.html': 'cel-in-penguin-pebbling.js', 'pets.html': 'cel-in-pets.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js', 'play-pod.html': 'cel-in-play-pod.js', 'playhouse.html': 'cel-in-playhouse.js', 'plural-mural.html': 'cel-in-plural-mural.js', 'polaroids.html': 'cel-in-polaroids.js', 'quill-drift.html': 'cel-in-quill-drift.js', 'rabbit-hole.html': 'cel-in-rabbit-hole.js', 'rebellion-rave-room.html': 'cel-in-rebellion-rave-room.js', 'repeater.html': 'cel-in-repeater.js', 'rescue-a-cat.html': 'cel-in-rescue-a-cat.js', 'rescue-a-dog.html': 'cel-in-rescue-a-dog.js', 'rescue-small-animals.html': 'cel-in-rescue-small-animals.js', 'samefood-cafe.html': 'cel-in-samefood-cafe.js', 'sandbox.html': 'cel-in-sandbox.js', 'show-your-work.html': 'cel-in-show-your-work.js', 'sithen.html': 'cel-in-sithen.js', 'small-hours.html': 'cel-in-small-hours.js', 'solarpunk-hermitage.html': 'cel-in-solarpunk-hermitage.js', 'stay-breezy.html': 'cel-in-stay-breezy.js', 'stay-frosty.html': 'cel-in-stay-frosty.js', 'swaying-sweetgrass.html': 'cel-in-swaying-sweetgrass.js', 'the-bough-house.html': 'cel-in-the-bough-house.js', 'the-chappell.html': 'cel-in-the-chappell.js', 'the-dairy.html': 'cel-in-the-dairy.js', 'the-den.html': 'cel-in-the-den.js', 'the-doom-scoop.html': 'cel-in-the-doom-scoop.js', 'the-doomscroll.html': 'cel-in-the-doomscroll.js', 'the-feed.html': 'cel-in-the-feed.js', 'the-garden.html': 'cel-in-the-garden.js', 'the-green.html': 'cel-in-the-green.js', 'the-honesty-box.html': 'cel-in-the-honesty-box.js', 'the-mopery.html': 'cel-in-the-mopery.js', 'the-mountain-cabin.html': 'cel-in-the-mountain-cabin.js', 'the-mud-room.html': 'cel-in-the-mud-room.js', 'the-open-notebook.html': 'cel-in-the-open-notebook.js', 'the-outskirts.html': 'cel-in-the-outskirts.js', 'the-pile.html': 'cel-in-the-pile.js', 'the-run.html': 'cel-in-the-run.js', 'the-source.html': 'cel-in-the-source.js', 'town-hall-board.html': 'cel-in-town-hall-board.js', 'town-hall-directors.html': 'cel-in-town-hall-directors.js', 'town-hall-executive-session.html': 'cel-in-town-hall-executive-session.js', 'town-hall-fishbowl.html': 'cel-in-town-hall-fishbowl.js', 'town-hall-moderators.html': 'cel-in-town-hall-moderators.js', 'town-hall.html': 'cel-in-town-hall.js', 'truckin-food-court.html': 'cel-in-truckin-food-court.js', 'vital-plant-living.html': 'cel-in-vital-plant-living.js', 'volunteers.html': 'cel-in-volunteers.js', 'widdershins.html': 'cel-in-widdershins.js', 'wide-spread-chaos.html': 'cel-in-wide-spread-chaos.js', 'words-bud-beats.html': 'cel-in-words-bud-beats.js', 'world.html': 'cel-in-world.js', 'your-room.html': 'cel-in-your-room.js', 'zibaldone.html': 'cel-in-zibaldone.js', 'zine-issue-2.html': 'cel-in-zine-issue-2.js', 'zine-table.html': 'cel-in-zine-table.js'};
+  var ROOMS = {'a-quiet-pint.html': 'cel-in-a-quiet-pint.js', 'adventurers-guild.html': 'cel-in-adventurers-guild.js', 'all-needs-met.html': 'cel-in-all-needs-met.js', 'all-together-now.html': 'cel-in-all-together-now.js', 'arcade.html': 'cel-in-arcade.js', 'arlesglad-caverns.html': 'cel-in-arlesglad-caverns.js', 'big-steep-fermentables.html': 'cel-in-big-steep-fermentables.js', 'black-leather-lagoon.html': 'cel-in-black-leather-lagoon.js', 'bodymind-booth.html': 'cel-in-bodymind-booth.js', 'brass-tacks-board.html': 'cel-in-brass-tacks-board.js', 'breaker-breaker.html': 'cel-in-breaker-breaker.js', 'brew-and-stew.html': 'cel-in-brew-and-stew.js', 'brighter-days.html': 'cel-in-brighter-days.js', 'broadsheet-broadside.html': 'cel-in-broadsheet-broadside.js', 'campgrounds.html': 'cel-in-campgrounds.js', 'cavendish-campfire.html': 'cel-in-cavendish-campfire.js', 'cavendish-cave.html': 'cel-in-cavendish-cave.js', 'cavendish-coworking.html': 'cel-in-cavendish-coworking.js', 'cavendish-editorial.html': 'cel-in-cavendish-editorial.js', 'cavendish-events.html': 'cel-in-cavendish-events.js', 'cavendish-operations.html': 'cel-in-cavendish-operations.js', 'cavendish-watering-hole.html': 'cel-in-cavendish-watering-hole.js', 'chimera-obscura.html': 'cel-in-chimera-obscura.js', 'club-chronic.html': 'cel-in-club-chronic.js', 'collection-collection.html': 'cel-in-collection-collection.js', 'community-care.html': 'cel-in-community-care.js', 'community-center.html': 'cel-in-community-center.js', 'community-library.html': 'cel-in-community-library.js', 'cooldown-room.html': 'cel-in-cooldown-room.js', 'coping.html': 'cel-in-coping.js', 'count-me-in.html': 'cel-in-count-me-in.js', 'covenstead.html': 'cel-in-covenstead.js', 'dance-punks.html': 'cel-in-dance-punks.js', 'danny-the-street.html': 'cel-in-danny-the-street.js', 'dead-tired-society.html': 'cel-in-dead-tired-society.js', 'dopamine-dress-up-den.html': 'cel-in-dopamine-dress-up-den.js', 'enids-room.html': 'cel-in-enids-room.js', 'faery-cinema-room.html': 'cel-in-faery-cinema-room.js', 'faery-music-room.html': 'cel-in-faery-music-room.js', 'faery-myths-room.html': 'cel-in-faery-myths-room.js', 'faery-reading-room.html': 'cel-in-faery-reading-room.js', 'faery-yurt.html': 'cel-in-faery-yurt.js', 'fantasy-fancy-dress.html': 'cel-in-fantasy-fancy-dress.js', 'foundry.html': 'cel-in-foundry.js', 'fridge-of-sighs.html': 'cel-in-fridge-of-sighs.js', 'gentle-help.html': 'cel-in-gentle-help.js', 'glow-go-gee-gaws.html': 'cel-in-glow-go-gee-gaws.js', 'glow-wild-hollow.html': 'cel-in-glow-wild-hollow.js', 'haunted-house.html': 'cel-in-haunted-house.js', 'healing-checkpoint.html': 'cel-in-healing-checkpoint.js', 'hear-queer-here.html': 'cel-in-hear-queer-here.js', 'hey-good-cookin.html': 'cel-in-hey-good-cookin.js', 'jungle-room.html': 'cel-in-jungle-room.js', 'l-space.html': 'cel-in-l-space.js', 'latibulum.html': 'cel-in-latibulum.js', 'laughingstock.html': 'cel-in-laughingstock.js', 'learning-large.html': 'cel-in-learning-large.js', 'lightbulb-picture-house.html': 'cel-in-lightbulb-picture-house.js', 'live-room.html': 'cel-in-live-room.js', 'looming-rocks.html': 'cel-in-looming-rocks.js', 'mycelium-munchies.html': 'cel-in-mycelium-munchies.js', 'natures-contribution.html': 'cel-in-natures-contribution.js', 'neurohome.html': 'cel-in-neurohome.js', 'nothing-for-sale.html': 'cel-in-nothing-for-sale.js', 'now-playing.html': 'cel-in-now-playing.js', 'oook.html': 'cel-in-oook.js', 'oracle-deck.html': 'cel-in-oracle-deck.js', 'otterly-adorbs.html': 'cel-in-otterly-adorbs.js', 'pando-calrissian.html': 'cel-in-pando-calrissian.js', 'pebble-board.html': 'cel-in-pebble-board.js', 'pekoe-and-purrs.html': 'cel-in-pekoe-and-purrs.js', 'penguin-pebbling.html': 'cel-in-penguin-pebbling.js', 'pets.html': 'cel-in-pets.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js', 'play-pod.html': 'cel-in-play-pod.js', 'playhouse.html': 'cel-in-playhouse.js', 'plural-mural.html': 'cel-in-plural-mural.js', 'polaroids.html': 'cel-in-polaroids.js', 'quill-drift.html': 'cel-in-quill-drift.js', 'rabbit-hole.html': 'cel-in-rabbit-hole.js', 'rebellion-rave-room.html': 'cel-in-rebellion-rave-room.js', 'repeater.html': 'cel-in-repeater.js', 'rescue-a-cat.html': 'cel-in-rescue-a-cat.js', 'rescue-a-dog.html': 'cel-in-rescue-a-dog.js', 'rescue-small-animals.html': 'cel-in-rescue-small-animals.js', 'samefood-cafe.html': 'cel-in-samefood-cafe.js', 'sandbox.html': 'cel-in-sandbox.js', 'show-your-work.html': 'cel-in-show-your-work.js', 'sithen.html': 'cel-in-sithen.js', 'small-hours.html': 'cel-in-small-hours.js', 'solarpunk-hermitage.html': 'cel-in-solarpunk-hermitage.js', 'stay-breezy.html': 'cel-in-stay-breezy.js', 'stay-frosty.html': 'cel-in-stay-frosty.js', 'swaying-sweetgrass.html': 'cel-in-swaying-sweetgrass.js', 'the-bough-house.html': 'cel-in-the-bough-house.js', 'the-chappell.html': 'cel-in-the-chappell.js', 'the-dairy.html': 'cel-in-the-dairy.js', 'the-den.html': 'cel-in-the-den.js', 'the-doom-scoop.html': 'cel-in-the-doom-scoop.js', 'the-doomscroll.html': 'cel-in-the-doomscroll.js', 'the-feed.html': 'cel-in-the-feed.js', 'the-garden.html': 'cel-in-the-garden.js', 'the-green.html': 'cel-in-the-green.js', 'the-honesty-box.html': 'cel-in-the-honesty-box.js', 'the-mopery.html': 'cel-in-the-mopery.js', 'the-mountain-cabin.html': 'cel-in-the-mountain-cabin.js', 'the-mud-room.html': 'cel-in-the-mud-room.js', 'the-open-notebook.html': 'cel-in-the-open-notebook.js', 'the-outskirts.html': 'cel-in-the-outskirts.js', 'the-pile.html': 'cel-in-the-pile.js', 'the-run.html': 'cel-in-the-run.js', 'the-source.html': 'cel-in-the-source.js', 'town-hall-board.html': 'cel-in-town-hall-board.js', 'town-hall-directors.html': 'cel-in-town-hall-directors.js', 'town-hall-executive-session.html': 'cel-in-town-hall-executive-session.js', 'town-hall-fishbowl.html': 'cel-in-town-hall-fishbowl.js', 'town-hall-moderators.html': 'cel-in-town-hall-moderators.js', 'town-hall.html': 'cel-in-town-hall.js', 'truckin-food-court.html': 'cel-in-truckin-food-court.js', 'vital-plant-living.html': 'cel-in-vital-plant-living.js', 'volunteers.html': 'cel-in-volunteers.js', 'widdershins.html': 'cel-in-widdershins.js', 'wide-spread-chaos.html': 'cel-in-wide-spread-chaos.js', 'words-bud-beats.html': 'cel-in-words-bud-beats.js', 'world.html': 'cel-in-world.js', 'your-room.html': 'cel-in-your-room.js', 'zibaldone.html': 'cel-in-zibaldone.js', 'zine-issue-2.html': 'cel-in-zine-issue-2.js', 'zine-table.html': 'cel-in-zine-table.js'};
   // cel:rooms:end
   var CHUNK = 60;            // the street is drawn in lengths this long
   var VIEW = 300;            // and only the lengths this near you are drawn
@@ -271,7 +271,11 @@ function start() {
     lot: { ground: null, stripes: null, name: '.lotgate__name' },
     post: { ground: '.signpost__arm', stripes: null, name: '.signpost__to' },
     road: { ground: '.roadout__arm', stripes: null, name: '.roadout__to' },
-    lift: { ground: '.liftdown__plate', stripes: null, name: '.liftdown__to' }
+    lift: { ground: '.liftdown__plate', stripes: null, name: '.liftdown__to' },
+    board: { ground: '.noticeboard__case', stripes: null, name: '.noticeboard__what' },
+    brass: { ground: '.brasstacks__plate', stripes: null, name: '.brasstacks__what' },
+    column: { ground: '.postercol__drum', stripes: null, name: '.postercol__what' },
+    name: { ground: null, stripes: null, name: null }
   };
   function named(t, kind) {
     t = t.replace(/[\u2190-\u21ff]/g, '').replace(/\s+/g, ' ').trim();
@@ -295,7 +299,7 @@ function start() {
       var it = items[i], P = PARTS[it.kind];
       var g = P.ground ? c.querySelector(P.ground) || c : c;
       var cs = getComputedStyle(g);
-      var aw = P.stripes ? c.querySelector(P.stripes) : null, nm = c.querySelector(P.name);
+      var aw = P.stripes ? c.querySelector(P.stripes) : null, nm = P.name ? c.querySelector(P.name) : null;
       var awCs = aw ? getComputedStyle(aw) : null, nmCs = nm ? getComputedStyle(nm) : cs;
       var ground = cs.backgroundColor;
       if (clear(ground)) ground = colours(cs.backgroundImage)[0] || '';
@@ -506,6 +510,56 @@ function start() {
     // Past it the road runs on, with no pavement and no kerb, into the haze.
     box(ROAD * 2, 0.08, 60, at(0, -0.04, z - 32), '--cel-road', false, false);
     hitbox(i, 3.6, 2, 1, at(ROAD + 0.9 - 1.8, 3.4, z));
+  }
+
+  // THE STREET FURNITURE BY THE FRONT DOOR, on the left-hand pavement at the
+  // stoop's end, each in the ground and lettering the front page dresses it
+  // in: the Pebble Board, a case under glass on legs; the Brass Tacks Board, a
+  // plate bolted to the end wall; Now Playing, a poster column; and high on
+  // the same wall, the street's name on a plate, as streets have, because the
+  // street has a name and it is not ours.
+  var KERB_L = -(ROAD + 0.2), WALL_L = -(FRONT - 0.52);
+  var FURNITURE = {
+    board: { z: 1.7, stand: { x: -2.2, z: 1.7 } },
+    brass: { z: 8.6, stand: { x: -2.6, z: 8.6 } },
+    column: { z: -1.1, stand: { x: -1.4, z: -1.1 } },
+    name: { z: 6.2, stand: { x: -1.2, z: 6.2, pitch: 0.42 } }
+  };
+  function furnish(d, i) {
+    var shop = new THREE.Color(d.ground), mat = toonColor(shop), key = 'c' + shop.getHexString();
+    var z = FURNITURE[d.kind].z, face = Math.PI / 2;
+    function own(w, h, dd) { var b = BOX.clone(); b.scale(w, h, dd); return b; }
+    if (d.kind === 'board') {
+      var g = at(WALL_L + 0.7, 0, z, face);
+      function on(x, y, zz) { return new THREE.Matrix4().multiplyMatrices(g, at(x, y, zz)); }
+      [-0.8, 0.8].forEach(function (x) { box(0.08, 1.0, 0.08, on(x, 0.5, 0), '--cel-frame', 0.02); });
+      piece(own(1.9, 1.15, 0.18), on(0, 1.55, 0), mat, key);
+      box(1.7, 0.95, 0.02, on(0, 1.55, 0.1), '--cel-glass', false, false);
+      signboard(d, 1.6, 0.3, on(0, 1.86, 0.115));
+      hitbox(i, 2, 2.2, 0.6, on(0, 1.1, 0));
+    } else if (d.kind === 'brass') {
+      var b = at(WALL_L, 0, z, face);
+      piece(own(1.8, 1.05, 0.06), new THREE.Matrix4().multiplyMatrices(b, at(0, 1.55, 0.03)), mat, key);
+      signboard(d, 1.6, 0.28, new THREE.Matrix4().multiplyMatrices(b, at(0, 1.8, 0.065)));
+      [[-0.78, 2.0], [0.78, 2.0], [-0.78, 1.1], [0.78, 1.1]].forEach(function (p) {
+        cyl(0.035, 0.035, 0.03, new THREE.Matrix4().multiplyMatrices(b, at(p[0], p[1], 0.07, 0, Math.PI / 2)), '--cel-frame', false, 8);
+      });
+      hitbox(i, 1.9, 1.2, 0.3, new THREE.Matrix4().multiplyMatrices(b, at(0, 1.55, 0.1)));
+    } else if (d.kind === 'column') {
+      var cx = KERB_L - 0.75;
+      piece(new THREE.CylinderGeometry(0.55, 0.55, 2.7, 20), at(cx, 1.45, z), mat, key);
+      cyl(0.62, 0.62, 0.12, at(cx, 0.06, z), '--cel-frame', 0.02, 20);
+      cyl(0.66, 0.5, 0.3, at(cx, 2.95, z), '--cel-frame', 0.02, 20);
+      cyl(0.08, 0.2, 0.3, at(cx, 3.25, z), '--cel-frame', 0.02, 10);
+      signboard(d, 1.0, 0.3, at(cx + 0.56, 2.35, z, face));
+      hitbox(i, 1.2, 3.4, 1.2, at(cx, 1.7, z));
+    } else if (d.kind === 'name') {
+      var plate = { name: d.name.toUpperCase(), ground: css('--cel-paint'), ink: css('--cel-print'), face: d.face, weight: d.weight };
+      var n = at(WALL_L, 0, z, face);
+      box(2.6, 0.62, 0.05, new THREE.Matrix4().multiplyMatrices(n, at(0, 3.6, 0.025)), '--cel-sign-red', 0.02);
+      signboard(plate, 2.44, 0.48, new THREE.Matrix4().multiplyMatrices(n, at(0, 3.6, 0.055)));
+      hitbox(i, 2.6, 0.7, 0.3, new THREE.Matrix4().multiplyMatrices(n, at(0, 3.6, 0.1)));
+    }
   }
 
   // THE TREELINE, at the stoop's end, where the street runs out into a
@@ -1185,6 +1239,7 @@ function start() {
     var field = things.filter(function (t) { return t.kind === 'post'; })[0];
     var road = things.filter(function (t) { return t.kind === 'road'; })[0];
     var lift = things.filter(function (t) { return t.kind === 'lift'; })[0];
+    var furniture = things.filter(function (t) { return FURNITURE[t.kind]; });
     var along = { '-1': -2, '1': -2 }, placed = [], open = [];
     function stand(d, side, W, make) {
       var zc = along[side] - W / 2;
@@ -1224,7 +1279,7 @@ function start() {
       signpost(-ROAD - 1.1, c - 4.4, slowTex, true);
       if (n % 2 === 0) mirror(ROAD + 1.0, c - 4.5, 1);
     });
-    signpost(-ROAD - 1.1, 4.5, slowTex, true);
+    signpost(-ROAD - 1.1, 10.4, slowTex, true);
     // The street's clutter, all the way down: a vending machine against a
     // wall, a bicycle against a pole, a car at the kerb.
     for (z = -20, k = 0; z > -zEnd + 20; z -= 77, k++) vending((k % 2 ? 1 : -1) * (FRONT - 0.6), z, k % 2 ? 1 : -1);
@@ -1232,16 +1287,19 @@ function start() {
     for (z = -32, k = 0; z > -zEnd + 20; z -= 71, k++) car((k % 2 ? -1 : 1) * (ROAD - 0.95), z);
     if (field) treeline(field, 'field');
     if (lift) liftHead(lift, 'lift');
+    furniture.forEach(function (d, n) { furnish(d, 'f' + n); });
     if (road) roadOut(road, 'road', zEnd);
     beyond(zEnd, open, !!road);
     sky();
     bake();
-    // Stops run from the stoop's end down: the field, the lift, every door
-    // and gate, and the road out at the far end.
-    var pre = (field ? 1 : 0) + (lift ? 1 : 0);
+    // Stops run from the stoop's end down: the field, the lift, the street
+    // furniture by the front door, every door and gate, and the road out at
+    // the far end.
+    var ends = (field ? 1 : 0) + (lift ? 1 : 0), pre = ends + furniture.length;
     hits.forEach(function (h) {
       var u = h.userData.stop;
-      h.userData.stop = u === 'field' ? 0 : u === 'lift' ? (field ? 1 : 0) : u === 'road' ? pre + placed.length : u + pre;
+      h.userData.stop = u === 'field' ? 0 : u === 'lift' ? (field ? 1 : 0) : u === 'road' ? pre + placed.length
+        : typeof u === 'string' && u.charAt(0) === 'f' ? ends + Number(u.slice(1)) : u + pre;
     });
     hits.forEach(function (h) { scene.add(h); h.updateMatrixWorld = function () {}; });
     bounds.z = [-zEnd - 4, field ? TREES - 2.5 : 9];
@@ -1249,6 +1307,10 @@ function start() {
       return { name: p.name, page: p.page, x: -p.side * 1.5, z: p.z, yaw: p.side < 0 ? Math.PI / 2 : -Math.PI / 2 };
     });
     function said(n) { return n.replace(/^THE /, 'The ').replace(/\B[A-Z]+/g, function (w) { return w.toLowerCase(); }); }
+    stops = furniture.map(function (d) {
+      var st = FURNITURE[d.kind].stand;
+      return { name: d.kind === 'name' ? d.name : said(d.name), page: d.page, x: st.x, z: st.z, yaw: Math.PI / 2, pitch: st.pitch };
+    }).concat(stops);
     if (lift) stops.unshift({ name: lift.name, page: lift.page, x: 1.5, z: LIFT_Z, yaw: -Math.PI / 2 });
     if (field) stops.unshift({ name: said(field.name), page: field.page, x: 0, z: TREES - 4, yaw: Math.PI });
     if (road) stops.push({ name: said(road.name), page: road.page, x: 0, z: -zEnd + 5, yaw: 0, pitch: 0.12 });
@@ -1365,6 +1427,12 @@ function start() {
       if (road) items.push({ el: road, kind: 'road' });
       var lift = doc.querySelector('a.liftdown');
       if (lift) items.push({ el: lift, kind: 'lift' });
+      // The street furniture by the front door, and the street's own name.
+      [['a.noticeboard', 'board'], ['a.brasstacks', 'brass'], ['a.postercol', 'column'],
+       ['.masthead__who a[href="danny-the-street.html"]', 'name']].forEach(function (f) {
+        var el = doc.querySelector(f[0]);
+        if (el) items.push({ el: el, kind: f[1] });
+      });
       var worn = wear(items);
       var faces = worn.map(function (d) { return document.fonts ? document.fonts.load(d.weight + ' 64px ' + d.face, d.name).catch(function () {}) : null; });
       return Promise.all(faces).then(function () { build(worn); });
