@@ -1,0 +1,43 @@
+{
+  "_what": "Loo With a View, a public restroom on the street: a rest stop on a mountain road over a fjord, at the time of year when the sun does not set. Ryan's brief, 2026-11-03, after Norway's scenic-route rest stops, Step 'n Wash's writing on restroom design and our Bathroom Access page. tools/make-loo-with-a-view.py builds the room from this file and from data/restrooms.json, whose list every restroom on the street carries; `how` is this room's own sentence for each thing on that list, and tools/restrooms.py refuses a restroom that leaves one out. Every word here is ours. No real building is drawn or named as this one: the rest stop is ours, after the idea of the scenic routes, never a copy of any architect's work.",
+  "over": "A public restroom on the street, on a road over the water",
+  "name": "Loo With a View",
+  "sub": "A rest stop on a mountain road above a fjord, at the time of year when the sun never sets: for everybody, free, and facing the water.",
+  "trail": "on the street · up the mountain road · in out of the wind · facing the water",
+  "view_words": "From the door: the glass wall at the far end, the fjord far below it and the mountains either side, and the sun sitting on the horizon straight ahead, where it stays all night at this time of year. Everything between you and the glass is lit from behind: the basins, the bench, the steel between the panes, each with a line of gold along its far edge and its face toward you in the cool, and every one of them throws a long shadow back across the concrete floor to your feet.",
+  "lede": [
+    "The road climbs the side of the mountain in hairpins, and at the top of the last one somebody has built a place to stop: board-marked concrete, rusted steel and larch, half dug into the hillside and half out over the drop, with one wall made of glass. **It is a public restroom, for everybody, and it is free.** You come in out of the wind through a door that opens without a fight, and the whole building is lit by one thing, which is the sun, low on the horizon, straight out through the glass, at midnight.",
+    "Up here, for a few weeks of the summer, the sun goes down to the sea and does not go under it. So everything in the room is lit from behind, from the far end, and has its face toward you in shadow: the stalls along the larch wall on the left, each with its light over the door; the long counter of basins under the glass; the bench facing the water. **The view is from the basins and the bench, never from a stall.** Every stall is a small room of its own, with a door down to the floor and up to the ceiling, and a window high in its back wall that lets the light in and nobody's eyes.",
+    "It is here after Norway's scenic-route rest stops, which Visit Norway showed off in October 2026 when somebody tried to make a country's toilets an insult. The idea is theirs: that a place to stop on a long road can be built as carefully as anything else on it. **This building is ours**, drawn for this street, and copies none of theirs."
+  ],
+  "how": {
+    "everybody": "Every door along the larch wall opens onto the same small room as the next, and the sign over the way in shows a toilet and the words, nothing else.",
+    "toilets": "Behind the doors are toilets and urinals both, each in its own small room with a window high in its back wall, full of the same low sky.",
+    "wheelchair": "The road comes level to the door on a long slope cut into the hillside, and the floor stays level all the way to the glass, with room to turn round in every stall.",
+    "step": "The basins run along the glass wall, so the step folds out at the best view in the building, at a child's height, and folds itself back against the larch when nobody is on it.",
+    "changing": "The changing tables stand at the far end by the glass, the big one on its hoist, so whoever is lying on one sees the sun on the water instead of a ceiling.",
+    "menstrual": "Every stall has a box of them on its shelf, filled again every morning by whoever keeps the rest stop, and nobody counts what goes.",
+    "condoms": "The bowl of them sits on the deep sill by the door, out of the line of the view and of anybody standing at the basins.",
+    "sharps": "A sharps box is fixed to the wall of every stall, at a height you can reach sitting down, so nothing has to be carried back out to the road.",
+    "naloxone": "Its cabinet is the first thing inside the door, rusted steel outside and white inside, with how to use it in big words on the back of its door and the same words in braille.",
+    "seating": "A long larch bench runs under the glass, facing the fjord, so whoever is waiting, or helping somebody, or just needs a minute, waits with the view.",
+    "washing": "The water comes down off the mountain cold and is warmed by the panels on the roof, and the paper towels are in a drawer under every basin.",
+    "quiet": "There is no air dryer anywhere in the building, so the only sounds in here are water and, outside the glass, the wind.",
+    "stalls": "Over every door is a small light, gold when the stall is free and dark when it is in use, and under it the word, FREE or IN USE, cut into the steel.",
+    "belongings": "Every stall has a larch shelf the width of the room and two hooks at two heights, so a coat and a crutch both have somewhere to hang.",
+    "signs": "The signs are cut through plates of rusted steel, so the letters are holes with the low sun behind them, and beside each the same words stand raised, in letters and in braille, for a hand to read.",
+    "free": "Nobody keeps a till here and nobody is posted at the door: you stop the car, or step off the bus, and walk in, at any hour of the light."
+  },
+  "why": ["stallbatting", "construct", "multiple"],
+  "door_quotes": ["naloxone", "condoms"],
+  "rules": [
+    {"name": "Nothing moves, at any setting.", "line": "The sun sits on the horizon and stays there, which is what a midnight sun does for a few weeks a year, and the room keeps that moment. MAX GLITTER changes nothing in here."},
+    {"name": "Nobody asks why you are here.", "line": "There is nobody at the door, nothing to sign and nothing to show, and a stall's light only ever says whether it is free."},
+    {"name": "The view is for the basins and the bench.", "line": "No stall looks out and nothing looks in: every stall's window is high in its back wall and frosted, and the glass wall faces only the water."},
+    {"name": "Nothing here is counted.", "line": "Not who came in, not how long anybody stayed, not what was taken from a shelf."}
+  ],
+  "door": {
+    "blurb": "A public restroom for everybody, free, at the top of a mountain road: concrete, rusted steel and larch, with the midnight sun straight out through its glass wall over the fjord.",
+    "knock": "toilets, for everybody &rarr;"
+  }
+}

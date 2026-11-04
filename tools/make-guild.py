@@ -259,6 +259,12 @@ def normalise(s):
 # yellow on that blue measures 3.88 and white measures 5.08 -- the one place
 # here where the room's favourite colour lost to the floor it was lying on.
 DRAW = {
+    # Loo With a View: a paper towel folded once and dropped on the concrete
+    # floor under the basins. The towel is --lwv-ink, 11.34 on the shade it
+    # lies in and over the body threshold a marker is held to, outlined in
+    # --lwv-line, with its fold in --lwv-ink-2. The floor line is --lwv-ink-2
+    # and carries nothing. It lies still, like everything in the rest stop.
+    "lwv-towel": """<path d="M3 29.5 H29" stroke="var(--lwv-ink-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M6 21 L23.5 17.5 L27 26.5 L9.5 29 Z" fill="var(--lwv-ink)" stroke="var(--lwv-line)" stroke-width="1.3" stroke-linejoin="round"/><path d="M14.6 19.4 L18.2 27.8" stroke="var(--lwv-ink-2)" stroke-width="1.1" stroke-linecap="round"/><path d="M9 22.6 L13 21.8 M20 20.6 L23 20" stroke="var(--lwv-ink-2)" stroke-width=".7" stroke-linecap="round" opacity=".8"/>""",
     # A returned book lying on the reading-room floor, seen from above: the cover
     # in --cl-stamp, 8.63 on the plaster, its spine in --cl-ink, 13.35, and the
     # date-due slip sticking out of the top in --cl-card with --cl-ink-2 lines on

@@ -4486,6 +4486,25 @@
   --chp-leaf: #3D7340;  --chp-shadow: #CBC4D1;  --chp-plate: #FFFFFF;
   --chp-imo: #6B3A8C;
 
+  /* Loo With a View (§137): a public restroom at the top of a mountain road,
+     lit from behind by the midnight sun on the horizon through its glass wall.
+     --lwv-shade is the cool shadow on everything's face toward you, the ground
+     every word stands in; --lwv-card a larch panel in that shadow; --lwv-ink
+     every word, --lwv-ink-2 the quiet lines; --lwv-rim the gold line the sun
+     lays along every far edge, which is every link, the name and the focus
+     ring. The rest carry no word: --lwv-sky the night sky that stays light,
+     --lwv-low the sky round the sun, --lwv-sun the sun on the horizon,
+     --lwv-ridge the mountains against it, --lwv-fjord the water, --lwv-glare
+     the sun's road across it and its light on the floor, --lwv-concrete the
+     board-marked walls and floor, --lwv-corten the rusted steel between the
+     panes, --lwv-larch the stalls' wall, the basins and the bench, and
+     --lwv-line every outline and the long shadows. */
+  --lwv-shade: #29323D;  --lwv-card: #333D4A;  --lwv-ink: #EDF0F2;
+  --lwv-ink-2: #B8C2CC;  --lwv-rim: #F2C46D;  --lwv-sky: #A9BDD0;
+  --lwv-low: #F6D7A2;  --lwv-sun: #FFF3D8;  --lwv-ridge: #3A4653;
+  --lwv-fjord: #2F4A58;  --lwv-glare: #F8DFA8;  --lwv-concrete: #4A545E;
+  --lwv-corten: #7A3F24;  --lwv-larch: #8C6B4A;  --lwv-line: #151B22;
+
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -5789,6 +5808,22 @@ div.facade--square { border: 0; background: none; }
 .door--feed .door__name  { font-family: 'Michroma', var(--sans); color: var(--fd-lamp); font-size: 15px; letter-spacing: .1em; text-transform: uppercase; }
 .door--feed .door__blurb { color: var(--fd-dim); }
 .door--feed .door__knock { font-family: 'Space Mono', ui-monospace, monospace; font-weight: 700; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--fd-signal); }
+/* LOO WITH A VIEW'S DOOR IS ITS GLASS WALL FROM THE ROAD: the awning is the
+   low sky with the midnight sun sitting on the horizon and the fjord under it,
+   and the door below is the concrete's face in the cool shadow, with the sun's
+   gold along its top edge. Its name is the restroom's sign, in words. */
+.door--lwv { background-color: var(--lwv-shade); border-color: var(--lwv-line); box-shadow: inset 0 3px 0 var(--lwv-rim); }
+.door--lwv .door__awning {
+  background-color: var(--lwv-fjord);
+  background-image:
+    radial-gradient(circle at 62% 62%, var(--lwv-sun) 0 9px, transparent 10px),
+    radial-gradient(ellipse 46% 70% at 62% 64%, var(--lwv-low) 0 30%, transparent 80%),
+    linear-gradient(to bottom, var(--lwv-sky) 0 64%, var(--lwv-fjord) 64% 100%);
+  border-bottom: 4px solid var(--lwv-corten);
+}
+.door--lwv .door__name  { font-family: 'Instrument Sans', var(--sans); font-weight: 700; color: var(--lwv-rim); font-size: 27px; line-height: 1.1; font-synthesis: none; }
+.door--lwv .door__blurb { font-family: 'Atkinson Hyperlegible Next', var(--sans); color: var(--lwv-ink); font-size: 15px; line-height: 1.4; font-synthesis: none; }
+.door--lwv .door__knock { font-family: 'Atkinson Hyperlegible Next', var(--sans); font-weight: 700; font-size: 14px; letter-spacing: .04em; color: var(--lwv-rim); font-synthesis: none; }
 
 /* THE ZIBALDONE'S DOOR IS THE ONLY PALE SHOPFRONT IN THE ROW, which is what a
    commonplace book looks like from the street: a cream page in a dark window.
@@ -29571,6 +29606,110 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   .champuru .wrap { width: calc(100% - 32px); }
   .chp-dishes { grid-template-columns: 1fr; }
   .chp-lede { font-size: 18px; }
+}
+
+/* §137 ── ROOM: Loo With a View (a public restroom on the street) ─────────────
+   A rest stop at the top of a mountain road, half dug into the hillside and
+   half out over a fjord: board-marked concrete, rusted steel, larch, and one
+   glass wall. A public restroom, for everybody and free (Ryan's brief,
+   2026-11-03), after Norway's scenic-route rest stops and copying none of
+   them. tools/make-loo-with-a-view.py writes the view, every section and the
+   list every restroom on the street carries (tools/restrooms.py), with this
+   room's own sentence for how it does each thing on it.
+
+   THE LIGHT IS THE MIDNIGHT SUN, ON THE NORTHERN HORIZON STRAIGHT OUT THROUGH
+   THE GLASS. So everything you face from the door is BACKLIT: a line of gold
+   along its far edge, its face toward you in cool shadow, and its long shadow
+   lying back across the floor to your feet. On the page that is the cool
+   shadow every word stands in (--lwv-shade, flat, nothing behind a word) and a
+   line of gold along the top of every card and heading, the far edge, where
+   the sun would catch it. The sun itself, the water and the floor's light are
+   only ever in the drawing.
+
+   THE COLLISIONS:
+     · THE SOLARPUNK HERMITAGE is the other room lit by a low sun. Its sun is
+       the morning's, behind you, landing WARM on plaster and casting sideways;
+       here the sun is in front of you, at midnight, and nothing has a lit
+       face you can see, only a lit edge. If a face ever turns warm toward you,
+       this has become the Hermitage with a view.
+     · THE FOUNDRY is the other north light, grey and even through a sawtooth
+       roof with no sun in it. This north has the sun IN it, low and gold, and
+       everything is in contre-jour, which the Foundry never is.
+     · BLACK LEATHER LAGOON is the other room with the bright thing straight in
+       front of you: a screen in black water at night. This is daylight that
+       stays, the real sky, and a room you stand in rather than a car you sit in.
+     · THE MOUNTAIN CABIN has a lake through its windows and a smart home's
+       coloured light inside. Here the glass faces a fjord and the inside is
+       lit by nothing but the sun; there is no lamp and no strip in the room.
+     · THE STREET'S OTHER RESTROOMS share the list and nothing else: each is its
+       own world, and this one is lit from in front of you.
+
+   NOTHING MOVES, AT ANY SETTING, MAX GLITTER INCLUDED. The sun sits on the
+   horizon and stays there, which is what a midnight sun does; the friendly
+   edit is the sun sinking and rising again at MAX, and the tool refuses a
+   keyframe, an animation or a transition here. */
+
+.loo-with-a-view {
+  background-color: var(--lwv-shade); color: var(--lwv-ink);
+  font-family: 'Atkinson Hyperlegible Next', var(--sans); font-synthesis: none;
+}
+.loo-with-a-view .wrap { width: min(980px, 100% - 44px); }
+.loo-with-a-view a { color: var(--lwv-rim); text-underline-offset: 3px; }
+.loo-with-a-view a:hover { color: var(--lwv-ink); }
+.loo-with-a-view :focus-visible { outline-color: var(--lwv-rim); }
+.loo-with-a-view :where(p, li) { font-size: 19px; line-height: 1.6; }
+.loo-with-a-view .backlink { font-family: 'Atkinson Hyperlegible Next', var(--sans); font-weight: 700; font-size: 16px; color: var(--lwv-rim); }
+.lwv-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.lwv-trail { margin: 0; font-size: 16px; color: var(--lwv-ink-2); }
+
+.lwv-head { margin: 30px 0 0; }
+.lwv-over { margin: 0; font-weight: 700; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: var(--lwv-ink-2); }
+.loo-with-a-view h1 {
+  margin: 8px 0 12px; font-family: 'Instrument Sans', var(--sans); font-weight: 700; font-style: normal;
+  font-size: clamp(40px, 10vw, 104px); line-height: 1; letter-spacing: -.01em; color: var(--lwv-rim);
+}
+.lwv-sub { margin: 0; font-size: 23px; line-height: 1.45; max-width: 40ch; }
+
+.lwv-scene { margin: 28px 0 0; }
+.lwv-view { display: block; width: 100%; height: auto; border-radius: 4px; border: 2px solid var(--lwv-line); }
+.lwv-scene__words { margin: 12px 0 0; font-size: 17px; line-height: 1.55; color: var(--lwv-ink-2); max-width: 66ch; }
+
+.lwv-lede { margin: 32px 0 0; max-width: 66ch; }
+.lwv-lede > p { margin: 0 0 16px; }
+.lwv-lede b { color: var(--lwv-ink); }
+
+.lwv-part { margin: 56px 0 0; }
+.lwv-part > p, .lwv-part > .lwv-quote, .lwv-part > .lwv-rules, .lwv-part > .lwv-credits { max-width: 70ch; }
+.lwv-part > p { margin: 0 0 16px; }
+/* A HEADING CATCHES THE SUN ALONG ITS TOP, the far edge: a gold line above
+   the words, never behind them. */
+.loo-with-a-view h2 {
+  margin: 0 0 22px; padding-top: 14px; border-top: 3px solid var(--lwv-rim);
+  font-family: 'Instrument Sans', var(--sans); font-weight: 700;
+  font-size: clamp(26px, 4.4vw, 38px); line-height: 1.15; color: var(--lwv-ink);
+}
+.loo-with-a-view h3 { margin: 0 0 6px; font-family: 'Instrument Sans', var(--sans); font-weight: 700; font-size: 21px; line-height: 1.25; color: var(--lwv-ink); }
+
+/* THE LIST: every thing on it a larch panel in the shadow, its far edge
+   caught by the sun. The shared line first, then this room's own. */
+.lwv-has { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.lwv-has__item { margin: 0; padding: 14px 16px 16px; background: var(--lwv-card); border: 2px solid var(--lwv-line); border-top: 3px solid var(--lwv-rim); border-radius: 4px; }
+.lwv-has__line { margin: 0 0 8px; font-size: 17px; line-height: 1.5; color: var(--lwv-ink); }
+.lwv-has__how { margin: 0; font-size: 17px; line-height: 1.5; color: var(--lwv-ink-2); }
+
+.lwv-quote { margin: 22px 0; padding: 2px 0 2px 20px; border-left: 4px solid var(--lwv-rim); }
+.lwv-quote p { margin: 0; font-size: 21px; line-height: 1.5; color: var(--lwv-ink); }
+.lwv-quote footer { margin: 8px 0 0; font-size: 16px; line-height: 1.5; color: var(--lwv-ink-2); }
+
+.lwv-rules { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 12px; }
+.lwv-rules li { margin: 0; padding: 12px 16px; background: var(--lwv-card); border: 2px solid var(--lwv-line); border-top: 3px solid var(--lwv-rim); border-radius: 4px; }
+.lwv-rules strong { display: block; font-family: 'Instrument Sans', var(--sans); font-weight: 700; color: var(--lwv-ink); }
+.lwv-credits { margin: 16px 0 0; padding-left: 22px; }
+.lwv-credits li { margin: 0 0 12px; font-size: 17px; color: var(--lwv-ink-2); }
+
+@media (max-width: 720px) {
+  .loo-with-a-view .wrap { width: calc(100% - 32px); }
+  .lwv-has { grid-template-columns: 1fr; }
 }
 
 /* §141 ── Small screens───────────────────────────────────────────────────────

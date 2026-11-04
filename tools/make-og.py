@@ -1115,6 +1115,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--vol h1 {{ font-size: 84px; margin-top: 6px !important; line-height: 1; }}
 .og--vol .vol-sub {{ font-size: 27px; margin-top: 8px !important; max-width: 1080px; }}
 
+/* loo with a view — THE GLASS WALL FROM THE DOOR. The page's own drawing,
+   lifted rather than redrawn, cropped to the glass with the midnight sun on the
+   horizon in it and the light lying across the floor toward you, and every
+   word below it in the cool shadow, where the room sets every word. */
+.og--lwv {{ width: 100%; padding: 0 0 26px; gap: 0; justify-content: flex-start; }}
+.og--lwv .og-room {{ margin: 0 !important; line-height: 0; }}
+.og--lwv .og-room svg {{ display: block; width: 1200px; height: auto; max-width: none; border: 0; border-radius: 0; }}
+.og--lwv .og-words {{ padding: 16px 60px 0; }}
+.og--lwv .og-words > * {{ margin: 0 !important; }}
+.og--lwv .lwv-over {{ font-size: 18px; }}
+.og--lwv h1 {{ font-size: 84px; margin-top: 6px !important; line-height: 1; }}
+.og--lwv .lwv-sub {{ font-size: 25px; margin-top: 8px !important; max-width: 1080px; }}
+
 /* the haunted house — THE SET IN THE WAREHOUSE. The page's own drawing, lifted
    rather than redrawn, cropped to the house's front with the light in its
    seams, and every word below it on the painted dark, where the room sets every
@@ -4418,6 +4431,40 @@ def card_vol(p):
     )
 
 
+def card_lwv(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE VIEW ARE LIFTED
+    # FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="lwv-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="lwv-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: loo-with-a-view.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    # The card shows the glass wall with the sun in it and the light on the
+    # floor, cropped by the drawing's own viewBox rather than by a margin.
+    view = p["lwvview"].replace('viewBox="0 0 1200 420"', 'viewBox="0 30 1200 340"', 1)
+    if view == p["lwvview"]:
+        raise SystemExit(
+            "REFUSING: loo-with-a-view.html's view is no longer 1200 by 420, and the card\n"
+            "crops it by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--lwv" data-fit="card">'
+        f'<div class="og-room">{view}</div>'
+        f'<div class="og-words"><p class="lwv-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="lwv-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A card in a cool, dark slate. Across the top, the inside of a restroom seen from its door: a glass wall "
+        f"at the far end with a pale night sky in it and the sun sitting on the horizon over a fjord, dark "
+        f"mountains either side with gold along their ridges, a road of light across the water, rusted steel "
+        f"between the panes edged in gold, a counter of basins and a bench against the light, and the light "
+        f"lying across the concrete floor toward you between long shadows. Below, small grey capitals reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large gold letters, and under it: "
+        f"{plain(sub.group(1))}",
+    )
+
+
 def card_hh(p):
     # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE SET ARE LIFTED
     # FROM THE PAGE, so the card cannot say what the room does not.
@@ -6067,6 +6114,7 @@ CARDS = {
     "coping": card_cop,
     "pets": card_pts,
     "volunteers": card_vol,
+    "loo-with-a-view": card_lwv,
     "haunted": card_hh,
     "paper-street": card_ps,
     "cel-street": card_cel,
@@ -6220,6 +6268,7 @@ def main():
         ("copeye",   "coping.html",       r'(<svg class="cop-eye".*?</svg>)'),
         ("ptsfloor", "pets.html",         r'(<svg class="pts-floor".*?</svg>)'),
         ("volloom",  "volunteers.html",   r'(<svg class="vol-loom".*?</svg>)'),
+        ("lwvview",  "loo-with-a-view.html", r'(<svg class="lwv-view".*?</svg>)'),
         ("wdscity",  "widdershins.html",  r'(<svg class="wds-city".*?</svg>)'),
         ("hhset",    "haunted-house.html", r'(<svg class="hh-set".*?</svg>)'),
         ("psarch",   "paper-street.html", r'(<svg class="ps-arch".*?</svg>)'),

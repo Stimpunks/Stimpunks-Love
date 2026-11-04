@@ -967,6 +967,11 @@ VOL_LINEN, VOL_CARD, VOL_INK, VOL_INK2, VOL_LINK = "#EEE6D3", "#F8F4EA", "#261E3
 # no word on the lit wall, the lane or the light down a card's side.
 CHP_SHADE, CHP_CLOTH, CHP_INK, CHP_INK2 = "#E6E1E8", "#F4F0EE", "#2B2236", "#51475C"
 CHP_SEA, CHP_BOUGAIN, CHP_HOT = "#0C5A63", "#9A1A57", "#6E0F3D"
+# Loo With a View (love.css §137): a public restroom lit from behind by the
+# midnight sun through its glass wall. Every word stands in the cool shadow on
+# everything's face toward you, LWV_SHADE, or on a larch panel in it, LWV_CARD;
+# the gold the sun lays along every far edge is every link, the name and the ring.
+LWV_SHADE, LWV_CARD, LWV_INK, LWV_INK2, LWV_RIM = "#29323D", "#333D4A", "#EDF0F2", "#B8C2CC", "#F2C46D"
 # Widdershins (love.css §135). A crooked city with the morning halfway across
 # it: every word on the night, on a card lying in it, or on one of Star
 # Stuff's figures on its slab; the two compass labels on the night sky; no word
@@ -3799,6 +3804,20 @@ PAIRS = [
     (VOL_INK,   VOL_CARD,  False, "volunteers: everything on a slip: each thing on the help list, each playbook, "
                                   "the warp's threads and what is not on the loom"),
     (VOL_LINK,  VOL_CARD,  False, "volunteers: every link on a slip, and the focus ring there"),
+    # ── Loo With a View (§137) ──────────────────────────────────────────────
+    # Every word in the cool shadow, or on a larch panel in it. Nothing set on
+    # the light, which is only ever in the drawing.
+    (LWV_INK,   LWV_SHADE, False, "loo with a view: every heading, the lede, every paragraph and quotation, "
+                                  "and the street door's blurb"),
+    (LWV_INK2,  LWV_SHADE, False, "loo with a view: the trail, the line over the name, the words under the "
+                                  "view, whose each quotation is, the credits, and the job marker's floor line"),
+    (LWV_RIM,   LWV_SHADE, False, "loo with a view: the name, every link, the backlink, the street door's "
+                                  "name and knock, and the focus ring"),
+    (LWV_INK,   LWV_CARD,  False, "loo with a view: every thing on the list and every rule in here, on its "
+                                  "larch panel, and the job marker's paper towel, held to the body threshold "
+                                  "a marker is on the shade"),
+    (LWV_INK2,  LWV_CARD,  False, "loo with a view: how this room does each thing on the list"),
+    (LWV_RIM,   LWV_CARD,  False, "loo with a view: a link on a panel, and the focus ring there"),
     # ── Champuru (§136) ─────────────────────────────────────────────────────
     # Every word in the shade: on the flat shade, or on the cloth of a card or
     # of Ryan's words lying in it. Nothing set on the lane.
@@ -5131,6 +5150,16 @@ ORNAMENT = {
                "linen, carried by --vol-knot round every strip at 4.31. It carries no word.",
     "#2e3b6a": "volunteers: the indigo band of weft, on a heading's band and a slip's strip, 8.66 on the "
                "linen. It carries no word.",
+    "#a9bdd0": "loo with a view: the night sky that stays light, through the glass wall in the drawing and on the street door's awning, 6.72 on the shade beside the picture. It carries no word.",
+    "#f6d7a2": "loo with a view: the sky low round the midnight sun in the drawing and the door's awning, 1.39 against the sky above it. It carries no word.",
+    "#fff3d8": "loo with a view: the sun sitting on the horizon in the drawing and the door's awning, 1.75 against the sky. It carries no word.",
+    "#3a4653": "loo with a view: the mountains either side of the fjord in the drawing, 4.99 against the sky, with --lwv-rim along their ridges at 6.95 against the low sky. It carries no word.",
+    "#2f4a58": "loo with a view: the fjord under the sun in the drawing and the door's awning, 4.85 against the sky. It carries no word.",
+    "#f8dfa8": "loo with a view: the sun's road across the water and its light lying on the floor toward you, in the drawing only, 9.96 on the shade. It is light landing, and carries no word.",
+    "#4a545e": "loo with a view: the board-marked concrete walls and floor in the drawing, 1.68 on the shade beside the picture, carried by the drawing's own outline. It carries no word.",
+    "#7a3f24": "loo with a view: the rusted steel between the panes in the drawing and under the door's awning, 4.24 against the sky and 6.28 against the light on the floor, with gold down both its edges. It carries no word.",
+    "#8c6b4a": "loo with a view: the larch wall of stalls, the basins' counter and the bench in the drawing, 2.67 on the shade and 3.73 against the light on the floor, each with gold along its top. It carries no word.",
+    "#151b22": "loo with a view: every outline, the ceiling over the glass and the long shadows on the floor in the drawing, the edge of every panel and the job marker's towel, 8.98 against the sky. It carries no word.",
     "#c9a9be": "pink pony club: --pony-ball, the mirrorball's darker facets, between its cream ones, 1.94 on "
                "the cream and drawn only on the ball. It carries no word.",
     "#3e8edc": "cel street: --cel-sky, the sky overhead in the street and in the drawing over the name, 3.15 on the page, in the canvas or the drawing over the name, aria-hidden. It carries no word.",

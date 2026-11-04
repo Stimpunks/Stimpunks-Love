@@ -164,6 +164,12 @@
    "about": "Up the hill behind The Feed: white terraces under a warm spring, one pool for every repository we build our sites in, and every commit a deposit on it, with its first line, its id, its day and whose hands made it, off GitHub's own commit feeds. Its CB channel hears each new commit as it comes in."
   },
   {
+   "tag": "loo-with-a-view",
+   "name": "Loo With a View",
+   "path": "/loo-with-a-view.html",
+   "about": "A public restroom on the street: a rest stop of concrete, rusted steel and larch at the top of a mountain road, with the midnight sun straight out through its glass wall over a fjord. For everybody and free, with toilets and urinals, wheelchair access, a step at the sink, changing tables for babies and adults, free menstrual products and condoms, sharps boxes, naloxone, somewhere to sit, soap and paper towels, no air dryers, private stalls with a light that says free or in use, shelves and hooks, and clear signs."
+  },
+  {
    "tag": "zibaldone",
    "name": "The Zibaldone",
    "path": "/zibaldone.html",

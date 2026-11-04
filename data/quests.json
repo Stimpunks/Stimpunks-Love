@@ -4422,6 +4422,38 @@
     ]
    }
   },
+ {
+  "id": "lwv-towel",
+  "page": "loo-with-a-view.html",
+  "room": "Loo With a View",
+  "title": "A word for getting in the way",
+  "posted": "At the top of a mountain road there is a public restroom with the midnight sun straight out through its glass wall. It is built for everybody, and it quotes a word a young Stimpunk made up for interfering with someone going to the bathroom of their choosing. Go and find out what the word is.",
+  "rank": 1,
+  "takes": "about as long as it takes to wash your hands",
+  "target": "a paper towel, folded once and dropped on the concrete floor under the basins",
+  "code": "MIDNIGHTSUN",
+  "learned": "A young Stimpunk, a baseball fan, coined stallbatting: interfering with someone going to the bathroom of their choosing. Our Bathroom Access page says bathroom bills hurt disabled and neurodivergent people as well as their primary targets, and that everyone uses the bathroom.",
+  "hints": [
+   "On the street itself, in the row of shopfronts, between The Feed and the Zibaldone: the one whose awning is a low sun over water.",
+   "It is under the heading about why the restroom is built like this, in the first quotation.",
+   "Right at the foot of the room, on the floor, where somebody dropped a paper towel."
+  ],
+  "ask": {
+   "question": "A young Stimpunk, a baseball fan, made up a word for interfering with someone going to the bathroom of their choosing. What is it?",
+   "accept": [
+    "stallbatting",
+    "stallbat",
+    "stallbatter"
+   ],
+   "answer": "Stallbatting",
+   "why": "Our Bathroom Access page says a young Stimpunk, a baseball fan, coined it: stallbatting is interfering with someone going to the bathroom of their choosing. Every restroom on the street is built so nobody can.",
+   "hints": [
+    "It is in the first quotation under the heading about why the restroom is built like this.",
+    "It is a word from baseball pushed into a word for a toilet stall.",
+    "Stallbatting."
+   ]
+  }
+ },
   {
    "id": "bkb-mic",
    "page": "breaker-breaker.html",

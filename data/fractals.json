@@ -2143,6 +2143,22 @@
         "--pts-sheen"
       ]
     },
+    "loo-with-a-view.html": {
+      "kind": "ember",
+      "c": [
+        -0.62,
+        0.18
+      ],
+      "orbit": 0.012,
+      "span": 2.4,
+      "ground": "--lwv-shade",
+      "inks": [
+        "--lwv-rim",
+        "--lwv-low",
+        "--lwv-sky",
+        "--lwv-sun"
+      ]
+    },
     "volunteers.html": {
       "kind": "julia",
       "c": [
