@@ -69,6 +69,7 @@
       // A line of ink where every wall meets the floor, as the page outlines things.
       [[0, back + 0.01, W, 0], [0, -0.01, W, 0], [L + 0.01, back / 2, D, LEFT], [R - 0.01, back / 2, D, LEFT]].forEach(function (s) {
         box(s[2], 0.05, 0.02, at(s[0], 0.025, s[1], s[3]), '--vpl-ink', false, false);
+        box(s[2], 0.05, 0.02, at(s[0], H - 0.025, s[1], s[3]), '--vpl-ink', false, false);
       });
 
       // A SECTION, DRAWN: a shape filled flat in one ink, laid on the cut, and
@@ -247,6 +248,212 @@
       }
       pot(2.3, 'scallions'); pot(2.9, 'garlic'); pot(3.5, 'carrots');
 
+      /* ── THE SECOND PASS: a kitchen somebody cooks in ─────────────────────
+         Everything added here is the room's own rule again: cut through the
+         middle where there is an inside to show, round and piled where there
+         is not, every thing touching the next, nothing in a well of its own,
+         no ruled grid between two ingredients (that is the Guild), no flame
+         and nothing cooking (that is a warm room), and no red in the room's
+         own clothes: a chili may be red, because it is food. Every food is
+         something in Ryan's pantry. */
+      var ROUND = function (rad, seg) { return new T.SphereGeometry(rad, seg || 12, 9); };
+      var DISC = function (rad) { return new T.CircleGeometry(rad, 18); };
+      // A food cut in half and lying on its cut: ink rim, flesh, and what is
+      // inside it at the middle.
+      function halved(m, rad, skin, flesh, heart, heartR) {
+        var dome = new T.SphereGeometry(rad, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2);
+        kit.piece(dome, M(m, at(0, 0, 0, 0, Math.PI)), skin, 0.006);
+        kit.flat(DISC(rad + 0.004), M(m, at(0, 0.001, 0, 0, -Math.PI / 2)), '--vpl-ink');
+        kit.flat(DISC(rad - 0.004), M(m, at(0, 0.002, 0, 0, -Math.PI / 2)), flesh);
+        if (heart) kit.flat(DISC(heartR || rad * 0.4), M(m, at(0, 0.003, 0, 0, -Math.PI / 2)), heart);
+      }
+
+      // THE COUNTER'S FRONT: cupboard doors with rounded knobs, the ink line
+      // round each the page's own way of outlining a thing, and a skirting.
+      for (var cd = 0; cd < 8; cd++) {
+        var cx0 = -3.5 + cd;
+        box(0.9, 0.66, 0.02, at(cx0, 0.47, back + 0.71), '--vpl-chip', 0.008);
+        kit.piece(ROUND(0.035, 10), at(cx0 + (cd % 2 ? -0.34 : 0.34), 0.66, back + 0.73), '--vpl-ink-2', false);
+      }
+      box(8.0, 0.1, 0.04, at(0, 0.05, back + 0.72), '--vpl-ink-2', false);
+
+      // ON THE COUNTER'S LEFT END: a board with a knife on it, an onion and a
+      // lemon cut in half on their cuts, a heap of chopped scallion against
+      // them, a mortar with its pestle, and a crock of wooden spoons, all
+      // pushed together.
+      var CT = 0.93, CZ = back + 0.4;
+      box(0.9, 0.04, 0.42, at(-3.25, CT + 0.02, CZ, 0.08), '--vpl-f-tan', 0.008);
+      box(0.32, 0.012, 0.05, at(-3.32, CT + 0.05, CZ + 0.12, 0.25), '--vpl-ink-2', false);
+      box(0.13, 0.02, 0.04, at(-3.52, CT + 0.05, CZ + 0.16, 0.25), '--vpl-ink', false);
+      halved(at(-3.05, CT + 0.04, CZ - 0.04), 0.07, '--vpl-f-plum', '--vpl-f-paper', '--vpl-f-plum', 0.02);
+      halved(at(-2.93, CT + 0.04, CZ + 0.05), 0.055, '--vpl-f-gold', '--vpl-f-oil', '--vpl-f-paper', 0.012);
+      for (var ch = 0; ch < 14; ch++) {
+        kit.piece(new T.CylinderGeometry(0.012, 0.012, 0.012, 8), at(-3.38 + (ch % 5) * 0.026, CT + 0.05 + Math.floor(ch / 5) * 0.012, CZ - 0.08 + (ch % 3) * 0.02), ch % 3 ? '--vpl-f-green' : '--vpl-f-sprout', false);
+      }
+      kit.cyl(0.11, 0.08, 0.13, at(-3.9, CT + 0.065, CZ), '--vpl-f-paper', 0.01, 18);
+      kit.cyl(0.02, 0.03, 0.2, at(-3.87, CT + 0.17, CZ + 0.02, 0, 0, -0.5), '--vpl-f-tan', 0.006, 8);
+      kit.cyl(0.08, 0.07, 0.17, at(-2.62, CT + 0.085, CZ - 0.05), '--vpl-pot', 0.01, 16);
+      [[-0.03, 0.02, 0.15], [0.02, -0.02, -0.1], [0.0, 0.03, 0.02]].forEach(function (s, i) {
+        kit.cyl(0.008, 0.008, 0.36, at(-2.62 + s[0], CT + 0.3, CZ - 0.05 + s[1], 0, s[2], s[2] * 0.6), '--vpl-f-tan', false, 6);
+        kit.piece(new T.SphereGeometry(0.03, 10, 6), at(-2.62 + s[0] + s[2] * 0.2, CT + 0.48, CZ - 0.05 + s[1]), '--vpl-f-tan', 0.004);
+      });
+
+      // THE FRIDGE, in the back left corner against the counter, CUT THROUGH:
+      // its shell, its shelves, and on every shelf the pantry's fresh things
+      // piled against each other right out to the cut.
+      var FX = -4.75, FW = 1.4, FH = 2.2, FD = 0.62, FZ = back + FD / 2;
+      box(FW, FH, 0.06, at(FX, FH / 2, back + 0.03), '--vpl-bowl', 0.01);
+      box(0.06, FH, FD, at(FX - FW / 2 + 0.03, FH / 2, FZ), '--vpl-bowl', 0.01);
+      box(0.06, FH, FD, at(FX + FW / 2 - 0.03, FH / 2, FZ), '--vpl-bowl', 0.01);
+      box(FW, 0.08, FD, at(FX, FH - 0.04, FZ), '--vpl-bowl', 0.01);
+      box(FW, 0.16, FD, at(FX, 0.08, FZ), '--vpl-bowl', 0.01);
+      box(FW - 0.12, FH - 0.24, 0.02, at(FX, FH / 2, back + 0.07), '--vpl-panel', false);
+      // The ink of the cut, round the shell's edge where it was sliced.
+      [[FX, FH - 0.004, FW + 0.02, 0.02], [FX, 0.004, FW + 0.02, 0.02]].forEach(function (b) { box(b[2], b[3], 0.01, at(b[0], b[1], back + FD + 0.005), '--vpl-ink', false); });
+      [FX - FW / 2 + 0.01, FX + FW / 2 - 0.01].forEach(function (x) { box(0.02, FH, 0.01, at(x, FH / 2, back + FD + 0.005), '--vpl-ink', false); });
+      var SHELVES = [0.62, 1.1, 1.56];
+      SHELVES.forEach(function (y) { box(FW - 0.12, 0.025, FD - 0.06, at(FX, y, FZ), '--vpl-bowl', 0.006); });
+      // The bottom: a drawer of greens and broccoli heaped to the top.
+      for (var q = 0; q < 16; q++) {
+        var qx = FX - 0.55 + (q % 8) * 0.155, qy = 0.24 + Math.floor(q / 8) * 0.13, qz = FZ + ((q * 7) % 5 - 2) * 0.05;
+        kit.piece(ROUND(0.09 + (q % 3) * 0.015, 10), at(qx, qy, qz), q % 4 === 1 ? '--vpl-f-sprout' : '--vpl-f-green', 0.008);
+      }
+      // The first shelf: avocados and limes, one avocado cut on its cut face.
+      for (q = 0; q < 6; q++) kit.piece(ROUND(0.075, 12), at(FX - 0.5 + q * 0.17, SHELVES[0] + 0.085, FZ + (q % 2 ? 0.08 : -0.07)), q % 2 ? '--vpl-f-sprout' : '--vpl-f-green', 0.007);
+      halved(at(FX + 0.5, SHELVES[0] + 0.085, FZ + 0.12, 0, Math.PI / 2), 0.075, '--vpl-f-green', '--vpl-f-sprout', '--vpl-f-brown', 0.03);
+      // The second: tofu in its block, a tub of hummus, lemons and mandarins.
+      box(0.22, 0.11, 0.16, at(FX - 0.47, SHELVES[1] + 0.07, FZ), '--vpl-f-paper', 0.008);
+      kit.cyl(0.1, 0.1, 0.1, at(FX - 0.22, SHELVES[1] + 0.065, FZ + 0.03), '--vpl-f-tan', 0.008, 16);
+      for (q = 0; q < 5; q++) kit.piece(ROUND(0.07, 12), at(FX + 0.0 + q * 0.13, SHELVES[1] + 0.08, FZ + (q % 2 ? 0.1 : -0.04)), q % 2 ? '--vpl-f-orange' : '--vpl-f-gold', 0.007);
+      // The third: a jar of kimchi cut through, and berries heaped in a bowl.
+      jar(FX - 0.38, SHELVES[2] + 0.015, FZ + 0.06, 0.24, 0.32, [['--vpl-f-orange', 0.5], ['--vpl-f-red', 0.2], ['--vpl-f-orange', 0.3]]);
+      kit.cyl(0.17, 0.11, 0.09, at(FX + 0.15, SHELVES[2] + 0.06, FZ), '--vpl-bowl', 0.008, 18);
+      for (q = 0; q < 14; q++) kit.piece(ROUND(0.028, 8), at(FX + 0.15 + Math.cos(q * 2.4) * (0.03 + (q % 4) * 0.03), SHELVES[2] + 0.12 + (q % 3) * 0.02, FZ + Math.sin(q * 2.4) * (0.03 + (q % 4) * 0.025)), q % 3 ? '--vpl-f-plum' : '--vpl-f-bean', false);
+      kit.piece(ROUND(0.06, 10), at(FX + 0.47, SHELVES[2] + 0.075, FZ + 0.06), '--vpl-f-gold', 0.006);
+
+      // A JAR, CUT THROUGH: the back half of its glass, and on the cut the
+      // dry goods in it, each layer lying on the one under it.
+      function jar(x, y, z, w, h, layers) {
+        var J = at(x, y, z);
+        kit.piece(new T.CylinderGeometry(w / 2, w / 2, h, 20, 1, true, Math.PI / 2, Math.PI), M(J, at(0, h / 2, 0)), '--vpl-panel', 0.006);
+        kit.cyl(w / 2 + 0.01, w / 2 + 0.01, 0.04, M(J, at(0, h + 0.02, 0)), '--vpl-f-tan', 0.006, 20);
+        var C = M(J, at(0, 0, 0.002));
+        kit.flat(shape([[-w / 2 - 0.006, h + 0.004], [w / 2 + 0.006, h + 0.004], [w / 2 + 0.006, -0.004], [-w / 2 - 0.006, -0.004]]), M(J, at(0, 0, 0.001)), '--vpl-ink');
+        kit.flat(shape([[-w / 2, h], [w / 2, h], [w / 2, 0], [-w / 2, 0]]), C, '--vpl-panel');
+        var y0 = 0.01, room = h * 0.86;
+        layers.forEach(function (l) {
+          var t2 = room * l[1];
+          // a layer's top is a little heaped, never ruled straight
+          kit.flat(shape([[-w / 2 + 0.01, y0], [w / 2 - 0.01, y0], [w / 2 - 0.01, y0 + t2 - 0.01], [w / 4, y0 + t2 + 0.006], [-w / 4, y0 + t2 - 0.004], [-w / 2 + 0.01, y0 + t2]]), M(C, at(0, 0, 0.001)), l[0]);
+          y0 += t2;
+        });
+      }
+
+      // THE PANTRY SHELF in the back right corner, tall and open, cut through
+      // like everything else: on every shelf the jars of what is dry in the
+      // pantry, cut open, shoulder to shoulder.
+      var PX = 4.75, PW = 1.4, PD = 0.36, PZ = back + PD / 2, PH = 2.3;
+      [PX - PW / 2 + 0.03, PX + PW / 2 - 0.03].forEach(function (x) { box(0.05, PH, PD, at(x, PH / 2, PZ), '--vpl-f-tan', 0.008); });
+      box(PW, PH, 0.03, at(PX, PH / 2, back + 0.015), '--vpl-chip', false);
+      var PSH = [0.12, 0.62, 1.12, 1.62, 2.12];
+      PSH.forEach(function (y) { box(PW, 0.04, PD, at(PX, y, PZ), '--vpl-f-tan', 0.008); });
+      var DRY = [
+        [['--vpl-f-rice', 1]], [['--vpl-f-bean', 0.6], ['--vpl-f-tan', 0.4]], [['--vpl-f-orange', 0.7], ['--vpl-f-gold', 0.3]], [['--vpl-f-tan', 1]],
+        [['--vpl-f-paper', 0.5], ['--vpl-f-rice', 0.5]], [['--vpl-f-brown', 1]], [['--vpl-f-gold', 0.8], ['--vpl-f-brown', 0.2]], [['--vpl-f-bean', 1]],
+        [['--vpl-f-sprout', 0.4], ['--vpl-f-tan', 0.6]], [['--vpl-f-rice', 0.7], ['--vpl-f-oil', 0.3]], [['--vpl-f-plum', 1]], [['--vpl-f-gold', 1]]
+      ];
+      for (var sh = 0; sh < 3; sh++) {
+        for (var jj = 0; jj < 4; jj++) {
+          var tall = 0.26 + ((sh + jj) % 3) * 0.06;
+          jar(PX - 0.47 + jj * 0.31, PSH[sh + 1] + 0.02, PZ + 0.02, 0.27, tall, DRY[(sh * 4 + jj) % DRY.length]);
+        }
+      }
+      // The lowest shelf: a basket of potatoes and onions heaped on the floor.
+      box(1.2, 0.18, PD - 0.04, at(PX, 0.24, PZ + 0.02), '--vpl-f-tan', 0.008);
+      for (q = 0; q < 11; q++) kit.piece(ROUND(0.075, 10), at(PX - 0.5 + (q % 6) * 0.2, 0.36 + Math.floor(q / 6) * 0.08, PZ + (q % 2 ? 0.06 : -0.05)), q % 3 ? '--vpl-f-gold' : '--vpl-f-plum', 0.007);
+
+      // THE ISLAND, lived at: a round woven rug under it in rings, a stool at
+      // each end pushed in against it, and over it a rack hung with pans,
+      // bunches of herbs and a braid of garlic.
+      [[1.9, '--vpl-f-tan'], [1.75, '--vpl-f-gold'], [1.45, '--vpl-f-tan'], [1.25, '--vpl-f-oil'], [0.95, '--vpl-f-tan']].forEach(function (rg, i) {
+        kit.flat(new T.CircleGeometry(rg[0], 48), at(IX, 0.004 + i * 0.001, IZ, 0, -Math.PI / 2), rg[1]);
+      });
+      [-1, 1].forEach(function (s) {
+        var sx = IX + s * 1.33;
+        kit.cyl(0.21, 0.21, 0.06, at(sx, 0.74, IZ), '--vpl-f-tan', 0.012, 20);
+        kit.cyl(0.2, 0.2, 0.03, at(sx, 0.785, IZ), '--vpl-f-gold', false, 20);
+        [0, 1, 2, 3].forEach(function (l) {
+          var a = l * Math.PI / 2 + 0.6;
+          kit.cyl(0.018, 0.022, 0.72, at(sx + Math.cos(a) * 0.14, 0.36, IZ + Math.sin(a) * 0.14, 0, Math.cos(a) * 0.08, -Math.sin(a) * 0.08), '--vpl-ink-2', false, 6);
+        });
+        box(0.3, 0.02, 0.02, at(sx, 0.28, IZ), '--vpl-ink-2', false);
+      });
+      var RY = 3.0;
+      box(1.9, 0.05, 0.05, at(IX, RY, IZ), '--vpl-ink-2', 0.008);
+      [-0.9, 0.9].forEach(function (x) { kit.cyl(0.01, 0.01, H - RY, at(IX + x, (H + RY) / 2, IZ), '--vpl-ink', false, 6); });
+      [[-0.7, 'pan'], [-0.38, 'herb'], [-0.12, 'pan'], [0.18, 'garlic'], [0.44, 'pan'], [0.72, 'herb']].forEach(function (h) {
+        var hx = IX + h[0];
+        kit.piece(new T.TorusGeometry(0.03, 0.006, 6, 12), at(hx, RY - 0.03, IZ, 0, 0, 0), '--vpl-ink', false);
+        if (h[1] === 'pan') {
+          var pr = 0.14 + (Math.abs(h[0] * 10) % 3) * 0.03;
+          box(0.025, 0.12, 0.012, at(hx, RY - 0.1, IZ), '--vpl-ink', false);
+          kit.cyl(pr, pr, 0.035, at(hx, RY - 0.16 - pr, IZ, 0, Math.PI / 2), '--vpl-ink', 0.006, 22);
+          kit.cyl(pr - 0.025, pr - 0.025, 0.037, at(hx, RY - 0.16 - pr, IZ, 0, Math.PI / 2), '--vpl-ink-2', false, 22);
+        } else if (h[1] === 'herb') {
+          kit.cyl(0.006, 0.006, 0.12, at(hx, RY - 0.09, IZ), '--vpl-f-tan', false, 5);
+          for (var hb = 0; hb < 7; hb++) kit.piece(new T.ConeGeometry(0.035, 0.18, 6), at(hx + (hb - 3) * 0.018, RY - 0.24, IZ + (hb % 2 ? 0.02 : -0.02), 0, Math.PI + (hb - 3) * 0.08), hb % 2 ? '--vpl-leaf' : '--vpl-f-green', false);
+        } else {
+          for (var gb = 0; gb < 6; gb++) kit.piece(ROUND(0.045, 10), at(hx + (gb % 2 ? 0.025 : -0.025), RY - 0.1 - gb * 0.07, IZ), '--vpl-f-paper', 0.005);
+        }
+      });
+
+      // HIGH ON BOTH SIDE WALLS, over the page's parts: a rail hung with
+      // ristras of chilis (the one red, which is food), braids of garlic and
+      // bunches of herbs, every one hanging against the next.
+      [[L + 0.12, 1], [R - 0.12, -1]].forEach(function (w, wi) {
+        var wx = w[0];
+        box(0.04, 0.04, 9.6, at(wx, 2.98, -6.3), '--vpl-ink-2', 0.006);
+        for (var hz = -1.6, hi = 0; hz > -11.1; hz -= 0.55, hi++) {
+          var kind = (hi + wi) % 3;
+          if (kind === 0) {
+            for (var cc = 0; cc < 9; cc++) {
+              kit.piece(new T.ConeGeometry(0.022, 0.1, 6), at(wx + w[1] * 0.03, 2.9 - cc * 0.045, hz + (cc % 2 ? 0.025 : -0.025), 0, Math.PI + (cc % 2 ? 0.25 : -0.25)), '--vpl-f-red', false);
+            }
+          } else if (kind === 1) {
+            for (var gg = 0; gg < 5; gg++) kit.piece(ROUND(0.035, 8), at(wx + w[1] * 0.03, 2.9 - gg * 0.055, hz + (gg % 2 ? 0.02 : -0.02)), '--vpl-f-paper', 0.004);
+          } else {
+            for (var hh = 0; hh < 6; hh++) kit.piece(new T.ConeGeometry(0.03, 0.15, 6), at(wx + w[1] * 0.03, 2.82, hz + (hh - 2.5) * 0.02, 0, Math.PI + (hh - 2.5) * 0.09), hh % 2 ? '--vpl-leaf' : '--vpl-f-green', false);
+          }
+        }
+      });
+
+      // BY THE DOOR, in the left-hand corner: a banana plant in a big pot,
+      // the pot cut through like the ones on the shelf, its soil and roots
+      // showing, its leaves reaching up the turmeric wall.
+      (function () {
+        var x = L + 0.55, z = -0.55, r0 = 0.28, r1 = 0.36, h = 0.6, P = at(x, 0, z, Math.PI / 2);
+        kit.piece(new T.CylinderGeometry(r1, r0, h, 28, 1, true, Math.PI / 2, Math.PI), M(P, at(0, h / 2, 0)), '--vpl-pot', 0.01);
+        kit.flat(new T.CircleGeometry(r1 - 0.02, 28, Math.PI, Math.PI), M(P, at(0, h - 0.04, 0, 0, -Math.PI / 2)), '--vpl-soil');
+        kit.flat(shape([[-r1 - 0.008, h + 0.006], [r1 + 0.008, h + 0.006], [r0 + 0.008, -0.006], [-r0 - 0.008, -0.006]]), M(P, at(0, 0, 0.001)), '--vpl-ink');
+        kit.flat(shape([[-r1, h], [r1, h], [r0, 0], [-r0, 0]]), M(P, at(0, 0, 0.002)), '--vpl-pot');
+        kit.flat(shape([[-r1 + 0.03, h - 0.05], [r1 - 0.03, h - 0.05], [r0 - 0.03, 0.03], [-r0 + 0.03, 0.03]]), M(P, at(0, 0, 0.003)), '--vpl-soil');
+        [-0.12, -0.04, 0.05, 0.13].forEach(function (rx, i) {
+          kit.flat(new T.PlaneGeometry(0.008, 0.3), M(P, at(rx, 0.28, 0.004, 0, 0, (i - 1.5) * 0.25)), '--vpl-f-paper');
+        });
+        kit.cyl(0.05, 0.07, 0.9, M(P, at(0, h + 0.45, 0)), '--vpl-leaf', 0.01, 10);
+        [[0.0, 1.0, 0.5], [0.9, 0.8, 0.9], [1.8, 1.15, 0.35], [2.7, 0.9, 0.75], [3.6, 1.05, 0.45], [4.5, 0.85, 0.85], [5.4, 1.1, 0.6]].forEach(function (lf, i) {
+          var a = lf[0], leaf = new T.SphereGeometry(0.5, 16, 8);
+          leaf.scale(0.2, 0.035, 0.66 * lf[1]);
+          var up = h + 0.8 + (i % 3) * 0.12;
+          kit.cyl(0.018, 0.022, 0.4, M(P, at(Math.cos(a) * 0.12, up - 0.12, Math.sin(a) * 0.12, -a, 0, 0.5)), '--vpl-leaf', false, 6);
+          kit.piece(leaf, M(P, at(Math.cos(a) * 0.36, up, Math.sin(a) * 0.36, -a + Math.PI / 2, lf[2])), i % 2 ? '--vpl-f-green' : '--vpl-leaf', 0.008);
+        });
+      })();
+      // A round rag rug inside the door, in rings.
+      [[0.62, '--vpl-f-plum'], [0.5, '--vpl-f-oil'], [0.36, '--vpl-f-plum'], [0.2, '--vpl-f-gold']].forEach(function (rg, i) {
+        kit.flat(new T.CircleGeometry(rg[0], 36), at(0, 0.004 + i * 0.001, -0.8, 0, -Math.PI / 2), rg[1]);
+      });
+
       // THE STEREO'S CABINET low on the left-hand wall, and the telly on the
       // right: a dark set with nothing on it until somebody puts a video up.
       box(0.45, 0.45, 2.0, at(L + 0.26, 0.225, -10.3), '--vpl-ink', 0.012);
@@ -281,6 +488,8 @@
           { name: 'at the island, over the wraps cut in half, their rings to you', x: IX + 0.6, z: IZ + 1.15, yaw: 0, pitch: -0.55 },
           { name: 'at the counter, under the shelf of pots cut open, every one in the pantry', x: 0, z: back + 3.4, yaw: 0, pitch: 0.12 },
           { name: 'at the pots cut open on the counter, scallions, garlic and carrots in their soil', x: 2.9, z: back + 1.6, yaw: 0, pitch: -0.3 },
+          { name: 'at the fridge, cut through, the pantry’s fresh things piled to the cut', x: -4.45, z: back + 2.5, yaw: 0.12, pitch: 0.0 },
+          { name: 'at the pantry shelf, every jar on it cut open, shoulder to shoulder', x: 4.1, z: back + 2.4, yaw: -0.4, pitch: 0.02 },
           { name: 'at the word on where the name comes from', x: L + 1.9, z: -2.2, yaw: LEFT, frame: name.el },
           { name: 'at the builder, to tick what goes in your bowl or your wrap', x: L + 2.1, z: -4.9, yaw: LEFT, frame: builder.el },
           { name: 'at the pass, where your bowl is drawn cut through the middle and the ticket is written', x: L + 1.9, z: -7.6, yaw: LEFT, frame: pass.el },

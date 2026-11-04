@@ -318,6 +318,27 @@ else:
     if new != page_src:
         PAGE.write_text(new)
 
+# The Jungle Room's path hangs a leaf for every gallery of cams on its page,
+# counted off jungle-room.html and written between cel:galleries markers,
+# never by hand. Its path has room for eight before its far end, the log and
+# the door down to the Den; a ninth needs the room made longer first.
+galleries = len(re.findall(r'<section class="gallery"', (ROOT / "jungle-room.html").read_text()))
+if not galleries:
+    refuse("jungle-room.html has no galleries the Jungle Room on Cel Street can hang.")
+elif galleries > 8:
+    refuse(f"jungle-room.html has {galleries} galleries, and the Jungle Room's path on Cel Street has room "
+           "for eight. Make the room longer in cel-in-jungle-room.js, then raise this.")
+else:
+    f = ROOT / "cel-in-jungle-room.js"
+    src = f.read_text()
+    if "// cel:galleries:begin" not in src:
+        refuse("cel-in-jungle-room.js has lost its cel:galleries markers.")
+    else:
+        new = re.sub(r"(// cel:galleries:begin\n).*?(\n\s*// cel:galleries:end)",
+                     lambda m: m.group(1) + "  var GALLERY_SLOTS = " + str(galleries) + ";" + m.group(2), src, flags=re.S)
+        if new != src:
+            f.write_text(new)
+
 # The World room hangs a garden for every part of the Map its directory has,
 # with that part's heading; written between cel:parts markers, never by hand.
 # Its gardens stand in pairs down both sides in three rows before the web, so a
