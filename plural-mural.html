@@ -65,6 +65,21 @@
        does not. Every mural is aria-hidden paint, and what it shows is in words
        under the wall and in the list below it. -->
   <div class="pm-wall">
+  <!-- dial:begin -->
+  <div class="dial-dock">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+  <!-- dial:end -->
+
     <div class="pm-stage" id="pm-stage" aria-hidden="true">
 <!-- pm-stage:begin -->
 <svg class="pm-mural pm-mural--up" data-key="queer" data-title="Queer without fear" data-shows="A rainbow in six broad bands, red through violet, arching up from the foot of the wall on a navy ground scattered with small cream stars, and across the top a cream banner with its ends notched, painted in navy capitals: QUEER WITHOUT FEAR." viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect width="1200" height="600" fill="#1D3557"/>
@@ -332,19 +347,6 @@
     </div>
   </details>
 <!-- quest:mural-lid:end -->
-
-  <div style="max-width:400px;margin-top:34px;">
-    <div class="dial">
-      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
-      <div class="dial__row" role="group" aria-labelledby="dial-label">
-        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
-        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
-        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
-      </div>
-      <p class="dial__note" aria-live="polite"></p>
-      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
-    </div>
-  </div>
 
 </main>
 

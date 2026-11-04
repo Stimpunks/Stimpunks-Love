@@ -70,6 +70,21 @@
   <section class="qst-part" aria-labelledby="qst-has-h">
     <h2 id="qst-has-h">What is in here</h2>
     <p>Everything every public restroom on the street has, and how this one does it.</p>
+  <!-- dial:begin -->
+  <div class="dial-dock">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so &mdash; and in this restroom nothing moves at any setting, MAX GLITTER included, because nothing in it is louder than you are.</p>
+    </div>
+  </div>
+  <!-- dial:end -->
+
 <!-- qst:has:begin -->
     <ul class="qst-has">
       <li class="qst-has__item" id="qst-everybody">
@@ -263,19 +278,6 @@
     </div>
   </details>
 <!-- quest:qst-roll:end -->
-
-  <div style="max-width:400px;margin-top:34px;">
-    <div class="dial">
-      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
-      <div class="dial__row" role="group" aria-labelledby="dial-label">
-        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
-        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
-        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
-      </div>
-      <p class="dial__note" aria-live="polite"></p>
-      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so &mdash; and in this restroom nothing moves at any setting, MAX GLITTER included, because nothing in it is louder than you are.</p>
-    </div>
-  </div>
 
 </main>
 

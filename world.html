@@ -81,6 +81,21 @@
   </div>
   <p class="www-status" data-world-status role="status">Who is where is shown to people signed on to the CB. <a href="community-center.html#getting-started">The Community Center</a> says how to get on, and then this web says which rooms are active.</p>
 
+  <!-- dial:begin -->
+  <div class="dial-dock">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+  <!-- dial:end -->
+
   <div class="www-flat" data-world-flat hidden></div>
 
   <!-- world:directory:begin -->
@@ -313,19 +328,6 @@
     </div>
   </details>
 <!-- quest:world-dewdrop:end -->
-
-  <div style="max-width:400px;margin-top:34px;">
-    <div class="dial">
-      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
-      <div class="dial__row" role="group" aria-labelledby="dial-label">
-        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
-        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
-        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
-      </div>
-      <p class="dial__note" aria-live="polite"></p>
-      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
-    </div>
-  </div>
 
 </main>
 

@@ -60,6 +60,21 @@
   <svg class="onb-day" viewBox="0 0 1000 330" aria-hidden="true" focusable="false"><defs><pattern id="onb-grid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1.3" fill="var(--onb-dot)"/></pattern></defs><rect width="1000" height="330" rx="18" fill="var(--onb-shade)"/><g class="onb-day__light"><path d="M186.0 50.0 L256.5 50.0 L188.2 153.7 L117.7 153.7 Z" fill="var(--onb-dawn)"/><path d="M104.2 174.3 L174.8 174.3 L106.5 278.0 L36.0 278.0 Z" fill="var(--onb-dawn)"/><path d="M265.5 50.0 L336.0 50.0 L267.8 153.7 L197.2 153.7 Z" fill="var(--onb-dawn)"/><path d="M183.8 174.3 L254.2 174.3 L186.0 278.0 L115.5 278.0 Z" fill="var(--onb-dawn)"/><path d="M286.0 42.0 L356.5 42.0 L323.7 137.6 L253.2 137.6 Z" fill="var(--onb-morning)"/><path d="M246.8 156.4 L317.3 156.4 L284.5 252.0 L214.0 252.0 Z" fill="var(--onb-morning)"/><path d="M365.5 42.0 L436.0 42.0 L403.2 137.6 L332.7 137.6 Z" fill="var(--onb-morning)"/><path d="M326.3 156.4 L396.8 156.4 L364.0 252.0 L293.5 252.0 Z" fill="var(--onb-morning)"/><path d="M405.0 34.0 L484.0 34.0 L484.0 125.0 L405.0 125.0 Z" fill="var(--onb-noon)"/><path d="M405.0 143.0 L484.0 143.0 L484.0 234.0 L405.0 234.0 Z" fill="var(--onb-noon)"/><path d="M494.0 34.0 L573.0 34.0 L573.0 125.0 L494.0 125.0 Z" fill="var(--onb-noon)"/><path d="M494.0 143.0 L573.0 143.0 L573.0 234.0 L494.0 234.0 Z" fill="var(--onb-noon)"/><path d="M526.0 42.0 L596.5 42.0 L629.3 137.6 L558.8 137.6 Z" fill="var(--onb-afternoon)"/><path d="M565.2 156.4 L635.7 156.4 L668.5 252.0 L598.0 252.0 Z" fill="var(--onb-afternoon)"/><path d="M605.5 42.0 L676.0 42.0 L708.8 137.6 L638.3 137.6 Z" fill="var(--onb-afternoon)"/><path d="M644.7 156.4 L715.2 156.4 L748.0 252.0 L677.5 252.0 Z" fill="var(--onb-afternoon)"/><path d="M592.0 50.0 L662.5 50.0 L730.8 153.7 L660.2 153.7 Z" fill="var(--onb-dusk)"/><path d="M673.8 174.3 L744.2 174.3 L812.5 278.0 L742.0 278.0 Z" fill="var(--onb-dusk)"/><path d="M671.5 50.0 L742.0 50.0 L810.2 153.7 L739.8 153.7 Z" fill="var(--onb-dusk)"/><path d="M753.2 174.3 L823.8 174.3 L892.0 278.0 L821.5 278.0 Z" fill="var(--onb-dusk)"/></g><rect width="1000" height="330" rx="18" fill="url(#onb-grid)"/><text class="onb-day__hour" x="111" y="308" text-anchor="middle">6:40</text><text class="onb-day__hour" x="289" y="282" text-anchor="middle">9:15</text><text class="onb-day__hour" x="489" y="264" text-anchor="middle">12:05</text><text class="onb-day__hour" x="673" y="282" text-anchor="middle">15:30</text><text class="onb-day__hour" x="817" y="308" text-anchor="middle">18:20</text><path d="M890 0 H906 V252 L898 242 L890 252 Z" fill="var(--onb-washi-sage)"/><path d="M914 0 H930 V206 L922 196 L914 206 Z" fill="var(--onb-washi-blush)"/></svg>
 <!-- onb:day:end -->
 
+  <!-- dial:begin -->
+  <div class="dial-dock">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+  <!-- dial:end -->
+
   <p class="onb-lede">A notebook has been lying open on this desk since first light, so every hour&rsquo;s sun has crossed the page, and the page has kept all of them. <strong>That is how Ryan Boren keeps his: open next to him while he works, &ldquo;as a regulatory artifact and as working memory&rdquo;</strong>, and in three kinds of journaling at once. His piece about that mix is first, in full. After it come the questions our community carried away from the evening he shared it, the videos the piece points at, and a month of what the journaling channels he chose have put up since.</p>
 
   <nav class="onb-index" aria-labelledby="onb-index-h">
@@ -2659,19 +2674,6 @@
     </div>
   </details>
 <!-- quest:onb-washi:end -->
-
-  <div style="max-width:400px;margin-top:34px;">
-    <div class="dial">
-      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
-      <div class="dial__row" role="group" aria-labelledby="dial-label">
-        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
-        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
-        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
-      </div>
-      <p class="dial__note" aria-live="polite"></p>
-      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
-    </div>
-  </div>
 
 </main>
 

@@ -100,6 +100,21 @@
   <p class="mud-lede">A MUD is a multi-user dungeon: a world made of words that people walk around in together, typing where to go and what to look at. The first one was written by Roy Trubshaw and Richard Bartle at the University of Essex in the autumn of 1978. <strong>This one is the kind with nothing in it to fight.</strong> Out the back door of this room is the Slake, a tidal estuary with a marsh, a mill, a hut full of things people found in the mud, and an island you can walk to while the tide is out. There is nobody to fight and nothing is counted. You go where you like and look at what you like, and the people who live out there tell you what they are doing and what our glossary calls it. Everything is words first and picture second, so a screen reader plays it as well as a pointer does.</p>
 
   <section class="mud-part" aria-labelledby="mud-play-h" id="the-slake">
+  <!-- dial:begin -->
+  <div class="dial-dock">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+  <!-- dial:end -->
+
     <h2 id="mud-play-h">Out the back door</h2>
     <noscript><p class="mud-note">Scripts are off, so the Slake is a guidebook: every place is further down this page with its ways on as links, and you can walk it by following them.</p></noscript>
 
@@ -513,19 +528,6 @@
     </div>
   </details>
 <!-- quest:mud-welly:end -->
-
-  <div style="max-width:400px;margin-top:34px;">
-    <div class="dial">
-      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
-      <div class="dial__row" role="group" aria-labelledby="dial-label">
-        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
-        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
-        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
-      </div>
-      <p class="dial__note" aria-live="polite"></p>
-      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
-    </div>
-  </div>
 
 </main>
 

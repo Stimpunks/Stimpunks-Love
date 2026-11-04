@@ -41,6 +41,21 @@
   <p class="lede">What this site knows about you is very little, and this page is all of it. <strong>Last updated 2026-10-24.</strong> Every change to it is dated in <a href="changelog.html">the changelog</a>.</p>
 
   <section class="card card--call">
+  <!-- dial:begin -->
+  <div class="dial-dock">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+  <!-- dial:end -->
+
     <h2 id="the-short-version" style="margin-top:0;">THE SHORT VERSION</h2>
     <ul>
       <li><strong>No cookies.</strong> This site sets none, on any page.</li>
@@ -766,19 +781,6 @@
 
   <h2 id="when-this-page-changes">When this page changes</h2>
   <p>If what this site does with your information changes, this page changes first, the date at the top moves, and the change is written up in <a href="changelog.html">the changelog</a> on the day, where the <a href="feed.xml">feed</a> will pick it up.</p>
-
-  <div style="max-width:400px;margin-top:34px;">
-    <div class="dial">
-      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
-      <div class="dial__row" role="group" aria-labelledby="dial-label">
-        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
-        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
-        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
-      </div>
-      <p class="dial__note" aria-live="polite"></p>
-      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
-    </div>
-  </div>
 
 </main>
 

@@ -41,6 +41,21 @@
   <p class="lede">The CB is the street&rsquo;s radio: a chat channel patterned after citizens band radio, in a panel in the corner of every page. This guide goes through it part by part, top to bottom, with every button named the way the radio names it. To get on, go to <a href="community-center.html#cb-signon-desk">the front desk at the Community Center</a>; the <a href="community-center.html#cb-norms">house norms</a> are there too, and <a href="privacy.html#cb">Privacy</a> says what the CB keeps. <strong>Last updated 2026-10-18.</strong></p>
 
   <section class="card card--call">
+  <!-- dial:begin -->
+  <div class="dial-dock">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+  <!-- dial:end -->
+
     <h2 id="the-short-version" style="margin-top:0;">THE SHORT VERSION</h2>
     <ul>
       <li><strong>Open is on, folded is off.</strong> Open, with the tab in front of you, the radio listens every four seconds. Folded, or behind another tab, it sends nothing.</li>
@@ -773,19 +788,6 @@
 
   <h2 id="keeps">What it sends and keeps</h2>
   <p>In short: the radio asks this site, and nothing else, for the channel while it is open and in front of you. Unless our administrators set a channel otherwise, it keeps a hundred messages, each for two weeks. No IP address is stored, nothing anybody types is logged, and the only list of who is on is Who&rsquo;s online, made from Be seen here and gone thirty seconds after somebody stops being seen. Your browser keeps your handle, your pass and where you put the radio. <a href="privacy.html#cb">Privacy</a> has the whole of it, and <a href="architecture.html#cb">Architecture</a> says how it is built.</p>
-
-  <div style="max-width:400px;margin-top:34px;">
-    <div class="dial">
-      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
-      <div class="dial__row" role="group" aria-labelledby="dial-label">
-        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
-        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
-        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
-      </div>
-      <p class="dial__note" aria-live="polite"></p>
-      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
-    </div>
-  </div>
 
 </main>
 

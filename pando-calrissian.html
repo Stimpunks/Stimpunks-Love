@@ -62,6 +62,21 @@
        moves at any setting. -->
   <div class="pdo-grove-wrap">
     <svg class="pdo-grove" id="pdo-grove" viewBox="0 0 1000 400" aria-hidden="true" focusable="false"><defs><linearGradient id="pdo-grove-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--pdo-sky)"/><stop offset=".3" stop-color="var(--pdo-belt)"/><stop offset=".45" stop-color="var(--pdo-belt)"/><stop offset=".6" stop-color="var(--pdo-sky)"/></linearGradient><linearGradient id="pdo-grove-bark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--pdo-bark)"/><stop offset=".35" stop-color="var(--pdo-bark)"/><stop offset="1" stop-color="var(--pdo-foot)"/></linearGradient></defs><rect width="1000" height="400" fill="url(#pdo-grove-sky)"/><path d="M0 236 Q120 214 250 226 T520 218 T780 230 T1000 220 V400 H0 Z" fill="var(--pdo-shade)"/><path d="M0 330.0 L25 327.0 L50 324.1 L75 321.1 L100 318.2 L125 315.3 L150 312.5 L175 309.8 L200 307.1 L225 304.5 L250 301.9 L275 299.5 L300 297.2 L325 295.0 L350 292.9 L375 290.9 L400 289.1 L425 287.4 L450 285.8 L475 284.3 L500 283.0 L525 281.8 L550 280.8 L575 279.9 L600 279.1 L625 278.4 L650 277.9 L675 277.5 L700 277.2 L725 277.0 L750 276.9 L775 277.0 L800 277.1 L825 277.3 L850 277.5 L875 277.8 L900 278.2 L925 278.6 L950 279.1 L975 279.5 L1000 280.0 V400 H0 Z" fill="var(--pdo-soil)"/><path id="pdo-root" d="M470 306.6 L530 303.6" fill="none" stroke="var(--pdo-root)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><g id="pdo-stems"></g></svg>
+  <!-- dial:begin -->
+  <div class="dial-dock">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+  <!-- dial:end -->
+
     <p class="pdo-grove-says" id="pdo-grove-says">A hillside of aspen after sunset, with the root under it. Drawing the grove, and reading how much it has been watered, needs scripts.</p>
   </div>
 
@@ -161,19 +176,6 @@
     </div>
   </details>
 <!-- quest:pando-leaf:end -->
-
-  <div style="max-width:400px;margin-top:34px;">
-    <div class="dial">
-      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
-      <div class="dial__row" role="group" aria-labelledby="dial-label">
-        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
-        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
-        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
-      </div>
-      <p class="dial__note" aria-live="polite"></p>
-      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
-    </div>
-  </div>
 
 </main>
 

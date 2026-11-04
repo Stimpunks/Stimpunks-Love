@@ -71,6 +71,21 @@
     <div class="arch-box"><p><strong>Third parties</strong>youtube-nocookie.com, open.spotify.com, embed.music.apple.com, embed.tidal.com and videopress.com for players; 8x8.vc for calls, the only thing given the camera and microphone; the band&rsquo;s own site for The Small Hours&rsquo; audio.</p></div>
   </figure>
 
+  <!-- dial:begin -->
+  <div class="dial-dock">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+  <!-- dial:end -->
+
   <h2 id="hosting">Hosting and deploy</h2>
   <p>Netlify serves the repository root as it is, and a push to <code>main</code> is a deploy: live in a minute or two, with no staging step and no review. There is no build command, no bundler and no fingerprinting. The HTML in the repository is what you are reading.</p>
   <ul>
@@ -287,19 +302,6 @@
 
   <h2 id="sources">Sources</h2>
   <p>Read from <a href="https://github.com/Stimpunks/Stimpunks-Love">the repository</a> on 2026-10-04: <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/README.md">README.md</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/netlify.toml">netlify.toml</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/_headers">_headers</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/_redirects">_redirects</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/package.json">package.json</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/love.js">love.js</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/love-embed.js">love-embed.js</a>, the section headings of <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/love.css">love.css</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/netlify/cb/lib.mjs">netlify/cb/lib.mjs</a> and the config of every file in <a href="https://github.com/Stimpunks/Stimpunks-Love/tree/main/netlify/functions">netlify/functions</a>, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/tools/check-all.sh">tools/check-all.sh</a> and the head of every checker, <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/tools/daily-arrivals.sh">tools/daily-arrivals.sh</a>, and <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/.claude/scheduled-tasks/arrivals-board-daily/SKILL.md">the morning task&rsquo;s instructions</a>. When any of those changes in a way this page describes, this page changes with it, and <a href="changelog.html">the changelog</a> says so.</p>
-
-  <div style="max-width:400px;margin-top:34px;">
-    <div class="dial">
-      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
-      <div class="dial__row" role="group" aria-labelledby="dial-label">
-        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
-        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
-        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
-      </div>
-      <p class="dial__note" aria-live="polite"></p>
-      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
-    </div>
-  </div>
 
 </main>
 
