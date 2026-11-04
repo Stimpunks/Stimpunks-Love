@@ -56,6 +56,12 @@ function start() {
   var INK = 0.05;            // how thick the ink round a solid thing is
 
   var hereEl = document.querySelector('[data-cel-here]');
+  // Which room you are in, said on the stage and in the tab: a plate pinned in
+  // the stage's corner, over the picture, so it takes no room on the page and
+  // a long name is cut short rather than wrapping (Ryan, 2026-11-04). The line
+  // under the stage still says it in words; the plate is for eyes only.
+  var plateEl = document.querySelector('[data-cel-plate]');
+  var titleWas = document.title;
   var failed = document.querySelector('[data-cel-failed]');
   var controls = document.querySelector('[data-cel-controls]');
   var list = document.querySelector('[data-cel-doors]');
@@ -1109,6 +1115,12 @@ function start() {
   }
   function angle(a) { while (a > Math.PI) a -= 2 * Math.PI; while (a < -Math.PI) a += 2 * Math.PI; return a; }
 
+  function plateUp() {
+    var where = inside ? inside.name : 'Cel Street';
+    if (plateEl) { plateEl.textContent = where; plateEl.hidden = false; }
+    document.title = inside ? inside.name + ' \u00b7 ' + titleWas : titleWas;
+  }
+
   var said = '';
   function tell() {
     if (!hereEl) return;
@@ -1348,7 +1360,7 @@ function start() {
       if (push !== false) history.pushState({ celIn: page }, '', '#in=' + page.replace(/\.html$/, ''));
       wayOut(); places();
       said = '';
-      draw(); tell();
+      draw(); tell(); plateUp();
       if (list) list.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
       if (then) then();
     });
@@ -1394,7 +1406,7 @@ function start() {
     wayOut(); places();
     if (!inside && list) list.querySelectorAll('a').forEach(function (a) { a.removeAttribute('tabindex'); });
     said = '';
-    draw(); tell();
+    draw(); tell(); plateUp();
   }
   function outOfRoom() {
     if (history.state && history.state.celIn) history.back();
@@ -1595,7 +1607,14 @@ function start() {
       list.hidden = false;
     }
     if (controls) controls.hidden = false;
-    if (roomInAddress()) enter(roomInAddress(), false);
+    // Arriving at a room by its address (a room's Walk this room), the stage
+    // comes to the top of the window once, so the room is above the fold;
+    // never if you have already scrolled, and never again as you walk.
+    if (roomInAddress()) {
+      if (window.scrollY < 10) stage.scrollIntoView({ block: 'start' });
+      enter(roomInAddress(), false);
+    }
+    plateUp();
     setMode(document.documentElement.getAttribute('data-intensity') !== 'gentle');
     resize();
     tell();

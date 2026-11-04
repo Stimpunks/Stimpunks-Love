@@ -70,6 +70,17 @@
   var view = stage.querySelector('[data-ps-view]');
   var folkEl = stage.querySelector('[data-ps-folk]');
   var here = document.querySelector('[data-ps-here]');
+  // Which room you are in, said on the stage and in the tab: a ticket pinned in
+  // the stage's corner, over the street, so it takes no room on the page and a
+  // long name is cut short rather than wrapping (Ryan, 2026-11-04). The line
+  // under the stage still says it in words; the ticket is for eyes only.
+  var plateEl = document.querySelector('[data-ps-plate]');
+  var titleWas = document.title;
+  function plateUp() {
+    var room = scene && scene.room;
+    if (plateEl) { plateEl.textContent = room ? room.name : 'Paper Street'; plateEl.hidden = false; }
+    document.title = room ? room.name + ' \u00b7 ' + titleWas : titleWas;
+  }
   var said = document.querySelector('[data-ps-said]');
   var controls = document.querySelector('[data-ps-controls]');
   var failed = document.querySelector('[data-ps-failed]');
@@ -978,7 +989,7 @@
       goal = null; held = {};
       clamp();
       lastNear = keep ? nearest() : null;
-      draw();
+      draw(); plateUp();
       if (push) history.pushState({ psIn: page }, '', '#in=' + page.replace(/\.html$/, ''));
       if (outBtn) outBtn.hidden = false;
       if (pageLink) { pageLink.href = page; pageLink.textContent = 'Open ' + name + '’s page'; pageLink.hidden = false; }
@@ -1005,7 +1016,7 @@
     if (door) { var sp = spotFor(door); cam.x = sp.x; cam.z = sp.z; }
     else if (street.cam) { cam.x = street.cam.x; cam.z = street.cam.z; }
     goal = null; held = {}; lastNear = null;
-    clamp(); draw();
+    clamp(); draw(); plateUp();
     if (outBtn) outBtn.hidden = true;
     if (pageLink) pageLink.hidden = true;
     speak(said, 'Back out on the street.');
@@ -1147,8 +1158,15 @@
     bringFamiliar();
     // Faces arriving change every flat's height.
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); if (scene === street) draw(); });
+    plateUp();
+    // Arriving at a room by its address (a room's Walk this room), the stage
+    // comes to the top of the window once, so the room is above the fold;
+    // never if you have already scrolled, and never again as you walk.
     var want = roomInAddress();
-    if (want) enter(want, false);
+    if (want) {
+      if (window.scrollY < 10) stage.scrollIntoView({ block: 'start' });
+      enter(want, false);
+    }
   }).catch(function () {
     if (failed) failed.hidden = false;
   });

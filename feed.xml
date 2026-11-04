@@ -9,17 +9,24 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Wed, 04 Nov 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Cel Street and Paper Street say which room you are in</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-04-which-room-you-are-in</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-04-which-room-you-are-in</guid>
+      <pubDate>Wed, 04 Nov 2026 12:00:00 GMT</pubDate>
+      <description>Following a room’s Walk this room used to land you at the top of Cel Street or Paper Street, with the room itself below the fold. Now the page opens with the street’s stage at the top of the window, so the room is the first thing you see; it only does that when you arrive, never again as you walk. A plate pinned in the corner of the stage names the room you are in (or the street, when you are out on it), sitting over the picture so nothing on the page moves, and a long name is cut short rather than wrapping. The browser tab says the room’s name too.</description>
+    </item>
+    <item>
       <title>The dial stands beside the room’s words</title>
       <link>https://stimpunks.world/changelog.html#2026-11-04-the-dial-beside-the-words</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-04-the-dial-beside-the-words</guid>
-      <pubDate>Wed, 04 Nov 2026 12:00:00 GMT</pubDate>
+      <pubDate>Wed, 04 Nov 2026 11:59:00 GMT</pubDate>
       <description>The dial was leaving a tall empty band on a lot of pages: on most rooms it sat in a narrow box at the very foot of the page on a row of its own, and on the rooms that got it this morning it stood alone under the header. Now, on a wide screen, it stands at the right near the top of every one of those rooms, with the room’s own words running down beside it, and any room’s own words on its dial come with it. Where it stands was measured on every page rather than guessed: a tool tries the dial at every place it could go and keeps the one with the least empty space beside it, nearest the top, and never with a picture or a panel running under it. On Cel Street and Paper Street it stands below the street itself, so coming from a room’s Walk this room you see the street first. Rooms that built the dial into their own layout keep it where they put it.</description>
     </item>
     <item>
       <title>Stay Frosty has the dial too</title>
       <link>https://stimpunks.world/changelog.html#2026-11-04-stay-frosty-dial</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-04-stay-frosty-dial</guid>
-      <pubDate>Wed, 04 Nov 2026 11:59:00 GMT</pubDate>
+      <pubDate>Wed, 04 Nov 2026 11:58:00 GMT</pubDate>
       <description>Stay Frosty was the one room left without the dial, because it said on its own page that there was nothing in it to press. That was Ryan’s call to change, and he changed it: the dial is at the top of the room now, like every other room’s, and the room says the only thing to press is the dial. It still changes nothing down there, because nothing in the room moves at any setting, nothing makes a sound, and the CB still stays upstairs. The caverns’ lift panel and Coping’s door to it stopped saying there is nothing to press.</description>
     </item>
     <item>
@@ -96,28 +103,28 @@
       <title>The dial in every room</title>
       <link>https://stimpunks.world/changelog.html#2026-11-04-the-dial-in-every-room</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-04-the-dial-in-every-room</guid>
-      <pubDate>Wed, 04 Nov 2026 11:58:00 GMT</pubDate>
+      <pubDate>Wed, 04 Nov 2026 11:57:00 GMT</pubDate>
       <description>Some rooms never had the dial: the caverns’ levels, the Outskirts’ turnings, the Town Hall’s rooms, Cavendish’s rooms and a handful more along the street. Every one of them has it now, straight after its header, with the low-stimulation modes, I need a bodymind break and Walk this room under it, and on a wide screen it stands at the right with the room’s first words beside it. A new room cannot open without a dial. The one room without it is Stay Frosty, which says on its own page that there is nothing in it to press.</description>
     </item>
     <item>
       <title>Walk this room</title>
       <link>https://stimpunks.world/changelog.html#2026-11-04-walk-this-room</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-04-walk-this-room</guid>
-      <pubDate>Wed, 04 Nov 2026 11:57:00 GMT</pubDate>
+      <pubDate>Wed, 04 Nov 2026 11:56:00 GMT</pubDate>
       <description>Every room that has a room of its own on Cel Street says so now: Walk this room, at the foot of the page under the sign-off’s links, goes straight to it, and where the room has one on Paper Street too, there is a second link for that. Where a page has the dial’s box, the same links are buttons in it as well, under “I need a bodymind break”, so they are near the top. A room that gets a walk-in room on either street gets its link with nothing else to do.</description>
     </item>
     <item>
       <title>Cel Street: a second pass on more rooms, and Champuru walks in</title>
       <link>https://stimpunks.world/changelog.html#2026-11-04-cel-street-second-pass-and-champuru</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-04-cel-street-second-pass-and-champuru</guid>
-      <pubDate>Wed, 04 Nov 2026 11:56:00 GMT</pubDate>
+      <pubDate>Wed, 04 Nov 2026 11:55:00 GMT</pubDate>
       <description>On Cel Street: Champuru opens onto its own lane now: the coral wall in shade with the restaurant’s door in it, the whitewash across the lane in full sun throwing its light back onto the tables, bougainvillea over both walls, washing hung still across the lane, Ryan’s table nearest the street, and the sea flat at the far end. Its menu hangs under the eave, and its screen stands in the doorway with the channels’ month beside it, to play. Club Chronic: flyers in layers from the dado to the ceiling, flat and square, the bar stocked, the stage with its amps, tape and set list under one bare bulb that never flickers, and the door policy, the decks and every rack on the walls, to read and play. The Jungle Room: every gallery of cams hangs on a leaf of its own along the path, to put up on its screen; the canopy is leaves now, the buttress roots taper, and ferns, palms, orchids, lianas and roots fill the understorey, with trunks going back into the green dark. Laughingstock: a little more light in the house, brick round it, joists and ducts overhead, bistro chairs, glasses on the tables, a bar with taps and stools, and on the stage the wedges and the mic’s lead, with nobody on it. The Lightbulb Picture House: proper seats, wheelchair spaces at the row ends, ear defenders on an aisle seat, sofas at the back to lie down on, panelled walls, a coffered ceiling with a chandelier of bare bulbs, and a runner down the aisle. Nothing in it is blue. Vital Plant Living: a fridge and a pantry shelf, both cut through with the pantry’s food piled to the cut, a chopping board, a rack over the island, chili ristras and garlic on the walls, stools, rugs and a banana plant by the door.</description>
     </item>
     <item>
       <title>Public restrooms on the street, and benches and drinking fountains</title>
       <link>https://stimpunks.world/changelog.html#2026-11-04-public-restrooms</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-04-public-restrooms</guid>
-      <pubDate>Wed, 04 Nov 2026 11:55:00 GMT</pubDate>
+      <pubDate>Wed, 04 Nov 2026 11:54:00 GMT</pubDate>
       <description>The street has public restrooms now, each a room of its own with a door in the row: Loo With a View: a rest stop of concrete, rusted steel and larch at the top of a mountain road, with one glass wall over a fjord and the midnight sun on the horizon, so everything you face is backlit in gold. The Comfort Station: a municipal comfort station of the old kind, down the steps under a park with a lift beside them, white tile, terrazzo and brass, lit by daylight through violet glass prisms set in the path overhead. The Seaside Convenience: a Victorian convenience on a promenade, green tile and painted iron under a glass canopy, in the haze off the sea. The Quiet Stall: felt and cork, nothing that echoes or hums, a heavy blanket on the bench, fragrance-free soap, and light coming off the ceiling from coves you cannot see. Every one of them is for everybody, of every gender and none, and for anybody helping somebody else. Every one has toilets and urinals behind doors of their own, is step-free and wheelchair accessible, has a Step’n Wash under the basins, changing tables for a baby and an adult, free pads and tampons, free condoms, a sharps box, naloxone by the door, somewhere comfortable to sit, soap and paper towels, no air dryer, private stalls with a light over each that says free or in use in words, a shelf and a hook in every stall, and clear signs in words and pictures with raised letters and braille. They are free, at any hour, with nothing to buy first. Each room says how it does every one of those things in its own words, and its tool will not build it if one is missing. They were built after Norway’s scenic-route rest stops, which Visit Norway showed off in October 2026; after Step’n Wash’s writing on restroom design; and after our own Bathroom Access page, where a young Stimpunk coined “stallbatting”. They share a Restrooms tag on the chat page. On Cel Street, every restroom opens onto its own room, and benches now stand all the way down both sides of the street with bins beside them, among drinking fountains at the kerb, each with a basin low enough to roll under in a wheelchair, one for standing, a bottle filler and a bowl for a dog.</description>
     </item>
     <item>
