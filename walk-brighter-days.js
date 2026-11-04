@@ -79,6 +79,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['brighter-days.html'] = {
     prefix: 'bds-walk',
+    from: 'natures-contribution.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 980), sh = kit.H - 24;

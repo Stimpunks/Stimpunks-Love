@@ -1,8 +1,8 @@
 /* =============================================================================
    Nature's Contribution, walked into on Paper Street. Ryan's ask, 2026-11-04:
    round one of the rest of the rooms, each its own world in card. On Cel
-   Street it is the land past the Campgrounds' wood; on Paper Street it is
-   reached by its address or the teleporter for now.
+   Street and here it is the land past the Campgrounds' wood, reached by the
+   track post at the field's treeline.
 
    IT IS THE AREA'S WORLD AND NOBODY ELSE'S (§104): land kept for balancing
    conservation, agriculture and renewable energy. You stand at the stile in a
@@ -17,8 +17,10 @@
    side (that is the Hermitage) and the green here is grass in shade, never
    spruce in the dark (that is the campgrounds). The fingerpost is a cast white
    arm with black letters, pointed at the end, and its arms are the page's to
-   name: here they carry their lettering as marks, and the page says where
-   each goes. Nothing moves at any setting. Every colour is one §104 declares,
+   name: an arm for every arm on the page's own post, in its order, lettered
+   with its bearing and its place, and each walks you there. They are written
+   here by tools/make-paper-street.py between the ps:arms markers, never by
+   hand; an arm with nothing behind it yet is dashed, its words never dimmed. Nothing moves at any setting. Every colour is one §104 declares,
    by name. It keeps nothing, sends nothing and fetches nothing; its page
    arrives through Paper Street's screen(). tools/make-paper-street.py holds
    each of those.
@@ -65,17 +67,23 @@
     return s;
   }
 
-  // The fingerpost: a white post, its arms pointed at their ends, black marks
-  // for the lettering the page itself gives.
+  // The fingerpost: a white post, and one cast arm for every place, pointed
+  // the way it goes (an arm to the north points straight up the post), with
+  // its lettering laid on by kit.door.
   function fingerpost(w, h) {
     var s = svg(w, h), m = w / 2;
-    s.appendChild(el('rect', { x: m - 9, y: 30, width: 18, height: h - 30, fill: 'var(--ncx-post)', stroke: 'var(--ncx-letter)', 'stroke-width': 2 }));
-    [[60, 1], [130, -1], [200, 1], [270, -1]].forEach(function (a) {
-      var y = a[0], dir = a[1], len = 150, x0 = m, x1 = m + dir * len;
-      s.appendChild(el('path', { d: 'M' + x0 + ' ' + y + ' H' + (x1 - dir * 22) + ' L' + x1 + ' ' + (y + 17) + ' L' + (x1 - dir * 22) + ' ' + (y + 34) + ' H' + x0 + ' Z',
-        fill: 'var(--ncx-post)', stroke: 'var(--ncx-letter)', 'stroke-width': 2 }));
-      for (var k = 0; k < 5; k++) s.appendChild(el('rect', { x: x0 + dir * (18 + k * 20) - (dir < 0 ? 14 : 0), y: y + 12, width: 14, height: 10, fill: 'var(--ncx-letter)' }));
-    });
+    s.appendChild(el('rect', { x: m - 12, y: 0, width: 24, height: h, fill: 'var(--ncx-post)', stroke: 'var(--ncx-letter)', 'stroke-width': 2 }));
+    return s;
+  }
+  var ARM_W = 560, ARM_H = 72;
+  function arm(dir, raising) {
+    var s = svg(ARM_W, ARM_H), t = 30, d;
+    if (dir < 0) d = 'M' + t + ' 2 H' + (ARM_W - 2) + ' V' + (ARM_H - 2) + ' H' + t + ' L2 ' + ARM_H / 2 + ' Z';
+    else if (dir > 0) d = 'M2 2 H' + (ARM_W - t) + ' L' + (ARM_W - 2) + ' ' + ARM_H / 2 + ' L' + (ARM_W - t) + ' ' + (ARM_H - 2) + ' H2 Z';
+    else d = 'M2 ' + t + ' L' + ARM_W / 2 + ' 2 L' + (ARM_W - 2) + ' ' + t + ' V' + (ARM_H - 2) + ' H2 Z';
+    var a = { d: d, fill: 'var(--ncx-post)', stroke: 'var(--ncx-letter)', 'stroke-width': 2 };
+    if (raising) a['stroke-dasharray'] = '10 7';
+    s.appendChild(el('path', a));
     return s;
   }
 
@@ -95,6 +103,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['natures-contribution.html'] = {
     prefix: 'ncx-walk',
+    from: 'campgrounds.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 820), sh = kit.H - 24;
@@ -105,18 +114,31 @@
       decor.push(kit.item(backdrop(14000, 2400), { x: 0, z: FAR, w: 14000, h: 2400 }));
       decor.push(kit.item(barn(900, 420), { x: -1500, z: 5200, w: 900, h: 420 }));
       decor.push(kit.item(hedge(4400, 210, 220), { x: 0, z: STILE, w: 4400, h: 210 }));
-      var post = kit.item(fingerpost(340, 420), { x: -320, z: STILE + 500, w: 340, h: 420 });
-      decor.push(post);
-
-      var page = kit.screen(kit.page, 'Nature’s Contribution’s own page, on a board by the stile');
-      var board = kit.item(page, { x: 900, z: STILE - 40, w: sw, h: sh, cls: 'ncx-walk-board' });
+      // ps:arms:begin
+      var ARMS = [{"no": "WEST", "name": "All Needs Met Wildlife Sanctuary", "page": "all-needs-met.html", "state": ""}, {"no": "NORTH-WEST", "name": "Gentle Help Cannabis Farm", "page": "gentle-help.html", "state": ""}, {"no": "NORTH", "name": "Brighter Days Solar Farm", "page": "brighter-days.html", "state": ""}, {"no": "NORTH-EAST", "name": "All Together Now Farms", "page": "all-together-now.html", "state": ""}, {"no": "EAST", "name": "Wide-Spread Chaos Gardens", "page": "wide-spread-chaos.html", "state": ""}];
+      // ps:arms:end
+      var PX = -320, PZ = STILE + 500, PH = 100 + ARMS.length * (ARM_H + 40);
+      decor.push(kit.item(fingerpost(40, PH), { x: PX, z: PZ + 4, w: 40, h: PH }));
 
       var stops = [
-        kit.stop({ name: 'short of the stile, standing in a cloud’s shadow, the valley in the sun ahead', spot: { x: 0, z: 0 } }),
-        kit.stop({ name: 'at the board by the stile, with the area’s own page on it', spot: { x: 900, z: STILE - 40 - F }, link: page }, board),
-        kit.stop({ name: 'over the stile at the fingerpost, its arms pointing every way into the land', spot: { x: -320, z: STILE + 500 - 620 } }),
-        kit.stop({ name: 'out in the fields, where a cloud’s shadow lies across a whole field at once', spot: { x: 0, z: 3200 } })
+        kit.stop({ name: 'short of the stile, standing in a cloud’s shadow, the valley in the sun ahead', spot: { x: 0, z: 0 } })
       ];
+      // Over the stile, every arm read from the one place in front of the post,
+      // top arm first as the page lists them.
+      var at = { x: PX, z: PZ - Math.max(F * 1.5, 1200), yaw: 0 };
+      ARMS.forEach(function (a, k) {
+        var dir = /WEST/.test(a.no) ? -1 : /EAST/.test(a.no) ? 1 : 0;
+        var it = kit.door(a.page, { art: arm(dir, a.state === 'raising'), no: a.no, name: a.name, label: 'ncx-walk-arm', cls: 'ncx-walk-armpost',
+                                    x: PX + dir * (ARM_W / 2 - 10), y: PH - (k + 1) * (ARM_H + 40), z: PZ, w: ARM_W, h: ARM_H });
+        decor.push(it);
+        stops.push(kit.stop({ name: 'over the stile at the fingerpost, reading the arm to the ' + a.no.toLowerCase() + ': ' + a.name + (a.page ? '' : ', with nothing behind it yet'), spot: at, link: it.link }, it));
+      });
+      // The board after the arms, so the keyboard meets the ways into the land
+      // before it goes into the page.
+      var page = kit.screen(kit.page, 'Nature’s Contribution’s own page, on a board by the stile');
+      var board = kit.item(page, { x: 900, z: STILE - 40, w: sw, h: sh, cls: 'ncx-walk-board' });
+      stops.splice(1, 0, kit.stop({ name: 'at the board by the stile, with the area’s own page on it', spot: { x: 900, z: STILE - 40 - F }, link: page }, board));
+      stops.push(kit.stop({ name: 'out in the fields, where a cloud’s shadow lies across a whole field at once', spot: { x: 0, z: 3200 } }));
 
       return {
         cls: 'ncx-walk',

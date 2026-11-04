@@ -4207,12 +4207,27 @@ stopped building**: the same lesson as `street`, a second time.
 **PAPER STREET WALKS INTO EVERY ROOM CEL STREET DOES, ROUND 1** (Ryan's ask, 2026-11-04, built by eight helper agents
 from one brief): a `walk-<page>.js` for each, its walk classes at the end of that room's own section of love.css, its page
 up through `kit.screen()`, a few drawn things in its own declared colours and no new tokens. **A room's name is `NAMES[page]`
-first**, then the street's door, so a room reached by its address or the teleporter is never named by its filename. Paper
-Street's kit has no way from one room into another, so a room that opens off another is reached by its address or the
-teleporter, and Back out goes to the street. **A Tab into a page standing in the scene puts the window back** (`keepWindow`
+first**, then the street's door, so a room reached by its address or the teleporter is never named by its filename.
+**A Tab into a page standing in the scene puts the window back** (`keepWindow`
 in `paper-street.js`): the browser scrolls the window to show a focused frame, and in a 3D scene a frame can seem to be
 anywhere. The rooms Helen made, the rooms somebody brought in and David's cabin say in their headers that the scene is ours
 and theirs to keep or send back.
+
+**A ROOM BEHIND A ROOM ON PAPER STREET IS WALKED INTO FROM ITS PARENT, AND BACKS OUT INTO IT** (Ryan, 2026-11-04, after the
+first round left the Campgrounds' posts and the Outskirts' boards as blank shapes). A child's walk file names its parent
+with `from:`, the same parent its Cel Street file names (`make-paper-street.py` refuses them disagreeing), and the tool
+writes `FROM` beside `ROOMS` and `NAMES`. The parent stands **`kit.door(page, o)`**: its own drawing (`art`) with a real link
+laid over it, the room's name (and a small line, `no`) lettered in the parent's own face and ink through a class of its
+own that sets `--ps-way` (never `color:`, which the street's link colour beats), and *You can walk in* on the theatre's
+card under it; a way with nothing behind it yet is a span, its words never dimmed. The tool refuses a child whose parent's
+file never names its page. **Back out goes into the parent, standing at the way you came out of**, and a room reached by its
+address or the teleporter backs out through its parent too, so you are never put on the street from inside the yurt. **The
+areas' signs are read off their own pages**, as Cel Street's are: `make-paper-street.py` writes the pitches, turnings,
+levels and arms between `ps:pitches`, `ps:turnings`, `ps:levels` and `ps:arms` markers in those rooms' files, never by hand,
+so a new pitch on the board is a named post in the field on the next run. **The keyboard's order is the order things are
+made**, so a room makes its ways before its page (a Tab into the page goes through all of its links first). The friendly
+edits are a sign lettered in the child's colours "so you can tell where it goes", which is the subroom sharing its parent's
+look turned round, and a shared door drawing for every parent.
 
 **THE TELEPORTER ON BOTH STREETS GOES STRAIGHT TO A ROOM BY ITS NAME, AND YOUR COMPANIONS WALK CEL STREET TOO.**
 Ryan's asks, 2026-11-04. `make-cel-street.py` and `make-paper-street.py` write `NAMES` beside `ROOMS` between the same

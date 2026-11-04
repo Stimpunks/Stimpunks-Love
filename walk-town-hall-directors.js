@@ -82,6 +82,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['town-hall-directors.html'] = {
     prefix: 'dr-walk',
+    from: 'town-hall.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 940), sh = kit.H - 24;

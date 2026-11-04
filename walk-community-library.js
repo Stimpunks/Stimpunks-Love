@@ -8,8 +8,11 @@
    one of them; the daylight comes in from up there and washes every wall, so
    nothing in the room is in the dark. Reading tables stand down the middle,
    and at the far end, in the plaster wall over the front desk, hangs the room's
-   own page, to read and press as itself. The Librarian is not drawn, in here
-   or anywhere else.
+   own page, to read and press as itself. On the way there, in the shelving on
+   the left, is a gap in the stacks with a ball of string tied beside it and a
+   catalogue card over it: the way through to L-Space, drawn in this room's
+   oak, ink and card and nothing of L-Space's. The Librarian is not drawn, in
+   here or anywhere else.
 
    THERE IS NO FLAME ANYWHERE and the desk lamp is not even drawn: a candle in
    here would make it the Mopery at lunchtime, and it is this room that would
@@ -92,6 +95,36 @@
     return s;
   }
 
+  // The gap in the stacks: a bay of the oak shelving with one run of spines
+  // missing and the dark between the uprights, a ball of string tied to the
+  // shelf beside it and running in, and a catalogue card pinned over it (kit.door
+  // letters the card).
+  var CARD = 150;
+  function gap(r, w, h) {
+    var s = svg(w, h), gx = w * 0.32, gw = w * 0.36, row = 120;
+    s.appendChild(el('rect', { x: 0, y: 0, width: w, height: h, fill: 'var(--cl-oak)' }));
+    for (var y = CARD + 30; y + row <= h - 10; y += row) {
+      for (var bx = 14; bx < w - 20;) {
+        var bw = 12 + Math.floor(r() * 16), bh = row - 24 - Math.floor(r() * 26);
+        if (bx + bw < gx - 6 || bx > gx + gw + 6) s.appendChild(el('rect', { x: bx, y: y + row - 10 - bh, width: bw - 2, height: bh, fill: 'var(' + SPINES[Math.floor(r() * SPINES.length)] + ')' }));
+        bx += bw;
+      }
+      s.appendChild(el('rect', { x: 0, y: y + row - 10, width: w, height: 10, fill: 'var(--cl-oak)' }));
+    }
+    s.appendChild(el('rect', { x: gx, y: CARD + 30, width: gw, height: h - CARD - 40, fill: 'var(--cl-ink)' }));
+    var by = CARD + 30 + row - 10;
+    s.appendChild(el('circle', { cx: gx + gw + 40, cy: by - 26, r: 26, fill: 'var(--cl-card)', stroke: 'var(--cl-stone)', 'stroke-width': 3 }));
+    var bx0 = gx + gw + 40, by0 = by - 26;
+    [-12, 0, 12].forEach(function (d) {
+      s.appendChild(el('path', { fill: 'none', stroke: 'var(--cl-stone)', 'stroke-width': 2,
+        d: 'M' + (bx0 - 22) + ' ' + (by0 + d) + ' Q' + bx0 + ' ' + (by0 + d - 14) + ' ' + (bx0 + 22) + ' ' + (by0 + d) }));
+    });
+    s.appendChild(el('path', { fill: 'none', stroke: 'var(--cl-card)', 'stroke-width': 3, d: 'M' + (gx + gw + 16) + ' ' + (by - 14) + ' Q' + (gx + gw * 0.6) + ' ' + (by + 40) + ' ' + (gx + gw * 0.4) + ' ' + (h - 30) }));
+    s.appendChild(el('rect', { x: w * 0.12, y: 0, width: w * 0.76, height: CARD, fill: 'var(--cl-card)', stroke: 'var(--cl-stone)', 'stroke-width': 3 }));
+    s.appendChild(el('line', { x1: w * 0.16, y1: 44, x2: w * 0.84, y2: 44, stroke: 'var(--cl-stamp)', 'stroke-width': 2 }));
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['community-library.html'] = {
     prefix: 'cl-walk',
@@ -115,6 +148,12 @@
         });
       }
 
+      // The gap in the stacks on the left, before the desk.
+      var GH = Math.max(SHELF, 520);
+      var hole = kit.door('l-space.html', { art: gap(r, 560, GH), no: 'Through the gap in the stacks', label: 'cl-walk-card', cls: 'cl-walk-gap',
+                                            x: -WIDE + 6, z: END - 1100, w: 560, h: GH, turn: kit.LEFT });
+      decor.push(hole);
+
       var page = kit.screen(kit.page, 'The Community Library’s own page, on the wall over the front desk');
       var hung = kit.item(page, { x: 0, z: END, w: sw, h: sh, y: 170, cls: 'cl-walk-leaf' });
 
@@ -122,6 +161,7 @@
         kit.stop({ name: 'inside the door, the sky in every high window', spot: { x: 0, z: 0 } }),
         kit.stop({ name: 'between the reading tables, the shelves on both walls', spot: { x: 0, z: 1300 } }),
         kit.stop({ name: 'at the shelves on the left, the spines carrying no word', spot: { x: -WIDE + 520, z: 2000, yaw: -kit.LEFT } }),
+        kit.stop({ name: 'at the gap in the stacks, a ball of string tied to the shelf beside it, the way through to L-Space', spot: kit.front(hole), link: hole.link }, hole),
         kit.stop({ name: 'at the front desk, with the room’s own page over it', spot: kit.front(hung), link: page }, hung)
       ];
 

@@ -82,6 +82,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['repeater.html'] = {
     prefix: 'rp-walk',
+    from: 'the-outskirts.html',
     build: function (kit) {
       var F = kit.F;
       var sh = kit.H - 24;

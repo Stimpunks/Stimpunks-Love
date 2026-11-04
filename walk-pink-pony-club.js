@@ -9,7 +9,11 @@
    grout; the ball hangs over the middle of it; the decks stand on a table to
    one side, the page's own, lifted onto it, to put on where they stand; and at
    the far end, between two speakers, is the jukebox's cream
-   tray with the room's own page in it, full size once you stand at it.
+   tray with the room's own page in it, full size once you stand at it. In the
+   left-hand wall, between the banquettes, is the doorway through to the
+   Chappell, drawn as this room's joinery round it (pink panels, a cream frame
+   and lintel, a plum opening, and a cream plate over it with the Chappell's
+   name in the room's own face): what is through it is the Chappell's own.
 
    THE BALL DOES NOT TURN, AND ITS LIGHT ON THE FLOOR FOLLOWS THE DIAL: the
    room's own glow is hidden at Gentle, so at Gentle no glint lies on this
@@ -87,6 +91,20 @@
     return s;
   }
 
+  // The doorway through to the Chappell: the room's pink panels either side, a
+  // cream frame and lintel round a plum opening, and a cream plate over the
+  // lintel, edged in plum, which kit.door letters with the Chappell's name.
+  function doorway(w, h) {
+    var s = svg(w, h);
+    s.appendChild(el('rect', { x: 0, y: 190, width: 40, height: h - 190, fill: 'var(--pink)' }));
+    s.appendChild(el('rect', { x: w - 40, y: 190, width: 40, height: h - 190, fill: 'var(--pink)' }));
+    s.appendChild(el('rect', { x: 40, y: 220, width: w - 80, height: h - 220, fill: 'var(--cream)' }));
+    s.appendChild(el('rect', { x: 76, y: 256, width: w - 152, height: h - 256, fill: 'var(--pony-ink)' }));
+    s.appendChild(el('rect', { x: 10, y: 190, width: w - 20, height: 30, fill: 'var(--cream)' }));
+    s.appendChild(el('rect', { x: 14, y: 14, width: w - 28, height: 160, rx: 8, fill: 'var(--cream)', stroke: 'var(--pony-ink)', 'stroke-width': 10 }));
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['pink-pony-club.html'] = {
     prefix: 'pony-walk',
@@ -108,12 +126,22 @@
         decor.push(kit.item(banquette(900, 280), { x: b[0] * 900, z: b[1] + 450, w: 900, h: 280, turn: b[0] < 0 ? kit.LEFT : kit.RIGHT }));
       });
 
+      // The page first, because the decks are lifted off it; it is stood up in
+      // the jukebox last, so the keyboard meets the decks and the doorway
+      // first, in the order you walk past them.
       var page = kit.screen(kit.page, 'Pink Pony Club’s own page, in the jukebox’s tray');
-      var tray = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'pony-walk-tray' });
 
       // THE DECKS ARE THE PAGE'S OWN, lifted onto the table: two whole
       // playlists to put on and leave running, which play where they stand.
       var decks = kit.lift(page, '.decks', { x: 560, z: 1195, y: 200, w: 520, cls: 'pony-walk-decks' });
+
+      // The doorway through to the Chappell, in the left-hand wall between the
+      // banquettes.
+      var through = kit.door('the-chappell.html', { art: doorway(400, 650), label: 'pony-walk-plate', cls: 'pony-walk-doorway',
+                                                    x: -904, z: 1800, w: 400, h: 650, turn: kit.LEFT });
+      decor.push(through);
+
+      var tray = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'pony-walk-tray' });
       var at = function (it) { return kit.front(it); };
       var first = { focus: function (o) { var b = decks.el.querySelector('button.facade'); if (b) b.focus(o); } };
 
@@ -121,6 +149,7 @@
         kit.stop({ name: 'at the edge of the dancefloor', spot: { x: 0, z: 0 } }),
         kit.stop({ name: 'at the decks, with two whole playlists to put on', spot: at(decks), link: first }, decks),
         kit.stop({ name: 'under the mirrorball', spot: { x: 0, z: 1700 - F * 0.5 } }),
+        kit.stop({ name: 'at the doorway in the left-hand wall, through to the Chappell', spot: kit.front(through), link: through.link }, through),
         kit.stop({ name: 'at the jukebox, with the room’s own page in its tray', spot: { x: 0, z: END - F }, link: page }, tray)
       ];
 

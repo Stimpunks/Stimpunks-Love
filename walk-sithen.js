@@ -76,6 +76,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['sithen.html'] = {
     prefix: 'sithen-walk',
+    from: 'the-outskirts.html',
     build: function (kit) {
       var r = seeded(36);
       var F = kit.F;

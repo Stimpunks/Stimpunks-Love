@@ -92,6 +92,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['mycelium-munchies.html'] = {
     prefix: 'myc-walk',
+    from: 'arlesglad-caverns.html',
     build: function (kit) {
       var r = seeded(65);
       var F = kit.F;

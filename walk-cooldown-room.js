@@ -100,6 +100,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['cooldown-room.html'] = {
     prefix: 'cool-walk',
+    from: 'rebellion-rave-room.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 940), sh = kit.H - 24;

@@ -71,6 +71,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['black-leather-lagoon.html'] = {
     prefix: 'lag-walk',
+    from: 'the-outskirts.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 1000), sh = kit.H - 24;

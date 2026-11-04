@@ -101,6 +101,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['gentle-help.html'] = {
     prefix: 'ghc-walk',
+    from: 'natures-contribution.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 900), sh = kit.H - 24;

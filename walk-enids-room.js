@@ -15,7 +15,10 @@
    THE POLAROID WALL IS NOT IN THE SCENE. Its photographs are people's, under
    consent records that name the pages they appear on, so nothing of it is
    drawn here and nobody is drawn at all: the photographs are seen only on the
-   room's own page.
+   room's own page. What the room has is the door to it, in the right-hand
+   wall past the boombox: black like the walls, in a violet frame, a sticker
+   or two on it, and its name on it in the room's green; pressing it walks you
+   through to the Polaroid Wall.
 
    NOTHING MOVES AND NOTHING MAKES A SOUND. Every colour is one love.css
    declares, by name. It keeps nothing, sends nothing and fetches nothing; its
@@ -106,6 +109,19 @@
     return s;
   }
 
+  // The door to the Polaroid Wall: black like the walls in a violet frame, a
+  // knob, and two stickers stuck on it under where kit.door letters its name.
+  function door(w, h) {
+    var s = svg(w, h);
+    s.appendChild(el('rect', { x: 0, y: 0, width: w, height: h, fill: 'var(--violet)' }));
+    s.appendChild(el('rect', { x: 16, y: 16, width: w - 32, height: h - 16, fill: 'var(--ink-2)' }));
+    s.appendChild(el('rect', { x: 36, y: 40, width: w - 72, height: 220, rx: 6, fill: 'var(--ink)' }));
+    s.appendChild(el('rect', { x: 44, y: h * 0.56, width: 120, height: 44, rx: 22, fill: 'var(--pink)' }));
+    s.appendChild(el('rect', { x: w - 116, y: h * 0.66, width: 64, height: 64, rx: 6, fill: 'var(--yellow)' }));
+    s.appendChild(el('circle', { cx: w - 46, cy: h * 0.5, r: 12, fill: 'var(--ink-3)' }));
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['enids-room.html'] = {
     prefix: 'enid-walk',
@@ -125,6 +141,11 @@
       var sticks = kit.item(stickers(1600, 520), { x: -SIDE + 6, z: 1100, w: 1600, h: 520, y: 140, turn: kit.LEFT });
       var box = kit.item(boombox(280, 280), { x: SIDE - 200, z: 1300, w: 280, h: 280, turn: -0.9 });
       decor.push(sticks, box);
+      // The door through to the Polaroid Wall, in the right-hand wall past the
+      // boombox, before the bed.
+      var wayIn = kit.door('polaroids.html', { art: door(300, 520), no: 'Through the door', label: 'enid-walk-way', cls: 'enid-walk-door',
+                                               x: SIDE - 4, z: 1560, w: 300, h: 520, turn: kit.RIGHT });
+      decor.push(wayIn);
       decor.push(kit.item(bed(1100, 300), { x: SIDE - 6, z: END - 650, w: 1100, h: 300, turn: kit.RIGHT }));
       decor.push(kit.item(beanbag(300, 200), { x: -380, z: END - 500, w: 300, h: 200 }));
 
@@ -135,6 +156,7 @@
         kit.stop({ name: 'inside the door, in the green glow low down by it', spot: { x: 0, z: 0 } }),
         kit.stop({ name: 'at the sticker wall, every sticker its own colour', spot: kit.front(sticks, F * 1.1) }, sticks),
         kit.stop({ name: 'at the boombox on its low chest, silent', spot: kit.front(box, F * 0.7) }, box),
+        kit.stop({ name: 'at the door in the right-hand wall, through to the Polaroid Wall', spot: kit.front(wayIn), link: wayIn.link }, wayIn),
         kit.stop({ name: 'at the far wall, under the violet glow, with the room’s own page on it', spot: { x: 0, z: END - F }, link: page }, leaf)
       ];
 

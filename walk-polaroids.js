@@ -63,6 +63,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['polaroids.html'] = {
     prefix: 'pol-walk',
+    from: 'enids-room.html',
     build: function (kit) {
       var F = kit.F;
       var sh = kit.H - 24;

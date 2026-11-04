@@ -19,6 +19,11 @@
    on the other, in a frame of its own to scroll. The room's own mopery.js is
    run against those copies through Paper Street's kit.wire(), so the set tunes
    and plays exactly as it does on the page, saying how long before the press.
+   And FURTHER IN, as the page says: two doors in the reading room's front
+   wall, either side of the way back to the stacks, each a dark opening in a
+   frame of the shelves' wood set in the stone, its room's name over it in
+   gilt; the Oracle Deck on the parlour's side, the Doomscroll on the other.
+   What is through them is drawn in their own rooms, never here.
 
    Every spine is one of §22's nine measured spine colours, by name, and every
    other colour is one the room declares. NOTHING MOVES: the room's sign swings
@@ -127,6 +132,20 @@
     return s;
   }
 
+  // A door in the reading room's front wall: a piece of the stone, a dark
+  // opening in a frame of the shelves' wood, a lintel, and a stone panel over
+  // it ruled in the room's rule, where kit.door letters the way's name in gilt.
+  function door(w, h) {
+    var s = svg(w, h), dw = w * 0.5, dx = (w - dw) / 2, top = 250;
+    s.appendChild(el('rect', { x: 0, y: 0, width: w, height: h, fill: 'var(--mop-stone)' }));
+    s.appendChild(el('rect', { x: 24, y: 24, width: w - 48, height: 180, fill: 'none', stroke: 'var(--mop-rule)', 'stroke-width': 2 }));
+    s.appendChild(el('rect', { x: dx - 22, y: top - 22, width: dw + 44, height: h - top + 22, fill: 'var(--mop-shelf)' }));
+    s.appendChild(el('rect', { x: dx - 36, y: top - 34, width: dw + 72, height: 16, fill: 'var(--mop-shelf)' }));
+    s.appendChild(el('rect', { x: dx, y: top, width: dw, height: h - top, fill: 'var(--mop-night)' }));
+    s.appendChild(el('rect', { x: dx - 30, y: h - 10, width: dw + 60, height: 10, fill: 'var(--mop-rule)' }));
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['the-mopery.html'] = {
     prefix: 'mop-walk',
@@ -155,13 +174,25 @@
       decor.push(kit.item(ladder(110, CH * 0.9), { x: -AISLE + 30, z: LAST * 0.55, w: 110, h: CH * 0.9, turn: kit.LEFT }));
       decor.push(kit.item(endWall(3200, CH + 400, sw), { x: 0, z: END + 260, w: 3200, h: CH + 400 }));
 
-      // The page, on the lectern, in a gilt edge.
+      // The page, made first because the parlour and its list are lifted off
+      // it, and stood on the lectern, in a gilt edge, between them, so the
+      // keyboard meets everything in the reading room in the order it stands.
       var page = kit.screen(kit.page, 'The Mopery’s own page, on the lectern');
-      var leaf = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'mop-walk-leaf' });
+
+      // FURTHER IN: the two doors in the reading room's front wall, facing
+      // into it, either side of the way back to the stacks.
+      var DOW = 560, DOH = 640;
+      var ways = [['oracle-deck.html', -1], ['the-doomscroll.html', 1]].map(function (d) {
+        var it = kit.door(d[0], { art: door(DOW, DOH), no: 'Further in', label: 'mop-walk-way', cls: 'mop-walk-door',
+                                  x: d[1] * (AISLE + DOW / 2 + 40), z: LAST + 30, w: DOW, h: DOH, turn: Math.PI });
+        decor.push(it);
+        return it;
+      });
 
       // The parlour and its list, off the page, either side of the lectern.
       var PW = 620, HOLLOW = sw / 2 + PW / 2 + 160;
       var parlour = kit.lift(page, '.mop-parlour', { x: -HOLLOW, z: END - 120, w: PW, cls: 'mop-walk-parlour' });
+      var leaf = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'mop-walk-leaf' });
       var cuts = kit.lift(page, '.mop-cuts', { x: HOLLOW, z: END - 120, w: PW, cls: 'mop-walk-cuts' });
       kit.wire(page, 'mopery.js');
       var at = function (it) { return kit.front(it); };
@@ -175,6 +206,8 @@
       var stops = [
         kit.stop({ name: 'inside the door, at the end of the stacks', spot: { x: 0, z: 0 } }),
         kit.stop({ name: 'between the stacks, halfway along', spot: { x: 0, z: (LAST + 400) * 0.5 } }),
+        kit.stop({ name: 'at a door in the reading room’s front wall, on the parlour’s side: further in, the Oracle Deck', spot: kit.front(ways[0]), link: ways[0].link }, ways[0]),
+        kit.stop({ name: 'at a door in the reading room’s front wall, on the other side: further in, the Doomscroll', spot: kit.front(ways[1]), link: ways[1].link }, ways[1]),
         kit.stop({ name: 'at the parlour’s set, with Paint It Black on it', spot: at(parlour), link: onto(parlour, 'button') }, parlour),
         kit.stop({ name: 'at the lectern, with the room’s own page open on it', spot: { x: 0, z: END - F }, link: page }, leaf),
         kit.stop({ name: 'at the list of cellos, to choose one for the set', spot: at(cuts), link: onto(cuts, 'button') }, cuts)

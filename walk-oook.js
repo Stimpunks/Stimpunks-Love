@@ -89,6 +89,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['oook.html'] = {
     prefix: 'oook-walk',
+    from: 'l-space.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 820), sh = kit.H - 24;

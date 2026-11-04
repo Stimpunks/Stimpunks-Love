@@ -12,6 +12,10 @@
    with the photocopier and its reams against the wall, and the room's own
    page taped up at the end as one big sheet: the page is the paper.
 
+   THE WAY IN IS ISSUE #2, One Root, Two Rainbows: one sheet propped up on the
+   near end of the table, its ransom headline at its head and its columns
+   typed under it, and pressing it goes in.
+
    THE ANGLES ARE IN THE DRAWING, each sheet's corners worked out once where it
    lies; nothing is turned by the room and nothing moves. Every colour is one
    the room declares, by name. It keeps nothing, sends nothing and fetches
@@ -106,6 +110,20 @@
     return s;
   }
 
+  // Issue #2, one sheet propped up on the table, leaning a little in the
+  // drawing: its columns typed down it and a yellow block for its picture,
+  // under the headline that kit.door letters at its head.
+  function issue(w, h) {
+    var s = svg(w, h);
+    poly(s, [[10, 4], [w - 4, 12], [w - 10, h - 2], [4, h - 10]], '--paper', '--ink');
+    for (var l = 0; l < 8; l++) {
+      var y = 176 + l * 16, x1 = 120 - hash(2, l) * 40;
+      poly(s, [[24, y], [x1, y + 1], [x1, y + 6], [24, y + 5]], '--ink');
+    }
+    poly(s, [[136, 178], [w - 26, 180], [w - 28, 290], [134, 288]], '--yellow', '--ink');
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['zine-table.html'] = {
     prefix: 'zine-walk',
@@ -124,6 +142,11 @@
       var tableIt = put(table(1700, 640), 1700, 640, { x: 120, z: 1500 });
       var copierIt = put(copier(1400, 900), 1400, 900, { x: -SIDE, z: 1100, turn: kit.LEFT });
       decor.push(tableIt, copierIt);
+      // Issue #2 stands on the front edge of the table's near end, so it is
+      // the one thing on the table you can pick up and go into.
+      var issueIt = kit.door('zine-issue-2.html', { art: issue(240, 320), no: 'ISSUE #2', name: 'One Root, Two Rainbows', label: 'zine-walk-issue', cls: 'zine-walk-propped',
+                                                    x: 120 + 1700 * k * 0.36, y: 640 * k * 0.5, z: 1480, w: 240, h: 320 });
+      decor.push(issueIt);
 
       var page = kit.screen(kit.page, 'The Zine Table’s own page, taped up on the end wall as one big sheet');
       var sheet = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'zine-walk-sheet' });
@@ -132,6 +155,7 @@
         kit.stop({ name: 'inside the door of the copy room, lit like a photocopy', spot: { x: 0, z: 0 } }),
         kit.stop({ name: 'at the photocopier, its reams stacked beside it', spot: kit.front(copierIt, 1300) }, copierIt),
         kit.stop({ name: 'at the table, every sheet on it lying at its own angle', spot: kit.front(tableIt, 1100) }, tableIt),
+        kit.stop({ name: 'at the near end of the table, where issue #2, One Root, Two Rainbows, is propped up on top', spot: kit.front(issueIt), link: issueIt.link }, issueIt),
         kit.stop({ name: 'at the end wall, with the room’s own page taped up as one big sheet', spot: { x: 0, z: END - F }, link: page }, sheet)
       ];
 

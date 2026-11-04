@@ -108,6 +108,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['faery-cinema-room.html'] = {
     prefix: 'cin-walk',
+    from: 'faery-yurt.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 1000), sh = kit.H - 24;

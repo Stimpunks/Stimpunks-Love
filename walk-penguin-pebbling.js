@@ -100,6 +100,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['penguin-pebbling.html'] = {
     prefix: 'peb-walk',
+    from: 'arcade.html',
     build: function (kit) {
       var F = kit.F;
       var sh = kit.H - 24;

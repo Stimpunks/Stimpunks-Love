@@ -11,11 +11,13 @@
    Nobody stands in the disc and it carries no word: every word here, the
    room's own page included, is in the shade.
 
-   DOORS STAND ROUND THE WALL, shut, between porphyry columns: to the Fishbowl
-   and the rooms for our directors, our board and our moderators. They are
-   drawn and not opened here, and every one of those rooms is its own world,
-   sharing nothing with this hall. The room's own page is on the wall across
-   the floor from where you come in.
+   DOORS STAND ROUND THE WALL between porphyry columns, each with its name cut
+   on a plate fixed across it, and each is a way through: the Fishbowl's standing open,
+   and the shut doors of the rooms for our directors, our board, our
+   moderators and Executive Session. Every one of those rooms is its own world,
+   sharing nothing with this hall, and these doors are the hall's granite and
+   shade, nothing of theirs. The room's own page is on the wall across the
+   floor from where you come in.
 
    If the disc ever softens into a glow, or a second light comes into the hall,
    it has stopped being a hole in the roof. NOTHING MOVES: it is noon and it
@@ -38,7 +40,8 @@
 
   // A bay of the round wall: stone in shade, the coffers of the dome springing
   // from its top, a porphyry column at each side, and a shut door or none.
-  function bay(w, h, door) {
+  var PLATE = 120;
+  function bay(w, h, door, open) {
     var s = svg(w, h), m = w / 2, spring = 260;
     s.appendChild(el('rect', { x: 0, y: 0, width: w, height: h, fill: 'var(--th-wall)' }));
     for (var row = 0; row < 3; row++) {
@@ -51,8 +54,14 @@
     if (door) {
       var dw = 260, dh = Math.min(560, h - spring - 80);
       s.appendChild(el('path', { d: 'M' + (m - dw / 2) + ' ' + h + ' V' + (h - dh + dw / 2) + ' A' + (dw / 2) + ' ' + (dw / 2) + ' 0 0 1 ' + (m + dw / 2) + ' ' + (h - dh + dw / 2) + ' V' + h + ' Z', fill: 'var(--th-granite)' }));
-      s.appendChild(el('path', { d: 'M' + (m - dw / 2 + 22) + ' ' + h + ' V' + (h - dh + dw / 2) + ' A' + (dw / 2 - 22) + ' ' + (dw / 2 - 22) + ' 0 0 1 ' + (m + dw / 2 - 22) + ' ' + (h - dh + dw / 2) + ' V' + h + ' Z', fill: 'var(--th-coffer)' }));
-      s.appendChild(el('circle', { cx: m + 60, cy: h - dh * 0.45, r: 9, fill: 'var(--th-granite)' }));
+      s.appendChild(el('path', { d: 'M' + (m - dw / 2 + 22) + ' ' + h + ' V' + (h - dh + dw / 2) + ' A' + (dw / 2 - 22) + ' ' + (dw / 2 - 22) + ' 0 0 1 ' + (m + dw / 2 - 22) + ' ' + (h - dh + dw / 2) + ' V' + h + ' Z', fill: open ? 'var(--th-coffer)' : 'var(--th-wall)' }));
+      if (!open) {
+        // Two leaves meeting, and a handle in the hall's warm link colour.
+        s.appendChild(el('rect', { x: m - 3, y: h - dh + 40, width: 6, height: dh - 40, fill: 'var(--th-granite)' }));
+        s.appendChild(el('circle', { cx: m + 26, cy: h - dh * 0.32, r: 10, fill: 'var(--th-link)' }));
+      }
+      // The plate fixed across the door, its name cut in it (kit.door letters it).
+      s.appendChild(el('rect', { x: m - 165, y: h - dh + 140, width: 330, height: PLATE, fill: 'var(--th-coffer)', stroke: 'var(--th-granite)', 'stroke-width': 8 }));
     }
     return s;
   }
@@ -70,13 +79,26 @@
 
       // The bays round the wall, each turned to face the middle of the floor.
       // The far one is wide enough for the page; the near ones are behind you.
+      // A door is a way through, made in the order you meet them going round
+      // from the left of the way in to the right, as the page lists them.
+      var WAYS = {
+        '-90': { page: 'town-hall-fishbowl.html', open: true, stop: 'at the Fishbowl’s door, standing open, where anybody signed on to the CB can talk' },
+        '-36': { page: 'town-hall-directors.html', stop: 'at the Directors’ door, shut, the room where our directors meet' },
+        '36': { page: 'town-hall-board.html', stop: 'at the Board’s door, shut, the room where our board meets' },
+        '90': { page: 'town-hall-moderators.html', stop: 'at the Moderators’ door, shut, the room where our moderators meet' },
+        '120': { page: 'town-hall-executive-session.html', stop: 'at the door to Executive Session, shut, for the board and nobody else' }
+      };
       [-120, -90, -62, -36, 36, 62, 90, 120].forEach(function (deg) {
         var a = deg * Math.PI / 180, bw = 2 * R * Math.sin(Math.PI / 12) + 20;
-        var hasDoor = [-90, -36, 36, 90, 120].indexOf(deg) >= 0;
-        var it = kit.item(bay(bw, WH, hasDoor), {
-          x: R * Math.sin(a), z: C + R * Math.cos(a), w: bw, h: WH, turn: -a });
+        var way = WAYS[String(deg)];
+        var o = { x: R * Math.sin(a), z: C + R * Math.cos(a), w: bw, h: WH, turn: -a };
+        if (!way) { decor.push(kit.item(bay(bw, WH, false), o)); return; }
+        o.art = bay(bw, WH, true, way.open);
+        o.label = 'th-walk-plate';
+        o.cls = 'th-walk-door';
+        var it = kit.door(way.page, o);
         decor.push(it);
-        if (hasDoor) doors.push(it);
+        doors.push({ it: it, stop: way.stop });
       });
       var far = kit.item(bay(sw + 260, WH, false), { x: 0, z: C + R + 10, w: sw + 260, h: WH });
       decor.push(far);
@@ -87,9 +109,12 @@
       var stops = [
         kit.stop({ name: 'inside the door, the hall in the dome’s shade', spot: { x: 0, z: 0 } }),
         kit.stop({ name: 'at the edge of the disc of sun, where nobody stands', spot: { x: 0, z: C - SUN - 220 } }),
-        kit.stop({ name: 'at one of the shut doors round the wall', spot: kit.front(doors[1], 900) }, doors[1]),
         kit.stop({ name: 'across the floor, at the wall with the room’s own page on it', spot: { x: 0, z: C + R - F }, link: page }, wall)
       ];
+      // The doors' stops, in the order the doors are made, before the page's.
+      doors.forEach(function (d, n) {
+        stops.splice(2 + n, 0, kit.stop({ name: d.stop, spot: kit.front(d.it, 1100), link: d.it.link }, d.it));
+      });
 
       return {
         cls: 'th-walk',

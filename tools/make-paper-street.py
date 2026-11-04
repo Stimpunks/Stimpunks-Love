@@ -126,6 +126,7 @@ def section_with(selector):
 
 
 rooms = {}
+froms = {}
 for f in sorted(ROOT.glob("walk-*.js")):
     page = f.name[len("walk-"):-3] + ".html"
     src = f.read_text()
@@ -194,6 +195,74 @@ for f in sorted(ROOT.glob("walk-*.js")):
         if f'<script src="{src}"' not in page_src:
             refuse(f"{who} runs {src} against its lifts, and {page} does not load {src} itself.")
     rooms[page] = f.name
+    up = re.search(r"\bfrom:\s*'([a-z0-9-]+\.html)'", mod)
+    if up:
+        froms[page] = up.group(1)
+
+# ── The areas' signs, read off their own pages ──────────────────────────────
+# The campgrounds' pitches, the Outskirts' turnings, the caverns' levels and
+# Nature's Contribution's arms are written into their rooms here between ps:
+# markers, never by hand, so a pitch on the board is a post in the field on
+# the next run, with its own name on it, and walks you in.
+def board_of(page, li, no_cls, raising_cls, what):
+    src = (ROOT / page).read_text()
+    out = []
+    for m in re.finditer(r'<li class="' + li + r'( [^"]*)?">(.*?)</li>\s*(?=<li class=|</ul>|</ol>)', src, re.S):
+        mods, body = m.group(1) or "", m.group(2)
+        no = re.search(r'<span class="' + no_cls + r'"[^>]*>([^<]+)</span>', body)
+        h3 = re.search(r"<h3>(.*?)</h3>", body, re.S)
+        if not no or not h3:
+            refuse(f"a {what} on {page} has no number or no name, and Paper Street letters both.")
+            continue
+        a = re.search(r'<a href="([^"]+)">(.*?)</a>', h3.group(1), re.S)
+        name = html.unescape(re.sub(r"<[^>]+>", "", a.group(2) if a else h3.group(1)).strip())
+        out.append({"no": html.unescape(no.group(1)).strip(), "name": name, "page": a.group(1) if a else None,
+                    "state": "summit" if "--summit" in mods else "raising" if (raising_cls in mods or not a) else ""})
+    if not out:
+        refuse(f"{page} has no {what}s Paper Street can read.")
+    return out
+
+def write_list(room_file, marker, var, items):
+    f = ROOT / room_file
+    src = f.read_text()
+    if f"// ps:{marker}:begin" not in src:
+        refuse(f"{room_file} has lost its ps:{marker} markers.")
+        return
+    new = re.sub(r"(// ps:" + marker + r":begin\n)(\s*).*?(\n\s*// ps:" + marker + r":end)",
+                 lambda m: m.group(1) + m.group(2) + "var " + var + " = " + json.dumps(items, ensure_ascii=False) + ";" + m.group(3), src, flags=re.S)
+    if new != src:
+        f.write_text(new)
+
+AREAS = [
+    ("walk-campgrounds.js", "pitches", "PITCHES", ("campgrounds.html", "pitch", "pitch__no", "pitch--raising", "pitch")),
+    ("walk-the-outskirts.js", "turnings", "TURNINGS", ("the-outskirts.html", "turning", "turning__no", "turning--raising", "turning")),
+    ("walk-arlesglad-caverns.js", "levels", "LEVELS", ("arlesglad-caverns.html", "cav-stop", "cav-stop__key", "cav-stop--raising", "level")),
+    ("walk-natures-contribution.js", "arms", "ARMS", ("natures-contribution.html", "ncx-arm", "ncx-arm__no", "ncx-arm--raising", "fingerpost arm")),
+]
+for room_file, marker, var, args in AREAS:
+    if (ROOT / room_file).exists():
+        write_list(room_file, marker, var, board_of(*args))
+
+# ── Rooms behind rooms ──────────────────────────────────────────────────────
+# A room that opens off another names it (from:), and the room it names has a
+# way into it, or the way out goes back into a room with no way back in. It is
+# the same room Cel Street says it opens off, so the two streets agree about
+# where every room is.
+for page, up in froms.items():
+    if up not in rooms:
+        refuse(f"walk-{page[:-5]}.js opens off {up}, which Paper Street cannot walk into.")
+        continue
+    if not re.search(r"['\"]" + re.escape(page) + r"['\"]", (ROOT / rooms[up]).read_text()):
+        refuse(f"walk-{page[:-5]}.js opens off {up}, and {rooms[up]} has no way into it (a kit.door, or the page in a list its tool writes).")
+for page in rooms:
+    cel = ROOT / ("cel-in-" + page[:-5] + ".js")
+    if not cel.exists():
+        continue
+    c_up = re.search(r"\bfrom:\s*'([a-z0-9-]+\.html)'", cel.read_text())
+    if c_up and froms.get(page) != c_up.group(1):
+        refuse(f"walk-{page[:-5]}.js should open off {c_up.group(1)}, as Cel Street's room does (from: '{c_up.group(1)}').")
+    if not c_up and page in froms:
+        refuse(f"walk-{page[:-5]}.js opens off {froms[page]}, and Cel Street's room opens off the street; make them agree.")
 
 # ── The page ────────────────────────────────────────────────────────────────
 page = PAGE.read_text()
@@ -279,6 +348,11 @@ def room_name(rpage):
     t = re.search(r"<title>(.*?)</title>", (ROOT / rpage).read_text(), re.S)
     return html.unescape(t.group(1)).split(" \u2014 ")[0].strip() if t else rpage
 listed += "\n  var NAMES = " + json.dumps({p: room_name(p) for p in rooms}, ensure_ascii=False) + ";"
+listed += "\n  var FROM = " + json.dumps(dict(sorted(froms.items())), ensure_ascii=False) + ";"
+if problems:
+    for p in problems:
+        print("REFUSING  " + p)
+    sys.exit(1)
 js_new = re.sub(r"(  // walk:rooms:begin\n).*?(\n  // walk:rooms:end)", lambda m: m.group(1) + listed + m.group(2), js, flags=re.S)
 if "// walk:rooms:begin" not in js:
     print("REFUSING  paper-street.js has no walk:rooms markers for the rooms you can walk into.")

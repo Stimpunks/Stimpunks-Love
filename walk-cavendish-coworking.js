@@ -4,8 +4,8 @@
 
    IT IS THE HOUSE'S WORLD AND NOBODY ELSE'S (§58): Henry Cavendish's house in
    Bedford Square, green throughout, with a door onto each of our calls. EVERY
-   DOOR IS SHUT AND NONE IS LOCKED: down both walls of the hall stands a
-   Georgian six-panel door in mahogany, in a Coade stone case with a fanlight
+   DOOR IS SHUT AND NONE IS LOCKED: each is a Georgian six-panel door in
+   mahogany, in a Coade stone case with a fanlight
    over it, a brass plate on it and a note pinned beside it. You can tell a
    room is in there without anybody opening anything; going in is yours to
    decide. Transparency does not mean an open floor plan, and if a door here
@@ -16,8 +16,11 @@
    canvas, soft and even and faintly green on the floor. Between the two
    windows hangs the house's own page, full size once you stand at it.
 
-   The fanlights carry no names: what is behind each door is said on the
-   house's own page. Nothing moves. Every colour is one §58 declares, by name.
+   THE WAYS IN ARE THOSE DOORS: three meeting doors down the left wall (the
+   Events, Operations and Editorial Rooms), each with its brass plate lettered
+   in Caslon, and up a stone stair on the right wall a landing with the three
+   Hang Suites' doors on it (the Cave, the Campfire, the Watering Hole). All of
+   them drawn shut; pressing one goes in. Nothing moves. Every colour is one §58 declares, by name.
    It keeps nothing, sends nothing and fetches nothing; its page arrives
    through Paper Street's screen(). tools/make-paper-street.py holds each of
    those.
@@ -37,6 +40,8 @@
 
   // One shut door in its Coade stone case: pilasters, a fanlight over it,
   // six mahogany panels, a brass plate and knob, and a note pinned beside it.
+  // The plate is wide enough for the room's name, which kit.door letters on
+  // it in Caslon.
   function door(s, x, h) {
     var dw = 300, dh = 640, top = h - dh;
     s.appendChild(el('rect', { x: x - 60, y: top - 40, width: dw + 120, height: dh + 40, fill: 'var(--cw-stone)' }));
@@ -53,20 +58,47 @@
         s.appendChild(el('rect', { x: x + dw * (0.1 + c * 0.44), y: top + dh * p[1], width: dw * 0.36, height: dh * p[2], fill: 'none', stroke: 'var(--cw-plate-ink)', 'stroke-width': 6 }));
       });
     });
-    s.appendChild(el('rect', { x: x + dw / 2 - 70, y: top + dh * 0.25 - 26, width: 140, height: 30, fill: 'var(--cw-plate)' }));
+    s.appendChild(el('rect', { x: x + 10, y: top + 70, width: dw - 20, height: 140, fill: 'var(--cw-plate)', stroke: 'var(--cw-plate-ink)', 'stroke-width': 3 }));
     s.appendChild(el('circle', { cx: x + dw - 40, cy: top + dh * 0.55, r: 12, fill: 'var(--cw-brass)' }));
     s.appendChild(el('rect', { x: x + dw + 80, y: top + 140, width: 110, height: 140, fill: 'var(--cw-card)' }));
     for (var y = top + 166; y < top + 260; y += 20) s.appendChild(el('rect', { x: x + dw + 96, y: y, width: 78, height: 5, fill: 'var(--cw-ink-2)' }));
     s.appendChild(el('circle', { cx: x + dw + 135, cy: top + 150, r: 6, fill: 'var(--cw-brass)' }));
   }
 
-  // A wall of the hall: green paint above a dado, and shut doors along it.
-  function hallWall(w, h, doors) {
+  // A wall of the hall: green paint above a dado. Its doors stand in front of
+  // it, each a way in of its own.
+  function hallWall(w, h) {
     var s = svg(w, h);
     s.appendChild(el('rect', { x: 0, y: 0, width: w, height: h, fill: 'var(--cw-wall)' }));
     s.appendChild(el('rect', { x: 0, y: h - 300, width: w, height: 14, fill: 'var(--cw-stone)' }));
     s.appendChild(el('rect', { x: 0, y: h - 40, width: w, height: 40, fill: 'var(--cw-mahogany)' }));
-    doors.forEach(function (x) { door(s, x, h); });
+    return s;
+  }
+
+  // The right-hand wall carries the stair: stone steps rising along it from
+  // the foot (at.foot, measured from the wall's far end) to the landing
+  // (at.land high), and the landing running on to the front of the house with
+  // a stone balustrade along its edge. The suites' doors stand on it.
+  function stairWall(w, h, at) {
+    var s = hallWall(w, h), steps = 12, run = (at.foot - at.top) / steps, rise = at.land / steps;
+    s.appendChild(el('rect', { x: 0, y: h - at.land - 10, width: at.top, height: at.land + 10, fill: 'var(--cw-stone)' }));
+    for (var p = 30; p < at.top - 120; p += 160) s.appendChild(el('rect', { x: p, y: h - at.land + 26, width: 120, height: at.land - 60, fill: 'none', stroke: 'var(--cw-dim)', 'stroke-width': 6 }));
+    s.appendChild(el('rect', { x: 0, y: h - at.land - 10, width: at.top, height: 14, fill: 'var(--cw-mahogany)' }));
+    for (var i = 0; i < steps; i++) {
+      var x = at.foot - run * (i + 1);
+      s.appendChild(el('rect', { x: x, y: h - rise * (i + 1), width: run + 1, height: rise * (i + 1), fill: 'var(--cw-stone)' }));
+      s.appendChild(el('rect', { x: x, y: h - rise * (i + 1), width: run + 1, height: 4, fill: 'var(--cw-dim)' }));
+    }
+    s.appendChild(el('path', { fill: 'none', stroke: 'var(--cw-mahogany)', 'stroke-width': 10,
+      d: 'M' + at.foot + ' ' + (h - 110) + ' L' + at.top + ' ' + (h - at.land - 110) + ' L0 ' + (h - at.land - 110) }));
+    return s;
+  }
+
+  // A door to stand on its own in the hall, drawn at half size.
+  var DW = 560, DH = 860, DS = 0.5;
+  function doorArt() {
+    var s = el('svg', { viewBox: '0 0 ' + DW + ' ' + DH, width: DW * DS, height: DH * DS, 'aria-hidden': 'true', focusable: 'false' });
+    door(s, 60, DH);
     return s;
   }
 
@@ -88,6 +120,13 @@
     return s;
   }
 
+  // How each way in is spoken of at its stop.
+  var NAMES_OF = {
+    'cavendish-events.html': 'the Events Room', 'cavendish-operations.html': 'the Operations Room',
+    'cavendish-editorial.html': 'the Editorial Room', 'cavendish-cave.html': 'the Cave',
+    'cavendish-campfire.html': 'the Campfire', 'cavendish-watering-hole.html': 'the Watering Hole'
+  };
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['cavendish-coworking.html'] = {
     prefix: 'cw-walk',
@@ -95,26 +134,44 @@
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 960), sh = kit.H - 24;
       var END = 3200 + F;                       // the front wall, between the windows
-      var eye = sh / 2, SIDE = 1000;
+      var eye = sh / 2, SIDE = 1200;
       var decor = [];
       var WH = Math.max(sh + 500, 1100);
 
       decor.push(kit.item(frontWall(3600, WH, sw, sh), { x: 0, z: END + 30, w: 3600, h: WH }));
+      var len = END + 30;
+      var STAIR = { foot: len - 900, top: len - 1500, land: 160 };
+      decor.push(kit.item(hallWall(len, WH), { x: -SIDE, z: len / 2, w: len, h: WH, turn: kit.LEFT }));
+      decor.push(kit.item(stairWall(len, WH, STAIR), { x: SIDE, z: len / 2, w: len, h: WH, turn: kit.RIGHT }));
+
+      // THE WAYS IN, made in the order you pass them going down the hall:
+      // the meeting doors on the left at floor level, the suites' doors on
+      // the landing up the stair on the right.
+      var WAYS = [
+        { page: 'cavendish-events.html', z: 700, side: -1 },
+        { page: 'cavendish-operations.html', z: 1500, side: -1 },
+        { page: 'cavendish-cave.html', z: 1950, side: 1 },
+        { page: 'cavendish-editorial.html', z: 2300, side: -1 },
+        { page: 'cavendish-campfire.html', z: 2550, side: 1 },
+        { page: 'cavendish-watering-hole.html', z: 3150, side: 1 }
+      ];
+      var stops = [
+        kit.stop({ name: 'inside the front door, the hall’s doors shut down both walls', spot: { x: 0, z: 0 } })
+      ];
+      WAYS.forEach(function (d) {
+        var up = d.side > 0;
+        var it = kit.door(d.page, { art: doorArt(), label: 'cw-walk-plate', cls: 'cw-walk-door',
+                                    x: d.side * (SIDE - 8), y: up ? STAIR.land : 0, z: d.z, w: DW * DS, h: DH * DS,
+                                    turn: up ? kit.RIGHT : kit.LEFT });
+        decor.push(it);
+        var name = NAMES_OF[d.page];
+        stops.push(kit.stop({ name: up ? 'below the landing, with the door to ' + name + ' up on it, shut and unlocked at the top of the stair'
+                                       : 'at the door to ' + name + ', shut and unlocked, its note pinned beside it',
+                              spot: kit.front(it), link: it.link }, it));
+      });
       var page = kit.screen(kit.page, 'Cavendish Coworking’s own page, between the front windows');
       var hung = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'cw-walk-page' });
-      var len = END + 30;
-      [-1, 1].forEach(function (k) {
-        var xs = [];
-        for (var x = 300 + (k > 0 ? 400 : 0); x < len - 900; x += 1100) xs.push(x);
-        var wall = kit.item(hallWall(len, WH, xs), { x: k * SIDE, z: len / 2, w: len, h: WH, turn: k < 0 ? kit.LEFT : kit.RIGHT });
-        decor.push(wall);
-      });
-
-      var stops = [
-        kit.stop({ name: 'inside the front door, the hall’s doors shut down both walls', spot: { x: 0, z: 0 } }),
-        kit.stop({ name: 'halfway along the hall, between the shut doors, none of them locked', spot: { x: 0, z: (END - F) * 0.5 } }),
-        kit.stop({ name: 'at the front windows, blinds down, with the house’s own page between them', spot: { x: 0, z: END - F }, link: page }, hung)
-      ];
+      stops.push(kit.stop({ name: 'at the front windows, blinds down, with the house’s own page between them', spot: { x: 0, z: END - F }, link: page }, hung));
 
       return {
         cls: 'cw-walk',

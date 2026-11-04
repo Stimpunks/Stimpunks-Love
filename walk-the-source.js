@@ -98,6 +98,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['the-source.html'] = {
     prefix: 'src-walk',
+    from: 'the-feed.html',
     build: function (kit) {
       var F = kit.F, r = seeded(123);
       var sw = Math.min(kit.W - 24, 940), sh = kit.H - 24;

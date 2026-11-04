@@ -18,6 +18,10 @@
    under, the sheep, a goat and the hens, to the barn, whose open doorway holds
    the farm's own page, full size once you stand at it.
 
+   THE WAY IN IS THE OLD DAIRY, a café now, standing small and white on the
+   right of the lane before the barn, with the two lights on its two sides:
+   its name on a board over its door, and pressing it goes in.
+
    Nothing moves. Every colour is one §108 declares, by name. It keeps
    nothing, sends nothing and fetches nothing; its page arrives through Paper
    Street's screen(). tools/make-paper-street.py holds each of those.
@@ -109,9 +113,23 @@
     return s;
   }
 
+  // The old dairy, small and white under a dark roof, its door shut and a
+  // board over it for its name, the two lights down its two sides.
+  function dairy(w, h) {
+    var s = svg(w, h), m = w / 2, eave = 170;
+    s.appendChild(el('path', { fill: 'var(--atn-roof)', d: 'M-20 ' + (eave + 10) + ' L' + m + ' 0 L' + (w + 20) + ' ' + (eave + 10) + ' Z' }));
+    s.appendChild(el('rect', { x: 0, y: eave, width: w, height: h - eave, fill: 'var(--atn-dairy)' }));
+    s.appendChild(el('rect', { x: m - 70, y: h - 250, width: 140, height: 250, fill: 'var(--atn-roof)' }));
+    [-1, 1].forEach(function (k) { s.appendChild(el('rect', { x: m + k * 210 - 60, y: h - 230, width: 120, height: 80, fill: 'var(--atn-roof)' })); });
+    s.appendChild(el('rect', { x: m - 180, y: eave + 14, width: 360, height: 80, fill: 'var(--atn-card)', stroke: 'var(--atn-roof)', 'stroke-width': 6 }));
+    lit(s, 0, eave, w, h - eave);
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['all-together-now.html'] = {
     prefix: 'atn-walk',
+    from: 'natures-contribution.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 980), sh = kit.H - 24;
@@ -121,12 +139,17 @@
 
       var BW = 2600, BH = Math.max(sh + 560, 1100);
       decor.push(kit.item(barn(BW, BH, sw, sh), { x: 0, z: END + 30, w: BW, h: BH }));
+      // The old dairy before the barn on the right of the lane, the way into
+      // the café: made before the page, so the keyboard meets it first.
+      var cafe = kit.door('the-dairy.html', { art: dairy(700, 520), no: 'A CAFÉ NOW', label: 'atn-walk-board', cls: 'atn-walk-dairy',
+                                              x: 860, z: 3300, w: 700, h: 520 });
+      decor.push(cafe);
       var page = kit.screen(kit.page, 'The farm’s own page, in the barn’s open doorway');
       var door = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'atn-walk-door' });
 
       var hill = kit.item(sisters(900, 820), { x: -720, z: 1700, w: 900, h: 820 });
       decor.push(hill);
-      [[700, 900], [-900, 2300], [820, 2700], [-1500, 1500], [1500, 1800]].forEach(function (t) {
+      [[700, 900], [-900, 2300], [1500, 2700], [-1500, 1500], [1500, 1800]].forEach(function (t) {
         decor.push(kit.item(tree(520, 900), { x: t[0], z: t[1], w: 520, h: 900 }));
       });
       var flock = kit.item(animals(1180, 300), { x: 980, z: 2100, w: 1180, h: 300 });
@@ -136,6 +159,7 @@
         kit.stop({ name: 'at the farm gate, the sun going down on your left and the moon coming up on your right', spot: { x: 0, z: 0 } }),
         kit.stop({ name: 'at the Three Sisters: corn, beans and squash on one hill', spot: kit.front(hill, 1300) }, hill),
         kit.stop({ name: 'by the sheep, the goat and the hens', spot: kit.front(flock, 1600) }, flock),
+        kit.stop({ name: 'at the door of the old dairy, a café now, where everything the land grows goes', spot: kit.front(cafe), link: cafe.link }, cafe),
         kit.stop({ name: 'at the barn, with the farm’s own page in its open doorway', spot: { x: 0, z: END - F }, link: page }, door)
       ];
 

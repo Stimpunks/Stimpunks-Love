@@ -93,6 +93,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['the-den.html'] = {
     prefix: 'den-walk',
+    from: 'jungle-room.html',
     build: function (kit) {
       var r = seeded(18);
       var F = kit.F;

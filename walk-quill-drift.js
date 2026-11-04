@@ -98,6 +98,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['quill-drift.html'] = {
     prefix: 'quill-walk',
+    from: 'arcade.html',
     build: function (kit) {
       var F = kit.F;
       var sh = kit.H - 24;

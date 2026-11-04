@@ -96,6 +96,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['cavendish-watering-hole.html'] = {
     prefix: 'wh-walk',
+    from: 'cavendish-coworking.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 940), sh = kit.H - 24;

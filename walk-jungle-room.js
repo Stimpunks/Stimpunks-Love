@@ -11,6 +11,12 @@
    is the Jungle Room's page itself, every gallery and every cam, which you
    read and press as the page, full size once you stand in front of it.
 
+   AND AT THE FOOT OF THE FOREST, OFF THE PATH ON THE RIGHT, IS A LOW DOOR SET
+   IN A BANK OF EARTH: the way through to the Den, the other jungle room, as
+   quiet as the page's own line about it and never hidden. A hairline of the
+   room's dimmest green round a dark opening, and the page's own words on it,
+   at full size, an ordinary link in the keyboard's order like every other.
+
    EVERY LEAF IS THE ROOM'S OWN LEAF, the path in the canopy over its page
    (jr-leaf), and every colour is one of §17's declared inks, by name. A leaf
    that hangs at an angle hangs that way because its points are worked out
@@ -116,6 +122,21 @@
     return s;
   }
 
+  // The low door to the other jungle room: a bank of earth off the path, a
+  // dark opening in it with a hairline of the room's dimmest green round it,
+  // and a threshold of the palm's green. kit.door letters the page's own words
+  // on the dark, quietly and at full size.
+  function denDoor(w, h) {
+    var s = svg(w, h), dw = 200, dh = h - 90, dx = (w - dw) / 2;
+    s.appendChild(el('path', { fill: 'var(--understory)',
+      d: 'M0 ' + h + ' Q0 40 ' + (w / 2) + ' 30 Q' + w + ' 40 ' + w + ' ' + h + ' Z' }));
+    s.appendChild(el('rect', { x: dx, y: h - dh, width: dw, height: dh, rx: 4, fill: 'var(--canopy)', stroke: 'var(--buttress)', 'stroke-width': 3 }));
+    s.appendChild(el('rect', { x: dx - 10, y: h - 8, width: dw + 20, height: 8, fill: 'var(--palm)' }));
+    s.appendChild(leaf(18, h - 6, -Math.PI * 0.62, 2.2, 'var(--buttress)'));
+    s.appendChild(leaf(w - 30, h - 4, -Math.PI * 0.38, 2.6, 'var(--palm)'));
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['jungle-room.html'] = {
     prefix: 'jr-walk',
@@ -141,8 +162,12 @@
           return Math.sign(x) === Math.sign(c.x) && Math.abs(z - c.z) < w / 2 + CW / 2 + 160;
         });
       };
+      // The low door to the Den stands off the path on the right, near the
+      // foot of the forest, and nothing stands between it and the path.
+      var DX = 900, DZ = END - F - 260, DW = 320, DH = 440;
+      var byDoor = function (x, z, w) { return x + w / 2 > 200 && Math.abs(z - DZ) < w / 2 + DW / 2 + 120; };
       var clear = function (x, z, w) {
-        return (z < END - F * 1.1 || Math.abs(x) - w / 2 > sw / 2 + 30) && !inView(x, z, w);
+        return (z < END - F * 1.1 || Math.abs(x) - w / 2 > sw / 2 + 30) && !inView(x, z, w) && !byDoor(x, z, w);
       };
       var decor = [], pools = [];
 
@@ -182,9 +207,10 @@
         decor.push(kit.item(canopy(r, 320, 300), { x: gx, z: END + 30, w: 320, h: 300, y: r() * (sh - 200) }));
       }
 
-      // The screen: the room's page, in a leaf, in the gap.
+      // The screen: the room's page, in a leaf, in the gap. It is made first
+      // because the cams are lifted off it, and stood up last, so the keyboard
+      // meets the cams and the low door in the order you walk past them.
       var page = kit.screen(kit.page, 'The Jungle Room’s own page, on the screen');
-      var screen = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'jr-walk-screen' });
 
       // The cams, off the page: each its own leaf to press, hung low among
       // the fronds, and where you stand to watch one worked out from its size.
@@ -207,6 +233,13 @@
           turn: c.x < 0 ? kit.LEFT : kit.RIGHT, drop: '[data-rack-to]' });
         stops.push(kit.stop({ name: named(it), spot: at(it), link: button(it) }, it));
       });
+      // THE LOW DOOR TO THE OTHER JUNGLE ROOM, quiet and never hidden.
+      var den = kit.door('the-den.html', { art: denDoor(DW, DH), name: 'There is another jungle room', label: 'jr-walk-den', cls: 'jr-walk-door',
+                                          x: DX, z: DZ, w: DW, h: DH, turn: kit.RIGHT });
+      decor.push(den);
+      stops.push(kit.stop({ name: 'at a low door in a bank of earth off the path: there is another jungle room', spot: kit.front(den), link: den.link }, den));
+
+      var screen = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'jr-walk-screen' });
       stops.push(kit.stop({ name: 'at the screen, with the room’s own page on it', spot: { x: 0, z: END - F }, link: page }, screen));
 
       return {

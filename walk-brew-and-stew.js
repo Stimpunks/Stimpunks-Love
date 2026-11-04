@@ -86,6 +86,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['brew-and-stew.html'] = {
     prefix: 'bns-walk',
+    from: 'campgrounds.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 960), sh = kit.H - 24;

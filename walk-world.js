@@ -107,6 +107,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['world.html'] = {
     prefix: 'www-walk',
+    from: 'the-garden.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 980), sh = kit.H - 24;

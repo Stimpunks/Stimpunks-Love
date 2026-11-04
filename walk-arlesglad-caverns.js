@@ -14,8 +14,13 @@
    You come down the passage between the rails to the lift and the stair,
    drawn the same size side by side, and between them the area's board, which
    is the caverns' own page, full size once you stand at it, sitting on the
-   rail's band as every notice down here does. Nothing is down here because it
-   was hidden or sent: down is a direction and not a verdict.
+   rail's band as every notice down here does. Off the passage, in turn, is a
+   doorway in the rock for every level on the caverns' own panel, its key and
+   its room lettered on a plate above it with the rail along its foot; a level
+   with nothing open yet keeps a dashed edge and its words are never dimmed.
+   They are written here by tools/make-paper-street.py between the ps:levels
+   markers, never by hand. Nothing is down here because it was hidden or sent:
+   down is a direction and not a verdict.
 
    Nothing moves. Every colour is one §62 declares, by name. It keeps nothing,
    sends nothing and fetches nothing; its page arrives through Paper Street's
@@ -75,6 +80,22 @@
     return s;
   }
 
+  // A doorway in the rock off the passage: a plate over it lettered by
+  // kit.door, the rail running along the plate's foot, and the opening black
+  // because the light is at hand height and goes no further in.
+  var PLATE = 150;
+  function doorway(w, h, raising) {
+    var s = svg(w, h), dw = w - 120;
+    s.appendChild(el('rect', { x: 0, y: 0, width: w, height: PLATE, fill: 'var(--cav-wall)' }));
+    var edge = { x: 6, y: 6, width: w - 12, height: PLATE - 12, fill: 'none', stroke: 'var(--cav-seam)', 'stroke-width': 4 };
+    if (raising) { edge.stroke = 'var(--cav-dim)'; edge['stroke-dasharray'] = '14 10'; }
+    s.appendChild(el('rect', edge));
+    s.appendChild(el('rect', { x: 0, y: PLATE, width: w, height: 10, fill: 'var(--cav-rail)' }));
+    s.appendChild(el('path', { fill: 'var(--cav-seam)', d: 'M' + (w / 2 - dw / 2 - 18) + ' ' + h + ' L' + (w / 2 - dw / 2 - 18) + ' ' + (PLATE + 70) + ' Q' + (w / 2) + ' ' + (PLATE + 10) + ' ' + (w / 2 + dw / 2 + 18) + ' ' + (PLATE + 70) + ' L' + (w / 2 + dw / 2 + 18) + ' ' + h + ' Z' }));
+    s.appendChild(el('path', { fill: 'var(--cav-rock)', d: 'M' + (w / 2 - dw / 2) + ' ' + h + ' L' + (w / 2 - dw / 2) + ' ' + (PLATE + 80) + ' Q' + (w / 2) + ' ' + (PLATE + 30) + ' ' + (w / 2 + dw / 2) + ' ' + (PLATE + 80) + ' L' + (w / 2 + dw / 2) + ' ' + h + ' Z' }));
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['arlesglad-caverns.html'] = {
     prefix: 'cav-walk',
@@ -87,18 +108,27 @@
       var WH = Math.max(sh + 700, 1300), LEN = END - F * 1.6;
 
       decor.push(kit.item(landing(3600, WH, sw, sh, RAIL), { x: 0, z: END + 30, w: 3600, h: WH }));
-      var page = kit.screen(kit.page, 'The caverns’ own page, on the board between the lift and the stair');
-      var board = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'cav-walk-board' });
       [-1, 1].forEach(function (side) {
         var len = LEN;
         decor.push(kit.item(rockWall(len, WH, RAIL), { x: side * SIDE, z: len / 2, w: len, h: WH, turn: side < 0 ? kit.LEFT : kit.RIGHT }));
       });
 
-      var stops = [
-        kit.stop({ name: 'at the top of the passage, the handrail lit either side of you', spot: { x: 0, z: 0 } }),
-        kit.stop({ name: 'halfway down the passage, between the rails', spot: { x: 0, z: (END - F) * 0.5 } }),
-        kit.stop({ name: 'at the board between the lift and the stair, with the caverns’ own page on it', spot: { x: 0, z: END - F }, link: page }, board)
-      ];
+      var stops = [kit.stop({ name: 'at the top of the passage, the handrail lit either side of you', spot: { x: 0, z: 0 } })];
+      // ps:levels:begin
+      var LEVELS = [{"no": "B1", "name": "Big Steep Fermentables", "page": "big-steep-fermentables.html", "state": ""}, {"no": "B2", "name": "Mycelium Munchies", "page": "mycelium-munchies.html", "state": ""}, {"no": "B3", "name": "Glow Go Gee Gaws", "page": "glow-go-gee-gaws.html", "state": ""}, {"no": "B4", "name": "Buoyant Bodyminds", "page": null, "state": "raising"}, {"no": "B5", "name": "Stay Frosty", "page": "stay-frosty.html", "state": ""}];
+      // ps:levels:end
+      var DW = 440, DH = Math.round(eye + 140);
+      var gap = (LEN - 1500) / Math.max(LEVELS.length - 1, 1);
+      LEVELS.forEach(function (l, k) {
+        var side = k % 2 ? 1 : -1;
+        var it = kit.door(l.page, { art: doorway(DW, DH, l.state === 'raising'), no: l.no, name: l.name, label: 'cav-walk-sign', cls: 'cav-walk-door',
+                                    x: side * (SIDE - 8), z: 1100 + k * gap, w: DW, h: DH, turn: side < 0 ? kit.LEFT : kit.RIGHT });
+        decor.push(it);
+        stops.push(kit.stop({ name: 'at the doorway to level ' + l.no + ', ' + l.name + (l.page ? '' : ', with nothing open behind it yet'), spot: kit.front(it), link: it.link }, it));
+      });
+      var page = kit.screen(kit.page, 'The caverns’ own page, on the board between the lift and the stair');
+      var board = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'cav-walk-board' });
+      stops.push(kit.stop({ name: 'at the board between the lift and the stair, with the caverns’ own page on it', spot: { x: 0, z: END - F }, link: page }, board));
 
       return {
         cls: 'cav-walk',

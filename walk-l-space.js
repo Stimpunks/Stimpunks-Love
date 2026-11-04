@@ -12,7 +12,10 @@
    curvature: rings closing in on the well, darker the nearer they get. Nothing
    in here is straight but the string. It is tied where you come in, runs along
    the way through, and leaves at the far end, where the room's own page hangs
-   in a frame the colour of the string.
+   in a frame the colour of the string. Just before it, the string turns off
+   into a gap in the left-hand shelving, round a corner that is not there, with
+   a tag tied on where it turns saying where it goes: the way through to Oook,
+   drawn in this space's own bone, violet and string and nothing of Oook's.
 
    NOTHING IS LIT AND NOTHING CASTS A SHADOW, because there is nothing straight
    to hang a lamp from; there is no candle (that is the Mopery) and nothing
@@ -82,9 +85,42 @@
     return s;
   }
 
+  // The gap where the string turns off: a bowed case with its middle shelves
+  // gone into the well's dark, the string running straight in, and a tag of
+  // bone tied on where it turns (kit.door letters the tag).
+  var TAG = 300;
+  function gapCase(r, w, h) {
+    var s = svg(w, h), bow = w * 0.08, gx = w * 0.26, gw = w * 0.48, top = 120;
+    s.appendChild(el('path', { fill: 'var(--lsp-well)',
+      d: 'M' + gx + ' ' + h + ' Q' + (gx + 40) + ' ' + (top + h) / 2 + ' ' + (gx + 20) + ' ' + top + ' Q' + (w / 2) + ' ' + (top - 50) + ' ' + (gx + gw - 20) + ' ' + top +
+         ' Q' + (gx + gw - 40) + ' ' + (top + h) / 2 + ' ' + (gx + gw) + ' ' + h + ' Z' }));
+    s.appendChild(el('path', { fill: 'none', stroke: 'var(--lsp-shelf)', 'stroke-width': 12,
+      d: 'M10 0 Q' + (10 + bow) + ' ' + h / 2 + ' 10 ' + h + ' M' + (w - 10) + ' 0 Q' + (w - 10 - bow) + ' ' + h / 2 + ' ' + (w - 10) + ' ' + h }));
+    for (var y = 150; y < h; y += 150) {
+      var sag = 30 + (1 - Math.abs(y - h / 2) / (h / 2)) * 40;
+      for (var t = 0.04; t < 0.96; t += 0.022 + r() * 0.02) {
+        var p = onShelf(20, w - 20, y, sag, t);
+        if (p.x > gx - 10 && p.x < gx + gw + 10) continue;
+        var tall = 150 - 34 - r() * 30;
+        s.appendChild(el('line', { x1: p.x.toFixed(1), y1: p.y.toFixed(1), x2: (p.x + p.nx * tall).toFixed(1), y2: (p.y + p.ny * tall).toFixed(1),
+          stroke: SPINES[Math.floor(r() * 3)], 'stroke-width': 9 + Math.floor(r() * 7) }));
+      }
+      s.appendChild(el('path', { fill: 'none', stroke: 'var(--lsp-dim)', 'stroke-width': 6,
+        d: 'M20 ' + y + ' Q' + (gx - 10) + ' ' + (y + sag) + ' ' + (gx + 10) + ' ' + (y + sag * 1.2) +
+           ' M' + (gx + gw - 10) + ' ' + (y + sag * 1.2) + ' Q' + (gx + gw + 10) + ' ' + (y + sag) + ' ' + (w - 20) + ' ' + y }));
+    }
+    var sy = h - 40;
+    s.appendChild(el('line', { x1: w, y1: sy, x2: w / 2, y2: sy, stroke: 'var(--lsp-string)', 'stroke-width': 5 }));
+    s.appendChild(el('line', { x1: w / 2, y1: sy, x2: w / 2, y2: TAG + 140, stroke: 'var(--lsp-string)', 'stroke-width': 3 }));
+    s.appendChild(el('rect', { x: w * 0.14, y: TAG, width: w * 0.72, height: 140, rx: 10, fill: 'var(--lsp-bone)' }));
+    s.appendChild(el('circle', { cx: w * 0.2, cy: TAG + 22, r: 8, fill: 'var(--lsp-void)' }));
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['l-space.html'] = {
     prefix: 'lspace-walk',
+    from: 'community-library.html',
     build: function (kit) {
       var r = seeded(56);
       var F = kit.F;
@@ -105,6 +141,14 @@
       }
       decor.push(kit.item(post(120, 420), { x: -90, z: 260, w: 120, h: 420 }));
 
+      // Where the string turns off into the left-hand shelving, just before
+      // it leaves.
+      var turn = kit.door('oook.html', { art: gapCase(r, 560, 760), no: 'Where the string turns off', label: 'lspace-walk-tag', cls: 'lspace-walk-gap',
+                                         x: -470, z: END - 760, w: 560, h: 760, turn: kit.LEFT });
+      // Its stop is stood across the way from it, as far back as the way lets
+      // you go, so the stop is somewhere you can stand.
+      decor.push(turn);
+
       var page = kit.screen(kit.page, 'L-Space’s own page, where the string leaves');
       var leaf = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'lspace-walk-leaf' });
 
@@ -112,6 +156,7 @@
         kit.stop({ name: 'where the string is tied, at the way in', spot: { x: 0, z: 0 } }),
         kit.stop({ name: 'between the cases, where the shelves start to bend', spot: { x: 0, z: WELL - 900 } }),
         kit.stop({ name: 'over the well, where every line bends in towards you', spot: { x: 0, z: WELL } }),
+        kit.stop({ name: 'at the gap in the left-hand shelving where the string turns off, round a corner that is not there, the way through to Oook', spot: { x: 240, z: END - 760, yaw: -kit.LEFT }, link: turn.link }, turn),
         kit.stop({ name: 'where the string leaves, with the room’s own page', spot: { x: 0, z: END - F }, link: page }, leaf)
       ];
 

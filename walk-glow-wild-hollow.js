@@ -110,6 +110,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['glow-wild-hollow.html'] = {
     prefix: 'hollow-walk',
+    from: 'faery-yurt.html',
     build: function (kit) {
       var r = seeded(129);
       var F = kit.F;

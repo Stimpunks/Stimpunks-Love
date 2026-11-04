@@ -19,7 +19,10 @@
    no post, rail or panel anywhere in it, and glimmers in it that light
    nothing. Past it is the garden next door, which is Helen's and not ours:
    none of it is drawn, and nothing past the ivy casts a shadow. The garden
-   spider is an orb weaver in its web at the far end, beside the board.
+   spider is an orb weaver in its web at the far end, beside the board, and
+   past the board on the other side its silk runs on between two canes under
+   a limewashed label: the way to the World room, drawn in this garden's own
+   loam, silk and limewash and nothing of the World's.
 
    NOTHING MOVES AT ANY SETTING, the leaf shadow included. Every colour is one
    §28 declares, by name. It keeps nothing, sends nothing and fetches nothing;
@@ -86,6 +89,25 @@
     return s;
   }
 
+  // Where the spider's silk runs on: two canes, the silk strung between them
+  // and running away through the gap, and a limewashed label across the top
+  // (kit.door letters the label).
+  var LABEL = 120;
+  function silk(w, h) {
+    var s = svg(w, h), top = 110, cx = w / 2, cy = top + LABEL + (h - top - LABEL) * 0.45;
+    s.appendChild(el('rect', { x: 14, y: top - 30, width: 12, height: h - top + 30, fill: 'var(--gd-loam-2)' }));
+    s.appendChild(el('rect', { x: w - 26, y: top - 30, width: 12, height: h - top + 30, fill: 'var(--gd-loam-2)' }));
+    [[26, top + LABEL + 20], [w - 26, top + LABEL + 20], [26, h - 120], [w - 26, h - 120], [26, cy], [w - 26, cy]].forEach(function (p) {
+      s.appendChild(el('line', { x1: p[0], y1: p[1], x2: cx, y2: cy, stroke: 'var(--gd-loam-2)', 'stroke-width': 1.5 }));
+    });
+    for (var k = 1; k <= 4; k++) {
+      s.appendChild(el('ellipse', { cx: cx, cy: cy, rx: (w / 2 - 30) * k / 5, ry: (h - top - LABEL - 140) * k / 10, fill: 'none', stroke: 'var(--gd-loam-2)', 'stroke-width': 1.2 }));
+    }
+    s.appendChild(el('rect', { x: 0, y: h - 16, width: w, height: 16, fill: 'var(--gd-loam)' }));
+    s.appendChild(el('rect', { x: 6, y: top, width: w - 12, height: LABEL, fill: 'var(--gd-board)', stroke: 'var(--gd-edge)', 'stroke-width': 6 }));
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['the-garden.html'] = {
     prefix: 'gd-walk',
@@ -102,6 +124,12 @@
       var spider = kit.item(web(360, 520), { x: sw / 2 + 260, z: END - 40, w: 360, h: 520, y: 40 });
       decor.push(spider);
 
+      // Past the board on the other side from the spider, where its silk runs
+      // on between every room: the way to the World room.
+      var onward = kit.door('world.html', { art: silk(440, 620), no: 'Where the spider’s silk runs on', label: 'gd-walk-label', cls: 'gd-walk-silk',
+                                            x: -(sw / 2 + 300), z: END - 40, w: 440, h: 620 });
+      decor.push(onward);
+
       var page = kit.screen(kit.page, 'The Garden’s own page, on a limewashed board at the end of the path');
       var board = kit.item(page, { x: 0, z: END, w: sw, h: sh, y: 30, cls: 'gd-walk-board' });
 
@@ -109,6 +137,7 @@
         kit.stop({ name: 'just inside the gate, the sun straight overhead', spot: { x: 0, z: 0 } }),
         kit.stop({ name: 'at the border, a raised bed growing up off its soil', spot: kit.front(border, 900) }, border),
         kit.stop({ name: 'at the ivy, where what we can see of the garden ends', spot: { x: 260, z: END * 0.45, yaw: Math.PI / 2 } }),
+        kit.stop({ name: 'at the far end of the path, past the board from the spider, where its silk runs on between two canes: the way to the World room', spot: { x: -340, z: END - F, yaw: -0.3 }, link: onward.link }, onward),
         kit.stop({ name: 'at the limewashed board, with the room’s own page on it and the spider beside it', spot: { x: 0, z: END - F }, link: page }, board)
       ];
 

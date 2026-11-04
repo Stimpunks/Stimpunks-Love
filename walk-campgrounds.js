@@ -56,15 +56,18 @@
     return s;
   }
 
-  // A marker post standing alone, its sign routed into the wood: grooves in
-  // bone, cut rather than painted.
-  function post(w, h, k) {
-    var s = svg(w, h), m = w / 2, sh = 150;
-    s.appendChild(el('rect', { x: m - 16, y: sh - 10, width: 32, height: h - sh + 10, fill: 'var(--bark)' }));
-    s.appendChild(el('rect', { x: 0, y: 0, width: w, height: sh, rx: 10, fill: 'var(--bark)' }));
-    s.appendChild(el('rect', { x: 12, y: 12, width: w - 24, height: sh - 24, rx: 6, fill: 'none', stroke: 'var(--bone)', 'stroke-width': 4 }));
-    s.appendChild(el('rect', { x: 34, y: 44, width: w * (0.4 + (k % 3) * 0.12), height: 12, fill: 'var(--bone)' }));
-    s.appendChild(el('rect', { x: 34, y: 82, width: w * 0.3, height: 10, fill: 'var(--lichen)' }));
+  // A marker post standing alone, its sign routed into the wood: a groove in
+  // bone round the board, and the pitch's own number and name routed into it
+  // (kit.door letters them over the board in the field's face). A pitch with
+  // nothing behind it yet keeps a dashed groove; its words are never dimmed.
+  var SIGN = 200;
+  function post(w, h, raising) {
+    var s = svg(w, h), m = w / 2;
+    s.appendChild(el('rect', { x: m - 16, y: SIGN - 10, width: 32, height: h - SIGN + 10, fill: 'var(--bark)' }));
+    s.appendChild(el('rect', { x: 0, y: 0, width: w, height: SIGN, rx: 10, fill: 'var(--bark)' }));
+    var groove = { x: 12, y: 12, width: w - 24, height: SIGN - 24, rx: 6, fill: 'none', stroke: 'var(--bone)', 'stroke-width': 4 };
+    if (raising) groove['stroke-dasharray'] = '14 10';
+    s.appendChild(el('rect', groove));
     return s;
   }
 
@@ -90,19 +93,32 @@
       decor.push(kit.item(moon(560), { x: 1600, z: 9000, y: 1700, w: 560, h: 560 }));
       decor.push(kit.item(treeline(9000, 1300), { x: 0, z: 6000, w: 9000, h: 1300 }));
       decor.push(kit.item(boardLegs(sw + 80, sh + UP + 20, sh), { x: 0, z: END + 10, w: sw + 80, h: sh + UP + 20 }));
+      // A post for every pitch on the field's own board, in the board's order,
+      // written here by tools/make-paper-street.py, never by hand.
+      // ps:pitches:begin
+      var PITCHES = [{"no": "THE SUMMIT", "name": "The Emergent Future Worlds Meets Mountain Man", "page": "the-mountain-cabin.html", "state": "summit"}, {"no": "PITCH 01", "name": "The Faery Yurt", "page": "faery-yurt.html", "state": ""}, {"no": "PITCH 05", "name": "The Bough House", "page": "the-bough-house.html", "state": ""}, {"no": "PITCH 02", "name": "Swaying Sweetgrass", "page": "swaying-sweetgrass.html", "state": ""}, {"no": "PITCH 03", "name": "The Solarpunk Hermitage", "page": "solarpunk-hermitage.html", "state": ""}, {"no": "PITCH 04", "name": "Brew and Stew", "page": "brew-and-stew.html", "state": ""}];
+      // ps:pitches:end
+      var posts = [], PW = 380, PH = 600;
+      var stops = [kit.stop({ name: 'where the street runs out, at the edge of the field', spot: { x: 0, z: 0 } })];
+      var step = (END - 900) / Math.max(PITCHES.length, 1);
+      PITCHES.forEach(function (p, k) {
+        var side = k % 2 ? 1 : -1;
+        var it = kit.door(p.page, { art: post(PW, PH, p.state === 'raising'), no: p.no, name: p.name, label: 'camp-walk-sign', cls: 'camp-walk-post',
+                                    x: side * (700 + (k % 3) * 160), z: 700 + k * step, w: PW, h: PH, turn: side < 0 ? kit.LEFT / 3 : kit.RIGHT / 3 });
+        decor.push(it); posts.push(it);
+        stops.push(kit.stop({ name: 'at the post for ' + p.no.toLowerCase() + ', ' + p.name + (p.page ? '' : ', with nothing pitched behind it yet'), spot: kit.front(it), link: it.link }, it));
+      });
+      // The board after the posts, so the keyboard meets them in the order you
+      // walk past them.
       var page = kit.screen(kit.page, 'The Campgrounds’ own page, on the board in the field');
       var notice = kit.item(page, { x: 0, z: END, y: UP, w: sw, h: sh, cls: 'camp-walk-board' });
-      var posts = [];
-      [[-900, 1200], [800, 1700], [-1300, 2600], [1200, 3100], [-600, 4100], [1600, 4600]].forEach(function (p, k) {
-        var it = kit.item(post(300, 560, k), { x: p[0], z: p[1], w: 300, h: 560 });
-        decor.push(it); posts.push(it);
-      });
-
-      var stops = [
-        kit.stop({ name: 'where the street runs out, at the edge of the field', spot: { x: 0, z: 0 } }),
-        kit.stop({ name: 'at a marker post standing alone, its sign routed into the wood', spot: kit.front(posts[1], 900) }, posts[1]),
-        kit.stop({ name: 'at the board in the middle of the field, with the field’s own page on it', spot: kit.front(notice), link: page }, notice)
-      ];
+      stops.push(kit.stop({ name: 'at the board in the middle of the field, with the field’s own page on it', spot: kit.front(notice), link: page }, notice));
+      // Where the one track through the wood leaves the field, over the stream:
+      // the wood is not drawn, and the way through it comes out on the land.
+      var track = kit.door('natures-contribution.html', { art: post(PW, PH, false), no: 'THE TRACK THROUGH THE WOOD', label: 'camp-walk-sign', cls: 'camp-walk-post',
+                                                         x: -1300, z: END + 300, w: PW, h: PH, turn: kit.LEFT / 3 });
+      decor.push(track);
+      stops.push(kit.stop({ name: 'at the track post by the treeline, where the one way through the wood begins', spot: kit.front(track), link: track.link }, track));
 
       return {
         cls: 'camp-walk',
@@ -112,7 +128,7 @@
         stops: stops,
         decor: decor,
         arrive: 'A cold field, lit by nothing, with the treeline at the far end. The field’s own page is on the board in the middle of it.',
-        bounds: function () { return { x: [-1500, 1500], z: [0, END - F] }; },
+        bounds: function () { return { x: [-1700, 1700], z: [0, END - 100] }; },
         // Bare ground under the night, tufts of grass in the field's moss and
         // lichen, the same every visit, and nothing lit.
         ground: function (g, from, to) {

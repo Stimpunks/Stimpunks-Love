@@ -76,6 +76,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['swaying-sweetgrass.html'] = {
     prefix: 'swg-walk',
+    from: 'campgrounds.html',
     build: function (kit) {
       var r = seeded(25);
       var F = kit.F;

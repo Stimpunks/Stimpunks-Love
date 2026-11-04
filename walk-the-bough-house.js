@@ -83,6 +83,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['the-bough-house.html'] = {
     prefix: 'bgh-walk',
+    from: 'campgrounds.html',
     build: function (kit) {
       var r = seeded(117);
       var F = kit.F;

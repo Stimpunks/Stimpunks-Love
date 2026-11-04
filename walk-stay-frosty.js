@@ -12,7 +12,9 @@
    would land), and the dimmer beads carry none. Never a pool, a wedge or a
    gradient: if a glow ever gathers in here it has become a room with a lamp in
    it. The room's own page is on a flat face of the rock at the far end, and
-   the door through to Stay Breezy beside it is shut, as the page says.
+   the door through to Stay Breezy beside it is shut, as the page says: a plain
+   door of the rock's own dark with its name on it in the room's frost, and the
+   way in to the hall of fans when you press it.
 
    NOTHING MOVES, NOTHING MAKES A SOUND and there is nothing to press in the
    scene, at any setting. The temperature is never written in this file; it is
@@ -84,18 +86,29 @@
     return s;
   }
 
-  // The end of the chamber: rock round the flat face the page is on, and the
-  // shut door through to Stay Breezy.
-  function endWall(r, w, h, gap) {
-    var s = rockWall(r, w, h), cx = w / 2, dx = cx + gap / 2 + 140;
-    s.appendChild(el('rect', { x: dx - 110, y: h - 420, width: 220, height: 420, rx: 10, fill: 'var(--fro-rock)', stroke: 'var(--fro-bead)', 'stroke-width': 8 }));
-    s.appendChild(el('circle', { cx: dx + 70, cy: h - 210, r: 9, fill: 'var(--fro-bead)' }));
+  // The end of the chamber: rock round the flat face the page is on.
+  function endWall(r, w, h) {
+    return rockWall(r, w, h);
+  }
+
+  // The shut door through to Stay Breezy, set in the rock beside the page: the
+  // rock's own dark in a frame of the damp beads' grey, a handle, and a bead or
+  // two of the rail's light on the frame. Its name is lettered on it by
+  // kit.door, in the room's frost, where nothing lights it up.
+  function door(w, h) {
+    var s = svg(w, h);
+    s.appendChild(el('rect', { x: 4, y: 4, width: w - 8, height: h - 4, rx: 10, fill: 'var(--fro-rock)', stroke: 'var(--fro-bead)', 'stroke-width': 8 }));
+    s.appendChild(el('rect', { x: 22, y: 24, width: w - 44, height: h * 0.5, rx: 6, fill: 'none', stroke: 'var(--fro-ledge)', 'stroke-width': 6 }));
+    s.appendChild(el('circle', { cx: w - 34, cy: h * 0.62, r: 9, fill: 'var(--fro-bead)' }));
+    s.appendChild(el('circle', { cx: 6, cy: h * 0.3, r: 3, fill: 'var(--cav-rail)' }));
+    s.appendChild(el('circle', { cx: w - 6, cy: h * 0.82, r: 3, fill: 'var(--cav-rail)' }));
     return s;
   }
 
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['stay-frosty.html'] = {
     prefix: 'fro-walk',
+    from: 'arlesglad-caverns.html',
     build: function (kit) {
       var r = seeded(63);
       var F = kit.F;
@@ -110,17 +123,22 @@
       for (var z = 300; z < END - 200; z += 420) {
         decor.push(kit.item(hanging(r, 1520, 220), { x: 0, z: z, w: 1520, h: 220, y: CEIL - 220 }));
       }
-      var back = kit.item(endWall(r, 2000, CEIL, sw), { x: 0, z: END + 30, w: 2000, h: CEIL });
+      var back = kit.item(endWall(r, 2000, CEIL), { x: 0, z: END + 30, w: 2000, h: CEIL });
       decor.push(back);
 
+      // The door beside the page, made first so the keyboard meets it before
+      // it goes into the page and its long list of links.
+      var through = kit.door('stay-breezy.html', { art: door(220, 460), no: 'Through the door at the back', label: 'fro-walk-way', cls: 'fro-walk-door',
+                                                   x: sw / 2 + 126, z: END + 16, w: 220, h: 460 });
+      decor.push(through);
       var page = kit.screen(kit.page, 'Stay Frosty’s own page, on a flat face of the rock');
       var face = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'fro-walk-face' });
 
       var stops = [
         kit.stop({ name: 'at the foot of the slope, the rail’s light behind you', spot: { x: 0, z: 0 } }),
         kit.stop({ name: 'in the middle of the chamber, under the hanging stone', spot: { x: 0, z: END * 0.45 } }),
-        kit.stop({ name: 'at the flat face of the rock, with the room’s own page on it', spot: { x: 0, z: END - F }, link: page }, face),
-        kit.stop({ name: 'at the door through to Stay Breezy, shut', spot: { x: sw / 2 + 140, z: END - F * 0.9 } })
+        kit.stop({ name: 'at the door at the back, shut, through to Stay Breezy, the hall of fans', spot: kit.front(through), link: through.link }, through),
+        kit.stop({ name: 'at the flat face of the rock, with the room’s own page on it', spot: { x: 0, z: END - F }, link: page }, face)
       ];
 
       return {

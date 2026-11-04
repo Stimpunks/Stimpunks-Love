@@ -79,6 +79,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['glow-go-gee-gaws.html'] = {
     prefix: 'gg-walk',
+    from: 'arlesglad-caverns.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 900), sh = kit.H - 24;

@@ -95,6 +95,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['the-chappell.html'] = {
     prefix: 'chappell-walk',
+    from: 'pink-pony-club.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 1000), sh = kit.H - 24;

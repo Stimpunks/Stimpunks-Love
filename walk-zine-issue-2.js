@@ -61,6 +61,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['zine-issue-2.html'] = {
     prefix: 'zine-issue-walk',
+    from: 'zine-table.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 980), sh = kit.H - 24;

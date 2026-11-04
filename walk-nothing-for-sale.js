@@ -70,6 +70,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['nothing-for-sale.html'] = {
     prefix: 'nfs-walk',
+    from: 'the-outskirts.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 900), sh = kit.H - 24;

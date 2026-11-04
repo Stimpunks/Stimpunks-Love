@@ -14,6 +14,12 @@
    lavender (warmed towards pink, it would be Covenstead with a clothes rail).
    The shop's own page hangs on the back wall.
 
+   THE WAY IN IS THE CURTAINED DOORWAY on the back wall, right of the page, as
+   the shop's own page draws it: a wooden arch hung with a curtain in folds of
+   plum and violet, drawn back a little at the middle so the light through it
+   shows, and a board over it with Fantasy Fancy Dress on it. Pressing it goes
+   through.
+
    NOBODY'S BODY IS DRAWN HERE. No figure, no mannequin, no skin, no size: the
    clothes hang on the rails and on the valet stand, which is a knob, two bars
    and a base, and whoever wears them is you.
@@ -110,6 +116,23 @@
     return s;
   }
 
+  // The curtained doorway through to Fantasy Fancy Dress: a board over a
+  // wooden arch, the curtain in plum and violet folds, drawn back a little at
+  // the middle so the light through it shows, and a rainbow on the wall by it.
+  function curtain(w, h) {
+    var s = svg(w, h), m = w / 2, spring = 210, r = (w - 76) / 2;
+    s.appendChild(el('rect', { x: 20, y: 0, width: w - 40, height: 84, rx: 10, fill: 'var(--dd-panel)', stroke: 'var(--dd-wood)', 'stroke-width': 6 }));
+    s.appendChild(el('path', { fill: 'var(--dd-wood)', d: 'M24 ' + h + ' V' + spring + ' A' + (r + 14) + ' ' + (r + 14) + ' 0 0 1 ' + (w - 24) + ' ' + spring + ' V' + h + ' Z' }));
+    s.appendChild(el('path', { fill: 'var(--dd-f-plum)', d: 'M38 ' + (h - 10) + ' V' + spring + ' A' + r + ' ' + r + ' 0 0 1 ' + (w - 38) + ' ' + spring + ' V' + (h - 10) + ' Z' }));
+    for (var f = 0, fw = (w - 76) / 10; f < 10; f += 2) {
+      s.appendChild(el('rect', { x: 38 + f * fw, y: spring, width: fw, height: h - 10 - spring, fill: 'var(--dd-f-violet)' }));
+    }
+    s.appendChild(el('path', { fill: 'var(--dd-glass)', d: 'M' + (m - 22) + ' ' + (h - 10) + ' Q' + (m - 6) + ' ' + (spring + 60) + ' ' + m + ' ' + (spring - 4) + ' Q' + (m + 6) + ' ' + (spring + 60) + ' ' + (m + 22) + ' ' + (h - 10) + ' Z' }));
+    s.appendChild(el('rect', { x: 34, y: spring - 6, width: w - 68, height: 8, rx: 4, fill: 'var(--dd-ink)' }));
+    s.appendChild(el('rect', { x: 14, y: h - 12, width: w - 28, height: 12, rx: 3, fill: 'var(--dd-wood)' }));
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['dopamine-dress-up-den.html'] = {
     prefix: 'dd-walk',
@@ -132,6 +155,12 @@
       var valet = kit.item(stand(340, 520), { x: -300, z: 1300, w: 340, h: 520 });
       decor.push(valet);
 
+      // The curtained doorway on the back wall right of the page, made before
+      // the page so the keyboard reaches it without going through every link
+      // on the page first.
+      var through = kit.door('fantasy-fancy-dress.html', { art: curtain(320, 580), no: 'THROUGH THE CURTAIN', label: 'dd-walk-board', cls: 'dd-walk-curtain',
+                                                          x: Math.max(sw / 2 + 230, 640), z: END + 10, w: 320, h: 580 });
+      decor.push(through);
       var page = kit.screen(kit.page, 'The Dopamine Dress-Up Den’s own page, on the back wall');
       var leaf = kit.item(page, { x: 0, z: END, w: sw, h: sh, cls: 'dd-walk-wall' });
 
@@ -139,6 +168,7 @@
         kit.stop({ name: 'inside the front window, the sun behind you and the rails either side', spot: { x: 0, z: 0 } }),
         kit.stop({ name: 'at the valet stand in the middle of the floor, a look on it', spot: kit.front(valet, F * 0.9) }, valet),
         kit.stop({ name: 'at the rails on the left, every cloth printed', spot: { x: -SIDE + 520, z: 1100, yaw: -Math.PI / 2 } }),
+        kit.stop({ name: 'at the curtain at the back, the way through to Fantasy Fancy Dress', spot: kit.front(through), link: through.link }, through),
         kit.stop({ name: 'at the back wall, with the shop’s own page on it', spot: { x: 0, z: END - F }, link: page }, leaf)
       ];
 

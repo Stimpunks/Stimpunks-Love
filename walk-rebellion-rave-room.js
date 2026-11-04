@@ -9,6 +9,10 @@
    the warning, whole, and the rig is off until you switch it on there and say
    yes. Ahead, the hangar doors stand open in a frame of hazard stripes.
 
+   THE WAY INTO THE COOLDOWN ROOM is the other door, on the ante-chamber's
+   right-hand wall before the page: plain, shut, deck-dark in a pale frame,
+   its name stencilled on it, and the rig does not reach it.
+
    THE HANGAR BEYOND IS IMMENSE, BLACK AND STEEL, and its light is light you see
    in the AIR: beams from the laser heads on two scaffold towers, caught along
    their whole length by the haze. HERE THE BEAMS ARE CUT OUT OF CARD AND STILL.
@@ -98,9 +102,21 @@
     return s;
   }
 
+  // The other door, to the Cooldown Room: plain and shut in a pale frame, a
+  // kick plate at its foot and a handle, and its name stencilled on it.
+  function otherDoor(w, h) {
+    var s = svg(w, h);
+    s.appendChild(el('rect', { x: 20, y: 20, width: w - 40, height: h - 20, fill: 'var(--rr-deck)', stroke: 'var(--rr-dim)', 'stroke-width': 8 }));
+    s.appendChild(el('rect', { x: 44, y: 250, width: w - 88, height: h - 340, fill: 'none', stroke: 'var(--rr-steel)', 'stroke-width': 6 }));
+    s.appendChild(el('rect', { x: 34, y: h - 70, width: w - 68, height: 60, fill: 'var(--rr-steel)' }));
+    s.appendChild(el('rect', { x: w - 74, y: 300, width: 18, height: 60, rx: 6, fill: 'var(--rr-dim)' }));
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['rebellion-rave-room.html'] = {
     prefix: 'rr-walk',
+    from: 'the-outskirts.html',
     build: function (kit) {
       var F = kit.F;
       var sh = kit.H - 24;
@@ -117,6 +133,12 @@
       var screen = { x: 0, z: BACK, w: 2400, h: 1100, y: 700 };
       decor.push(kit.item(bigScreen(2400, 1100), screen));
 
+      // The other door, on the ante-chamber's right-hand wall before the
+      // page, so the keyboard meets it first, as you would walking in.
+      var other = kit.door('cooldown-room.html', { art: otherDoor(300, 540), no: 'THE OTHER DOOR', label: 'rr-walk-stencil', cls: 'rr-walk-other',
+                                                   x: ANTE - 6, z: 250, w: 300, h: 540, turn: kit.RIGHT });
+      decor.push(other);
+
       // The page, on the ante-chamber's left-hand wall: the warning first.
       var PW = Math.min(kit.W - 160, 860), PH = Math.round(PW * 0.62);
       var page = kit.screen(kit.page, 'The Rebellion Rave Room’s own page, on the ante-chamber wall, its warning first');
@@ -124,6 +146,7 @@
 
       var stops = [
         kit.stop({ name: 'in the ante-chamber, lit plainly, the hangar doors open ahead', spot: { x: 0, z: -100 } }),
+        kit.stop({ name: 'at the other door, on the right-hand wall: the way through to the Cooldown Room, where the rig does not reach', spot: kit.front(other), link: other.link }, other),
         kit.stop({ name: 'at the ante-chamber wall, with the room’s own page and its warning, where the rig is switched on or not', spot: kit.front(hung), link: page }, hung),
         kit.stop({ name: 'in the hangar doors, the beams still across the haze', spot: { x: 0, z: PART + 80 } }),
         kit.stop({ name: 'out on the floor, the towers either side and the dark big screen beyond them', spot: { x: 0, z: 2300 } })

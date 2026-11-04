@@ -77,6 +77,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['cavendish-campfire.html'] = {
     prefix: 'cf-walk',
+    from: 'cavendish-coworking.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 960), sh = kit.H - 24;

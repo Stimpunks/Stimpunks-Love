@@ -6700,6 +6700,12 @@ div.facade--square { border: 0; background: none; }
 /* The decks, lifted onto the table, in the jukebox's own cream tray: the
    room's materials, so nothing here is a pair §6 has not measured. */
 .pony-walk-decks > div { padding: 16px; background: var(--cream); border: 4px solid var(--pony-ink); border-radius: 16px; }
+/* The doorway through to the Chappell, in this room's own joinery: the plate
+   over its lintel is cream edged in plum, lettered in plum in the room's own
+   face, as the jukebox card is. What is through it is the Chappell's own. */
+.pony-walk-plate { --ps-way: var(--pony-ink); top: 14px; height: 160px; justify-content: center; padding: 14px 24px; font-family: 'Shrikhand', var(--sans); font-size: 40px; line-height: 1; }
+.pony-walk-plate:focus-visible { outline-offset: -2px; }
+.pony-walk-doorway .ps-walkin { top: calc(100% + 18px); }
 
 /* §7 ── ROOM: The Zine Table ─────────────────────────────────────────────────
    Photocopier grain, ransom-note headline, two columns of typewriter.
@@ -6760,6 +6766,12 @@ html[data-intensity="gentle"] .pullquote .tape { transform: none; }
 }
 .zine-walk-sheet::before { left: -10px; }
 .zine-walk-sheet::after { right: -10px; }
+/* The way in is issue #2 propped up on the table: its issue number cut out
+   of yellow in Archivo Black, its name typed in Special Elite, ink on the
+   sheet, and the walk-in card at its foot. */
+.zine-walk .zine-walk-issue { --ps-way: var(--ink); top: 16px; height: 150px; justify-content: center; gap: 10px; padding: 0 22px; font-family: 'Special Elite', var(--sans); font-size: 25px; line-height: 1.1; }
+.zine-walk .zine-walk-issue .ps-way__no { padding: 2px 9px; background: var(--yellow); font-family: 'Archivo Black', var(--sans); font-size: 20px; letter-spacing: .04em; }
+.zine-walk-propped .ps-walkin { top: calc(100% - 44px); }
 
 /* ISSUE #2, WALKED INTO ON PAPER STREET (walk-zine-issue-2.js, round 1,
    2026-11-04). Its own scene in the Zine Table's colours: the stage's frame is
@@ -6951,6 +6963,12 @@ html[data-intensity="gentle"] .polaroid { transform: none; }
   border-radius: 18px; box-shadow: 0 0 0 4px var(--green), 0 0 0 10px var(--ink-3);
 }
 .enid-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ink); }
+/* The door to the Polaroid Wall, black in a violet frame: its name in the
+   room's green and its heading face on the door's own black, the line over it
+   in cream. */
+.enid-walk-way { --ps-way: var(--green); top: 40px; height: 220px; justify-content: center; padding: 14px 46px; font-family: 'Bungee', var(--sans); font-size: 27px; line-height: 1.12; }
+.enid-walk-way .ps-way__no { color: var(--cream); font-family: 'Special Elite', var(--sans); font-size: 15px; letter-spacing: .04em; }
+.enid-walk-door .ps-walkin { top: calc(100% + 18px); }
 
 /* §10 ── ROOM: The Playhouse ─────────────────────────────────────────────────
    Saturated primaries, checkerboard floor, everything is a real button. */
@@ -7725,6 +7743,11 @@ html[data-intensity="gentle"] .room-chappell h1 { text-shadow: none; }
 .camp-walk { --ps-frame: var(--bark); --ps-back: var(--dusk); --ps-backcloth: none; }
 .camp-walk-board { --ps-takes: auto; overflow: hidden; background: var(--spruce); box-shadow: 0 0 0 10px var(--bark); }
 .camp-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--spruce); }
+/* Every pitch's post, its number and name routed into the board in bone, in the
+   field's own face; the board is the sign's whole height. */
+.camp-walk-sign { --ps-way: var(--bone); height: 200px; justify-content: center; padding: 22px 28px; font-family: 'Alfa Slab One', Georgia, serif; font-size: 25px; line-height: 1.1; }
+.camp-walk-sign .ps-way__no { color: var(--lichen); font-size: 14px; letter-spacing: 2px; }
+.camp-walk-post .ps-walkin { top: 214px; }
 
 /* §14 ── PITCH 1: The Faery Yurt (in the campgrounds) ────────────────────────
    HELEN'S ROOM, AND IT IS HERS. Built from the mockup Helen Edgar sent on
@@ -8599,6 +8622,26 @@ html[data-intensity="gentle"] .yurt-notebook__sweep.is-turning { animation: none
   border-radius: 10px; box-shadow: 0 0 0 4px var(--candle), 0 0 0 14px var(--timber);
 }
 .yurt-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--hearth); }
+/* Her ways through, in her words off her page, lettered in her serif: tallow
+   on the timber board over the bookcase, the phonograph and the curtain, and
+   in the dark of the Alchemist's Arch; hearth-dark painted on the round
+   door's ember and on the mushroom's candle-bright cap. */
+.yurt-walk-way { --ps-way: var(--tallow); height: 130px; justify-content: center; padding: 14px 36px; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 31px; line-height: 1.05; }
+.yurt-walk-way .ps-way__no { color: var(--candle); font-size: 16px; letter-spacing: .14em; text-transform: uppercase; }
+.yurt-walk-arch .ps-way { top: 360px; height: 260px; padding: 0 160px; }
+.yurt-walk-pod .ps-way { --ps-way: var(--hearth); top: 230px; height: 260px; padding: 0 120px; font-size: 36px; }
+.yurt-walk-shroom .ps-way { --ps-way: var(--hearth); top: 548px; height: 170px; padding: 0 90px; }
+.yurt-walk-pod .ps-way__no, .yurt-walk-shroom .ps-way__no { color: var(--hearth); }
+.yurt-walk-books .ps-way { top: 330px; }
+.yurt-walk-phono .ps-way { top: 430px; }
+.yurt-walk-curtain .ps-way { top: 290px; height: 220px; padding: 0 165px; }
+/* "You can walk in" sits on each way rather than under the floor. */
+.yurt-walk-books .ps-walkin { top: 470px; }
+.yurt-walk-phono .ps-walkin { top: 570px; }
+.yurt-walk-curtain .ps-walkin { top: 520px; }
+.yurt-walk-arch .ps-walkin { top: 640px; }
+.yurt-walk-pod .ps-walkin { top: 500px; }
+.yurt-walk-shroom .ps-walkin { top: 750px; }
 
 /* §15 ── ROOM: The Arcade ────────────────────────────────────────────────────
    The only room on this street with a game in it. Coin-op at
@@ -8996,9 +9039,17 @@ html[data-intensity="max"] .bulbs span { animation: bulbchase 1.6s steps(2) infi
    the only things in the scene that take a pointer. Nothing moves and nothing
    sounds, at any setting. */
 .arc-walk { --ps-frame: var(--cab); --ps-back: var(--carpet); --ps-backcloth: none; }
-.arc-walk-cab { --ps-takes: auto; }
-.arc-walk-cab a { display: block; width: 100%; height: 100%; }
-.arc-walk-cab a:focus-visible { outline: 4px solid var(--coin); outline-offset: 6px; }
+/* A game's cabinet: its name on the plate across its bezel in the cabinet's
+   own pixel face, the carpet's grape on the coin's yellow as the page's
+   cabinet fronts' marquees have it, and that is its way in. The attract
+   screen on its glass is the page's own, lifted, and takes no pointer; the
+   page's drawings it uses are lifted where nothing shows them. */
+.arc-walk-marquee { --ps-way: var(--carpet); top: 434px; height: 52px; justify-content: center; padding: 0 10px; font-family: 'Press Start 2P', monospace; font-size: 13px; line-height: 1.3; text-transform: uppercase; }
+.arc-walk-marquee:focus-visible { outline-color: var(--coin); outline-offset: 10px; }
+.arc-walk-game .ps-walkin { top: calc(100% + 16px); }
+.arc-walk-glass > div { background: transparent; }
+.arc-walk-glass .cabfront__screen { margin: 0; }
+.arc-walk-defs { overflow: hidden; height: 1px; }
 .arc-walk-screen {
   --ps-takes: auto; overflow: hidden; background: var(--crt);
   border-radius: 6px; box-shadow: 0 0 0 4px var(--carpet), 0 0 0 8px var(--tube-2);
@@ -9569,6 +9620,13 @@ html[data-intensity="max"] .cam__dot { animation: jungle-blink 3.4s ease-in-out 
 }
 .jr-walk-screen iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--canopy); }
 .jr-walk-cam > div { padding: 14px; background: var(--understory); border-radius: 16px 3px 16px 3px; }
+/* The low door to the other jungle room, off the path at the foot of the
+   forest: the page's own words for it, in the page's own quiet mark (Cabin,
+   capitals, spaced, the palm's green), on the door's dark. Quiet and never
+   hidden: a full-size, focusable link with real words, like .den-door. */
+.jr-walk-den { --ps-way: var(--palm); top: 104px; height: 230px; justify-content: center; padding: 10px 66px; font-family: 'Cabin', system-ui, sans-serif; font-weight: 700; font-size: 15px; letter-spacing: .2em; text-transform: uppercase; line-height: 1.5; }
+.jr-walk-den.ps-way .ps-way__name { text-decoration-thickness: 1px; }
+.jr-walk-door .ps-walkin { top: calc(100% + 16px); }
 
 /* §18 ── SUBROOM: The Den (off the Jungle Room) ──────────────────────────────
    GRACELAND'S JUNGLE ROOM, WHICH IS WHY THERE IS A DOOR AT THE BACK OF OURS.
@@ -11282,6 +11340,12 @@ html[data-intensity="max"] .mop-drip::before { animation: mop-flicker 3.1s ease-
    than the room. */
 .mop-walk-parlour > div, .mop-walk-cuts > div { padding: 16px; background: var(--mop-night); }
 .mop-walk-cuts { max-height: 620px; overflow-y: auto; box-shadow: 0 0 0 3px var(--mop-gilt); }
+/* Further in: the two doors in the reading room's front wall. Each way's name
+   is on the stone panel over its door, in gilt and the room's punched face,
+   with the page's own small capitals over it, as the page's .mop-way is. */
+.mop-walk-way { --ps-way: var(--mop-gilt); top: 24px; height: 180px; justify-content: center; padding: 12px 36px; font-family: 'IM Fell English', Georgia, serif; font-size: 40px; line-height: 1.05; }
+.mop-walk-way .ps-way__no { color: var(--mop-dim); font-family: 'Spectral', Georgia, serif; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
+.mop-walk-door .ps-walkin { top: calc(100% + 18px); }
 
 /* §23 ── SUBROOM: The Oracle Deck (off the Mopery's parlour) ─────────────────
    Thirteen old engravings, and a question on the back of each one.
@@ -12587,6 +12651,11 @@ html[data-intensity="max"] :where(.flap:nth-child(6)) { animation-delay: .50s; }
   box-shadow: 0 0 0 14px var(--fd-enamel), 0 0 0 18px var(--fd-girder);
 }
 .feed-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--fd-enamel); }
+/* The way out of the back is lettered on a nameboard like the boards' own,
+   amber through the mask on the dead enamel, in the station's wide face. */
+.feed-walk-nameboard { --ps-way: var(--fd-amber); height: 130px; justify-content: center; padding: 12px 24px 24px; font-family: 'Michroma', var(--sans); font-size: 30px; line-height: 1.1; letter-spacing: .04em; }
+.feed-walk-nameboard .ps-way__no { color: var(--fd-dim); font-family: 'Space Mono', ui-monospace, monospace; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; }
+.feed-walk-way .ps-walkin { top: 190px; }
 
 /* §28 ── THE GARDEN (through the gate in the wall, halfway down the street) ───
    NOT A ROOM AND NOT AN AREA EITHER. The campgrounds is a field with pitches on
@@ -12914,6 +12983,11 @@ html[data-intensity="max"]     .gd-dapple { animation: gd-breeze 17s ease-in-out
   box-shadow: 0 0 0 12px var(--gd-board), 0 0 0 16px var(--gd-edge);
 }
 .gd-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--gd-day); }
+/* The way to the World room is a limewashed label across two canes, lettered
+   in loam in the garden's label face, the spider's silk running on under it. */
+.gd-walk-label { --ps-way: var(--gd-loam); top: 110px; height: 120px; justify-content: center; padding: 10px 24px; font-family: 'Faustina', Georgia, serif; font-size: 34px; line-height: 1.05; }
+.gd-walk-label .ps-way__no { color: var(--gd-leaf); font-family: 'Mulish', var(--sans); font-size: 15px; letter-spacing: .02em; }
+.gd-walk-silk .ps-walkin { top: 248px; }
 
 /* §29 ── ROOM: The Zibaldone ──────────────────────────────────────────────────
    A commonplace book left open on a desk. Asked for by somebody in our
@@ -14524,6 +14598,11 @@ html[data-intensity="max"] .room-foundry .glow { animation: fo-motes 21s linear 
   box-shadow: 0 0 0 6px var(--osk-beam);
 }
 .osk-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--osk-night); }
+/* Every turning's board, its number and name painted in the beam: dark paint
+   on the lit face, in the road's own poster face. */
+.osk-walk-sign { --ps-way: var(--osk-night); height: 250px; justify-content: center; padding: 30px 34px; font-family: 'Bowlby One SC', Impact, sans-serif; font-size: 26px; line-height: 1.12; }
+.osk-walk-sign .ps-way__no { --ps-way: var(--osk-board); font-size: 13px; letter-spacing: 2.4px; }
+.osk-walk-post .ps-walkin { top: 264px; }
 
 /* §35 ── ROOM: Black Leather Lagoon (turning 01 in The Outskirts) ────────────
    A DRIVE-IN SCREEN STANDING IN BLACK WATER, showing to reeds. Turning 01 off
@@ -18100,6 +18179,12 @@ textarea.dd-fallback {
   border-radius: 14px; box-shadow: 0 0 0 4px var(--dd-ink-2), 0 0 0 12px var(--dd-wood);
 }
 .dd-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--dd-panel); }
+/* The way in is the curtained doorway on the back wall: its name on the board
+   over the arch, in the rails' own face and ink, and the walk-in card on the
+   curtain. */
+.dd-walk .dd-walk-board { --ps-way: var(--dd-ink); left: 20px; right: 20px; top: 0; height: 84px; justify-content: center; gap: 2px; padding: 0 10px; font-family: 'DynaPuff', system-ui, sans-serif; font-weight: 600; font-size: 24px; line-height: 1.05; }
+.dd-walk .dd-walk-board .ps-way__no { color: var(--dd-ink-2); font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; font-size: 11px; }
+.dd-walk-curtain .ps-walkin { top: calc(100% - 52px); }
 
 /* §53 ── Now Playing (street furniture: the poster column beside the board) ──
    One bill, screenprinted, pasted round a column on the pavement. Every room on
@@ -18557,6 +18642,11 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   border-radius: 2px; box-shadow: 0 0 0 4px var(--cl-oak), 0 0 0 16px var(--cl-stone);
 }
 .cl-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cl-wall); }
+/* The way through to L-Space is a catalogue card pinned over a gap in the
+   stacks, lettered in the room's ink and its own capitals. */
+.cl-walk-card { --ps-way: var(--cl-ink); height: 150px; justify-content: center; padding: 12px 84px; font-family: 'Marcellus SC', Georgia, serif; font-size: 34px; line-height: 1.1; }
+.cl-walk-card .ps-way__no { color: var(--cl-ink-2); font-family: 'Andika', var(--sans); font-size: 16px; letter-spacing: .04em; }
+.cl-walk-gap .ps-walkin { top: 176px; }
 
 /* §56 ── SUBROOM: L-Space (behind the Community Library) ──────────────────────
    The space between the shelves of every library at once. Terry Pratchett's, from
@@ -18650,6 +18740,11 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   border-radius: 4px; box-shadow: 0 0 0 4px var(--lsp-string), 0 0 0 12px var(--lsp-well);
 }
 .lspace-walk-leaf iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--lsp-void); }
+/* The way through to Oook is a tag of bone tied on where the string turns
+   off, lettered in the void's own violet-black. */
+.lspace-walk-tag { --ps-way: var(--lsp-void); top: 300px; height: 140px; justify-content: center; padding: 0 92px; font-family: 'Gravitas One', Georgia, serif; font-size: 30px; line-height: 1.1; }
+.lspace-walk-tag .ps-way__no { color: var(--lsp-shelf); font-family: 'Source Serif 4', Georgia, serif; font-size: 16px; letter-spacing: .04em; }
+.lspace-walk-gap .ps-walkin { top: 456px; }
 
 /* §57 ── SUBROOM: Oook (behind L-Space, at the far end of the string) ─────────
    A Discworld homage, in the Librarian's own colours. Ryan's brief, 2026-09-25:
@@ -18900,6 +18995,10 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 .cw-walk { --ps-frame: var(--cw-mahogany); --ps-back: var(--cw-wall); --ps-backcloth: none; }
 .cw-walk-page { --ps-takes: auto; overflow: hidden; background: var(--cw-wall); box-shadow: 0 0 0 8px var(--cw-brass); }
 .cw-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cw-wall); }
+/* The ways in are those doors, still shut: each room's name lettered in
+   Caslon on its door's brass plate, and the walk-in card under the door. */
+.cw-walk .cw-walk-plate { --ps-way: var(--cw-plate-ink); left: 35px; right: 105px; top: 145px; height: 70px; justify-content: center; gap: 0; padding: 0 4px; font-family: 'Libre Caslon Display', Georgia, serif; font-size: 20px; line-height: 1.05; }
+.cw-walk-door .ps-walkin { top: calc(100% - 40px); left: 37.5%; }
 
 /* §59 ── ROOM: The Live Room (a shopfront on the street) ───────────────────────
    A recording studio, seen from the control room, over the desk, through the
@@ -19697,6 +19796,11 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 .cav-walk { --ps-frame: var(--cav-steel); --ps-back: var(--cav-rock); --ps-backcloth: none; }
 .cav-walk-board { --ps-takes: auto; overflow: hidden; background: var(--cav-wall); border-bottom: 12px solid var(--cav-rail); }
 .cav-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--cav-wall); }
+/* Every level's doorway off the passage: its key in the panel's figures and
+   its room in the area's name face, on a plate with the rail along its foot. */
+.cav-walk-sign { --ps-way: var(--cav-lime); height: 150px; justify-content: center; padding: 16px 22px; font-family: 'Syne', var(--sans); font-weight: 800; font-size: 24px; line-height: 1.12; }
+.cav-walk-sign .ps-way__no { --ps-way: var(--cav-rail); font-family: 'Rethink Sans', var(--sans); font-weight: 700; font-size: 17px; letter-spacing: .08em; }
+.cav-walk-door .ps-walkin { top: 176px; }
 
 /* §63 ── ROOM: Stay Frosty (level B5 of Arlesglad Caverns) ─────────────────
    THE BOTTOM OF THE CAVERNS, AND THE ROOM WHERE NOTHING CHANGES. A quiet place
@@ -19811,6 +19915,12 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
   border-radius: 6px; box-shadow: 0 0 0 12px var(--fro-ledge);
 }
 .fro-walk-face iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--fro-rock); }
+/* The shut door at the back, through to Stay Breezy: its name lettered on the
+   rock's own dark in the room's frost and its one face, the line over it in
+   the mist, as the page's own way through is. Nothing about it lights up. */
+.fro-walk-way { --ps-way: var(--fro-frost); top: 24px; height: 236px; justify-content: center; padding: 14px 24px; font-family: 'Geologica', var(--sans); font-weight: 700; font-size: 27px; line-height: 1.1; }
+.fro-walk-way .ps-way__no { color: var(--fro-mist); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; line-height: 1.4; }
+.fro-walk-door .ps-walkin { top: calc(100% + 18px); }
 
 /* §64 ── SUBROOM: Stay Breezy (behind Stay Frosty) ──────────────────────────
    A HALL FULL OF FANS, AND THE ONE PLACE IN THE CAVERNS WHERE THE AIR MOVES.
@@ -20548,6 +20658,12 @@ html[data-intensity="max"] .gg-toy.is-lit .gg-shape { filter: drop-shadow(0 0 14
   border-radius: 4px; box-shadow: 0 0 0 8px var(--rr-hazard), 0 0 0 14px var(--rr-steel);
 }
 .rr-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rr-hangar); }
+/* The way into the Cooldown Room is the other door in the ante-chamber: its
+   name stencilled on it in the hangar's face, pale on the shut door, and the
+   walk-in card on its kick plate. */
+.rr-walk .rr-walk-stencil { --ps-way: var(--rr-text); left: 30px; right: 30px; top: 70px; height: 160px; justify-content: center; gap: 6px; padding: 0 6px; font-family: 'Big Shoulders Stencil', var(--sans); font-weight: 800; font-size: 40px; line-height: 1; text-transform: uppercase; }
+.rr-walk .rr-walk-stencil .ps-way__no { color: var(--rr-dim); font-family: 'Exo 2', var(--sans); font-size: 13px; text-transform: none; }
+.rr-walk-other .ps-walkin { top: calc(100% - 58px); }
 
 /* §69 ── SUBROOM: The Cooldown Room (off the Rebellion Rave Room) ──────────
    THE OTHER DOOR IN THE ANTE-CHAMBER, and a subroom shares nothing with the
@@ -21677,6 +21793,14 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   border-radius: 4px; box-shadow: 0 0 0 10px var(--th-porphyry);
 }
 .th-walk-wall iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--th-shade); }
+/* Each door round the wall is a way through, its name cut on the dark plate
+   fixed across it in the hall's own inscription face, in the shade like every
+   word here. The plate sits a fixed height above the foot of the bay. */
+.th-walk-plate {
+  --ps-way: var(--th-text); top: auto; bottom: 300px; left: calc(50% - 165px); right: calc(50% - 165px);
+  height: 120px; justify-content: center; padding: 0 12px; font-family: 'Forum', Georgia, serif; font-size: 32px; line-height: 1.05;
+}
+.th-walk-door .ps-walkin { top: auto; bottom: 240px; }
 
 /* §78 ── SUBROOM: The Fishbowl (through a door off the Town Hall) ────────────
    A GLASS BOWL OF WATER ON A SUNNY SILL. The door says it in Ryan's words: a
@@ -26077,6 +26201,11 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   border-radius: 2px; box-shadow: 0 0 0 6px var(--ncx-post), 0 0 0 9px var(--ncx-letter);
 }
 .ncx-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ncx-shade); }
+/* Every arm of the fingerpost, cast white with black letters, its bearing
+   small over its place, as the page's own post has them. */
+.ncx-walk-arm { --ps-way: var(--ncx-letter); height: 72px; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 0 12px; padding: 10px 40px; font-family: 'Copse', Georgia, serif; font-size: 22px; line-height: 1.1; }
+.ncx-walk-arm .ps-way__no { font-family: 'Golos Text', var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .14em; }
+.ncx-walk-armpost .ps-walkin { top: calc(100% + 8px); }
 
 /* §105 ── ROOM: All Needs Met Wildlife Sanctuary (in Nature's Contribution) ──
    Ryan's brief, 2026-10-11: a wildlife preserve for local wildlife and a
@@ -26545,6 +26674,11 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   border-left: 10px solid var(--atn-rim-warm); border-right: 10px solid var(--atn-rim-cool);
 }
 .atn-walk-door iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--atn-card); }
+/* The way in is the old dairy before the barn: its name in the farm's sign
+   face on the board over its door, and the walk-in card on the door. */
+.atn-walk .atn-walk-board { --ps-way: var(--atn-ink); left: 170px; right: 170px; top: 184px; height: 80px; justify-content: center; gap: 2px; padding: 0 10px; font-family: 'Patua One', Georgia, serif; font-size: 30px; line-height: 1; }
+.atn-walk .atn-walk-board .ps-way__no { color: var(--atn-dim); font-family: 'PT Serif', Georgia, serif; font-size: 13px; }
+.atn-walk-dairy .ps-walkin { top: calc(100% - 44px); }
 
 /* §109 ── SUBROOM: The Dairy (behind All Together Now Farms) ─────────────────
    Ryan's brief, 2026-10-11: a café at the farm with a menu made from every
@@ -30802,6 +30936,24 @@ body.paper-street { background: var(--ps-sky); color: var(--ps-cream); font-fami
 .ps-thing svg { display: block; overflow: visible; }
 /* A thing lifted off a room's page takes the pointer, as it does there. */
 .ps-lifted { --ps-takes: auto; }
+/* A WAY INTO A ROOM BEHIND A ROOM (kit.door): the room draws the sign and
+   letters it in its own ink and face, through a class of its own; this is only
+   where the words sit and how a link shows it is one. Its ink is the room's
+   --ps-way, set on that class, because the street's own link colour would
+   otherwise win over a room's lettering. The rest weighs nothing (:where),
+   because this section comes after every room's, and a room's own placing
+   of its words has to win. */
+.paper-street .ps-way { color: var(--ps-way, inherit); }
+:where(.ps-way) {
+  position: absolute; left: 0; right: 0; top: 0; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 14px 16px; text-align: center; text-decoration: none;
+  pointer-events: auto; cursor: pointer;
+}
+:where(span.ps-way) { cursor: default; }
+:where(.ps-way__no) { font-size: .72em; letter-spacing: .12em; }
+a.ps-way .ps-way__name { text-decoration: underline; text-underline-offset: .18em; text-decoration-thickness: 2px; }
+.ps-way:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
 /* A door whose room you can walk into says so under its fold, in words, on
    the theatre's own cream card. */
 .ps-walkin {

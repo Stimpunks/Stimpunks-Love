@@ -95,6 +95,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['looming-rocks.html'] = {
     prefix: 'looming-walk',
+    from: 'the-outskirts.html',
     build: function (kit) {
       var r = seeded(38);
       var F = kit.F;

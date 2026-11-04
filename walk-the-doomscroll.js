@@ -64,6 +64,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['the-doomscroll.html'] = {
     prefix: 'dsc-walk',
+    from: 'the-mopery.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 900), sh = kit.H - 24;

@@ -79,6 +79,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['town-hall-fishbowl.html'] = {
     prefix: 'fb-walk',
+    from: 'town-hall.html',
     build: function (kit) {
       var F = kit.F, r = seeded(78);
       var sw = Math.min(kit.W - 24, 940), sh = kit.H - 24;

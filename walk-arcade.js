@@ -7,9 +7,10 @@
    blocks down both sides, every marquee lit and every screen a different black
    from the room. The cabinets share one body, which is what an arcade is and
    the one place on the street where shared chrome is the subject: the worlds
-   are the SCREENS, so each game's cabinet is the page's own cabinet front for
-   it, lifted off the page with its marquee, its screen and its way in, and
-   walking up to one and pressing it takes you into that game. At
+   are the SCREENS, so each game's cabinet is the one body with the game's
+   name on its marquee, and on its glass the page's own attract screen for that
+   game, lifted off the page; the marquee is the way in, and walking up to one
+   and pressing it walks you into that game's own room. At
    the end of the aisle is the biggest cabinet, and on its screen is the
    Arcade's page itself, full size once you stand at it.
 
@@ -20,7 +21,7 @@
    somebody puts the coin in, and the Arcade never makes a sound at all. It
    keeps nothing, sends nothing and fetches nothing; its page arrives through
    Paper Street's screen(). tools/make-paper-street.py holds each of those, and
-   that the page still has the cabinet fronts this lifts.
+   that the page still has the attract screens this lifts.
    ========================================================================== */
 (function () {
   'use strict';
@@ -50,9 +51,13 @@
     for (var i = 0; i < 4; i++) s.appendChild(el('rect', { x: x + 16, y: y + 30 + i * 46, width: w - 32 - (i * 23) % 60, height: 6, fill: 'var(--mint)', 'fill-opacity': '0.28' }));
   }
 
-  // A cabinet: one body for every machine, as an arcade's are.
-  function cabinet() {
-    var w = CAB_W, h = CAB_H, s = svg(w, h);
+  // A cabinet: one body for every machine, as an arcade's are. A game's own
+  // machine keeps the same marquee and has a name plate in the coin's yellow
+  // across its bezel, under the glass, where kit.door letters the game's name
+  // and you can read it from across the aisle; its glass is left for the
+  // page's own attract screen to stand on, and its panel sits a plate lower.
+  function cabinet(game) {
+    var w = CAB_W, h = CAB_H, s = svg(w, h), dy = game ? 46 : 0;
     s.appendChild(el('rect', { x: 0, y: 0, width: w, height: h, fill: 'var(--cab)' }));
     s.appendChild(el('rect', { x: 10, y: 10, width: w - 20, height: 96, fill: 'var(--carpet)' }));
     for (var b = 0; b < 9; b++) {
@@ -62,14 +67,15 @@
     }
     s.appendChild(el('rect', { x: 34, y: 44, width: w - 68, height: 26, fill: 'var(--coin)' }));
     s.appendChild(el('rect', { x: 24, y: 128, width: w - 48, height: 300, fill: 'var(--carpet)' }));
-    glass(s, 36, 140, w - 72, 276);
-    s.appendChild(el('path', { d: 'M0 450 H' + w + ' L' + (w - 24) + ' 530 H24 Z', fill: 'var(--carpet)' }));
-    s.appendChild(el('circle', { cx: w * 0.28, cy: 482, r: 15, fill: 'var(--zap)' }));
-    s.appendChild(el('rect', { x: w * 0.28 - 4, y: 482, width: 8, height: 32, fill: 'var(--tube-2)' }));
-    s.appendChild(el('circle', { cx: w * 0.58, cy: 490, r: 12, fill: 'var(--coin)' }));
-    s.appendChild(el('circle', { cx: w * 0.74, cy: 490, r: 12, fill: 'var(--mint)' }));
-    s.appendChild(el('rect', { x: w / 2 - 50, y: 590, width: 100, height: 92, fill: 'var(--carpet)' }));
-    s.appendChild(el('rect', { x: w / 2 - 4, y: 616, width: 8, height: 26, fill: 'var(--coin)' }));
+    if (game) s.appendChild(el('rect', { x: 14, y: 434, width: w - 28, height: 52, fill: 'var(--coin)' }));
+    else glass(s, 36, 140, w - 72, 276);
+    s.appendChild(el('path', { d: 'M0 ' + (450 + dy) + ' H' + w + ' L' + (w - 24) + ' ' + (530 + dy) + ' H24 Z', fill: 'var(--carpet)' }));
+    s.appendChild(el('circle', { cx: w * 0.28, cy: 482 + dy, r: 15, fill: 'var(--zap)' }));
+    s.appendChild(el('rect', { x: w * 0.28 - 4, y: 482 + dy, width: 8, height: 32, fill: 'var(--tube-2)' }));
+    s.appendChild(el('circle', { cx: w * 0.58, cy: 490 + dy, r: 12, fill: 'var(--coin)' }));
+    s.appendChild(el('circle', { cx: w * 0.74, cy: 490 + dy, r: 12, fill: 'var(--mint)' }));
+    s.appendChild(el('rect', { x: w / 2 - 50, y: 590 + dy / 2, width: 100, height: 92, fill: 'var(--carpet)' }));
+    s.appendChild(el('rect', { x: w / 2 - 4, y: 616 + dy / 2, width: 8, height: 26, fill: 'var(--coin)' }));
     s.appendChild(el('rect', { x: 0, y: 0, width: w, height: h, fill: 'none', stroke: 'var(--tube-2)', 'stroke-width': 4 }));
     return s;
   }
@@ -131,6 +137,12 @@
       // stood up at the end of the aisle last, so the games come first as you
       // Tab down it.
       var page = kit.screen(kit.page, 'The Arcade’s own page, on the biggest cabinet’s screen');
+      // The games' own rooms, in the page's order of its cabinets; and the
+      // page's own drawings of the otter and the penguin, which their attract
+      // screens draw from, lifted where nothing shows them.
+      var GAMES = ['quill-drift.html', 'otterly-adorbs.html', 'penguin-pebbling.html'];
+      decor.push(kit.lift(page, '.arc-defs', { n: 0, x: 0, z: -400, w: 10, cls: 'arc-walk-defs' }));
+      decor.push(kit.lift(page, '.arc-defs', { n: 1, x: 0, z: -400, w: 10, cls: 'arc-walk-defs' }));
 
       stops.push(kit.stop({ name: 'inside the door, on the carpet', spot: { x: 0, z: 0 } }));
 
@@ -143,21 +155,15 @@
           var x = side * AISLE, turn = side < 0 ? kit.LEFT : kit.RIGHT;
           var g = gameAt[row] && gameAt[row][1] === side ? gameAt[row][0] : null;
           if (g != null) {
-            // A GAME'S CABINET IS THE PAGE'S OWN cabinet front, lifted off it:
-            // its marquee, its screen and its way into the game, in the page's
-            // own words, so nothing here can call a game what its page does not.
-            var it = kit.lift(page, '.cabfront', { n: g, x: x, z: z, w: CAB_W, turn: turn, cls: 'arc-walk-cab' });
-            var name = (function (it) {
-              return function () {
-                var m = it.el.querySelector('.cabfront__marquee');
-                return 'at a game’s cabinet' + (m ? ': ' + m.textContent.trim() : '');
-              };
-            })(it);
-            var press = (function (it) {
-              return { focus: function (o) { var a = it.el.querySelector('a[href]'); if (a) a.focus(o); } };
-            })(it);
-            stops.push(kit.stop({ name: name, spot: kit.front(it, AISLE * 2 - 120), link: press }, it));
-            cabs.push(it);
+            // A GAME'S CABINET: the one body, its marquee the way into the
+            // game's own room, lettered with the name its own page gives it,
+            // and on its glass the page's own attract screen for it, lifted off
+            // the page, a hair nearer the aisle than the body it stands on.
+            var it = kit.door(GAMES[g], { art: cabinet(true), label: 'arc-walk-marquee', cls: 'arc-walk-game',
+                                          x: x, z: z, w: CAB_W, h: CAB_H, turn: turn });
+            decor.push(kit.lift(page, '.cabfront__screen', { n: g, x: side * (AISLE - 3), z: z, y: 300, w: CAB_W - 44, turn: turn, cls: 'arc-walk-glass' }));
+            stops.push(kit.stop({ name: 'at a game’s cabinet: ' + it.wayName + ', a game to walk into', spot: kit.front(it, AISLE * 2 - 120), link: it.link }, it));
+            decor.push(it); cabs.push(it);
           } else {
             var d = kit.item(cabinet(), { x: x, z: z, w: CAB_W, h: CAB_H, turn: turn });
             decor.push(d); cabs.push(d);
@@ -180,7 +186,7 @@
         start: { x: 0, z: 0 },
         stops: stops,
         decor: decor,
-        arrive: 'Three of the cabinets along the walls are the games; the Arcade’s own page is on the biggest one, at the end.',
+        arrive: 'The games’ own cabinets stand among the others along the walls, each with its name on a plate under the glass; the Arcade’s own page is on the biggest one, at the end.',
         bounds: function () { return { x: [-AISLE + 60, AISLE - 60], z: [0, END - F] }; },
         ground: function (g, from, to) {
           var cz = (from + to) / 2;

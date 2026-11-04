@@ -13,7 +13,10 @@
    keeps this off the Adventurer's Guild, which is pale, lit from nowhere and
    has no depth. The boards here are drawn and carry no words; the arrivals
    themselves, each with the minute its wire was read, are on the room's own
-   page, which stands on the last board at the far end of the concourse.
+   page, which stands on the last board at the far end of the concourse. Beside
+   it is the way out of the back: an opening in girders with steps going up
+   into the dark and a nameboard over it, up the hill to the Source, drawn in
+   the concourse's own enamel, girder and amber and nothing of the hill's.
 
    THE FLAPS DO NOT FLIP: nothing in the hall moves and the boards make no
    noise. Nothing is ranked and nothing is added up. Every colour is one §27
@@ -78,6 +81,25 @@
     return s;
   }
 
+  // The way out of the back: an opening framed in girders, steps going up
+  // into the dark beyond it, and a nameboard over it in the boards' own
+  // enamel and amber (kit.door letters the nameboard).
+  var NAMEBOARD = 130;
+  function wayUp(w, h) {
+    var s = svg(w, h), top = NAMEBOARD + 24;
+    s.appendChild(el('rect', { x: 0, y: 0, width: w, height: NAMEBOARD, fill: 'var(--fd-enamel)', stroke: 'var(--fd-girder)', 'stroke-width': 6 }));
+    s.appendChild(el('rect', { x: 24, y: NAMEBOARD - 18, width: w - 48, height: 4, fill: 'var(--fd-amber)' }));
+    s.appendChild(el('rect', { x: 0, y: top, width: w, height: h - top, fill: 'var(--fd-girder)' }));
+    s.appendChild(el('rect', { x: 34, y: top + 24, width: w - 68, height: h - top - 24, fill: 'var(--fd-enamel)' }));
+    var steps = 9, sh = (h - top - 40) / steps;
+    for (var i = 0; i < steps; i++) {
+      var y = h - (i + 1) * sh, inset = 34 + i * (w * 0.035);
+      s.appendChild(el('rect', { x: inset, y: y, width: w - 2 * inset, height: sh * 0.35, fill: 'var(--fd-fold)' }));
+      s.appendChild(el('rect', { x: inset, y: y + sh * 0.35, width: w - 2 * inset, height: sh * 0.65, fill: 'var(--fd-flap)' }));
+    }
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['the-feed.html'] = {
     prefix: 'feed-walk',
@@ -101,6 +123,11 @@
         decor.push(kit.item(girder(2400, 120), { x: 0, z: z, w: 2400, h: 120, y: Math.max(sh + LEGS + 360, 1100) }));
       }
 
+      // The way out of the back, beside the last board, up the hill.
+      var up = kit.door('the-source.html', { art: wayUp(520, 820), no: 'Up the hill', label: 'feed-walk-nameboard', cls: 'feed-walk-way',
+                                             x: Math.max(sw / 2 + 330, 760), z: END + 120, w: 520, h: 820 });
+      decor.push(up);
+
       var page = kit.screen(kit.page, 'The Feed’s own page, on the last board at the far end of the concourse');
       var plate = kit.item(page, { x: 0, z: END, w: sw, h: sh, y: LEGS, cls: 'feed-walk-board' });
       // The last board's legs, under the page.
@@ -112,6 +139,7 @@
       var stops = [
         kit.stop({ name: 'at the head of the concourse, the boards standing down both sides', spot: { x: 0, z: 0 } }),
         kit.stop({ name: 'between the boards, in the light one throws on the floor', spot: kit.front(boards[2], 900) }, boards[2]),
+        kit.stop({ name: 'at the way out of the back of the concourse, steps going up the hill to where every wire starts', spot: { x: 380, z: END - F, yaw: 0.3 }, link: up.link }, up),
         kit.stop({ name: 'at the far end, with the room’s own page on the last board', spot: { x: 0, z: END - F }, link: page }, plate)
       ];
 

@@ -105,6 +105,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['play-pod.html'] = {
     prefix: 'ppd-walk',
+    from: 'faery-yurt.html',
     build: function (kit) {
       var F = kit.F;
       var sh = kit.H - 24;

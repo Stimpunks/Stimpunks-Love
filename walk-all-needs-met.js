@@ -115,6 +115,7 @@
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['all-needs-met.html'] = {
     prefix: 'anm-walk',
+    from: 'natures-contribution.html',
     build: function (kit) {
       var F = kit.F;
       var sw = Math.min(kit.W - 24, 980), sh = kit.H - 24;
