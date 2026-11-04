@@ -489,6 +489,12 @@
    "about": "A farm stand on the street under its own solar lamp: wool, hemp cordage and cloth, pasteurised milk and cheese, eggs, meat and produce from All Together Now Farms and its neighbours in Nature’s Contribution. Prices on the board, money in the box, and nobody watching. No cannabis, no raw milk, and nothing from the sanctuary."
   },
   {
+   "tag": "the-quiet-stall",
+   "name": "The Quiet Stall",
+   "path": "/the-quiet-stall.html",
+   "about": "A public restroom on the street, lined with felt and cork so nothing echoes and nothing hums, lit by coves you cannot see. For everybody, wheelchair accessible, with changing tables, free menstrual products, condoms and naloxone, a sharps box, fragrance-free soap, paper towels and no air dryers."
+  },
+  {
    "tag": "neurohome",
    "name": "NeuroHome",
    "path": "/neurohome.html",

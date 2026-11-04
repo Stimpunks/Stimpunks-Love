@@ -962,6 +962,8 @@ PTS_DUSK, PTS_CARD, PTS_INK, PTS_INK2, PTS_LINK = "#2A2C45", "#343655", "#EFE7D7
 # undyed linen or on a slip lying on it; nothing set on the window, the loom or
 # a band of weft.
 VOL_LINEN, VOL_CARD, VOL_INK, VOL_INK2, VOL_LINK = "#EEE6D3", "#F8F4EA", "#261E33", "#574A5E", "#7B2340"
+QST_FELT, QST_WOOL, QST_TEXT, QST_DIM, QST_COVE, QST_LINK = "#4A4250", "#E2D8CB", "#F3EDE4", "#D5CCC1", "#EADFCD", "#F4D49E"
+QST_INK, QST_INK2, QST_PLUM = "#2A2430", "#4D4454", "#6B2F62"
 # Champuru (love.css §136). A table in the shade of a lane, lit by the sunlit
 # wall across from it: every word on the shade or on the cloth lying in it;
 # no word on the lit wall, the lane or the light down a card's side.
@@ -3799,6 +3801,22 @@ PAIRS = [
     (VOL_INK,   VOL_CARD,  False, "volunteers: everything on a slip: each thing on the help list, each playbook, "
                                   "the warp's threads and what is not on the loom"),
     (VOL_LINK,  VOL_CARD,  False, "volunteers: every link on a slip, and the focus ring there"),
+    # ── The Quiet Stall (§140) ─────────────────────────────────
+    # Every word on flat felt or on a flat wool plate; the cove light's
+    # gradient is only in the drawing, and no word stands in it.
+    (QST_TEXT,  QST_FELT,  False, "the quiet stall: every paragraph and quotation on the felt, the street door's blurb"),
+    (QST_DIM,   QST_FELT,  False, "the quiet stall: the trail, the line over the name, the caption, whose each "
+                                  "quotation is, and the job marker's floor line"),
+    (QST_COVE,  QST_FELT,  False, "the quiet stall: the name, every heading, and the street door's name"),
+    (QST_LINK,  QST_FELT,  False, "the quiet stall: every link on the felt, the backlink, the street door's knock "
+                                  "and the focus ring"),
+    (QST_WOOL,  QST_FELT,  False, "the quiet stall: the job marker's roll of paper on the cork floor, held to the "
+                                  "body threshold a marker is"),
+    (QST_INK,   QST_WOOL,  False, "the quiet stall: everything on a wool plate, the shared line for each thing "
+                                  "the restroom has, and the words FREE and IN USE on the plates in the drawing"),
+    (QST_INK2,  QST_WOOL,  False, "the quiet stall: how this restroom does each thing, under its shared line"),
+    (QST_PLUM,  QST_WOOL,  False, "the quiet stall: the name of each thing on a plate, a link there and the "
+                                  "focus ring there"),
     # ── Champuru (§136) ─────────────────────────────────────────────────────
     # Every word in the shade: on the flat shade, or on the cloth of a card or
     # of Ryan's words lying in it. Nothing set on the lane.
@@ -5131,6 +5149,17 @@ ORNAMENT = {
                "linen, carried by --vol-knot round every strip at 4.31. It carries no word.",
     "#2e3b6a": "volunteers: the indigo band of weft, on a heading's band and a slip's strip, 8.66 on the "
                "linen. It carries no word.",
+    "#3a3340": "the quiet stall: --qst-shade, the stall doors and the cove's lip in the drawing, the felt panels "
+               "and the street door's border and awning lip, 1.27 on the felt, every door outlined in --qst-ink. "
+               "It carries no word.",
+    "#b48a5f": "the quiet stall: --qst-cork, the cork floor and shelf in the drawing and the rule beside every "
+               "quotation, 3.08 on the felt. It carries no word.",
+    "#7f5d3f": "the quiet stall: --qst-cork-dark, the cork's speckle and the roll's core on the job marker, 1.62 "
+               "on the felt and carried by the cork round it. It carries no word.",
+    "#7a5e86": "the quiet stall: --qst-blanket, the heavy blanket folded on the bench in the drawing, 1.73 on "
+               "the felt and outlined in --qst-ink. It carries no word.",
+    "#d69276": "the quiet stall: --qst-busy, the square lamp over a stall in use in the drawing, 3.77 on the "
+               "felt; the plate beside it says IN USE in words, so the colour is never the only way to tell.",
     "#c9a9be": "pink pony club: --pony-ball, the mirrorball's darker facets, between its cream ones, 1.94 on "
                "the cream and drawn only on the ball. It carries no word.",
     "#3e8edc": "cel street: --cel-sky, the sky overhead in the street and in the drawing over the name, 3.15 on the page, in the canvas or the drawing over the name, aria-hidden. It carries no word.",

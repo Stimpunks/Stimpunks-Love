@@ -1,0 +1,45 @@
+{
+  "_what": "The Quiet Stall (§140): a public restroom on the street, lined with felt and cork so it gives nothing back, lit only by light from hidden coves washing the ceiling. Ryan's brief, 2026-11-03, for public restrooms on Danny the Street, each a room with a name and a theme; this one's theme is the sensory one, after our Bathroom Access page and our community's sensory needs, of which no air dryers is the loudest. tools/make-the-quiet-stall.py builds it, and tools/restrooms.py holds it to everything every restroom on the street has. Every sentence here is ours, written for this room. It never promises to calm anybody and never claims anything for a body: it says what is in the room and what is not.",
+  "lede": "A public restroom on the street, lined with felt and cork so that it gives nothing back: no echo, no hum, no roar of hot air off a wall. The light comes from coves hidden along the tops of the walls and lies across the ceiling, low and even, from nowhere you can see.",
+  "how": {
+    "everybody": "Every felt-lined stall here is for whoever comes in, and for anybody who comes in with them to help.",
+    "toilets": "The toilets flush with a hush rather than a roar, and the urinals stand behind doors of their own, just as quiet.",
+    "wheelchair": "The floor is level cork from the street door to every stall, the doors swing on closers that need no shoulder, and every stall has room to turn right round.",
+    "step": "The Step ’n Wash folds out from under the basins on a felt-padded hinge, so it opens and folds away without a clang.",
+    "changing": "The baby’s table folds down from the wall slowly under a hand, and the adult table rises and lowers on a motor quieter than the street outside, with the hoist parked on a cork mat beside it.",
+    "menstrual": "Pads and tampons wait in a felt pocket on the inside of every stall door, in wrappers that do not crackle.",
+    "condoms": "The condoms are in a deep cork bowl by the basins, so taking one makes no sound at all.",
+    "sharps": "The sharps box in every stall is fixed at a height you can reach sitting down, under a lid that closes softly.",
+    "naloxone": "The naloxone cabinet by the door opens on a magnet rather than a latch, with how to use it printed large on the inside of its door.",
+    "seating": "Outside the stalls a long upholstered bench runs along the felt wall, with a heavy blanket folded on it for anybody who wants the weight of one.",
+    "washing": "The soap is fragrance-free, the water comes warm at the first touch, and the paper towels come one at a time out of a dispenser that does not click.",
+    "quiet": "There is no air dryer here, and nothing else that hums: the extractor runs behind felt baffles and the lights have no buzz in them.",
+    "stalls": "Every stall door is faced in felt and closes softly on its own, and over it a small lamp says FREE or IN USE in words, round when it is free and square when it is not, so the colour is never the only way to tell.",
+    "belongings": "A cork shelf and two soft hooks in every stall, low enough to reach from a chair, so a bag, a coat, a cane or a pair of headphones never touches the floor.",
+    "signs": "The signs are matt felt with raised letters and braille, lit by the same cove light as everything else, so nothing on them glares.",
+    "free": "The street door opens at a touch at any hour, and there is no counter and nobody behind one."
+  },
+  "why": [
+    "Public restrooms are some of the loudest rooms most of us ever stand in: hard tile, hard doors, the roar of hot air, every sound coming back twice. For a lot of our community that noise is the barrier itself, the reason a restroom is one we cannot use at all, and it is the first thing this room took out.",
+    "Everything here is built the other way round, so that nothing in the room is louder than you are. The walls are felt and the floor is cork, the corners are rounded so nothing rings in them, and the light never flickers, because it is not a tube."
+  ],
+  "who": [
+    "Everybody, and whoever is with them: a carer of any gender, a parent, a friend, somebody holding your bag. Nobody has to choose between two doors here or explain the one they chose, because every stall is the same kind of stall."
+  ],
+  "free": [
+    "Everything on the shelf by the basins is free, with nothing to ask for and nobody to ask: pads and tampons, condoms, naloxone, and a box for a needle so it never has to go anywhere else."
+  ],
+  "rules": [
+    {"name": "Nothing moves in here, at any setting.", "line": "MAX GLITTER included. The cove light lies where it lies and nothing on the page is drawn moving."},
+    {"name": "Nothing here promises anything to your body.", "line": "The room says what is in it and what is not. What a quiet room does for you is yours to say."},
+    {"name": "No sign says who may come in.", "line": "Every stall is for everybody, and the signs only say where things are."},
+    {"name": "Nobody is counted.", "line": "Not who came in, not how long they stayed, not how many stalls were in use."},
+    {"name": "Nobody asks.", "line": "Not why you are here, not what you need, not who you are with."}
+  ],
+  "quotes": {
+    "why": ["construct"],
+    "who": ["multiple", "stallbatting"],
+    "free": ["condoms", "naloxone"]
+  },
+  "drawing_words": "The Quiet Stall drawn from the bench: a row of felt-faced stall doors with rounded corners, running floor to ceiling, a small lamp over each saying FREE or IN USE, round or square; the ceiling washed pale by light from coves hidden along the tops of the walls, with no lamp anywhere; a long upholstered bench along the felt wall with a heavy blanket folded on it; a basin with a step folded under it, a towel dispenser and a shelf with a cork bowl; and a cork floor. Nothing in it moves."
+}

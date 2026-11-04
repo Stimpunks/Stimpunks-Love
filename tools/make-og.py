@@ -1115,6 +1115,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--vol h1 {{ font-size: 84px; margin-top: 6px !important; line-height: 1; }}
 .og--vol .vol-sub {{ font-size: 27px; margin-top: 8px !important; max-width: 1080px; }}
 
+/* the quiet stall — THE STALLS FROM THE BENCH. The page's own drawing, lifted
+   rather than redrawn, cropped to the ceiling lit from the hidden coves and the
+   felt doors under it, and every word below it on the felt, where the room sets
+   every word. No light is added for the card. */
+.og--qst {{ width: 100%; padding: 0 0 26px; gap: 0; justify-content: flex-start; }}
+.og--qst .og-room {{ margin: 0 !important; line-height: 0; }}
+.og--qst .og-room svg {{ display: block; width: 1200px; height: auto; max-width: none; border: 0; border-radius: 0; }}
+.og--qst .og-words {{ padding: 16px 60px 0; }}
+.og--qst .og-words > * {{ margin: 0 !important; }}
+.og--qst .qst-over {{ font-size: 18px; }}
+.og--qst h1 {{ font-size: 84px; margin-top: 6px !important; line-height: 1; }}
+.og--qst .qst-sub {{ font-size: 26px; margin-top: 8px !important; max-width: 1080px; }}
+
 /* the haunted house — THE SET IN THE WAREHOUSE. The page's own drawing, lifted
    rather than redrawn, cropped to the house's front with the light in its
    seams, and every word below it on the painted dark, where the room sets every
@@ -4418,6 +4431,38 @@ def card_vol(p):
     )
 
 
+def card_qst(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE STALLS ARE
+    # LIFTED FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="qst-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="qst-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: the-quiet-stall.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    # The card shows the lit ceiling and the stalls, cropped by the drawing's
+    # own viewBox rather than by a margin.
+    room = p["qstroom"].replace('viewBox="0 0 1200 380"', 'viewBox="0 0 1200 340"', 1)
+    if room == p["qstroom"]:
+        raise SystemExit(
+            "REFUSING: the-quiet-stall.html's drawing is no longer 1200 by 380, and the card crops\n"
+            "it by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--qst" data-fit="card">'
+        f'<div class="og-room">{room}</div>'
+        f'<div class="og-words"><p class="qst-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="qst-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A card the colour of dusky felt. Across the top, a quiet public restroom: the ceiling lit pale by "
+        f"light from coves you cannot see, a row of felt stall doors with rounded corners, each with a small lamp "
+        f"over it and a plate saying FREE or IN USE, a bench with a heavy purple blanket folded on it, a basin, "
+        f"and a speckled cork floor. Below, small pale capitals reading {plain(over.group(1))}, then "
+        f"\u201c{p['h1text']}\u201d in large rounded cream letters, and under it: {plain(sub.group(1))}",
+    )
+
+
 def card_hh(p):
     # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE SET ARE LIFTED
     # FROM THE PAGE, so the card cannot say what the room does not.
@@ -6067,6 +6112,7 @@ CARDS = {
     "coping": card_cop,
     "pets": card_pts,
     "volunteers": card_vol,
+    "quiet-stall": card_qst,
     "haunted": card_hh,
     "paper-street": card_ps,
     "cel-street": card_cel,
@@ -6220,6 +6266,7 @@ def main():
         ("copeye",   "coping.html",       r'(<svg class="cop-eye".*?</svg>)'),
         ("ptsfloor", "pets.html",         r'(<svg class="pts-floor".*?</svg>)'),
         ("volloom",  "volunteers.html",   r'(<svg class="vol-loom".*?</svg>)'),
+        ("qstroom",  "the-quiet-stall.html", r'(<svg class="qst-room".*?</svg>)'),
         ("wdscity",  "widdershins.html",  r'(<svg class="wds-city".*?</svg>)'),
         ("hhset",    "haunted-house.html", r'(<svg class="hh-set".*?</svg>)'),
         ("psarch",   "paper-street.html", r'(<svg class="ps-arch".*?</svg>)'),

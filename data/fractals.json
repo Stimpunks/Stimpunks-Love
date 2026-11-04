@@ -2040,6 +2040,22 @@
         "--hbx-corn"
       ]
     },
+    "the-quiet-stall.html": {
+      "kind": "julia",
+      "c": [
+        -0.613,
+        0.426
+      ],
+      "orbit": 0.012,
+      "bands": 0.04,
+      "ground": "--qst-felt",
+      "inks": [
+        "--qst-cove",
+        "--qst-blanket",
+        "--qst-cork",
+        "--qst-dim"
+      ]
+    },
     "wide-spread-chaos.html": {
       "kind": "ifs",
       "figure": "dragon",
