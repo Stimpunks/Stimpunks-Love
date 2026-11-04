@@ -1310,6 +1310,22 @@
         "--chp-leaf"
       ]
     },
+    "comfort-station.html": {
+      "kind": "orbit",
+      "c": [
+        -0.612,
+        0.468
+      ],
+      "trap": "point",
+      "radius": 0.35,
+      "ground": "--cst-tile",
+      "inks": [
+        "--cst-trim",
+        "--cst-link",
+        "--cst-prism",
+        "--cst-brass"
+      ]
+    },
     "your-room.html": {
       "kind": "julia",
       "power": 3,

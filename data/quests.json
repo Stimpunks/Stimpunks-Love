@@ -2026,6 +2026,38 @@
    }
   },
   {
+   "id": "cst-prism",
+   "page": "comfort-station.html",
+   "room": "The Comfort Station",
+   "title": "A word for getting in the way",
+   "posted": "Next door to the restaurant in the lane, steps go down under the park to a public restroom lit through the pavement. A young Stimpunk once coined a word for what every restroom on this street is built against, and it is written on the wall down there. Go and read it.",
+   "rank": 1,
+   "takes": "about as long as it takes to wash your hands",
+   "target": "a glass prism fallen out of the pavement onto the terrazzo",
+   "code": "PRISM",
+   "learned": "A young Stimpunk, a baseball fan, coined stallbatting: interfering with someone going to the bathroom of their choosing. Every public restroom on the street is for everybody, so nobody can get between anybody and the door they choose.",
+   "hints": [
+    "On the street itself, in the row of shopfronts, next door to Champuru: a white-tiled front with steps going down.",
+    "On the wall by the basins, in the first words there.",
+    "At the foot of the room, on the terrazzo, where a prism has fallen out of the path overhead."
+   ],
+   "ask": {
+    "question": "A young Stimpunk, a baseball fan, coined a word for interfering with someone going to the bathroom of their choosing. What is the word?",
+    "accept": [
+     "stallbatting",
+     "stall batting",
+     "stall-batting"
+    ],
+    "answer": "Stallbatting",
+    "why": "A young Stimpunk, a baseball fan, coined stallbatting for interfering with someone going to the bathroom of their choosing, and every restroom on the street is built so nobody can.",
+    "hints": [
+     "It is in the first words on the wall by the basins.",
+     "It is a word from baseball with a stall in front of it.",
+     "Stall..."
+    ]
+   }
+  },
+  {
    "id": "looming-flood",
    "page": "looming-rocks.html",
    "room": "Looming Rocks Amphitheatre",

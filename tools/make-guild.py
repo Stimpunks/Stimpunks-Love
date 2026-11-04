@@ -425,7 +425,14 @@ DRAW = {
     # threshold a marker is held to, round a small pale flower in --chp-sun,
     # with the floor line in --chp-ink-2. It lies in the shade and does not move.
     "chp-bract": """<path d="M3 29 H29" stroke="var(--chp-ink-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 20 C10 20 6 15 8 10 C12 10 16 14 16 20 Z" fill="var(--chp-bougain)"/><path d="M16 20 C17 13 22 9 27 11 C27 16 22 20 16 20 Z" fill="var(--chp-bougain)"/><path d="M16 20 C12 23 12 27 16 28 C20 27 20 23 16 20 Z" fill="var(--chp-bougain)"/><path d="M16 20 L16 15" stroke="var(--chp-ink-2)" stroke-width="1.2" stroke-linecap="round"/><circle cx="16" cy="14.5" r="1.8" fill="var(--chp-sun)" stroke="var(--chp-ink-2)" stroke-width=".8"/>""",
-    "samefood-divider": """<path d="M3 29 H29" stroke="var(--sf-ink-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 25 L7 13 L10 21 L13 8 L16 21 L19 9 L22 21 L25 12 L27 25 Z" fill="none" stroke="var(--sf-cress)" stroke-width="2.2" stroke-linejoin="round"/><path d="M5 25 H27" stroke="var(--sf-cress)" stroke-width="2.6" stroke-linecap="round"/>""",
+    # The Comfort Station: a glass prism fallen out of the pavement onto the
+    # terrazzo, a squat round lens of aged violet glass lying on its side. The
+    # glass is --cst-prism, 1.70 on the tile, so its outline in --cst-ink,
+    # 14.15, carries it over the body threshold a marker is held to, with the
+    # light it holds in --cst-glow and the floor line in --cst-ink-2, 7.39. It
+    # lies where it fell and does not move.
+    "cst-prism": """<path d="M3 29 H29" stroke="var(--cst-ink-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M7 22 Q7 15 16 15 Q25 15 25 22 Q25 26 16 26 Q7 26 7 22 Z" fill="var(--cst-prism)" stroke="var(--cst-ink)" stroke-width="1.6" stroke-linejoin="round"/><path d="M7 22 Q7 18.5 16 18.5 Q25 18.5 25 22" fill="none" stroke="var(--cst-ink)" stroke-width="1.1"/><ellipse cx="13" cy="17.4" rx="2.6" ry="1" fill="var(--cst-glow)"/>""",
+    "samefood-divider":"""<path d="M3 29 H29" stroke="var(--sf-ink-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 25 L7 13 L10 21 L13 8 L16 21 L19 9 L22 21 L25 12 L27 25 Z" fill="none" stroke="var(--sf-cress)" stroke-width="2.2" stroke-linejoin="round"/><path d="M5 25 H27" stroke="var(--sf-cress)" stroke-width="2.6" stroke-linecap="round"/>""",
     # A luggage tag come off its string -- the kind tied to every thing in the
     # gallery -- lying on the dark floor with its string still through the hole.
     # The tag is --cc-card, 15.89 on the floor, over the body threshold a marker
