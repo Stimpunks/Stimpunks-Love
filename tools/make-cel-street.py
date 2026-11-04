@@ -264,6 +264,11 @@ levels = board_of("arlesglad-caverns.html", "cav-stop", "cav-stop__key", "cav-st
 write_list("cel-in-arlesglad-caverns.js", "levels", "LEVELS",
            [{"key": l["no"], "room": l["name"], "page": l["page"]} for l in levels], "      ")
 
+# Nature's Contribution's fingerpost has an arm for every place on the land,
+# read off the page's own post; written between cel:arms markers, never by hand.
+write_list("cel-in-natures-contribution.js", "arms", "ARMS",
+           board_of("natures-contribution.html", "ncx-arm", "ncx-arm__no", "ncx-arm--raising", "fingerpost arm"), "  ")
+
 # The World room hangs a garden for every part of the Map its directory has,
 # with that part's heading; written between cel:parts markers, never by hand.
 # Its gardens stand in pairs down both sides in three rows before the web, so a

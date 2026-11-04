@@ -41,6 +41,9 @@
       var PITCHES = [{"no": "THE SUMMIT", "name": "The Emergent Future Worlds Meets Mountain Man", "page": "the-mountain-cabin.html", "state": "summit"}, {"no": "PITCH 01", "name": "The Faery Yurt", "page": "faery-yurt.html", "state": ""}, {"no": "PITCH 05", "name": "The Bough House", "page": "the-bough-house.html", "state": ""}, {"no": "PITCH 02", "name": "Swaying Sweetgrass", "page": "swaying-sweetgrass.html", "state": ""}, {"no": "PITCH 03", "name": "The Solarpunk Hermitage", "page": "solarpunk-hermitage.html", "state": ""}, {"no": "PITCH 04", "name": "Brew and Stew", "page": "brew-and-stew.html", "state": ""}];
       // cel:pitches:end
 
+      // Where the one track through the wood leaves the field, over the stream.
+      var TRACK = -10;
+
       // DUSK, AND NOTHING LIGHTING IT.
       kit.scene.background = kit.col('--dusk');
       kit.scene.fog = new T.Fog(kit.col('--dusk'), 40, 520);
@@ -64,6 +67,7 @@
         var a = k / 70 * Math.PI * 2, d = 46 + hash(k, 2, 1) * 10;
         var sx = Math.sin(a) * d, sz = -24 - Math.cos(a) * d * 0.9;
         if (sz > -1 && Math.abs(sx) < 3) continue;
+        if (sz < -40 && Math.abs(sx - TRACK) < 3) continue;
         spruce(sx, sz, 5 + hash(k, 2, 2) * 5);
       }
       // The gap you came through, and the trees either side of it.
@@ -290,6 +294,27 @@
 
       stops.push({ name: 'the cable car', where: 'at the cable car, waiting just out of the station by the pond', room: 'the cable car, up to the cabin at the summit',
                    page: 'the-mountain-cabin.html', x: hang.x - 7, z: hang.z + 1.5, yaw: Math.atan2(-7, 1.5), pitch: 0.27 });
+
+      // THE TRACK THROUGH THE WOOD. The page says the stream is the boundary
+      // and the wood past it is not mapped, and that one track goes through it
+      // to a stile onto open land. So: a plank bridge over the stream, the
+      // track going on into the trees as far as you can see, which is not far,
+      // and a post at this end saying where it comes out. The wood itself is
+      // not drawn any further than the treeline already is.
+      for (k = 0; k < 9; k++) box(1.6, 0.08, 0.3, at(TRACK, 0.1, -44.4 - k * 0.4), '--bark', 0.02);
+      [-0.75, 0.75].forEach(function (o) { box(0.08, 0.5, 3.6, at(TRACK + o, 0.4, -46), '--bark', false); });
+      for (k = 0; k < 30; k++) {
+        kit.flat(new T.CircleGeometry(0.09 + hash(k, 8, 1) * 0.06, 6),
+          at(TRACK + (hash(k, 8, 2) - 0.5) * 1.1, 0.025, -42 - hash(k, 8, 3) * 2.2, 0, -Math.PI / 2), '--lichen');
+      }
+      box(1.4, 0.04, 14, at(TRACK, 0.0, -55), '--spruce', false, false);
+      var tg = at(TRACK + 2.3, 0, -41.4, -0.35);
+      box(0.22, 2.3, 0.22, M(tg, at(0, 1.15, -0.06)), '--bark');
+      box(1.84, 1.0, 0.12, M(tg, at(0, 2.0, 0)), '--bark');
+      kit.sheet(sign({ no: 'THE TRACK', name: 'Through the wood to Nature’s Contribution' }), 1.7, 0.9, M(tg, at(0, 2.0, 0.065)));
+      stops.push({ name: 'Nature’s Contribution', where: 'at the track through the wood, by the bridge over the stream',
+                   room: 'the track through the wood, out to the stile onto Nature’s Contribution',
+                   page: 'natures-contribution.html', x: TRACK + 0.4, z: -38.4, yaw: 0.05, pitch: 0.12 });
 
       // THE TRAILHEAD BOARD by the gap, with the field's own page on it,
       // under a little roof of bark.
