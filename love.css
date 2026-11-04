@@ -4542,6 +4542,23 @@
   --sea-glare: #FFFFFB;  --sea-tile: #CFE4D8;  --sea-tile-2: #A9CDBD;
   --sea-glass: #D7E8EC;  --sea-shade: #C8D6E2;  --sea-sand: #E8DDBF;
   --sea-free: #2E7D4F;  --sea-inuse: #B23A2E;
+  /* The Quiet Stall (§140): a public restroom lined with felt and cork, lit by
+     coves hidden along the tops of the walls, so the light lies on the ceiling
+     and comes down off it low and even. The page: --qst-felt its ground, the
+     felt of the walls at dusk; --qst-wool a card or a plate lying on it;
+     --qst-text every word on the felt and --qst-dim the quieter ones;
+     --qst-cove the name and the headings, the colour of the lit ceiling;
+     --qst-link the links on the felt; --qst-ink every word on wool and
+     --qst-ink-2 the quieter ones, --qst-plum a heading or a link on wool. The
+     room, drawn in no word: --qst-shade the stall doors and the cove's lip,
+     --qst-cork and --qst-cork-dark the floor and the shelf, --qst-blanket the
+     heavy blanket on the bench, --qst-free and --qst-busy the lamps over the
+     stalls, which always say FREE or IN USE in words beside them. */
+  --qst-felt: #4A4250;  --qst-wool: #E2D8CB;  --qst-text: #F3EDE4;
+  --qst-dim: #D5CCC1;  --qst-cove: #EADFCD;  --qst-link: #F4D49E;
+  --qst-ink: #2A2430;  --qst-ink-2: #4D4454;  --qst-plum: #6B2F62;
+  --qst-shade: #3A3340;  --qst-cork: #B48A5F;  --qst-cork-dark: #7F5D3F;
+  --qst-blanket: #7A5E86;  --qst-free: #86AE8F;  --qst-busy: #D69276;
 
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
@@ -6076,6 +6093,19 @@ div.facade--square { border: 0; background: none; }
 .door--honesty .door__name  { font-family: 'Calistoga', var(--sans); font-weight: 400; color: var(--hbx-lamp); font-size: 27px; line-height: 1.05; font-synthesis: none; }
 .door--honesty .door__blurb { font-family: 'Khula', var(--sans); color: var(--hbx-text); font-size: 14px; font-synthesis: none; }
 .door--honesty .door__knock { font-family: 'Khula', var(--sans); font-weight: 700; font-size: 13px; color: var(--hbx-link); font-synthesis: none; }
+/* THE QUIET STALL'S DOOR IS ITS CEILING: a felt door with rounded corners, and
+   over it an awning the colour of a ceiling lit from coves you cannot see,
+   with the cove's dark lip along its foot. The sign under it says what it is
+   in words, a public restroom for everybody, and never with a figure. */
+.door--qst { background-color: var(--qst-felt); border-color: var(--qst-shade); border-radius: 14px; }
+.door--qst .door__awning {
+  background-color: var(--qst-cove);
+  border-bottom: 7px solid var(--qst-shade);
+  border-radius: 10px 10px 0 0;
+}
+.door--qst .door__name  { font-family: 'Nunito', var(--sans); font-weight: 700; color: var(--qst-cove); font-size: 28px; line-height: 1.1; font-synthesis: none; }
+.door--qst .door__blurb { font-family: 'Atkinson Hyperlegible', var(--sans); color: var(--qst-text); font-size: 15px; font-synthesis: none; }
+.door--qst .door__knock { font-family: 'Atkinson Hyperlegible', var(--sans); font-weight: 700; font-size: 14px; color: var(--qst-link); font-synthesis: none; }
 .door--empty { background: var(--ink-2); border-style: dashed; border-color: #7c6ba8; }
 .door--empty .door__awning { background-image: repeating-linear-gradient(90deg, var(--ink-3) 0 14px, var(--ink-2) 14px 28px); border-bottom-style: dashed; border-bottom-color: #7c6ba8; }
 .door--empty .door__name  { font-family: 'Bungee', var(--sans); color: var(--chalk); font-size: 23px; }
@@ -29943,6 +29973,68 @@ body.seaside { background: var(--sea-haze); color: var(--sea-ink); font-family: 
 .sea-rules li, .sea-credits li { margin: 0 0 10px; font-size: 18px; line-height: 1.55; }
 .sea-credits li { font-size: 16px; }
 @media (max-width: 600px) { .seaside h2 { font-size: 25px; } .sea-sub { font-size: 19px; } }
+/* §140 ── ROOM: The Quiet Stall (a public restroom on the street) ─────────────
+   Felt on the walls, cork on the floor, every corner rounded, and the light
+   from coves hidden along the tops of the walls, so the ceiling is the
+   brightest thing in the room and the light comes down off it low and even,
+   warm-neutral, from nowhere you can see. Nothing moves at any setting.
+
+   THE COLLISIONS, and they are all the other soft rooms:
+     · the Cooldown Room (§69) is lit by one pale vending-machine panel at the
+       side of a small soft room, a source you can see and read by. Here no
+       source can be seen at all, and the light is on the ceiling.
+     · the Healing Checkpoint (§31) is lit from under water, up out of the
+       floor, every underside rimmed. Here the floor is cork and dark, and the
+       light comes down, never up.
+     · the Adventurer's Guild (§26) is lit from nowhere too, but evenly on
+       manila with nothing casting anything and everything ruled square. Here
+       the ground is felt the colour of dusk, there is no straight corner, and
+       the ceiling is lighter than the walls, which is a direction.
+     · the Community Center (§51) is a sage window seat in north light. There
+       is no window in here and nothing green but the lamp that says FREE.
+     · Stay Breezy (§64) is pale and warm, lit by a lamp under every fan. Here
+       nothing hums, nothing turns, and there is no lamp anywhere you can see.
+   If a bulb, a tube or a window ever appears in the drawing, the light has
+   become one of theirs, and it is this room that moves.
+
+   EVERY WORD SITS ON FLAT FELT OR FLAT WOOL, never on the light's gradient,
+   which is only in the drawing; the light on the page is the pale band of
+   the name and the headings, the colour of the lit ceiling. */
+.quiet-stall { background: var(--qst-felt); color: var(--qst-text); font-family: 'Atkinson Hyperlegible', var(--sans); font-synthesis: none; }
+.quiet-stall .wrap { max-width: 1040px; }
+.quiet-stall a { color: var(--qst-link); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.quiet-stall a:hover { text-decoration-thickness: 4px; }
+.quiet-stall :focus-visible { outline: 3px solid var(--qst-link); outline-offset: 3px; border-radius: 8px; }
+.quiet-stall .backlink { font-family: 'Atkinson Hyperlegible', var(--sans); font-weight: 700; font-size: 15px; color: var(--qst-link); }
+.qst-topline { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 18px; align-items: baseline; padding-top: 22px; }
+.qst-trail { margin: 0; font-size: 14px; color: var(--qst-dim); }
+.qst-head { margin: 26px 0 0; }
+.qst-over { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: .06em; color: var(--qst-dim); }
+.quiet-stall h1 { margin: 6px 0 0; font-family: 'Nunito', var(--sans); font-weight: 700; font-size: clamp(44px, 8vw, 82px); line-height: 1.02; color: var(--qst-cove); }
+.qst-sub { margin: 10px 0 0; font-size: 21px; line-height: 1.45; max-width: 44em; }
+.qst-figure { margin: 26px 0 0; }
+.qst-room { display: block; width: 100%; height: auto; border: 3px solid var(--qst-shade); border-radius: 26px; }
+.qst-caption { margin: 10px 0 0; font-size: 15px; line-height: 1.5; color: var(--qst-dim); max-width: 52em; }
+.qst-lede { margin: 26px 0 0; font-size: 20px; line-height: 1.6; max-width: 44em; }
+.qst-part { margin: 40px 0 0; max-width: 52em; }
+.quiet-stall h2 { margin: 0 0 12px; font-family: 'Nunito', var(--sans); font-weight: 700; font-size: 30px; line-height: 1.15; color: var(--qst-cove); }
+.qst-part > p { font-size: 18px; line-height: 1.65; }
+/* The list every restroom carries, as wool plates on the felt, every corner
+   rounded, the cove's pale line along each top. */
+.qst-has { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.qst-has__item { background: var(--qst-wool); color: var(--qst-ink); border-radius: 22px; border-top: 6px solid var(--qst-cove); padding: 14px 18px 16px; }
+.qst-has__name { margin: 0 0 6px; font-family: 'Nunito', var(--sans); font-weight: 700; font-size: 20px; line-height: 1.2; color: var(--qst-plum); }
+.qst-has__line { margin: 0; font-size: 16px; line-height: 1.5; }
+.qst-has__how { margin: 8px 0 0; font-size: 15px; line-height: 1.5; color: var(--qst-ink-2); }
+.qst-has__item a { color: var(--qst-plum); }
+.qst-has__item :focus-visible { outline-color: var(--qst-plum); }
+.qst-quote { margin: 18px 0 0; padding: 4px 0 4px 20px; border-left: 6px solid var(--qst-cork); border-radius: 3px; }
+.qst-quote p { margin: 0; font-size: 19px; line-height: 1.55; }
+.qst-quote footer { margin: 6px 0 0; font-size: 15px; color: var(--qst-dim); }
+.qst-rules, .qst-credits { margin: 0; padding-left: 1.2em; }
+.qst-rules li, .qst-credits li { font-size: 17px; line-height: 1.6; }
+.qst-rules li + li, .qst-credits li + li { margin-top: 8px; }
+.quiet-stall .quest { margin-top: 40px; }
 
 /* §141 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */

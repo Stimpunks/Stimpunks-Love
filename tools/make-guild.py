@@ -388,6 +388,12 @@ DRAW = {
     # outlined in --vol-knot. The floor line is --vol-ink-2 and carries nothing.
     # A loose end of thread runs off it. It lies still, like the shuttle.
     "vol-bobbin": """<path d="M3 29.5 H29" stroke="var(--vol-ink-2)" stroke-width="1.6" stroke-linecap="round"/><rect x="6" y="15" width="4" height="13" rx="1.5" fill="var(--vol-wood)" stroke="var(--vol-knot)" stroke-width="1.2"/><rect x="22" y="15" width="4" height="13" rx="1.5" fill="var(--vol-wood)" stroke="var(--vol-knot)" stroke-width="1.2"/><rect x="10" y="17" width="12" height="9" fill="var(--vol-link)" stroke="var(--vol-knot)" stroke-width="1.1"/><path d="M10.5 19.2 H21.5 M10.5 21.5 H21.5 M10.5 23.8 H21.5" stroke="var(--vol-knot)" stroke-width=".6" opacity=".55"/><path d="M22 25.5 C25 27.5 26 28 29 27.6" fill="none" stroke="var(--vol-link)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # The Quiet Stall: a spare roll of paper on the cork by the bench, lying on
+    # its side with its end showing and a sheet trailing off it. The roll is
+    # --qst-wool, 6.82 on the felt it lies against and over the body threshold
+    # a marker is held to, outlined in --qst-ink; its core is --qst-cork-dark.
+    # The floor line is --qst-dim and carries nothing. It lies still.
+    "qst-roll": """<path d="M3 29.5 H29" stroke="var(--qst-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 18.5 H20 A5 5 0 0 1 20 28.5 H8 Z" fill="var(--qst-wool)" stroke="var(--qst-ink)" stroke-width="1.2" stroke-linejoin="round"/><ellipse cx="8" cy="23.5" rx="3.6" ry="5" fill="var(--qst-wool)" stroke="var(--qst-ink)" stroke-width="1.2"/><ellipse cx="8" cy="23.5" rx="1.3" ry="1.9" fill="var(--qst-cork-dark)"/><path d="M20 28.5 C23.5 28.6 26 28.4 29 28.2" fill="none" stroke="var(--qst-wool)" stroke-width="1.6" stroke-linecap="round"/>""",
     # Show Your Work: a blank card fallen off the wall onto the garage floor,
     # face up, with its strip of masking tape still on it. The card is
     # --syw-card, 14.63 on the shade and over the body threshold a marker is held

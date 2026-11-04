@@ -82,6 +82,7 @@ ORDER = ["index.html",
          "pekoe-and-purrs.html",
          "a-quiet-pint.html",
          "the-honesty-box.html",
+         "the-quiet-stall.html",
          "neurohome.html",  # Isha Snow's, brought in by tools/import-room.py
          "words-bud-beats.html",  # Kristina Brooke's, brought in by tools/import-room.py
          "sandbox.html",  # brought in by tools/import-room.py

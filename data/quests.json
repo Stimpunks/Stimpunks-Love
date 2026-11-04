@@ -1370,6 +1370,38 @@
    }
   },
   {
+   "id": "qst-roll",
+   "page": "the-quiet-stall.html",
+   "room": "The Quiet Stall",
+   "title": "The word for getting in the way",
+   "posted": "There is a public restroom on the street lined with felt and cork, where nothing echoes and nothing hums. It quotes the word a young Stimpunk made up for stopping somebody using the bathroom of their choosing. Go and find out what it is.",
+   "rank": 1,
+   "takes": "about as long as it takes to wash your hands properly",
+   "target": "a spare roll of paper lying on its side on the cork floor, a sheet trailing off it",
+   "code": "HUSH",
+   "learned": "Our Bathroom Access page says a young Stimpunk, a baseball fan, coined stallbatting: interfering with someone going to the bathroom of their choosing. Every public restroom on the street is for everybody, so nobody there gets to do it.",
+   "hints": [
+    "On the street itself, in the row of shopfronts, right after the Honesty Box: the felt door whose awning is the colour of a ceiling lit from somewhere you cannot see.",
+    "It is quoted under Who it is for, after the paragraph about carers.",
+    "Right at the foot of the room, on the cork floor, where a spare roll has rolled off the shelf."
+   ],
+   "ask": {
+    "question": "A young Stimpunk, a baseball fan, made up a word for interfering with someone going to the bathroom of their choosing. What is it?",
+    "accept": [
+     "stallbatting",
+     "stall batting",
+     "stall-batting"
+    ],
+    "answer": "Stallbatting",
+    "why": "Our Bathroom Access page says a young Stimpunk, a baseball fan, coined stallbatting: interfering with someone going to the bathroom of their choosing. Every stall in the Quiet Stall is for everybody, which is the opposite.",
+    "hints": [
+     "It is in the second quotation under Who it is for.",
+     "It is a baseball word with a stall in front of it.",
+     "Stallbatting."
+    ]
+   }
+  },
+  {
    "id": "wsc-seed",
    "page": "wide-spread-chaos.html",
    "room": "Wide-Spread Chaos Gardens",

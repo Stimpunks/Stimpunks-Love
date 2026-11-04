@@ -237,6 +237,11 @@
    "room": "The Honesty Box"
   },
   {
+   "id": "qst-roll",
+   "title": "The word for getting in the way",
+   "room": "The Quiet Stall"
+  },
+  {
    "id": "wsc-seed",
    "title": "What is never in the mix?",
    "room": "Wide-Spread Chaos Gardens"
