@@ -32236,6 +32236,22 @@ body.excursions { background: var(--exc-lobby); color: var(--exc-ink); font-fami
 .exc-who { margin: 0 0 8px; color: var(--exc-print-2); font-size: 15px; }
 .exc-line { margin: 0; }
 .exc-credits { margin-top: 40px; color: var(--exc-ink-2); font-size: 15px; max-width: 46em; }
+/* Excursions on Paper Street (walk-excursions.js, 2026-11-05). The stage takes
+   the lobby's clothes: its frame is the rack's wire, everything behind it is
+   the dark of the lobby with the overhead lights off, and the printed backcloth
+   goes. The page hangs on the left wall in a frame of the same wire. The
+   newest brochure, on its stand, is the way into Retail Therapy, its name
+   lettered on the paper in the room's own face and print. */
+.exc-walk { --ps-frame: var(--exc-wire); --ps-back: var(--exc-lobby); --ps-backcloth: none; }
+.exc-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--exc-lobby);
+  border-radius: 2px; box-shadow: 0 0 0 10px var(--exc-wire);
+}
+.exc-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--exc-lobby); }
+.exc-walk-door { --ps-takes: auto; }
+.exc-walk-way { --ps-way: var(--exc-print); top: 110px; height: 190px; justify-content: center; padding: 6px 66px 6px 36px; font-family: 'Josefin Sans', var(--sans); font-weight: 600; font-size: 34px; line-height: 1.05; }
+.exc-walk-way .ps-way__no { color: var(--exc-print-2); font-family: 'Public Sans', var(--sans); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
+.exc-walk-way:focus-visible { outline-color: var(--exc-print); }
 
 /* §142 ── SUBROOM: Retail Therapy (an excursion on the rack in Excursions) ───────
    NORAH HOBBS'S SHOP THAT SELLS NOTHING, made with Claude for Infodumplings on
@@ -32446,6 +32462,17 @@ body.retail-therapy[data-lights="down"] {
 .retail-therapy .rth-tile, .retail-therapy .rth-book__spine { transition: transform .12s ease; }
 .retail-therapy .rth-tile:active, .retail-therapy .rth-book__spine:active { transform: scale(.98); }
 body.retail-therapy, .retail-therapy .rth-lights__btn { transition: background-color .25s, color .25s; }
+/* Retail Therapy on Paper Street (walk-retail-therapy.js, 2026-11-05), ours
+   and hers to keep or send back: the stage takes her shop's clothes with the
+   lights low, its frame her teal register, everything behind it her pale sky,
+   and the printed backcloth goes. Her page hangs on the right wall on a board
+   of her shelf's pale, edged in her teal. */
+.rth-walk { --ps-frame: var(--rth-register); --ps-back: var(--rth-sky); --ps-backcloth: none; }
+.rth-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--rth-floor);
+  border-radius: 6px; box-shadow: 0 0 0 8px var(--rth-shelf), 0 0 0 12px var(--rth-register);
+}
+.rth-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--rth-floor); }
 
 /* §143 ── ROOM: The Clacks Tower (a room behind Widdershins) ────────────────
    A tower of the Grand Trunk, the semaphore company in Terry Pratchett's Going
