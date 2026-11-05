@@ -603,6 +603,12 @@
    "about": "A shopfront for the citizens band: CB radios, the slang truckers talk on them, where the band came from and why it was named for citizens, and how it made this street’s own CB. Dale Watson’s Truckin’ Sessions and C. W. McCall’s Convoy on the rack, and every light a marker lamp, like a convoy at night."
   },
   {
+   "tag": "spaceholder-saloon",
+   "name": "Spaceholder Saloon",
+   "path": "/spaceholder-saloon.html",
+   "about": "A saloon for spaceholding, venting, solidarity and straight up bitchin' on spoon fumes, lit by oil lamps on the mantle."
+  },
+  {
    "tag": "your-room",
    "name": "Your Room",
    "path": "/your-room.html",

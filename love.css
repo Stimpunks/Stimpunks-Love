@@ -4698,6 +4698,35 @@
   --sb-ember: #ec7a3c;
   --sb-emberdeep: #a8431f;
   /* import:sandbox:root:end */
+
+  /* import:spaceholder-saloon:root:begin */
+  /* Norah's room, Spaceholder Saloon -- brought in by tools/import-room.py.
+     Their colours exactly as their artifact declared them, replaced whole on
+     re-import. Measured in data/rooms/spaceholder-saloon.json. */
+  --ss-ground: #1d130d;
+  --ss-ink: #f4e6c8;
+  --ss-amber: #ffc65c;
+  --ss-board: #15201a;
+  --ss-chalk: #eef3e6;
+  --ss-plank: #2b1c13;
+  --ss-focus: #8fe3ff;
+  --ss-wall: #34221a;
+  --ss-seam: #160e09;
+  --ss-stone: #5b4a40;
+  --ss-stone-dark: #43362f;
+  --ss-soot: #0c0705;
+  --ss-ember: #d9582a;
+  --ss-flame: #ffad3b;
+  --ss-flame-core: #fff2c4;
+  --ss-brass: #c4934a;
+  --ss-rootbeer: #6e361a;
+  --ss-floor: #24170f;
+  --ss-oak: #9a6634;
+  --ss-oak-dark: #5c3518;
+  --ss-quilt: #a2453a;
+  --ss-quilt-alt: #4f6b55;
+  --ss-wool: #d9c39a;
+  /* import:spaceholder-saloon:root:end */
 }
 
 * { box-sizing: border-box; }
@@ -6411,6 +6440,14 @@ div.facade--square { border: 0; background: none; }
 .door--vol .door__name  { font-family: 'Sigmar One', var(--sans); font-weight: 400; color: var(--vol-ink); font-size: 28px; line-height: 1.1; font-synthesis: none; }
 .door--vol .door__blurb { font-family: 'Rasa', var(--sans); color: var(--vol-ink); font-size: 17px; line-height: 1.35; font-synthesis: none; }
 .door--vol .door__knock { font-family: 'Rasa', var(--sans); font-weight: 700; font-size: 16px; letter-spacing: .03em; color: var(--vol-link); font-synthesis: none; }
+/* import:spaceholder-saloon:door:begin -- Spaceholder Saloon's door, in the room's own colours and faces. A plain
+   awning, written by tools/import-room.py: a starting point for dressing, not a design. */
+.door--spaceholder-saloon { background: var(--ss-ground); border-color: var(--ss-amber); }
+.door--spaceholder-saloon .door__awning { background: var(--ss-amber); border-bottom-color: var(--ss-amber); }
+.door--spaceholder-saloon .door__name  { font-family: Rye, Alegreya, serif; color: var(--ss-amber); }
+.door--spaceholder-saloon .door__blurb { font-family: Alegreya, Georgia, "Times New Roman", serif; color: var(--ss-ink); }
+.door--spaceholder-saloon .door__knock { font-family: Alegreya, Georgia, "Times New Roman", serif; color: var(--ss-amber); }
+/* import:spaceholder-saloon:door:end */
 
 /* The signpost at the end of the shopfronts. NOT A DOOR AT ALL, and the grid
    above is why: a door on this street is a storefront you walk into, and the
@@ -19397,7 +19434,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §147
+   class on it is `bb-`, its sizes are in points and millimetres, and §148
    prints it and nothing else. */
 
 .room-broadside {
@@ -19458,7 +19495,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §147 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §148 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -32724,7 +32761,229 @@ body.sunshine {
 }
 .ssd-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ssd-smog); }
 
-/* §146 ── Small screens───────────────────────────────────────────────────────
+/* import:spaceholder-saloon:section:begin */
+/* §146 ── ROOM: Spaceholder Saloon (a shopfront on the street) ────────────────
+   NORAH'S ROOM, AND NOT OURS TO REDESIGN. Built with
+   Claude, an AI model made by Anthropic and brought onto the street by tools/import-room.py from the
+   artifact they sent. Everything between the import markers is theirs and is
+   replaced whole when they send a new version: change the artifact and import
+   it again, never the lines between. Its light, in their words:
+   The old oil lamps on the mantle above the fireplace. */
+
+.room-spaceholder-saloon {
+  background-color: var(--ss-ground);
+  color: var(--ss-ink);
+  font-family: "Alegreya", Georgia, "Times New Roman", serif;
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  margin: 0;
+  overflow-x: hidden;
+}
+.room-spaceholder-saloon a { color: var(--ss-amber); text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+.room-spaceholder-saloon a:hover { text-decoration-thickness: 2px; }
+.room-spaceholder-saloon :focus-visible { outline: 3px solid var(--ss-focus); outline-offset: 3px; border-radius: 2px; }
+
+.room-spaceholder-saloon .ss-main { max-width: 46rem; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
+
+/* The sign over the swinging doors */
+.room-spaceholder-saloon .ss-sign {
+  text-align: center;
+  margin: 1rem 0 0.5rem;
+}
+.room-spaceholder-saloon .ss-sign h1 {
+  font-family: "Rye", "Alegreya", serif;
+  font-weight: 400;
+  color: var(--ss-amber);
+  font-size: clamp(2.1rem, 9vw, 3.9rem);
+  line-height: 1.05;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+.room-spaceholder-saloon .ss-sign .ss-sign-word { display: block; }
+.room-spaceholder-saloon .ss-sign .ss-sign-word + .ss-sign-word { font-size: 0.72em; margin-top: 0.15em; }
+
+.room-spaceholder-saloon .ss-welcome {
+  font-size: 1.3rem;
+  line-height: 1.55;
+  margin: 1.5rem auto 2rem;
+  max-width: 36rem;
+}
+
+/* The hearth drawing */
+.room-spaceholder-saloon .ss-scene { margin: 0 -1.25rem; }
+.room-spaceholder-saloon figure.ss-scene { margin-top: 0; }
+.room-spaceholder-saloon .ss-scene svg { display: block; width: 100%; height: auto; }
+.room-spaceholder-saloon .ss-light {
+  font-style: italic;
+  margin: 0.75rem auto 2.5rem;
+  max-width: 36rem;
+  padding: 0 0.25rem;
+}
+
+.room-spaceholder-saloon .ss-wall { fill: var(--ss-wall); }
+.room-spaceholder-saloon .ss-seam { stroke: var(--ss-seam); stroke-width: 2; }
+.room-spaceholder-saloon .ss-floor { fill: var(--ss-floor); }
+.room-spaceholder-saloon .ss-stone { fill: var(--ss-stone); }
+.room-spaceholder-saloon .ss-stone-dark { fill: var(--ss-stone-dark); }
+.room-spaceholder-saloon .ss-soot { fill: var(--ss-soot); }
+.room-spaceholder-saloon .ss-wood { fill: var(--ss-rootbeer); }
+.room-spaceholder-saloon .ss-ember-fill { fill: var(--ss-ember); }
+.room-spaceholder-saloon .ss-flame-fill { fill: var(--ss-flame); }
+.room-spaceholder-saloon .ss-core-fill { fill: var(--ss-flame-core); }
+.room-spaceholder-saloon .ss-brass-fill { fill: var(--ss-brass); }
+.room-spaceholder-saloon .ss-glass { fill: var(--ss-flame-core); opacity: 0.22; stroke: var(--ss-brass); stroke-width: 1.5; }
+.room-spaceholder-saloon .ss-line { fill: none; stroke: var(--ss-brass); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.room-spaceholder-saloon .ss-mid { stroke-width: 3; }
+.room-spaceholder-saloon .ss-thin { stroke-width: 2.5; }
+.room-spaceholder-saloon .ss-oak { fill: var(--ss-oak); }
+.room-spaceholder-saloon .ss-oak-dark { fill: var(--ss-oak-dark); }
+.room-spaceholder-saloon .ss-quilt { fill: var(--ss-quilt); }
+.room-spaceholder-saloon .ss-quilt-alt { fill: var(--ss-quilt-alt); }
+.room-spaceholder-saloon .ss-wool-line { fill: none; stroke: var(--ss-wool); stroke-width: 1.5; stroke-dasharray: 3 2; }
+.room-spaceholder-saloon .ss-slats { stroke: var(--ss-oak); stroke-width: 3; stroke-dasharray: none; }
+.room-spaceholder-saloon .ss-rail { fill: none; stroke: var(--ss-oak-dark); stroke-width: 7; stroke-linecap: round; }
+.room-spaceholder-saloon .ss-rope { fill: none; stroke: var(--ss-brass); stroke-width: 2.5; }
+.room-spaceholder-saloon .ss-glow-stop-a { stop-color: var(--ss-flame); stop-opacity: 0.4; }
+.room-spaceholder-saloon .ss-glow-stop-b { stop-color: var(--ss-flame); stop-opacity: 0; }
+.room-spaceholder-saloon .ss-glow { opacity: 0.85; }
+
+.room-spaceholder-saloon h2 {
+  font-family: "Rye", "Alegreya", serif;
+  font-weight: 400;
+  color: var(--ss-amber);
+  font-size: 1.75rem;
+  line-height: 1.2;
+  margin: 0 0 1rem;
+}
+
+/* The menu board */
+.room-spaceholder-saloon .ss-board {
+  background-color: var(--ss-board);
+  color: var(--ss-chalk);
+  border: 10px solid var(--ss-rootbeer);
+  border-radius: 4px;
+  padding: 1.5rem 1.25rem 1.25rem;
+  margin: 0 0 3rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+.room-spaceholder-saloon .ss-board h2 { text-align: center; }
+.room-spaceholder-saloon .ss-board-says {
+  text-align: center;
+  font-size: 1.25rem;
+  margin: 0 0 1.5rem;
+}
+.room-spaceholder-saloon .ss-list { list-style: none; margin: 0; padding: 0; }
+.room-spaceholder-saloon .ss-list li + li { margin-top: 0.5rem; }
+
+/* Everything you can press opens like a door: plain <details>, no script needed */
+.room-spaceholder-saloon .ss-press summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.6rem 0.4rem;
+  min-height: 44px;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+.room-spaceholder-saloon .ss-press summary::-webkit-details-marker { display: none; }
+.room-spaceholder-saloon .ss-press summary::after {
+  content: "+";
+  margin-left: auto;
+  color: var(--ss-amber);
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.room-spaceholder-saloon .ss-press[open] summary::after { content: "\2212"; }
+.room-spaceholder-saloon .ss-press p { margin: 0 0 0.75rem; padding: 0 0.4rem 0 3.4rem; }
+.room-spaceholder-saloon .ss-icon { width: 2.2rem; height: 2.2rem; flex: none; }
+
+.room-spaceholder-saloon .ss-panel {
+  background-color: var(--ss-plank);
+  border-left: 6px solid var(--ss-rootbeer);
+  padding: 1.5rem 1.25rem;
+  margin: 0 0 3rem;
+}
+.room-spaceholder-saloon .ss-panel > p { margin: 0 0 1rem; }
+
+.room-spaceholder-saloon .ss-hooks { width: 100%; max-width: 18rem; height: auto; display: block; margin: 0 0 1rem; }
+
+.room-spaceholder-saloon .ss-credits { font-size: 1.05rem; }
+.room-spaceholder-saloon .ss-credits h2 { font-size: 1.5rem; }
+.room-spaceholder-saloon .ss-credits ul { padding-left: 1.2rem; margin: 0; }
+.room-spaceholder-saloon .ss-credits li + li { margin-top: 0.6rem; }
+
+/* MOTION. Gentle and reduced-motion: nothing below applies, so nothing moves. */
+
+/* Regular and MAX: things answer when you hover or focus them. */
+:root[data-intensity="regular"] .room-spaceholder-saloon .ss-icon,
+:root[data-intensity="max"] .room-spaceholder-saloon .ss-icon {
+  transition: transform 0.4s ease;
+  transform-origin: 50% 90%;
+}
+:root[data-intensity="regular"] .room-spaceholder-saloon .ss-press summary:hover .ss-icon,
+:root[data-intensity="regular"] .room-spaceholder-saloon .ss-press summary:focus-visible .ss-icon,
+:root[data-intensity="max"] .room-spaceholder-saloon .ss-press summary:hover .ss-icon,
+:root[data-intensity="max"] .room-spaceholder-saloon .ss-press summary:focus-visible .ss-icon {
+  transform: rotate(-8deg);
+}
+:root[data-intensity="regular"] .room-spaceholder-saloon .ss-glow,
+:root[data-intensity="max"] .room-spaceholder-saloon .ss-glow { transition: opacity 0.8s ease; }
+:root[data-intensity="regular"] .room-spaceholder-saloon .ss-scene:hover .ss-glow,
+:root[data-intensity="max"] .room-spaceholder-saloon .ss-scene:hover .ss-glow { opacity: 1; }
+
+/* Before the street sets the dial, follow the device: no preference means Regular. */
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-intensity]) .room-spaceholder-saloon .ss-icon { transition: transform 0.4s ease; transform-origin: 50% 90%; }
+  :root:not([data-intensity]) .room-spaceholder-saloon .ss-press summary:hover .ss-icon,
+  :root:not([data-intensity]) .room-spaceholder-saloon .ss-press summary:focus-visible .ss-icon { transform: rotate(-8deg); }
+  :root:not([data-intensity]) .room-spaceholder-saloon .ss-glow { transition: opacity 0.8s ease; }
+  :root:not([data-intensity]) .room-spaceholder-saloon .ss-scene:hover .ss-glow { opacity: 1; }
+}
+
+/* MAX only: the fire breathes, the chair rocks, the swing sways. Slow, never a flash. */
+:root[data-intensity="max"] .room-spaceholder-saloon .ss-fire {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: ss-breathe 3.6s ease-in-out infinite;
+}
+:root[data-intensity="max"] .room-spaceholder-saloon .ss-lamp-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: ss-breathe 4.8s ease-in-out infinite;
+}
+:root[data-intensity="max"] .room-spaceholder-saloon .ss-rocker {
+  transform-box: view-box;
+  transform-origin: 105px 330px;
+  animation: ss-rock 5s ease-in-out infinite;
+}
+:root[data-intensity="max"] .room-spaceholder-saloon .ss-swing {
+  transform-box: view-box;
+  transform-origin: 586px 0px;
+  animation: ss-sway 7s ease-in-out infinite;
+}
+@keyframes ss-breathe {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(1.07); opacity: 0.88; }
+}
+@keyframes ss-rock {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+@keyframes ss-sway {
+  0%, 100% { transform: rotate(-1.5deg); }
+  50% { transform: rotate(1.5deg); }
+}
+
+@media (min-width: 640px) {
+  .room-spaceholder-saloon .ss-main { padding-top: 2.5rem; }
+  .room-spaceholder-saloon .ss-scene { margin: 0; }
+  .room-spaceholder-saloon .ss-scene svg { border-radius: 6px; }
+}
+/* import:spaceholder-saloon:section:end */
+
+/* §147 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -32828,7 +33087,7 @@ body.sunshine {
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §146 says every
+   shipped with no rule here at all — which on a street whose §147 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -32952,7 +33211,7 @@ body.sunshine {
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §147 ── Print ───────────────────────────────────────────────────────────────
+/* §148 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

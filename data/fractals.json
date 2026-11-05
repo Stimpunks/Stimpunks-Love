@@ -874,11 +874,18 @@
     },
     "clacks-tower.html": {
       "kind": "orbit",
-      "c": [-0.12, 0.75],
+      "c": [
+        -0.12,
+        0.75
+      ],
       "orbit": 0.01,
       "trap": "cross",
       "ground": "--clk-shade",
-      "inks": ["--clk-day", "--clk-sky", "--clk-hill"]
+      "inks": [
+        "--clk-day",
+        "--clk-sky",
+        "--clk-hill"
+      ]
     },
     "sunshine-sanctuary.html": {
       "kind": "ember",
@@ -2469,6 +2476,23 @@
         "--rth-tag",
         "--rth-brick",
         "--rth-glass"
+      ]
+    },
+    "spaceholder-saloon.html": {
+      "kind": "orbit",
+      "trap": "ring",
+      "radius": 0.8,
+      "c": [
+        -0.75,
+        0.11
+      ],
+      "orbit": 0.02,
+      "ground": "--ss-ground",
+      "inks": [
+        "--ss-amber",
+        "--ss-ink",
+        "--ss-board",
+        "--ss-chalk"
       ]
     }
   }

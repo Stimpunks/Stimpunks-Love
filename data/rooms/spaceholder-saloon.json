@@ -1,0 +1,127 @@
+{
+  "_what": "A room brought onto the street by tools/import-room.py from an artifact somebody built with their own AI. Everything here is read off that artifact's FOR THE STREET comment or measured from the room as it renders; nothing is typed. check-contrast.py holds the pairs, check-jukebox.py checks the tracks, and re-importing replaces this file whole.",
+  "slug": "spaceholder-saloon",
+  "page": "spaceholder-saloon.html",
+  "title": "Spaceholder Saloon",
+  "description": "A saloon for spaceholding, venting, solidarity and straight up bitchin' on spoon fumes, lit by oil lamps on the mantle.",
+  "name": "Norah",
+  "link": null,
+  "pronouns": null,
+  "say_it": null,
+  "prefix": "ss",
+  "light": "The old oil lamps on the mantle above the fireplace.",
+  "typefaces": [
+    "Rye",
+    "Alegreya"
+  ],
+  "photographs": null,
+  "words": "Norah wrote the opening paragraph and the menu board line; Claude drafted the line about the light from Norah's description, plus the headings, the menu items and their descriptions, the seat lines, the hooks by the door and the credits, all for Norah to change.",
+  "built_with": "Claude, an AI model made by Anthropic",
+  "could_not_do": null,
+  "named": "everywhere",
+  "street_spaces": [],
+  "imported": "2026-11-04",
+  "artifact": "spaceholder-saloon.html",
+  "artifact_sha256": "063b577f9b247cc90bba850619512515ea64cc060e76bef50303d1e24b035a13",
+  "clothes": {
+    "ground": "--ss-ground",
+    "text": "--ss-ink",
+    "heading": "--ss-amber",
+    "link": "--ss-amber",
+    "heading_face": "Rye, Alegreya, serif",
+    "text_face": "Alegreya, Georgia, \"Times New Roman\", serif"
+  },
+  "fractal_from": "glow-go-gee-gaws.html",
+  "tracks": [],
+  "pairs": [
+    {
+      "ink": "#ffc65c",
+      "ground": "#1d130d",
+      "large": false,
+      "ratio": 11.71,
+      "where": "a.backlink “← back to the street”"
+    },
+    {
+      "ink": "#ffc65c",
+      "ground": "#1d130d",
+      "large": true,
+      "ratio": 11.71,
+      "where": "span.ss-sign-word “Spaceholder”"
+    },
+    {
+      "ink": "#f4e6c8",
+      "ground": "#1d130d",
+      "large": false,
+      "ratio": 14.77,
+      "where": "p.ss-welcome “For spaceholding, venting, solidarity, strai”"
+    },
+    {
+      "ink": "#ffc65c",
+      "ground": "#15201a",
+      "large": true,
+      "ratio": 10.76,
+      "where": "h2 “On the menu”"
+    },
+    {
+      "ink": "#eef3e6",
+      "ground": "#15201a",
+      "large": false,
+      "ratio": 14.84,
+      "where": "p.ss-board-says “Spaceholder Saloon only serves up patience, ”"
+    },
+    {
+      "ink": "#eef3e6",
+      "ground": "#15201a",
+      "large": true,
+      "ratio": 14.84,
+      "where": "summary “Sarsaparilla”"
+    },
+    {
+      "ink": "#ffc65c",
+      "ground": "#2b1c13",
+      "large": true,
+      "ratio": 10.55,
+      "where": "h2 “Pull up a seat”"
+    },
+    {
+      "ink": "#f4e6c8",
+      "ground": "#2b1c13",
+      "large": true,
+      "ratio": 13.3,
+      "where": "summary “The rocking chair”"
+    },
+    {
+      "ink": "#f4e6c8",
+      "ground": "#2b1c13",
+      "large": false,
+      "ratio": 13.3,
+      "where": "p “Closest to the fire. Rock as much or as litt”"
+    },
+    {
+      "ink": "#ffc65c",
+      "ground": "#2b1c13",
+      "large": false,
+      "ratio": 10.55,
+      "where": "a “Anthropic”"
+    }
+  ],
+  "ornament": {
+    "#8fe3ff": "Spaceholder Saloon: --ss-focus carried no text when tools/import-room.py rendered the room on 2026-11-04; 12.68 against the room's ground. Measured by the import, not chosen by a person.",
+    "#34221a": "Spaceholder Saloon: --ss-wall carried no text when tools/import-room.py rendered the room on 2026-11-04; 1.21 against the room's ground. Measured by the import, not chosen by a person.",
+    "#160e09": "Spaceholder Saloon: --ss-seam carried no text when tools/import-room.py rendered the room on 2026-11-04; 1.05 against the room's ground. Measured by the import, not chosen by a person.",
+    "#5b4a40": "Spaceholder Saloon: --ss-stone carried no text when tools/import-room.py rendered the room on 2026-11-04; 2.17 against the room's ground. Measured by the import, not chosen by a person.",
+    "#43362f": "Spaceholder Saloon: --ss-stone-dark carried no text when tools/import-room.py rendered the room on 2026-11-04; 1.57 against the room's ground. Measured by the import, not chosen by a person.",
+    "#0c0705": "Spaceholder Saloon: --ss-soot carried no text when tools/import-room.py rendered the room on 2026-11-04; 1.10 against the room's ground. Measured by the import, not chosen by a person.",
+    "#d9582a": "Spaceholder Saloon: --ss-ember carried no text when tools/import-room.py rendered the room on 2026-11-04; 4.67 against the room's ground. Measured by the import, not chosen by a person.",
+    "#ffad3b": "Spaceholder Saloon: --ss-flame carried no text when tools/import-room.py rendered the room on 2026-11-04; 9.81 against the room's ground. Measured by the import, not chosen by a person.",
+    "#fff2c4": "Spaceholder Saloon: --ss-flame-core carried no text when tools/import-room.py rendered the room on 2026-11-04; 16.29 against the room's ground. Measured by the import, not chosen by a person.",
+    "#c4934a": "Spaceholder Saloon: --ss-brass carried no text when tools/import-room.py rendered the room on 2026-11-04; 6.62 against the room's ground. Measured by the import, not chosen by a person.",
+    "#6e361a": "Spaceholder Saloon: --ss-rootbeer carried no text when tools/import-room.py rendered the room on 2026-11-04; 1.92 against the room's ground. Measured by the import, not chosen by a person.",
+    "#24170f": "Spaceholder Saloon: --ss-floor carried no text when tools/import-room.py rendered the room on 2026-11-04; 1.05 against the room's ground. Measured by the import, not chosen by a person.",
+    "#9a6634": "Spaceholder Saloon: --ss-oak carried no text when tools/import-room.py rendered the room on 2026-11-04; 3.76 against the room's ground. Measured by the import, not chosen by a person.",
+    "#5c3518": "Spaceholder Saloon: --ss-oak-dark carried no text when tools/import-room.py rendered the room on 2026-11-04; 1.72 against the room's ground. Measured by the import, not chosen by a person.",
+    "#a2453a": "Spaceholder Saloon: --ss-quilt carried no text when tools/import-room.py rendered the room on 2026-11-04; 3.00 against the room's ground. Measured by the import, not chosen by a person.",
+    "#4f6b55": "Spaceholder Saloon: --ss-quilt-alt carried no text when tools/import-room.py rendered the room on 2026-11-04; 3.10 against the room's ground. Measured by the import, not chosen by a person.",
+    "#d9c39a": "Spaceholder Saloon: --ss-wool carried no text when tools/import-room.py rendered the room on 2026-11-04; 10.62 against the room's ground. Measured by the import, not chosen by a person."
+  }
+}

@@ -2421,6 +2421,20 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--wbb .wbb-kept {{ font-size: 21px; text-align: left; }}
 .og--wbb .og-lede {{ font-family: 'Literata', serif; font-size: 28px; line-height: 1.4; }}
 .og--wbb .wbb-window {{ flex: 0 0 440px; margin: 0 !important; max-width: none; }}
+/* spaceholder-saloon — NORAH'S ROOM, imported from her own artifact, and the
+   card is ours. It carries her hearth lifted out of the page, the fireplace,
+   the two oil lamps on the mantle, the rocking chair and the swing, so the card
+   cannot disagree with the room: the title is her sign over the swinging doors
+   in her own .ss-sign and Rye, on her walnut ground, and the lamps on the mantle
+   are the light. Her own faces, at card size. */
+.og--ss {{ flex-direction: row; align-items: center; gap: 40px; padding: 50px 56px; }}
+.og--ss .og-top {{ flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 22px; }}
+.og--ss .og-top > * {{ margin: 0 !important; }}
+.og--ss .ss-sign {{ text-align: left; }}
+.og--ss .ss-sign h1 {{ font-size: 76px; line-height: 1.02; }}
+.og--ss .og-lede {{ font-family: 'Alegreya', serif; font-size: 29px; line-height: 1.42; }}
+.og--ss .ss-card-hearth {{ flex: 0 0 560px; margin: 0 !important; }}
+.og--ss .ss-card-hearth svg {{ display: block; width: 100%; height: auto; border-radius: 6px; }}
 /* sandbox — SOMEBODY'S OWN ROOM, imported from their artifact, and the card is
    ours. It carries the room's laptop title bar and prompt line, its dune and its
    sandcastle, lifted out of the page rather than redrawn and built into the
@@ -3985,6 +3999,21 @@ def card_wbb(p):
         f"the right, a window at dusk in a wooden frame: a sky going from violet to rose to orange, a low "
         f"sun on a dark mesa, a saguaro, and on the sill a monstera, a fern and a succulent in clay pots, "
         f"a stack of books, a glass jar and a small brass bell.",
+    )
+
+
+def card_ss(p):
+    return (
+        "",
+        f'<div class="og og--ss" data-fit="card">'
+        f'<div class="og-top"><div class="ss-sign">{p["h1"]}</div><p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="ss-card-hearth">{p["ss_hearth"]}</div>'
+        f'</div>',
+        f"A dark walnut-brown card. On the left, “{p['h1text']}” in tall amber Western slab letters like a "
+        f"saloon sign, and under it in cream: {p['desc_plain']} On the right, the inside of the saloon: plank "
+        f"walls, a stone fireplace with a low fire, two oil lamps burning on the wooden mantle, a rocking chair "
+        f"with a red quilted cushion on the left beside a small table, and a big table and a porch swing piled "
+        f"with cushions on the right.",
     )
 
 
@@ -6396,6 +6425,7 @@ CARDS = {
     "room-neurohome": card_neurohome,
     "room-words-bud-beats": card_wbb,
     "room-sandbox": card_sandbox,
+    "room-spaceholder-saloon": card_ss,
     "mud":          card_mud,
     "lagoon":       card_lagoon,
     "sithen":       card_sithen,
@@ -6847,6 +6877,16 @@ def main():
                             .replace('id="wbb-pane"', 'id="og-wbb-pane"').replace('url(#wbb-pane)', 'url(#og-wbb-pane)'))
     lifted["wbb_kept"] = re.sub(r"</?a\b[^>]*>", "", wk.group(1)).strip()
     lifted["wbb_kept_plain"] = html.unescape(re.sub(r"<[^>]+>", "", wk.group(1))).strip().lower()
+    # NORAH'S CARD CARRIES HER HEARTH, lifted out of the page she built rather than
+    # redrawn. Its title and ids go, because on a card it is a picture.
+    ss_src = (ROOT / "spaceholder-saloon.html").read_text()
+    ssh = re.search(r'<figure class="ss-scene">\s*(<svg viewBox="0 0 640 380".*?</svg>)', ss_src, re.S)
+    if not ssh:
+        raise SystemExit("REFUSING: spaceholder-saloon.html has lost its hearth, and its card is built out of it.")
+    hearth = re.sub(r"<title\b.*?</title>", "", ssh.group(1), flags=re.S)
+    hearth = re.sub(r'\s(?:role|aria-labelledby)="[^"]*"', "", hearth).replace("<svg ", '<svg aria-hidden="true" ', 1)
+    lifted["ss_hearth"] = hearth.replace('id="ss-glow-grad"', 'id="og-ss-glow-grad"').replace(
+        'url(#ss-glow-grad)', 'url(#og-ss-glow-grad)')
     # THE SANDBOX'S CARD CARRIES ITS LAPTOP'S TITLE BAR AND PROMPT, ITS DUNE AND
     # ITS SANDCASTLE, lifted out of the page rather than redrawn. The castle
     # loses its name and its ids, because on a card it is a picture, not a thing

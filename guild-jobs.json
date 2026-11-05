@@ -715,6 +715,11 @@
    "id": "bkb-mic",
    "title": "Breaker one-nine",
    "room": "Breaker Breaker"
+  },
+  {
+   "id": "ss-bottlecap",
+   "title": "Nothing written down",
+   "room": "Spaceholder Saloon"
   }
  ],
  "badges": [

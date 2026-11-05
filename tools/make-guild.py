@@ -290,6 +290,12 @@ DRAW = {
     # body threshold a marker is held to, and the pin on it is --clk-tar, 15.79
     # on the sun, its head ringed in --clk-wire. The floor line is
     # --clk-timber-2 and carries nothing. It lies still.
+    # Spaceholder Saloon: a bottle cap off a sarsaparilla, lying on Norah's
+    # walnut floor, --ss-amber, 11.7 on her ground and over the body threshold
+    # a marker is held to, its crimped edge in the same amber and its face
+    # ringed in --ss-ground. The floor line is --ss-brass, which her room uses
+    # as line art only, and carries nothing. It lies still.
+    "ss-bottlecap": """<path d="M3 29.5 H29" stroke="var(--ss-brass)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 9 L18.2 10.6 L20.9 10.2 L22 12.7 L24.6 13.6 L24.4 16.3 L26 18.5 L24.4 20.7 L24.6 23.4 L22 24.3 L20.9 26.8 L18.2 26.4 L16 28 L13.8 26.4 L11.1 26.8 L10 24.3 L7.4 23.4 L7.6 20.7 L6 18.5 L7.6 16.3 L7.4 13.6 L10 12.7 L11.1 10.2 L13.8 10.6 Z" fill="var(--ss-amber)"/><circle cx="16" cy="18.5" r="5.4" fill="none" stroke="var(--ss-ground)" stroke-width="1.4"/><path d="M14 17 Q16 15.5 18 17" fill="none" stroke="var(--ss-ground)" stroke-width="1.2" stroke-linecap="round"/>""",
     "clk-pin": """<path d="M3 29 H29" stroke="var(--clk-timber-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M7 26.5 L11.5 14.5 H26.5 L22 26.5 Z" fill="var(--clk-day)"/><path d="M11.5 23 L21.5 17.5" stroke="var(--clk-tar)" stroke-width="2.6" stroke-linecap="round"/><circle cx="22.5" cy="17" r="2.4" fill="var(--clk-tar)" stroke="var(--clk-wire)" stroke-width="1"/>""",
     "wds-cobble": """<path d="M3 29.5 H29" stroke="var(--wds-line)" stroke-width="1.6" stroke-linecap="round"/><path d="M6.5 27.5 C5.5 22 7 17.5 12 16.5 C17 15.6 23 15.8 25.6 18.5 C27.6 21 27 25.5 25.6 27.5 Z" fill="var(--wds-ink-3)" stroke="var(--wds-line)" stroke-width="1.3" stroke-linejoin="round"/><path d="M20.5 16 L26.6 21.5" stroke="var(--wds-dawn)" stroke-width="1.8" stroke-linecap="round"/><path d="M10 23 C12.5 21.5 16 21.2 19 22" fill="none" stroke="var(--wds-line)" stroke-width=".8" opacity=".7"/>""",
     # The Sunshine Sanctuary for Sick Dragons: a bucket of sand put down on the
