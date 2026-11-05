@@ -125,7 +125,7 @@ ORDER = ["index.html",
          "the-bough-house.html", "swaying-sweetgrass.html",
          "solarpunk-hermitage.html",
          "brew-and-stew.html",
-         # Pitch 06, Sinead's circus tent, pitched beside a tree.
+         # Pitch 06, Rowena's circus tent, pitched beside a tree.
          "the-aerial-arbour.html",
          # The summit: David's log cabin, up the cable car from the field, off
          # the main campsite and still the campgrounds'.

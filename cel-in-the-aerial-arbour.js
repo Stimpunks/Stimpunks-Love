@@ -1,8 +1,8 @@
 /* =============================================================================
    The Aerial Arbour, walked into on Cel Street. Ryan's ask, 2026-11-05: pitch
-   06 on the campgrounds, Sinead's, through its post in the field.
+   06 on the campgrounds, Rowena's, through its post in the field.
 
-   THIS SCENE IS OURS, DRAWN FROM SINEAD'S OWN WORDS AND HER ROOM'S OWN
+   THIS SCENE IS OURS, DRAWN FROM ROWENA'S OWN WORDS AND HER ROOM'S OWN
    COLOURS, AND IT IS HERS TO KEEP OR SEND BACK; it changes nothing on her
    page, and a change to how it looks is hers to ask for.
 

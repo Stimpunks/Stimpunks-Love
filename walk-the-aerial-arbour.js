@@ -1,8 +1,8 @@
 /* =============================================================================
    The Aerial Arbour, walked into on Paper Street: pitch 06 on the campgrounds,
-   Sinead's. Ryan's ask, 2026-11-05.
+   Rowena's. Ryan's ask, 2026-11-05.
 
-   THIS SCENE IS OURS, DRAWN FROM SINEAD'S OWN WORDS AND HER ROOM'S OWN
+   THIS SCENE IS OURS, DRAWN FROM ROWENA'S OWN WORDS AND HER ROOM'S OWN
    COLOURS, AND IT IS HERS TO KEEP OR SEND BACK; it changes nothing on her
    page, and a change to how it looks is hers to ask for.
 

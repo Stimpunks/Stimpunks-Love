@@ -1225,8 +1225,8 @@ the tool refuses the cure** (Stay Frosty's rule, warm); **the wolves are the mou
 threat**, and nobody counts, feeds or names them. On the board its light is the sixth, FAR: one lit window so high
 it sits among the stars, the strips' colour and not a flame's. The seventh went to the circus tent, below.
 
-**THE LITTLE BIG TOP (§147) IS SINEAD'S, AT PITCH 06, AND THE FAERY YURT NEXT DOOR IS THE ONE TO WATCH.** Her brief, as
-Helen Edgar passed it on, 2026-11-05: a round circus tent near a tree, ropes and rope ladders, aerial poles, hoops and
+**THE AERIAL ARBOUR (§147) IS ROWENA'S, AT PITCH 06, AND THE FAERY YURT NEXT DOOR IS THE ONE TO WATCH.** Rowena's brief, as
+Helen Edgar passed it on, 2026-11-05 (Rowena is @untypical_wing on Instagram, linked from the room): a round circus tent near a tree, ropes and rope ladders, aerial poles, hoops and
 silks hanging off a tree inside it, a tightrope, a hammock and beanbags, very cosy, fairy lights, deep purples, pinks,
 silver, dark pink and teal, "similar vibe to my yurt but more colourful". `the-aerial-arbour.html` (body class `arbour`, prefix `aar-`) is a hand-built page
 like the Bough House. **The tree is the king pole**: a silver birch holds the canvas up, every seam radiates from its top
@@ -1237,7 +1237,7 @@ even the tree, the lights are cool silver points steady at every setting, and al
 card hangs from a rope with a valance of scallops along its top, and every word is on flat ground: the stripes are only
 in the drawing. At MAX the silks, the hoop and the pole sway inside the drawing; below MAX nothing moves. Emilys Candy
 (Neapolitan) sets the name and headings, Quattrocento Sans (Impallari Type) everything read, both Google Fonts' own
-Latin files as served. **The name is Helen's pick from a few of ours, and Sinead's to change.** On the board its light is the seventh, THROUGH: the
+Latin files as served. **The name is Helen's pick from a few of ours, and Rowena's to change.** On the board its light is the seventh, THROUGH: the
 door is shut and every other stripe of the canvas glows from inside. An eighth pitch needs an eighth light. The friendly
 edits are a warm candle glow "to match the yurt", the lights twinkling, a ring of seats round the tree, and a performer
 drawn on the silks.
