@@ -1,0 +1,145 @@
+{
+  "_what": "The Golem Trust, a room behind Widdershins, in the city over the bridge: a long hall kept by golems who own themselves, lit only through windows made of clay. tools/make-golem-trust.py writes the room out of this file, between gtr:<part> markers in golem-trust.html.",
+  "_who": "Ryan's brief, 2026-11-04: subrooms of Widdershins inspired by places in the Discworld novels, in the city over the bridge. This one stands on the clause Star Stuff's No. 49, One Atom of Justice, spread 6, already wrote: the golems who are property. The trust is after the Golem Trust in Going Postal (2004); golems in Feet of Clay (1996) do not speak and write what they say on slates. Nothing about the Disc was taken from a fan wiki or a fan site.",
+  "_quotes": "Every quotation was read on a page of ours (stimpunks.org, in the Knowledge System mirror) or on Star Stuff (starstuff.earth, in its own repository beside this one), and is checked there word for word whenever that copy is on the machine. No line of a Discworld book is quoted: nothing was typed from a book or from memory. Somebody else's words on our page carry the work they come from and say they were read on our page, the Community Library's rule.",
+  "_ours": "Everything that is not a quotation is ours, written for this room. The facts about the books are kept to three, plain and certain: golems are made of clay and are owned; in Feet of Clay they do not speak and write on slates; Going Postal has a Golem Trust. The hall, its windows and its keys are ours and are not in any book. No golem from the books is named or drawn, and no golem is diagnosed.",
+  "read": "2026-11-04",
+  "words": 45,
+  "pages": {
+    "atom": {
+      "title": "One Atom of Justice",
+      "url": "https://starstuff.earth/one-atom-of-justice-zine.html",
+      "from": "starstuff",
+      "file": "one-atom-of-justice-zine.html",
+      "holds": [
+        "the golems who are property"
+      ]
+    },
+    "aac": {
+      "title": "Alternative and Augmentative Communication",
+      "url": "https://stimpunks.org/glossary/alternative-and-augmentative-communication/",
+      "from": "mirror",
+      "file": "glossary/alternative-and-augmentative-communication.md"
+    },
+    "autonomy": {
+      "title": "Bodily Autonomy",
+      "url": "https://stimpunks.org/glossary/bodily-autonomy/",
+      "from": "mirror",
+      "file": "glossary/bodily-autonomy.md"
+    },
+    "interdependence": {
+      "title": "Interdependence",
+      "url": "https://stimpunks.org/glossary/interdependence/",
+      "from": "mirror",
+      "file": "glossary/interdependence.md"
+    }
+  },
+  "quotes": {
+    "three": {
+      "text": "Pratchett's have three, and the third is always about who was standing where the thing landed: the clacks workers on the towers, the golems who are property, the engravers whose craft the press makes worthless, the people the railway timetable now owns.",
+      "who": "Star Stuff",
+      "work": "One Atom of Justice, No. 49",
+      "url": "https://starstuff.earth/one-atom-of-justice-zine.html",
+      "read_on": "atom"
+    },
+    "right": {
+      "text": "We have the right to communicate in whatever way works best for us.",
+      "who": "the Autistic Self Advocacy Network",
+      "work": "Self-Determination",
+      "url": "https://autisticadvocacy.org/self-determination/",
+      "read_on": "aac"
+    },
+    "everybody": {
+      "text": "Everybody communicates – whether using language, behavior, gestures, facial expressions, sounds, or other means.",
+      "who": "the Autistic Self Advocacy Network",
+      "work": "Self-Determination",
+      "url": "https://autisticadvocacy.org/self-determination/",
+      "read_on": "aac"
+    },
+    "decisions": {
+      "text": "Bodily autonomy means people get to make their own decisions about their bodies.",
+      "who": "the Autistic Self Advocacy Network",
+      "work": "Our Bodies, Our Rights: What’s Going On at the Supreme Court?",
+      "url": "https://autisticadvocacy.org/wp-content/uploads/2022/06/9.-Why-does-bodily-autonomy-matter-to-people-with-disabilities-ES.pdf",
+      "read_on": "autonomy"
+    },
+    "nobody": {
+      "text": "I am fighting for an interdependence that embraces need and tells the truth: no one does it on their own",
+      "who": "Mia Mingus",
+      "work": "Changing the Framework: Disability Justice, on Leaving Evidence",
+      "url": "https://leavingevidence.wordpress.com/2011/02/12/changing-the-framework-disability-justice/",
+      "read_on": "interdependence"
+    }
+  },
+  "sections": {
+    "lede": [
+      {
+        "p": "Over the bridge from Widdershins the Golem Trust keeps a long hall with no lamp in it. Golems do not need one. The windows were made for everybody else, and **they are not glass: every pane is clay, pressed thin enough for the day to come through it**, pale where it is thinnest and darker wherever a thumb pressed harder. So the light in here carries the marks of the hands that made it, and everything in the hall stands against it in its own outline: the long table, the slates stacked on it, the golems at their work. Nothing in here has a lit side. **Nobody in here belongs to anybody.**"
+      }
+    ],
+    "property": [
+      {
+        "h2": "Who was standing where it landed"
+      },
+      {
+        "p": "Star Stuff's [One Atom of Justice](https://starstuff.earth/one-atom-of-justice-zine.html) reads a run of Terry Pratchett's books as Industrial Revolution books: something new arrives in the city, it works, it delights, and the book stays in the room for the bill."
+      },
+      {
+        "q": "three"
+      },
+      {
+        "p": "In those books golems are made of clay and they are owned: they do the work and somebody else holds the paper. This room stands on that one clause and goes on from it, to a trust of its own, after the one in *Going Postal* (2004). In this one, golems own themselves and keep the keys."
+      }
+    ],
+    "slate": [
+      {
+        "h2": "Said on a slate"
+      },
+      {
+        "p": "In *Feet of Clay* (1996) golems do not speak. They write what they have to say on a slate and hold it up. **That is a whole way of talking, on its own terms**, and our community knows it well: [AAC](https://stimpunks.org/glossary/alternative-and-augmentative-communication/), a letterboard, a typed message, a note held up, a slate."
+      },
+      {
+        "slate": "right"
+      },
+      {
+        "p": "Nothing in this hall is waiting for a golem to speak instead. A slate is not standing in for a voice; it is the voice, and it is answered the way it was said. Nobody here is asked to talk another way, and no golem here is diagnosed with anything: we recognise a way of talking, we do not label the people who use it."
+      },
+      {
+        "slate": "everybody"
+      }
+    ],
+    "owned": [
+      {
+        "h2": "Owning yourself"
+      },
+      {
+        "p": "A trust is a promise kept for somebody. This one is kept by golems, for golems: in the drawers along the back wall are the papers that say each one belongs to themself, and the golems hold the keys to the drawers. Nobody signs anybody over, and nothing in the hall has a price."
+      },
+      {
+        "q": "decisions"
+      },
+      {
+        "p": "And nobody in here owns themself alone. The trust is golems keeping it for each other, which is the whole of what a trust is, and the whole of what [interdependence](https://stimpunks.org/glossary/interdependence/) is too."
+      },
+      {
+        "q": "nobody"
+      }
+    ]
+  },
+  "not_here": [
+    "**No golem from the books is named or drawn.** The figures against the windows are anybody's golems, clay and nobody's character, and none of them is anybody from a book.",
+    "**Nobody is diagnosed**, not a golem and not their author. We recognise ourselves; we do not label people who cannot answer.",
+    "**Nobody is pitied, and nobody is an inspiration** for writing on a slate. It is how they talk.",
+    "**Nothing is bought or sold, and nobody is owned.** The trust keeps papers and keys, not a price.",
+    "**No cover, no map, no crest and no picture of anybody's.** The hall is ours, and nothing about the Disc was taken from a fan wiki.",
+    "**Nothing moves.** The day through the clay is the same at every setting of the dial."
+  ],
+  "credits": [
+    "**The Discworld is Terry Pratchett's.** *Feet of Clay* (1996) and *Going Postal* (2004) are his, and this room quotes no line of either: what it says about them is three plain facts, in our words. His estate has no involvement in this room, was not asked, and has not seen it. Discworld is a trade mark, and nothing here is offered as anything of theirs.",
+    "**The hall is ours**, its windows of clay, its long table, its slates and its golems, made as code by Claude, an AI model made by Anthropic, to Ryan's brief. None of the golems is anybody from a book, nobody is diagnosed, and nothing on this page calls an AI while you read it.",
+    "**One line is Star Stuff's**, from [No. 49, One Atom of Justice](https://starstuff.earth/one-atom-of-justice-zine.html), by Stimpunks and Helen Edgar's More Realms, under CC BY-SA 4.0 like this street.",
+    "**Every other quotation belongs to whoever said it** and is credited where it stands: the Autistic Self Advocacy Network and Mia Mingus, each read on one of our own glossary pages, which the line under each says.",
+    "Every quotation in this room is 45 words or fewer. Every one was read on 2026-11-04 on the page it names, and `tools/make-golem-trust.py` checks each word for word against our copy of stimpunks.org and Star Stuff's own repository whenever they are on the machine.",
+    "The type is Patrick Hand, by Patrick Wagesreiter, for the room's name and headings, chalk on a slate, and Livvic, by LV= and Jacques Le Bailly, for everything you read, both under the SIL Open Font License, read off their own records. More in [the liner notes](liner-notes.html#golem-trust)."
+  ]
+}

@@ -4624,6 +4624,26 @@
   --rth-book-lilac: #C9B8E6;  --rth-book-lilac-ink: #221A33;
   --rth-book-amber: #D9824B;  --rth-book-amber-ink: #24130A;
 
+  /* §144 The Golem Trust: a long hall over the bridge from Widdershins, kept
+     by golems who own themselves, lit only through windows whose panes are
+     clay pressed thin enough for the day to come through. --gtr-pane the lit
+     clay, the page's ground, and the link on a slate; --gtr-pane-2 a little
+     thicker clay, the ground of a quotation; --gtr-ink every word, slate on
+     the lit clay, and the focus ring; --gtr-ink-2 the quieter words;
+     --gtr-link every link, the fired clay, and --gtr-link-hot one under the
+     pointer; --gtr-slate a slate held up, and the floor in the hall;
+     --gtr-chalk the words on a slate and its focus ring, --gtr-chalk-2 the
+     quieter ones. Drawn in no word: --gtr-thick the clay where a thumb
+     pressed harder and every rule under a heading, --gtr-deep the hall's wall
+     where no window is, --gtr-frame the window frames, drawers and the long
+     table, --gtr-clay a slate's fired frame, --gtr-clay-2 a golem in its
+     outline against the light. */
+  --gtr-pane: #F3DDC2;  --gtr-pane-2: #E9CBA6;  --gtr-ink: #2B2530;
+  --gtr-ink-2: #5C4F5E;  --gtr-link: #8A3A1F;  --gtr-link-hot: #5E2410;
+  --gtr-slate: #3A3240;  --gtr-chalk: #EFEBE4;  --gtr-chalk-2: #C9C0CC;
+  --gtr-thick: #D3A27A;  --gtr-deep: #1E1A22;  --gtr-frame: #433A4A;
+  --gtr-clay: #A55A3C;  --gtr-clay-2: #7C3F2A;
+
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -32328,6 +32348,90 @@ body.retail-therapy[data-lights="down"] {
 .retail-therapy .rth-tile, .retail-therapy .rth-book__spine { transition: transform .12s ease; }
 .retail-therapy .rth-tile:active, .retail-therapy .rth-book__spine:active { transform: scale(.98); }
 body.retail-therapy, .retail-therapy .rth-lights__btn { transition: background-color .25s, color .25s; }
+
+/* §144 ── SUBROOM: The Golem Trust (over the bridge from Widdershins) ────────
+   A long hall in the city over the bridge, kept by golems who own themselves.
+   Golems need no lamp, so there is none. The windows in its back wall were
+   made for everybody else, and THEY ARE NOT GLASS: every pane is clay pressed
+   thin enough for the day to come through it, pale where it is thinnest and
+   darker wherever a thumb pressed harder, so the light carries the marks of
+   the hands that made it. Everything in the hall stands in front of that
+   light in its own outline: the long table, the slates on it, the drawers
+   between the windows and the golems. NOTHING IN HERE HAS A LIT SIDE. The
+   page's ground is that lit clay, every word on it is slate, and the two
+   lines held up on a slate are chalk on slate in a frame of fired clay.
+
+   THE LIGHT COMES THROUGH A WALL OF CLAY, and no other room's does. THE
+   COLLISIONS. The Cave (§76) is the one to watch: its light comes through ice,
+   brighter where it thins, and the whole tunnel glows; here the light comes
+   through windows in a wall that is otherwise dark, so it has a direction and
+   a shape, it is warm, and everything in the hall stands against it as an
+   outline. If the wall itself ever starts to glow, or the light goes blue, it
+   has become the Cave. The Directors' room is lit through one frosted pane in
+   a door, glass and edgeless; the Chappell's glass is coloured and lights the
+   colours onto things; the Feed's light comes through a black mask so only
+   the letters are lit, where here the marks in the clay are the darker part.
+   Covenstead and the Hermitage are walls a light lands on; this is a wall the
+   light comes through, and no patch of sun lies anywhere. Swaying Sweetgrass
+   is lit through the things themselves; here the things are outlines. AND
+   WIDDERSHINS, ITS PARENT, is a crooked city at night with the morning's edge
+   halfway across it: outdoors, dark, purple and gold, with one hard line.
+   This is indoors, in the day, with no edge anywhere and nothing dark but the
+   outlines and the slates. Plural Mural's chalkboard is the street's other
+   slate: green, on the pavement, framed in wood; these are writing slates
+   held up, framed in clay. NO GOLEM HAS A FACE OR EYES, and none is anybody
+   from a book. Patrick Hand sets the name and the headings, chalk on a
+   slate, and never a sentence; Livvic carries every word that is read.
+   NOTHING MOVES at any setting. */
+body.golem-trust { background: var(--gtr-pane); color: var(--gtr-ink); font-family: 'Livvic', var(--sans); }
+.golem-trust a { color: var(--gtr-link); text-underline-offset: .18em; }
+.golem-trust a:hover { color: var(--gtr-link-hot); }
+.golem-trust :focus-visible { outline-color: var(--gtr-ink); }
+.golem-trust .backlink { color: var(--gtr-link); }
+.gtr-topline { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; margin: 0 0 18px; }
+.gtr-trail { margin: 0; color: var(--gtr-ink-2); font-size: 14px; }
+.gtr-head { margin: 0 0 8px; }
+.gtr-over { margin: 0 0 6px; color: var(--gtr-ink-2); font-size: 14px; letter-spacing: .12em; text-transform: uppercase; }
+.golem-trust h1 { font-family: 'Patrick Hand', var(--sans); font-weight: 400; color: var(--gtr-ink); font-size: clamp(48px, 9vw, 84px); line-height: 1; margin: 0 0 12px; font-synthesis: none; }
+.gtr-sub { margin: 0; font-size: 20px; line-height: 1.45; max-width: 36em; }
+.golem-trust h2 {
+  font-family: 'Patrick Hand', var(--sans); font-weight: 400; color: var(--gtr-ink);
+  font-size: 34px; line-height: 1.15; margin: 48px 0 14px; padding-bottom: 6px;
+  border-bottom: 4px solid var(--gtr-thick); max-width: 22em; font-synthesis: none;
+}
+.golem-trust p, .golem-trust li { line-height: 1.6; }
+.golem-trust main p { max-width: 40em; }
+.gtr-lede { font-size: 19px; }
+.gtr-view { margin: 22px 0 10px; }
+.gtr-view svg { display: block; width: 100%; height: auto; max-width: 960px; border-radius: 4px; }
+.gtr-quote {
+  margin: 22px 0; max-width: 40em; padding: 16px 22px;
+  background: var(--gtr-pane-2); border-left: 6px solid var(--gtr-thick); border-radius: 2px;
+}
+.gtr-quote p { margin: 0 0 8px; font-size: 18px; }
+.gtr-who { color: var(--gtr-ink-2); font-size: 15px; }
+.gtr-quote .gtr-who { color: var(--gtr-ink-2); }
+.gtr-slate {
+  margin: 24px 0; max-width: 34em; padding: 20px 26px 18px;
+  background: var(--gtr-slate); color: var(--gtr-chalk);
+  border: 10px solid var(--gtr-clay); border-radius: 6px;
+}
+.gtr-slate p { margin: 0 0 10px; font-size: 21px; line-height: 1.5; }
+.gtr-slate .gtr-who { color: var(--gtr-chalk-2); }
+.gtr-slate a { color: var(--gtr-pane); }
+.gtr-slate a:hover { color: var(--gtr-chalk); }
+.gtr-slate :focus-visible { outline-color: var(--gtr-chalk); }
+.gtr-rules, .gtr-credits { margin: 0; padding-left: 1.2em; max-width: 44em; }
+.gtr-rules li, .gtr-credits li { margin: 0 0 10px; }
+.gtr-credits { color: var(--gtr-ink); font-size: 16px; }
+/* Paper Street: the hall as card, its page on a board in front of the middle
+   window. Every colour is one this section declares. */
+.gtr-walk { --ps-frame: var(--gtr-frame); --ps-back: var(--gtr-deep); --ps-backcloth: none; }
+.gtr-walk-board {
+  --ps-takes: auto; box-sizing: border-box; border: 10px solid var(--gtr-clay); border-radius: 6px;
+  background: var(--gtr-pane); overflow: hidden;
+}
+.gtr-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--gtr-pane); }
 
 /* §146 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */

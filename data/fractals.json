@@ -840,6 +840,22 @@
         "--ook-cream"
       ]
     },
+    "golem-trust.html": {
+      "kind": "julia",
+      "c": [
+        -0.391,
+        -0.587
+      ],
+      "orbit": 0.015,
+      "bands": 0.06,
+      "ground": "--gtr-deep",
+      "inks": [
+        "--gtr-pane",
+        "--gtr-thick",
+        "--gtr-clay",
+        "--gtr-chalk"
+      ]
+    },
     "widdershins.html": {
       "kind": "julia",
       "c": [

@@ -1191,6 +1191,20 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--wds h1 {{ font-size: 92px; margin-top: 2px !important; line-height: .95; }}
 .og--wds .wds-sub {{ font-size: 26px; margin-top: 6px !important; max-width: 1080px; }}
 
+/* the golem trust — THE NAME WRITTEN ON A SLATE, held up against the hall. The
+   page's own drawing, lifted rather than redrawn and cropped by its viewBox to
+   the windows' lower half, the golems and the long table; under it one slate
+   in a frame of fired clay, the line over the name, the name and the line under
+   it in chalk on it. The only card on the street whose words are on a slate. */
+.og--gtr {{ width: 100%; padding: 0 0 22px; gap: 0; justify-content: flex-start; }}
+.og--gtr .og-room {{ margin: 0 !important; line-height: 0; }}
+.og--gtr .og-room svg {{ display: block; width: 1200px; height: auto; max-width: none; border: 0; border-radius: 0; }}
+.og--gtr .og-slate {{ flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; margin: 22px 56px 0 !important; padding: 16px 34px 18px; background: var(--gtr-slate); border: 10px solid var(--gtr-clay); border-radius: 8px; }}
+.og--gtr .og-slate > * {{ margin: 0 !important; }}
+.og--gtr .gtr-over {{ font-size: 17px; color: var(--gtr-chalk-2); }}
+.og--gtr h1 {{ font-size: 92px; margin-top: 2px !important; line-height: .95; color: var(--gtr-chalk); }}
+.og--gtr .gtr-sub {{ font-size: 25px; margin-top: 6px !important; color: var(--gtr-chalk); }}
+
 /* the seaside convenience — THE PAVILION ON THE PROMENADE. The page's own
    drawing, lifted rather than redrawn, cropped to the canopy, the cubicle doors
    and the sea, and every word below it on the haze over the front, where the
@@ -4719,6 +4733,39 @@ def card_wds(p):
     )
 
 
+def card_gtr(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE HALL ARE LIFTED
+    # FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="gtr-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="gtr-sub">(.*?)</p>', p["src"], re.S)
+    hall = re.search(r'(<svg class="gtr-hall".*?</svg>)', p["src"], re.S)
+    if not (over and sub and hall):
+        raise SystemExit(
+            "REFUSING: golem-trust.html has lost its hall, or the line over its name or\n"
+            "the one under it, and the card is built out of all three. Redesign it on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    crop = hall.group(1).replace('viewBox="0 0 1200 420"', 'viewBox="0 80 1200 330"', 1)
+    if crop == hall.group(1):
+        raise SystemExit(
+            "REFUSING: golem-trust.html's hall is no longer 1200 by 420, and the card crops it\n"
+            "by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--gtr" data-fit="card">'
+        f'<div class="og-room">{crop}</div>'
+        f'<div class="og-slate"><p class="gtr-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="gtr-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A card the warm pale colour of clay with daylight behind it. Across the top, a dark hall seen from "
+        f"inside: the lower half of three tall windows whose panes are thin clay glowing apricot, marked with "
+        f"thumbprints and pressed lines; drawers between them; and three golems, blocky figures of clay with no "
+        f"faces, standing in outline against the light, the middle one holding up a slate behind a long table of "
+        f"slates. Below, a dark slate in a frame of red fired clay, and on it in chalk: small capitals reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in a large handwritten face, and under it: "
+        f"{plain(sub.group(1))}",
+    )
+
+
 def card_bkb(p):
     # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE CONVOY ARE LIFTED
     # FROM THE PAGE, so the card cannot say what the room does not.
@@ -6306,6 +6353,7 @@ CARDS = {
     "room-lspace":  card_lspace,
     "room-oook":    card_oook,
     "widdershins": card_wds,
+    "golem-trust": card_gtr,
     "dressup":      card_dressup,
     "bodymind-booth": card_booth,
     "chimera-obscura": card_chimera,

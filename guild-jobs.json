@@ -517,6 +517,11 @@
    "room": "Widdershins"
   },
   {
+   "id": "gtr-slate",
+   "title": "What does a golem say it on?",
+   "room": "The Golem Trust"
+  },
+  {
    "id": "cavendish-marker",
    "title": "Who signed for his own books?",
    "room": "Cavendish Coworking"
