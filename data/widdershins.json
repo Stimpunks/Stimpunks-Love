@@ -569,6 +569,27 @@
       "line": "The morning is caught halfway across the city and stays there, at every setting, MAX GLITTER included. On the Disc, light is slow; here it is patient."
     }
   ],
+  "_over_the_bridge": "THE CITY OVER THE BRIDGE (Ryan, 2026-11-04): rooms behind this one, inspired by places in the novels, each its own world, with its door in the street over the bridge on Cel Street. Each line is ours; `holds` is words its page says, checked there.",
+  "over_the_bridge": [
+    {
+      "page": "clacks-tower.html",
+      "name": "The Clacks Tower",
+      "line": "up a tower of the Grand Trunk, the semaphore line from *Going Postal*, where the Overhead keeps a name going, and where this street keeps one in its own.",
+      "holds": []
+    },
+    {
+      "page": "golem-trust.html",
+      "name": "The Golem Trust",
+      "line": "the trust from *Going Postal* for golems, who were property and own themselves now, and who say what they have to say on slates.",
+      "holds": []
+    },
+    {
+      "page": "sunshine-sanctuary.html",
+      "name": "The Sunshine Sanctuary for Sick Dragons",
+      "line": "Lady Sybil Ramkin’s sanctuary from *Guards! Guards!*, for the small swamp dragons nobody else wanted.",
+      "holds": []
+    }
+  ],
   "elsewhere": [
     {
       "page": "community-library.html",

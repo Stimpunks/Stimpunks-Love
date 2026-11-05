@@ -31,6 +31,7 @@
   window.loveCelRooms = window.loveCelRooms || {};
   window.loveCelRooms['widdershins.html'] = {
     name: 'Widdershins',
+    faces: ['Grenze'],
     build: function (kit) {
       var T = kit.THREE, at = kit.at, box = kit.box, cyl = kit.cyl;
       var M = function (a, b) { return new T.Matrix4().multiplyMatrices(a, b); };
@@ -234,20 +235,39 @@
       }
       var ID = at(0, 0, 0);
       var BX = -6, BW = 2.6, LANE = 1.7;   // the bridge, and the lane it lands in on the far bank
-      [[FAR - 4.5, 3.2, 7.5, 11], [FAR, 2.6, 3.5, 7]].forEach(function (row, ri) {
+      // THE CITY OVER THE BRIDGE (Ryan, 2026-11-04): the lane goes on through
+      // the front row onto a street that runs along behind it, and the row
+      // across that street has the doors of the rooms behind Widdershins in
+      // it, each its own world, among the houses. STREET is where the street
+      // runs, between the backs of the front row and the fronts of the back.
+      var BACKROW = FAR - 8.5, STREET = [FAR - 1.6, BACKROW + 1.75];
+      var KX = 11, KZ = BACKROW;
+      // The rooms over the bridge, each a front in the back row: where it
+      // stands, how wide, and its name for the sign over its door. The clacks
+      // tower is the one with no front: its door is in the foot of the tower.
+      var SHOPS = [
+        { page: 'golem-trust.html', name: 'The Golem Trust', sign: 'THE GOLEM TRUST', x: -13.5, w: 4.6, h: 7.2 },
+        { page: 'sunshine-sanctuary.html', name: 'The Sunshine Sanctuary for Sick Dragons', sign: 'SUNSHINE SANCTUARY', small: 'for Sick Dragons', x: 5.0, w: 5.2, h: 6.4 },
+        { page: 'clacks-tower.html', name: 'The Clacks Tower', sign: 'GRAND TRUNK', small: 'Semaphore Co.', x: KX, w: 3.2, tower: true }
+      ];
+      function reserved(x0, x1) { return SHOPS.some(function (sp) { return x1 > sp.x - sp.w / 2 - 0.3 && x0 < sp.x + sp.w / 2 + 0.3; }); }
+      [[BACKROW, 3.2, 7.5, 11], [FAR, 2.6, 3.5, 7]].forEach(function (row, ri) {
         var x = -30, n = 0;
         while (x < 30) {
           var w = 1.6 + hash(ri * 100 + n * 1.3) * 1.7;
           var h = row[2] + hash(ri * 50 + n * 2.9) * (row[3] - row[2]);
           // The front row leaves a lane where the bridge comes down, so the
-          // bridge lands somewhere rather than at a wall.
+          // bridge lands somewhere rather than at a wall, and the back row
+          // leaves a gap wherever a room over the bridge stands.
           if (ri === 1 && x < BX + LANE && x + w > BX - LANE) { x = BX + LANE; n++; continue; }
+          if (ri === 0 && reserved(x, x + w)) { x += 0.5; n++; continue; }
           house(ID, x + w / 2, row[0], w, row[1], h, (hash(n * 4.4 + ri) - 0.5) * 0.08, hash(n * 6.1 + ri * 3) > 0.3, lit(x + w / 2, h * 0.6));
           x += w - 0.12; n++;
         }
       });
-      // The lane's cobbles, from the bridge's end to the back row's doors.
+      // The lane's cobbles, from the bridge's end through to the street.
       box(LANE * 2, 0.06, 4.0, at(BX, -0.29, FAR - 0.8), '--wds-wall-night', false, false);
+      var FRONTS = CITY();
       for (var lc = 0; lc < 24; lc++) {
         var lcg = new T.SphereGeometry(0.22, 8, 5); lcg.scale(1.6, 0.35, 1);
         kit.piece(lcg, at(BX - 1.2 + (lc % 5) * 0.6 + (Math.floor(lc / 5) % 2) * 0.3, -0.26, FAR + 1.0 - Math.floor(lc / 5) * 0.7, hash(lc * 2.7)), '--wds-roof-night', false, false);
@@ -286,7 +306,6 @@
       cyl(0.02, 0.6, 3, at(-9, 21, FAR - 11), '--wds-roof-night', 0.04, 8);
       // THE CLACKS TOWER, past the edge: a lattice, and a board of shutters
       // with every other one open.
-      var KX = 11, KZ = FAR - 8;
       [-1, 1].forEach(function (s) {
         box(0.22, 14, 0.22, at(KX + s * 0.9, 6.5, KZ, 0, 0, -s * 0.05), '--wds-roof-day', 0.03);
       });
@@ -438,6 +457,136 @@
         [-1, 1].forEach(function (sd) { box(0.08, 1.5, 0.08, at(x + sd * (ww / 2 + 0.08), 0.45, BACKZ + 0.08), '--wds-line', 0.01); });
         return { x: x, z: BACKZ - STAND, yaw: Math.PI, pitch: 0.06, frame: it.el };
       }
+
+      // THE CITY OVER THE BRIDGE, walked: through the lane and onto the street
+      // behind the front row, cobbled, with its lamps unlit, a pump where the
+      // lane comes out, washing across it, the backs of the front row's houses
+      // on one side and on the other the back row, with the doors of the rooms
+      // behind Widdershins among its houses. The morning crosses the street as
+      // it crosses everything else, so the street's far end is lit. The signs
+      // over the doors say only names, painted as the city paints them.
+      function CITY() {
+        var z0 = STREET[1], z1 = STREET[0];
+        // The night sky's cool over the street too, gathered from high over its
+        // night end so the fronts have their shapes; never a lamp, never warm.
+        var streetSky = new T.SpotLight(kit.col('--wds-ink-3'), 3.6, 0, 0.62, 0.9, 0);
+        streetSky.position.set(-12, 16, z1 + 6);
+        streetSky.target.position.set(-8, 0, (z0 + z1) / 2 - 1);
+        kit.scene.add(streetSky, streetSky.target);
+        var streetSky2 = new T.SpotLight(kit.col('--wds-ink-3'), 2.2, 0, 0.5, 0.9, 0);
+        streetSky2.position.set(-2, 14, z1 + 7);
+        streetSky2.target.position.set(0, 0, z0);
+        kit.scene.add(streetSky2, streetSky2.target);
+        function dayAt(x, y, z) { return x > farEdge(z, y || 0); }
+        // The cobbles, each a little different, night or morning by where it lies.
+        for (var r = 0; r * 0.62 < z1 - z0; r++) {
+          for (var cxs = -24 + (r % 2) * 0.33; cxs < 15; cxs += 0.66) {
+            var cz2 = z0 + 0.3 + r * 0.62, cg = new T.SphereGeometry(0.26, 8, 5); cg.scale(1.5, 0.3, 1);
+            kit.piece(cg, at(cxs + (hash(cxs * 3 + r) - 0.5) * 0.12, -0.28, cz2, hash(cxs + r * 7)), dayAt(cxs, 0, cz2) ? '--wds-wall-day' : '--wds-wall-night', false, false);
+          }
+        }
+        // A gutter down the middle of the street.
+        box(39, 0.03, 0.22, at(-4.5, -0.27, (z0 + z1) / 2), '--wds-roof-night', false, false);
+        // The backs of the front row: windows, and a back door here and there.
+        for (var bx = -29.5; bx < 29.5; bx += 1.15) {
+          if (Math.abs(bx - BX) < LANE + 0.2) continue;
+          var day = dayAt(bx, 2, z1);
+          for (var fy = 1.6; fy < 4.5; fy += 1.6) {
+            if (hash(bx * 5.1 + fy) < 0.4) continue;
+            box(0.42, 0.55, 0.05, at(bx, fy - 0.5, FAR - 1.33), '--wds-window', false, false);
+            box(0.54, 0.06, 0.1, at(bx, fy - 0.83, FAR - 1.35), day ? '--wds-roof-day' : '--wds-roof-night', false, false);
+          }
+          if (hash(bx * 2.2) > 0.78) box(0.62, 1.15, 0.06, at(bx, 0.08, FAR - 1.33), day ? '--wds-roof-day' : '--wds-roof-night', false, false);
+        }
+        // The lamps along the street, on posts at the back row's side, unlit.
+        [-20.5, -9.2, -0.6, 8.6, 14.0].forEach(function (lx) {
+          var ld = dayAt(lx, 2, z0 + 0.6), post = ld ? '--wds-roof-day' : '--wds-roof-night';
+          cyl(0.06, 0.08, 3.0, at(lx, 1.0, z0 + 0.6), post, 0.015, 6);
+          box(0.4, 0.06, 0.06, at(lx, 2.45, z0 + 0.8), post, false, false);
+          box(0.26, 0.36, 0.26, at(lx, 2.2, z0 + 0.95), '--wds-window', 0.012);
+          box(0.32, 0.05, 0.32, at(lx, 2.4, z0 + 0.95), post, false, false);
+        });
+        // A pump where the lane comes out, its trough and its handle.
+        var PZ = z0 + 1.3, PX = -2.4;
+        cyl(0.18, 0.22, 1.4, at(PX, 0.4, PZ), '--wds-roof-night', 0.02, 10);
+        cyl(0.24, 0.24, 0.12, at(PX, 1.13, PZ), '--wds-roof-night', 0.015, 10);
+        box(0.05, 0.05, 0.7, at(PX + 0.25, 1.0, PZ + 0.25, 0, 0.5), '--wds-roof-night', false, false);
+        cyl(0.04, 0.04, 0.3, at(PX, 0.8, PZ + 0.25, 0, Math.PI / 2), '--wds-roof-night', false, 6);
+        box(1.1, 0.4, 0.5, at(PX + 0.75, -0.1, PZ + 0.3), '--wds-wall-night', 0.02);
+        box(0.98, 0.05, 0.38, at(PX + 0.75, 0.08, PZ + 0.3), '--wds-ankh', false, false);
+        // Washing hung across the street from upstairs window to upstairs window.
+        [[-19, 4.1], [-2.2, 4.4], [8.6, 4.0]].forEach(function (line, li) {
+          var A = new T.Vector3(line[0], line[1], z1 - 0.05), B = new T.Vector3(line[0] + 1.2, line[1] + 0.2, z0 + 0.05);
+          var seg = B.clone().sub(A), wg = new T.CylinderGeometry(0.008, 0.008, seg.length(), 3);
+          wg.applyQuaternion(new T.Quaternion().setFromUnitVectors(new T.Vector3(0, 1, 0), seg.clone().normalize()));
+          var mid = A.clone().add(B).multiplyScalar(0.5);
+          kit.piece(wg, at(mid.x, mid.y, mid.z), '--wds-line', false);
+          // Washing on the night side is still the night's; past the edge it has its colours.
+          var CLOTH = dayAt(line[0], line[1], (z0 + z1) / 2) ? ['--wds-ink-2', '--wds-heather', '--wds-rose', '--wds-moss', '--wds-river'] : ['--wds-line', '--wds-ink-3', '--wds-slab', '--wds-line'];
+          for (var k = 1; k < 6; k++) {
+            var P = A.clone().lerp(B, k / 6), sag = Math.sin(k / 6 * Math.PI) * 0.35;
+            var cw = 0.35 + hash(li * 9 + k) * 0.4, chh = 0.45 + hash(li * 4 + k) * 0.5;
+            box(0.03, chh, cw, at(P.x, P.y - sag - chh / 2, P.z), CLOTH[(li + k) % CLOTH.length], false, false);
+          }
+        });
+        // Barrels and crates by the doors, a handcart, a bench.
+        [[-21.5, 0], [-9.8, 1], [-1.5, 0], [0.9, 1], [13.6, 0]].forEach(function (b, bi) {
+          var bd = dayAt(b[0], 0, z0 + 0.4);
+          if (b[1]) box(0.6, 0.55, 0.5, at(b[0], 0.0, z0 + 0.5, hash(bi) * 0.4), bd ? '--wds-roof-day' : '--wds-roof-night', 0.015);
+          else cyl(0.28, 0.3, 0.8, at(b[0], 0.1, z0 + 0.5), bd ? '--wds-roof-day' : '--wds-roof-night', 0.015, 12);
+        });
+        box(1.6, 0.08, 0.4, at(-0.6, 0.15, z1 - 0.35), '--wds-roof-night', 0.01);
+        [-0.6, 0.6].forEach(function (lg) { box(0.08, 0.42, 0.34, at(-0.6 + lg, -0.08, z1 - 0.35), '--wds-roof-night', false, false); });
+
+        // THE ROOMS' FRONTS. A house of the back row, its ground floor a shop
+        // front: a bay of small panes, a door with a fanlight, and a board over
+        // them with its name painted on. The sign is the city's paint, the
+        // room's own world is through the door.
+        var signs = {};
+        SHOPS.forEach(function (sp, si) {
+          var fz = BACKROW + 1.6, day = lit(sp.x, 3);
+          var frame = day ? '--wds-roof-day' : '--wds-roof-night', wall = day ? '--wds-wall-day' : '--wds-wall-night';
+          if (sp.tower) {
+            // The clacks tower's foot: a hut between its legs, and its door.
+            box(sp.w, 3.2, 2.0, at(sp.x, 1.1, KZ + 0.6), wall, 0.03);
+            var hr = new T.Shape(); hr.moveTo(-sp.w / 2 - 0.2, 0); hr.lineTo(sp.w / 2 + 0.2, 0); hr.lineTo(0, 0.9); hr.closePath();
+            var hg = new T.ExtrudeGeometry(hr, { depth: 2.4, bevelEnabled: false }); hg.translate(0, 0, -1.2);
+            kit.piece(hg, at(sp.x, 2.7, KZ + 0.6), frame, 0.03);
+            fz = KZ + 1.62;
+          } else {
+            house(ID, sp.x, BACKROW, sp.w, 3.2, sp.h, 0, true, day);
+            box(sp.w - 0.1, 2.5, 0.1, at(sp.x, 0.75, fz), frame, 0.02);
+            // The bay, its panes, its sill.
+            box(sp.w * 0.5, 1.3, 0.3, at(sp.x - sp.w * 0.16, 1.0, fz + 0.18), '--wds-window', 0.015);
+            for (var mx = 0; mx <= 4; mx++) box(0.04, 1.3, 0.04, at(sp.x - sp.w * 0.41 + mx * sp.w * 0.125, 1.0, fz + 0.34), frame, false, false);
+            box(sp.w * 0.5, 0.04, 0.04, at(sp.x - sp.w * 0.16, 1.0, fz + 0.34), frame, false, false);
+            box(sp.w * 0.56, 0.1, 0.42, at(sp.x - sp.w * 0.16, 0.3, fz + 0.2), frame, 0.01);
+          }
+          // The door, a step up to it, and its fanlight.
+          var dx = sp.tower ? sp.x : sp.x + sp.w * 0.3;
+          box(0.9, 1.75, 0.08, at(dx, 0.37, fz + 0.06), frame, 0.015);
+          box(0.72, 1.55, 0.06, at(dx, 0.3, fz + 0.1), '--wds-window', false, false);
+          kit.piece(new T.CylinderGeometry(0.36, 0.36, 0.06, 16, 1, false, -Math.PI / 2, Math.PI), at(dx, 1.24, fz + 0.08, 0, Math.PI / 2), '--wds-window', false);
+          box(1.1, 0.14, 0.45, at(dx, -0.43, fz + 0.3), wall, 0.01, false);
+          // The board over it all, its name painted in the city's dawn on the
+          // city's night, whichever side of the morning it stands on.
+          var bw = sp.tower ? 2.9 : sp.w - 0.3, bh = sp.small ? 0.78 : 0.55;
+          var sign = kit.paper(1024, Math.round(1024 * bh / bw), function (c, w, h) {
+            c.fillStyle = kit.ink('--wds-night'); c.fillRect(0, 0, w, h);
+            c.strokeStyle = kit.ink('--wds-brass'); c.lineWidth = 10; c.strokeRect(10, 10, w - 20, h - 20);
+            c.fillStyle = kit.ink('--wds-dawn'); c.textAlign = 'center'; c.textBaseline = 'middle';
+            var size = Math.round(h * (sp.small ? 0.42 : 0.6));
+            do { c.font = '700 ' + size + 'px Grenze'; size -= 2; } while (c.measureText(sp.sign).width > w - 70 && size > 14);
+            c.fillText(sp.sign, w / 2, sp.small ? h * 0.38 : h / 2 + 2);
+            if (sp.small) { c.fillStyle = kit.ink('--wds-ink-2'); c.font = '700 ' + Math.round(h * 0.24) + 'px Grenze'; c.fillText(sp.small, w / 2, h * 0.76); }
+          });
+          var sy = sp.tower ? 2.18 : 2.25;
+          kit.sheet(sign, bw, bh, at(sp.x, sy, fz + 0.12));
+          box(bw + 0.12, bh + 0.12, 0.06, at(sp.x, sy, fz + 0.06), frame, 0.01, false);
+          signs[sp.page] = { x: sp.x, z: fz, tower: sp.tower };
+        });
+        return signs;
+      }
       var stops = [
         { name: 'on the quay, the city across the river and the morning halfway across it', x: 4, z: 0.6, yaw: 0, pitch: 0.12 },
         { name: 'at the river wall, looking at the morning’s edge on the far bank', x: EDGE, z: -2.2, yaw: 0, pitch: 0.18 },
@@ -457,6 +606,7 @@
         'at the board with Miss Level, who stores it in other people',
         'at the board with what Star Stuff wrote and drew',
         'at the board with what is not in this city',
+        'at the board with the city over the bridge',
         'at the board with next door',
         'at the board with The Turtle Moves, Star Stuff’s drawing of Great A’Tuin and its passage',
         'at the board with whose this is'
@@ -464,14 +614,27 @@
       PARTS.forEach(function (words, i) {
         named(board('.wds-part', i, -1.2 - i * 2.4, 640, 1.5, 760), words);
       });
+      // The city over the bridge: the lane, the street, and each door in it.
+      stops.push({ name: 'through the lane, on the street over the bridge, looking along it into the morning', x: BX - 0.6, z: STREET[0] - 1.6, yaw: -1.32, pitch: 0.08 });
+      stops.push({ name: 'along the street, where the morning’s edge crosses it', x: -3, z: (STREET[0] + STREET[1]) / 2, yaw: -1.45, pitch: 0.06 });
+      stops.push({ name: 'at the far end of the street in the morning, looking back into the night', x: 13.4, z: (STREET[0] + STREET[1]) / 2, yaw: 1.5, pitch: 0.08 });
+      SHOPS.forEach(function (sp) {
+        var f = FRONTS[sp.page];
+        stops.push({ name: sp.tower ? 'at the foot of the clacks tower, at the Grand Trunk’s door' : 'at the door of ' + sp.name,
+                     room: sp.name, page: sp.page, x: f.tower ? sp.x : sp.x + sp.w * 0.15, z: STREET[0] - 0.3, yaw: 0, pitch: sp.tower ? 0.34 : 0.1 });
+      });
       stops.push({ name: 'at the end of the quay where you came in, with the room’s own page', x: 8.6, z: BACKZ - STAND, yaw: Math.PI, pitch: 0.04, page: kit.page, frame: page });
 
       return {
         start: { x: 4, z: 0.6, yaw: 0 },
-        // The quay, and the bridge's deck out over the river and down its lane.
-        bounds: { x: [-22, 10], z: [-2.4, 2.8], areas: [
-          { x: [-22, 10], z: [-2.4, 2.8] },
-          { x: [BX - BW / 2 + 0.35, BX + BW / 2 - 0.35], z: [FAR - 1.6, -2.4] }
+        // The quay, the bridge's deck out over the river, its lane through the
+        // front row, and the street over the bridge.
+        bounds: { x: [-24, 10], z: [-2.4, 2.8], areas: [
+          { x: [-24, 10], z: [-2.4, 2.8] },
+          { x: [BX - BW / 2 + 0.35, BX + BW / 2 - 0.35], z: [FAR + 1.2, -2.4] },
+          // The lane through the front row, and the street behind it.
+          { x: [BX - LANE + 0.45, BX + LANE - 0.45], z: [STREET[0] - 0.4, FAR + 1.6] },
+          { x: [-23.5, 14.2], z: [STREET[1] + 0.55, STREET[0] - 0.1] }
         ] },
         stops: stops
       };

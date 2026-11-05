@@ -19,6 +19,8 @@ markers in widdershins.html:
   · EVERY SECTION (wds:lede, wds:city, wds:watch, wds:senses, wds:witches,
     wds:starstuff), block by block, with the Watch, the people we recognise and
     Star Stuff's figures among them.
+  · OVER THE BRIDGE (wds:bridge), the rooms behind this one, inspired by
+    places in the novels, each its own world;
   · WHAT IS NOT IN THIS CITY (wds:rules), NEXT DOOR (wds:elsewhere) and THE
     CREDITS (wds:credits), with a table of the quotations in liner-notes.html.
 
@@ -339,8 +341,8 @@ for i, r in enumerate(d.get("not_here") or [], 1):
         if not str(r.get(need, "")).strip():
             refuse(f"not_here {i}: no {need}.")
 
-for i, e in enumerate(d.get("elsewhere") or [], 1):
-    where = f"elsewhere {i} ({e.get('page')})"
+for i, e in enumerate(list(d.get("over_the_bridge") or []) + list(d.get("elsewhere") or []), 1):
+    where = f"door {i} ({e.get('page')})"
     p = ROOT / str(e.get("page", ""))
     if not p.is_file():
         refuse(f"{where}: no such page.")
@@ -654,6 +656,13 @@ for name in sections:
 rules = [f'      <li class="wds-card"><strong>{esc(r["name"])}</strong> {linked(r["line"])}</li>'
          for r in d["not_here"]]
 swap(ROOM, "wds:rules", '    <ul class="wds-rules">\n' + "\n".join(rules) + "\n    </ul>", "    ")
+
+# THE CITY OVER THE BRIDGE: the rooms behind this one, a door each.
+over = [f'      <li><a href="{attr(e["page"])}">{esc(e["name"])}</a>, {linked(e["line"])}</li>'
+        for e in d.get("over_the_bridge") or []]
+if not over:
+    refuse("over_the_bridge is empty, and the street over the bridge on Cel Street has doors in it.")
+swap(ROOM, "wds:bridge", '    <ul class="wds-next">\n' + "\n".join(over) + "\n    </ul>", "    ")
 
 nexts = [f'      <li><a href="{attr(e["page"])}">{esc(e["name"])}</a>, {linked(e["line"])}</li>'
          for e in d["elsewhere"]]

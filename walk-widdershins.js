@@ -131,6 +131,20 @@
     return s;
   }
 
+  // A way over the bridge into the city: a crooked door in a crooked front,
+  // its lamp unlit, the night's own colours, and the name lettered over it
+  // by kit.door.
+  function cityDoor(w, h) {
+    var s = svg(w, h), lean = w * 0.04;
+    s.appendChild(el('path', { d: 'M' + (w * 0.06) + ' ' + h + ' L' + (w * 0.06 + lean) + ' ' + (h * 0.28) + ' L' + (w / 2 + lean) + ' ' + (h * 0.08) + ' L' + (w * 0.94 + lean) + ' ' + (h * 0.28) + ' L' + (w * 0.94) + ' ' + h + ' Z', fill: 'var(--wds-wall-night)' }));
+    s.appendChild(el('path', { d: 'M' + (w * 0.06 + lean) + ' ' + (h * 0.28) + ' L' + (w / 2 + lean) + ' ' + (h * 0.08) + ' L' + (w * 0.94 + lean) + ' ' + (h * 0.28), fill: 'none', stroke: 'var(--wds-ink-3)', 'stroke-width': 6 }));
+    s.appendChild(el('rect', { x: w * 0.32, y: h * 0.52, width: w * 0.36, height: h * 0.48, rx: w * 0.04, fill: 'var(--wds-window)' }));
+    s.appendChild(el('rect', { x: w * 0.12, y: h * 0.4, width: w * 0.12, height: h * 0.14, fill: 'var(--wds-window)' }));
+    s.appendChild(el('rect', { x: w * 0.76, y: h * 0.4, width: w * 0.12, height: h * 0.14, fill: 'var(--wds-window)' }));
+    s.appendChild(el('rect', { x: w * 0.47, y: h * 0.36, width: w * 0.06, height: h * 0.1, fill: 'var(--wds-line)' }));
+    return s;
+  }
+
   window.lovePaperRooms = window.lovePaperRooms || {};
   window.lovePaperRooms['widdershins.html'] = {
     prefix: 'wds-walk',
@@ -160,6 +174,16 @@
       var compassIt = put(compass(360, 1100), 360, 1100, { x: -1700, z: QUAY - 260 });
       decor.push(compassIt);
 
+      // OVER THE BRIDGE: the rooms behind this one, each a way into the city,
+      // stood along the river wall where the bridge goes over (Ryan,
+      // 2026-11-04). Made before the page, so the keyboard meets them first.
+      var ways = [], WW = 460, WH = 560;
+      [['clacks-tower.html', 'The Clacks Tower'], ['golem-trust.html', 'The Golem Trust'], ['sunshine-sanctuary.html', 'The Sunshine Sanctuary for Sick Dragons']].forEach(function (r, i) {
+        var it = kit.door(r[0], { art: cityDoor(WW, WH), no: 'Over the bridge', name: r[1], label: 'wds-walk-way', cls: 'wds-walk-door',
+                                  x: 250 + i * (WW + 120), z: QUAY - 40, w: WW * k, h: WH * k });
+        decor.push(it);
+        ways.push(kit.stop({ name: 'at the way over the bridge into ' + r[1], spot: kit.front(it, 900), link: it.link }, it));
+      });
       var page = kit.screen(kit.page, 'Widdershins’ own page, on a board on the quay, on the night side');
       var board = kit.item(page, { x: BOARD, z: QUAY - 300, w: sw, h: sh, cls: 'wds-walk-board' });
 
@@ -168,7 +192,7 @@
         kit.stop({ name: 'at the river wall, the morning’s edge straight across the water', spot: { x: EDGE, z: QUAY - F * 0.8 } }),
         kit.stop({ name: 'at the board on the quay, with the room’s own page on the night side', spot: { x: BOARD, z: QUAY - 300 - F }, link: page }, board),
         kit.stop({ name: 'under the compass, its widdershins arm pointing into the morning', spot: kit.front(compassIt, 1000) }, compassIt)
-      ];
+      ].concat(ways);
 
       return {
         cls: 'wds-walk',

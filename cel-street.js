@@ -1241,7 +1241,7 @@ function start() {
     if (s && s.page) {
       var a = document.createElement('a');
       a.href = s.page;
-      a.textContent = inside && s.page === inside.page ? 'Open the room\u2019s page \u2192' : ROOMS[s.page] ? 'or open its page \u2192' : 'Go into ' + s.name + ' \u2192';
+      a.textContent = inside && s.page === inside.page ? 'Open the room\u2019s page \u2192' : ROOMS[s.page] ? 'or open its page \u2192' : 'Go into ' + (s.room || s.name) + ' \u2192';
       hereEl.appendChild(a);
     }
   }

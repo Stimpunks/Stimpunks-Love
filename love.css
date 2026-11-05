@@ -31496,6 +31496,11 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   border-radius: 4px; box-shadow: 0 0 0 8px var(--wds-slab), 0 0 0 12px var(--wds-brass);
 }
 .wds-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--wds-night); }
+/* The ways over the bridge, each a crooked front in the night's colours with
+   its name lettered over the door in the room's display face, in the dawn. */
+.wds-walk-way { --ps-way: var(--wds-dawn); top: 18px; height: 150px; justify-content: center; padding: 10px 26px; font-family: 'Grenze', Georgia, serif; font-weight: 700; font-size: 30px; line-height: 1.05; }
+.wds-walk-door { --ps-takes: auto; }
+.wds-walk-way .ps-way__no { color: var(--wds-ink-2); font-family: 'Proza Libre', Georgia, serif; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
 
 
 /* §136 ── ROOM: Champuru (a shopfront on the street) ─────────────────────────
