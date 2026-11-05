@@ -1,0 +1,135 @@
+{
+  "_what": "The Clacks Tower, a room behind Widdershins in the city over the bridge: the shutter cabin at the top of a tower of the Grand Trunk, the semaphore company in Terry Pratchett's Going Postal (2004), at noon on a clear day, with the shutters standing open in one pattern and the day coming through the open ones onto the floor in squares. tools/make-clacks-tower.py writes the room out of this file, between clk:<part> markers in clacks-tower.html, and a table of the quotations into liner-notes.html.",
+  "_who": "Ryan's ask, 2026-11-04: subrooms of Widdershins inspired by places in the Discworld novels, in the city over the bridge. This one stands on what Star Stuff has already written in One Atom of Justice (No. 49): the clacks workers on the towers among those who pay for a technology, and the clacks Overhead, GNU John Dearheart, and the X-Clacks-Overhead header this street sends.",
+  "_quotes": "Every quotation was read on Star Stuff (starstuff.earth, Stimpunks x More Realms, CC BY-SA 4.0, in its own repository beside this one) or on a page of ours (stimpunks.org, in the Knowledge System mirror), and is checked there word for word whenever that copy is on the machine. NO LINE OF THE BOOK IS QUOTED: Star Stuff gives one, and says in its colophon that its wording came from a reference wiki and was never checked against the novel, so this room says what the line is about and does not print it. The tool refuses the line.",
+  "_ours": "Everything that is not a quotation is ours, written for this room. The tower, its grid of shutters and the pattern they stand in are ours and carry no letter of the book's code, which we do not know. Nobody is drawn and nobody is up the tower while you are.",
+  "read": "2026-11-04",
+  "words": 40,
+  "_words": "Forty, as in Widdershins: enough for the sentence from One Atom of Justice that names who was standing where the clacks landed, and no more. Raise it here, on purpose, with the reason, never to fit one passage.",
+  "pages": {
+    "atom": {
+      "title": "One Atom of Justice",
+      "url": "https://starstuff.earth/one-atom-of-justice-zine.html",
+      "from": "starstuff",
+      "file": "one-atom-of-justice-zine.html",
+      "holds": [
+        "we have not confirmed either against the novel",
+        "It is a fan convention and not his instruction or his estate's."
+      ]
+    },
+    "luddite": {
+      "title": "Luddite Sensibilities",
+      "url": "https://stimpunks.org/glossary/luddite-sensibilities/",
+      "from": "mirror",
+      "file": "glossary/luddite-sensibilities.md"
+    }
+  },
+  "quotes": {
+    "network": {
+      "text": "In *Going Postal* there is a semaphore network across the continent — towers, shutters, a code, and crews who live up there. Early in the book a young man named John Dearheart dies on one.",
+      "who": "Star Stuff",
+      "read_on": "atom"
+    },
+    "overhead": {
+      "text": "His father puts his name into the Overhead — the working channel the towers use to talk to each other, which no customer ever sees — with three letters in front of it.",
+      "who": "Star Stuff",
+      "read_on": "atom"
+    },
+    "gnu": {
+      "text": "G: send it on. N: do not log it. U: at the end of the line, turn it around and send it back. GNU John Dearheart, up and down the towers, indefinitely, for as long as the network stands.",
+      "who": "Star Stuff",
+      "read_on": "atom"
+    },
+    "header": {
+      "text": "An HTTP response header, invisible in the page, carried on every request, logged by nobody, meaning nothing to any browser:",
+      "who": "Star Stuff",
+      "read_on": "atom"
+    },
+    "convention": {
+      "text": "This is a fan convention, not Pratchett's instruction. He did not ask for it, his estate did not originate it, and nobody should read the header as endorsement by anyone.",
+      "who": "Star Stuff",
+      "read_on": "atom"
+    },
+    "who-pays": {
+      "text": "the third is always about who was standing where the thing landed: the clacks workers on the towers, the golems who are property, the engravers whose craft the press makes worthless, the people the railway timetable now owns.",
+      "who": "Star Stuff",
+      "read_on": "atom"
+    },
+    "toolbelt": {
+      "text": "Luddite sensibilities don’t reflexively reject technology. Technology is liberating rather than dominating when used to equip our individual tool belts.",
+      "who": "Stimpunks",
+      "read_on": "luddite"
+    }
+  },
+  "lede": [
+    {"p": "You have climbed the ladder inside a clacks tower, over the bridge from Widdershins, and come up through the hatch into the cabin at the top, where the shutters are. It is noon on a clear day. The shutters on the far wall stand open in one pattern and shut in the rest, and the sun comes through the open ones and lies on the floorboards in squares, in the same pattern, turned upside down by the angle of the light."},
+    {"p": "So the only light in here is the message going out. Everything else in the cabin is in shade: the walls, the levers, the ladder you came up. Every word in this room stands in one of those squares of daylight, or in the shade between them, and nothing in it moves at any setting, MAX GLITTER included. The shutters are held where they are, mid-word."},
+    {"p": "Nobody is up here while you are. The crew is out on the gallery, or asleep in the bunk under the cabin, or down the hill; this room does not draw them, or anybody else from the book."}
+  ],
+  "sections": {
+    "tower": [
+      {"q": "network"},
+      {"p": "This is one of those towers, a tower of the Grand Trunk, the company that runs the line in the book. Ours is drawn plainly, a timber cabin on top of a mast with a grid of shutters on the side that faces the next tower along. The pattern the shutters stand in is ours too. The book has a code and we do not know it, so the squares on the floor spell no letter of it, and the room will not pretend that they do."},
+      {"p": "Through the one open shutter in the middle you can see the next tower, small, on the next hill. That is the whole network from in here: one tower looking at another, each with somebody in it reading the other's shutters."}
+    ],
+    "overhead": [
+      {"q": "overhead"},
+      {"q": "gnu"},
+      {"p": "That is the whole of it, three letters and a name, and it is enough. A message that is never logged, so nobody keeps a record of it, and never stops, so it is always somewhere on the line. Some of the light in this cabin is that name going out, and some of it is the next tower turning it round."},
+      {"p": "Star Stuff gives a line from the book about what the name in the Overhead is for, and says in its own colophon that the wording came from a reference wiki and was never checked against the novel. So this room does not print it. It is a line many people know by heart, and that is exactly the kind of line worth reading in the book before quoting. Until somebody does, what the line is about is in the paragraph above, in our words."}
+    ],
+    "header": [
+      {"p": "When Terry Pratchett died, on 12 March 2015, readers put his name in the Overhead of the network we actually have. Star Stuff names the place:"},
+      {"q": "header"},
+      {"p": "**X-Clacks-Overhead: GNU Terry Pratchett.** Every page on this street sends it, this one included. Open your browser's network panel, look at any response from this site under its response headers, and it is there. It does nothing at all in the page."},
+      {"q": "convention"},
+      {"p": "And the N holds here as well. This page keeps nothing about you and sends nothing anywhere, and nobody is counting who climbed the tower."}
+    ],
+    "crews": [
+      {"p": "Star Stuff reads the books about new machines in Ankh-Morpork as asking a question most stories about technology skip: who pays. Its answer for the clacks is the people up here:"},
+      {"q": "who-pays"},
+      {"p": "A network that works in the dark is somebody's nights up a tower. That is not an argument against the network, and it is not one here; the clacks works, and in the book people love it. It is an argument for looking at who is standing where the thing lands, and the people who keep it running, before admiring how fast it goes."},
+      {"q": "toolbelt"},
+      {"p": "Which is the side this street is on. Our [Luddite Sensibilities](https://stimpunks.org/glossary/luddite-sensibilities/) page says it at length, and Star Stuff's [One Atom of Justice](https://starstuff.earth/one-atom-of-justice-zine.html) says the rest."}
+    ],
+    "light": [
+      {"p": "Every room on this street is lit by something no other room has, and this one is lit by what it is saying. The day is outside, behind the shutters; it only comes in where a shutter stands open, so the light on the floor is the shape of the message, cut out of the sun."},
+      {"p": "The squares are hard-edged, because it is noon and the sun is a long way off. They are white, because the light has come through nothing but air. The shade between them is cool and dark, because the cabin is tarred against the weather, and every word that is not in a square stands in it."},
+      {"p": "Nothing moves. A clacks tower is a machine for moving shutters, and the obvious thing to add would be to let them flap at MAX. They do not: a light that changed with the shutters would be a light that flickered, and a message held mid-word is still a message."}
+    ]
+  },
+  "not_here": [
+    {"name": "No line we could not check.", "line": "One line from the book is quoted widely and Star Stuff says it never checked the wording against the novel. This room says what it is about and does not print it."},
+    {"name": "Nothing from a fan wiki.", "line": "The book and Star Stuff are the sources for what this room says, and nothing here is copied from a fan-written description of somebody else's invented world."},
+    {"name": "Nobody drawn.", "line": "No crew, no character, no cover and no company crest. The tower is ours, made of timber and shutters anybody might draw, and nobody is up it while you are."},
+    {"name": "Not the estate's.", "line": "Terry Pratchett's estate has no involvement in this room, was not asked, and has not seen it. The header is a fan convention, not his instruction."},
+    {"name": "Nothing logged, nothing counted.", "line": "The N holds: the page keeps nothing about you, sends nothing, and counts nobody who climbed up."},
+    {"name": "Nothing moves.", "line": "The shutters are held mid-word at every setting, MAX GLITTER included. The light on the floor never changes, so it never flickers."}
+  ],
+  "elsewhere": [
+    {
+      "page": "widdershins.html",
+      "name": "Widdershins",
+      "line": "back over the bridge, the crooked city with the morning halfway across it, where a clacks tower stands on the skyline.",
+      "holds": ["a clacks tower"]
+    },
+    {
+      "page": "repeater.html",
+      "name": "The Repeater",
+      "line": "out past the last streetlight, the street's other tower: a radio mast on a ridge at night, where nothing is lit at all.",
+      "holds": ["nothing up here is lit"]
+    },
+    {
+      "page": "breaker-breaker.html",
+      "name": "Breaker Breaker",
+      "line": "on the street, the citizens band, where every light is a marker lamp on a rig at night.",
+      "holds": ["marker lamp", "citizens band"]
+    },
+    {
+      "page": "the-feed.html",
+      "name": "The Feed",
+      "line": "on the street, a split-flap board that carries every wire we run, a title and a date and never the words.",
+      "holds": ["split-flap"]
+    }
+  ]
+}

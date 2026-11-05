@@ -89,6 +89,39 @@ def find_browser():
     )
 
 
+def card_clk(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE CABIN ARE LIFTED
+    # FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="clk-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="clk-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: clacks-tower.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    # Cropped by the drawing's own viewBox to the shutter wall and the squares
+    # of sun on the boards in front of it.
+    cabin = p["clkcabin"].replace('viewBox="0 0 1200 560"', 'viewBox="222 0 756 550"', 1)
+    if cabin == p["clkcabin"]:
+        raise SystemExit(
+            "REFUSING: clacks-tower.html's cabin is no longer 1200 by 560, and the card crops it\n"
+            "by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--clk" data-fit="card">'
+        f'<div class="og-room">{cabin}</div>'
+        f'<div class="og-words"><div class="og-sun"><p class="clk-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="clk-sub">{sub.group(1).strip()}</p></div></div>'
+        f'</div>',
+        f"A dark card. On the left, the inside of a timber cabin at the top of a tower: a wall with a grid of "
+        f"shutters, some tarred shut and some turned edge-on so pale sky shows through, the next tower small on "
+        f"a hill through the middle one, a bench of levers under them, and on the dark floorboards hard white "
+        f"squares of sun in the same pattern. On the right, in one white square of sun, small grey capitals "
+        f"reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large black stencilled letters, and "
+        f"under it: {plain(sub.group(1))}",
+    )
+
+
 def card_ssd(p):
     # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE YARD ARE LIFTED
     # FROM THE PAGE, so the card cannot say what the room does not.
@@ -1223,6 +1256,22 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--wds .wds-over {{ font-size: 17px; }}
 .og--wds h1 {{ font-size: 92px; margin-top: 2px !important; line-height: .95; }}
 .og--wds .wds-sub {{ font-size: 26px; margin-top: 6px !important; max-width: 1080px; }}
+
+/* the clacks tower — THE NAME IN A SQUARE OF SUN. The page's own drawing of the
+   cabin, lifted rather than redrawn and cropped to the shutter wall and the
+   light on the floor, fills the left of the card in its shade; on the right the
+   name and the line under it stand in one square of sun, tar on daylight, the
+   way every block of words stands in the room. No other card sets its name in
+   the light. */
+.og--clk {{ width: 100%; padding: 0; gap: 0; flex-direction: row; align-items: stretch; justify-content: flex-start; background: var(--clk-shade); }}
+.og--clk .og-room {{ margin: 0 !important; line-height: 0; flex: 0 0 auto; }}
+.og--clk .og-room svg {{ display: block; height: 630px; width: auto; max-width: none; border: 0; }}
+.og--clk .og-words {{ flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; padding: 40px 34px; }}
+.og--clk .og-sun {{ background: var(--clk-day); padding: 30px 30px 32px; }}
+.og--clk .og-sun > * {{ margin: 0 !important; }}
+.og--clk .clk-over {{ font-size: 16px; color: var(--clk-wire-2); }}
+.og--clk h1 {{ font-size: 60px; line-height: 1.02; margin-top: 10px !important; color: var(--clk-tar); }}
+.og--clk .clk-sub {{ font-size: 23px; line-height: 1.35; margin-top: 16px !important; color: var(--clk-tar); }}
 
 /* the sunshine sanctuary — THE YARD UNDER A SUN YOU CAN LOOK AT. The page's own
    drawing, lifted rather than redrawn and cropped to the sky and the sand, and
@@ -6399,6 +6448,7 @@ CARDS = {
     "room-lspace":  card_lspace,
     "room-oook":    card_oook,
     "widdershins": card_wds,
+    "clacks-tower": card_clk,
     "sunshine":    card_ssd,
     "golem-trust": card_gtr,
     "dressup":      card_dressup,
@@ -6568,6 +6618,7 @@ def main():
         ("lwvview",  "loo-with-a-view.html", r'(<svg class="lwv-view".*?</svg>)'),
         ("seafront", "seaside-convenience.html", r'(<svg class="sea-front".*?</svg>)'),
         ("wdscity",  "widdershins.html",  r'(<svg class="wds-city".*?</svg>)'),
+        ("clkcabin", "clacks-tower.html", r'(<svg class="clk-cabin".*?</svg>)'),
         ("ssdyard",  "sunshine-sanctuary.html", r'(<svg class="ssd-yard".*?</svg>)'),
         ("hhset",    "haunted-house.html", r'(<svg class="hh-set".*?</svg>)'),
         ("psarch",   "paper-street.html", r'(<svg class="ps-arch".*?</svg>)'),

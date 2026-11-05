@@ -872,6 +872,14 @@
         "--wds-edge"
       ]
     },
+    "clacks-tower.html": {
+      "kind": "orbit",
+      "c": [-0.12, 0.75],
+      "orbit": 0.01,
+      "trap": "cross",
+      "ground": "--clk-shade",
+      "inks": ["--clk-day", "--clk-sky", "--clk-hill"]
+    },
     "sunshine-sanctuary.html": {
       "kind": "ember",
       "c": [

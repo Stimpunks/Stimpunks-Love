@@ -173,7 +173,7 @@ STEPS=(
   make-arrivals make-the-source make-garden make-zibaldone make-rabbit-hole make-checkpoint
   make-dead-tired make-community-care make-coping make-pets make-show-your-work make-volunteers make-the-quiet-stall make-seaside-convenience make-haunted-house make-breaker-breaker make-laughingstock make-picture-house make-samefood
   make-collection make-vital make-champuru make-comfort-station make-loo-with-a-view make-open-notebook make-learning-large make-hey-good-cookin make-pekoe make-a-quiet-pint make-brew-and-stew make-mountain-cabin make-natures-contribution make-all-needs-met make-brighter-days make-gentle-help make-all-together-now make-the-dairy make-the-honesty-box make-wide-spread-chaos make-the-run make-truckin-food-court make-the-green make-the-pile make-your-room make-sandbox make-community make-member-map make-dressup make-bodymind make-fancy-dress make-chimera-obscura make-cozies make-mural make-pando make-fridge make-stair make-rescue make-accounts make-brass make-forum make-tasks make-office make-social make-profile
-  make-coworking make-town-hall make-live-room make-broadside make-doom-scoop make-library make-widdershins make-golem-trust make-sunshine-sanctuary make-excursions make-dance-punks
+  make-coworking make-town-hall make-live-room make-broadside make-doom-scoop make-library make-widdershins make-clacks-tower make-golem-trust make-sunshine-sanctuary make-excursions make-dance-punks
   make-small-hours make-repeater make-nothing-for-sale make-covenstead
   make-lagoon make-looming make-sithen make-stay-frosty make-stay-breezy make-mycelium make-big-steep make-glow make-rave make-cooldown make-mud make-secret-cabin make-foundry make-bodymind-break
   # Things that read the rooms, after the rooms.

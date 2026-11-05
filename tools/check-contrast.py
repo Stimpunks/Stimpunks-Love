@@ -1008,6 +1008,11 @@ SEA_IRON, SEA_BUOY, SEA_HOT = "#1F5A4E", "#A3301F", "#76221A"
 WDS_NIGHT, WDS_SLAB, WDS_INK, WDS_INK2, WDS_INK3 = "#17161F", "#221F2C", "#EFE6D6", "#C7BDAC", "#A79FB4"
 WDS_DAWN, WDS_EDGE, WDS_SKY = "#F2B95C", "#FFE3A6", "#3A3C57"
 WDS_HEATHER, WDS_RIVER, WDS_MOSS = "#BBA6F0", "#8FD3C5", "#A8D27E"
+# The Clacks Tower (love.css §143). The shutter cabin at the top of a clacks tower
+# at noon: every word in a square of sun on the boards, or in the cool shade
+# between the squares; no word in the drawing.
+CLK_SHADE, CLK_DAY, CLK_TAR, CLK_TIMBER, CLK_TIMBER2 = "#191D24", "#EDF1F2", "#14171C", "#DCD8CF", "#AEB3B9"
+CLK_SKY, CLK_WIRE, CLK_WIRE2 = "#A8CDE8", "#1C4A6E", "#3F4A55"
 # The Sunshine Sanctuary for Sick Dragons (love.css §145). A walled yard at noon
 # under a sun the smoke has turned down: every word on the smoky sky or on a
 # card of sand lying in the yard; no word in the drawing of the yard.
@@ -4001,6 +4006,21 @@ PAIRS = [
     (WDS_MOSS,  WDS_SLAB,  False, "widdershins: Star Stuff's green words in its figures"),
     (WDS_INK2,  WDS_SKY,   False, "widdershins: the compass's hubward, rimward and turnwise, in the city's night sky"),
     (WDS_DAWN,  WDS_SKY,   False, "widdershins: the compass's widdershins, in the city's night sky"),
+    # ── The Clacks Tower (§143) ─────────────────────────────────────────────
+    # Every word in a square of sun or in the shade between them; nothing set
+    # in the drawing.
+    (CLK_TIMBER, CLK_SHADE, False, "clacks tower: the lede, the lines about the rooms down the ladder, and the "
+                                   "job marker's shutter pin, held to the body threshold a marker is"),
+    (CLK_TIMBER2, CLK_SHADE, False, "clacks tower: the trail, the line over the name, the caption under the "
+                                    "cabin and the credits"),
+    (CLK_SKY,   CLK_SHADE, False, "clacks tower: the name, every heading, every link in the shade, the "
+                                  "backlink and the focus ring there"),
+    (CLK_DAY,   CLK_SHADE, False, "clacks tower: a link in the shade under the pointer"),
+    (CLK_TAR,   CLK_DAY,   False, "clacks tower: every word in a square of sun: each section, every quotation "
+                                  "and what is not up here"),
+    (CLK_WIRE,  CLK_DAY,   False, "clacks tower: a link in a square of sun, a quotation's rule, and the focus "
+                                  "ring there"),
+    (CLK_WIRE2, CLK_DAY,   False, "clacks tower: whose each quotation is, under it in its square"),
     # ── The Golem Trust (§144) ─────────────────────────────────────────────
     # Every word on the lit clay, on a quotation's thicker clay, or chalk on a
     # slate. The share card's words are on its slate.
@@ -5543,6 +5563,17 @@ ORNAMENT = {
     "#6e6338": "widdershins: the crust on the river in the morning, 1.46 on the lit river. It carries no word.",
     "#c9a24a": "widdershins: the brass bridge, 4.80 on the river at night and 1.71 on it in the morning, where it "
                "is lit from behind. It carries no word.",
+    "#454d58": "clacks tower: every outline, round the cabin and between the planks, and the boards on a "
+               "shut shutter, 1.98 on the shade, 1.66 on the planked wall and 7.52 on a square of sun. It carries "
+               "no word.",
+    "#262b33": "clacks tower: the planked wall and the floorboards in the drawing, 1.19 against the shade round "
+               "them, carried by the picture's outline; the squares of sun lie on it at 12.51. It carries no word.",
+    "#5e6773": "clacks tower: the beams, the bench, the hatch, the ladder's rails and the shutters' frames, 2.48 "
+               "on the planked wall and 3.43 against the sky through an open shutter. It carries no word.",
+    "#7f95a6": "clacks tower: the next hill, seen through the open shutters, 1.86 on the sky, which is how a "
+               "hill looks at noon a long way off. It carries no word.",
+    "#4b5866": "clacks tower: the next tower on the next hill, 2.34 on the hill and 4.35 on the sky. It carries "
+               "no word.",
     "#ee9cc4": "widdershins: Star Stuff's pink, the dashed box round what does not pass the sieve in its figure, "
                "7.83 on the slab. It carries no word.",
     "#2e2c30": "breaker breaker: the shapes you can just make out in the dark, the mirror, the dash, the "

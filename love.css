@@ -4481,6 +4481,23 @@
   --wds-ankh: #3B3A29;  --wds-ankh-crust: #4E4C35;
   --wds-ankh-day: #8A7D4B;  --wds-ankh-crust-day: #6E6338;  --wds-brass: #C9A24A;
 
+  /* The Clacks Tower (§143): the shutter cabin at the top of a clacks tower at
+     noon, lit only by the sun through the open shutters, lying on the floor in
+     squares: the message going out. The page: --clk-shade its ground, the
+     cabin in shade; --clk-day a square of sun on the boards, where most of the
+     words stand; --clk-timber every word in the shade, --clk-timber-2 the
+     quieter ones; --clk-sky the name, the headings and the links in the shade,
+     and the sky through the shutters; --clk-tar every word in a square of sun,
+     and the shutters' tar; --clk-wire a link or a quotation's rule in the sun,
+     --clk-wire-2 the quieter words there; --clk-grain every outline and the
+     planks' joins. The cabin, drawn in no word: --clk-board the planked wall
+     and floor, --clk-frame the beams, the bench and the shutters' frames,
+     --clk-hill the next hill and --clk-far the next tower on it. */
+  --clk-shade: #191D24;  --clk-day: #EDF1F2;  --clk-tar: #14171C;
+  --clk-timber: #DCD8CF;  --clk-timber-2: #AEB3B9;  --clk-sky: #A8CDE8;
+  --clk-wire: #1C4A6E;  --clk-wire-2: #3F4A55;  --clk-grain: #454D58;
+  --clk-board: #262B33;  --clk-frame: #5E6773;  --clk-hill: #7F95A6;  --clk-far: #4B5866;
+
   /* Champuru (§136): a table in the shade of a lane at noon, lit by the sun off
      the whitewashed wall across from it. The page: --chp-shade its ground,
      the whitewash in shade under the sky; --chp-cloth a tablecloth, every
@@ -32367,6 +32384,133 @@ body.retail-therapy[data-lights="down"] {
 .retail-therapy .rth-tile, .retail-therapy .rth-book__spine { transition: transform .12s ease; }
 .retail-therapy .rth-tile:active, .retail-therapy .rth-book__spine:active { transform: scale(.98); }
 body.retail-therapy, .retail-therapy .rth-lights__btn { transition: background-color .25s, color .25s; }
+
+/* §143 ── ROOM: The Clacks Tower (a room behind Widdershins) ────────────────
+   A tower of the Grand Trunk, the semaphore company in Terry Pratchett's Going
+   Postal (2004), in the city over the bridge from Widdershins. Ryan's ask,
+   2026-11-04: subrooms of Widdershins inspired by places in the Discworld
+   novels. It stands on Star Stuff's One Atom of Justice (No. 49): the clacks
+   crews on the towers, the Overhead, GNU John Dearheart, and the header this
+   street sends. tools/make-clacks-tower.py writes the room out of
+   data/clacks-tower.json.
+
+   THE LIGHT IS THE MESSAGE GOING OUT. You are inside the shutter cabin at the
+   top of the tower at noon on a clear day. The day is outside, behind the
+   shutters, and comes in only where a shutter stands open, so the only light
+   in the room lies on the floor in hard white squares in the pattern the
+   shutters hold: a room lit by what it is saying. Everything else is cool,
+   tarred shade. On the page, every block of words is one of those squares, a
+   flat --clk-day with square corners, no shadow and no glow, lying on the
+   shade; the headings, the lede and the credits stand in the shade between.
+
+   THE COLLISIONS:
+     · WIDDERSHINS, the room this is behind, is a crooked city at night with
+       the morning's slanting edge halfway across it, seen from the far bank,
+       and its clacks tower is one shape on its skyline. This is inside that
+       tower, at noon, and nothing in it leans: every edge is square, and no
+       city is drawn.
+     · THE FEED is the street's other room of signals: a split-flap board in a
+       dark concourse, lit through a mask so that only the letters glow. The
+       light here is not made by the machine; it is the day outside, and it
+       lands on the floor as squares, a pattern that spells no letter.
+     · THE REPEATER is the street's other tower, a radio mast on a ridge at
+       night, everything a silhouette against skyglow, nothing lit at all.
+       This is a tower by day, and the light is direct sun.
+     · BREAKER BREAKER is the street's other radio, night on the interstate,
+       every light a marker lamp. Here there is no lamp: nobody has lit one,
+       because it is noon.
+     · TRUCKIN' FOOD COURT throws stripes of coloured light through its
+       awnings outdoors, and DEAD TIRED SOCIETY lays one hard wedge from a
+       corridor on a floor where nobody stands in it. Here the light is many
+       white squares in a grid, indoors, and the words stand in them.
+     · THE REBELLION RAVE ROOM's light is light seen in the air, beams caught
+       in haze. This air is clear: there is no shaft from shutter to floor,
+       only where the light lands.
+
+   NOTHING MOVES, AT ANY SETTING, MAX GLITTER INCLUDED. A clacks tower is a
+   machine for moving shutters; the friendly edit is to let them flap at MAX,
+   and a light that changed with them would be a light that flickered. The
+   tool refuses a keyframe, an animation or a transition here. The type is
+   Allerta Stencil, by Matt McInerney, for the name and the headings, a stencil
+   like a company's lettering on a crate, and Signika, by Anna Giedryś, drawn
+   for signs, for every word that is read. */
+
+.clacks-tower {
+  background-color: var(--clk-shade); color: var(--clk-timber);
+  font-family: 'Signika', var(--sans); font-synthesis: none;
+}
+.clacks-tower .wrap { width: min(960px, 100% - 44px); }
+.clacks-tower a { color: var(--clk-sky); text-underline-offset: 3px; }
+.clacks-tower a:hover { color: var(--clk-day); }
+.clacks-tower :focus-visible { outline-color: var(--clk-sky); }
+.clacks-tower :where(p, li) { font-size: 19px; line-height: 1.6; }
+.clacks-tower .backlink { font-family: 'Signika', var(--sans); font-weight: 700; font-size: 16px; color: var(--clk-sky); }
+.clk-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.clk-trail { margin: 0; font-size: 16px; color: var(--clk-timber-2); }
+
+.clk-head { margin: 30px 0 0; }
+.clk-over { margin: 0; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: var(--clk-timber-2); }
+.clacks-tower h1 {
+  margin: 6px 0 12px; font-family: 'Allerta Stencil', var(--sans); font-weight: 400; font-style: normal;
+  font-size: clamp(46px, 10vw, 104px); line-height: 1; letter-spacing: .02em; color: var(--clk-sky);
+}
+.clk-sub { margin: 0; font-size: 23px; line-height: 1.4; max-width: 44ch; }
+
+.clk-view { margin: 28px 0 0; }
+.clk-cabin { display: block; width: 100%; height: auto; border: 2px solid var(--clk-grain); }
+.clk-view__words { margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: var(--clk-timber-2); max-width: 68ch; }
+
+.clk-lede { margin: 32px 0 0; max-width: 66ch; }
+.clk-lede > p { margin: 0 0 16px; }
+.clk-lede > p:first-child { font-size: 22px; line-height: 1.5; }
+
+.clk-part { margin: 56px 0 0; }
+.clacks-tower h2 {
+  margin: 0 0 18px; font-family: 'Allerta Stencil', var(--sans); font-weight: 400;
+  font-size: clamp(28px, 4.6vw, 42px); line-height: 1.1; color: var(--clk-sky);
+}
+
+/* A SQUARE OF SUN: the light through one open shutter, lying on the boards.
+   Square corners, no shadow, no glow and no gradient, because the light is
+   direct and the air is clear. Every word in it is tar on daylight. */
+.clk-square { margin: 0; padding: 22px 26px; background: var(--clk-day); color: var(--clk-tar); max-width: 72ch; }
+.clk-square p { margin: 0 0 14px; }
+.clk-square p:last-child { margin-bottom: 0; }
+.clk-square a { color: var(--clk-wire); }
+.clk-square a:hover { color: var(--clk-tar); }
+.clk-square :focus-visible { outline-color: var(--clk-wire); }
+.clk-square b, .clk-square strong { color: var(--clk-tar); }
+.clk-quote { margin: 20px 0; padding: 2px 0 2px 18px; border-left: 4px solid var(--clk-wire); }
+.clk-quote p { margin: 0; font-size: 20px; line-height: 1.5; color: var(--clk-tar); }
+.clk-quote__who { margin: 8px 0 0; font-size: 15px; line-height: 1.5; color: var(--clk-wire-2); }
+
+.clk-rules { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+.clk-rules .clk-square { padding: 16px 18px; font-size: 17px; line-height: 1.55; }
+.clk-rules strong { display: block; margin: 0 0 4px; }
+.clk-next { margin: 0; padding-left: 22px; max-width: 68ch; }
+.clk-next li { margin: 0 0 10px; }
+.clk-whose .clk-credits { margin: 0; padding-left: 22px; max-width: 70ch; }
+.clk-credits li { margin: 0 0 12px; font-size: 17px; color: var(--clk-timber-2); }
+.clk-credits strong { color: var(--clk-timber); }
+.clk-credits code { font-size: 15px; }
+
+@media (max-width: 720px) {
+  .clacks-tower .wrap { width: calc(100% - 32px); }
+  .clk-square { padding: 18px 16px; }
+  .clk-rules { grid-template-columns: 1fr; }
+}
+
+/* THE CLACKS TOWER, WALKED INTO ON PAPER STREET (walk-clacks-tower.js). Paper
+   Street's stage takes the room's clothes while you are in it: its frame is
+   the beams, and everything behind the cabin's flats is shade. The page stands
+   in a square of sun on the floor, on a board edged in the shutters' tar. */
+.clk-walk { --ps-frame: var(--clk-frame); --ps-back: var(--clk-shade); --ps-backcloth: none; }
+.clk-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--clk-shade);
+  box-shadow: 0 0 0 8px var(--clk-tar), 0 0 0 12px var(--clk-day);
+}
+.clk-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--clk-shade); }
+
 
 /* §144 ── SUBROOM: The Golem Trust (over the bridge from Widdershins) ────────
    A long hall in the city over the bridge, kept by golems who own themselves.
