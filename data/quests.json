@@ -4702,6 +4702,51 @@
   }
  },
  {
+  "id": "lbw-button",
+  "page": "luis-burrow.html",
+  "room": "Luis’s Burrow",
+  "title": "What lets the light into the burrow?",
+  "posted": "There is a cave dug in under the roots of an old tree at the edge of the Campgrounds, heaped with cushions and blankets. Go in, sink into something, and come back with where its only light comes from.",
+  "rank": 3,
+  "takes": "two minutes, and a Frasier clip if you want one",
+  "target": "a button come off one of the cushions, with a bit of its thread still through it",
+  "code": "BURROW",
+  "learned": "The round mouth lets the light in. There is no lamp in the burrow: the only light is the wood, bright green through the mouth, lying across the floor.",
+  "hints": [
+   "It is not on the street. Go out past the treeline to the campgrounds first.",
+   "Pitch 07 on the board, the cave in the wood.",
+   "On the floor of the room, before the sign-off."
+  ],
+  "ask": {
+   "question": "What lets the only light into Luis’s Burrow?",
+   "accept": [
+    "mouth",
+    "the mouth",
+    "its mouth",
+    "a mouth",
+    "round mouth",
+    "the round mouth",
+    "the cave mouth",
+    "cave mouth",
+    "entrance",
+    "the entrance",
+    "opening",
+    "the opening",
+    "the wood",
+    "wood",
+    "the woods",
+    "woods"
+   ],
+   "answer": "The round mouth",
+   "why": "The round mouth: there is no lamp in the burrow, so the only light is the wood outside, coming in through the mouth and lying across the floor.",
+   "hints": [
+    "It is in the first paragraph under the drawing.",
+    "There is no lamp in here.",
+    "Look at what the drawing looks out through."
+   ]
+  }
+ },
+ {
   "id": "exc-fold",
   "page": "excursions.html",
   "room": "Excursions",

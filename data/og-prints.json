@@ -64,8 +64,8 @@
   "png": "bae2b8c741dfdc0f044014f03f3175d29e7e6e3f6c68f09c0b3b07d6e6c08bee"
  },
  "campgrounds": {
-  "made_from": "1a037e9fdedacfbfa83af599fb6261c8bcdb9ef5cb70ae8dcaf9f932d18067f6",
-  "png": "d883c0e04200301678a84c031a3815fe9d47539474660e888da3be69db752248"
+  "made_from": "41d6e95bbd79683bd192d32eceaa7b6d8f16dc6d4ac51af8a61b6ca4ec82d7a8",
+  "png": "34bfdb6e2a866671247bc20a80e04626c7cfa6ec683d11751b490307c46e168c"
  },
  "cavendish-campfire": {
   "made_from": "402cebc2dc5407e0f78f69debd8d6ed3bd66753f2d04df90f8a66566b38ffafd",
@@ -662,5 +662,9 @@
  "looking-glass-house": {
   "made_from": "c4acfe4b8a84d050c3d2e1bb0605d20f648162764982b560a4bd9519e6aed5d2",
   "png": "290a773b5c4e0914af14a7de09471c9679f935aae29a39c2875eaa06ab85f016"
+ },
+ "luis-burrow": {
+  "made_from": "41bb16b1a8c1b84fe190a5e6168161a761468773e7ba689da0664c0d7158476c",
+  "png": "fa4d8bae949f28c4bf71c651603b83feb36edf01ad17a562607b77ec63e408d0"
  }
 }

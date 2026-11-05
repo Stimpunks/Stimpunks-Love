@@ -1891,6 +1891,19 @@
         "--aar-glow"
       ]
     },
+    "luis-burrow.html": {
+      "kind": "ifs",
+      "figure": "fern",
+      "sway": 0.02,
+      "ground": "--lbw-dim",
+      "inks": [
+        "--lbw-wood",
+        "--lbw-cushion",
+        "--lbw-link",
+        "--lbw-moss",
+        "--lbw-wood-2"
+      ]
+    },
     "the-bough-house.html": {
       "kind": "ifs",
       "figure": "tree",

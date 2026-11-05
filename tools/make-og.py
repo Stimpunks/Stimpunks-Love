@@ -1727,6 +1727,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
   line-height: 1.4; margin: 0 0 16px; }}
 .og--arbour .og-foot {{ font-family: 'Quattrocento Sans', sans-serif; color: var(--aar-silver-2); font-size: 18px; margin: 0; }}
 
+/* luis's burrow — THE CAVE beside the name, lifted off the page whole: the
+   roots through the ceiling, the wood bright through the round mouth, the
+   cushions and blankets heaped on the floor and the animals asleep on them. */
+.og--luis-burrow {{ flex-direction: row; align-items: center; gap: 34px; padding: 30px 46px; }}
+.og--luis-burrow .og-words {{ flex: 0 0 470px; }}
+.og--luis-burrow .og-cave {{ flex: 0 0 600px; line-height: 0; }}
+.og--luis-burrow .og-cave svg {{ display: block; width: 100%; height: auto; border-radius: 40px 40px 18px 18px; }}
+.og--luis-burrow .lbw-over {{ font-size: 17px; margin: 0 0 8px !important; }}
+.og--luis-burrow h1 {{ font-size: 74px; line-height: 1.05; margin: 0 0 16px !important; }}
+.og--luis-burrow .og-lede {{ font-family: 'Nunito', sans-serif; color: var(--lbw-moss); font-size: 24px;
+  line-height: 1.4; margin: 0 0 16px; }}
+.og--luis-burrow .og-foot {{ font-family: 'Nunito', sans-serif; color: var(--lbw-moss-2); font-size: 18px; margin: 0; }}
+
 /* mountain man — THE CABIN beside the name, lifted off the page whole: the
    log walls, the fire behind the stove's glass, the lounge, the big screen
    with its speakers, the strips in teal, the one wolf on the rug and the lake
@@ -5959,6 +5972,36 @@ def card_arbour(p):
     )
 
 
+def card_burrow(p):
+    # THE CAVE AND THE NAME ARE LIFTED WHOLE, so the card cannot show a burrow
+    # the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="lbw-cave__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="lbw-over">(.*?)</p>', p["src"], re.S)
+    trail = re.search(r'<p class="lbw-trail">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and trail and p["h1"]):
+        raise SystemExit(
+            "REFUSING: luis-burrow.html has lost the drawing of the cave or its\n"
+            "header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--luis-burrow" data-fit="card">'
+        f'<div class="og-words"><p class="lbw-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">{trail.group(1)} &middot; stimpunks.world</p></div>'
+        f'<div class="og-cave">{draw.group(1)}</div>'
+        f'</div>',
+        f"A dark moss-green card. On the right, the inside of a cave seen from the back, looking out: "
+        f"the roots of a tree coming through the ceiling, a round mouth with a green wood bright through "
+        f"it, a wedge of daylight on the floor, orange and apricot blankets and cushions heaped over "
+        f"everything, a fox curled asleep on a blanket, two rabbits on a long cushion, an owl dozing on a "
+        f"root, a dormouse asleep in a fold of a green blanket, and a small telly on a cushion in the corner "
+        f"with its aerials up. On the left, small capitals reading {plain(over.group(1))}, then "
+        f"\u201c{p['h1text']}\u201d in large orange rounded lettering, then: {p['desc_plain']} "
+        f"Below it: {plain(trail.group(1))}, stimpunks.world.",
+    )
+
+
 def card_bough(p):
     # THE TREE HOUSE AND THE NAME ARE LIFTED WHOLE, so the card cannot show a
     # house the page does not, and the lede is the page's og:description.
@@ -6517,6 +6560,7 @@ CARDS = {
     "brewstew":     card_brewstew,
     "bough":        card_bough,
     "arbour":       card_arbour,
+    "luis-burrow":  card_burrow,
     "summit":       card_summit,
     "natures":      card_natures,
     "sanctuary":    card_sanctuary,

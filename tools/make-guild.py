@@ -647,6 +647,11 @@ DRAW = {
     # the night it lies against, and its knot and the floor line are
     # --aar-silver, 14.97.
     "aar-ribbon": """<path d="M3 29 H29" stroke="var(--aar-silver)" stroke-width="1.6" stroke-linecap="round"/><path d="M7 26 C 7 18, 10 8, 16 8 C 22 8, 25 18, 25 26" fill="none" stroke="var(--aar-pink)" stroke-width="4" stroke-linecap="round"/><path d="M16 8 C 13 13, 12 20, 12 26" fill="none" stroke="var(--aar-pink)" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="8.5" r="2.6" fill="var(--aar-silver)"/>""",
+    # A button come off one of Luis's cushions, with a bit of its thread
+    # still through it, dropped on the blanket: the button is --lbw-link, the
+    # cushions' orange, 9.47 on the dim it lies against, its holes the dim
+    # itself, its thread --lbw-moss, 12.09, and the floor line --lbw-moss-2.
+    "lbw-button": """<path d="M3 29 H29" stroke="var(--lbw-moss-2)" stroke-width="1.6" stroke-linecap="round"/><circle cx="16" cy="17" r="10" fill="var(--lbw-link)"/><circle cx="16" cy="17" r="7" fill="none" stroke="var(--lbw-dim)" stroke-width="1" opacity=".5"/><circle cx="13" cy="14" r="1.6" fill="var(--lbw-dim)"/><circle cx="19" cy="14" r="1.6" fill="var(--lbw-dim)"/><circle cx="13" cy="20" r="1.6" fill="var(--lbw-dim)"/><circle cx="19" cy="20" r="1.6" fill="var(--lbw-dim)"/><path d="M13 14 L19 20 M19 14 L13 20" stroke="var(--lbw-moss)" stroke-width="1.4" stroke-linecap="round"/><path d="M19 20 C 23 24, 26 24, 28 27" stroke="var(--lbw-moss)" stroke-width="1.2" fill="none" stroke-linecap="round"/>""",
     # The Run's blue ball, chewed, by the porch steps: its body is --run-link,
     # the Run's own blue, 5.15 on the grass, because the brighter ball blue is
     # 3.17 there and a marker is held to the body threshold; its outline and

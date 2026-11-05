@@ -75,6 +75,7 @@ SUNFLOWER, SCREEN = "#E8C33A", "#A3D4DF"
 LINGER = "#F08A5D"   # the last sun on the top of the Bough House's tree, on its sign
 FAR = "#DCEBFF"      # the Mountain Cabin's one lit window, up among the stars, on its sign
 THROUGH = "#F07AC0"  # the Aerial Arbour's canvas lit from inside, every other stripe, on its sign
+BREATH = "#F7C08E"   # Luis's Burrow's warm breath rising lit out of its mouth, on its sign
 # The Solarpunk Hermitage (love.css §19), and THE FIRST ROOM ON THIS STREET
 # WHOSE TYPE IS DARK ON LIGHT ALL THE WAY DOWN. Which inverts the usual job of
 # this file: everywhere else the risk is an ink too dim against a dark ground,
@@ -1049,6 +1050,11 @@ BGH_RUST, BGH_CRIMSON, BGH_GOLD, BGH_TRUNK = "#9C3A16", "#8A1F33", "#D9952B", "#
 # word on the night inside the tent or on a plum card hung from a rope.
 AAR_NIGHT, AAR_PANEL, AAR_SILVER, AAR_SILVER2 = "#170B24", "#2A1440", "#E6E3F0", "#C3BCD6"
 AAR_PINK, AAR_GLOW = "#F48CCB", "#7FDAD3"
+# Luis's Burrow (love.css §149), pitch 07: a cave under the roots of an old
+# tree, every word on the moss-dim between the cushions or dark on a cushion.
+LBW_DIM, LBW_MOSS, LBW_MOSS2, LBW_LINK, LBW_GLOW = "#1B2416", "#D5E6B8", "#A9C089", "#FFB46A", "#FFE8B5"
+LBW_CUSH, LBW_CUSH2, LBW_INK, LBW_INK2, LBW_CLINK = "#F4A259", "#F7C38A", "#16260F", "#3B4419", "#0D3B1F"
+LBW_TV = "#0E140C"
 # The Emergent Future Worlds Meets Mountain Man (§118): David's cabin at the
 # summit, inside at night, warm words on a blue-charcoal dark.
 EFW_NIGHT, EFW_PANEL, EFW_TEXT, EFW_DIM = "#1A1F2B", "#242B3A", "#F1EDE4", "#BFC6D4"
@@ -1373,6 +1379,9 @@ PAIRS = [
     (THROUGH, DUSK,   False, "campgrounds: the circus tent's lit stripes on the Aerial Arbour's sign, against the sky"),
     (THROUGH, SPRUCE, False, "campgrounds: the same against the dark stripes beside them and the tree"),
     (THROUGH, BARK,   False, "campgrounds: the same against the pennant"),
+    (BREATH,  DUSK,   False, "campgrounds: the burrow's lit breath rising out of its mouth on Luis's Burrow's sign, against the sky"),
+    (BREATH,  SPRUCE, False, "campgrounds: the same against the bank and the tree"),
+    (BREATH,  BARK,   False, "campgrounds: the same against the blanket over the mouth"),
 
     # THE SOLARPUNK HERMITAGE (love.css §19). Outside first: daylight, where the
     # failure mode is a pale ink rather than a dim one.
@@ -4106,6 +4115,18 @@ PAIRS = [
     (AAR_PINK,    AAR_PANEL,  False, "aerial arbour: every heading on a card and every link on one"),
     (AAR_GLOW,    AAR_NIGHT,  False, "aerial arbour: a link under the pointer, and the focus ring, on the night"),
     (AAR_GLOW,    AAR_PANEL,  False, "aerial arbour: the same on a card"),
+    (LBW_MOSS,  LBW_DIM,   False, "luis's burrow: the line under the name, the lede, every word between the cushions, a clip's button"),
+    (LBW_MOSS2, LBW_DIM,   False, "luis's burrow: the trail, the line over the name and the fine print under the rack"),
+    (LBW_LINK,  LBW_DIM,   False, "luis's burrow: the name, the backlink, a link on the dim, PRESS PLAY on a clip"),
+    (LBW_GLOW,  LBW_DIM,   False, "luis's burrow: a link under the pointer, and the focus ring, on the dim"),
+    (LBW_INK,   LBW_CUSH,  False, "luis's burrow: every word and heading on an orange cushion"),
+    (LBW_INK,   LBW_CUSH2, False, "luis's burrow: every word on an apricot cushion, a clip's title, the job marker's panel"),
+    (LBW_INK2,  LBW_CUSH2, False, "luis's burrow: a clip's channel, date and runtime"),
+    (LBW_CLINK, LBW_CUSH,  False, "luis's burrow: a link on an orange cushion"),
+    (LBW_CLINK, LBW_CUSH2, False, "luis's burrow: a link on an apricot cushion and on the job marker's panel"),
+    (LBW_MOSS,  LBW_TV,    False, "luis's burrow: the words on the telly while nothing is on it"),
+    (LBW_LINK,  LBW_TV,    False, "luis's burrow: the telly's own name on it"),
+    (LBW_CUSH2, LBW_INK,   False, "luis's burrow: the words on a button, Put it on the telly and Switch the telly off"),
     (EFW_TEXT,    EFW_NIGHT,   False, "mountain man: the name, the line under it, the lede and the switch's words on the night"),
     (EFW_DIM,     EFW_NIGHT,   False, "mountain man: the trail, the line over the name and the status line on the night"),
     (EFW_LINK,    EFW_NIGHT,   False, "mountain man: the backlink, a link on the night, and the focus ring there"),
@@ -5290,8 +5311,20 @@ ORNAMENT = {
                "the rope along the top of every card, 9.67 on a card; it carries no word.",
     "#9a93ae": "aerial arbour: the ropes, the rope ladder and the hammock's ties, 6.45 on the "
                "night; it carries no word.",
+    "#8dc456": "luis's burrow: --lbw-wood, the near leaves of the wood through the mouth, 7.75 on the dim; it carries no word.",
+    "#4f8a33": "luis's burrow: --lbw-wood-2, the far leaves of the wood through the mouth and the ground there, 3.83 on the dim; it carries no word.",
+    "#f3e7a2": "luis's burrow: --lbw-sun, the daylight in the mouth and the pale wedge of it on the floor, 12.79 on the dim; it carries no word.",
+    "#28331f": "luis's burrow: --lbw-wall, the cave's wall, 1.21 on the dim; it carries no word.",
+    "#3a4526": "luis's burrow: --lbw-root, the roots through the ceiling, the trunks in the wood and the mouth's rim, 1.57 on the dim; it carries no word.",
+    "#3f5a2a": "luis's burrow: --lbw-felt, the moss, the green blanket and cushion, the telly's case, its frame and a clip's border, 2.07 on the dim; it carries no word.",
+    "#e2672a": "luis's burrow: --lbw-blanket, the orange blanket over the floor, 4.74 on the dim; it carries no word.",
+    "#e57b33": "luis's burrow: --lbw-fox, the fox, edged in the fluff colour because it is 1.16 on the blanket it sleeps on, 5.50 on the dim; it carries no word.",
+    "#f3e9d6": "luis's burrow: --lbw-fluff, the rabbits, the owl's face, the fox's tail tip and every animal's outline, 13.31 on the dim; it carries no word.",
+    "#9aa389": "luis's burrow: --lbw-owl, the owl, the rabbits' outlines and the telly's aerials, 6.08 on the dim; it carries no word.",
+    "#2e4a33": "luis's burrow: --lbw-glass, the telly's glass in the drawing, 1.64 on the dim; it carries no word.",
     "#f07ac0": "campgrounds: --camp-through, the Aerial Arbour's canvas lit from inside, every "
                "other stripe on its sign, 6.99 on the dusk. It carries no word.",
+    "#f7c08e": "campgrounds: --camp-breath, Luis's Burrow's warm breath rising lit out of its mouth on its sign, 10.92 on the dusk. It carries no word.",
     "#1c1917": "bough house: Ben, a tiny black dog, 13.97 on the sky, edged in the planks' own "
                "colour so he is not lost against the bark; he carries no word.",
     "#fff1dc": "fantasy fancy dress: the light at the back of the shop, 16.20 on the dark, "

@@ -127,6 +127,8 @@ ORDER = ["index.html",
          "brew-and-stew.html",
          # Pitch 06, Rowena's circus tent, pitched beside a tree.
          "the-aerial-arbour.html",
+         # Pitch 07, Luis's burrow, a cave under the roots at the edge of the wood.
+         "luis-burrow.html",
          # The summit: David's log cabin, up the cable car from the field, off
          # the main campsite and still the campgrounds'.
          "the-mountain-cabin.html",

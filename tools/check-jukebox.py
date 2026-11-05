@@ -332,6 +332,7 @@ LISTS = [
     ("play pod", "data/play-pod.json", "play-pod.html"),
     ("the stim tin", "data/yurt-stim.json", "faery-yurt.html"),
     ("the cabin", "data/secret-cabin.json", "lydtyss.html"),
+    ("luis's burrow", "data/luis-burrow.json", "luis-burrow.html"),
     # Community Care's one talk, Vivian Ly's at Autscape 2020, on Autscape's own
     # channel: the source of the four things the room's channel is for.
     ("community care", "data/community-care.json", "community-care.html"),

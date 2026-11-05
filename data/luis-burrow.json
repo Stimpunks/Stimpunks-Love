@@ -1,0 +1,247 @@
+{
+ "_what": "Luis's Burrow, pitch 07 on the Campgrounds: a cave dug in under the roots of an old tree in the wood, its floor heaped with cushions and blankets, fluffy animals curled up in it, and a telly. From Helen Edgar's brief, 2026-11-05: \"create a surprise den for luis - cosy cave space in woods with fluffy animals and trees, use orange and green colours, lots of cushions and blankets, have a tv screen showing frasier youtube clips.\" tools/make-luis-burrow.py writes the telly and its rack into luis-burrow.html between the lbw:telly markers from this file. Do not hand-edit between the markers.",
+ "_source": "Two shelves under one telly, Helen Edgar's ask, 2026-11-05: five Frasier clips at the top (\"only use 5 top clips\"), then the wood: animals running and playing in forests, and a waterfall. Every Frasier clip is on Paramount Plus's own YouTube channel (Paramount owns Frasier), and every animal film on BBC Earth's own; the waterfall is on Nature Zilla, the channel that filmed it. Found by searching YouTube on 2026-11-05 and read off each video's own watch page the same day with a browser's user agent, never from memory: playabilityStatus OK and playableInEmbed true for every one, available in every country YouTube lists, and the runtime from lengthSeconds. Fan uploads were left off: the maker's own uploads only, the Faery Yurt cinema's rule. The titles are the channels' own, as they wrote them, and the waterfall's channel sells it for sleep and meditation, which is its words and not this room's. tools/check-jukebox.py asks after every one. A video that stops playing is taken off the rack, never swapped for a fan copy.",
+ "_checked": "2026-11-05",
+ "videos": [
+  {
+   "shelf": "frasier",
+   "id": "vQEwGwZtDyM",
+   "title": "Frasier | The Best of Eddie | Paramount+",
+   "channel": "Paramount Plus",
+   "channel_id": "UCrRttZIypNTA1Mrfwo745Sg",
+   "runtime": "11:07",
+   "published": "2026-02-10"
+  },
+  {
+   "shelf": "frasier",
+   "id": "rxKpE-nNqvs",
+   "title": "Frasier | Niles Crane's Best Comebacks | Paramount+",
+   "channel": "Paramount Plus",
+   "channel_id": "UCrRttZIypNTA1Mrfwo745Sg",
+   "runtime": "12:51",
+   "published": "2025-07-23"
+  },
+  {
+   "shelf": "frasier",
+   "id": "Rm5yCMBx-sU",
+   "title": "Frasier | Daphne's Funniest Moments | Paramount+",
+   "channel": "Paramount Plus",
+   "channel_id": "UCrRttZIypNTA1Mrfwo745Sg",
+   "runtime": "24:39",
+   "published": "2026-04-28"
+  },
+  {
+   "shelf": "frasier",
+   "id": "HBFl00WSkXE",
+   "title": "Frasier | Niles Starts a Fire Before His Valentine's Day Date (S6, E14) | Paramount+",
+   "channel": "Paramount Plus",
+   "channel_id": "UCrRttZIypNTA1Mrfwo745Sg",
+   "runtime": "5:17",
+   "published": "2025-02-08"
+  },
+  {
+   "shelf": "frasier",
+   "id": "MsObReAzbPA",
+   "title": "Frasier (1993) | Frasier And Niles’ Restaurant Comes Crashing Down (S2, E23) | Paramount+",
+   "channel": "Paramount Plus",
+   "channel_id": "UCrRttZIypNTA1Mrfwo745Sg",
+   "runtime": "3:21",
+   "published": "2023-09-22"
+  },
+  {
+   "shelf": "wood",
+   "id": "l9GMrP-2-Wc",
+   "title": "Fox Dives Head First in to Snow | Planet Earth II | BBC Earth",
+   "channel": "BBC Earth",
+   "channel_id": "UCwmZiChSryoWQCZMIQezgTg",
+   "runtime": "4:20",
+   "published": "2021-06-17"
+  },
+  {
+   "shelf": "wood",
+   "id": "EPZWGRcoleM",
+   "title": "Turkeys Play with Deer and Squirrels | BBC Earth",
+   "channel": "BBC Earth",
+   "channel_id": "UCwmZiChSryoWQCZMIQezgTg",
+   "runtime": "2:01",
+   "published": "2018-09-15"
+  },
+  {
+   "shelf": "wood",
+   "id": "pKRIm_-RvA0",
+   "title": "Reindeer's Amazing Adaptations to Living in Snow | Snow Animals | BBC Earth",
+   "channel": "BBC Earth",
+   "channel_id": "UCwmZiChSryoWQCZMIQezgTg",
+   "runtime": "3:34",
+   "published": "2023-10-07"
+  },
+  {
+   "shelf": "wood",
+   "id": "oo9c9HC-pmM",
+   "title": "The Incredible Wildlife of Hidden Forests | BBC Earth",
+   "channel": "BBC Earth",
+   "channel_id": "UCwmZiChSryoWQCZMIQezgTg",
+   "runtime": "1:29:05",
+   "published": "2025-06-25"
+  },
+  {
+   "shelf": "wood",
+   "id": "sa2JCQ1Dils",
+   "title": "Waterfall flowing over rocks in forest 4k. Relaxing flowing water, White Noise for Sleep, Meditation",
+   "channel": "Nature Zilla",
+   "channel_id": "UCDmvEp5Rtjw817rMw_Z-S1A",
+   "runtime": "10:02:10",
+   "published": "2021-12-02"
+  }
+ ],
+ "shelves": {
+  "frasier": "Frasier",
+  "wood": "In the wood"
+ },
+ "_coffee": "Helen's asks, 2026-11-05: a coffee machine, lots of coffee cups, freshly ground beans with a variety of intensities from around the world, free to help yourself to and pour a cup. Every bean names where it is grown, how it is roasted and how strong it is on the burrow's own scale, one to ten, which is the burrow's way of saying it and nobody's standard. The tasting words are ours, the way a bag of beans describes itself, and nothing here says what coffee does for a body. Nothing costs anything.",
+ "coffee": [
+  {
+   "name": "Yirgacheffe",
+   "from": "Ethiopia",
+   "roast": "light",
+   "intensity": 3,
+   "tastes": "bright and floral, like tea with lemon in it"
+  },
+  {
+   "name": "Nyeri",
+   "from": "Kenya",
+   "roast": "light to medium",
+   "intensity": 4,
+   "tastes": "sharp and juicy, blackcurrant and a clean finish"
+  },
+  {
+   "name": "Huila",
+   "from": "Colombia",
+   "roast": "medium",
+   "intensity": 5,
+   "tastes": "round and sweet, caramel and red apple"
+  },
+  {
+   "name": "Antigua",
+   "from": "Guatemala",
+   "roast": "medium",
+   "intensity": 6,
+   "tastes": "chocolate and a little smoke, from the volcano's soil"
+  },
+  {
+   "name": "Cerrado",
+   "from": "Brazil",
+   "roast": "medium to dark",
+   "intensity": 7,
+   "tastes": "nutty and low and easy, the one for a big mug"
+  },
+  {
+   "name": "Mandheling",
+   "from": "Sumatra, Indonesia",
+   "roast": "dark",
+   "intensity": 9,
+   "tastes": "earthy and heavy, cedar and dark chocolate, hardly any sharpness at all"
+  },
+  {
+   "name": "Robusta blend",
+   "from": "Vietnam",
+   "roast": "dark",
+   "intensity": 10,
+   "tastes": "as strong as it comes, bitter chocolate, made for condensed milk"
+  },
+  {
+   "name": "Decaf Huila",
+   "from": "Colombia",
+   "roast": "medium",
+   "intensity": 5,
+   "tastes": "the Colombian again with the caffeine taken out, so the evening can have one too"
+  }
+ ],
+ "_books": "Helen's ask, 2026-11-05: take a book from a politics, sociology, phenomenology and neurodiversity bookshelf to sit with. Every book carries a borrow link, which is an Open Library record found by searching Open Library's own API by title and author on 2026-11-05 and reading the record that came back, never an id typed from memory: the Hermitage's shelf rule, after the id there that pointed at a different book. The line under each is ours and says only what the book is. Nothing is for sale here.",
+ "books": [
+  {
+   "shelf": "Neurodiversity",
+   "title": "Neuroqueer Heresies",
+   "author": "Nick Walker",
+   "borrow": "https://openlibrary.org/works/OL27740936W",
+   "note": "Essays on the neurodiversity paradigm, autistic empowerment and neuroqueering, by the person who coined most of those words."
+  },
+  {
+   "shelf": "Neurodiversity",
+   "title": "Unmasking Autism",
+   "author": "Devon Price",
+   "borrow": "https://openlibrary.org/works/OL25325902W",
+   "note": "On masking, and on taking it off."
+  },
+  {
+   "shelf": "Neurodiversity",
+   "title": "Empire of Normality",
+   "author": "Robert Chapman",
+   "borrow": "https://openlibrary.org/works/OL35723338W",
+   "note": "A history of neurodiversity and capitalism, and how the one made the other's idea of normal."
+  },
+  {
+   "shelf": "Neurodiversity",
+   "title": "Authoring Autism",
+   "author": "Melanie Yergeau",
+   "borrow": "https://openlibrary.org/works/OL20183247W",
+   "note": "On rhetoric, and who gets to be read as making sense."
+  },
+  {
+   "shelf": "Phenomenology",
+   "title": "Phenomenology of Perception",
+   "author": "Maurice Merleau-Ponty",
+   "borrow": "https://openlibrary.org/works/OL21252896W",
+   "note": "The body as the thing that perceives, not the thing perception happens in."
+  },
+  {
+   "shelf": "Phenomenology",
+   "title": "Queer Phenomenology",
+   "author": "Sara Ahmed",
+   "borrow": "https://openlibrary.org/works/OL18781366W",
+   "note": "Orientations, objects, others: which way a life faces, and what is within reach."
+  },
+  {
+   "shelf": "Sociology",
+   "title": "Stigma",
+   "author": "Erving Goffman",
+   "borrow": "https://openlibrary.org/works/OL3282007W",
+   "note": "Notes on the management of a spoiled identity, from 1963, and still the book people mean."
+  },
+  {
+   "shelf": "Sociology",
+   "title": "The Presentation of Self in Everyday Life",
+   "author": "Erving Goffman",
+   "borrow": "https://openlibrary.org/works/OL3282045W",
+   "note": "Everyday life as a stage, with a front region and a back region."
+  },
+  {
+   "shelf": "Sociology",
+   "title": "Capitalist Realism",
+   "author": "Mark Fisher",
+   "borrow": "https://openlibrary.org/works/OL15683250W",
+   "note": "Is there no alternative? Short, and on every shelf in the yurt's cinema too."
+  },
+  {
+   "shelf": "Politics",
+   "title": "Care Work",
+   "author": "Leah Lakshmi Piepzna-Samarasinha",
+   "borrow": "https://openlibrary.org/works/OL19763975W",
+   "note": "Dreaming disability justice, from inside it."
+  },
+  {
+   "shelf": "Politics",
+   "title": "Mutual Aid",
+   "author": "Dean Spade",
+   "borrow": "https://openlibrary.org/works/OL20892439W",
+   "note": "Building solidarity during this crisis, and the next."
+  },
+  {
+   "shelf": "Politics",
+   "title": "A Thousand Plateaus",
+   "author": "Gilles Deleuze and Félix Guattari",
+   "borrow": "https://openlibrary.org/works/OL36031577W",
+   "note": "Rhizomes, assemblages and becomings, for an afternoon or a decade."
+  }
+ ]
+}
