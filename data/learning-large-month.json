@@ -90,7 +90,7 @@
    "channel_id": "UCgscS8mBsQZ5sFRkJIFWD7Q"
   }
  ],
- "set": "2026-11-04T12:24Z",
+ "set": "2026-11-05T12:24Z",
  "log": [
   {
    "id": "mn0agTT8lG8",
@@ -121,16 +121,6 @@
    "state": "screen",
    "runs": 77,
    "channel": "Tina Huang"
-  },
-  {
-   "id": "i6Q7bXnWGlM",
-   "source": "ai-labs",
-   "form": "long",
-   "title": "Claude Code Features That 90% Don't Know Exist",
-   "published": "2026-10-05T15:00:18Z",
-   "state": "screen",
-   "runs": 983,
-   "channel": "AI LABS"
   },
   {
    "id": "jlEMo6Dsh9E",
@@ -296,7 +286,7 @@
    "id": "AtjFk9f44HE",
    "source": "matt-wolfe",
    "form": "long",
-   "title": "He Breaks Down His 3 Most Powerful AI Automations",
+   "title": "He Built an AI Board of Billionaires (Free & Open-Source)",
    "published": "2026-10-28T19:25:38Z",
    "state": "screen",
    "runs": 2289,
@@ -310,6 +300,16 @@
    "published": "2026-10-30T21:15:04Z",
    "state": "screen",
    "runs": 1760,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "ep4psgAFOqc",
+   "source": "matt-wolfe",
+   "form": "long",
+   "title": "How I Get Claude To Edit My Videos (No Code Needed)",
+   "published": "2026-11-04T16:40:16Z",
+   "state": "screen",
+   "runs": 1964,
    "channel": "Matt Wolfe"
   },
   {
@@ -673,13 +673,13 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "1MzU5v8l5ZU",
+   "id": "-5cDYPwNf5g",
    "source": "nate-b-jones",
-   "form": "short",
-   "title": "OpenAI's Dots caught my zombie meeting #AI #OpenAI #Dots #aiagents #productivity",
-   "published": "2026-10-06T03:00:26Z",
+   "form": "long",
+   "title": "Elon's AI Agent Has a Massive Cost Problem",
+   "published": "2026-11-04T15:00:03Z",
    "state": "screen",
-   "runs": 37,
+   "runs": 968,
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
@@ -840,6 +840,16 @@
    "published": "2026-11-02T23:40:53Z",
    "state": "screen",
    "runs": 614,
+   "channel": "Less Bitter"
+  },
+  {
+   "id": "bmUvwAY-aPA",
+   "source": "less-bitter",
+   "form": "long",
+   "title": "AI was responsible for the biggest hack in human history",
+   "published": "2026-11-04T14:25:28Z",
+   "state": "screen",
+   "runs": 625,
    "channel": "Less Bitter"
   },
   {
@@ -1080,6 +1090,16 @@
    "published": "2026-11-03T23:00:28Z",
    "state": "screen",
    "runs": 1904,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "tc8GNdrhozA",
+   "source": "theo",
+   "form": "long",
+   "title": "Pewdiepie vs OpenAI",
+   "published": "2026-11-05T08:36:45Z",
+   "state": "screen",
+   "runs": 2462,
    "channel": "Theo - t3․gg"
   },
   {
@@ -1333,16 +1353,6 @@
    "channel": "Austin Marchese"
   },
   {
-   "id": "c9Z7ixVr4CU",
-   "source": "riley-brown",
-   "form": "long",
-   "title": "Grok Bot Just Got 4 HUGE Upgrades (It’s WAY Better Now)",
-   "published": "2026-10-05T18:03:39Z",
-   "state": "screen",
-   "runs": 1268,
-   "channel": "Riley Brown"
-  },
-  {
    "id": "WXhOxfPECnM",
    "source": "riley-brown",
    "form": "long",
@@ -1436,7 +1446,7 @@
    "id": "8QPd6WD9Zzg",
    "source": "riley-brown",
    "form": "long",
-   "title": "I Built an App That Watches Me Work (Insane Focus)",
+   "title": "I Built My Most Useful App Ever (Insane Focus)",
    "published": "2026-11-02T21:20:19Z",
    "state": "screen",
    "runs": 1003,
@@ -1471,16 +1481,6 @@
    "state": "screen",
    "runs": 104,
    "channel": "Riley Brown"
-  },
-  {
-   "id": "bvGptCLDhyo",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "I Built Another Andrej Karpathy Using Claude",
-   "published": "2026-10-05T12:43:22Z",
-   "state": "screen",
-   "runs": 645,
-   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "oz2CwrPV2Rg",
@@ -1600,6 +1600,16 @@
    "published": "2026-10-30T23:25:18Z",
    "state": "screen",
    "runs": 1299,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "O3g_m2i2IGU",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "Every AI Business Ranked from Worst to Best",
+   "published": "2026-11-05T10:13:40Z",
+   "state": "screen",
+   "runs": 880,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -1933,6 +1943,26 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
+   "id": "eJqHvjD4060",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Favorite person in AI? Asking people at Oracle AI World",
+   "published": "2026-11-04T14:02:03Z",
+   "state": "screen",
+   "runs": 53,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "P-zrKj-odIE",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Describe AI agents in 2027 in one word",
+   "published": "2026-11-05T02:00:48Z",
+   "state": "screen",
+   "runs": 47,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
    "id": "rscb1DgJtNg",
    "source": "chase-ai",
    "form": "long",
@@ -2230,6 +2260,16 @@
    "published": "2026-11-02T19:15:08Z",
    "state": "screen",
    "runs": 2972,
+   "channel": "Greg Isenberg"
+  },
+  {
+   "id": "b3tMAOFB71o",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "If You Want To Create Wealth In The Age of AI, Watch This",
+   "published": "2026-11-04T20:30:20Z",
+   "state": "screen",
+   "runs": 1328,
    "channel": "Greg Isenberg"
   },
   {
@@ -2541,6 +2581,26 @@
    "state": "screen",
    "runs": 33,
    "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "cE7dlVqMDXM",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "AI-powered artifacts put Claude inside your dashboards #shorts",
+   "published": "2026-11-04T22:00:42Z",
+   "state": "screen",
+   "runs": 39,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "BI280kDWejA",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "Jev for Images just changed visual automations forever #shorts",
+   "published": "2026-11-05T06:00:28Z",
+   "state": "screen",
+   "runs": 38,
+   "channel": "Jay E | RoboNuggets"
   }
  ],
  "covered": {
@@ -2548,13 +2608,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ]
   },
@@ -2562,13 +2622,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ]
   },
@@ -2576,13 +2636,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ]
   },
@@ -2590,13 +2650,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ]
   },
@@ -2604,13 +2664,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ]
   },
@@ -2618,13 +2678,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ]
   },
@@ -2632,13 +2692,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ]
   },
@@ -2646,13 +2706,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ]
   },
@@ -2660,13 +2720,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ]
   },
@@ -2674,13 +2734,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ]
   },
@@ -2688,13 +2748,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ]
   },
@@ -2702,13 +2762,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ]
   },
@@ -2716,13 +2776,13 @@
    "long": [
     [
      "2026-08-28T09:44:44Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:12:16Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ]
   },
@@ -2730,13 +2790,13 @@
    "long": [
     [
      "2026-09-23T01:33:56Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ],
    "short": [
     [
      "2026-09-25T03:00:26Z",
-     "2026-11-04T12:24:59Z"
+     "2026-11-05T12:24:52Z"
     ]
    ]
   }
