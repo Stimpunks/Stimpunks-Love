@@ -575,7 +575,9 @@
       "page": "clacks-tower.html",
       "name": "The Clacks Tower",
       "line": "up a tower of the Grand Trunk, the semaphore line from *Going Postal*, where the Overhead keeps a name going, and where this street keeps one in its own.",
-      "holds": []
+      "holds": [
+        "Lit only by the message going out"
+      ]
     },
     {
       "page": "golem-trust.html",

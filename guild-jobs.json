@@ -517,9 +517,19 @@
    "room": "Widdershins"
   },
   {
+   "id": "clk-pin",
+   "title": "What do the towers talk to each other on?",
+   "room": "The Clacks Tower"
+  },
+  {
    "id": "gtr-slate",
    "title": "What does a golem say it on?",
    "room": "The Golem Trust"
+  },
+  {
+   "id": "ssd-bucket",
+   "title": "What will not catch?",
+   "room": "The Sunshine Sanctuary for Sick Dragons"
   },
   {
    "id": "cavendish-marker",

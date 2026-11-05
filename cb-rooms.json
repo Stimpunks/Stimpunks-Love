@@ -363,10 +363,22 @@
    "about": "A shopfront on the street in a crooked city beside a river too thick to drown in, at the moment the Disc’s slow morning is halfway across it. A Discworld appreciation that goes against the way of normativity: Terry Pratchett’s Ankh-Morpork, where nobody matches, the City Watch as a competency network, the witches’ First Sight and Second Thoughts, and Star Stuff’s own Discworld writing and drawings. Nobody diagnosed, nothing ranked."
   },
   {
+   "tag": "clacks-tower",
+   "name": "The Clacks Tower",
+   "path": "/clacks-tower.html",
+   "about": "Over the bridge from Widdershins, the shutter cabin at the top of a clacks tower at noon, lit only by the squares of sun the open shutters let onto the floor: the message going out. The clacks from Terry Pratchett’s Going Postal, the Overhead and GNU John Dearheart, the GNU Terry Pratchett header this street sends, and the crews who live up the towers, in Star Stuff’s words and ours."
+  },
+  {
    "tag": "golem-trust",
    "name": "The Golem Trust",
    "path": "/golem-trust.html",
    "about": "A room over the bridge from Widdershins: a long hall kept by golems who own themselves, lit only through windows made of clay, pressed thin enough for the day to come through. After Terry Pratchett’s golems, who are property in the books and write what they say on slates: a way of talking our community knows. No golem named, nobody diagnosed, nothing for sale."
+  },
+  {
+   "tag": "sunshine-sanctuary",
+   "name": "The Sunshine Sanctuary for Sick Dragons",
+   "path": "/sunshine-sanctuary.html",
+   "about": "A walled yard over the bridge, behind Widdershins, at noon on a day when the city’s smoke has turned the sun down to a pale disc you can look at: Lady Sybil Ramkin’s sanctuary for small swamp dragons nobody else wanted, from Terry Pratchett’s Guards! Guards!, kept as a home and not a shelter. Nobody adopted out, nobody cured, nobody counted."
   },
   {
    "tag": "cavendish-coworking",

@@ -5945,6 +5945,27 @@ neither is used**, Sithen's rule; the tool refuses a link to either and any `<im
 clearly autistic", a best-of list of the books, a cover or Stephen Player's map, and the morning sweeping across at
 MAX.
 
+
+**THE CITY GOES ON OVER THE BRIDGE, AND THREE ROOMS BEHIND WIDDERSHINS ARE IN IT.** Ryan's ask, 2026-11-04: subrooms
+after places in the novels, picked from the city's businesses, and the city over the bridge on Cel Street made
+explorable with them in it. On Cel Street the bridge's lane goes through the front row onto a street behind it,
+cobbled, its lamps unlit, crossed by the morning's edge like everything else, with **The Clacks Tower** (§143,
+`clacks-tower.html`, a Grand Trunk tower's shutter cabin at noon, lit only by the open shutters' squares on the floor),
+**The Golem Trust** (§144, a hall kept by golems who own themselves, lit only through windows of clay) and **The
+Sunshine Sanctuary for Sick Dragons** (§145, a walled yard of sand at noon under a smoke-dimmed sun, where the dragons'
+small flames are the brightest thing and light nothing) as doors in its back row (`SHOPS` in `cel-in-widdershins.js`),
+and on Paper Street as ways stood along the river wall. Widdershins' page names them (`over_the_bridge` in its data,
+written between `wds:bridge` markers, each with `holds`). **Each stands on what Star Stuff's One Atom of Justice
+already wrote** (the clacks workers, the golems who are property, the Overhead), and each has a tool of its own,
+modelled on `make-widdershins.py`: **no line of any Discworld book is quoted**, because nothing here can check one
+(the Clacks Tower refuses the one Going Postal line that circulates, whose wording Star Stuff's own colophon says was
+never checked against the novel), every quotation is word for word on our pages or Star Stuff's, and no fan wiki is
+a source or a link, though the brief linked one for the list of names. No golem is diagnosed (writing on a slate is
+a way of talking, said in our words), the sanctuary is not a shelter (nobody waits to be adopted, and the tool refuses
+adoption, charity and counting the dragons), and no character of anybody's is drawn: golems and dragons only as
+generic figures of their kind, Lady Sybil never. **The signs over the doors on Cel Street carry names only.** A fourth
+room over the bridge is a front in `SHOPS`, a way in `walk-widdershins.js`, an entry in `over_the_bridge`, and its
+own world; the friendly edits are a pub (A Quiet Pint is the street's) and the Unseen University library (Oook).
 **CAVENDISH COWORKING IS HENRY CAVENDISH'S HOUSE, AND EVERY DOOR IN IT IS SHUT.** §58 is a Georgian
 house after his library in Bedford Square, green throughout, with a shut and unlocked mahogany door
 onto each of our calls (Ryan's brief, 2026-09-25: the Operations and Editorial meetings are open to
