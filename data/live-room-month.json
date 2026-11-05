@@ -353,66 +353,6 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "zEP4B8SgwtU",
-   "source": "kexp",
-   "form": "long",
-   "title": "Helado Tropical - Sensación (Live on KEXP)",
-   "published": "2026-10-05T13:00:01Z",
-   "state": "screen",
-   "runs": 279,
-   "channel": "KEXP"
-  },
-  {
-   "id": "L_Qdwihyl3k",
-   "source": "kexp",
-   "form": "long",
-   "title": "Helado Tropical - Full Performance (Live on KEXP)",
-   "published": "2026-10-05T15:00:35Z",
-   "state": "screen",
-   "runs": 1750,
-   "channel": "KEXP"
-  },
-  {
-   "id": "qbl3INp3QPY",
-   "source": "kexp",
-   "form": "long",
-   "title": "PISS - blocking a scene you can't remember (Live on KEXP)",
-   "published": "2026-10-06T11:00:06Z",
-   "state": "screen",
-   "runs": 294,
-   "channel": "KEXP"
-  },
-  {
-   "id": "-HUgpkueZTw",
-   "source": "kexp",
-   "form": "long",
-   "title": "PISS - Rote Zora. “Resistance is Possible.” Emma, no. 6, June 1984, pp. 39-41. (Live on KEXP)",
-   "published": "2026-10-06T11:00:19Z",
-   "state": "screen",
-   "runs": 216,
-   "channel": "KEXP"
-  },
-  {
-   "id": "evwQIbJZc94",
-   "source": "kexp",
-   "form": "long",
-   "title": "PISS -  i wanted to be a singer (Live on KEXP)",
-   "published": "2026-10-06T11:00:28Z",
-   "state": "screen",
-   "runs": 217,
-   "channel": "KEXP"
-  },
-  {
-   "id": "PmpGBzi60CU",
-   "source": "kexp",
-   "form": "long",
-   "title": "PISS - time loop / horse craze / act opposite (Live on KEXP)",
-   "published": "2026-10-06T11:00:32Z",
-   "state": "screen",
-   "runs": 374,
-   "channel": "KEXP"
-  },
-  {
    "id": "k6yivXI0JIs",
    "source": "kexp",
    "form": "long",
@@ -1573,13 +1513,73 @@
    "channel": "KEXP"
   },
   {
-   "id": "p0xEdSGVYQk",
+   "id": "5tFv_E2WQes",
    "source": "kexp",
-   "form": "short",
-   "title": "Helado Tropical performs \"Tocando\" & more Live on KEXP",
-   "published": "2026-10-05T17:07:41Z",
+   "form": "long",
+   "title": "sub:shaman - Apnea (Live on KEXP)",
+   "published": "2026-11-04T14:00:11Z",
    "state": "screen",
-   "runs": 60,
+   "runs": 275,
+   "channel": "KEXP"
+  },
+  {
+   "id": "GNOjXB9p2_s",
+   "source": "kexp",
+   "form": "long",
+   "title": "sub:shaman - eat my tongue (Live on KEXP)",
+   "published": "2026-11-04T14:00:30Z",
+   "state": "screen",
+   "runs": 254,
+   "channel": "KEXP"
+  },
+  {
+   "id": "GXVZMiDbtiM",
+   "source": "kexp",
+   "form": "long",
+   "title": "sub:shaman - Full Performance (Live on KEXP)",
+   "published": "2026-11-04T16:00:20Z",
+   "state": "screen",
+   "runs": 1548,
+   "channel": "KEXP"
+  },
+  {
+   "id": "wj7Hkryx7hg",
+   "source": "kexp",
+   "form": "long",
+   "title": "Hariguem Zaboy - Whoa!!! (Live on KEXP)",
+   "published": "2026-11-05T12:00:10Z",
+   "state": "screen",
+   "runs": 127,
+   "channel": "KEXP"
+  },
+  {
+   "id": "9utHd3OrPeE",
+   "source": "kexp",
+   "form": "long",
+   "title": "Hariguem Zaboy - Christine Thompson (Live on KEXP)",
+   "published": "2026-11-05T12:00:17Z",
+   "state": "screen",
+   "runs": 180,
+   "channel": "KEXP"
+  },
+  {
+   "id": "ewRuCAeb1EU",
+   "source": "kexp",
+   "form": "long",
+   "title": "Hariguem Zaboy - This Kind Of Meth (Make You Confess) (Live on KEXP)",
+   "published": "2026-11-05T12:00:34Z",
+   "state": "screen",
+   "runs": 174,
+   "channel": "KEXP"
+  },
+  {
+   "id": "jJZ7ZeS06NQ",
+   "source": "kexp",
+   "form": "long",
+   "title": "Hariguem Zaboy - Roomful Of Cool (Live on KEXP)",
+   "published": "2026-11-05T12:00:39Z",
+   "state": "screen",
+   "runs": 163,
    "channel": "KEXP"
   },
   {
@@ -1783,6 +1783,16 @@
    "channel": "KEXP"
   },
   {
+   "id": "dF4A4uB5Scs",
+   "source": "kexp",
+   "form": "short",
+   "title": "sub:shaman performs \"eat my tongue\" & more Live on KEXP",
+   "published": "2026-11-04T18:04:19Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
    "id": "Y1kDvjSz-H4",
    "source": "kcrw",
    "form": "long",
@@ -1903,6 +1913,16 @@
    "channel": "KCRW"
   },
   {
+   "id": "jWJ3KuGTaVI",
+   "source": "kcrw",
+   "form": "long",
+   "title": "This Is Lorelei: Live On KCRW",
+   "published": "2026-11-04T15:00:35Z",
+   "state": "screen",
+   "runs": 997,
+   "channel": "KCRW"
+  },
+  {
    "id": "GqcyWTBXj54",
    "source": "kcrw",
    "form": "short",
@@ -1931,6 +1951,16 @@
    "state": "screen",
    "runs": 37,
    "channel": "KCRW"
+  },
+  {
+   "id": "fqmPCGOykMg",
+   "source": "kcrw",
+   "form": "short",
+   "title": "Rostam's Must-Listen CD",
+   "published": "2026-11-04T15:00:01Z",
+   "state": "screen",
+   "runs": 68,
+   "channel": "KCRW"
   }
  ],
  "covered": {
@@ -1938,13 +1968,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-04T12:38:52Z"
+     "2026-11-05T12:37:29Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-04T12:38:52Z"
+     "2026-11-05T12:37:29Z"
     ]
    ]
   },
@@ -1952,13 +1982,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-04T12:38:52Z"
+     "2026-11-05T12:37:29Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-04T12:38:52Z"
+     "2026-11-05T12:37:29Z"
     ]
    ]
   },
@@ -1966,16 +1996,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-04T12:38:52Z"
+     "2026-11-05T12:37:29Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-04T12:38:52Z"
+     "2026-11-05T12:37:29Z"
     ]
    ]
   }
  },
- "set": "2026-11-04T12:38Z"
+ "set": "2026-11-05T12:37Z"
 }
