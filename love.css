@@ -13704,6 +13704,18 @@ body.room-rabbit-hole {
   margin: 0 0 30px;
 }
 .rh-ledge--deep { background-color: var(--rh-deep); }
+/* THE LOOKING-GLASS AT THE BOTTOM OF THE SHAFT, Helen's ask, 2026-11-05: a
+   second way into Looking-Glass House (§148), whose own door is the glass in
+   her yurt. Drawn in this room's slate, graphite, chalk and brass, abstract
+   like the shaft at the top, the chessboard country through it in greys, no
+   figure. It stands on the deep ledge because it is the bottom of the hole,
+   and the last daylight lies in the top of the glass. Nothing in it moves. */
+.rh-glass { display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: center; }
+.rh-glass__door { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; }
+.rh-glass__door:hover span, .rh-glass__door:focus-visible span { text-decoration: underline; }
+.rh-glass__draw { display: block; width: 150px; height: auto; }
+.rh-glass__words { flex: 1 1 32ch; }
+.rh-glass__words > :last-child { margin-bottom: 0; }
 
 .room-rabbit-hole h2 {
   margin: 0 0 14px;
@@ -33342,6 +33354,11 @@ html[data-intensity="gentle"] .lgh-pin { transform: none; }
 .room-looking-glass .lgh-cut__ours { margin: 0 0 8px; font-family: 'Old Standard TT', Georgia, serif; font-size: 20px; line-height: 1.45; }
 .room-looking-glass .lgh-cut__prov { margin: 0; font-size: 14.5px; color: var(--lgh-ink-2); }
 .room-looking-glass .lgh-credit { font-size: 15px; color: var(--lgh-ink-2); }
+/* Ways out, Helen's ask, 2026-11-05: back to the yurt and through to the Rabbit
+   Hole's glass, set on the right like every heading in here. */
+.room-looking-glass .lgh-ways { max-width: 68ch; margin: 0 0 0 auto; padding: 0; list-style: none; }
+.room-looking-glass .lgh-ways li { margin: 0 0 10px; }
+.room-looking-glass .lgh-ways a { font-weight: 700; }
 @media (max-width: 640px) {
   .room-looking-glass h2 { text-align: left; }
   .lgh-cut { grid-template-columns: 1fr; }

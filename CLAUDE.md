@@ -1674,7 +1674,8 @@ which a credit does not make free to reuse.
 **LOOKING-GLASS HOUSE (§148) IS HELEN'S, THROUGH A LOOKING-GLASS IN THE YURT, AND IT IS THE RABBIT HOLE IN A MIRROR.** Her
 ask, 2026-10-31: "add alice quotes page on a pin board and copy this page [the Rabbit Hole] as a looking glass so all
 reflected back in Faery yurt - go through a looking glass instead of woodern doors to rooms. Add more fun things."
-`looking-glass-house.html` hangs off the yurt after the Play Pod; its door is a gilt glass (`.yurt-glass` in §14) opened
+`looking-glass-house.html` hangs off the yurt after the Play Pod (and, since 2026-11-05, a second glass at the
+bottom of the Rabbit Hole, drawn in that room's own inks); its door is a gilt glass (`.yurt-glass` in §14) opened
 the oak doors' way, a checkbox and no script, with the yurt reflected in it until pressed. **The room is the yurt given
 back**: dark words on silver where the yurt is cream on dark, the candles only ever points in the glass, and the headings
 on the right where the Rabbit Hole's are on the left; if §135's ground goes dark it has become the yurt with the lights off
@@ -2543,7 +2544,8 @@ with no sentence of ours, no rights page, or no file on disk. **And the two draw
 that are ours are abstract on purpose** — a shaft of rings and an engraver's block, no figures in
 either — because the engravings further down are somebody else's line and a drawing of our own
 beside them would only be a worse copy of it. That is also why the share card is the shaft and
-not one of the cuts.
+not one of the cuts. **A looking-glass at the bottom of the shaft is the third drawing of ours** (Helen's ask, 2026-11-05):
+the second way into Looking-Glass House, abstract too, in the room's own greys and brass, with no figure in it.
 
 **AN HTML ENTITY DOES NOT SURVIVE `.upper()`, AND THAT IS A THIRD SHAPE OF THE SAME BUG.**
 `&rsquo;` in a string that gets uppercased for a small-caps line came out as `&RSQUO;` and
