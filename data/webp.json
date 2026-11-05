@@ -836,6 +836,34 @@
       "ssim": 0.9869,
       "bytes_before": 357111,
       "bytes_after": 285550
+    },
+    "alice/tenniel-lg-glass.webp": {
+      "from": "alice/tenniel-lg-glass.jpg",
+      "quality": 75,
+      "ssim": 0.9823,
+      "bytes_before": 108143,
+      "bytes_after": 74024
+    },
+    "alice/tenniel-lg-jabberwock.webp": {
+      "from": "alice/tenniel-lg-jabberwock.jpg",
+      "quality": 75,
+      "ssim": 0.9968,
+      "bytes_before": 457874,
+      "bytes_after": 316376
+    },
+    "alice/tenniel-lg-queens.webp": {
+      "from": "alice/tenniel-lg-queens.jpg",
+      "quality": 75,
+      "ssim": 0.994,
+      "bytes_before": 299124,
+      "bytes_after": 171102
+    },
+    "alice/tenniel-lg-tweedles.webp": {
+      "from": "alice/tenniel-lg-tweedles.jpg",
+      "quality": 75,
+      "ssim": 0.9936,
+      "bytes_before": 77180,
+      "bytes_after": 55880
     }
   }
 }

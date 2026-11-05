@@ -1965,6 +1965,11 @@
   --ppd-uv: #8A5CFF; --ppd-pink: #FF5CC8; --ppd-green: #5CFFA3; --ppd-blue: #8CE8FF; --ppd-orange: #FFAE5C; --ppd-line: #3A2766;
   --ppd-day: #EEE7DA; --ppd-day-floor: #D8CDBA; --ppd-day-tray: #2A2A2E; --ppd-day-stand: #6A6A72;
   --ppd-day-pink: #E3A6C6; --ppd-day-green: #A6D6B2; --ppd-day-yellow: #E9DE98; --ppd-day-blue: #BFD9E3; --ppd-day-tube: #C9C2D6;
+  /* Looking-Glass House (§148): silvered glass, dark words on it, the yurt's candlelight given back as points. */
+  --lgh-glass: #E4EAE6; --lgh-pane: #D3DDD8; --lgh-ink: #16211E; --lgh-ink-2: #3C4A45; --lgh-link: #7B1F4B; --lgh-red: #A3233A;
+  --lgh-gilt: #A8792C; --lgh-gilt-2: #D9B25A; --lgh-silver: #C6CFCA; --lgh-mist: #F4F7F5; --lgh-card: #FCF9EF;
+  --lgh-cork: #B98C5E; --lgh-cork-2: #9C7349; --lgh-pawn: #FFFEF8;
+  --lgh-meadow: #E8EED9; --lgh-field: #A9C29A; --lgh-hedge: #5E7F55; --lgh-brook: #4F7FA3;
   /* The crystal pouch (crystal-pouch.js): every stone on a disc of its own cloth, outlined in the line, so it carries its own ground on the radio. */
   --crys-cloth: #EDE6F2; --crys-line: #2A2233; --crys-bag: #B98A55; --crys-bag-2: #7E5530; --crys-cord: #9E3328;
   --crys-amethyst: #8A55C0; --crys-amethyst-2: #D3B4F0;
@@ -8266,6 +8271,38 @@ html[data-intensity="max"] .yurt-shroom__glow { animation: hollow-breathe 6s eas
 .yurt-pod svg { display: block; width: 100%; height: auto; }
 .room-yurt .yurt-pod:focus-visible { outline: 3px solid var(--candle); outline-offset: 6px; }
 html[data-intensity="max"] .yurt-pod__glow { animation: ppd-breathe 6s ease-in-out infinite alternate; }
+/* THE LOOKING-GLASS, Helen's ask, 2026-10-31: "go through a looking glass
+   instead of woodern doors". Where her other rooms have the oak doors, this
+   one has a tall glass in a gilt frame, opened the oak doors' way (a checkbox,
+   no script): pressed, the yurt reflected in it goes to a silvery mist and the
+   chessboard country shows through, and Step through stands in it. Its words
+   under it are the way in as well, always there. Drawn in §148's colours and
+   the yurt's own; nothing on it is a word. The mist goes at Regular and MAX
+   and snaps at Gentle, because §3 takes transitions away there. */
+.yurt-glass { display: flex; flex-direction: column; align-items: center; margin: 26px auto 0; max-width: 560px; }
+.yurt-glass__door { position: relative; width: min(100%, 300px); }
+/* In the far corner, so it never lies over the label's words for a screen
+   reader, which a low-stimulation mode would show as a sheet. */
+.yurt-glass__check { position: absolute; right: 0; bottom: 0; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
+.yurt-glass__frame { display: block; position: relative; cursor: pointer; border-radius: 50% / 40%; }
+.yurt-glass__frame svg { display: block; width: 100%; height: auto; }
+.yurt-glass__reflect { transition: opacity .9s ease; }
+.yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__reflect { opacity: 0; }
+.yurt-glass__check:focus-visible + .yurt-glass__frame { outline: 4px solid var(--candle); outline-offset: 4px; }
+html[data-intensity="max"] .yurt-glass__glint { animation: lgh-glint 4s ease-in-out infinite alternate; }
+.room-yurt .yurt-glass__step {
+  position: absolute; left: 50%; bottom: 46%; transform: translateX(-50%); visibility: hidden; white-space: nowrap;
+  padding: 10px 18px; border-radius: 6px; background: var(--tent); color: var(--tallow); border: 1px solid var(--candle);
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic; font-size: 21px; text-decoration: none;
+  box-shadow: 0 10px 24px -8px rgba(0,0,0,.8);
+}
+.room-yurt .yurt-glass__check:checked ~ .yurt-glass__step { visibility: visible; }
+.room-yurt .yurt-glass__step:hover { color: var(--candle); }
+.room-yurt .yurt-glass__step:focus-visible { outline: 3px solid var(--candle); outline-offset: 3px; }
+.yurt-glass__hint { display: block; margin-top: 12px; text-align: center; font-family: 'Caveat', cursive; font-size: 21px; color: var(--tallow-3); }
+.yurt-glass__hint .is-open { display: none; }
+.yurt-glass__door:has(.yurt-glass__check:checked) + .yurt-glass__hint .is-shut { display: none; }
+.yurt-glass__door:has(.yurt-glass__check:checked) + .yurt-glass__hint .is-open { display: inline; }
 
 /* THE ART GALLERY, Helen's ask, 2026-10-15: paintings out of copyright
    everywhere, hung small on the wall in a thin gilt, and pressed off the wall
@@ -19459,7 +19496,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §149
+   class on it is `bb-`, its sizes are in points and millimetres, and §150
    prints it and nothing else. */
 
 .room-broadside {
@@ -19520,7 +19557,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §149 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §150 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -33174,7 +33211,144 @@ html[data-intensity="max"] .aar-sway--pole  { animation: aar-sway 8.5s ease-in-o
 }
 .aar-walk-frame iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--aar-night); }
 
-/* §148 ── Small screens───────────────────────────────────────────────────────
+/* §148 ── SUBROOM: Looking-Glass House (behind the Faery Yurt, through the looking-glass)
+   HELEN'S, LIKE THE YURT AND ITS OTHER ROOMS, asked for at the keyboard on
+   2026-10-31: "add alice quotes page on a pin board and copy this page [the
+   Rabbit Hole] as a looking glass so all reflected back in Faery yurt - go
+   through a looking glass instead of woodern doors to rooms. Add more fun
+   things." The pin board, the squares, the book's verse, the cuts and the
+   credit are written by tools/make-looking-glass-house.py from
+   data/looking-glass-house.json; the pawn, the book and the writing glass are
+   looking-glass-house.js; this section dresses them (lgh-).
+   THE LIGHT IS THE YURT'S, GIVEN BACK. A looking-glass makes no light: what is
+   lit in here is the yurt's candlelight, behind you, coming back off silver as
+   points. So the ground is the glass, a pale silver with green in it the way
+   old mirror glass has, every word dark on it, and the only warm things are
+   the gilt of the frame and the candles in the reflection. Old Standard TT, a
+   revival of the modern faces books were set in when this one came out in
+   1871, sets the name, the headings and the pin board's words; Source Serif 4
+   carries everything else read.
+   THE ROOMS IT COLLAPSES INTO, AND WHAT KEEPS IT OFF THEM:
+   · THE FAERY YURT (§14), its parent, reads cream on a dark tent by candle.
+     This is that room given back: dark on pale, and the candles only ever
+     points in the glass. If the ground in §148 ever goes dark it has become
+     the yurt with the lights off, and it is this room that moves.
+   · THE RABBIT HOLE (§30) is the same story's other book: a vertical shaft of
+     wet slate, pale on dark, darker the further you read. This is a glass you
+     go through, dark on pale, and it does not get darker.
+   · THE GUILD (§26) and THE DOOMSCROLL (§24) are the other pale rooms of
+     paper: manila lit like a photocopy, and foxed grey newsprint. This is not
+     paper at all but silver, with a frame and something reflected in it; the
+     only paper here is the cards on the cork.
+   · THE PEBBLE BOARD (§21) is the street's cork. The pin board in here is a
+     board inside a room, pinned in the two sides' colours, red and white,
+     like the pieces, and holds two books' words rather than what people bring.
+   NOTHING MOVES BY ITSELF BELOW MAX GLITTER, AND NOTHING FLASHES. At MAX the
+   candles in the glass glint over four seconds. The pawn moves a square on a
+   press, the book turns the right way round on a press, and both are
+   pictures of a thing changing once. */
+.room-looking-glass { background: var(--lgh-glass); color: var(--lgh-ink); font-family: 'Source Serif 4', Georgia, serif; font-size: 18px; line-height: 1.65; color-scheme: light; }
+.room-looking-glass a { color: var(--lgh-link); text-decoration-color: rgba(123,31,75,.45); text-underline-offset: 3px; }
+.room-looking-glass a:hover { color: var(--lgh-ink); }
+.room-looking-glass :focus-visible { outline-color: var(--lgh-link); }
+.room-looking-glass .backlink { font-family: 'Old Standard TT', Georgia, serif; font-style: italic; font-size: 17px; color: var(--lgh-ink-2); }
+.lgh { width: min(940px, 100% - 40px); margin-inline: auto; padding: 0 0 70px; }
+.room-looking-glass h1, .room-looking-glass h2, .room-looking-glass h3 { font-family: 'Old Standard TT', Georgia, serif; font-weight: 700; color: var(--lgh-ink); text-wrap: balance; }
+.room-looking-glass h1 { font-size: clamp(40px, 7vw, 66px); line-height: 1.05; margin: 0; }
+/* The headings stand on the right, where the Rabbit Hole's stand on the left:
+   the whole page is that room in a looking-glass. */
+.room-looking-glass h2 { font-size: 32px; margin: 0 0 12px; text-align: right; border-bottom: 2px solid var(--lgh-gilt); padding-bottom: 6px; }
+.room-looking-glass h3 { font-size: 22px; margin: 0 0 8px; }
+.room-looking-glass section { padding: 26px 0; }
+.room-looking-glass section > p { max-width: 68ch; margin-left: auto; }
+.lgh-top { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; padding-top: 10px; }
+.room-looking-glass .lgh-top__note { margin: 0; font-size: 15px; color: var(--lgh-ink-2); font-style: italic; }
+.lgh-head { display: flex; flex-wrap: wrap; align-items: center; gap: 22px 40px; padding: 22px 0 10px; }
+.lgh-glass { flex: 0 1 280px; width: 280px; max-width: 100%; height: auto; margin-inline: auto; }
+.lgh-head__words { flex: 1 1 360px; }
+.room-looking-glass .lgh-eyebrow { margin: 0 0 10px; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--lgh-ink-2); }
+/* The name again, the way the glass would give it back: the same words in the
+   same ink, drawn back to front. aria-hidden, because it is the heading's
+   reflection and not a second heading. */
+.room-looking-glass .lgh-mirror { display: inline-block; margin: 2px 0 14px; transform: scaleX(-1); font-family: 'Old Standard TT', Georgia, serif; font-size: clamp(20px, 3.4vw, 30px); color: var(--lgh-ink-2); }
+.room-looking-glass .lgh-tagline { margin: 0 0 12px; font-family: 'Old Standard TT', Georgia, serif; font-style: italic; font-size: 24px; color: var(--lgh-link); }
+.room-looking-glass .lgh-lede { margin: 0; }
+html[data-intensity="max"] .lgh-glint { animation: lgh-glint 4s ease-in-out infinite alternate; }
+@keyframes lgh-glint { from { opacity: .55; } to { opacity: 1; } }
+.room-looking-glass .lgh-intro { color: var(--lgh-ink-2); }
+.lgh-btn {
+  font: inherit; font-size: 16px; font-weight: 700; color: var(--lgh-ink); background: var(--lgh-pane);
+  border: 2px solid var(--lgh-gilt); border-radius: 999px; padding: 8px 20px; cursor: pointer;
+}
+.lgh-btn:hover { background: var(--lgh-card); }
+.lgh-btn:disabled { cursor: default; border-style: dashed; }
+.lgh-btn[aria-pressed="true"] { border-color: var(--lgh-link); }
+/* THE PIN BOARD. A cork panel with cards pinned on it, a pin each in red and
+   white turn about. Every word is on a card; nothing stands on the cork. The
+   cards hang a little off true, scoped with :where() so Gentle's reset below
+   wins, the Zibaldone's rule. */
+.lgh-board {
+  list-style: none; margin: 18px 0 0; padding: 28px 22px 20px; columns: 3 230px; column-gap: 22px;
+  background: radial-gradient(circle at 20% 30%, var(--lgh-cork-2) 0 1.5px, transparent 2px) 0 0 / 14px 14px, var(--lgh-cork);
+  border: 10px solid var(--lgh-gilt); border-radius: 6px;
+}
+.lgh-pin { position: relative; break-inside: avoid; margin: 0 0 22px; padding: 22px 18px 14px; background: var(--lgh-card); border-radius: 2px; box-shadow: 0 6px 12px -6px rgba(22,33,30,.55); }
+.lgh-pin::before { content: ""; position: absolute; top: 7px; left: 50%; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; border: 2px solid var(--lgh-ink); }
+.lgh-pin--red::before { background: var(--lgh-red); }
+.lgh-pin--white::before { background: var(--lgh-pawn); }
+:where(.lgh-pin:nth-child(3n+1)) { transform: rotate(-1.4deg); }
+:where(.lgh-pin:nth-child(3n+2)) { transform: rotate(1deg); }
+html[data-intensity="gentle"] .lgh-pin { transform: none; }
+.lgh-pin__says { margin: 0; font-family: 'Old Standard TT', Georgia, serif; font-size: 19px; line-height: 1.45; color: var(--lgh-ink); }
+.room-looking-glass .lgh-pin__who { margin: 10px 0 0; font-size: 14.5px; line-height: 1.4; color: var(--lgh-ink-2); }
+/* ACROSS THE BOARD. The country from above and the squares beside it. */
+.lgh-game { display: flex; flex-wrap: wrap; gap: 20px 32px; align-items: center; margin: 16px 0 10px; }
+.lgh-country { flex: 0 1 320px; width: 320px; max-width: 100%; height: auto; border: 8px solid var(--lgh-gilt); border-radius: 4px; }
+.lgh-game__words { flex: 1 1 280px; }
+.lgh-game__btns { display: flex; flex-wrap: wrap; gap: 10px; }
+.room-looking-glass .lgh-game__now { margin: 14px 0 0; min-height: 3.2em; font-style: italic; }
+.lgh-squares { margin: 10px 0 0; padding-left: 2.4em; }
+.lgh-square { margin: 0 0 10px; padding: 8px 12px; border-left: 4px solid transparent; }
+.lgh-square[aria-current="step"] { border-left-color: var(--lgh-red); background: var(--lgh-pane); }
+.room-looking-glass .lgh-square__where { margin: 0; font-weight: 700; }
+.room-looking-glass .lgh-square__ours { margin: 2px 0 0; }
+.room-looking-glass .lgh-square__ch, .room-looking-glass .lgh-said__ch { color: var(--lgh-ink-2); font-style: italic; }
+/* ON THE MANTELPIECE. Three things in a row on a gilt shelf. */
+.lgh-mantel { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 22px; margin-top: 16px; padding-bottom: 14px; border-bottom: 12px solid var(--lgh-gilt); }
+.lgh-toy { padding: 18px; background: var(--lgh-pane); border-radius: 10px 10px 2px 2px; }
+.room-looking-glass .lgh-toy p { margin: 0 0 12px; }
+.room-looking-glass .lgh-toy__fine { font-size: 14.5px; color: var(--lgh-ink-2); margin: 12px 0 0; }
+.room-looking-glass .lgh-said { font-style: italic; }
+.lgh-book { margin: 0 0 12px; padding: 16px; background: var(--lgh-card); border: 1px solid var(--lgh-ink-2); border-radius: 2px 8px 8px 2px; }
+.room-looking-glass .lgh-book__title { margin: 0 0 8px; text-align: center; font-family: 'Old Standard TT', Georgia, serif; letter-spacing: .08em; }
+.room-looking-glass .lgh-book__verse { margin: 0; font-family: 'Old Standard TT', Georgia, serif; font-style: italic; font-size: 17px; line-height: 1.6; transition: transform .6s ease; }
+/* Back to front until it is held to the glass: a flip, which carries no
+   rotation, so check-gentle.py can see it is not a tilt. */
+.lgh-book__line { display: block; padding-left: 1.2em; text-indent: -1.2em; }
+.lgh-book[data-backwards] .lgh-book__title, .lgh-book[data-backwards] .lgh-book__verse { transform: scaleX(-1); }
+.lgh-pane__label { display: block; font-weight: 700; margin-bottom: 4px; }
+.lgh-pane__in { box-sizing: border-box; width: 100%; font: inherit; font-size: 18px; color: var(--lgh-ink); background: var(--lgh-card); border: 2px solid var(--lgh-ink-2); border-radius: 6px; padding: 8px 10px; }
+.lgh-pane__out { margin: 12px 0 0; padding: 12px; min-height: 1.6em; background: var(--lgh-glass); border: 3px solid var(--lgh-gilt); border-radius: 8px; overflow-wrap: anywhere; font-family: 'Old Standard TT', Georgia, serif; font-size: 22px; text-align: center; }
+.lgh-pane__out span { display: inline-block; transform: scaleX(-1); }
+.lgh-clock { display: block; width: 110px; height: auto; margin: 0 auto 10px; }
+.lgh-ask summary { display: inline-block; list-style: none; }
+.lgh-ask summary::-webkit-details-marker { display: none; }
+.room-looking-glass .lgh-ask p { margin: 12px 0 0; }
+/* THE CUTS, matted on the card, never filtered. */
+.lgh-cut { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px 26px; align-items: center; margin: 22px 0; }
+.lgh-cut:nth-of-type(even) .lgh-cut__mat { order: 2; }
+.lgh-cut__mat { padding: 14px; background: var(--lgh-card); border: 6px solid var(--lgh-gilt); }
+.lgh-cut__mat img { display: block; width: 100%; height: auto; }
+.room-looking-glass .lgh-cut__ours { margin: 0 0 8px; font-family: 'Old Standard TT', Georgia, serif; font-size: 20px; line-height: 1.45; }
+.room-looking-glass .lgh-cut__prov { margin: 0; font-size: 14.5px; color: var(--lgh-ink-2); }
+.room-looking-glass .lgh-credit { font-size: 15px; color: var(--lgh-ink-2); }
+@media (max-width: 640px) {
+  .room-looking-glass h2 { text-align: left; }
+  .lgh-cut { grid-template-columns: 1fr; }
+  .lgh-cut:nth-of-type(even) .lgh-cut__mat { order: 0; }
+}
+
+/* §149 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -33278,7 +33452,7 @@ html[data-intensity="max"] .aar-sway--pole  { animation: aar-sway 8.5s ease-in-o
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §148 says every
+   shipped with no rule here at all — which on a street whose §149 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -33402,7 +33576,7 @@ html[data-intensity="max"] .aar-sway--pole  { animation: aar-sway 8.5s ease-in-o
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §149 ── Print ───────────────────────────────────────────────────────────────
+/* §150 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

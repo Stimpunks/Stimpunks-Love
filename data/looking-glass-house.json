@@ -1,0 +1,72 @@
+{
+  "_what": "Looking-Glass House, behind Helen Edgar's Faery Yurt and through the looking-glass in it, asked for on 2026-10-31: an Alice quotes page on a pin board, the Rabbit Hole's idea copied as a looking-glass so it is all reflected back in the yurt, a looking-glass to go through instead of the yurt's wooden doors, and more fun things. tools/make-looking-glass-house.py writes the pin board, the squares across the board, the Jabberwocky book, the engravings and the credit into looking-glass-house.html out of this file, and refuses what it says it refuses.",
+  "_checked": "2026-10-31",
+  "_texts": "Every quotation and the verse are Lewis Carroll's, who died in 1898, so they are out of copyright everywhere. They were read word for word, with the chapter, in Project Gutenberg's texts of Alice's Adventures in Wonderland (eBook #11) and Through the Looking-Glass (eBook #12) on 2026-10-31. Gutenberg marks italics with underscores, and so does this file; the tool turns them into <em>. `python3 tools/make-looking-glass-house.py --verify` fetches both texts again and checks every quotation, its chapter and the verse, and needs the network.",
+  "books": {
+    "wonderland": {
+      "title": "Alice’s Adventures in Wonderland",
+      "year": 1865,
+      "gutenberg": "https://www.gutenberg.org/ebooks/11"
+    },
+    "glass": {
+      "title": "Through the Looking-Glass, and What Alice Found There",
+      "year": 1871,
+      "gutenberg": "https://www.gutenberg.org/ebooks/12"
+    }
+  },
+  "_cap": "Every quotation on the pin board is forty words at most: the board points at two books and is not a copy of either. Raise it here, with the reason written down, and never to fit one passage.",
+  "cap": 40,
+  "pins": [
+    {"book": "wonderland", "chapter": 2, "who": "Alice", "says": "“Curiouser and curiouser!”"},
+    {"book": "glass", "chapter": 5, "who": "the White Queen", "says": "“Why, sometimes I’ve believed as many as six impossible things before breakfast.”"},
+    {"book": "wonderland", "chapter": 10, "who": "Alice", "says": "“I could tell you my adventures—beginning from this morning,” said Alice a little timidly: “but it’s no use going back to yesterday, because I was a different person then.”"},
+    {"book": "glass", "chapter": 2, "who": "the Red Queen", "says": "“Now, _here_, you see, it takes all the running _you_ can do, to keep in the same place.”"},
+    {"book": "wonderland", "chapter": 6, "who": "the Cheshire Cat", "says": "“Then it doesn’t matter which way you go,” said the Cat."},
+    {"book": "glass", "chapter": 6, "who": "Humpty Dumpty", "says": "“When _I_ use a word,” Humpty Dumpty said in rather a scornful tone, “it means just what I choose it to mean—neither more nor less.”"},
+    {"book": "wonderland", "chapter": 2, "who": "Alice", "says": "“Who in the world am I? Ah, _that’s_ the great puzzle!”"},
+    {"book": "glass", "chapter": 7, "who": "the Unicorn", "says": "“if you’ll believe in me, I’ll believe in you. Is that a bargain?”"},
+    {"book": "wonderland", "chapter": 3, "who": "the Dodo", "says": "“_Everybody_ has won, and all must have prizes.”"},
+    {"book": "glass", "chapter": 5, "who": "the White Queen", "says": "“The rule is, jam to-morrow and jam yesterday—but never jam to-day.”"},
+    {"book": "wonderland", "chapter": 6, "who": "Alice", "says": "“Well! I’ve often seen a cat without a grin,” thought Alice; “but a grin without a cat! It’s the most curious thing I ever saw in my life!”"},
+    {"book": "glass", "chapter": 2, "who": "the Red Queen", "says": "“Speak in French when you can’t think of the English for a thing—turn out your toes as you walk—and remember who you are!”"},
+    {"book": "wonderland", "chapter": 12, "who": "the King", "says": "“Begin at the beginning,” the King said gravely, “and go on till you come to the end: then stop.”"},
+    {"book": "glass", "chapter": 4, "who": "Tweedledee", "says": "“Contrariwise,” added the one marked “DEE,” “if you think we’re alive, you ought to speak.”"},
+    {"book": "wonderland", "chapter": 9, "who": "the Duchess", "says": "“Take care of the sense, and the sounds will take care of themselves.”"},
+    {"book": "glass", "chapter": 5, "who": "the White Queen", "says": "“It’s a poor sort of memory that only works backwards,” the Queen remarked."},
+    {"book": "wonderland", "chapter": 4, "who": "Alice", "says": "“I almost wish I hadn’t gone down that rabbit-hole—and yet—and yet—it’s rather curious, you know, this sort of life!”"},
+    {"book": "glass", "chapter": 7, "who": "the White King", "says": "“To be able to see Nobody! And at that distance, too!”"},
+    {"book": "glass", "chapter": 5, "who": "the White Queen", "says": "“Consider anything, only don’t cry!”"}
+  ],
+  "_squares": "Alice's own moves across the board, as Carroll set them out in the chess problem at the front of Through the Looking-Glass (White Pawn (Alice) to play, and win in eleven moves), with the chapter each square happens in. The words are ours. The squares are the queen's file, second to eighth, which is why the pawn goes up one column of the board.",
+  "squares": [
+    {"rank": 2, "chapter": 2, "where": "The second square", "ours": "Up on a hill, the Red Queen shows Alice the country below, marked out in squares by little brooks and hedges like a huge chessboard, and says she can be a White Pawn and start here."},
+    {"rank": 3, "chapter": 3, "where": "The third square, by railway", "ours": "Alice does not walk the third square at all. She is in a railway carriage full of strange passengers who all think at once, and the train jumps the brook."},
+    {"rank": 4, "chapter": 4, "where": "The fourth square: Tweedledum and Tweedledee", "ours": "Two little fat men under a tree, one marked DUM and one marked DEE, who agree to have a battle and then argue about everything else."},
+    {"rank": 5, "chapter": 5, "where": "The fifth square: a shop, a river, a shop", "ours": "The White Queen's shawl blows away, and she turns into a Sheep knitting in a little dark shop, and the shop turns into a boat, and the boat back into the shop."},
+    {"rank": 6, "chapter": 6, "where": "The sixth square: Humpty Dumpty", "ours": "An egg on a wall, who makes words mean what he chooses and explains Jabberwocky to her line by line."},
+    {"rank": 7, "chapter": 7, "where": "The seventh square: the forest", "ours": "The Lion and the Unicorn fight for the crown, and then the White Knight, who keeps falling off his horse, sees her safely to the last brook."},
+    {"rank": 8, "chapter": 9, "where": "The eighth square: Queen Alice", "ours": "She jumps the last brook, and there is something heavy on her head: a golden crown. The pawn has reached the far side of the board and is a Queen."}
+  ],
+  "_jabberwocky": "The first verse of Jabberwocky, as Alice finds it in a Looking-glass book in chapter 1: printed the wrong way round, until she holds it up to a glass. Carroll printed only this verse reversed, so only this verse is here.",
+  "jabberwocky": {
+    "chapter": 1,
+    "lines": [
+      "’Twas brillig, and the slithy toves",
+      "Did gyre and gimble in the wabe;",
+      "All mimsy were the borogoves,",
+      "And the mome raths outgrabe."
+    ],
+    "found": "“Why, it’s a Looking-glass book, of course! And if I hold it up to a glass, the words will all go the right way again.”"
+  },
+  "unbirthday": {
+    "chapter": 6,
+    "says": "“A present given when it isn’t your birthday, of course.”"
+  },
+  "_plates": "John Tenniel's wood engravings for the first edition of Through the Looking-Glass, 1871. He died in 1914, so they are out of copyright everywhere, and each scan used carries a public domain statement on Wikimedia Commons, read on 2026-10-31. None is cropped, tinted or filtered. Two of the scans on Commons were left off: a hand-coloured Alice climbing through the glass, because whoever coloured it and when is not said, and a coloured Humpty Dumpty, because the scan carries somebody else's watermark. Which engraving sits beside which square is our reading and not the book's arrangement.",
+  "plates": [
+    {"file": "alice/tenniel-lg-glass.webp", "chapter": 1, "shows": "Two engravings side by side, the way they face each other across a page in the book: on the left, Alice kneeling on a mantelpiece with her hand on the looking-glass, a clock and a vase under glass domes beside her; on the right, Alice stepping down off the mantelpiece on the far side of the glass, where the clock has a face that grins at her and the vase has eyes.", "ours": "Both sides of the glass at once. On this side the clock is a clock. On the other side it is looking at you.", "commons": "https://commons.wikimedia.org/wiki/File:Aliceroom3.jpg"},
+    {"file": "alice/tenniel-lg-tweedles.webp", "chapter": 4, "shows": "Alice standing in a wood in front of Tweedledum and Tweedledee, two round little men in identical collars and caps, standing side by side with their arms round each other.", "ours": "A pair who are each other's reflection, and argue about it.", "commons": "https://commons.wikimedia.org/wiki/File:Tennieldumdee.jpg"},
+    {"file": "alice/tenniel-lg-jabberwock.webp", "chapter": 1, "shows": "The Jabberwock in a dark wood: a huge creature with leathery wings, long claws, a scaly neck and a waistcoat with buttons, rearing up over a small figure in armour holding a sword.", "ours": "The creature in the poem Alice could only read in a mirror. It is the most frightening picture in either book, and it is wearing a waistcoat.", "commons": "https://commons.wikimedia.org/wiki/File:Jabberwocky.jpg"},
+    {"file": "alice/tenniel-lg-queens.webp", "chapter": 9, "shows": "Alice sitting between the Red Queen and the White Queen, all three wearing crowns, Alice with her eyes down and her hands in her lap while both Queens talk at her at once.", "ours": "The eighth square. A crown, and two Queens explaining at once how to be one.", "commons": "https://commons.wikimedia.org/wiki/File:Alice_Red_Queen_White_Queen.jpg"}
+  ]
+}

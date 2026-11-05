@@ -2048,6 +2048,14 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--pod .og-words {{ display: flex; flex-direction: column; gap: 14px; }}
 .og--pod .ppd-eyebrow {{ margin: 0; }}
 .og--pod h1 {{ font-size: 76px; margin: 0 !important; }}
+.og--lgh {{ width: 100%; padding: 34px 70px; }}
+.og--lgh .og-head {{ display: flex; align-items: center; gap: 56px; }}
+.og--lgh .lgh-glass {{ flex: 0 0 auto; width: 400px; margin: 0; }}
+.og--lgh .og-words {{ display: flex; flex-direction: column; gap: 10px; }}
+.og--lgh .lgh-eyebrow {{ margin: 0; }}
+.og--lgh h1 {{ font-size: 84px; margin: 0 !important; }}
+.og--lgh .lgh-mirror {{ margin: 0; font-size: 40px; }}
+.og--lgh .og-lede {{ font-size: 26px; color: var(--lgh-ink-2); }}
 .og--pod .og-lede {{ font-size: 24px; color: var(--ppd-ink-2); }}
 .og--yurt .og-lede {{ font-family: 'Crimson Pro', serif; color: #C2AC91; max-width: 1000px; }}
 .og--yurt .og-foot {{ font-family: 'Caveat', cursive; color: #A4907B;
@@ -3156,6 +3164,26 @@ def card_hollow(p):
         f"the water. Beside it, small pale capitals reading behind the faery yurt, down "
         f"and into the rhizome, then \u201c{p['h1text']}\u201d in large pale "
         f"italic serif. Under that: {p['desc_plain']}",
+    )
+
+
+def card_lgh(p):
+    return (
+        "",
+        f'<div class="lgh og og--lgh" data-fit="card">'
+        f'<div class="og-head">{p["lghglass"]}<div class="og-words">'
+        f'<p class="lgh-eyebrow">off the faery yurt &middot; through the looking-glass</p>'
+        f'{p["h1"]}'
+        f'<p class="lgh-mirror" aria-hidden="true">{p["h1text"]}</p>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div></div>'
+        f'</div>',
+        f"A card the pale green-grey of old mirror glass. On the left, a tall oval looking-glass "
+        f"in a carved gilt frame, and in it, back to front, the inside of a candlelit yurt: a "
+        f"criss-cross lattice wall, roof poles fanning up to a lit ring, a string of small lights, "
+        f"a shelf of books and a candle. Beside it, small grey capitals reading off the faery yurt, "
+        f"through the looking-glass, then \u201c{p['h1text']}\u201d in a large dark serif, and the "
+        f"same words again under it in mirror writing. Under that: {p['desc_plain']}",
     )
 
 
@@ -6560,6 +6588,7 @@ CARDS = {
     "room-myths":   card_myths,
     "room-hollow":  card_hollow,
     "room-pod":     card_pod,
+    "room-looking-glass": card_lgh,
     "hermitage":    card_herm,
     "club":         card_club,
     "room-latibulum": card_latibulum,
@@ -6670,6 +6699,7 @@ def main():
         ("myscene",  "faery-myths-room.html", r'(<svg class="myth-scene".*?</svg>)'),
         ("hscene",   "glow-wild-hollow.html", r'(<svg class="hollow-scene".*?</svg>)'),
         ("podscene", "play-pod.html",     r'(<svg class="ppd-scene".*?</svg>)'),
+        ("lghglass", "looking-glass-house.html", r'(<svg class="lgh-glass".*?</svg>)'),
         ("crown",    "faery-yurt.html",   r'(<div class="crown".*?</svg>\s*</div>)'),
         ("cabin",    "solarpunk-hermitage.html", r'(<div class="cabin".*?</svg>\s*</div>)'),
         ("esmx",     "quill-drift.html",  r'(<svg class="sprite".*?</svg>)'),

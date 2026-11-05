@@ -2446,6 +2446,20 @@
         "--ppd-yellow"
       ]
     },
+    "looking-glass-house.html": {
+      "kind": "julia",
+      "c": [0.285, 0.01],
+      "orbit": 0.012,
+      "spin": 0.2,
+      "ground": "--lgh-glass",
+      "inks": [
+        "--lgh-ink",
+        "--lgh-link",
+        "--lgh-gilt",
+        "--lgh-brook",
+        "--lgh-red"
+      ]
+    },
     "faery-reading-room.html": {
       "kind": "orbit",
       "trap": "ring",

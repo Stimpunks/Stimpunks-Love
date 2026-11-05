@@ -177,6 +177,11 @@
    "room": "The Play Pod"
   },
   {
+   "id": "lgh-pawn",
+   "title": "A pawn off the board",
+   "room": "Looking-Glass House"
+  },
+  {
    "id": "meadow-firefly",
    "title": "The book this room lends",
    "room": "Swaying Sweetgrass"

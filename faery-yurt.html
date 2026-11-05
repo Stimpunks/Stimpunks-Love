@@ -1388,6 +1388,65 @@
   </section>
 
   <section>
+    <h2 id="looking-glass">The Looking-Glass</h2>
+    <p class="section-intro">Where my other rooms have wooden doors, this one has a looking-glass. Press the glass and it goes soft, like a bright silvery mist, and through it is Looking-Glass House: my yurt the other way round, with a pin board of Alice quotes, the chessboard country, a looking-glass book and Tenniel&rsquo;s pictures.</p>
+    <!-- The way into Looking-Glass House, Helen's ask, 2026-10-31: "go through
+         a looking glass instead of woodern doors". A tall glass in a gilt
+         frame, opened the oak doors' way, with a checkbox and no script: in
+         the glass is this yurt, given back the other way round; pressed, the
+         reflection goes and the chessboard country shows through. Drawn in
+         §148's colours and the yurt's own; nothing on it is a word. -->
+    <div class="yurt-glass">
+      <div class="yurt-glass__door">
+      <input type="checkbox" id="portal-glass" class="yurt-glass__check">
+      <label for="portal-glass" class="yurt-glass__frame">
+        <span class="sr">Press the looking-glass to go through it</span>
+        <svg viewBox="0 0 300 400" aria-hidden="true" focusable="false">
+          <defs>
+            <clipPath id="yg-oval"><ellipse cx="150" cy="210" rx="106" ry="156"/></clipPath>
+            <linearGradient id="yg-sheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--lgh-mist)" stop-opacity=".6"/><stop offset=".45" stop-color="var(--lgh-mist)" stop-opacity="0"/><stop offset=".72" stop-color="var(--lgh-mist)" stop-opacity=".22"/><stop offset="1" stop-color="var(--lgh-mist)" stop-opacity="0"/></linearGradient>
+          </defs>
+          <g clip-path="url(#yg-oval)">
+            <!-- Behind the glass: the chessboard country, brooks across it, and a white pawn on the second square. -->
+            <rect x="40" y="50" width="220" height="330" fill="var(--lgh-meadow)"/>
+            <g fill="var(--lgh-field)"><rect x="44" y="130" width="42" height="42"/><rect x="128" y="130" width="42" height="42"/><rect x="212" y="130" width="42" height="42"/><rect x="86" y="172" width="42" height="42"/><rect x="170" y="172" width="42" height="42"/><rect x="44" y="214" width="42" height="42"/><rect x="128" y="214" width="42" height="42"/><rect x="212" y="214" width="42" height="42"/><rect x="86" y="256" width="42" height="42"/><rect x="170" y="256" width="42" height="42"/><rect x="44" y="298" width="42" height="42"/><rect x="128" y="298" width="42" height="42"/><rect x="212" y="298" width="42" height="42"/></g>
+            <path d="M40 172 Q90 168 150 172 T260 172 M40 214 Q90 210 150 214 T260 214 M40 256 Q90 252 150 256 T260 256 M40 298 Q90 294 150 298 T260 298 M40 340 Q90 336 150 340 T260 340" fill="none" stroke="var(--lgh-brook)" stroke-width="3"/>
+            <path d="M40 130 H260" stroke="var(--lgh-hedge)" stroke-width="4"/>
+            <path d="M40 130 Q100 96 150 112 Q200 92 260 120 V50 H40 Z" fill="var(--lgh-mist)"/>
+            <g transform="translate(150 320)"><path d="M-11 12 H11 Q11 6 6 4 Q4 -2 5 -6 H-5 Q-4 -2 -6 4 Q-11 6 -11 12 Z" fill="var(--lgh-pawn)" stroke="var(--lgh-ink)" stroke-width="1.8"/><circle cx="0" cy="-11" r="6" fill="var(--lgh-pawn)" stroke="var(--lgh-ink)" stroke-width="1.8"/></g>
+            <!-- In front of it, until it is pressed: this yurt, back to front, under the glass's silver. -->
+            <g class="yurt-glass__reflect">
+              <rect x="40" y="50" width="220" height="330" fill="var(--canvas)"/>
+              <g transform="translate(300 0) scale(-1 1)">
+                <path d="M44 250 L150 84 L256 250" fill="none" stroke="var(--timber)" stroke-width="4"/>
+                <path d="M150 84 L84 250 M150 84 L117 250 M150 84 L183 250 M150 84 L216 250" stroke="var(--timber)" stroke-width="3"/>
+                <circle cx="150" cy="84" r="15" fill="none" stroke="var(--candle)" stroke-width="3"/>
+                <path d="M44 250 H256 V380 H44 Z" fill="var(--tent)"/>
+                <path d="M44 262 L82 300 L120 262 L158 300 L196 262 L234 300 L256 278 M44 300 L82 262 L120 300 L158 262 L196 300 L234 262 L256 284 M44 338 L82 300 L120 338 L158 300 L196 338 L234 300 L256 322 M44 300 L82 338 L120 300 L158 338 L196 300 L234 338 L256 316" fill="none" stroke="var(--timber)" stroke-width="2.4"/>
+                <path d="M56 156 Q104 182 150 166 Q196 150 246 170" fill="none" stroke="var(--tallow-3)" stroke-width="1.2"/>
+                <g class="yurt-glass__glint" fill="var(--ember-2)"><circle cx="72" cy="166" r="3"/><circle cx="100" cy="175" r="3"/><circle cx="128" cy="172" r="3"/><circle cx="176" cy="160" r="3"/><circle cx="204" cy="157" r="3"/><circle cx="232" cy="164" r="3"/></g>
+                <path d="M200 352 H232 M216 352 V376" stroke="var(--timber)" stroke-width="6"/>
+                <rect x="209" y="318" width="14" height="34" rx="2" fill="var(--tallow)"/>
+                <path d="M216 300 q6 8 0 16 q-6 -8 0 -16 Z" fill="var(--candle)"/>
+              </g>
+              <rect x="40" y="50" width="220" height="330" fill="url(#yg-sheen)"/>
+            </g>
+          </g>
+          <ellipse cx="150" cy="210" rx="106" ry="156" fill="none" stroke="var(--lgh-silver)" stroke-width="3"/>
+          <ellipse cx="150" cy="210" rx="120" ry="170" fill="none" stroke="var(--lgh-gilt)" stroke-width="20"/>
+          <ellipse cx="150" cy="210" rx="120" ry="170" fill="none" stroke="var(--lgh-gilt-2)" stroke-width="2" stroke-dasharray="3 9"/>
+          <path d="M150 22 q-26 4 -34 22 q20 -8 34 4 q14 -12 34 -4 q-8 -18 -34 -22 Z" fill="var(--lgh-gilt)" stroke="var(--lgh-gilt-2)" stroke-width="1.5"/>
+          <circle cx="150" cy="32" r="5" fill="var(--lgh-gilt-2)"/>
+        </svg>
+      </label>
+      <a class="yurt-glass__step" href="looking-glass-house.html">Step through the glass &rarr;</a>
+      </div>
+      <span class="yurt-glass__hint" aria-hidden="true"><span class="is-shut">tap the glass to make it soft</span><span class="is-open">tap the glass to make it hard again</span></span>
+      <a class="yurt-door" href="looking-glass-house.html"><span class="yurt-door__words"><span class="yurt-door__go">Through the looking-glass &rarr;</span><span class="yurt-door__say">My yurt the other way round: a pin board of Alice quotes, Alice&rsquo;s way across the chessboard country, a looking-glass book and Tenniel&rsquo;s pictures.</span></span></a>
+    </div>
+  </section>
+
+  <section>
     <h2 id="regulation-nook">The Regulation Nook</h2>
     <p class="section-intro">Every good library has a regulation corner, even if nobody calls it that officially. Here is what is in mine.</p>
     <ul class="nook">

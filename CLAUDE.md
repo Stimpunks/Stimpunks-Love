@@ -1671,6 +1671,23 @@ the lamp and daylight on a press and keeps and sends nothing. The friendly edits
 "because that is what messy play looks like", a water-bead sensory bin, and a picture off Pinterest with a credit under it,
 which a credit does not make free to reuse.
 
+**LOOKING-GLASS HOUSE (§148) IS HELEN'S, THROUGH A LOOKING-GLASS IN THE YURT, AND IT IS THE RABBIT HOLE IN A MIRROR.** Her
+ask, 2026-10-31: "add alice quotes page on a pin board and copy this page [the Rabbit Hole] as a looking glass so all
+reflected back in Faery yurt - go through a looking glass instead of woodern doors to rooms. Add more fun things."
+`looking-glass-house.html` hangs off the yurt after the Play Pod; its door is a gilt glass (`.yurt-glass` in §14) opened
+the oak doors' way, a checkbox and no script, with the yurt reflected in it until pressed. **The room is the yurt given
+back**: dark words on silver where the yurt is cream on dark, the candles only ever points in the glass, and the headings
+on the right where the Rabbit Hole's are on the left; if §135's ground goes dark it has become the yurt with the lights off
+or the Rabbit Hole with a frame on, and it is this room that moves. `tools/make-looking-glass-house.py` writes the pin
+board, Alice's squares, the Jabberwocky verse, the cuts and the credit from `data/looking-glass-house.json`, and refuses a
+pin with no book, chapter or speaker, a pin over the data's word cap, the squares out of order, a plate with no Commons
+page, anything that plays, and `looking-glass-house.js` keeping, sending, writing markup or running on a timer. **Every
+word on the board is Carroll's, checked word for word in its chapter**: `--verify` fetches Project Gutenberg's texts of
+both books and finds each pin, the verse and the un-birthday line, and needs the network, so it is never run by
+`check-all.sh`; run it when a pin changes. The friendly edits are a pin from a film or a later adaptation (not Carroll's,
+and not out of copyright), a pin with no chapter "because everybody knows it", and the Jabberwocky book shipped back to
+front with no way to read it: the verse is the real words, only drawn reversed, so a screen reader always hears it right.
+
 **PROFILE CARDS ARE THE FIFTH THING KEPT UNDER A PERSON, AND WHATEVER IS FILLED IN IS SHOWN.** Ryan, 2026-10-17,
 after requests for profiles more like Discord's. Pressing a handle on the channel or a name on Who's online opens a
 `<dialog>` (`peek()` in `cb.js`, `.pf-*` in `cb.css`): the card on the left, drawn by `profile.js`, and on the right,
@@ -6103,18 +6120,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §149 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §150 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§149 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§150 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §149 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §150 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

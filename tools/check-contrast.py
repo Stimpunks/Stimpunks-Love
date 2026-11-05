@@ -1133,6 +1133,9 @@ MYTH_AMBER = "#D98A2B"
 # no word; they are in ORNAMENT, and the glow-worm marker has its own pair.
 GWH_NIGHT, GWH_DEEP, GWH_INK, GWH_INK2, GWH_SEA, GWH_WORM = "#060E16", "#0C1A26", "#E2F2EE", "#A9C8C3", "#5CD6FF", "#D8F25E"
 PPD_NIGHT, PPD_TRAY, PPD_INK, PPD_INK2, PPD_YELLOW, PPD_PINK = "#110726", "#1D1236", "#F5F0FF", "#CFC2EE", "#EEFF5C", "#FF5CC8"
+# LOOKING-GLASS HOUSE (§148): every word dark on the silver, on a panel of it, or
+# on a card pinned to the cork; links in a deep rose, and the red pawn marker.
+LGH_GLASS, LGH_PANE, LGH_CARD, LGH_INK, LGH_INK2, LGH_LINK, LGH_RED = "#E4EAE6", "#D3DDD8", "#FCF9EF", "#16211E", "#3C4A45", "#7B1F4B", "#A3233A"
 
 PAIRS = [
     # TASKS' TAG COLOURS (2026-10-20): a timeline bar is filled with its tag's
@@ -1640,6 +1643,15 @@ PAIRS = [
     (PPD_YELLOW, PPD_NIGHT, False, "play pod: links, in the fluorescent yellow, on the night"),
     (PPD_YELLOW, PPD_TRAY, False, "play pod: a link on a panel, and a person's name"),
     (PPD_PINK,  PPD_NIGHT, False, "play pod: the glowing straw on the guild's board, lying on the night"),
+    (LGH_INK,   LGH_GLASS, False, "looking-glass house: body text and headings on the silver"),
+    (LGH_INK,   LGH_PANE,  False, "looking-glass house: the toys, the buttons and the square Alice is on, on a panel"),
+    (LGH_INK,   LGH_CARD,  False, "looking-glass house: a pin's words, the book's verse and the writing glass's box, on a card"),
+    (LGH_INK2,  LGH_GLASS, False, "looking-glass house: intros, the mirror writing under the name, the eyebrow, the credit and the cuts' provenance"),
+    (LGH_INK2,  LGH_PANE,  False, "looking-glass house: the fine print under each toy, and a square's chapter"),
+    (LGH_INK2,  LGH_CARD,  False, "looking-glass house: who said a pin, and where"),
+    (LGH_LINK,  LGH_GLASS, False, "looking-glass house: links and the tagline on the silver"),
+    (LGH_LINK,  LGH_PANE,  False, "looking-glass house: a link on a panel"),
+    (LGH_RED,   LGH_GLASS, False, "looking-glass house: the red pawn on the guild's board, lying on the silver"),
     # THE ARCADE (love.css §15). The first room lit by a screen.
     # Three grounds the room declares and two it composites, and every ink is
     # held against the composite as well as the flat colour, because the flat
@@ -4586,6 +4598,17 @@ ORNAMENT = {
     "#8f8c79": "garden on Cel Street: --gd-stone-2, the shaded side of the stone and the benches' iron, 1.62 on --gd-stone. It carries no word.",
     "#d88aa0": "garden on Cel Street: --gd-petal, a rose and a flower in the borders, 1.34 on the lawn. It carries no word.",
     "#e2b53c": "garden on Cel Street: --gd-sun, a yellow flower in the borders, 1.82 on the lawn. It carries no word.",
+    "#a8792c": "looking-glass house: --lgh-gilt, the frame of the glass, the cork board's frame, the rules under the headings and the mantelpiece, 3.17 on the silver. It carries no word.",
+    "#d9b25a": "looking-glass house: --lgh-gilt-2, the gilt's highlights and the Queen's crown, 1.64 on the silver. It carries no word.",
+    "#c6cfca": "looking-glass house: --lgh-silver, the edge of the glass inside its frame, 1.31 on the silver. It carries no word.",
+    "#f4f7f5": "looking-glass house: --lgh-mist, the sheen across the glass and the mist behind the board, 1.13 on the silver. It carries no word.",
+    "#b98c5e": "looking-glass house: --lgh-cork, the pin board, 2.47 on the silver; nothing stands on the cork but the cards, 2.86 on it. It carries no word.",
+    "#9c7349": "looking-glass house: --lgh-cork-2, the cork's speckle, 1.41 on the cork. It carries no word.",
+    "#fffef8": "looking-glass house: --lgh-pawn, the white pawn and the white pins, carried by their outline in --lgh-ink, 16.36. It carries no word.",
+    "#e8eed9": "looking-glass house: --lgh-meadow, the pale fields of the chessboard country, 1.03 on the silver. It carries no word.",
+    "#a9c29a": "looking-glass house: --lgh-field, the green fields of the chessboard country, 1.62 on the meadow. It carries no word.",
+    "#5e7f55": "looking-glass house: --lgh-hedge, the hedges between the fields, 3.80 on the meadow. It carries no word.",
+    "#4f7fa3": "looking-glass house: --lgh-brook, the brooks across the board, 3.61 on the meadow. It carries no word.",
     "#8a5cff": "play pod: --ppd-uv, the UV tube and its glow, the trays' rims and the panels' edges, 4.67 on the night. The lamp's light; it carries no word.",
     "#ff5cc8": "play pod: --ppd-pink, the foam paint glowing in the drawing and an idea's edge, 7.04 on the night. It carries no word, though it would clear the bar.",
     "#5cffa3": "play pod: --ppd-green, foam paint and a glow stick in the drawing and an idea's edge, 15.05 on the night. It carries no word.",
