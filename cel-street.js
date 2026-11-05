@@ -1258,14 +1258,17 @@ function start() {
     // The switch for something that moves, pressed while it is moving.
     function moveSwitch(mv, words, said) {
       var sw = { els: [], mv: mv };
+      // Pressed as a button, or in the scene where the room puts a kit.touch
+      // (o.at on flames, turn and lights).
+      sw.go = function () {
+        mv.asked = !moveOn(mv);
+        moves();
+        ctlSay(document.documentElement.hasAttribute('data-low') && mv.asked
+          ? 'Nothing moves while a low-stimulation mode is on; it will when the mode is off.'
+          : said(mv.asked));
+      };
       sw.make = function (here) {
-        var b = ctlButton(words, here, function () {
-          mv.asked = !moveOn(mv);
-          moves();
-          ctlSay(document.documentElement.hasAttribute('data-low') && mv.asked
-            ? 'Nothing moves while a low-stimulation mode is on; it will when the mode is off.'
-            : said(mv.asked));
-        });
+        var b = ctlButton(words, here, function () { sw.go(); });
         b.setAttribute('aria-pressed', moveOn(mv) ? 'true' : 'false');
         sw.els.push(b);
         return b;
@@ -1395,7 +1398,9 @@ function start() {
               if (f.light) f.light.intensity = f.i;
             });
           } });
-        return addCtl(moveSwitch(mv, o.say, o.said || function (on) { return on ? 'The candles flicker.' : 'The candles are still.'; }));
+        var sw = addCtl(moveSwitch(mv, o.say, o.said || function (on) { return on ? 'The candles flicker.' : 'The candles are still.'; }));
+        (o.at || []).forEach(function (hb) { hb.userData.act = sw; });
+        return sw;
       },
       // turn(meshes, about, { say, max, period, said }): things that go round
       // together about the upright through `about` (a matrix), once in
@@ -1412,7 +1417,9 @@ function start() {
           },
           // A record that stops stays where it stopped.
           rest: function () {} });
-        return addCtl(moveSwitch(mv, o.say, o.said || function (on) { return on ? 'It turns.' : 'It stops.'; }));
+        var sw = addCtl(moveSwitch(mv, o.say, o.said || function (on) { return on ? 'It turns.' : 'It stops.'; }));
+        (o.at || []).forEach(function (hb) { hb.userData.act = sw; });
+        return sw;
       },
       // bulbs(points, r, inks): a string of little glass bulbs at points
       // ([x, y, z]), coloured in turn from inks, one mesh however many.

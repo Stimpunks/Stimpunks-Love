@@ -4214,7 +4214,7 @@ kit makes for them (the candles' rule), never in a low-stimulation mode or a hid
 holds (`DIM`, `HZ`, `TWINKLE`, `TURN_MIN`, which `make-cel-street.py` refuses past it). **A room's own switches go under
 the line that says where you are** (`[data-cel-roomctl]`): `kit.press`, `kit.choose`, the lights' and the flames' and the
 turn's switches, each answering in words, a stop's `acts` putting them in that line too, and `kit.touch` making the thing
-pressable in the scene. **Show or put away a mesh with `kit.hide`, never `.visible`**, which the culling in `place()`
+pressable in the scene (`at` on `kit.press`, `kit.flames` and `kit.turn`). **Show or put away a mesh with `kit.hide`, never `.visible`**, which the culling in `place()`
 overwrites on every draw. The friendly edits are `max: true` on candles "so MAX feels alive" where the room's page does
 not flicker them, a room's own `requestAnimationFrame`, and a faster twinkle. **The canvas is a
 picture to a screen reader**, so the doors are also an ordinary list of links under it, and focusing one stands you at

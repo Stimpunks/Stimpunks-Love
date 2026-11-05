@@ -1,6 +1,7 @@
 /* =============================================================================
    Cavendish Coworking, walked into on Cel Street. Ryan's ask, 2026-10-31: back
-   on the street, working down it a room at a time.
+   on the street, working down it a room at a time; and another round on
+   2026-11-05, for more texture, detail and things to press.
 
    IT IS CAVENDISH COWORKING'S WORLD AND NOBODY ELSE'S (§58): Henry Cavendish's
    house after his library in Bedford Square, GREEN THROUGHOUT. The hall's walls
@@ -10,21 +11,46 @@
    and faintly green, with no hard edge anywhere and no lamp.
 
    EVERY DOOR IS SHUT AND NONE IS LOCKED. Each is a Georgian six-panel door in
-   mahogany, in a Coade stone case with a fanlight, a brass plate with the
-   room's name and a brass knob, and the note off the page pinned beside it
-   saying what is behind it and when. Three open off the hall (Events,
-   Operations, Editorial); the Hang Suites are upstairs, on a landing across
-   the back of the hall, with their notes on the wall under the landing. Each
-   is a place whose link goes into that room's own page. NO DOOR IS EVER DRAWN
-   OPEN, and there is no open plan: an open door here would lose the argument.
-   Nothing of the radio, the calls or the visitor's clock is wired here.
+   mahogany, its grain drawn on the leaf and every panel, in a Coade stone case
+   with a fanlight, a brass plate with the room's name and a brass knob, and the
+   note off the page pinned beside it saying what is behind it and when. Three
+   open off the hall (Events, Operations, Editorial); the Hang Suites are
+   upstairs, on a landing across the back of the hall, with their notes on the
+   wall under the landing. Each is a place whose link goes into that room's own
+   page. NO DOOR IS EVER DRAWN OPEN, and nothing pressed here opens one: there
+   is no open plan, and an open door here would lose the argument. Nothing of
+   the radio, the calls or the visitor's clock is wired here.
+
+   WHAT THE PAGE SAYS THE HOUSE HELD IS IN THE HALL, and nothing else is. It was
+   green throughout, with green moreen curtains, green fire screens and green
+   chair covers, so the windows have curtains of it tied back under a pelmet,
+   the cold fireplace on the left-hand wall has a green fire screen in a brass
+   frame before its empty grate (no fire is lit: there is no lamp and no flame
+   in this house), and the chairs at the library table wear green covers to the
+   floor. The table is under a green cloth, because the wood is only in the
+   doors; on it are the register, an inkstand and a quill. Cavendish kept his
+   library here and opened it for borrowing, so under the landing the books
+   stand on shelves built into the wall in stone. The walls are panelled below
+   a stone dado rail, the ceiling has plaster roses and no lamp hanging from
+   either, a green runner goes down the hall and up the stairs, held at every
+   step by a brass rod.
+
+   THREE THINGS TO PRESS, each a button and a place in the scene, and each
+   saying what it did: drawing the green curtains across the three windows or
+   back (the hall goes dimmer and greener, and still nobody lights a lamp);
+   opening the register on the table at its ruled pages or shutting it (the
+   page's own line: he signed it for every book he took out to Clapham, like
+   anybody else; nothing here writes your name in it); and taking a book down
+   from the shelves under the landing to lie open on the table, leaving its gap,
+   or putting it back. None of them opens a door.
 
    WHAT IS ON THE WALLS IS THE PAGE'S OWN, lifted off it by the kit: the doors'
    notes, and its words on the house in Bedford Square, why Cavendish, what is
    on the other side of a door, what is not in here, communication access and
    whose these are. The page itself hangs on the right-hand wall.
 
-   NOTHING MOVES. Every colour is one the room declares, by name, and its one
+   NOTHING MOVES, before a press or after one: a press changes what is drawn,
+   all at once. Every colour is one the room declares, by name, and its one
    letter is Caslon. It keeps nothing, sends nothing and fetches nothing; its
    page arrives through Cel Street's screen(). tools/make-cel-street.py holds
    each of those.
@@ -46,10 +72,22 @@
 
       // DAYLIGHT THROUGH GREEN CANVAS: even, from the front, casting nothing.
       kit.scene.background = kit.col('--cw-wall');
-      kit.scene.add(new T.HemisphereLight(kit.col('--cw-canvas'), kit.col('--cw-wall'), 2.4));
+      var sky = new T.HemisphereLight(kit.col('--cw-canvas'), kit.col('--cw-wall'), 2.4);
+      kit.scene.add(sky);
       var day = new T.DirectionalLight(kit.col('--cw-light'), 0.9);
       day.position.set(0, 4, 12); day.target.position.set(0, 1, -9);
       kit.scene.add(day, day.target);
+      // A steady number out of two, so the books and folds are the same every
+      // visit; nothing random, nothing on a clock.
+      function hash(a, b) { var v = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return v - Math.floor(v); }
+      // Cloth hung in folds: a plane w by h whose surface waves every `per`,
+      // `deep` deep, one mesh of its own so a press can put it away.
+      function cloth(w, h, per, deep, m, ink) {
+        var g = new T.PlaneGeometry(w, h, Math.max(4, Math.round(w / per * 6)), 1), pos = g.attributes.position;
+        for (var v = 0; v < pos.count; v++) pos.setZ(v, deep * Math.sin(pos.getX(v) / per * Math.PI * 2));
+        g.computeVertexNormals();
+        return kit.facets(g, m, ink);
+      }
 
       // THE HALL: a stone floor, green walls, a pale ceiling with a stone cornice.
       box(W + 0.4, 0.1, D + 0.4, at(0, -0.05, -D / 2), '--cw-stone', false);
@@ -84,6 +122,150 @@
         box(0.04, WY1 - WY0, 0.02, at(x, (WY0 + WY1) / 2, -0.01), '--cw-stone', false);        // the canvas's seam
       });
 
+      // THE GREEN MOREEN CURTAINS, the page's own: a pelmet over every window
+      // and the curtains tied back either side under it, or, when somebody
+      // asks, drawn across. Moreen is a heavy wool and hangs in deep folds.
+      var drawnBack = [], drawnAcross = [], CY = (WY1 + 0.3) / 2 + 0.02, CH = WY1 + 0.26;
+      WIN.forEach(function (x) {
+        box(WW + 0.72, 0.34, 0.2, at(x, WY1 + 0.43, -0.15), '--cw-link', 0.01);
+        box(WW + 0.74, 0.03, 0.21, at(x, WY1 + 0.27, -0.15), '--cw-brass', false);
+        for (var sc = 0; sc < 7; sc++) box(0.08, 0.08, 0.02, at(x - (WW + 0.5) / 2 + sc * (WW + 0.5) / 6, WY1 + 0.43, -0.255, 0, 0, Math.PI / 4), '--cw-brass', false);
+        [-1, 1].forEach(function (s) {
+          var cx = x + s * (WW / 2 + 0.13);
+          drawnBack.push(cloth(0.26, CH, 0.085, 0.035, at(cx, CY, -0.2, Math.PI), '--cw-link'));
+          drawnBack.push(kit.facets(new T.CylinderGeometry(0.1, 0.1, 0.05, 10), at(cx, 1.35, -0.2), '--cw-brass'));
+          cyl(0.03, 0.03, 0.1, at(x + s * (WW / 2 + 0.3), 1.35, -0.08, 0, Math.PI / 2), '--cw-brass', 0.006, 8);   // the holdback
+        });
+        var across = cloth(WW + 0.5, CH, 0.17, 0.05, at(x, CY, -0.2, Math.PI), '--cw-link');
+        kit.hide(across, true);
+        drawnAcross.push(across);
+      });
+
+      // THE WALLS ARE PANELLED BELOW A STONE DADO RAIL, painted the hall's
+      // green, each panel's moulding carried by its edge. Where a door, the
+      // fireplace or the page stands, the rail stops.
+      function wainscot(x, ry, inward, from, to) {
+        var len = from - to, zc = (from + to) / 2;
+        box(len, 0.07, 0.06, at(x + inward * 0.03, 0.92, zc, ry), '--cw-stone', 0.006);
+        box(len, 0.025, 0.035, at(x + inward * 0.018, 0.86, zc, ry), '--cw-stone', false);
+        var n = Math.max(1, Math.round(len / 1.1)), pw = len / n;
+        for (var k = 0; k < n; k++) {
+          var pz = from - pw * (k + 0.5);
+          box(pw - 0.16, 0.5, 0.024, at(x + inward * 0.012, 0.5, pz, ry), '--cw-wall', 0.005);
+          box(pw - 0.3, 0.36, 0.01, at(x + inward * 0.028, 0.5, pz, ry), '--cw-wall', 0.003);
+        }
+      }
+      [[-0.35, -1.95], [-4.05, -5.36], [-8.66, -11.14], [-13.26, -17.8]].forEach(function (r) { wainscot(X0, LEFT, 1, r[0], r[1]); });
+      [[-0.35, -2.12], [-5.08, -8.82]].forEach(function (r) { wainscot(X1, RIGHT, -1, r[0], r[1]); });
+
+      // PLASTER ROSES ON THE CEILING, and nothing hanging from them: no lamp.
+      [-4.6, -10.4].forEach(function (z) {
+        cyl(0.42, 0.42, 0.03, at(0, H - 0.015, z), '--cw-stone', 0.006, 32);
+        kit.piece(new T.TorusGeometry(0.34, 0.035, 6, 32), at(0, H - 0.04, z, 0, Math.PI / 2), '--cw-stone', false);
+        for (var lf = 0; lf < 12; lf++) {
+          var la = lf / 12 * Math.PI * 2;
+          kit.piece(new T.SphereGeometry(0.07, 6, 4), at(Math.cos(la) * 0.2, H - 0.035, z + Math.sin(la) * 0.2, -la, 0, 0), '--cw-stone', false);
+        }
+        cyl(0.09, 0.06, 0.06, at(0, H - 0.06, z), '--cw-stone', false, 16);
+      });
+
+      // A GREEN RUNNER down the middle of the hall, from the front door to the
+      // library table: a field of the curtains' green, a border of the
+      // blinds', and a brass line between, with a lozenge every so often.
+      var runner = kit.paper(128, 768, function (c, w, h) {
+        c.fillStyle = kit.ink('--cw-canvas'); c.fillRect(0, 0, w, h);
+        c.fillStyle = kit.ink('--cw-link'); c.fillRect(14, 14, w - 28, h - 28);
+        c.strokeStyle = kit.ink('--cw-brass'); c.lineWidth = 2; c.strokeRect(20, 20, w - 40, h - 40);
+        c.strokeStyle = kit.ink('--cw-canvas'); c.lineWidth = 2;
+        for (var ry = 70; ry < h - 40; ry += 96) {
+          c.beginPath(); c.moveTo(w / 2, ry - 30); c.lineTo(w / 2 + 26, ry); c.lineTo(w / 2, ry + 30); c.lineTo(w / 2 - 26, ry); c.closePath(); c.stroke();
+          c.fillStyle = kit.ink('--cw-brass'); c.fillRect(w / 2 - 3, ry - 3, 6, 6);
+        }
+        c.globalAlpha = 0.18; c.strokeStyle = kit.ink('--cw-wall'); c.lineWidth = 1;
+        for (var wy = 0; wy < h; wy += 3) { c.beginPath(); c.moveTo(0, wy); c.lineTo(w, wy); c.stroke(); }
+        c.globalAlpha = 1;
+      });
+      kit.sheet(runner, 1.4, 8.4, at(0, 0.008, -5.2, 0, -Math.PI / 2));
+
+      // THE COLD FIREPLACE on the left-hand wall, between the Events note and
+      // the Operations door: a stone chimneypiece, an iron grate swept and
+      // empty, and a green fire screen in a brass frame standing before it.
+      var FZ = -6.03, FX = X0;
+      [-1, 1].forEach(function (s) { box(0.16, 1.08, 0.16, at(FX + 0.08, 0.54, FZ + s * 0.47), '--cw-stone', 0.008); });
+      box(0.16, 0.2, 1.1, at(FX + 0.08, 1.18, FZ), '--cw-stone', 0.008);
+      box(0.26, 0.05, 1.22, at(FX + 0.13, 1.305, FZ), '--cw-stone', 0.008);              // the mantel shelf
+      box(0.04, 0.12, 0.3, at(FX + 0.17, 1.18, FZ), '--cw-stone', false);                 // its tablet
+      kit.flat(new T.PlaneGeometry(0.78, 1.0), at(FX + 0.02, 0.58, FZ, LEFT), '--cw-plate-ink');
+      box(0.5, 0.03, 1.24, at(FX + 0.25, 0.015, FZ), '--cw-stone', 0.006);               // the hearth stone
+      for (var gb = 0; gb < 6; gb++) box(0.02, 0.22, 0.02, at(FX + 0.24, 0.3, FZ - 0.25 + gb * 0.1), '--cw-plate-ink', false);
+      box(0.24, 0.03, 0.56, at(FX + 0.16, 0.2, FZ), '--cw-plate-ink', false);
+      box(0.03, 0.03, 0.56, at(FX + 0.27, 0.41, FZ), '--cw-plate-ink', false);
+      [-1, 1].forEach(function (s) {
+        cyl(0.012, 0.012, 0.9, at(FX + 0.56, 0.48, FZ + s * 0.3), '--cw-brass', 0.004, 6);
+        box(0.22, 0.02, 0.03, at(FX + 0.56, 0.02, FZ + s * 0.3), '--cw-brass', false);
+        kit.piece(new T.SphereGeometry(0.025, 8, 6), at(FX + 0.56, 0.95, FZ + s * 0.3), '--cw-brass', false);
+      });
+      box(0.02, 0.6, 0.56, at(FX + 0.56, 0.52, FZ), '--cw-brass', 0.004);
+      box(0.026, 0.54, 0.5, at(FX + 0.56, 0.52, FZ), '--cw-link', false);
+      box(0.03, 0.18, 0.06, at(FX + 0.56, 0.52, FZ), '--cw-brass', false);               // a small boss on the silk
+      // On the mantel, a few of his books lying flat.
+      [[0.05, '--cw-mahogany'], [0.04, '--cw-link'], [0.035, '--cw-ink-2']].forEach(function (b, n) {
+        box(0.2, b[0], 0.28 - n * 0.03, at(FX + 0.14, 1.33 + 0.045 * n + b[0] / 2, FZ + 0.32, 0.1 * n), b[1], 0.004);
+      });
+
+      // THE LIBRARY TABLE, under a green cloth to the floor, because the wood
+      // is only in the doors; chairs in green covers either side of it.
+      var TX = 0.4, TZ = -10.8, TY = 0.765;
+      box(2.3, 0.03, 1.1, at(TX, TY, TZ), '--cw-link', 0.01);
+      [-1, 1].forEach(function (s) {
+        box(2.3, 0.72, 0.02, at(TX, 0.39, TZ + s * 0.55), '--cw-link', 0.006);
+        box(0.02, 0.72, 1.1, at(TX + s * 1.15, 0.39, TZ), '--cw-link', 0.006);
+        box(2.32, 0.03, 0.025, at(TX, 0.05, TZ + s * 0.555), '--cw-brass', false);        // the fringe along its hem
+        box(0.025, 0.03, 1.12, at(TX + s * 1.155, 0.05, TZ), '--cw-brass', false);
+        for (var fd = 0; fd < 9; fd++) cyl(0.03, 0.045, 0.7, at(TX - 1.0 + fd * 0.25, 0.4, TZ + s * 0.55), '--cw-link', false, 8);
+        for (fd = 0; fd < 4; fd++) cyl(0.03, 0.045, 0.7, at(TX + s * 1.15, 0.4, TZ - 0.38 + fd * 0.25), '--cw-link', false, 8);
+      });
+      function chair(x, z, ry) {
+        var m = at(x, 0, z, ry);
+        box(0.5, 0.46, 0.5, M(m, at(0, 0.23, 0)), '--cw-canvas', 0.008);
+        box(0.52, 0.06, 0.52, M(m, at(0, 0.46, 0)), '--cw-canvas', 0.006);              // the cushion under its cover
+        box(0.5, 0.58, 0.09, M(m, at(0, 0.75, 0.21)), '--cw-canvas', 0.008);
+        kit.piece(new T.CylinderGeometry(0.045, 0.045, 0.5, 10), M(m, at(0, 1.04, 0.21, 0, 0, Math.PI / 2)), '--cw-canvas', 0.006);
+        [-0.18, 0, 0.18].forEach(function (fx) { cyl(0.015, 0.03, 0.4, M(m, at(fx, 0.2, -0.25)), '--cw-canvas', false, 6); });
+        [-1, 1].forEach(function (s) { cyl(0.015, 0.03, 0.4, M(m, at(s * 0.25, 0.2, 0)), '--cw-canvas', false, 6); });
+      }
+      chair(TX - 0.55, TZ + 0.95, 0); chair(TX + 0.55, TZ + 0.95, 0);
+      chair(TX - 0.55, TZ - 0.95, Math.PI); chair(TX + 0.55, TZ - 0.95, Math.PI);
+      // The inkstand and a quill, in brass, on the cloth.
+      box(0.34, 0.025, 0.18, at(TX + 0.15, TY + 0.028, TZ - 0.2), '--cw-brass', 0.004);
+      [-0.08, 0.08].forEach(function (ix) { cyl(0.035, 0.04, 0.06, at(TX + 0.15 + ix, TY + 0.07, TZ - 0.2), '--cw-plate-ink', 0.004, 10); });
+      cyl(0.004, 0.01, 0.3, at(TX + 0.22, TY + 0.12, TZ - 0.24, 0, 0.5, -0.5), '--cw-card', false, 5);
+      // THE REGISTER, shut on the cloth until somebody opens it.
+      var RX = TX - 0.6, RZ = TZ + 0.2, RY = TY + 0.015;
+      var regShut = [kit.facets(new T.BoxGeometry(0.36, 0.07, 0.48), at(RX + 0.18, RY + 0.035, RZ), '--cw-mahogany'),
+                     kit.facets(new T.BoxGeometry(0.32, 0.06, 0.465), at(RX + 0.2, RY + 0.035, RZ), '--cw-card'),
+                     kit.facets(new T.BoxGeometry(0.16, 0.004, 0.06), at(RX + 0.18, RY + 0.072, RZ), '--cw-plate')];
+      var regOpen = [kit.facets(new T.BoxGeometry(0.74, 0.012, 0.5), at(RX, RY + 0.006, RZ), '--cw-mahogany')];
+      [-1, 1].forEach(function (s) {
+        regOpen.push(kit.facets(new T.BoxGeometry(0.34, 0.03, 0.46), at(RX + s * 0.175, RY + 0.027, RZ), '--cw-card'));
+        for (var rl = 0; rl < 9; rl++) regOpen.push(kit.flat(new T.PlaneGeometry(0.3, 0.004), at(RX + s * 0.175, RY + 0.043, RZ - 0.18 + rl * 0.045, 0, -Math.PI / 2), '--cw-ink-2'));
+        [-0.06, 0.08].forEach(function (cx) { regOpen.push(kit.flat(new T.PlaneGeometry(0.004, 0.42), at(RX + s * 0.175 + cx, RY + 0.043, RZ, 0, -Math.PI / 2), '--cw-ink-2')); });
+        for (rl = 0; rl < 6; rl++) {
+          var lw = 0.05 + hash(rl, s + 3) * 0.06;
+          regOpen.push(kit.flat(new T.PlaneGeometry(lw, 0.012), at(RX + s * 0.175 - 0.12 + lw / 2, RY + 0.044, RZ - 0.2 + rl * 0.045 + 0.022, 0, -Math.PI / 2), '--cw-ink'));
+        }
+      });
+      regOpen.push(kit.flat(new T.PlaneGeometry(0.006, 0.46), at(RX, RY + 0.044, RZ, 0, -Math.PI / 2), '--cw-ink-2'));
+      regOpen.forEach(function (r) { kit.hide(r, true); });
+      // The borrowed book, lying open on the cloth while it is off its shelf.
+      var lent = [kit.facets(new T.BoxGeometry(0.4, 0.01, 0.27), at(TX + 0.75, TY + 0.02, TZ + 0.05, 0.3), '--cw-canvas')];
+      [-1, 1].forEach(function (s) {
+        var bm = at(TX + 0.75, TY + 0.033, TZ + 0.05, 0.3);
+        lent.push(kit.facets(new T.BoxGeometry(0.18, 0.02, 0.25), M(bm, at(s * 0.095, 0, 0)), '--cw-card'));
+        for (var bl = 0; bl < 6; bl++) lent.push(kit.flat(new T.PlaneGeometry(0.14, 0.004), M(bm, at(s * 0.095, 0.0115, -0.09 + bl * 0.036, 0, -Math.PI / 2)), '--cw-ink-2'));
+      });
+      lent.forEach(function (b) { kit.hide(b, true); });
+
       // A NAME ON A BRASS PLATE, in Caslon.
       function plate(words) {
         return kit.paper(512, 96, function (c, w, h) {
@@ -97,6 +279,20 @@
           c.fillText(words.toUpperCase(), w / 2, h / 2 + 3);
         });
       }
+      // MAHOGANY'S GRAIN, drawn once in the room's own inks and laid on every
+      // leaf and every panel, so the doors read as wood and nothing else does.
+      var grain = kit.paper(128, 512, function (c, w, h) {
+        c.fillStyle = kit.ink('--cw-mahogany'); c.fillRect(0, 0, w, h);
+        c.strokeStyle = kit.ink('--cw-plate-ink'); c.lineWidth = 1.2;
+        for (var g = 0; g < 26; g++) {
+          var gx = hash(g, 1) * w, wob = 2 + hash(g, 2) * 5, per = 60 + hash(g, 3) * 120;
+          c.globalAlpha = 0.12 + hash(g, 4) * 0.22;
+          c.beginPath();
+          for (var gy = 0; gy <= h; gy += 8) { var px = gx + Math.sin(gy / per * Math.PI * 2 + g) * wob; if (gy) c.lineTo(px, gy); else c.moveTo(px, gy); }
+          c.stroke();
+        }
+        c.globalAlpha = 1;
+      });
       // A GEORGIAN DOOR, SHUT: a mahogany leaf of six panels in a Coade stone
       // case, a fanlight over it, a brass plate and knob. m is its foot, on the
       // wall, facing into the hall.
@@ -110,8 +306,12 @@
           box(0.03, 0.74, 0.03, M(m, at(Math.cos(t) * 0.38, 3.11 + Math.sin(t) * 0.38, 0.05, 0, 0, t - Math.PI / 2)), '--cw-stone', false);
         }
         box(1.5, 2.95, 0.07, M(m, at(0, 1.475, 0.05)), '--cw-mahogany', 0.012);
+        kit.sheet(grain, 1.46, 2.9, M(m, at(0, 1.475, 0.0865)));
         [[2.45, 0.6], [1.62, 0.84], [0.62, 0.72]].forEach(function (r) {
-          [-0.34, 0.34].forEach(function (x) { box(0.52, r[1], 0.03, M(m, at(x, r[0], 0.1)), '--cw-mahogany', 0.008); });
+          [-0.34, 0.34].forEach(function (x) {
+            box(0.52, r[1], 0.03, M(m, at(x, r[0], 0.1)), '--cw-mahogany', 0.008);
+            kit.sheet(grain, 0.46, r[1] - 0.06, M(m, at(x, r[0], 0.1165)));
+          });
         });
         kit.sheet(plate(words), 0.86, 0.86 * 96 / 512, M(m, at(0, 1.08, 0.095)));
         cyl(0.05, 0.05, 0.06, M(m, at(0.58, 1.08, 0.12, 0, Math.PI / 2)), '--cw-brass', 0.008, 12);
@@ -149,6 +349,13 @@
       for (var i = 0; i < STEPS; i++) {
         box(SX1 - SX0, rise * (i + 1), run + 0.01, at((SX0 + SX1) / 2, rise * (i + 1) / 2, SZ0 - run * (i + 0.5)), '--cw-stone', 0.008);
       }
+      // A green runner up the middle of every step, held by a brass rod.
+      for (i = 0; i < STEPS; i++) {
+        var fz = SZ0 - run * i;
+        box(0.9, 0.012, run, at((SX0 + SX1) / 2, rise * (i + 1) + 0.006, fz - run / 2), '--cw-link', false);
+        box(0.9, rise, 0.012, at((SX0 + SX1) / 2, rise * (i + 0.5), fz + 0.006), '--cw-link', false);
+        cyl(0.012, 0.012, 1.0, at((SX0 + SX1) / 2, rise * i + 0.02, fz + 0.022, 0, 0, Math.PI / 2), '--cw-brass', false, 6);
+      }
       var lo = new T.Vector3(SX0 + 0.02, 1.0, SZ0), hi = new T.Vector3(SX0 + 0.02, LAND + 1.0, LZ);
       var span = hi.clone().sub(lo), mid = lo.clone().add(hi).multiplyScalar(0.5);
       var railGeo = new T.CylinderGeometry(0.04, 0.04, span.length(), 8);
@@ -159,6 +366,38 @@
       box(SX0 - X0, 0.08, 0.1, at((X0 + SX0) / 2, LAND + 0.95, LZ + 0.02), '--cw-stone', 0.008);
       for (var bx = X0 + 0.2; bx < SX0 - 0.05; bx += 0.32) cyl(0.03, 0.03, 0.9, at(bx, LAND + 0.45, LZ + 0.02), '--cw-stone', false, 6);
       stops.push({ name: 'at the foot of the stairs, going up to the Hang Suites on the landing', x: 3.2, z: SZ0 + 0.6, yaw: 0.12, pitch: 0.32 });
+
+      // HIS LIBRARY, ON SHELVES BUILT INTO THE WALL IN STONE under the
+      // landing, between the suites' notes. The books are bound in the room's
+      // own inks, a brass band on some, and one of them can be taken down.
+      var shelfBook = null, shelfAt = null;
+      [[-4.83, 1.15], [-1.7, 1.7], [1.5, 1.3]].forEach(function (bc, ci) {
+        var cx = bc[0], cw = bc[1], cz = BACK + 0.17, top = LAND - 0.38;
+        [-1, 1].forEach(function (s) { box(0.07, top, 0.34, at(cx + s * (cw / 2 - 0.035), top / 2, cz), '--cw-stone', 0.008); });
+        box(cw, 0.08, 0.36, at(cx, top + 0.04, cz + 0.01), '--cw-stone', 0.008);
+        box(cw, 0.1, 0.34, at(cx, 0.05, cz), '--cw-stone', 0.008);
+        box(cw - 0.14, top, 0.02, at(cx, top / 2, BACK + 0.011), '--cw-stone', false);      // its back, so a gap shows
+        var rows = [0.1, 0.66, 1.22, 1.78, 2.34];
+        rows.forEach(function (ry, ri) {
+          if (ri) box(cw - 0.14, 0.035, 0.32, at(cx, ry - 0.0175, cz), '--cw-stone', 0.004);
+          var bx = cx - cw / 2 + 0.08, k = 0, INKS = ['--cw-mahogany', '--cw-link', '--cw-ink-2', '--cw-plate-ink', '--cw-card', '--cw-mahogany', '--cw-canvas'];
+          while (bx < cx + cw / 2 - 0.12) {
+            var bw = 0.035 + hash(ci * 31 + ri, k) * 0.045, bh = 0.3 + hash(k, ci * 7 + ri) * 0.12, ink = INKS[Math.floor(hash(ri + ci, k * 3) * INKS.length)];
+            if (hash(k, ri * 5 + ci) < 0.08) { bx += 0.05; k++; continue; }      // a gap where a book is out already
+            var bm = at(bx + bw / 2, ry + bh / 2, cz + 0.02);
+            if (ci === 1 && ri === 2 && k >= 7 && !shelfBook) {
+              bw = 0.08; bh = 0.4; bm = at(bx + bw / 2, ry + bh / 2, cz + 0.02);
+              shelfAt = bm;
+              shelfBook = [kit.facets(new T.BoxGeometry(bw, bh, 0.24), bm, '--cw-canvas'),
+                           kit.facets(new T.BoxGeometry(bw + 0.004, 0.02, 0.242), M(bm, at(0, bh * 0.3, 0)), '--cw-brass')];
+            } else {
+              box(bw, bh, 0.24, bm, ink, 0.003);
+              if (hash(k, ri + ci * 13) < 0.45) box(bw + 0.003, 0.014, 0.242, M(bm, at(0, bh * 0.32, 0)), '--cw-brass', false);
+            }
+            bx += bw + 0.004; k++;
+          }
+        });
+      });
 
       // THE HANG SUITES upstairs, on the landing across the back, each door
       // shut, its note on the wall under the landing below it.
@@ -197,6 +436,46 @@
         stops.push({ name: w.name, x: w.stand.x, z: w.stand.z, yaw: w.stand.yaw, pitch: 0.1, frame: it.el });
       });
       stops.push({ name: 'at the right-hand wall, with the house’s own page on it', x: X1 - 2.8, z: -3.6, yaw: RIGHT, pitch: 0.05, page: kit.page, frame: frame });
+
+      // THREE THINGS TO PRESS. None opens a door, and none keeps anything.
+      var curtains = kit.press({
+        say: function () { return kit.hidden(drawnAcross[0]) ? 'Draw the green curtains across' : 'Draw the curtains back'; },
+        at: WIN.map(function (x) { return kit.touch(WW + 0.6, CH, 0.4, at(x, CY, -0.3)); }),
+        press: function () {
+          var across = kit.hidden(drawnAcross[0]);
+          drawnAcross.forEach(function (c) { kit.hide(c, !across); });
+          drawnBack.forEach(function (c) { kit.hide(c, across); });
+          sky.intensity = across ? 1.9 : 2.4;
+          day.intensity = across ? 0.45 : 0.9;
+          return across ? 'The green moreen curtains are drawn across all three windows. The hall goes dimmer and greener, and still nobody lights a lamp.'
+                        : 'The curtains are tied back again, and the daylight comes through the green canvas of the blinds.';
+        } });
+      var register = kit.press({
+        say: function () { return kit.hidden(regOpen[0]) ? 'Open the register' : 'Shut the register'; },
+        at: [kit.touch(0.8, 0.3, 0.6, at(RX, TY + 0.1, RZ))],
+        press: function () {
+          var open = kit.hidden(regOpen[0]);
+          regOpen.forEach(function (r) { kit.hide(r, !open); });
+          regShut.forEach(function (r) { kit.hide(r, open); });
+          return open ? 'The register lies open on the table at its ruled pages. Cavendish signed it for every book he took out to Clapham, like anybody else. Nothing here writes your name in it.'
+                      : 'The register is shut on the cloth again.';
+        } });
+      var borrow = kit.press({
+        say: function () { return kit.hidden(lent[0]) ? 'Take a book down from the shelves' : 'Put the book back on its shelf'; },
+        at: [kit.touch(0.3, 0.5, 0.4, M(shelfAt, at(0, 0, 0.1))), kit.touch(0.5, 0.2, 0.4, at(TX + 0.75, TY + 0.05, TZ + 0.05))],
+        press: function () {
+          var take = kit.hidden(lent[0]);
+          lent.forEach(function (b) { kit.hide(b, !take); });
+          shelfBook.forEach(function (b) { kit.hide(b, take); });
+          return take ? 'A pale green book comes down from the shelves under the landing and lies open on the library table, leaving its gap on the shelf.'
+                      : 'The book goes back into its gap on the shelf under the landing.';
+        } });
+      stops[1].acts = [register];
+      stops[2].acts = [curtains];
+      stops.splice(2, 0,
+        { name: 'at the library table, under its green cloth, with the register on it', x: TX - 0.3, z: TZ + 1.85, yaw: 0, pitch: -0.42, acts: [register, borrow] },
+        { name: 'at the cold fireplace, its green fire screen before the empty grate', x: X0 + 2.6, z: FZ, yaw: LEFT, pitch: -0.12 },
+        { name: 'under the landing, at the shelves of his library', x: -1.0, z: BACK + 2.6, yaw: 0, pitch: 0.05, acts: [borrow] });
 
       return {
         start: { x: 0, z: -1.6, yaw: 0 },
