@@ -3372,6 +3372,37 @@
    }
   },
   {
+   "id": "clk-pin",
+   "page": "clacks-tower.html",
+   "room": "The Clacks Tower",
+   "title": "What do the towers talk to each other on?",
+   "posted": "Over the bridge from Widdershins there is a clacks tower, and at the top of it a cabin lit only by the sun through its open shutters. The towers have a channel of their own that no customer ever sees. Go and find out what it is called.",
+   "rank": 2,
+   "takes": "one bridge and one ladder, and as long at the top as you like",
+   "target": "a shutter pin come loose, lying in a square of sun on the floor",
+   "code": "SHUTTER",
+   "learned": "The towers talk to each other on the Overhead, a working channel no customer ever sees. A name put into it with GNU in front is sent on, never logged, and turned around at the end of the line, so it never stops. Readers did the same for Terry Pratchett in a header this street sends.",
+   "hints": [
+    "Behind Widdershins, over the bridge in the city: climb the clacks tower.",
+    "In the section headed The Overhead, in Star Stuff's words.",
+    "On the floor at the foot of the room, where a shutter pin has come loose and is lying in the sun."
+   ],
+   "ask": {
+    "question": "What is the working channel the clacks towers use to talk to each other, which no customer ever sees, called?",
+    "accept": [
+     "overhead",
+     "theoverhead"
+    ],
+    "answer": "The Overhead",
+    "why": "In Star Stuff's words, the Overhead is the working channel the towers use to talk to each other, which no customer ever sees. GNU John Dearheart goes up and down it, sent on, not logged and turned around at the end of the line.",
+    "hints": [
+     "It is a heading in the room.",
+     "It runs over the top of every message, so to speak.",
+     "The Overhead."
+    ]
+   }
+  },
+  {
    "id": "cavendish-marker",
    "page": "cavendish-coworking.html",
    "room": "Cavendish Coworking",

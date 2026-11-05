@@ -284,6 +284,13 @@ DRAW = {
     # morning's edge, --wds-dawn, caught on its top right-hand corner at the
     # slant it has in the city. The floor line is --wds-line and carries
     # nothing. It lies still, like the morning.
+    # The Clacks Tower: a shutter pin come loose, lying in a square of sun on
+    # the cabin floor, because the only light up there is the sun through the
+    # open shutters. The square is --clk-day, 14.86 on the shade and over the
+    # body threshold a marker is held to, and the pin on it is --clk-tar, 15.79
+    # on the sun, its head ringed in --clk-wire. The floor line is
+    # --clk-timber-2 and carries nothing. It lies still.
+    "clk-pin": """<path d="M3 29 H29" stroke="var(--clk-timber-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M7 26.5 L11.5 14.5 H26.5 L22 26.5 Z" fill="var(--clk-day)"/><path d="M11.5 23 L21.5 17.5" stroke="var(--clk-tar)" stroke-width="2.6" stroke-linecap="round"/><circle cx="22.5" cy="17" r="2.4" fill="var(--clk-tar)" stroke="var(--clk-wire)" stroke-width="1"/>""",
     "wds-cobble": """<path d="M3 29.5 H29" stroke="var(--wds-line)" stroke-width="1.6" stroke-linecap="round"/><path d="M6.5 27.5 C5.5 22 7 17.5 12 16.5 C17 15.6 23 15.8 25.6 18.5 C27.6 21 27 25.5 25.6 27.5 Z" fill="var(--wds-ink-3)" stroke="var(--wds-line)" stroke-width="1.3" stroke-linejoin="round"/><path d="M20.5 16 L26.6 21.5" stroke="var(--wds-dawn)" stroke-width="1.8" stroke-linecap="round"/><path d="M10 23 C12.5 21.5 16 21.2 19 22" fill="none" stroke="var(--wds-line)" stroke-width=".8" opacity=".7"/>""",
     # The lid off a tin of paint, put down on the pavement at the foot of the
     # wall: seen a little from above, in --pm-line, 10.59 on the road, with a
