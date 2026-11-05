@@ -1045,7 +1045,7 @@ FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 # autumn sky and on silvered planks.
 BGH_SKY, BGH_PLANK, BGH_BARK, BGH_BARK2 = "#F3E4CC", "#E2DCD0", "#33241B", "#5B4535"
 BGH_RUST, BGH_CRIMSON, BGH_GOLD, BGH_TRUNK = "#9C3A16", "#8A1F33", "#D9952B", "#4A3527"
-# The Aerial Arbour (love.css §147), Sinead's circus tent at pitch 06: every
+# The Aerial Arbour (love.css §147), Rowena's circus tent at pitch 06: every
 # word on the night inside the tent or on a plum card hung from a rope.
 AAR_NIGHT, AAR_PANEL, AAR_SILVER, AAR_SILVER2 = "#170B24", "#2A1440", "#E6E3F0", "#C3BCD6"
 AAR_PINK, AAR_GLOW = "#F48CCB", "#7FDAD3"

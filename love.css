@@ -3064,7 +3064,7 @@
   --bgh-rust:    #9C3A16;  --bgh-crimson: #8A1F33;
   --bgh-gold:    #D9952B;  --bgh-amber:  #C2631B;  --bgh-moss:  #5E6B2E;  --bgh-ben: #1C1917;
 
-  /* The Aerial Arbour (§147), Sinead's circus tent at pitch 06. INSIDE A ROUND
+  /* The Aerial Arbour (§147), Rowena's circus tent at pitch 06. INSIDE A ROUND
      TENT AT NIGHT, under fairy lights. --aar-night is the dark between the lights
      and the ground the page stands on; --aar-panel every card; --aar-silver every
      word, --aar-silver-2 the fine print; --aar-pink every link and the name, and
@@ -33009,7 +33009,7 @@ body.sunshine {
 /* import:spaceholder-saloon:section:end */
 
 /* §147 ── PITCH 6: The Aerial Arbour (in the campgrounds) ────────────────────
-   Sinead's circus tent, from her brief as Helen Edgar passed it on, 2026-11-05:
+   Rowena's circus tent, from Rowena's brief as Helen Edgar passed it on, 2026-11-05:
    a round circus tent near a tree, ropes and rope ladders, aerial poles, hoops
    and silks hanging off a tree inside it, a tightrope, a hammock and beanbags on
    the floor, very cosy, fairy lights inside, deep purples, pinks and silver,
@@ -33061,6 +33061,7 @@ body.sunshine {
   font-size: clamp(44px, 8.4vw, 84px); line-height: 1.08; color: var(--aar-pink);
 }
 .arbour .aar-sub { margin: 12px 0 0; font-size: 21px; line-height: 1.45; max-width: 46ch; }
+.arbour .aar-go { font-weight: 700; }
 .arbour h2 { font-family: 'Emilys Candy', cursive; font-weight: 400; font-size: clamp(27px, 3.9vw, 36px); line-height: 1.2; margin: 0 0 12px; color: var(--aar-pink); }
 
 /* THE TENT, seen through its open door: the drawing is cut to the doorway's
@@ -33087,6 +33088,20 @@ body.sunshine {
 .aar-hangs { margin: 0 0 14px; padding: 0 0 0 1.1em; }
 .aar-hangs li { margin: 0 0 8px; }
 .aar-hangs li::marker { color: var(--aar-pink); }
+
+/* FROM ROWENA'S INSTAGRAM. Her photographs hang in frames of the room's own
+   colours, dark pink, teal and purple in turn (Helen's ask, 2026-11-05: coloured
+   frames), each with a silver wire across its top like everything hung off the
+   tree. A frame goes AROUND a photograph: no filter, no crop, nothing laid over
+   it, the polaroid wall's promise. Shown whole, never object-fit: cover. The grid
+   clears the dial, so the photographs are never squeezed into one column beside it. */
+.aar-photos { clear: right; list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 26px 22px; align-items: start; }
+.aar-photo { margin: 0; padding: 10px; border-radius: 14px; border-top: 3px solid var(--aar-steel); line-height: 0; }
+.aar-photo--rose { background: var(--aar-rose); }
+.aar-photo--sea  { background: var(--aar-sea); }
+.aar-photo--plum { background: var(--aar-plum); }
+.aar-photo .photo { display: block; width: 100%; height: auto; border-radius: 6px; }
+.arbour .aar-photo-by { margin: 16px 0 0; font-size: 16px; color: var(--aar-silver-2); }
 
 /* AT MAX GLITTER the silks, the hoop and the pole sway inside the drawing,
    each from where it hangs, each on its own time. Below MAX they hang still,
