@@ -3791,6 +3791,8 @@ PAIRS = [
                                  "white card, and the focus ring on the page"),
     (CEL_INK,   CEL_PAGE, True,  "cel street: the inked edge round the street, every button and every door"),
     (CEL_PANEL, CEL_PAGE, False, "cel street: the job marker's solar panel, held to the body threshold a marker is"),
+    (CEL_CARD,  CEL_INK,  False, "cel street: a room's switch while it is pressed (its lights lit, its candles "
+                                 "flickering), the word in white card on the ink"),
     # ── Paper Street (§133) ─────────────────────────────────────────────────
     # Every word on the printed night or on the theatre's cream card. Nothing set
     # on the floor, which the canvas paints and which carries no word.

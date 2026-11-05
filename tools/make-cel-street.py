@@ -30,6 +30,14 @@ WHAT IT REFUSES IN cel-street.js:
   · a page without data-familiar="walks", which love.js and familiar.js read
     so the familiar is not put on the page as well as on the street;
   · a timer: nothing moves by itself, so nothing waits on a clock;
+  · a frame asked for by anything but walking (tick), a game controller
+    (padTick), what a room lets move (moveTick) and the line a room's switch
+    answers on; what moves held past the flash line (DIM past a tenth, HZ past
+    two and a half a second, a twinkle quicker than once in three seconds, a
+    turn quicker than once in 1.8), or moving in a low-stimulation mode or a
+    hidden tab (Ryan, 2026-11-04: candles, a record and fairy lights in the
+    Faery Yurt and its rooms, at MAX where her page moves them there and
+    otherwise only on a press);
   · markup written from a string;
   · a colour written into the script, or a --cel- name love.css does not
     declare: every colour is read by name out of love.css.
@@ -130,6 +138,27 @@ if re.search(r"XMLHttpRequest|sendBeacon|EventSource|WebSocket", code):
     refuse("cel-street.js sends something some other way than fetch.")
 if re.search(r"\bset(Interval|Timeout)\b", code):
     refuse("cel-street.js waits on a clock. Nothing on the street moves by itself.")
+# WHAT A ROOM LETS MOVE moves only through the kit, and only under the line.
+for m in re.finditer(r"requestAnimationFrame\((.{0,40})", code):
+    if not re.match(r"\s*(tick|padTick|moveTick|function \(\) \{ ctlSaid)", m.group(1)):
+        refuse(f"cel-street.js asks for a frame for {m.group(1).strip()!r}; only walking, a controller, what a room "
+               "lets move and a switch's answer do.")
+def _num(name):
+    m = re.search(r"\b" + name + r"\s*=\s*([0-9.]+)", code)
+    if not m:
+        refuse(f"cel-street.js has lost {name}, which holds what a room lets move under the flash line.")
+    return float(m.group(1))
+_hz = re.search(r"\bHZ\s*=\s*\[([0-9., ]+)\]", code)
+if not _hz:
+    refuse("cel-street.js has lost HZ, the wobbles a candle flickers out of.")
+if _num("DIM") > 0.1 or max(float(x) for x in _hz.group(1).split(",")) > 2.5:
+    refuse("cel-street.js lets a flame dim by more than a tenth of itself or wobble faster than two and a half "
+           "times a second, which is past the line candles.js holds.")
+if _num("TWINKLE") < 3 or _num("TURN_MIN") < 1.8:
+    refuse("cel-street.js lets a bulb twinkle quicker than once in three seconds or a thing turn quicker than once "
+           "in 1.8: the yurt's own lights take 3.4 and her record six.")
+if "hasAttribute('data-low')" not in code or "document.hidden" not in code:
+    refuse("cel-street.js lets something move in a low-stimulation mode or a hidden tab.")
 if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", code):
     refuse("cel-street.js writes markup from a string. It copies the front page's own elements and builds the rest.")
 if re.search(r"#[0-9a-fA-F]{3,8}\b|\b(rgb|hsl)a?\(\s*\d", code):

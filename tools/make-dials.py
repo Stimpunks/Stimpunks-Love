@@ -200,7 +200,11 @@ def main():
             at = line_start
             new = body[:at] + "  " + dock(dial) + "\n\n" + body[at:]
         else:
-            new = body[:at] + "\n  " + dock(dial) + "\n\n" + body[at:].lstrip(" ")
+            # The newline that ended the header's line is already there; the dock
+            # brings its own, so one is taken off, or every run adds a blank line.
+            rest = body[at:]
+            rest = rest[1:] if rest.startswith("\n") else rest.lstrip(" ")
+            new = body[:at] + "\n  " + dock(dial) + "\n\n" + rest
         if new != src:
             p.write_text(new)
             written += 1

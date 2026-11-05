@@ -23,6 +23,11 @@
    NOTHING MOVES BY ITSELF. The scene is drawn when something changes and then
    not again: no clouds drift, no wires sway. Movement is requestAnimationFrame,
    and only while a key or button is held or a glide is on its way to a door.
+   The one exception is what a room hands the kit to move (flames, turn,
+   lights; Ryan, 2026-11-04, for the Faery Yurt's candles, record and fairy
+   lights): by itself only at MAX and only where that room's own page moves
+   it at MAX, otherwise only once somebody presses its switch, never in a
+   low-stimulation mode or a hidden tab, and held under the flash line.
    A game controller is the one thing read every frame, and only while one is
    connected, because a browser has no event for a stick moving; reading it
    draws nothing unless it asks for something.
@@ -1089,7 +1094,7 @@ function start() {
     sun.position.set(me.x + SUN.x, SUN.y, me.z + SUN.z);
     sun.target.position.set(me.x, 0, me.z - 12);
     sun.target.updateMatrixWorld();
-    for (var i = 0; i < far.length; i++) far[i].o.visible = Math.abs(far[i].z - me.z) < VIEW + CHUNK / 2;
+    for (var i = 0; i < far.length; i++) far[i].o.visible = !far[i].o.userData.hidden && Math.abs(far[i].z - me.z) < VIEW + CHUNK / 2;
   }
   // A page or a thing lifted off one is laid over the picture, so no wall
   // can hide it: one that belongs to a part of a room (inside a cabin, behind
@@ -1106,6 +1111,95 @@ function start() {
   function zoned(el, zone) { if (zone) (scene.userData.zoned = scene.userData.zoned || []).push({ el: el, zone: zone }); }
   function draw() { place(); zones(); renderer.render(scene, camera); css3d.render(scene, camera); }
   function soon() { if (!frame) frame = requestAnimationFrame(tick); }
+
+  /* ── What a room lets move, and only when somebody asks ──────────────── */
+  // Ryan, 2026-11-04, for the Faery Yurt and the rooms off it: candles that
+  // flicker, a record that turns, fairy lights that twinkle. That reverses
+  // "nothing on Cel Street moves by itself" for exactly what a room hands the
+  // kit (flames, turn, lights) and nothing else, and only as the candles behind
+  // the door marked E move (candles.js): by itself at MAX only where the room
+  // says its own page moves that thing at MAX (max: true), and at any setting
+  // once somebody presses its switch, which the dial does not undo. Never in a
+  // low-stimulation mode and never in a hidden tab. And never a flash: a flame
+  // dims by a tenth of itself at most (DIM), out of wobbles none faster than
+  // HZ's last; a bulb takes TWINKLE seconds to go down to TWINKLE_LOW and up
+  // again; a thing that turns takes TURN_MIN seconds at least to go round.
+  // tools/make-cel-street.py reads these and refuses them past those lines.
+  var DIM = 0.1, HZ = [0.6, 1.1, 1.7, 2.5], TWINKLE = 3.4, TWINKLE_LOW = 0.38, TURN_MIN = 1.8;
+  var moveFrame = 0, moveWas = 0;
+  function moveOn(mv) {
+    if (document.documentElement.hasAttribute('data-low') || document.hidden) return false;
+    return mv.asked === null ? !!mv.max && document.documentElement.getAttribute('data-intensity') === 'max' : mv.asked;
+  }
+  function moveTick(now) {
+    moveFrame = 0;
+    var mvs = scene.userData.moves || [], any = false, s = now / 1000, dt = moveWas ? Math.min(s - moveWas, 0.1) : 0;
+    moveWas = s;
+    for (var i = 0; i < mvs.length; i++) {
+      if (moveOn(mvs[i])) { any = true; mvs[i].step(s, dt); mvs[i].still = false; }
+      else if (!mvs[i].still) { mvs[i].rest(); mvs[i].still = true; }
+    }
+    draw();
+    if (any) moveFrame = requestAnimationFrame(moveTick); else moveWas = 0;
+  }
+  function moves() {
+    ctlSync();
+    if (scene.userData.moves && !moveFrame) moveFrame = requestAnimationFrame(moveTick);
+  }
+  new MutationObserver(moves).observe(document.documentElement, { attributes: true, attributeFilter: ['data-intensity', 'data-low'] });
+  document.addEventListener('visibilitychange', moves);
+
+  // A ROOM'S OWN SWITCHES go under the line that says where you are: its
+  // lights, its candles, its record, and the things in it to press, each
+  // saying what it did in words. A switch at a place is also in that line
+  // while you stand there, and a thing to press can be pressed in the scene.
+  var ctlEl = document.querySelector('[data-cel-roomctl]');
+  var ctlList = document.querySelector('[data-cel-roomctl-list]');
+  var ctlSaid = document.querySelector('[data-cel-roomctl-said]');
+  function ctlSay(words) {
+    if (!ctlSaid || !words) return;
+    // Said again even when it is the same sentence: emptied, and set on the
+    // next frame, so a screen reader hears a repeat as a change.
+    ctlSaid.textContent = '';
+    requestAnimationFrame(function () { ctlSaid.textContent = words; });
+  }
+  function roomCtl() {
+    if (!ctlEl) return;
+    while (ctlList.firstChild) ctlList.removeChild(ctlList.firstChild);
+    var cs = inside ? scene.userData.ctl || [] : [];
+    ctlEl.hidden = !cs.length;
+    cs.forEach(function (c) { ctlList.appendChild(c.make(false)); });
+    if (ctlSaid) ctlSaid.textContent = '';
+    ctlSync();
+  }
+  function ctlSync() { (scene.userData.ctl || []).forEach(function (c) { c.sync(); }); }
+  function ctlButton(words, here, fn) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = here ? 'cel-walkin' : 'cel-act';
+    b.textContent = words;
+    b.addEventListener('click', fn);
+    return b;
+  }
+  // A row of buttons, one pressed, under its name.
+  // here: in the line that says where you are. named: with its name over it.
+  function ctlRow(label, choices, cur, pick, here, named) {
+    var g = document.createElement('div');
+    g.className = 'cel-roomctl__row'; g.setAttribute('role', 'group'); g.setAttribute('aria-label', label);
+    if (named) { var p = document.createElement('p'); p.className = 'cel-roomctl__name'; p.textContent = label; g.appendChild(p); }
+    choices.forEach(function (w, i) {
+      var b = ctlButton(w, here, function () { pick(i); });
+      b.setAttribute('aria-pressed', i === cur() ? 'true' : 'false');
+      b.setAttribute('data-choice', i);
+      g.appendChild(b);
+    });
+    return g;
+  }
+  function syncRows(els, cur) {
+    els.forEach(function (g) {
+      g.querySelectorAll('[data-choice]').forEach(function (b) { b.setAttribute('aria-pressed', +b.getAttribute('data-choice') === cur ? 'true' : 'false'); });
+    });
+  }
+  function live(els) { return els.filter(function (e) { return e.isConnected; }); }
 
   function nearest() {
     if (up) return null;
@@ -1142,6 +1236,8 @@ function start() {
       hereEl.appendChild(b);
       hereEl.appendChild(document.createTextNode(' '));
     }
+    // What there is to do where you stand: the room's own switches at this place.
+    if (s && s.acts) s.acts.forEach(function (c) { hereEl.appendChild(c.make(true)); hereEl.appendChild(document.createTextNode(' ')); });
     if (s && s.page) {
       var a = document.createElement('a');
       a.href = s.page;
@@ -1156,6 +1252,30 @@ function start() {
   // at the bottom of it.
   var inside = null, behind = [];
   function kit(page, name) {
+    var home = scene;
+    function addCtl(c) { (home.userData.ctl = home.userData.ctl || []).push(c); return c; }
+    function addMove(mv) { mv.asked = null; mv.still = true; (home.userData.moves = home.userData.moves || []).push(mv); return mv; }
+    // The switch for something that moves, pressed while it is moving.
+    function moveSwitch(mv, words, said) {
+      var sw = { els: [], mv: mv };
+      sw.make = function (here) {
+        var b = ctlButton(words, here, function () {
+          mv.asked = !moveOn(mv);
+          moves();
+          ctlSay(document.documentElement.hasAttribute('data-low') && mv.asked
+            ? 'Nothing moves while a low-stimulation mode is on; it will when the mode is off.'
+            : said(mv.asked));
+        });
+        b.setAttribute('aria-pressed', moveOn(mv) ? 'true' : 'false');
+        sw.els.push(b);
+        return b;
+      };
+      sw.sync = function () {
+        sw.els = live(sw.els);
+        sw.els.forEach(function (b) { b.setAttribute('aria-pressed', moveOn(mv) ? 'true' : 'false'); });
+      };
+      return sw;
+    }
     return {
       THREE: THREE, scene: scene, page: page, name: name,
       gentle: document.documentElement.getAttribute('data-intensity') === 'gentle',
@@ -1208,6 +1328,149 @@ function start() {
       // here as it does there. o.w is its width in pixels, o.ww in the world,
       // and o.m where its foot stands, facing out. Paper Street's kit.lift(),
       // in WebGL; tools/make-cel-street.py refuses a lift its page cannot meet.
+      // THE ROOM'S OWN SWITCHES AND THINGS THAT MOVE (Ryan, 2026-11-04). Each
+      // goes among the room's controls under the line that says where you are;
+      // hand one to a stop's acts and it is in that line too while you stand
+      // there. Every one says what it did, in words.
+      //
+      // choose({ label, choices: [words], start, pick: function (i) -> words }):
+      // a row of buttons, one pressed.
+      choose: function (o) {
+        var cur = o.start || 0, ch = { els: [] };
+        ch.make = function (here) { var g = ctlRow(o.label, o.choices, function () { return cur; }, ch.pick, here, !here); ch.els.push(g); return g; };
+        ch.pick = function (i) { cur = i; syncRows(ch.els, cur); ctlSay(o.pick(i)); draw(); };
+        ch.sync = function () { ch.els = live(ch.els); syncRows(ch.els, cur); };
+        return addCtl(ch);
+      },
+      // press({ say, press: function () -> words, at: [kit.touch(...)] }): a
+      // thing to press, as a button and, where o.at is, in the scene itself.
+      press: function (o) {
+        var pr = { els: [] };
+        pr.go = function () { ctlSay(o.press()); draw(); };
+        pr.make = function (here) { var b = ctlButton(typeof o.say === 'function' ? o.say() : o.say, here, pr.go); pr.els.push(b); return b; };
+        pr.sync = function () { pr.els = live(pr.els); if (typeof o.say === 'function') pr.els.forEach(function (b) { b.textContent = o.say(); }); };
+        pr.go = (function (go) { return function () { go(); pr.sync(); }; })(pr.go);
+        (o.at || []).forEach(function (hb) { hb.userData.act = pr; });
+        return addCtl(pr);
+      },
+      // A thing shown or put away by a press (tea in a cup, a curtain drawn
+      // across): kit.hide(mesh, true) puts it away, false shows it, and
+      // kit.hidden(mesh) says which.
+      hide: function (mesh, away) { mesh.userData.hidden = !!away; mesh.visible = !away; },
+      hidden: function (mesh) { return !!mesh.userData.hidden; },
+      // An invisible box w by h by d standing as m, to press in the scene.
+      touch: function (w, h, d, m) {
+        var hb = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshBasicMaterial({ visible: false }));
+        hb.matrixAutoUpdate = false; hb.matrix.copy(m); hb.matrixWorld.copy(m);
+        hits.push(hb);
+        return hb;
+      },
+      // flames([{ mesh, light }], { say, max, said }): candle flames, each a
+      // mesh from kit.flat with its foot at its origin, and the light it
+      // gives if any. They flicker under the flash line, each on its own.
+      flames: function (list, o) {
+        var fs = list.map(function (f) {
+          var mesh = f.mesh || f;
+          return { mesh: mesh, light: f.light || null, m: mesh.matrix.clone(), c: mesh.material.color.clone(),
+                   i: f.light ? f.light.intensity : 0, sp: 0.88 + Math.random() * 0.12,
+                   ph: HZ.map(function () { return Math.random() * Math.PI * 2; }) };
+        });
+        var sc = new THREE.Matrix4();
+        var mv = addMove({ max: !!o.max,
+          step: function (s) {
+            fs.forEach(function (f) {
+              var a = 0;
+              for (var i = 0; i < HZ.length; i++) a += Math.sin(s * HZ[i] * f.sp * Math.PI * 2 + f.ph[i]);
+              a /= HZ.length;
+              var k = 1 - DIM * (a + 1) / 2;
+              f.mesh.material.color.copy(f.c).multiplyScalar(k);
+              f.mesh.matrix.copy(f.m).multiply(sc.makeScale(1 - 0.05 * a, 1 + 0.14 * a, 1 - 0.05 * a));
+              f.mesh.matrixWorldNeedsUpdate = true;
+              if (f.light) f.light.intensity = f.i * k;
+            });
+          },
+          rest: function () {
+            fs.forEach(function (f) {
+              f.mesh.material.color.copy(f.c); f.mesh.matrix.copy(f.m); f.mesh.matrixWorldNeedsUpdate = true;
+              if (f.light) f.light.intensity = f.i;
+            });
+          } });
+        return addCtl(moveSwitch(mv, o.say, o.said || function (on) { return on ? 'The candles flicker.' : 'The candles are still.'; }));
+      },
+      // turn(meshes, about, { say, max, period, said }): things that go round
+      // together about the upright through `about` (a matrix), once in
+      // o.period seconds, never quicker than TURN_MIN.
+      turn: function (meshes, about, o) {
+        var period = Math.max(TURN_MIN, o.period || 6), ang = 0, rot = new THREE.Matrix4();
+        var inv = about.clone().invert();
+        var ms = meshes.map(function (m) { return { o: m, base: m.matrix.clone(), pre: inv.clone().multiply(m.matrix) }; });
+        var mv = addMove({ max: !!o.max,
+          step: function (s, dt) {
+            ang = (ang + dt * Math.PI * 2 / period) % (Math.PI * 2);
+            rot.makeRotationY(-ang);
+            ms.forEach(function (m) { m.o.matrix.copy(about).multiply(rot).multiply(m.pre); m.o.matrixWorldNeedsUpdate = true; });
+          },
+          // A record that stops stays where it stopped.
+          rest: function () {} });
+        return addCtl(moveSwitch(mv, o.say, o.said || function (on) { return on ? 'It turns.' : 'It stops.'; }));
+      },
+      // bulbs(points, r, inks): a string of little glass bulbs at points
+      // ([x, y, z]), coloured in turn from inks, one mesh however many.
+      bulbs: function (points, r, inks) {
+        var mesh = new THREE.InstancedMesh(new THREE.SphereGeometry(r, 8, 6), new THREE.MeshBasicMaterial(), points.length);
+        var m = new THREE.Matrix4();
+        points.forEach(function (p, i) { mesh.setMatrixAt(i, m.makeTranslation(p[0], p[1], p[2])); mesh.setColorAt(i, col(inks[i % inks.length])); });
+        put(mesh, new THREE.Matrix4());
+        return { mesh: mesh, n: points.length, ph: points.map(function (p, i) { return (i * 0.37) % 1; }) };
+      },
+      // lights({ label, strings: [kit.bulbs(...)], washes: [PointLight], sets:
+      // [{ say, inks }], max, twinkle }): a string of lights and its switches:
+      // out, low or lit, which colours, and whether they twinkle.
+      lights: function (o) {
+        var LEVELS = ['Out', 'Low', 'Lit'], BULB = [0.14, 0.55, 1], WASH = [0, 0.45, 1];
+        var lvl = 2, set = 0, tw = null, lt = { els: [] }, tmp = new THREE.Color();
+        var washes = (o.washes || []).map(function (l) { return { l: l, i: l.intensity }; });
+        function paint(s) {
+          var inks = o.sets[set].inks.map(col);
+          o.strings.forEach(function (b) {
+            for (var i = 0; i < b.n; i++) {
+              var f = s == null ? 1 : TWINKLE_LOW + (1 - TWINKLE_LOW) * (0.5 + 0.5 * Math.cos((s / TWINKLE + b.ph[i]) * Math.PI * 2));
+              b.mesh.setColorAt(i, tmp.copy(inks[i % inks.length]).multiplyScalar(BULB[lvl] * f));
+            }
+            b.mesh.instanceColor.needsUpdate = true;
+          });
+          washes.forEach(function (w) { w.l.color.copy(inks[0]); w.l.intensity = w.i * WASH[lvl]; });
+        }
+        var mv = addMove({ max: !!o.max, step: function (s) { paint(s); }, rest: function () { paint(null); } });
+        tw = moveSwitch(mv, o.twinkle || 'Let them twinkle', function (on) { return on ? 'They twinkle, slowly, each in its own time.' : 'They hold still.'; });
+        lt.make = function (here) {
+          var g = document.createElement('div');
+          g.className = 'cel-roomctl__group';
+          if (!here) { var p = document.createElement('p'); p.className = 'cel-roomctl__name'; p.textContent = o.label; g.appendChild(p); }
+          g.appendChild(ctlRow(o.label + ': how bright', LEVELS, function () { return lvl; }, function (i) {
+            lvl = i; paint(null); moves(); lt.sync(); draw();
+            ctlSay(o.label + (i === 0 ? ' are out.' : i === 1 ? ' are low.' : ' are lit.'));
+          }, here, false));
+          if (o.sets.length > 1) g.appendChild(ctlRow(o.label + ': colours', o.sets.map(function (x) { return x.say; }), function () { return set; }, function (i) {
+            set = i; paint(null); moves(); lt.sync(); draw();
+            ctlSay(o.label + ': ' + o.sets[i].say.charAt(0).toLowerCase() + o.sets[i].say.slice(1) + '.');
+          }, here, false));
+          g.appendChild(tw.make(here));
+          lt.els.push(g);
+          return g;
+        };
+        lt.sync = function () {
+          lt.els = live(lt.els);
+          lt.els.forEach(function (g) {
+            var rows = g.querySelectorAll('[role="group"]');
+            syncRows([rows[0]], lvl);
+            if (rows[1]) syncRows([rows[1]], set);
+          });
+          tw.sync();
+        };
+        paint(null);
+        return addCtl(lt);
+      },
       lift: function (frame, sel, o) {
         var home = scene, wrap = document.createElement('div');
         wrap.className = 'cel-lifted' + (o.cls ? ' ' + o.cls : '');
@@ -1361,9 +1624,9 @@ function start() {
       me = { x: made.start.x, z: made.start.z, yaw: made.start.yaw || 0, pitch: 0.05 };
       up = false; glide = null; held = {};
       if (push !== false) history.pushState({ celIn: page }, '', '#in=' + page.replace(/\.html$/, ''));
-      wayOut(); places();
+      wayOut(); places(); roomCtl();
       said = '';
-      draw(); tell(); plateUp();
+      draw(); tell(); plateUp(); moves();
       if (list) list.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
       if (then) then();
     });
@@ -1406,10 +1669,10 @@ function start() {
     inside = was.inside; glide = null; held = {};
     // The room you came back into shows its own page again.
     scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = ''; });
-    wayOut(); places();
+    wayOut(); places(); roomCtl();
     if (!inside && list) list.querySelectorAll('a').forEach(function (a) { a.removeAttribute('tabindex'); });
     said = '';
-    draw(); tell(); plateUp();
+    draw(); tell(); plateUp(); moves();
   }
   function outOfRoom() {
     if (history.state && history.state.celIn) history.back();
@@ -1991,7 +2254,9 @@ function start() {
     ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ndc, camera);
     var hit = ray.intersectObjects(hits, false)[0];
-    if (hit) standAt(stops[hit.object.userData.stop]);
+    // A thing a room lets you press is pressed; anything else stands you there.
+    if (hit && hit.object.userData.act) hit.object.userData.act.go();
+    else if (hit) standAt(stops[hit.object.userData.stop]);
     stage.focus({ preventScroll: true });
   });
 

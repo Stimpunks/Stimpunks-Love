@@ -38,9 +38,28 @@
    lit, still, until pressed again. A whirl's way down is a link to a part of
    her page, which is not here, so it is left out.
 
-   NOTHING ELSE MOVES. Every colour is one her room declares, by name. It
-   keeps nothing, sends nothing and fetches nothing; her page arrives through
-   Cel Street's screen(). tools/make-cel-street.py holds each of those.
+   ROUND 3 (Ryan, 2026-11-04) added more of what is there and things to
+   press: ferns among the grass, rings, a split, ridges of bark and branch
+   stubs on the fallen logs, and on the shore by the fire a log to sit on, a
+   pile of logs for later, driftwood, pebbles and weed left by the tide.
+
+   WHAT MOVES IS WHAT HER PAGE MOVES, AND WHAT YOU ASK FOR. Her dial says MAX
+   lets the lights in the drawing breathe and the jellyfish pulse by itself,
+   and nothing ever flashes. So at MAX the fireflies and the glow-worms
+   breathe, slowly, each in its own time, and the lights round the
+   jellyfish's rim pulse; each has its own switches too (out, low or lit, and
+   breathing or still), and the fireflies and the rim a choice of colour. The
+   slow swell her page rolls along the sea at MAX has nothing in the kit to
+   move it, so the waves here stand still.
+   The bonfire is the one light that is not alive: its flames sway only
+   when somebody presses Let the bonfire's flames sway, under the flash line the
+   kit holds, and it can be let burn down to a bed of embers and built up
+   again. The water can be touched, and rings of sparkle spread out where it
+   was; the jellyfish can be touched, and it lights up green, as hers does.
+   Each press changes the scene at once and says what it did; nothing in the
+   scene glides. Every colour is one her room declares, by name. It keeps
+   nothing, sends nothing and fetches nothing; her page arrives through Cel
+   Street's screen(). tools/make-cel-street.py holds each of those.
    ========================================================================== */
 (function () {
   'use strict';
@@ -74,7 +93,7 @@
       }
       var dot = new T.SphereGeometry(1, 6, 4);
       var bar = new T.BoxGeometry(1, 1, 1);
-      function points(list, ink) { if (list.length) kit.flat(merged(list), ID, ink); }
+      function points(list, ink) { return list.length ? kit.flat(merged(list), ID, ink) : null; }
       function solid(list, ink, line) {
         if (!list.length) return;
         var g = merged(list); g.computeVertexNormals();
@@ -161,16 +180,39 @@
       solid(grass, '--gwh-hill');
       // Most of them low, just up out of the grass; fewer higher; none up in
       // the sky, which has nothing in it.
-      var flies = [];
+      // Each firefly is a bulb of the kit's, small ones and larger ones, so
+      // their light can be let down, put out or let breathe: at MAX they
+      // breathe by themselves, as the lights in her drawing do.
+      var flySmall = [], flyBig = [];
       for (k = 0; k < 260; k++) {
         var hy = hash(k, 2, 2), fy = 0.35 + hy * hy * 3.4;
-        var fs = 0.022 + hash(k, 2, 4) * 0.022;
-        spot(flies, (hash(k, 2, 1) - 0.5) * 20, fy, -1.6 - hash(k, 2, 3) * 11.4, fs);
+        (hash(k, 2, 4) < 0.5 ? flySmall : flyBig).push([(hash(k, 2, 1) - 0.5) * 20, fy, -1.6 - hash(k, 2, 3) * 11.4]);
       }
       // A knot of them over the grass on the right, where the moths come.
       var MX = 2.4, MY = 1.7, MZ = -9.4;
-      for (k = 0; k < 22; k++) spot(flies, MX + (hash(k, 6, 1) - 0.5) * 0.9, MY + (hash(k, 6, 2) - 0.5) * 0.7, MZ + (hash(k, 6, 3) - 0.5) * 0.9, 0.03);
-      points(flies, '--gwh-worm');
+      for (k = 0; k < 22; k++) flyBig.push([MX + (hash(k, 6, 1) - 0.5) * 0.9, MY + (hash(k, 6, 2) - 0.5) * 0.7, MZ + (hash(k, 6, 3) - 0.5) * 0.9]);
+      var fireflies = kit.lights({ label: 'The fireflies’ lights', max: true, twinkle: 'Let them breathe',
+        strings: [kit.bulbs(flySmall, 0.026, ['--gwh-worm']), kit.bulbs(flyBig, 0.038, ['--gwh-worm'])],
+        sets: [{ say: 'Yellow-green, as in her drawing', inks: ['--gwh-worm'] },
+               { say: 'Yellow and green', inks: ['--gwh-worm', '--gwh-fox'] }] });
+      // Ferns among the grass, as along the foot of her drawing of the air:
+      // each a stem arching over with its leaflets along it, dark.
+      var ferns = [], leaflet = new T.SphereGeometry(1, 5, 3);
+      for (var fn = 0; fn < 26; fn++) {
+        var fnx = (hash(fn, 13, 1) - 0.5) * 18, fnz = -2.2 - hash(fn, 13, 2) * 8.8;
+        if (Math.abs(fnx) < 1.1) fnx += fnx < 0 ? -1.2 : 1.2;
+        for (var fr = 0; fr < 5; fr++) {
+          var fa = fr / 5 * Math.PI * 2 + hash(fn, fr, 3), flen = 0.5 + hash(fn, fr, 4) * 0.35;
+          for (var lf = 0; lf < 9; lf++) {
+            var u = lf / 9, reach = u * flen, lift = Math.sin(u * Math.PI * 0.8) * flen * 0.55, sz = (1 - u) * 0.07 + 0.02;
+            var cxl = fnx + Math.cos(fa) * reach, czl = fnz + Math.sin(fa) * reach;
+            [-1, 1].forEach(function (sd) {
+              ferns.push([leaflet, at(cxl - Math.sin(fa) * sd * sz, 0.05 + lift, czl + Math.cos(fa) * sd * sz, -fa).scale(V3(sz, 0.006, sz * 0.4))]);
+            });
+          }
+        }
+      }
+      solid(ferns, '--gwh-hill');
       // Moths make no light of their own, and circle the glow in a spiral:
       // each two pale wings, seen only for the fireflies beside them.
       var moths = [], wing = new T.SphereGeometry(1, 6, 4);
@@ -183,7 +225,8 @@
       }
       points(moths, '--gwh-ink-2');
       panel('.hollow-panel.hollow-air', -1, -6.5, 'in the long grass, among the fireflies');
-      stops.push({ name: 'among the moths, circling the fireflies’ glow', x: 0.5, z: MZ + 0.4, yaw: -1.25 });
+      stops[stops.length - 1].acts = [fireflies];
+      stops.push({ name: 'among the moths, circling the fireflies’ glow', x: 0.5, z: MZ + 0.4, yaw: -1.25, acts: [fireflies] });
 
       // ── THE WHIRLPOOL DOWN INTO THE EARTH ─────────────────────────────────
       // Her whirl: three arms of light winding in to a dark middle, in the
@@ -229,6 +272,20 @@
         var lx = lg[0], ly = slopeTop(lx) + lg[3] * 0.8, lz = lg[1], len = lg[2], rad = lg[3];
         kit.cyl(rad, rad * 1.08, len, at(lx, ly, lz, 0.12 * (li - 1), Math.PI / 2), '--gwh-hill', 0.04, 12);
         kit.flat(new T.CircleGeometry(rad * 0.8, 12), at(lx, ly, lz + len / 2 + 0.02), '--gwh-deep');
+        // Its cut end: the rings of the years it grew, and a split from the
+        // middle where it dried; ridges of bark along it, and the stubs of
+        // branches it lost when it fell.
+        for (var rg = 1; rg < 5; rg++) {
+          kit.flat(new T.RingGeometry(rad * 0.8 * rg / 5, rad * 0.8 * rg / 5 + 0.008, 16), at(lx, ly, lz + len / 2 + 0.025), '--gwh-hill');
+        }
+        box(0.012, rad * 0.75, 0.01, at(lx + rad * 0.2, ly + rad * 0.3, lz + len / 2 + 0.03, 0, 0, 0.5), '--gwh-night', false, false);
+        for (var bk = 0; bk < 16; bk++) {
+          var ba = Math.PI * (0.15 + hash(li, bk, 11) * 0.7), bl = len * (0.3 + hash(li, bk, 12) * 0.6);
+          box(0.03, 0.025, bl, at(lx + Math.cos(ba) * rad * 1.03, ly + Math.sin(ba) * rad * 1.03, lz + (hash(li, bk, 13) - 0.5) * (len - bl), 0, 0, ba - Math.PI / 2), '--gwh-deep', false, false);
+        }
+        [0.3, -0.25].forEach(function (u, sb) {
+          kit.cyl(rad * 0.22, rad * 0.3, rad * 0.9, at(lx + rad * 0.5, ly + rad * 0.85, lz + u * len, 0, 0, -0.6 - sb * 0.3), '--gwh-hill', 0.02, 7);
+        });
         for (var f = 0; f < 110; f++) {
           var t = (hash(li, f, 1) - 0.5) * (len - 0.3), s2 = 0.01 + hash(li, f, 2) * 0.022;
           var ang = Math.PI * (0.55 + hash(li, f, 4) * 0.75);
@@ -261,13 +318,17 @@
         var sh = 0.45 + hash(k, 7, 3) * 0.45, lean = (hash(k, 7, 4) - 0.5) * 0.3;
         var base = slopeTop(sx);
         stems.push([new T.CylinderGeometry(0.008, 0.012, sh, 3), at(sx + lean * sh / 2, base + sh / 2, sz, 0, 0, -lean)]);
-        spot(worms, sx + lean * sh, base + sh + 0.02, sz, 0.034, 0.028);
+        worms.push([sx + lean * sh, base + sh + 0.02, sz]);
       }
       solid(bankGrass, '--gwh-hill');
       solid(stems, '--gwh-hill');
-      points(worms, '--gwh-worm');
+      // The glow-worms are bulbs of the kit's, as the fireflies are: let down,
+      // put out, or breathing slowly, by themselves at MAX.
+      var glowworms = kit.lights({ label: 'The glow-worms’ lights', max: true, twinkle: 'Let them breathe',
+        strings: [kit.bulbs(worms, 0.032, ['--gwh-worm'])],
+        sets: [{ say: 'Yellow-green', inks: ['--gwh-worm'] }] });
       stops.push({ name: 'by the fallen logs, with foxfire growing in them', x: 0.4, z: -19.2, yaw: -1.0 });
-      stops.push({ name: 'on the other slope, where glow-worms wait at the tops of the grass stems', x: -0.5, z: -18.6, yaw: 1.05 });
+      stops.push({ name: 'on the other slope, where glow-worms wait at the tops of the grass stems', x: -0.5, z: -18.6, yaw: 1.05, acts: [glowworms] });
 
       // ── DOWN THROUGH THE RHIZOME ──────────────────────────────────────────
       // The fine threads fungi grow through soil and wood, glowing, wandering
@@ -324,7 +385,29 @@
       var JX = 3.6, JY = 2.1, JZ = EDGE - 6;
       var bell = new T.SphereGeometry(0.8, 22, 8, 0, Math.PI * 2, 0, Math.PI / 2); bell.scale(1, 0.55, 1);
       kit.piece(bell, at(JX, JY, JZ), '--gwh-wave', false);
-      kit.flat(new T.TorusGeometry(0.8, 0.03, 6, 40), at(JX, JY, JZ, 0, Math.PI / 2), '--gwh-sea');
+      // The lights round its rim are bulbs of the kit's: they pulse by
+      // themselves at MAX, as her jellyfish does, and can be let down or out.
+      var rim = [];
+      for (k = 0; k < 44; k++) { var ra = k / 44 * Math.PI * 2; rim.push([JX + Math.cos(ra) * 0.8, JY, JZ + Math.sin(ra) * 0.8]); }
+      var jellyRim = kit.lights({ label: 'The lights round the jellyfish’s rim', max: true, twinkle: 'Let it pulse',
+        strings: [kit.bulbs(rim, 0.03, ['--gwh-sea'])],
+        sets: [{ say: 'Sea blue', inks: ['--gwh-sea'] }, { say: 'Green, as when it is touched', inks: ['--gwh-fox'] }] });
+      // Its glow when it is touched, in her drawing's green: the bell lit
+      // through, and a band of light round the rim. Put away until then.
+      var jellyGlow = [];
+      var lit = new T.SphereGeometry(0.88, 22, 8, 0, Math.PI * 2, 0, Math.PI / 2); lit.scale(1, 0.6, 1);
+      var litBell = kit.flat(lit, at(JX, JY - 0.02, JZ), '--gwh-fox');
+      litBell.material.transparent = true; litBell.material.opacity = 0.28; litBell.material.depthWrite = false;
+      jellyGlow.push(litBell);
+      jellyGlow.push(kit.flat(new T.TorusGeometry(0.84, 0.045, 6, 44), at(JX, JY - 0.01, JZ, 0, Math.PI / 2), '--gwh-fox'));
+      var hang = new T.CylinderGeometry(0.05, 0.01, 0.7, 6);
+      for (k = 0; k < 6; k++) {
+        var ha = k / 6 * Math.PI * 2 + 0.3;
+        var hm = kit.flat(hang, at(JX + Math.cos(ha) * 0.35, JY - 0.3, JZ + Math.sin(ha) * 0.35), '--gwh-fox');
+        hm.material.transparent = true; hm.material.opacity = 0.5; hm.material.depthWrite = false;
+        jellyGlow.push(hm);
+      }
+      jellyGlow.forEach(function (g) { kit.hide(g, true); });
       var jel = [], canals = [];
       for (k = 0; k < 16; k++) {
         var ca = k / 16 * Math.PI * 2;
@@ -337,9 +420,39 @@
       for (k = 0; k < 5; k++) jel.push([new T.CylinderGeometry(0.03, 0.012, 0.9, 5), at(JX + (k - 2) * 0.08, JY - 0.45, JZ, 0, 0, (k - 2) * 0.05)]);
       points(canals, '--gwh-fox');
       points(jel, '--gwh-sea');
+      // Rings of sea sparkle spreading out from where a finger touched the
+      // water at its edge, shown when somebody touches it.
+      var ripples = [];
+      [0.35, 0.75, 1.2, 1.7].forEach(function (rr, ri) {
+        var dots = [];
+        for (var d = 0; d < 18 + ri * 10; d++) {
+          var da = d / (18 + ri * 10) * Math.PI * 2;
+          spot(dots, 2.2 + Math.cos(da) * rr, 0.06, EDGE - 2.9 + Math.sin(da) * rr * 0.8, 0.034 - ri * 0.005, 0.012);
+        }
+        ripples.push(points(dots, '--gwh-sea'));
+      });
+      ripples.forEach(function (r) { kit.hide(r, true); });
+      var touchWater = kit.press({ say: function () { return kit.hidden(ripples[0]) ? 'Touch the water' : 'Let the water settle'; },
+        at: [kit.touch(3.6, 0.5, 2.8, at(2.2, 0.1, EDGE - 2.9))],
+        press: function () {
+          var show = kit.hidden(ripples[0]);
+          ripples.forEach(function (r) { kit.hide(r, !show); });
+          return show ? 'Where the water was touched, rings of blue sparkle spread out across it: the sea’s own light, made where it moves.'
+                      : 'The water settles, and goes dark again but for the waves breaking.';
+        } });
+      var touchJelly = kit.press({ say: function () { return kit.hidden(litBell) ? 'Touch the jellyfish' : 'Let its glow go down'; },
+        at: [kit.touch(2, 2.6, 2, at(JX, JY - 0.4, JZ))],
+        press: function () {
+          var show = kit.hidden(litBell);
+          jellyGlow.forEach(function (g) { kit.hide(g, !show); });
+          return show ? 'The jellyfish lights up green where it was touched, its bell glowing through and a band of light round its rim.'
+                      : 'The jellyfish’s glow goes down, and it is almost clear again, only its edges showing.';
+        } });
       panel('.hollow-panel.hollow-sea', -1, EDGE + 4.0, 'at the edge of the sea, where it sparkles');
+      stops[stops.length - 1].acts = [touchWater];
       panel('.hollow-panel.hollow-jelly', 1, EDGE + 4.0, 'on the shore, with the jellyfish');
-      stops.push({ name: 'at the water’s edge, looking out to the crystal jelly over the sea', x: 0.4, z: EDGE + 0.6, yaw: -0.5 });
+      stops[stops.length - 1].acts = [touchJelly, jellyRim];
+      stops.push({ name: 'at the water’s edge, looking out to the crystal jelly over the sea', x: 0.4, z: EDGE + 0.6, yaw: -0.5, acts: [touchWater, touchJelly, jellyRim] });
 
       // ── FIRE: the bonfire on the shore at the end ─────────────────────────
       // The one light down here that is not alive, and the only one that
@@ -358,19 +471,82 @@
         var sa = st / 14 * Math.PI * 2;
         kit.piece(new T.DodecahedronGeometry(0.16 + hash(st, 11, 1) * 0.06, 0), at(fx + Math.cos(sa) * 0.95, 0.1, fz + Math.sin(sa) * 0.95, st), '--gwh-hill', 0.02);
       }
-      kit.flat(new T.ConeGeometry(0.44, 1.3, 9), at(fx, 0.8, fz), '--gwh-flame');
-      kit.flat(new T.ConeGeometry(0.22, 0.9, 7), at(fx - 0.22, 0.6, fz + 0.1, 0.4, 0, 0.2), '--gwh-flame');
-      kit.flat(new T.ConeGeometry(0.24, 0.85, 9), at(fx + 0.04, 0.62, fz + 0.12), '--gwh-flame-2');
+      // The flames, each with its foot at the fire's heart so it can sway:
+      // a tall one in the middle and tongues round it, the pale yellow inside.
+      var flameList = [], flameMeshes = [];
+      function tongue(r, h, x, z, ry, rz, ink, light) {
+        var g = new T.ConeGeometry(r, h, 9); g.translate(0, h / 2, 0);
+        var f = kit.flat(g, at(fx + x, 0.16, fz + z, ry, 0, rz), ink);
+        flameList.push({ mesh: f, light: light || null }); flameMeshes.push(f);
+      }
+      tongue(0.44, 1.3, 0, 0, 0, 0, '--gwh-flame', fire);
+      tongue(0.22, 0.9, -0.24, 0.1, 0.4, 0.2, '--gwh-flame');
+      tongue(0.2, 0.8, 0.26, -0.06, -0.3, -0.22, '--gwh-flame');
+      tongue(0.16, 0.62, 0.05, 0.28, 0.9, 0.16, '--gwh-flame');
+      tongue(0.24, 0.85, 0.04, 0.12, 0, 0, '--gwh-flame-2');
+      tongue(0.12, 0.55, -0.1, -0.05, 0.2, -0.1, '--gwh-flame-2');
       kit.flat(new T.CircleGeometry(0.62, 14), at(fx, 0.06, fz, 0, -Math.PI / 2), '--gwh-ember');
       var sparks = [], embers = [];
       for (k = 0; k < 26; k++) {
         var sy = 1.4 + hash(k, 12, 1) * 2.2, sr = (0.15 + (sy - 1.4) * 0.4) * (0.3 + hash(k, 12, 2) * 0.7), sa2 = hash(k, 12, 3) * Math.PI * 2;
         spot(hash(k, 12, 4) < 0.6 ? sparks : embers, fx + Math.cos(sa2) * sr, sy, fz + Math.sin(sa2) * sr, 0.016 + hash(k, 12, 5) * 0.012);
       }
-      points(sparks, '--gwh-flame-2');
-      points(embers, '--gwh-ember');
+      var aloft = [points(sparks, '--gwh-flame-2'), points(embers, '--gwh-ember')];
+      // When it burns down: a bed of embers where the flames were, the logs
+      // fallen in, and only a low red light. Put away until then.
+      var bed = [], bedLumps = [];
+      for (k = 0; k < 40; k++) {
+        var ba2 = hash(k, 14, 1) * Math.PI * 2, br2 = Math.sqrt(hash(k, 14, 2)) * 0.55;
+        bedLumps.push([new T.DodecahedronGeometry(1, 0), at(fx + Math.cos(ba2) * br2, 0.09, fz + Math.sin(ba2) * br2, k).scale(V3(0.06 + hash(k, 14, 3) * 0.05, 0.04, 0.06))]);
+      }
+      var glowing = [];
+      for (k = 0; k < 30; k++) { var ga2 = hash(k, 15, 1) * Math.PI * 2, gr2 = Math.sqrt(hash(k, 15, 2)) * 0.5; spot(glowing, fx + Math.cos(ga2) * gr2, 0.13, fz + Math.sin(ga2) * gr2, 0.03, 0.015); }
+      bed.push(points(bedLumps, '--gwh-ember'), points(glowing, '--gwh-flame-2'));
+      bed.forEach(function (b) { kit.hide(b, true); });
+      var embersLight = new T.PointLight(kit.col('--gwh-ember'), 7, 6, 1.6);
+      embersLight.position.set(fx, 0.4, fz);
+      kit.scene.add(embersLight);
+      kit.hide(embersLight, true);
+      var bonfire = kit.flames(flameList, { say: 'Let the bonfire’s flames sway',
+        said: function (on) { return on ? 'The bonfire’s flames sway, each in its own time; it never flashes.' : 'The bonfire burns still again.'; } });
+      var burn = kit.press({ say: function () { return kit.hidden(flameMeshes[0]) ? 'Build the bonfire up again' : 'Let it burn down to embers'; },
+        at: [kit.touch(1.6, 1.8, 1.6, at(fx, 0.8, fz))],
+        press: function () {
+          var down = !kit.hidden(flameMeshes[0]);
+          flameMeshes.concat(aloft).forEach(function (f) { kit.hide(f, down); });
+          bed.forEach(function (b) { kit.hide(b, !down); });
+          kit.hide(fire, down); kit.hide(embersLight, !down);
+          return down ? 'The bonfire burns down to a bed of embers, glowing red in its ring of stones, and the shore goes dark round it.'
+                      : 'The bonfire is built up again, and burns, lighting the stones and the shore round it.';
+        } });
+
+      // Round it on the sand: a log to sit on, a pile of logs for later,
+      // driftwood, pebbles, and weed left by the tide, all seen only by the
+      // fire's light.
+      kit.cyl(0.2, 0.22, 1.9, at(fx - 1.6, 0.2, fz + 0.9, 0.9, 0, Math.PI / 2), '--gwh-fire-log', 0.03, 10);
+      kit.flat(new T.CircleGeometry(0.17, 10), at(fx - 1.6 - Math.cos(0.9) * 0.96, 0.2, fz + 0.9 + Math.sin(0.9) * 0.96, -Math.PI / 2 + 0.9), '--gwh-hill');
+      [[0, 0], [0.22, 0.02], [0.11, 0.18], [-0.1, 0.02]].forEach(function (lp, li2) {
+        kit.cyl(0.09, 0.1, 0.9, at(fx + 1.55 + lp[0], 0.1 + lp[1], fz - 0.6 + li2 * 0.02, -0.2, 0, Math.PI / 2), '--gwh-fire-log', 0.015, 8);
+      });
+      [[-2.4, -0.8, 1.4, 0.4], [2.6, 0.7, 1.1, -0.7], [-0.4, -1.6, 0.8, 1.2]].forEach(function (dw) {
+        kit.cyl(0.05, 0.07, dw[2], at(fx + dw[0], 0.05, fz + dw[1], dw[3], 0, Math.PI / 2), '--gwh-fire-log', 0.01, 7);
+      });
+      var pebbles = [];
+      for (k = 0; k < 70; k++) {
+        var px2 = fx + (hash(k, 16, 1) - 0.5) * 6, pz2 = fz + (hash(k, 16, 2) - 0.5) * 3.6;
+        if (Math.hypot(px2 - fx, pz2 - fz) < 1.2) continue;
+        var ps = 0.03 + hash(k, 16, 3) * 0.06;
+        pebbles.push([new T.DodecahedronGeometry(1, 0), at(px2, ps * 0.4, pz2, k).scale(V3(ps * 1.3, ps * 0.6, ps))]);
+      }
+      solid(pebbles, '--gwh-hill', 0.01);
+      var weed = [];
+      for (k = 0; k < 40; k++) {
+        var wx2 = (hash(k, 17, 1) - 0.5) * 9, wz2 = EDGE + 0.15 + hash(k, 17, 2) * 0.35;
+        thread(weed, wx2, wz2, wx2 + (hash(k, 17, 3) - 0.5) * 0.5, wz2 + (hash(k, 17, 4) - 0.5) * 0.25, 0.03);
+      }
+      solid(weed, '--gwh-deep', false);
       var firePanel = kit.lift(frame, '.hollow-panel.hollow-fire', { w: 760, ww: 2.2, m: at(-1.5, 0.12, EDGE + 0.05, 0.12) });
-      stops.push({ name: 'by the bonfire on the shore, under Fire', x: -0.6, z: EDGE + 3.2, yaw: -0.28, frame: firePanel.el });
+      stops.push({ name: 'by the bonfire on the shore, under Fire', x: -0.6, z: EDGE + 3.2, yaw: -0.28, pitch: -0.2, frame: firePanel.el, acts: [bonfire, burn] });
 
       // Her page's own script, run against the panels here.
       kit.wire(frame, 'glow-wild.js');

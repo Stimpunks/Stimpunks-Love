@@ -32,9 +32,25 @@
    more, her Wheel of the Year and her Story or Fact cards, which need no
    script: each card turns over as it does on her page.
 
-   NOTHING MOVES. Every colour is one her rooms declare, by name. It keeps
-   nothing, sends nothing and fetches nothing; her page arrives through Cel
-   Street's screen(). tools/make-cel-street.py holds each of those.
+   ROUND 3 (Ryan's ask, 2026-11-04: more texture and detail, things that move
+   when asked, things to press) drew worn flags among the flagstones, timber
+   panels under the dado rail, corbels under the beams, rivets round the
+   cauldron, a ladle on its rim and a basket of herbs at its foot; and three
+   things to press, each saying what it did and each pressable where it is:
+   the cauldron's lid, put on and lifted off; an old book on a reading stand
+   by the shelf, opened and shut; and a coat on a peg by the arch, turned
+   inside out, as her page says to do if the pixies lead you round in circles.
+
+   WHAT MOVES IS WHAT MOVES ON HER PAGE. Her page says MAX makes the amber
+   glow and the amethyst glint and nothing else moves. So the light through
+   the stones has switches of its own, one for the amber in the left-hand wall
+   and the arch and one for the amethyst in the right-hand wall and the arch,
+   each out, low or lit, and at MAX they glow and glint by themselves, slowly,
+   each stone in its own time, under the flash line the kit holds, or at any
+   setting once somebody asks. Nothing in here is a flame, so nothing
+   flickers. Every colour is one her rooms declare, by name. It keeps nothing,
+   sends nothing and fetches nothing; her page arrives through Cel Street's
+   screen(). tools/make-cel-street.py holds each of those.
    ========================================================================== */
 (function () {
   'use strict';
@@ -61,7 +77,15 @@
         var pos = new Float32Array(n), o = 0;
         arrs.forEach(function (a) { pos.set(a, o); o += a.length; });
         var out = new T.BufferGeometry(); out.setAttribute('position', new T.BufferAttribute(pos, 3));
+        out.computeVertexNormals();
         return out;
+      }
+      // Where the light comes through each stone: a glint in each, amber or
+      // amethyst, switched and glowing together.
+      var glintAmber = [], glintAmethyst = [], washAmber = [], washAmethyst = [];
+      function glint(m, warm, dx, dy, dz) {
+        var p = new T.Vector3(dx || 0, dy || 0, dz || 0).applyMatrix4(m);
+        (warm ? glintAmber : glintAmethyst).push([p.x, p.y, p.z]);
       }
       var ID = new T.Matrix4();
       var crystal = new T.OctahedronGeometry(1, 0); crystal.scale(0.5, 1.3, 0.5);
@@ -69,6 +93,7 @@
       // A little cluster of stones standing on a top: three to five crystals.
       function cluster(m, warm, seed, size) {
         var a = warm ? '--myth-amber' : '--myth-amethyst', b = warm ? '--myth-amber-2' : '--myth-amethyst-2';
+        glint(m, warm, 0, size * 1.6, 0);
         for (var k = 0; k < 4; k++) {
           var s = size * (0.6 + hash(seed, k, 31) * 0.6);
           lit[k % 2 ? a : b].push([crystal, M(m, at((hash(seed, k, 33) - 0.5) * size * 3, s * 1.1, (hash(seed, k, 35) - 0.5) * size * 2,
@@ -86,6 +111,7 @@
           var p = new T.PointLight(kit.col(l[1]), 14, 11, 1.2);
           p.position.set(l[0], q[1], q[0]);
           kit.scene.add(p);
+          (l[0] < 0 ? washAmber : washAmethyst).push(p);
         });
       });
 
@@ -108,6 +134,33 @@
       box(5.6, 0.03, 6.4, at(0, 0.015, -6.2), '--rdr-velvet', false, false);
       box(5.1, 0.036, 5.9, at(0, 0.018, -6.2), '--rdr-brass', false, false);
       box(4.9, 0.042, 5.7, at(0, 0.021, -6.2), '--rdr-panel', false, false);
+      // Worn flags here and there, a shade off their neighbours, a crack or
+      // two, and the rug's fringe at its two ends.
+      for (var wf = 0; wf < 30; wf++) {
+        var wx = Math.floor(hash(wf, 2, 1) * 8), wz = Math.floor(hash(wf, 2, 2) * 12);
+        var wfx = -W / 2 + 0.625 + wx * 1.25 + (wz % 2 ? 0.6 : 0) - 0.6, wfz = 0.2 - wz * 1.2;
+        if (Math.abs(wfx) < 2.9 && wfz < -3.0 && wfz > -9.4) continue;
+        box(1.13, 0.006, 1.1, at(wfx, 0.003, wfz), wf % 3 ? '--rdr-panel' : '--rdr-wall', false, false);
+      }
+      for (var ck = 0; ck < 14; ck++) {
+        box(0.012, 0.007, 0.3 + hash(ck, 4, 1) * 0.4, at(-W / 2 + 0.5 + hash(ck, 4, 2) * (W - 1), 0.004, 0.4 - hash(ck, 4, 3) * (D - 1), hash(ck, 4, 4) * 3), '--rdr-stone', false, false);
+      }
+      [-1, 1].forEach(function (s) {
+        for (var fg = 0; fg < 26; fg++) box(0.014, 0.008, 0.12, at(-2.6 + fg * 0.208, 0.004, -6.2 + s * 3.26, (hash(fg, s + 3, 1) - 0.5) * 0.3), '--rdr-brass', false, false);
+      });
+      // Timber panels under the dado rail down both side walls, and a corbel
+      // under each beam where it meets the wall.
+      [-1, 1].forEach(function (s) {
+        for (var pz = -0.6; pz > back + 0.6; pz -= 1.1) {
+          box(0.02, 0.03, 0.92, at(s * (W / 2 - 0.02), 0.28, pz), '--rdr-timber', false, false);
+          box(0.02, 0.03, 0.92, at(s * (W / 2 - 0.02), 0.84, pz), '--rdr-timber', false, false);
+          [-0.46, 0.46].forEach(function (e) { box(0.02, 0.59, 0.03, at(s * (W / 2 - 0.02), 0.56, pz + e), '--rdr-timber', false, false); });
+        }
+        for (var cb = 0; cb < 6; cb++) {
+          box(0.28, 0.32, 0.2, at(s * (W / 2 - 0.14), H - 0.3, -0.5 - cb * 2.2), '--rdr-timber', 0.01);
+          box(0.18, 0.16, 0.2, at(s * (W / 2 - 0.09), H - 0.52, -0.5 - cb * 2.2), '--rdr-timber', false);
+        }
+      });
 
       // THE STONES IN THE WALLS: amber clusters set in the left, amethyst in
       // the right, each a few crystals catching their own light. None is set
@@ -117,6 +170,8 @@
         for (var c = 0; c < 9; c++) {
           var cz = -1.2 - c * 1.25, cy = 0.6 + hash(c, si, 1) * 2.4;
           if (covered[si].some(function (r) { return cz > r[0] && cz < r[1]; })) continue;
+          glint(at(side[0] * (W / 2 - 0.08), cy, cz), si === 0, 0, 0.05, 0.04);
+          glint(at(side[0] * (W / 2 - 0.06), cy, cz), si === 0, 0, -0.08, -0.06);
           for (var k = 0; k < 5; k++) {
             var s = 0.05 + hash(c, k, si + 3) * 0.08;
             var m = at(side[0] * (W / 2 - 0.02), cy + (hash(c, k, 2) - 0.5) * 0.3, cz + (hash(c, k, 4) - 0.5) * 0.35, 0, 0, side[0] * (0.6 + (hash(c, k, 5) - 0.5) * 1.4));
@@ -135,6 +190,7 @@
         box(0.025, 2.2, 0.025, M(ag, at(s * 1.36, 1.1, face)), '--rdr-brass', false);
         for (var j = 0; j < 5; j++) {
           var cs = 0.07 + hash(j, s + 2, 41) * 0.03;
+          if (j % 2 === 0) glint(M(ag, at(s * 1.1, 0.35 + j * 0.38, face - 0.06)), false);
           lit[j % 2 ? '--myth-amethyst-2' : '--myth-amethyst'].push([crystal,
             M(ag, at(s * (1.1 + (hash(j, s + 2, 43) - 0.5) * 0.18), 0.35 + j * 0.38, face, 0, 0, (hash(j, s + 2, 45) - 0.5) * 0.5)).scale(new T.Vector3(cs, cs, cs))]);
         }
@@ -153,6 +209,7 @@
       [20, 45, 70, 110, 135, 160].forEach(function (deg) {
         var a = deg / 180 * Math.PI;
         lit['--myth-amber'].push([amberStone, M(ag, at(Math.cos(a) * 1.1, 2.2 + Math.sin(a) * 1.1, face)).scale(new T.Vector3(0.09, 0.075, 0.05))]);
+        glint(M(ag, at(Math.cos(a) * 1.1, 2.2 + Math.sin(a) * 1.1, face - 0.05)), true);
         lit['--myth-amber-2'].push([amberStone, M(ag, at(Math.cos(a) * 1.1 - 0.02, 2.22 + Math.sin(a) * 1.1, face - 0.03)).scale(new T.Vector3(0.035, 0.03, 0.03))]);
       });
       box(W, H - 3.0, 0.3, at(0, 3.0 + (H - 3.0) / 2, 1.1), '--rdr-wall');
@@ -226,6 +283,30 @@
         kit.cyl(0.03, 0.03, 0.04, at(bx, 2.99 - drop, cz2), '--rdr-brass', false, 8);
         kit.piece(bundle, at(bx, 2.77 - drop, cz2, hash(i, 5, 63) * 3), ink, 0.01);
       });
+      // Rivets round the pot under its rim, a ladle hung on the rim, and a
+      // basket of herbs at its foot, wicker in bands with a handle over.
+      for (var rv = 0; rv < 16; rv++) {
+        var ra = rv / 16 * Math.PI * 2;
+        kit.piece(new T.SphereGeometry(0.018, 5, 3), at(px + Math.cos(ra) * 0.5, 0.95, cz2 + Math.sin(ra) * 0.5), '--rdr-panel', false);
+      }
+      kit.cyl(0.014, 0.014, 0.62, at(px + 0.36, 1.17, cz2 + 0.28, 0.6, 0, 0.55), '--rdr-timber', false, 6);
+      kit.piece(new T.SphereGeometry(0.07, 10, 6, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), at(px + 0.55, 0.92, cz2 + 0.4), '--rdr-timber', false);
+      var bsk = at(px + 0.2, 0, cz2 + 0.85, 0.4);
+      kit.cyl(0.26, 0.21, 0.28, M(bsk, at(0, 0.14, 0)), '--rdr-leather', 0.012, 16);
+      [0.06, 0.13, 0.2, 0.27].forEach(function (y) { kit.piece(new T.TorusGeometry(0.21 + y * 0.18, 0.008, 4, 20), M(bsk, at(0, y, 0, 0, Math.PI / 2)), '--rdr-timber', false); });
+      kit.piece(new T.TorusGeometry(0.24, 0.016, 5, 16, Math.PI), M(bsk, at(0, 0.28, 0)), '--rdr-leather', false);
+      ['--myth-amethyst-2', '--rdr-velvet', '--myth-chalk', '--rdr-leather'].forEach(function (ink, i) {
+        kit.piece(bundle, M(bsk, at(-0.12 + i * 0.08, 0.3, (i % 2 - 0.5) * 0.08, 0, Math.PI / 2 - 0.3, 0.4 - i * 0.25)), ink, 0.008);
+      });
+      // The cauldron's lid, off on the floor beside it until somebody puts
+      // it on.
+      var lidOn = [], lidOff = [];
+      var dome = new T.SphereGeometry(0.5, 20, 6, 0, Math.PI * 2, 0, Math.PI * 0.32);
+      lidOn.push(kit.facets(dome.clone().scale(1, 0.55, 1), at(px, 0.95, cz2), '--rdr-stone'));
+      lidOn.push(kit.facets(new T.TorusGeometry(0.05, 0.014, 6, 12), at(px, 1.27, cz2), '--rdr-brass'));
+      lidOff.push(kit.facets(dome.clone().scale(1, 0.55, 1).rotateX(1.4), at(px - 0.85, 0.43, cz2 + 0.15, 1.2), '--rdr-stone'));
+      lidOff.push(kit.facets(new T.TorusGeometry(0.05, 0.014, 6, 12), M(at(px - 0.85, 0.43, cz2 + 0.15, 1.2), at(0, 0.047, 0.29, 0, 1.4)), '--rdr-brass'));
+      lidOn.forEach(function (m) { kit.hide(m, true); });
       box(1.7, 1.05, 0.5, at(cx2 - 0.6, 0.525, cz2 - 1.4), '--rdr-timber', 0.03);
       box(1.76, 0.04, 0.56, at(cx2 - 0.6, 1.07, cz2 - 1.4), '--rdr-brass', false);
       var cauldron = kit.lift(frame, '.myth-mix.myth-panel', { n: 1, w: 600, ww: 1.6, m: at(cx2 - 0.6, 1.09, cz2 - 1.4) });
@@ -291,18 +372,115 @@
       cluster(M(fw, at(0.75, 2.33, 0.04)), false, 81, 0.05);
       var cards = kit.lift(frame, '.myth-cards', { w: 680, ww: 1.9, h: 520, m: M(fw, at(0, 0.8, 0.06)) });
 
+      // AN OLD BOOK ON A READING STAND at the end of the shelf, turned to the
+      // room: shut, its leather boards cornered in brass and clasped, until
+      // somebody opens it, and then two pages of close black letter with a red
+      // capital, the kind of book the stories on her page were first written
+      // down in.
+      var BOOK = 1.22, bs = at(-4.05, 0, -4.95, BOOK);
+      kit.cyl(0.05, 0.07, 0.95, M(bs, at(0, 0.475, 0)), '--rdr-timber', 0.012, 8);
+      [0, 1, 2].forEach(function (k) { box(0.42, 0.05, 0.07, M(bs, at(0, 0.03, 0, k * Math.PI / 3)), '--rdr-timber', 0.01); });
+      var desk = M(bs, at(0, 1.0, 0, 0, 0.45));
+      box(0.66, 0.035, 0.5, desk, '--rdr-timber', 0.012);
+      box(0.66, 0.06, 0.03, M(desk, at(0, 0.035, 0.25)), '--rdr-timber', false);
+      var bookShut = [], bookOpen = [];
+      bookShut.push(kit.facets(new T.BoxGeometry(0.34, 0.09, 0.44), M(desk, at(0, 0.065, 0.0)), '--rdr-leather'));
+      bookShut.push(kit.facets(new T.BoxGeometry(0.33, 0.07, 0.43), M(desk, at(0.012, 0.065, 0.0)), '--myth-chalk'));
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (c) { bookShut.push(kit.facets(new T.BoxGeometry(0.05, 0.095, 0.05), M(desk, at(c[0] * 0.15, 0.065, c[1] * 0.2)), '--rdr-brass')); });
+      bookShut.push(kit.facets(new T.BoxGeometry(0.06, 0.1, 0.03), M(desk, at(0.17, 0.065, 0)), '--rdr-brass'));
+      bookShut.push(kit.facets(new T.CircleGeometry(0.06, 5), M(desk, at(0, 0.112, 0, 0, -Math.PI / 2)), '--myth-amber'));
+      var leaves = [], letters = [];
+      bookOpen.push(kit.facets(new T.BoxGeometry(0.62, 0.02, 0.46), M(desk, at(0, 0.03, 0)), '--rdr-leather'));
+      [-1, 1].forEach(function (s) {
+        var lm = M(desk, at(s * 0.15, 0.055, 0, 0, 0, s * 0.1));
+        leaves.push([new T.BoxGeometry(0.28, 0.03, 0.42), lm]);
+        for (var ln = 0; ln < 16; ln++) {
+          if (s < 0 && ln < 3) continue;
+          letters.push([new T.PlaneGeometry(0.22, 0.008), M(lm, at(0, 0.0155, -0.17 + ln * 0.022, 0, -Math.PI / 2))]);
+        }
+      });
+      bookOpen.push(kit.facets(merged(leaves), ID, '--myth-chalk'));
+      bookOpen.push(kit.flat(merged(letters), ID, '--rdr-stone'));
+      bookOpen.push(kit.flat(new T.PlaneGeometry(0.05, 0.05), M(desk, at(-0.24, 0.0725, -0.16, 0, -Math.PI / 2, 0.1)), '--rdr-ember'));
+      bookOpen.push(kit.facets(new T.BoxGeometry(0.012, 0.004, 0.2), M(desk, at(0.02, 0.07, 0.3)), '--rdr-velvet'));
+      bookOpen.forEach(function (m) { kit.hide(m, true); });
+
+      // A COAT ON A PEG by the arch, the leather side out, until somebody
+      // turns it inside out to its velvet lining with its seams showing, as
+      // her page says to do if the pixies lead you round in circles.
+      box(1.4, 0.08, 0.05, at(2.4, 1.92, 0.93), '--rdr-timber', 0.01);
+      [1.9, 2.4, 2.9].forEach(function (x) { kit.cyl(0.018, 0.022, 0.12, at(x, 1.9, 0.86, 0, Math.PI / 2), '--rdr-brass', false, 6); });
+      var coatAt = at(2.4, 0, 0.82, Math.PI), coatOut = [], coatIn = [];
+      function coat(ink, list, inside) {
+        list.push(kit.facets(new T.CylinderGeometry(0.17, 0.33, 1.1, 14).scale(1, 1, 0.42), M(coatAt, at(0, 1.3, 0)), ink));
+        [-1, 1].forEach(function (s) { list.push(kit.facets(new T.CylinderGeometry(0.06, 0.075, 0.7, 8), M(coatAt, at(s * 0.21, 1.38, 0.01, 0, 0, s * 0.12)), ink)); });
+        list.push(kit.facets(new T.SphereGeometry(0.16, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.6).scale(1, 1.1, 0.8), M(coatAt, at(0, 1.78, -0.05, 0, 0.5)), ink));
+        if (inside) {
+          list.push(kit.facets(new T.BoxGeometry(0.012, 1.0, 0.02), M(coatAt, at(0, 1.3, 0.145)), '--rdr-ink-2'));
+          [-1, 1].forEach(function (s) { list.push(kit.facets(new T.BoxGeometry(0.15, 0.012, 0.02), M(coatAt, at(s * 0.16, 1.82, 0.1, 0, 0, -s * 0.5)), '--rdr-ink-2')); });
+          list.push(kit.facets(new T.BoxGeometry(0.08, 0.04, 0.01), M(coatAt, at(0, 1.74, 0.11)), '--myth-chalk'));
+        } else {
+          for (var tg = 0; tg < 4; tg++) list.push(kit.facets(new T.CylinderGeometry(0.012, 0.012, 0.07, 6).rotateZ(Math.PI / 2), M(coatAt, at(0.03, 1.66 - tg * 0.2, 0.15)), '--rdr-brass'));
+          list.push(kit.facets(new T.BoxGeometry(0.1, 0.012, 0.02), M(coatAt, at(-0.16, 1.18, 0.14)), '--rdr-timber'));
+          list.push(kit.facets(new T.BoxGeometry(0.1, 0.012, 0.02), M(coatAt, at(0.16, 1.18, 0.14)), '--rdr-timber'));
+        }
+      }
+      // The amber round the arch throws a little of its own light on the peg.
+      var archAmber = new T.PointLight(kit.col('--myth-amber'), 3.2, 3.6, 1.4);
+      archAmber.position.set(1.7, 2.5, 0.2);
+      kit.scene.add(archAmber);
+      washAmber.push(archAmber);
+      coat('--rdr-leather', coatOut, false);
+      coat('--rdr-velvet', coatIn, true);
+      coatIn.forEach(function (m) { kit.hide(m, true); });
+
       Object.keys(lit).forEach(function (ink) { if (lit[ink].length) kit.flat(merged(lit[ink]), ID, ink); });
 
+      // THE LIGHT THROUGH THE STONES, switched: out, low or lit, and at MAX
+      // the amber glows and the amethyst glints by themselves, as on her page.
+      var amber = kit.lights({ label: 'The amber stones', max: true, twinkle: 'Let the amber glow', washes: washAmber,
+        strings: [kit.bulbs(glintAmber, 0.028, ['--myth-amber-2', '--myth-amber'])],
+        sets: [{ say: 'Amber', inks: ['--myth-amber', '--myth-amber-2'] }] });
+      var amethyst = kit.lights({ label: 'The amethyst stones', max: true, twinkle: 'Let the amethyst glint', washes: washAmethyst,
+        strings: [kit.bulbs(glintAmethyst, 0.026, ['--myth-amethyst-2', '--myth-amethyst'])],
+        sets: [{ say: 'Amethyst', inks: ['--myth-amethyst', '--myth-amethyst-2'] }] });
+      var lid = kit.press({ say: function () { return kit.hidden(lidOn[0]) ? 'Put the lid on the cauldron' : 'Lift the lid off the cauldron'; },
+        at: [kit.touch(1.2, 1.3, 1.2, at(px, 0.65, cz2))],
+        press: function () {
+          var on = kit.hidden(lidOn[0]);
+          lidOn.forEach(function (m) { kit.hide(m, !on); });
+          lidOff.forEach(function (m) { kit.hide(m, on); });
+          return on ? 'The lid is on the cauldron, its brass ring on top.' : 'The lid is off the cauldron and stood on the floor beside it.';
+        } });
+      var oldBook = kit.press({ say: function () { return kit.hidden(bookOpen[0]) ? 'Open the old book on its stand' : 'Shut the old book'; },
+        at: [kit.touch(0.7, 0.4, 0.6, M(bs, at(0, 1.05, 0)))],
+        press: function () {
+          var open = kit.hidden(bookOpen[0]);
+          bookOpen.forEach(function (m) { kit.hide(m, !open); });
+          bookShut.forEach(function (m) { kit.hide(m, open); });
+          return open ? 'The old book lies open on its stand: two pages of close black letter, a red capital at the top.' : 'The old book is shut and clasped again.';
+        } });
+      var turnCoat = kit.press({ say: function () { return kit.hidden(coatIn[0]) ? 'Turn the coat inside out' : 'Turn the coat right side out'; },
+        at: [kit.touch(0.8, 1.2, 0.5, M(coatAt, at(0, 1.35, 0)))],
+        press: function () {
+          var inside = kit.hidden(coatIn[0]);
+          coatIn.forEach(function (m) { kit.hide(m, !inside); });
+          coatOut.forEach(function (m) { kit.hide(m, inside); });
+          return inside ? 'The coat on the peg is inside out, its velvet lining and seams showing: the old answer, her page says, if the pixies lead you round in circles.' : 'The coat is right side out again, leather and brass toggles.';
+        } });
+
       var stops = [
-        { name: 'just through the Alchemist’s Arch', x: 0, z: 0.2, yaw: 0 },
+        { name: 'just through the Alchemist’s Arch', x: 0, z: 0.2, yaw: 0, acts: [amber, amethyst] },
         { name: 'at the Stones, with the sun to turn over them', x: sx + 0.3, z: sz + 2.1, yaw: -0.12, frame: sun.el },
-        { name: 'at the cauldron, with the herbs to tip in and her herbs drying over it', x: cx2 - 0.3, z: cz2 + 1.3, yaw: 0, frame: cauldron.el },
-        { name: 'at the Crystal Wheel, with a pouch to fill under it', x: W / 2 - 2.6, z: -2.6, yaw: -Math.PI / 2, frame: pouch.el },
-        { name: 'at the old books along the wall', x: -W / 2 + 2.6, z: -3.0, yaw: Math.PI / 2 },
+        { name: 'at the cauldron, with the herbs to tip in and her herbs drying over it', x: cx2 - 0.3, z: cz2 + 1.3, yaw: 0, frame: cauldron.el, acts: [lid] },
+        { name: 'at the Crystal Wheel, with a pouch to fill under it', x: W / 2 - 2.6, z: -2.6, yaw: -Math.PI / 2, frame: pouch.el, acts: [amethyst] },
+        { name: 'at the old books along the wall', x: -W / 2 + 2.6, z: -3.0, yaw: Math.PI / 2, acts: [amber] },
+        { name: 'at the old book on its reading stand, at the end of the shelf', x: -4.05 + Math.sin(BOOK) * 1.55, z: -4.95 + Math.cos(BOOK) * 1.55, yaw: BOOK, pitch: -0.38, acts: [oldBook] },
         { name: 'at the Wheel of the Year, carved on the left-hand wall, with her festivals under it', x: -2.1, z: -9.4, yaw: Math.PI / 2, frame: year.el },
         { name: 'at her Story or Fact cards, on the right-hand wall', x: 2.1, z: -9.4, yaw: -Math.PI / 2, frame: cards.el },
         { name: 'at the far wall, with her room’s own page on it', x: 0, z: back + 3.0, yaw: 0, page: kit.page, frame: frame },
-        { name: 'looking back at the Alchemist’s Arch, amethyst up its sides and the four elements in its keystone', x: 0, z: -3.6, yaw: Math.PI }
+        { name: 'looking back at the Alchemist’s Arch, amethyst up its sides and the four elements in its keystone', x: 0, z: -3.6, yaw: Math.PI, acts: [amber, amethyst] },
+        { name: 'at the coat on its peg by the arch', x: 2.0, z: -1.5, yaw: Math.PI + 0.12, pitch: 0.02, acts: [turnCoat] }
       ];
 
       return {

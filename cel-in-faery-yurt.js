@@ -17,9 +17,17 @@
    stump, the egg chair in the nook, the pebble bowl by the door. Her own page
    hangs on the far wall, facing the door.
 
-   NOTHING MOVES. Her lights twinkle on her page at MAX; here they are lit and
-   still at every setting, as the field's drawing of her tent is. Every colour
-   is one her room declares, by name. It keeps nothing, sends nothing and
+   WHAT MOVES IS WHAT MOVES ON HER PAGE, AND WHAT YOU ASK FOR (Ryan,
+   2026-11-04). Her page says MAX lights the fairy lights and turns the record
+   and nothing else in the yurt moves unless you ask it to, so here too: at
+   MAX the fairy lights twinkle, slowly, each in its own time, and the record
+   on the phonograph goes round once in six seconds, as hers does; the candles
+   flicker only once somebody presses Let the candles flicker, under the flash
+   line the kit holds. The fairy lights have switches of their own (out, low
+   or lit, and in which of her colours), the tea can be poured, the curtain
+   to the Cinema drawn across and the crown's cover pulled over the night,
+   each a press that says what it did. Every colour is one her room declares,
+   by name. It keeps nothing, sends nothing and
    fetches nothing; her page arrives through Cel Street's screen().
    tools/make-cel-street.py holds each of those.
    ========================================================================== */
@@ -63,8 +71,10 @@
       // lattice catch the light rather than going to the dark of the night
       // outside: a soft wash between the things round the wall, never on
       // them, in her candle colour.
+      var washes = [];
       [-160, -128, -84, -52, 8, 52, 88, 126, 160].forEach(function (deg) {
         var wash = new T.PointLight(kit.col('--candle'), 5.5, 4.2, 1.3);
+        washes.push(wash);
         var wa = deg * Math.PI / 180;
         wash.position.set((R - 1.3) * Math.sin(wa), 1.25, -(R - 1.3) * Math.cos(wa));
         kit.scene.add(wash);
@@ -99,16 +109,42 @@
       kit.piece(new T.TorusGeometry(0.08, 0.018, 6, 12, Math.PI), at(-0.33, 0.52, 0.05, 0, 0, Math.PI / 2), '--tallow-2', false);
       kit.cyl(0.02, 0.03, 0.14, at(-0.02, 0.53, 0.05, 0, 0, -0.9), '--tallow-2', false, 6);
       kit.cyl(0.07, 0.07, 0.03, at(-0.18, 0.62, 0.05), '--tallow-2', false, 12);
-      [[0.22, 0.25], [0.3, -0.15]].forEach(function (c) { kit.cyl(0.05, 0.04, 0.08, at(c[0], 0.43, c[1]), c[0] > 0.25 ? '--moonstone-2' : '--ember-2', 0.008, 10); });
       [['--ember', 0.05], ['--ivy', 0.09], ['--moonstone', 0.13]].forEach(function (bk, n) {
         box(0.3 - n * 0.03, 0.04, 0.22 - n * 0.02, at(0.05, 0.41 + n * 0.045, -0.32, 0.2 + n * 0.25), bk[0], 0.006);
       });
-      function candleAt(m, h) {
+      // Every candle's flame is kept, so the candles can flicker when asked.
+      var flames = [];
+      function candleAt(m, h, light) {
         kit.cyl(0.035, 0.035, h, M(m, at(0, h / 2, 0)), '--tallow', 0.006, 10);
+        // A drip of wax down its side, and the wick.
+        kit.cyl(0.008, 0.012, h * 0.4, M(m, at(0.03, h * 0.78, 0.01)), '--tallow', false, 5);
+        kit.cyl(0.003, 0.003, 0.02, M(m, at(0, h + 0.01, 0)), '--hearth', false, 3);
         var flame = new T.ConeGeometry(0.022, 0.07, 8); flame.translate(0, 0.035, 0);
-        kit.flat(flame, M(m, at(0, h + 0.005, 0)), '--candle');
+        var f = kit.flat(flame, M(m, at(0, h + 0.012, 0)), '--candle');
+        flames.push({ mesh: f, light: light || null });
+        return f;
       }
-      [[0.3, 0.12, 0.16], [0.38, 0.0, 0.11], [0.24, -0.02, 0.21]].forEach(function (c) { candleAt(at(c[0], 0.39, c[1]), c[2]); });
+      // The three on the table give the table its own small warmth.
+      var tableLight = new T.PointLight(kit.col('--candle'), 2.2, 2.6, 1.4);
+      tableLight.position.set(0.3, 0.75, 0.05);
+      kit.scene.add(tableLight);
+      [[0.3, 0.12, 0.16], [0.38, 0.0, 0.11], [0.24, -0.02, 0.21]].forEach(function (c, n) { candleAt(at(c[0], 0.39, c[1]), c[2], n ? null : tableLight); });
+      // The cups, empty until somebody pours, and the tea in them.
+      var tea = [];
+      [[0.22, 0.25], [0.3, -0.15], [-0.32, -0.28]].forEach(function (c, n) {
+        kit.cyl(0.05, 0.04, 0.08, at(c[0], 0.43, c[1]), ['--ember-2', '--moonstone-2', '--ivy'][n], 0.008, 10);
+        kit.cyl(0.042, 0.042, 0.004, at(c[0], 0.468, c[1]), '--hearth', false, 10);
+        var t = kit.flat(new T.CircleGeometry(0.04, 12), at(c[0], 0.462, c[1], 0, -Math.PI / 2), '--ember');
+        kit.hide(t, true);
+        tea.push(t);
+      });
+      // Her notebook, open on the table, and a quill laid across it.
+      box(0.24, 0.012, 0.17, at(0.02, 0.4, 0.3, -0.3), '--tallow', false, false);
+      box(0.004, 0.014, 0.17, at(0.02, 0.402, 0.3, -0.3), '--tallow-3', false, false);
+      for (var nl = 0; nl < 5; nl++) box(0.08, 0.002, 0.004, at(-0.05 + (nl % 2) * 0.13 * Math.cos(0.3), 0.408, 0.25 + Math.floor(nl / 2) * 0.03), '--tallow-3', false, false);
+      kit.cyl(0.004, 0.006, 0.22, at(0.06, 0.415, 0.33, 0, Math.PI / 2 - 0.2, 0.9), '--tallow-2', false, 4);
+      var plume = new T.SphereGeometry(0.03, 6, 4); plume.scale(0.5, 2.2, 0.2);
+      kit.piece(plume, at(0.12, 0.42, 0.37, 0.9, 0.3), '--moonstone-2', false);
       // Floor cushions round it, plump and a little squashed.
       [['--ember-2', 0.3], ['--ivy', 1.9], ['--moonstone-2', 3.4], ['--ember', 4.7]].forEach(function (c, n) {
         var cush = new T.SphereGeometry(0.42, 16, 10); cush.scale(1, 0.32, 1);
@@ -124,6 +160,11 @@
         var th = i / N * Math.PI * 2;
         if (Math.abs(th - Math.PI) < 9 * DEG) continue;
         box(pw, H, 0.1, round(th, R, H / 2), i % 2 ? '--canvas' : '--canvas-2', false);
+        // The seam where one panel is stitched to the next, and a band of
+        // her ember worked along the canvas at knee height.
+        box(0.025, H, 0.02, M(round(th, R - 0.06, H / 2), at(pw / 2, 0, 0)), '--tent', false, false);
+        box(pw, 0.05, 0.02, round(th, R - 0.06, 0.55), i % 3 ? '--ember' : '--toadstool', false, false);
+        for (var st3 = 0; st3 < 6; st3++) box(0.04, 0.012, 0.022, M(round(th, R - 0.065, 0.55), at(-pw / 2 + (st3 + 0.5) * pw / 6, 0, 0)), '--candle', false, false);
         [-1, 1].forEach(function (s) {
           box(0.04, Math.hypot(pw, H) * 0.98, 0.04, M(round(th, R - 0.08, H / 2), at(0, 0, 0, 0, 0, s * Math.atan2(pw, H))), '--timber', false);
         });
@@ -168,15 +209,22 @@
       kit.piece(new T.TorusGeometry(0.78, 0.07, 6, 28), at(0, CROWN, 0, 0, Math.PI / 2), '--timber', 0.02);
 
       // FAIRY LIGHTS strung low under the canvas, in swags from pole to pole.
-      var bulb = new T.SphereGeometry(0.035, 6, 4);
+      // Each bulb is kept, so the lights can be switched and can twinkle.
+      var low = [], high = [];
       for (i = 0; i < N; i++) {
         var a0 = i / N * Math.PI * 2, a1 = (i + 1) / N * Math.PI * 2;
         for (var t = 0; t < 7; t++) {
           var u = t / 7, aa = a0 + (a1 - a0) * u, sag = Math.sin(u * Math.PI) * 0.28, rr = R - 0.35;
-          kit.piece(bulb.clone(), at(rr * Math.sin(aa), H - 0.05 - sag, -rr * Math.cos(aa)), '--candle', false);
+          low.push([rr * Math.sin(aa), H - 0.05 - sag, -rr * Math.cos(aa)]);
+          // The wire they hang on, between each bulb and the next.
+          var u2 = (t + 1) / 7, ab = a0 + (a1 - a0) * u2, sag2 = Math.sin(u2 * Math.PI) * 0.28;
+          var wa0 = new T.Vector3(rr * Math.sin(aa), H - 0.02 - sag, -rr * Math.cos(aa)), wa1 = new T.Vector3(rr * Math.sin(ab), H - 0.02 - sag2, -rr * Math.cos(ab));
+          var wseg = wa1.clone().sub(wa0), wg = new T.CylinderGeometry(0.004, 0.004, wseg.length(), 3);
+          wg.applyQuaternion(new T.Quaternion().setFromUnitVectors(new T.Vector3(0, 1, 0), wseg.clone().normalize()));
+          var wm = wa0.clone().add(wa1).multiplyScalar(0.5);
+          kit.piece(wg, at(wm.x, wm.y, wm.z), '--timber', false);
         }
       }
-      var small = new T.SphereGeometry(0.026, 6, 4);
       // And swags hung from pole to pole under the roof, over everybody's
       // heads, each on its own thin wire.
       [[-70, 20], [35, 125], [-125, -60], [70, 135]].forEach(function (sw, j) {
@@ -190,7 +238,7 @@
           wire.applyQuaternion(new T.Quaternion().setFromUnitVectors(new T.Vector3(0, 1, 0), seg.clone().normalize()));
           var mid2 = prev.clone().add(P).multiplyScalar(0.5);
           kit.piece(wire, at(mid2.x, mid2.y, mid2.z), '--timber', false);
-          if (k < 30) kit.piece(small.clone(), at(P.x, P.y - 0.03, P.z), '--candle', false);
+          if (k < 30) high.push([P.x, P.y - 0.03, P.z]);
           prev = P;
         }
       });
@@ -200,13 +248,21 @@
       box(0.3, 0.04, 0.3, at(0, 2.64, -0.5), '--timber', 0.01);
       box(0.3, 0.04, 0.3, at(0, 2.26, -0.5), '--timber', 0.01);
       [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (c) { box(0.025, 0.4, 0.025, at(c[0] * 0.13, 2.45, -0.5 + c[1] * 0.13), '--timber', false); });
-      kit.flat(new T.SphereGeometry(0.1, 12, 8), at(0, 2.42, -0.5), '--candle');
+      var lanternFlame = new T.SphereGeometry(0.1, 12, 8); lanternFlame.scale(0.75, 1.2, 0.75); lanternFlame.translate(0, 0.1, 0);
+      flames.push({ mesh: kit.flat(lanternFlame, at(0, 2.3, -0.5), '--candle'), light: candle });
+      kit.cyl(0.06, 0.06, 0.06, at(0, 2.3, -0.5), '--tallow', false, 10);
       // The night in the crown: stars, in her tallow.
       for (var sr = 0; sr < 40; sr++) {
         var sa = hash(sr, 7, 1) * Math.PI * 2, sd = Math.sqrt(hash(sr, 7, 2)) * 0.66;
         kit.flat(new T.CircleGeometry(0.008 + hash(sr, 7, 3) * 0.012, 5), at(Math.cos(sa) * sd, CROWN + 0.5, Math.sin(sa) * sd, 0, Math.PI / 2), sr % 5 ? '--tallow-3' : '--tallow');
       }
       kit.flat(new T.CircleGeometry(0.8, 28), at(0, CROWN + 0.52, 0, 0, Math.PI / 2), '--hearth');
+      // The crown's cover, a round of canvas on a cord, pulled over the night
+      // when somebody asks, and back again.
+      var cover = kit.facets(new T.CylinderGeometry(0.86, 0.86, 0.04, 28), at(0, CROWN + 0.06, 0), '--canvas-2');
+      kit.hide(cover, true);
+      kit.cyl(0.006, 0.006, CROWN - 2.0, at(0.82, (CROWN + 2.0) / 2, 0.2), '--tallow-3', false, 3);
+      kit.piece(new T.SphereGeometry(0.03, 6, 4), at(0.82, 2.0, 0.2), '--timber', false);
 
       var stops = [{ name: 'just inside the door, out of the night air', x: 0, z: R - 1.2, yaw: 0 }];
       function stop(theta, name, page, room) { stops.push({ name: name, room: room, page: page, x: (R - 3.3) * Math.sin(theta), z: -(R - 3.3) * Math.cos(theta), yaw: -theta, pitch: -0.08 }); }
@@ -236,13 +292,34 @@
           box(0.32 - bb * 0.02, 0.06, 0.24, M(bc, at(pile[0], 0.03 + bb * 0.062, 0.2 + pile[1], (hash(bb, pn, 5) - 0.5) * 0.5)), SPINES[(bb * 3 + pn) % SPINES.length], 0.006);
         }
       });
+      // Candles lit along the top of the case, as her page has them along
+      // the shelves, and a little dish of wax under each.
+      [[-0.48, 0.14], [-0.1, 0.1], [0.36, 0.17]].forEach(function (c) {
+        kit.cyl(0.06, 0.06, 0.012, M(bc, at(c[0], 1.906, 0)), '--tallow-3', false, 12);
+        candleAt(M(bc, at(c[0], 1.91, 0)), c[1]);
+      });
       stop(35 * DEG, 'at the bookcase, the way through to the Reading Room', 'faery-reading-room.html', 'The Reading Room');
 
       // THE PHONOGRAPH on its little table, to the Music Room.
       var ph = round(70 * DEG, R - 0.8, 0);
       box(0.8, 0.7, 0.6, M(ph, at(0, 0.35, 0)), '--timber');
       box(0.5, 0.18, 0.44, M(ph, at(0, 0.79, 0)), '--canvas-2');
-      kit.cyl(0.2, 0.2, 0.02, M(ph, at(0, 0.89, 0)), '--hearth', false, 20);
+      // HER RECORD on the phonograph, black with its grooves, a red label and
+      // her moon and star on it in candle gold, off the middle so you can see
+      // it go round; the tone arm lies on it and does not turn.
+      var recordAt = M(ph, at(0, 0.895, 0.05)), record = [];
+      record.push(kit.facets(new T.CylinderGeometry(0.15, 0.15, 0.012, 32), recordAt, '--hearth'));
+      [0.14, 0.125, 0.11, 0.095, 0.08].forEach(function (r) { kit.flat(new T.RingGeometry(r - 0.002, r, 32), M(recordAt, at(0, 0.0065, 0, 0, -Math.PI / 2)), '--canvas-2'); });
+      record.push(kit.flat(new T.CircleGeometry(0.052, 20), M(recordAt, at(0, 0.0072, 0, 0, -Math.PI / 2)), '--toadstool'));
+      var starShape = new T.Shape();
+      for (var sp5 = 0; sp5 < 10; sp5++) { var sr5 = sp5 % 2 ? 0.006 : 0.015, sa5 = sp5 / 10 * Math.PI * 2; sp5 ? starShape.lineTo(sr5 * Math.sin(sa5), sr5 * Math.cos(sa5)) : starShape.moveTo(0, sr5); }
+      record.push(kit.flat(new T.ShapeGeometry(starShape), M(recordAt, at(0.026, 0.0078, 0.012, 0, -Math.PI / 2)), '--candle'));
+      var moonShape = new T.Shape(); moonShape.absarc(0, 0, 0.016, 0.5, Math.PI * 2 - 0.5, false); moonShape.absarc(0.008, 0, 0.012, Math.PI * 2 - 0.9, 0.9, true);
+      record.push(kit.flat(new T.ShapeGeometry(moonShape), M(recordAt, at(-0.022, 0.0078, -0.012, 0, -Math.PI / 2)), '--candle'));
+      kit.cyl(0.005, 0.005, 0.03, M(recordAt, at(0, 0.015, 0)), '--tallow-2', false, 6);
+      kit.cyl(0.006, 0.004, 0.2, M(recordAt, at(0.13, 0.03, -0.02, 0, 0, Math.PI / 2 - 0.08)), '--tallow-2', false, 5);
+      box(0.03, 0.02, 0.04, M(recordAt, at(0.035, 0.02, -0.02)), '--tallow-2', false, false);
+      kit.cyl(0.02, 0.02, 0.04, M(recordAt, at(0.23, 0.02, -0.02)), '--timber', false, 8);
       // The horn: a real flared bell, turned out to the room and a little
       // up, as a phonograph's is, its narrow throat down to the box on a
       // short arm. Drawn twice, outside and in, so the inside of the bell is
@@ -272,9 +349,16 @@
       // THE CURTAIN, to the Cinema: canvas drawn back from a doorway.
       var cu = round(108 * DEG, R - 0.12, 0);
       box(1.3, 1.95, 0.05, M(cu, at(0, 0.975, -0.02)), '--hearth', false);
+      // Drawn back, in folds at either side; or drawn across, when asked.
+      var drawnBack = [], drawnAcross = [];
       [-1, 1].forEach(function (s) {
-        for (var f = 0; f < 4; f++) kit.cyl(0.07, 0.11, 1.9, M(cu, at(s * (0.5 + f * 0.09), 0.97, 0.06)), f % 2 ? '--toadstool' : '--ember', false, 8);
+        for (var f = 0; f < 4; f++) drawnBack.push(kit.facets(new T.CylinderGeometry(0.07, 0.11, 1.9, 8), M(cu, at(s * (0.5 + f * 0.09), 0.97, 0.06)), f % 2 ? '--toadstool' : '--ember'));
       });
+      for (var fa = 0; fa < 13; fa++) {
+        var fold = kit.facets(new T.CylinderGeometry(0.06, 0.06, 1.9, 8), M(cu, at(-0.62 + fa * 0.103, 0.97, 0.06 + (fa % 2) * 0.03)), fa % 2 ? '--toadstool' : '--ember');
+        kit.hide(fold, true); drawnAcross.push(fold);
+      }
+      kit.cyl(0.02, 0.02, 1.5, M(cu, at(0, 1.96, 0.06, 0, 0, Math.PI / 2)), '--timber', false, 6);
       stop(108 * DEG, 'at the curtain, the way through to the Cinema', 'faery-cinema-room.html', 'The Cinema');
 
       // THE EGG CHAIR in the regulation nook.
@@ -299,6 +383,16 @@
       kit.cyl(0.03, 0.04, 0.53, M(sdt, at(0, 0.27, 0)), '--timber', false, 6);
       candleAt(M(sdt, at(-0.07, 0.57, 0)), 0.12);
       kit.cyl(0.045, 0.04, 0.09, M(sdt, at(0.08, 0.615, 0.04)), '--ivy', 0.008, 10);
+      // Ivy in pots on the floor beside it, trailing.
+      [[-0.95, 0.1, 0.55], [-1.1, 0.5, 0.4]].forEach(function (pt, pn) {
+        var pm = M(eg, at(pt[0], 0, pt[1]));
+        kit.cyl(0.16 * (pt[2] / 0.5), 0.12 * (pt[2] / 0.5), pt[2] * 0.6, M(pm, at(0, pt[2] * 0.3, 0)), pn ? '--ember' : '--tallow-3', 0.012, 12);
+        for (var pl = 0; pl < 14; pl++) {
+          var pa = hash(pl, pn, 31) * Math.PI * 2, pr = hash(pl, pn, 32) * 0.18;
+          var pleaf = new T.SphereGeometry(0.06, 6, 4); pleaf.scale(1, 0.5, 0.35);
+          kit.piece(pleaf, M(pm, at(Math.cos(pa) * pr, pt[2] * 0.6 + hash(pl, pn, 33) * 0.3 - (pl > 10 ? 0.35 : 0), Math.sin(pa) * pr, pa, 0, hash(pl, pn, 34) * 2)), pl % 3 ? '--ivy' : '--ivy-2', false);
+        }
+      });
       // A sheepskin on the floor in front of it.
       var fleece = new T.CircleGeometry(0.55, 14); fleece.scale(1, 0.7, 1);
       kit.flat(fleece, M(eg, at(0, 0.03, 1.0, 0, -Math.PI / 2)), '--tallow-2');
@@ -350,6 +444,7 @@
         kit.cyl(0.055, 0.055, j[1], M(sh, at(jx, 0.02 + j[1] / 2, 0)), j[0], 0.008, 12);
         kit.cyl(0.058, 0.058, 0.025, M(sh, at(jx, 0.035 + j[1], 0)), '--timber', false, 12);
       });
+      candleAt(M(sh, at(0.56, 0.02, 0)), 0.1);
       [-0.5, -0.15, 0.25, 0.55].forEach(function (x, n) {
         var hm = M(st, at(x, 2.0 - (n % 2) * 0.08, 0.2));
         kit.cyl(0.006, 0.006, 0.18, M(hm, at(0, 0.09, 0)), '--tallow-3', false, 3);
@@ -404,6 +499,13 @@
       box(0.04, 1.4, 0.08, M(gw, at(0, 1.45, 0.04)), '--timber', false);
       for (q = 0; q < 9; q++) kit.piece(new T.SphereGeometry(0.018, 5, 3), M(gw, at((hash(q, 4, 1) - 0.5) * 0.8, 1.0 + hash(q, 4, 2) * 1.1, 0.05)), '--moonstone-2', false);
       box(1.3, 0.06, 0.24, M(gw, at(0, 0.72, 0.1)), '--timber');
+      candleAt(M(gw, at(-0.4, 0.75, 0.12)), 0.14);
+      candleAt(M(gw, at(-0.25, 0.75, 0.16)), 0.09);
+      // Little crystals along the ledge beside her moon stone.
+      [[0.08, 0.06, '--moonstone-2'], [0.18, 0.045, '--tallow'], [0.52, 0.05, '--moonstone']].forEach(function (c) {
+        var cr = new T.ConeGeometry(0.025, c[1] * 2, 6); cr.translate(0, c[1], 0);
+        kit.piece(cr, M(gw, at(c[0], 0.75, 0.13, c[0] * 3, 0, (c[0] - 0.3) * 0.5)), c[2], 0.004);
+      });
       var stone = new T.DodecahedronGeometry(0.1, 0); stone.scale(1.3, 0.8, 1);
       kit.piece(stone, M(gw, at(0.35, 0.82, 0.14, 0.4)), '--moonstone-2', 0.015);
       // The moon through her window lies on its sill and her stone.
@@ -418,6 +520,48 @@
       kit.flat(big, M(ms, at(0, 0.48, 0)), '--candle');
       kit.flat(new T.CircleGeometry(0.5, 20), M(ms, at(0, 0.04, 0, 0, -Math.PI / 2)), '--ivy-2');
       stop(-22 * DEG, 'by the glowing mushroom, the way down to Glow Wild Hollow', 'glow-wild-hollow.html', 'Glow Wild Hollow');
+
+      // HER SWITCHES. The fairy lights: out, low or lit, in which of her
+      // colours, and twinkling by themselves at MAX as hers do.
+      var lights = kit.lights({ label: 'The fairy lights', max: true, washes: washes,
+        strings: [kit.bulbs(low, 0.035, ['--candle', '--ember-2']), kit.bulbs(high, 0.026, ['--candle', '--ember-2'])],
+        sets: [{ say: 'Gold and amber, as on her page', inks: ['--candle', '--ember-2'] },
+               { say: 'All candle gold', inks: ['--candle'] },
+               { say: 'Ember', inks: ['--ember', '--ember-2'] },
+               { say: 'Moonstone', inks: ['--moonstone-2', '--tallow'] },
+               { say: 'Ivy and toadstool', inks: ['--ivy', '--toadstool', '--candle'] }] });
+      // The candles, which move only when somebody asks.
+      var candles = kit.flames(flames, { say: 'Let the candles flicker',
+        said: function (on) { return on ? 'Every candle in the yurt flickers, each in its own time.' : 'The candles burn still again.'; } });
+      // The record, which goes round at MAX as hers does, or when asked.
+      var turning = kit.turn(record, recordAt, { say: 'Turn the record', max: true, period: 6,
+        said: function (on) { return on ? 'Her record goes round, once in six seconds.' : 'The record stops where it is.'; } });
+      var pour = kit.press({ say: function () { return kit.hidden(tea[0]) ? 'Pour the tea' : 'Drink up'; },
+        at: [kit.touch(0.4, 0.35, 0.4, at(-0.18, 0.55, 0.05))],
+        press: function () {
+          var full = kit.hidden(tea[0]);
+          tea.forEach(function (t) { kit.hide(t, !full); });
+          return full ? 'Tea is poured into all three cups, one each for whoever comes in.' : 'The cups are empty again; the pot is still warm.';
+        } });
+      var curtain = kit.press({ say: function () { return kit.hidden(drawnAcross[0]) ? 'Draw the curtain across' : 'Draw the curtain back'; },
+        at: [kit.touch(1.4, 2, 0.4, M(cu, at(0, 1, 0.1)))],
+        press: function () {
+          var across = kit.hidden(drawnAcross[0]);
+          drawnAcross.forEach(function (f) { kit.hide(f, !across); });
+          drawnBack.forEach(function (f) { kit.hide(f, across); });
+          return across ? 'The curtain is drawn across the way to the Cinema; the way is still there behind it.' : 'The curtain is drawn back from the way to the Cinema.';
+        } });
+      var crown = kit.press({ say: function () { return kit.hidden(cover) ? 'Pull the cover over the crown' : 'Pull the cover back off the crown'; },
+        press: function () {
+          kit.hide(cover, !kit.hidden(cover));
+          return !kit.hidden(cover) ? 'The cover is over the crown, and the night is shut out.' : 'The cover is back, and the night and its stars are in the crown again.';
+        } });
+      stops.forEach(function (st2) {
+        if (st2.page === 'faery-music-room.html') st2.acts = [turning];
+        if (st2.page === 'faery-cinema-room.html') st2.acts = [curtain];
+      });
+      stops.splice(1, 0, { name: 'at the low table in the middle, set for tea', x: 0.2, z: 1.5, yaw: 0, pitch: -0.42, acts: [pour, candles] });
+      stops.push({ name: 'under the crown, looking up at the fairy lights and the night', x: 0, z: 0.9, yaw: 0, pitch: 0.95, acts: [crown, lights] });
 
       return {
         start: { x: 0, z: R - 1.2, yaw: 0 },

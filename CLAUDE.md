@@ -4206,7 +4206,17 @@ thing inked by a hull scaled a little larger and drawn `BackSide` (`piece()` bui
 one mesh per material). **A mesh placed by hand needs `matrixWorldNeedsUpdate`** (`put()`): with `matrixAutoUpdate`
 off, three.js never updates its world matrix, and the first build drew every sign and awning at the origin. **Nothing
 moves by itself**: the scene is drawn on demand, `requestAnimationFrame` only while a key is held or a glide is under
-way, and the tool refuses a timer, storage, a request but `index.html`, and markup from a string. **The canvas is a
+way, and the tool refuses a timer, storage, a request but `index.html`, and markup from a string. **What a room hands
+the kit is the one exception** (Ryan, 2026-11-04, for the Faery Yurt's candles, record and fairy lights): `kit.flames`,
+`kit.turn` and `kit.lights` move things from one `requestAnimationFrame` loop (`moveTick`), by themselves only at MAX
+and only where the room's own page moves that thing at MAX (`max: true`), otherwise only after a press of the switch the
+kit makes for them (the candles' rule), never in a low-stimulation mode or a hidden tab, and under the line candles.js
+holds (`DIM`, `HZ`, `TWINKLE`, `TURN_MIN`, which `make-cel-street.py` refuses past it). **A room's own switches go under
+the line that says where you are** (`[data-cel-roomctl]`): `kit.press`, `kit.choose`, the lights' and the flames' and the
+turn's switches, each answering in words, a stop's `acts` putting them in that line too, and `kit.touch` making the thing
+pressable in the scene. **Show or put away a mesh with `kit.hide`, never `.visible`**, which the culling in `place()`
+overwrites on every draw. The friendly edits are `max: true` on candles "so MAX feels alive" where the room's page does
+not flicker them, a room's own `requestAnimationFrame`, and a faster twinkle. **The canvas is a
 picture to a screen reader**, so the doors are also an ordinary list of links under it, and focusing one stands you at
 its shop; **Climb up over the roofs** (C) is how anybody sees the panels, which cannot be seen from the pavement. The
 friendly edits are drifting clouds or swaying wires "so it feels alive", three.js from a CDN "to save the bytes", and

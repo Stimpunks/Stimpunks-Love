@@ -34,9 +34,28 @@
    goes to daylight, the ordinary black tray of pale paint, and back, and the
    room follows it, in the daylight colours her room declares for that.
 
-   NOTHING MOVES. Every colour is one her room declares, by name. It keeps
-   nothing, sends nothing and fetches nothing; her page arrives through Cel
-   Street's screen(). tools/make-cel-street.py holds each of those.
+   ROUND 3 (Ryan, 2026-11-04) added more of what her page holds: strings of
+   white flowers swagged under the ceiling with strands hanging from them,
+   and a paper star on a thread, as in her photographs of the yurt under its
+   lamp; a line of drawings pegged up to dry on the left-hand wall; drips run
+   down the big sheet; a tray of rainbow rice on the floor; the tuff tray's
+   moulded handles and its stand braced; a towel over the stool's end. Every
+   one of them glows under the lamp and goes to its daylight without it.
+
+   WHAT MOVES IS WHAT HER PAGE MOVES, AND WHAT YOU ASK FOR. Her dial says MAX
+   lets the glow in the drawing breathe, slowly, and nothing ever flashes. So
+   at MAX the flowers' glow breathes, each in its own time, and it has its own
+   switches too (how brightly they glow, white or white and lilac, breathing
+   or still); with the lamp off they are pale paper flowers and do not glow at
+   all. Four things can be pressed, each changing the scene at once and saying
+   what it did: the lamp, from the tube itself, which presses her own switch
+   on the easel so there is still only one; stirring the oil and water, which
+   breaks the oil into drops and lets it settle back on top, never mixing; a
+   finger drawn through the sensory bags; and a handful of the oobleck,
+   squeezed hard and let go runny. Every colour is one her room declares, by
+   name. It keeps nothing, sends nothing and fetches nothing; her page arrives
+   through Cel Street's screen(). tools/make-cel-street.py holds each of
+   those.
    ========================================================================== */
 (function () {
   'use strict';
@@ -77,6 +96,20 @@
         var curve = new T.CatmullRomCurve3(pts.map(function (p) { return new T.Vector3(p[0], p[1], p[2]); }));
         return glow(new T.TubeGeometry(curve, 40, r, 6, false), new T.Matrix4(), ink);
       }
+      // Many small things of one colour as one mesh, so a tray of rice is one draw.
+      function merged(parts) {
+        var arrs = [], n = 0;
+        parts.forEach(function (q) {
+          var g = q[0].index ? q[0].toNonIndexed() : q[0].clone();
+          g.applyMatrix4(q[1]); arrs.push(g.attributes.position.array); n += g.attributes.position.array.length;
+        });
+        var pos = new Float32Array(n), o = 0;
+        arrs.forEach(function (a) { pos.set(a, o); o += a.length; });
+        var out = new T.BufferGeometry(); out.setAttribute('position', new T.BufferAttribute(pos, 3));
+        return out;
+      }
+      // What shows only in daylight, with the lamp off, and what only under it.
+      var dayOnly = [], nightOnly = [];
       // A dab, squashed flat: a puff of foam paint, a finger mark, a drip.
       function dab(x, y, z, r, ink, tall) {
         var g = new T.SphereGeometry(r, 10, 6); g.scale(1, tall || 0.45, 1);
@@ -115,6 +148,51 @@
         haze(hg, at(0, 2.35, back + 0.02 + i * 0.004), r[2]);
       });
 
+      // STRINGS OF WHITE FLOWERS swagged across under the ceiling, with
+      // strands hanging down from them like wisteria, as in her photographs
+      // of the yurt under its lamp, and a paper star on a thread. They are
+      // fluorescent: white under the lamp, pale in the day. The flowers are
+      // bulbs of the kit's, so how brightly they glow can be let down, and at
+      // MAX their glow breathes, slowly, as the glow in her drawing does.
+      var bloom = [], bud = [], daySprigs = [], twig = new T.SphereGeometry(1, 6, 4);
+      [-3.3, -6.2].forEach(function (sz2, si) {
+        var pts = [];
+        for (var q = 0; q <= 24; q++) {
+          var x = -W / 2 + 0.1 + q / 24 * (W - 0.2), u = x / (W / 2);
+          pts.push(new T.Vector3(x, 2.9 - 0.26 * (1 - u * u), sz2 + Math.sin(q * 0.9 + si) * 0.05));
+        }
+        var curve = new T.CatmullRomCurve3(pts);
+        kit.piece(new T.TubeGeometry(curve, 48, 0.006, 4, false), new T.Matrix4(), '--ppd-line', false);
+        for (var f = 0; f < 56; f++) {
+          var pt = curve.getPoint((f + 0.5) / 56);
+          (f % 3 ? bloom : bud).push([pt.x + (hash(si, f, 1) - 0.5) * 0.04, pt.y - 0.02, pt.z + (hash(si, f, 2) - 0.5) * 0.06]);
+          if (f % 4 === 1) {
+            var drop = 2 + Math.floor(hash(si, f, 3) * 4);
+            for (var dd = 1; dd <= drop; dd++) (dd === drop ? bud : bloom).push([pt.x + (hash(si, f, dd) - 0.5) * 0.03, pt.y - dd * 0.05, pt.z]);
+          }
+        }
+      });
+      var blooms = kit.bulbs(bloom, 0.022, ['--ppd-ink']), buds = kit.bulbs(bud, 0.014, ['--ppd-ink']);
+      var flowers = kit.lights({ label: 'The flowers on the strings', max: true, twinkle: 'Let the glow breathe',
+        strings: [blooms, buds],
+        sets: [{ say: 'White, as in her photographs', inks: ['--ppd-ink'] },
+               { say: 'White and lilac', inks: ['--ppd-ink', '--ppd-ink-2'] }] });
+      bloom.concat(bud).forEach(function (b) { daySprigs.push([twig, at(b[0], b[1], b[2]).scale(new T.Vector3(0.02, 0.02, 0.02))]); });
+      var dayFlowers = kit.flat(merged(daySprigs), new T.Matrix4(), '--ppd-day-tube');
+      dayOnly.push(dayFlowers);
+      kit.hide(dayFlowers, true);
+      // The bulbs only glow under the lamp.
+      nightOnly.push(blooms.mesh, buds.mesh);
+      // The paper star, turning neither way, on its thread.
+      var starShape = new T.Shape();
+      for (var sp2 = 0; sp2 < 10; sp2++) {
+        var sa = sp2 / 10 * Math.PI * 2 + Math.PI / 2, sr = sp2 % 2 ? 0.1 : 0.24;
+        if (sp2) starShape.lineTo(Math.cos(sa) * sr, Math.sin(sa) * sr); else starShape.moveTo(Math.cos(sa) * sr, Math.sin(sa) * sr);
+      }
+      var star = glow(new T.ShapeGeometry(starShape), at(2.6, 2.3, -3.4, -0.6), '--ppd-ink');
+      star.material.side = T.DoubleSide;
+      kit.cyl(0.004, 0.004, 0.46, at(2.6, 2.77, -3.4), '--ppd-line', false, 4);
+
       // THE TUFF TRAY on its low stand, on a wipe-clean mat, and what is in it.
       var tz = -4.6, TR = 1.15, TY = 0.62;
       box(3.2, 0.012, 2.8, at(0, 0.006, tz), '--ppd-tray', false, false);
@@ -127,6 +205,14 @@
       glow(new T.TorusGeometry(TR - 0.05, 0.016, 6, 48), at(0, TY + 0.072, tz, 0, FLAT), '--ppd-uv');
       [[-0.8, -0.3], [0.8, -0.3], [-0.5, 0.6], [0.5, 0.6]].forEach(function (l) {
         box(0.06, TY, 0.06, at(l[0], TY / 2, tz + l[1]), '--ppd-line', 0.01);
+      });
+      // Its stand braced between the legs, and the two handles moulded into
+      // its rim, each side.
+      box(1.6, 0.04, 0.04, at(0, 0.18, tz - 0.3), '--ppd-line', false);
+      box(1.0, 0.04, 0.04, at(0, 0.18, tz + 0.6), '--ppd-line', false);
+      [-1, 1].forEach(function (sd) {
+        box(0.04, 0.04, 0.9, at(sd * 0.65, 0.18, tz + 0.15, sd * 0.32), '--ppd-line', false);
+        kit.piece(new T.TorusGeometry(0.13, 0.025, 6, 12, Math.PI), at(sd * (TR + 0.02), TY + 0.03, tz, sd * Math.PI / 2, -Math.PI / 2), '--ppd-tray', 0.01);
       });
       var y0 = TY + 0.1;
       swirl([[-0.6, y0, tz + 0.1], [-0.35, y0, tz - 0.25], [-0.05, y0, tz + 0.05], [0.15, y0, tz - 0.2], [0.05, y0, tz - 0.4]], 0.035, '--ppd-pink');
@@ -163,6 +249,11 @@
       box(0.95, 0.05, 0.46, at(sx, SY - 0.025, sz), '--ppd-line', 0.015);
       [[-0.4, -0.18], [0.4, -0.18], [-0.4, 0.18], [0.4, 0.18]].forEach(function (l) {
         box(0.04, SY - 0.05, 0.04, at(sx + l[0], (SY - 0.05) / 2, sz + l[1]), '--ppd-line', 0.01);
+      });
+      // A towel over its end, for wiping hands, hanging in folds.
+      box(0.2, 0.012, 0.36, at(sx + 0.39, SY + 0.006, sz), '--ppd-ink-2', 0.004);
+      [-0.12, -0.04, 0.04, 0.12].forEach(function (fz2, fi) {
+        box(0.014, 0.26 - (fi % 2) * 0.03, 0.09, at(sx + 0.5 + (fi % 2) * 0.008, SY - 0.13 + (fi % 2) * 0.015, sz + fz2), '--ppd-ink-2', 0.004);
       });
       [1, 0.55, 0.28].forEach(function (a, i) {
         var gx = sx - 0.34 + i * 0.15;
@@ -210,8 +301,16 @@
       });
       kit.cyl(0.07, 0.07, 0.03, on(-0.25, 2.005), '--ppd-line', false, 14);
       // Oil that glows, floating on water, and never mixing.
+      // Stirred, the oil breaks into drops all through the water, and left
+      // alone every drop goes back up: shown by a press, either way.
       faint(glow(new T.CylinderGeometry(0.08, 0.08, 0.13, 14), on(0.2, 1.695), '--ppd-blue'), 0.75);
-      glow(new T.CylinderGeometry(0.08, 0.08, 0.08, 14), on(0.2, 1.8), '--ppd-yellow');
+      var oilLayer = glow(new T.CylinderGeometry(0.08, 0.08, 0.08, 14), on(0.2, 1.8), '--ppd-yellow');
+      var stirred = [faint(glow(new T.CylinderGeometry(0.08, 0.08, 0.08, 14), on(0.2, 1.8), '--ppd-blue'), 0.75)];
+      for (var od = 0; od < 22; od++) {
+        var oa = hash(od, 5, 1) * Math.PI * 2, orr = hash(od, 5, 2) * 0.06;
+        stirred.push(glow(new T.SphereGeometry(0.009 + hash(od, 5, 3) * 0.01, 6, 4), on(0.2 + Math.cos(oa) * orr, 1.64 + hash(od, 5, 4) * 0.19, 0.02 + Math.sin(oa) * orr), '--ppd-yellow'));
+      }
+      stirred.forEach(function (m) { kit.hide(m, true); });
       kit.cyl(0.085, 0.085, 0.03, on(0.2, 1.855), '--ppd-line', false, 14);
       [0.62, 0.95].forEach(function (x, j) {
         var tall = 0.18 + j * 0.06;
@@ -235,11 +334,16 @@
       for (var hp = 0; hp < 4; hp++) {
         glow(new T.CylinderGeometry(0.012, 0.012, 0.15, 6), M(mt, at(0.6 + (hp - 1.5) * 0.022, 0.64, -0.25, 0, (hp - 1.5) * 0.12, (hp - 1.5) * 0.15)), INKS[hp]);
       }
+      // A finger's line drawn through each, and the next line a finger
+      // draws when the old one is squished away.
+      var lineA = [], lineB = [];
       [[0.42, 0.18, '--ppd-pink'], [0.68, 0.12, '--ppd-green']].forEach(function (b, i) {
         faint(glow(new T.BoxGeometry(0.26, 0.018, 0.2), M(mt, at(b[0], 0.51, b[1], i * 0.2)), b[2]), 0.85);
-        var a = mtv(b[0] - 0.08, b[1] - 0.05), c = mtv(b[0] + 0.02, b[1] + 0.06), d = mtv(b[0] + 0.09, b[1] - 0.02);
-        swirl([[a.x, a.y + 0.01, a.z], [c.x, c.y + 0.01, c.z], [d.x, d.y + 0.01, d.z]], 0.006, '--ppd-night');
+        var path = function (pts) { return pts.map(function (q) { var v = mtv(b[0] + q[0], b[1] + q[1]); return [v.x, v.y + 0.01, v.z]; }); };
+        lineA.push(swirl(path([[-0.08, -0.05], [0.02, 0.06], [0.09, -0.02]]), 0.006, '--ppd-night'));
+        lineB.push(swirl(path([[-0.09, 0.05], [-0.04, -0.06], [0.01, 0.05], [0.05, -0.06], [0.1, 0.04]]), 0.006, '--ppd-night'));
       });
+      lineB.forEach(function (l) { kit.hide(l, true); });
       stops.push({ name: 'at the low table, for mark making', x: -1.4, z: -0.4, yaw: 0.6, pitch: -0.35 });
 
       // A BIG SHEET taped to the right-hand wall, for marks made big with giant
@@ -256,6 +360,12 @@
       [[1.12, bz + 0.45], [0.95, bz - 0.5], [1.62, bz - 0.5]].forEach(function (p, i) {
         var sg = new T.SphereGeometry(0.05, 10, 6); sg.scale(0.3, 1, 1);
         glow(sg, at(wx, p[0], p[1]), INKS[(i + 2) % 5]);
+      });
+      // Where the paint was put on thick it has run, in drips down the sheet.
+      [[1.45, bz + 0.3, 0.22, '--ppd-pink'], [1.38, bz - 0.4, 0.3, '--ppd-pink'], [1.0, bz - 0.15, 0.18, '--ppd-green'],
+       [1.13, bz + 0.2, 0.14, '--ppd-green'], [1.25, bz - 0.05, 0.26, '--ppd-orange']].forEach(function (d) {
+        glow(new T.BoxGeometry(0.004, d[2], 0.012), at(wx, d[0] - d[2] / 2, d[1]), d[3]);
+        dab(wx, d[0] - d[2], d[1], 0.012, d[3], 1.2);
       });
       kit.cyl(0.16, 0.14, 0.32, at(W / 2 - 0.3, 0.16, bz + 0.35), '--ppd-line', 0.012, 14);
       [[-0.06, 0.2, '--ppd-yellow'], [0.05, -0.15, '--ppd-blue'], [0, 0.02, '--ppd-pink']].forEach(function (b) {
@@ -276,6 +386,14 @@
       kit.cyl(0.26, 0.18, 0.13, onMat(-0.6, 0.075, 0.1), '--ppd-line', 0.01, 20);
       kit.cyl(0.24, 0.24, 0.01, onMat(-0.6, 0.145, 0.1), '--ppd-ink-2', false, 20);
       kit.piece(new T.CylinderGeometry(0.014, 0.014, 0.42, 6), M(onMat(-0.48, 0.2, 0.06), at(0, 0, 0, 0.4, 0, -1.1)), '--ppd-line', false);
+      // A handful squeezed, standing up hard out of the bowl; and let go, the
+      // rings where it ran back flat. Neither until somebody squeezes it.
+      var lumpGeo = new T.DodecahedronGeometry(0.1, 1); lumpGeo.scale(1.1, 0.9, 0.9);
+      var lump = kit.facets(lumpGeo, onMat(-0.62, 0.22, 0.12), '--ppd-ink-2');
+      var runs = [];
+      [0.07, 0.13, 0.19].forEach(function (rr) { runs.push(glow(new T.RingGeometry(rr, rr + 0.008, 24), M(onMat(-0.6, 0.152, 0.1), at(0, 0, 0, 0, FLAT)), '--ppd-line')); });
+      kit.hide(lump, true);
+      runs.forEach(function (r) { kit.hide(r, true); });
       kit.cyl(0.36, 0.32, 0.16, onMat(0.15, 0.09, -0.2), '--ppd-line', 0.01, 22);
       faint(glow(new T.CircleGeometry(0.33, 22), M(onMat(0.15, 0.172, -0.2), at(0, 0, 0, 0, FLAT)), '--ppd-blue'), 0.45);
       [[0.03, -0.27, '--ppd-yellow'], [0.27, -0.12, '--ppd-pink'], [0.1, -0.06, '--ppd-green'], [0.25, -0.33, '--ppd-orange']].forEach(function (sp, i) {
@@ -299,6 +417,33 @@
       [['--ppd-pink', -1.25, tz + 1.35, 0.05], ['--ppd-green', 1.2, tz + 1.2, 0.04], ['--ppd-yellow', 0.35, tz + 1.55, 0.035], ['--ppd-orange', -0.6, tz - 1.4, 0.03]].forEach(function (d) {
         glow(new T.CircleGeometry(d[3], 12), at(d[1], 0.016, d[2], 0, FLAT), d[0]);
       });
+
+      // A LINE OF DRAWINGS drying on the left-hand wall, pegged up: white
+      // paper, which glows too, with the marks made on it.
+      var LX = -W / 2 + 0.06;
+      kit.cyl(0.005, 0.005, 3.0, at(LX + 0.02, 2.2, -2.3, 0, Math.PI / 2), '--ppd-line', false, 4);
+      [-0.95, -1.65, -2.4, -3.15].forEach(function (pz, pi) {
+        var sag = Math.sin((pz + 0.8) / 3.0 * Math.PI) * 0.06, py2 = 2.2 - sag;
+        glow(new T.PlaneGeometry(0.46, 0.34), at(LX + 0.03, py2 - 0.18, pz, Math.PI / 2, 0, (hash(pi, 8, 1) - 0.5) * 0.08), '--ppd-ink');
+        var mx = LX + 0.045, my = py2 - 0.18;
+        swirl([[mx, my + 0.08, pz - 0.16], [mx, my - 0.06, pz - 0.06], [mx, my + 0.05, pz + 0.05], [mx, my - 0.07, pz + 0.15]], 0.01, INKS[pi % 5]);
+        swirl([[mx, my - 0.1, pz - 0.12], [mx, my - 0.02, pz + 0.02], [mx, my - 0.11, pz + 0.14]], 0.007, INKS[(pi + 2) % 5]);
+        [-0.15, 0.15].forEach(function (pg2) { glow(new T.BoxGeometry(0.03, 0.08, 0.02), at(LX + 0.05, py2 - 0.01, pz + pg2), INKS[(pi + 3) % 5]); });
+      });
+
+      // A TRAY OF RAINBOW RICE on the floor by the big sheet, the grains
+      // dyed every colour of the paints, which glow.
+      var rx = 2.3, rz = -1.0;
+      box(0.9, 0.06, 0.6, at(rx, 0.03, rz, 0.2), '--ppd-tray', 0.01);
+      var grains = {}, grain = new T.BoxGeometry(1, 1, 1);
+      INKS.forEach(function (ink) { grains[ink] = []; });
+      for (var gr = 0; gr < 420; gr++) {
+        var gx2 = (hash(gr, 6, 1) - 0.5) * 0.8, gz2 = (hash(gr, 6, 2) - 0.5) * 0.5;
+        var gp = new T.Vector3(gx2, 0.065 + hash(gr, 6, 3) * 0.012, gz2).applyMatrix4(at(rx, 0, rz, 0.2));
+        grains[INKS[gr % 5]].push([grain, at(gp.x, gp.y, gp.z, hash(gr, 6, 4) * 3).scale(new T.Vector3(0.016, 0.008, 0.007))]);
+      }
+      INKS.forEach(function (ink) { glow(merged(grains[ink]), new T.Matrix4(), ink); });
+      kit.cyl(0.06, 0.05, 0.05, at(rx + 0.25, 0.09, rz + 0.12), '--ppd-line', 0.006, 10);
 
       // HER OWN PAGE on the left-hand wall.
       var pw = 3.0, ph = pw * 800 / 1180, py = 0.5 + ph / 2;
@@ -341,6 +486,60 @@
         glows.forEach(function (g) { g[0].material.color.copy(kit.col(day ? DAY[g[1]] : g[1])); });
         // (By its material: the street sets every mesh's own visible by distance.)
         hazes.forEach(function (h) { h.material.visible = !day; });
+        nightOnly.forEach(function (m) { kit.hide(m, day); });
+        dayOnly.forEach(function (m) { kit.hide(m, !day); });
+        if (lampPress) lampPress.sync();
+      });
+
+      // THINGS TO PRESS. Her lamp, from the tube itself as well as from her
+      // switch on the easel: the press is her switch's own, pressed on the
+      // copy lifted off her page, so there is still only one lamp switch and
+      // it says what hers says.
+      var lampNode = function () { return lamp.el.querySelector('.ppd-lamp'); };
+      var lampPress = kit.press({
+        say: function () { var n = lampNode(); return n && n.getAttribute('data-lamp') === 'off' ? 'Switch the UV lamp on' : 'Switch the UV lamp off'; },
+        at: [kit.touch(3.4, 0.4, 0.5, at(0, 2.35, back + 0.24))],
+        press: function () {
+          var b = lamp.el.querySelector('[data-ppd-lamp]');
+          if (!b) return 'Her lamp switch has not come over from her page yet; it is on the easel once it does.';
+          b.click();
+          return lampNode().getAttribute('data-lamp') === 'on'
+            ? 'The lamp is on. The room goes dark and everything in the tray glows.'
+            : 'The lamp is off. It is an ordinary black tray of pale paint, and nothing glows.';
+        } });
+      var stir = kit.press({ say: function () { return kit.hidden(oilLayer) ? 'Leave the oil and water to settle' : 'Stir the oil and water'; },
+        at: [kit.touch(0.3, 0.35, 0.3, on(0.2, 1.75, 0.02))],
+        press: function () {
+          var stirNow = !kit.hidden(oilLayer);
+          kit.hide(oilLayer, stirNow);
+          stirred.forEach(function (m) { kit.hide(m, !stirNow); });
+          return stirNow ? 'Stirred, the oil breaks into drops all through the water, and not one of them mixes in.'
+                         : 'Left alone, every drop of oil rises back to the top: oil and water, never mixing.';
+        } });
+      var bags = kit.press({ say: 'Draw a finger through the sensory bags',
+        at: [kit.touch(0.7, 0.2, 0.45, M(mt, at(0.55, 0.52, 0.15)))],
+        press: function () {
+          var toB = kit.hidden(lineB[0]);
+          lineA.forEach(function (l) { kit.hide(l, toB); });
+          lineB.forEach(function (l) { kit.hide(l, !toB); });
+          return 'A finger squishes the old line away and draws a new one through each bag, and nothing gets on the table.';
+        } });
+      var squeeze = kit.press({ say: function () { return kit.hidden(lump) ? 'Squeeze a handful of the oobleck' : 'Let the oobleck go'; },
+        at: [kit.touch(0.6, 0.4, 0.6, onMat(-0.6, 0.15, 0.1))],
+        press: function () {
+          var hold = kit.hidden(lump);
+          kit.hide(lump, !hold);
+          runs.forEach(function (r) { kit.hide(r, hold); });
+          return hold ? 'Squeezed, the oobleck goes hard, and a handful of it stands up out of the bowl.'
+                      : 'Let go, it goes runny and runs back flat into the bowl, in rings.';
+        } });
+      stops.forEach(function (st) {
+        if (/round door/.test(st.name)) st.acts = [flowers];
+        if (/tuff tray/.test(st.name)) st.acts = [lampPress, flowers];
+        if (/lamp switch/.test(st.name)) st.acts = [lampPress];
+        if (/shelf of paints/.test(st.name)) st.acts = [stir];
+        if (/low table/.test(st.name)) st.acts = [bags];
+        if (/messy play mat/.test(st.name)) st.acts = [squeeze];
       });
 
       return {

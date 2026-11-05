@@ -31312,6 +31312,25 @@ body.cel-street { background: var(--cel-page); color: var(--cel-print); font-fam
   border: 3px solid var(--cel-ink); border-radius: 999px; font-weight: 700; text-decoration: none;
 }
 .cel-doors a:hover { text-decoration: underline; }
+/* A room's own switches, under the line that says where you are: its lights,
+   its candles, its record and the things in it to press, each answering in
+   words on the line under them. A switch for something that moves is pressed
+   while it moves. */
+.cel-roomctl { margin: 14px 0 0; }
+.cel-roomctl h2 { margin: 0 0 8px; font-family: 'Rammetto One', var(--sans); font-weight: 400; font-size: 20px; color: var(--cel-print); }
+.cel-roomctl__list { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: flex-start; }
+.cel-roomctl__group { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.cel-roomctl__row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.cel-roomctl__name { flex: 1 1 100%; margin: 0; font-weight: 700; font-size: 16px; color: var(--cel-print); }
+.cel-roomctl__said { margin-top: 10px; min-height: 1.4em; font-size: 16px; }
+.cel-act {
+  min-height: 40px; padding: 6px 14px; cursor: pointer;
+  background: var(--cel-cloud); color: var(--cel-print);
+  border: 3px solid var(--cel-ink); border-radius: 12px; box-shadow: 0 3px 0 var(--cel-ink);
+  font-family: 'Golos Text', var(--sans); font-weight: 700; font-size: 15px;
+}
+.cel-act[aria-pressed="true"], .cel-walkin[aria-pressed="true"] { background: var(--cel-ink); color: var(--cel-cloud); }
+.cel-act:focus-visible { outline: 3px solid var(--cel-link); outline-offset: 4px; }
 .cel-places h2 { margin: 22px 0 6px; font-family: 'Rammetto One', var(--sans); font-weight: 400; font-size: 20px; color: var(--cel-print); }
 .cel-places p { font-size: 17px; margin: 0; }
 .cel-places ol { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }
