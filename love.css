@@ -33008,6 +33008,20 @@ body.sunshine {
 }
 /* import:spaceholder-saloon:section:end */
 
+/* The Spaceholder Saloon, walked into on Paper Street (walk-spaceholder-saloon.js,
+   2026-11-05): ours, drawn in Norah's declared colours and outside the import
+   markers so a re-import keeps it, and hers to keep or send back. Paper
+   Street's stage takes her saloon's clothes while you are in it: its frame is
+   her root beer wood, the printed night goes and her walnut ground is
+   everything behind. Her page hangs on the left wall, framed in the mantle's
+   wood; it is the one thing in the scene that takes a pointer. */
+.ss-walk { --ps-frame: var(--ss-rootbeer); --ps-back: var(--ss-ground); --ps-backcloth: none; }
+.ss-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--ss-ground);
+  border-radius: 4px; box-shadow: 0 0 0 10px var(--ss-rootbeer);
+}
+.ss-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ss-ground); }
+
 /* §147 ── PITCH 6: The Aerial Arbour (in the campgrounds) ────────────────────
    Sinead's circus tent, from her brief as Helen Edgar passed it on, 2026-11-05:
    a round circus tent near a tree, ropes and rope ladders, aerial poles, hoops
