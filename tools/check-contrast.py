@@ -1008,6 +1008,12 @@ SEA_IRON, SEA_BUOY, SEA_HOT = "#1F5A4E", "#A3301F", "#76221A"
 WDS_NIGHT, WDS_SLAB, WDS_INK, WDS_INK2, WDS_INK3 = "#17161F", "#221F2C", "#EFE6D6", "#C7BDAC", "#A79FB4"
 WDS_DAWN, WDS_EDGE, WDS_SKY = "#F2B95C", "#FFE3A6", "#3A3C57"
 WDS_HEATHER, WDS_RIVER, WDS_MOSS = "#BBA6F0", "#8FD3C5", "#A8D27E"
+# The Golem Trust (love.css §144). A hall lit only through windows of clay:
+# every word slate on the lit clay, or on a quotation's slightly thicker clay;
+# the two lines held up on a slate are chalk on slate. No word is set in the
+# hall's drawing.
+GTR_PANE, GTR_PANE2, GTR_INK, GTR_INK2 = "#F3DDC2", "#E9CBA6", "#2B2530", "#5C4F5E"
+GTR_LINK, GTR_HOT, GTR_SLATE, GTR_CHALK, GTR_CHALK2 = "#8A3A1F", "#5E2410", "#3A3240", "#EFEBE4", "#C9C0CC"
 # The Haunted House (love.css §132). A set of plywood flats in a dark warehouse:
 # every word on the painted dark or on a painted board lying on it; nothing set
 # in the light, which is only ever a seam.
@@ -3978,6 +3984,21 @@ PAIRS = [
     (WDS_MOSS,  WDS_SLAB,  False, "widdershins: Star Stuff's green words in its figures"),
     (WDS_INK2,  WDS_SKY,   False, "widdershins: the compass's hubward, rimward and turnwise, in the city's night sky"),
     (WDS_DAWN,  WDS_SKY,   False, "widdershins: the compass's widdershins, in the city's night sky"),
+    # ── The Golem Trust (§144) ─────────────────────────────────────────────
+    # Every word on the lit clay, on a quotation's thicker clay, or chalk on a
+    # slate. The share card's words are on its slate.
+    (GTR_INK,   GTR_PANE,  False, "the golem trust: every paragraph, the name, every heading, the credits, and the focus ring"),
+    (GTR_INK2,  GTR_PANE,  False, "the golem trust: the trail, the line over the name, and the line under a quotation"),
+    (GTR_LINK,  GTR_PANE,  False, "the golem trust: every link and the backlink"),
+    (GTR_HOT,   GTR_PANE,  False, "the golem trust: a link under the pointer"),
+    (GTR_INK,   GTR_PANE2, False, "the golem trust: a quotation's words, and the focus ring in one"),
+    (GTR_INK2,  GTR_PANE2, False, "the golem trust: who said a quotation and where it was read"),
+    (GTR_LINK,  GTR_PANE2, False, "the golem trust: a link under a quotation"),
+    (GTR_HOT,   GTR_PANE2, False, "the golem trust: a link under a quotation, under the pointer"),
+    (GTR_CHALK, GTR_SLATE, False, "the golem trust: the words held up on a slate, the focus ring there, a link on it "
+                                  "under the pointer, and the share card's name and lines"),
+    (GTR_CHALK2, GTR_SLATE, False, "the golem trust: who said the words on a slate, and the share card's line over the name"),
+    (GTR_PANE,  GTR_SLATE, False, "the golem trust: a link on a slate"),
     # ── Breaker Breaker (§125) ──────────────────────────────────────────────
     # Every word on the dark, which is the cab, the road and the sky alike, or on
     # the screen's glass; no word on a lamp.
@@ -4467,6 +4488,16 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#d3a27a": "the golem trust: the clay where a thumb pressed harder in every window pane, and the rule under "
+               "every heading and beside every quotation, 1.73 on the lit clay. It carries no word.",
+    "#1e1a22": "the golem trust: the hall's wall where no window is, 12.99 against the lit clay round the drawing. "
+               "It carries no word.",
+    "#433a4a": "the golem trust: the window frames, the drawers and the long table, 1.58 on the dark wall, which "
+               "the windows' light carries round them. They carry no word.",
+    "#a55a3c": "the golem trust: a slate's frame of fired clay, 3.86 on the lit clay and 2.41 on the slate inside "
+               "it. It carries no word.",
+    "#7c3f2a": "the golem trust: a golem in outline against the light, 6.12 on the lit clay of the windows, 2.12 "
+               "where an arm crosses the dark wall. It carries no word.",
     "#f7f0d8": "excursions: the backlit map's lit face and the edge of every brochure turned to it, 14.19 on the "
                "lobby. It carries no word: the map is drawn with none.",
     "#5da9d6": "excursions: the lakes on the backlit map, 2.27 on its face. They carry no word.",

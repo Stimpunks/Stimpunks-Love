@@ -3372,6 +3372,40 @@
    }
   },
   {
+   "id": "gtr-slate",
+   "page": "golem-trust.html",
+   "room": "The Golem Trust",
+   "title": "What does a golem say it on?",
+   "posted": "Over the bridge from Widdershins there is a long hall kept by golems who own themselves, lit through windows made of clay. The golems in there talk in a way all their own. Go and find out what they hold up.",
+   "rank": 2,
+   "takes": "about as long as it takes to read a slate held up to you",
+   "target": "a writing slate leaning against the foot of the wall",
+   "code": "CHALK",
+   "learned": "In Feet of Clay golems do not speak: they write what they have to say on a slate and hold it up. That is a whole way of talking, on its own terms, and our community knows it well, from AAC and letterboards to a note held up. A slate is not standing in for a voice; it is the voice.",
+   "hints": [
+    "Over the bridge from Widdershins, in the city, through the door to a hall kept by golems.",
+    "In the section headed Said on a slate.",
+    "Right at the foot of the room, on the floor, where a slate is leaning against the wall."
+   ],
+   "ask": {
+    "question": "In Feet of Clay, golems do not speak. What do they write what they have to say on?",
+    "accept": [
+     "slate",
+     "a slate",
+     "slates",
+     "their slates",
+     "a writing slate"
+    ],
+    "answer": "A slate",
+    "why": "Golems in Feet of Clay write what they have to say on a slate and hold it up. The room sets two lines on slates of its own, chalk on slate in a frame of fired clay.",
+    "hints": [
+     "It is in the section headed Said on a slate.",
+     "It is what one golem in the drawing is holding up.",
+     "A sl..."
+    ]
+   }
+  },
+  {
    "id": "cavendish-marker",
    "page": "cavendish-coworking.html",
    "room": "Cavendish Coworking",

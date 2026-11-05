@@ -285,6 +285,12 @@ DRAW = {
     # slant it has in the city. The floor line is --wds-line and carries
     # nothing. It lies still, like the morning.
     "wds-cobble": """<path d="M3 29.5 H29" stroke="var(--wds-line)" stroke-width="1.6" stroke-linecap="round"/><path d="M6.5 27.5 C5.5 22 7 17.5 12 16.5 C17 15.6 23 15.8 25.6 18.5 C27.6 21 27 25.5 25.6 27.5 Z" fill="var(--wds-ink-3)" stroke="var(--wds-line)" stroke-width="1.3" stroke-linejoin="round"/><path d="M20.5 16 L26.6 21.5" stroke="var(--wds-dawn)" stroke-width="1.8" stroke-linecap="round"/><path d="M10 23 C12.5 21.5 16 21.2 19 22" fill="none" stroke="var(--wds-line)" stroke-width=".8" opacity=".7"/>""",
+    # The Golem Trust: a writing slate leaning against the foot of the wall,
+    # its face in --gtr-slate, 9.32 on the lit clay it stands on and over the
+    # body threshold a marker is held to, in a frame of --gtr-clay-2, 6.12,
+    # with two lines of chalk on it in --gtr-chalk that say no word. The floor
+    # line is --gtr-thick and carries nothing. It leans still.
+    "gtr-slate": """<path d="M3 29.5 H29" stroke="var(--gtr-thick)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 28.5 L12.5 6 L27 9 L22.5 28.5 Z" fill="var(--gtr-clay-2)"/><path d="M10.6 26.6 L14.2 8.6 L24.6 10.8 L20.9 26.6 Z" fill="var(--gtr-slate)"/><path d="M14.6 14 C16.5 13.2 18.6 14.6 21 14.2 M13.6 19 C15.6 18.2 17.2 19.6 20 19" fill="none" stroke="var(--gtr-chalk)" stroke-width="1.3" stroke-linecap="round"/>""",
     # The lid off a tin of paint, put down on the pavement at the foot of the
     # wall: seen a little from above, in --pm-line, 10.59 on the road, with a
     # ring of yellow paint dried round its rim in --pm-yellow, 7.56, and the
