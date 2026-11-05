@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-11-04T12:17Z",
+  "set": "2026-11-05T12:12Z",
   "springs": [
     {
       "id": "starstuff",
@@ -73,7 +73,7 @@
           "anon": true
         }
       ],
-      "read": "2026-11-04T12:17Z"
+      "read": "2026-11-05T12:12Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-11-04T12:17Z"
+      "read": "2026-11-05T12:12Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-11-04T12:17Z"
+      "read": "2026-11-05T12:12Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-11-04T12:17Z"
+      "read": "2026-11-05T12:12Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-11-04T12:17Z"
+      "read": "2026-11-05T12:12Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-11-04T12:17Z"
+      "read": "2026-11-05T12:12Z"
     },
     {
       "id": "love",
@@ -439,67 +439,65 @@
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
         {
-          "title": "Cel Street and Paper Street say which room you are in",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/9c019dfa4c70aae38dba7871e55c6c6bcc98de56",
-          "date": "2026-11-04T12:05:47Z",
-          "sha": "9c019df",
+          "title": "Merge Helen's Rowena changes into the newest rooms on both streets",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/d58910e94b8acdb2d1bed6b8c35b1916e8fa6177",
+          "date": "2026-11-05T11:45:10Z",
+          "sha": "d58910e",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "The dial stands beside the room's words",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/1ef33c6973fa31ffe5104317e0a8eb5ba988c933",
-          "date": "2026-11-04T10:16:20Z",
-          "sha": "1ef33c6",
+          "title": "The newest rooms, on Cel Street and Paper Street",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/c35814d1988513d7920aada41bad731fc93c3439",
+          "date": "2026-11-05T11:32:23Z",
+          "sha": "c35814d",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Stay Frosty has the dial too",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/5336e82eb1da6def1d568d6a519c86bb440e922c",
-          "date": "2026-11-04T09:06:58Z",
-          "sha": "5336e82",
+          "title": "The Aerial Arbour is Rowena's, with four photographs from her 'prayer'",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/beb40c68e46fa5e69fa4e31752ba624f3d31e347",
+          "date": "2026-11-05T11:19:33Z",
+          "sha": "beb40c6",
+          "by": [
+            "AutisticRealms",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "Merge branch 'rooms-excursions'",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/980245a985c312404efc750590ff0838dba9a6ac",
+          "date": "2026-11-05T11:19:08Z",
+          "sha": "980245a",
+          "by": [
+            "ryanboren"
+          ]
+        },
+        {
+          "title": "Excursions and Retail Therapy on Cel Street and Paper Street",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/a2221c9adbccd536113e98a8081037b661c5e851",
+          "date": "2026-11-05T11:18:37Z",
+          "sha": "a2221c9",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "The dial in every room",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/63ce563f7b12da9311fc0373b087a0598c27bf29",
-          "date": "2026-11-04T08:45:54Z",
-          "sha": "63ce563",
+          "title": "Merge branch 'rooms-saloon'",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/b7f290b52da7cec7a3d776524531a0a681548808",
+          "date": "2026-11-05T11:17:15Z",
+          "sha": "b7f290b",
           "by": [
-            "ryanboren",
-            "Claude Opus 5.5"
-          ]
-        },
-        {
-          "title": "Walk this room, from every room's page to its room on Cel Street",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/f61399f59efd9ca3e18eaf5897ca4aefd3b5cb8f",
-          "date": "2026-11-04T08:31:14Z",
-          "sha": "f61399f",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5.5"
-          ]
-        },
-        {
-          "title": "Cel Street: a second pass on more rooms, and Champuru walks in",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/6aa30085cfc061b466f6da3afda29c118827f75e",
-          "date": "2026-11-04T07:53:18Z",
-          "sha": "6aa3008",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5.5"
+            "ryanboren"
           ]
         }
       ],
-      "read": "2026-11-04T12:17Z"
+      "read": "2026-11-05T12:12Z"
     },
     {
       "id": "garden",
@@ -568,7 +566,7 @@
           "anon": true
         }
       ],
-      "read": "2026-11-04T12:17Z"
+      "read": "2026-11-05T12:12Z"
     }
   ]
 }
