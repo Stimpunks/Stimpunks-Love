@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-11-03",
+ "_checked": "2026-11-05",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -10,7 +10,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/abrilfatface",
    "copyright": "Copyright (c) 2011, Copyright (c) 2011, TypeTogether (www.type-together.com info@type-together.com), with Reserved Font Names \"Abril\" and \"Abril Fatface\"",
-   "repository": "https://github.com/librefonts/abrilfatface",
+   "repository": "https://github.com/googlefonts/abrilfatface",
    "variants": [
     {
      "weight": "400",
@@ -119,7 +119,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/alfaslabone",
    "copyright": "Copyright 2016 The Alfa Slab One Project Authors (http://www.jmsole.cl | info@jmsole.cl), with Reserved Font Name \"Alfa Slab\".",
-   "repository": "https://github.com/librefonts/alfaslabone",
+   "repository": "https://github.com/googlefonts/alfaslabone",
    "variants": [
     {
      "weight": "400",
@@ -1403,6 +1403,23 @@
     }
    ]
   },
+  "emilys-candy": {
+   "family": "Emilys Candy",
+   "category": "Display",
+   "designer": "Neapolitan",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/emilyscandy",
+   "copyright": "Copyright (c) 2012 by Font Diner, Inc DBA Neapolitan (diner@fontdiner.com) with Reseved Font Name \"Emilys Candy\"",
+   "repository": "https://github.com/googlefonts/emilyscandy",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "emilys-candy-400.woff2",
+     "sha": "f48f5f74b12d5431"
+    }
+   ]
+  },
   "encode-sans-expanded": {
    "family": "Encode Sans Expanded",
    "category": "Sans Serif",
@@ -1565,7 +1582,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/forum",
    "copyright": "Copyright (c) 2011, Denis Masharov <denis.masharov@gmail.com>. This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
-   "repository": "https://github.com/librefonts/forum",
+   "repository": "https://github.com/googlefonts/forum",
    "variants": [
     {
      "weight": "400",
@@ -2223,7 +2240,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/italiana",
    "copyright": "Copyright (c) 2011 by Santiago Orozco (hi@typemade.mx) with reserved name Italiana",
-   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "repository": "https://github.com/googlefonts/italiana",
    "variants": [
     {
      "weight": "400",
@@ -2423,7 +2440,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/lato",
    "copyright": "Copyright (c) 2011-2015 by tyPoland Lukasz Dziedzic (http://www.typoland.com/) with Reserved Font Name \"Lato\". Licensed under the SIL Open Font License, Version 1.1 (http://scripts.sil.org/OFL). ",
-   "repository": "https://github.com/googlefonts/LatoGFVersion",
+   "repository": "https://github.com/googlefonts/lato",
    "variants": [
     {
      "weight": "400",
@@ -2538,7 +2555,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/librecaslondisplay",
    "copyright": "Copyright 2012 The Libre Caslon Display Authors (https://github.com/impallari/Libre-Caslon-Display)",
-   "repository": "https://github.com/impallari/Libre-Caslon-Display",
+   "repository": "https://github.com/googlefonts/librecaslondisplay",
    "variants": [
     {
      "weight": "400",
@@ -2607,7 +2624,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/lilitaone",
    "copyright": "Copyright (c) 2011 Juan Montoreano (juan@remolacha.biz), with Reserved Font Names \"Lilita One\"",
-   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "repository": "https://github.com/googlefonts/lilitaone",
    "variants": [
     {
      "weight": "400",
@@ -2624,7 +2641,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/limelight",
    "copyright": "Copyright (c) 2010 by Sorkin Type Co (eben@eyebytes.com) with Reserved Font Name Limelight. This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: http://scripts.sil.org/OFL",
-   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "repository": "https://github.com/googlefonts/limelight",
    "variants": [
     {
      "weight": "400",
@@ -2733,7 +2750,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/macondo",
    "copyright": "Copyright (c) 1997 - 2011, John Vargas Beltran. (www.johnvargasbeltran.com|john.vargasbeltran@gmail.com), with Reserved Font Name \"Macondo\"",
-   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "repository": "https://github.com/googlefonts/macondo",
    "variants": [
     {
      "weight": "400",
@@ -2882,7 +2899,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/monoton",
    "copyright": "Copyright (c) 2011, Vernon Adams (vern@newtypography.co.uk) with Reserved Font Name 'Monoton'. All rights reserved.",
-   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "repository": "https://github.com/googlefonts/monoton",
    "variants": [
     {
      "weight": "400",
@@ -2962,7 +2979,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/mysteryquest",
    "copyright": "Copyright (c) 2012 by Font Diner, Inc DBA Sideshow (diner@fontdiner.com) with Reserved Font Name \"Mystery Quest\"",
-   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "repository": "https://github.com/googlefonts/mysteryquest",
    "variants": [
     {
      "weight": "400",
@@ -3094,7 +3111,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/oleoscript",
    "copyright": "Copyright (c) 2012, Soytutype (contact@soytutype.com.ar|soytutype@gmail.com), with reserved fontname 'Oleo'",
-   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "repository": "https://github.com/googlefonts/oleoscript",
    "variants": [
     {
      "weight": "400",
@@ -3295,7 +3312,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/patrickhand",
    "copyright": "Copyright (c) 2010-2012 Patrick Wagesreiter (mail@patrickwagesreiter.at)",
-   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "repository": "https://github.com/googlefonts/patrickhand",
    "variants": [
     {
      "weight": "400",
@@ -3580,6 +3597,35 @@
     }
    ]
   },
+  "quattrocento-sans": {
+   "family": "Quattrocento Sans",
+   "category": "Sans Serif",
+   "designer": "Impallari Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/quattrocentosans",
+   "copyright": "Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com), Copyright (c) 2011, Igino Marini. (www.ikern.com|mail@iginomarini.com), Copyright (c) 2011, Brenda Gallo. (gbrenda1987@gmail.com), with Reserved Font Name Quattrocento Sans.",
+   "repository": "https://github.com/googlefonts/quattrocentosans",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "quattrocento-sans-400.woff2",
+     "sha": "04950ec7078879f3"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "quattrocento-sans-700.woff2",
+     "sha": "1831c5ecd84fe6b5"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "quattrocento-sans-400-italic.woff2",
+     "sha": "c75a5251c83adcac"
+    }
+   ]
+  },
   "quicksand": {
    "family": "Quicksand",
    "category": "Sans Serif",
@@ -3610,7 +3656,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/racingsansone",
    "copyright": "Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com) and Rodrigo Fuenzalida (www.rfuenzalida.com), with Reserved Font Name Racing Sans.",
-   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "repository": "https://github.com/googlefonts/racingsansone",
    "variants": [
     {
      "weight": "400",
@@ -4457,7 +4503,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/titanone",
    "copyright": "Copyright (c) 2011 Rodrigo Fuenzalida (hello@rfuenzalida.com), with Reserved Font Name \"Titan One\"",
-   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "repository": "https://github.com/googlefonts/titanone",
    "variants": [
     {
      "weight": "400",
@@ -4474,7 +4520,7 @@
    "licence": "SIL Open Font License 1.1",
    "licence_url": "https://github.com/google/fonts/tree/main/ofl/titilliumweb",
    "copyright": "Copyright (c) 2009-2011 by Accademia di Belle Arti di Urbino and students of MA course of Visual design. Some rights reserved.",
-   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "repository": "https://github.com/googlefonts/titilliumweb",
    "variants": [
     {
      "weight": "400",

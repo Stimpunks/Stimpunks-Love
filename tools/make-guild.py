@@ -642,6 +642,11 @@ DRAW = {
     # 5.54 on the autumn sky it lies against, and its cap, its stalk and the
     # floor line are --bgh-bark, 11.91.
     "bgh-acorn": """<path d="M3 29 H29" stroke="var(--bgh-bark)" stroke-width="1.6" stroke-linecap="round"/><path d="M10.5 18 Q10.5 27.5 16 27.5 Q21.5 27.5 21.5 18 Z" fill="var(--bgh-rust)" stroke="var(--bgh-bark)" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 18.4 Q9 12 16 12 Q23 12 23 18.4 Z" fill="var(--bgh-bark)"/><path d="M16 12 Q16.5 9 18.5 7.5" stroke="var(--bgh-bark)" stroke-width="1.6" fill="none" stroke-linecap="round"/>""",
+    # The Aerial Arbour's scrap of silk, a length of the dark pink fabric
+    # tied in a loop and dropped on the rug: the silk is --aar-pink, 8.52 on
+    # the night it lies against, and its knot and the floor line are
+    # --aar-silver, 14.97.
+    "aar-ribbon": """<path d="M3 29 H29" stroke="var(--aar-silver)" stroke-width="1.6" stroke-linecap="round"/><path d="M7 26 C 7 18, 10 8, 16 8 C 22 8, 25 18, 25 26" fill="none" stroke="var(--aar-pink)" stroke-width="4" stroke-linecap="round"/><path d="M16 8 C 13 13, 12 20, 12 26" fill="none" stroke="var(--aar-pink)" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="8.5" r="2.6" fill="var(--aar-silver)"/>""",
     # The Run's blue ball, chewed, by the porch steps: its body is --run-link,
     # the Run's own blue, 5.15 on the grass, because the brighter ball blue is
     # 3.17 there and a marker is held to the body threshold; its outline and

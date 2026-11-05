@@ -1223,7 +1223,24 @@ no file, and never fills the window from anywhere else. **He is credited as Davi
 rainbow sweets are named once as Skittles with Mars Wrigley's mark in the liner notes. **The spring is water and
 the tool refuses the cure** (Stay Frosty's rule, warm); **the wolves are the mountain's and the tool refuses a
 threat**, and nobody counts, feeds or names them. On the board its light is the sixth, FAR: one lit window so high
-it sits among the stars, the strips' colour and not a flame's. A seventh pitch needs a seventh light.
+it sits among the stars, the strips' colour and not a flame's. The seventh went to the circus tent, below.
+
+**THE LITTLE BIG TOP (§147) IS SINEAD'S, AT PITCH 06, AND THE FAERY YURT NEXT DOOR IS THE ONE TO WATCH.** Her brief, as
+Helen Edgar passed it on, 2026-11-05: a round circus tent near a tree, ropes and rope ladders, aerial poles, hoops and
+silks hanging off a tree inside it, a tightrope, a hammock and beanbags, very cosy, fairy lights, deep purples, pinks,
+silver, dark pink and teal, "similar vibe to my yurt but more colourful". `the-aerial-arbour.html` (body class `arbour`, prefix `aar-`) is a hand-built page
+like the Bough House. **The tree is the king pole**: a silver birch holds the canvas up, every seam radiates from its top
+with a string of lights down it, and everything hangs off its branches, with a crash mat under all of it and no ring, no
+seats and nobody drawn, because nothing in there is a show. **What holds it off the yurt is the light and the colour**:
+the yurt is candlelit and brown, cream on dark, and its lights twinkle at MAX; here there is no flame and no brown, not
+even the tree, the lights are cool silver points steady at every setting, and all the colour is in the cloth. Every
+card hangs from a rope with a valance of scallops along its top, and every word is on flat ground: the stripes are only
+in the drawing. At MAX the silks, the hoop and the pole sway inside the drawing; below MAX nothing moves. Emilys Candy
+(Neapolitan) sets the name and headings, Quattrocento Sans (Impallari Type) everything read, both Google Fonts' own
+Latin files as served. **The name is Helen's pick from a few of ours, and Sinead's to change.** On the board its light is the seventh, THROUGH: the
+door is shut and every other stripe of the canvas glows from inside. An eighth pitch needs an eighth light. The friendly
+edits are a warm candle glow "to match the yurt", the lights twinkling, a ring of seats round the tree, and a performer
+drawn on the silks.
 
 **AND A PITCH CAN BE TAKEN WITH NOTHING BEHIND IT.** `.pitch--raising` is a solid post, a sign, a
 drawing and no link. A campground has that state and a website usually pretends it does not; the
@@ -6086,18 +6103,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §148 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §149 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§148 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§149 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §148 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §149 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

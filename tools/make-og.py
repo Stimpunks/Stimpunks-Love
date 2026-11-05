@@ -1713,6 +1713,20 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
   line-height: 1.38; margin: 0 0 16px; }}
 .og--bough .og-foot {{ font-family: 'Overlock', sans-serif; color: var(--bgh-bark-2); font-size: 18px; margin: 0; }}
 
+/* the aerial arbour — THE TENT beside the name, lifted off the page whole:
+   the silver birch up through the middle holding the canvas up, the stripes
+   radiating from it with a string of lights down every seam, and everything
+   hanging off its branches, cut to the doorway's round top as on the page. */
+.og--arbour {{ flex-direction: row; align-items: center; gap: 34px; padding: 30px 46px; }}
+.og--arbour .og-words {{ flex: 0 0 470px; }}
+.og--arbour .og-tent {{ flex: 0 0 600px; line-height: 0; }}
+.og--arbour .og-tent svg {{ display: block; width: 100%; height: auto; }}
+.og--arbour .aar-over {{ font-size: 17px; margin: 0 0 8px !important; }}
+.og--arbour h1 {{ font-size: 74px; line-height: 1.05; margin: 0 0 16px !important; }}
+.og--arbour .og-lede {{ font-family: 'Quattrocento Sans', sans-serif; color: var(--aar-silver); font-size: 24px;
+  line-height: 1.4; margin: 0 0 16px; }}
+.og--arbour .og-foot {{ font-family: 'Quattrocento Sans', sans-serif; color: var(--aar-silver-2); font-size: 18px; margin: 0; }}
+
 /* mountain man — THE CABIN beside the name, lifted off the page whole: the
    log walls, the fire behind the stove's glass, the lounge, the big screen
    with its speakers, the strips in teal, the one wolf on the rug and the lake
@@ -5887,6 +5901,36 @@ def card_brewstew(p):
     )
 
 
+def card_arbour(p):
+    # THE TENT AND THE NAME ARE LIFTED WHOLE, so the card cannot show a tent
+    # the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="aar-tent__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="aar-over">(.*?)</p>', p["src"], re.S)
+    trail = re.search(r'<p class="aar-trail">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and trail and p["h1"]):
+        raise SystemExit(
+            "REFUSING: the-aerial-arbour.html has lost the drawing of the tent or\n"
+            "its header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--arbour" data-fit="card">'
+        f'<div class="og-words"><p class="aar-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">{trail.group(1)} &middot; stimpunks.world</p></div>'
+        f'<div class="og-tent">{draw.group(1)}</div>'
+        f'</div>',
+        f"A deep purple card. On the right, the inside of a round circus tent seen through its door: a "
+        f"silver birch standing up through the middle holding the canvas up, the canvas in stripes of purple, "
+        f"teal and dark pink running down from the top of the tree, a string of small silver lights along every "
+        f"seam, and hanging off the branches a dark pink and a teal silk, a rope ladder, a rope, a taped hoop and "
+        f"an aerial pole, with a tightrope out to a post, a pink hammock between two poles and three beanbags on "
+        f"a round rug. Nobody is in it. On the left, small capitals reading {plain(over.group(1))}, then "
+        f"\u201c{p['h1text']}\u201d in large pink candy-striped lettering, then: {p['desc_plain']} "
+        f"Below it: {plain(trail.group(1))}, stimpunks.world.",
+    )
+
+
 def card_bough(p):
     # THE TREE HOUSE AND THE NAME ARE LIFTED WHOLE, so the card cannot show a
     # house the page does not, and the lede is the page's og:description.
@@ -6444,6 +6488,7 @@ CARDS = {
     "purrs":        card_purrs,
     "brewstew":     card_brewstew,
     "bough":        card_bough,
+    "arbour":       card_arbour,
     "summit":       card_summit,
     "natures":      card_natures,
     "sanctuary":    card_sanctuary,

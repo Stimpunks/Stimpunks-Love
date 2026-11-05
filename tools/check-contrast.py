@@ -74,6 +74,7 @@ TALLOW, TALLOW2, TALLOW3 = "#F2E6D4", "#C2AC91", "#A4907B"
 SUNFLOWER, SCREEN = "#E8C33A", "#A3D4DF"
 LINGER = "#F08A5D"   # the last sun on the top of the Bough House's tree, on its sign
 FAR = "#DCEBFF"      # the Mountain Cabin's one lit window, up among the stars, on its sign
+THROUGH = "#F07AC0"  # the Aerial Arbour's canvas lit from inside, every other stripe, on its sign
 # The Solarpunk Hermitage (love.css §19), and THE FIRST ROOM ON THIS STREET
 # WHOSE TYPE IS DARK ON LIGHT ALL THE WAY DOWN. Which inverts the usual job of
 # this file: everywhere else the risk is an ink too dim against a dark ground,
@@ -1044,6 +1045,10 @@ FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 # autumn sky and on silvered planks.
 BGH_SKY, BGH_PLANK, BGH_BARK, BGH_BARK2 = "#F3E4CC", "#E2DCD0", "#33241B", "#5B4535"
 BGH_RUST, BGH_CRIMSON, BGH_GOLD, BGH_TRUNK = "#9C3A16", "#8A1F33", "#D9952B", "#4A3527"
+# The Aerial Arbour (love.css §147), Sinead's circus tent at pitch 06: every
+# word on the night inside the tent or on a plum card hung from a rope.
+AAR_NIGHT, AAR_PANEL, AAR_SILVER, AAR_SILVER2 = "#170B24", "#2A1440", "#E6E3F0", "#C3BCD6"
+AAR_PINK, AAR_GLOW = "#F48CCB", "#7FDAD3"
 # The Emergent Future Worlds Meets Mountain Man (§118): David's cabin at the
 # summit, inside at night, warm words on a blue-charcoal dark.
 EFW_NIGHT, EFW_PANEL, EFW_TEXT, EFW_DIM = "#1A1F2B", "#242B3A", "#F1EDE4", "#BFC6D4"
@@ -1362,6 +1367,9 @@ PAIRS = [
     (FAR,    DUSK,   False, "campgrounds: the Mountain Cabin's one lit window on its sign, the size of a star, against the sky"),
     (FAR,    SPRUCE, False, "campgrounds: the same against the mountain's mass"),
     (FAR,    BARK,   False, "campgrounds: the same against the cabin's own walls and the snow drawn in bark"),
+    (THROUGH, DUSK,   False, "campgrounds: the circus tent's lit stripes on the Aerial Arbour's sign, against the sky"),
+    (THROUGH, SPRUCE, False, "campgrounds: the same against the dark stripes beside them and the tree"),
+    (THROUGH, BARK,   False, "campgrounds: the same against the pennant"),
 
     # THE SOLARPUNK HERMITAGE (love.css §19). Outside first: daylight, where the
     # failure mode is a pale ink rather than a dim one.
@@ -4075,6 +4083,17 @@ PAIRS = [
     (BGH_GOLD,    BGH_BARK,    False, "bough house: PRESS PLAY on the record's plate"),
     (BGH_PLANK,   BGH_TRUNK,   False, "bough house: the record's words under the pointer"),
     (BGH_GOLD,    BGH_TRUNK,   False, "bough house: PRESS PLAY under the pointer"),
+
+    # THE LITTLE BIG TOP (love.css §147). Every word sits on flat ground, the
+    # night inside the tent or a plum card; the stripes are only in the drawing.
+    (AAR_SILVER,  AAR_NIGHT,  False, "aerial arbour: the line under the name, the lede, every word between the cards"),
+    (AAR_SILVER,  AAR_PANEL,  False, "aerial arbour: every word on a card, and on the job marker's panel"),
+    (AAR_SILVER2, AAR_NIGHT,  False, "aerial arbour: the trail and the line over the name"),
+    (AAR_SILVER2, AAR_PANEL,  False, "aerial arbour: the fine print on a card"),
+    (AAR_PINK,    AAR_NIGHT,  False, "aerial arbour: the name, the backlink, a link on the night"),
+    (AAR_PINK,    AAR_PANEL,  False, "aerial arbour: every heading on a card and every link on one"),
+    (AAR_GLOW,    AAR_NIGHT,  False, "aerial arbour: a link under the pointer, and the focus ring, on the night"),
+    (AAR_GLOW,    AAR_PANEL,  False, "aerial arbour: the same on a card"),
     (EFW_TEXT,    EFW_NIGHT,   False, "mountain man: the name, the line under it, the lede and the switch's words on the night"),
     (EFW_DIM,     EFW_NIGHT,   False, "mountain man: the trail, the line over the name and the status line on the night"),
     (EFW_LINK,    EFW_NIGHT,   False, "mountain man: the backlink, a link on the night, and the focus ring there"),
@@ -5227,6 +5246,29 @@ ORNAMENT = {
     "#c2631b": "bough house: the amber leaves and the shingle lines on the roof, 3.29 on the sky; "
                "it carries no word.",
     "#5e6b2e": "bough house: the last green leaves, 4.64 on the sky; it carries no word.",
+    "#3b1a5c": "aerial arbour: the canvas's purple stripes in the drawing, 1.34 on the night; it "
+               "carries no word, and nothing is ever set on a stripe.",
+    "#123f48": "aerial arbour: the canvas's teal stripes, 1.65 on the night; it carries no word.",
+    "#5e1745": "aerial arbour: the canvas's dark pink stripes, 1.52 on the night; it carries no word.",
+    "#b0246e": "aerial arbour: the dark pink silk, the hoop's tape, the hammock, a beanbag and the "
+               "pink scallops of the valance on every card, 2.61 on a card; it carries no word.",
+    "#1e8c8a": "aerial arbour: the teal silk, a beanbag, the leaves on the birch and the teal "
+               "scallops of the valance, 4.07 on a card; it carries no word.",
+    "#4b2a6e": "aerial arbour: the purple beanbag, 1.67 on the night, edged in the night itself; "
+               "it carries no word.",
+    "#22102f": "aerial arbour: the round rug on the floor, 1.07 on the night, ringed in the "
+               "pink silk's colour; it carries no word.",
+    "#e9e6ef": "aerial arbour: the silver birch's bark, 15.35 on the night; it carries no word.",
+    "#2b1e36": "aerial arbour: the dark marks across the birch's bark and its outline, 12.69 on "
+               "the bark; it carries no word.",
+    "#f4f1ff": "aerial arbour: the fairy lights, one string down every seam, 17.01 on the night "
+               "and steady at every setting; they carry no word.",
+    "#c9c3da": "aerial arbour: the hoop, the aerial pole, the tightrope, the wall's poles and "
+               "the rope along the top of every card, 9.67 on a card; it carries no word.",
+    "#9a93ae": "aerial arbour: the ropes, the rope ladder and the hammock's ties, 6.45 on the "
+               "night; it carries no word.",
+    "#f07ac0": "campgrounds: --camp-through, the Aerial Arbour's canvas lit from inside, every "
+               "other stripe on its sign, 6.99 on the dusk. It carries no word.",
     "#1c1917": "bough house: Ben, a tiny black dog, 13.97 on the sky, edged in the planks' own "
                "colour so he is not lost against the bark; he carries no word.",
     "#fff1dc": "fantasy fancy dress: the light at the back of the shop, 16.20 on the dark, "

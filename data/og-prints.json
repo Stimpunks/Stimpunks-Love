@@ -64,8 +64,8 @@
   "png": "bae2b8c741dfdc0f044014f03f3175d29e7e6e3f6c68f09c0b3b07d6e6c08bee"
  },
  "campgrounds": {
-  "made_from": "0ebf3e7e47c90208ff25ae93daabe6f804565774a47855bb4fcd7c1931fe726e",
-  "png": "9ad2c333856ef7915802c586d16984bef0d1bb4e5e1890c98072ebb5fcf2465a"
+  "made_from": "082254d116f69660948eb769ba0791b0cf041f227fd408678703dc57e50bda1d",
+  "png": "bf8c8134c909febcd079c1a2b28949e53ab3cd540e88f86c23e79790a586bbcf"
  },
  "cavendish-campfire": {
   "made_from": "402cebc2dc5407e0f78f69debd8d6ed3bd66753f2d04df90f8a66566b38ffafd",
@@ -654,5 +654,9 @@
  "zine-table": {
   "made_from": "2c89cb61598779979074664659196098f23efe58700c7c09c1e415d5a900bf8f",
   "png": "b3bbc759c389e3ae445c6645abdd67233d933e588cab4fc4770280d00b4ae550"
+ },
+ "the-aerial-arbour": {
+  "made_from": "e99fc430b116c23fb5228e0aa01e7da2016db9fd32491ff841f860ce5382927c",
+  "png": "f2f901dd284796f398cb8b146856ce8cb699651ccc00a0bc8ccaf71e673e3a1a"
  }
 }

@@ -1294,6 +1294,10 @@
 @font-face { font-family: 'Overlock'; src: url('fonts/overlock-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Overlock'; src: url('fonts/overlock-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Overlock'; src: url('fonts/overlock-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Emilys Candy'; src: url('fonts/emilys-candy-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Quattrocento Sans'; src: url('fonts/quattrocento-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Quattrocento Sans'; src: url('fonts/quattrocento-sans-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Quattrocento Sans'; src: url('fonts/quattrocento-sans-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 
 /* The Mountain Cabin. A ROUTE PAINTED ON A ROCK, AND A VOICE FOR THIN AIR.
    Staatliches, by Brian LaRossa and Erica Carras, sets the name and the
@@ -1904,10 +1908,12 @@
      and Cel Street stands them: the meadow's fireflies (carried), the window
      of the hermitage that is a screen and its sunflowers (caught), the tea
      room's foxfire in its logs (grown), the last sun on the top of the Bough
-     House's tree (lingers), and the summit's window among the stars (far).
+     House's tree (lingers), the summit's window among the stars (far), and the
+     circus tent's canvas lit from inside, its stripes glowing through (through).
      The yurt's is her own --candle. Drawing only; they carry no word. */
   --camp-firefly: #BFE07A;  --camp-screen: #A3D4DF;  --camp-sunflower: #E8C33A;
   --camp-foxfire: #BDF2DA;  --camp-lingers: #F08A5D;  --camp-far: #DCEBFF;
+  --camp-through: #F07AC0;
 
   /* The Faery Yurt (§14), Helen's, and warm on purpose where the campground it
      is pitched on is cold — you walk in out of the night air. --tallow-3 is the
@@ -3057,6 +3063,25 @@
   --bgh-bark:    #33241B;  --bgh-bark-2: #5B4535;  --bgh-trunk: #4A3527;
   --bgh-rust:    #9C3A16;  --bgh-crimson: #8A1F33;
   --bgh-gold:    #D9952B;  --bgh-amber:  #C2631B;  --bgh-moss:  #5E6B2E;  --bgh-ben: #1C1917;
+
+  /* The Aerial Arbour (§147), Sinead's circus tent at pitch 06. INSIDE A ROUND
+     TENT AT NIGHT, under fairy lights. --aar-night is the dark between the lights
+     and the ground the page stands on; --aar-panel every card; --aar-silver every
+     word, --aar-silver-2 the fine print; --aar-pink every link and the name, and
+     --aar-glow a link under the pointer and the focus ring. The rest are the
+     drawing's and carry no word: --aar-purple, --aar-teal and --aar-wine the
+     canvas's stripes, --aar-rose and --aar-sea the silks, the valance, the
+     hammock and two of the beanbags, --aar-plum the third, --aar-floor the rug,
+     --aar-birch the tree and --aar-mark the dark marks across its bark,
+     --aar-bulb the fairy lights, --aar-steel the hoop, the pole, the wire and the
+     rope along the top of every card, and --aar-rope the ropes. Every one is in
+     check-contrast.py. */
+  --aar-night:  #170B24;  --aar-panel:  #2A1440;  --aar-silver: #E6E3F0;  --aar-silver-2: #C3BCD6;
+  --aar-pink:   #F48CCB;  --aar-glow:   #7FDAD3;
+  --aar-purple: #3B1A5C;  --aar-teal:   #123F48;  --aar-wine:   #5E1745;
+  --aar-rose:   #B0246E;  --aar-sea:    #1E8C8A;  --aar-plum:   #4B2A6E;  --aar-floor: #22102F;
+  --aar-birch:  #E9E6EF;  --aar-mark:   #2B1E36;  --aar-bulb:   #F4F1FF;
+  --aar-steel:  #C9C3DA;  --aar-rope:   #9A93AE;
 
   /* The Emergent Future Worlds Meets Mountain Man (§118), David's cabin at the
      summit over the Campgrounds, inside, at night. --efw-night is the dark of
@@ -19434,7 +19459,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §148
+   class on it is `bb-`, its sizes are in points and millimetres, and §149
    prints it and nothing else. */
 
 .room-broadside {
@@ -19495,7 +19520,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §148 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §149 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -32983,7 +33008,103 @@ body.sunshine {
 }
 /* import:spaceholder-saloon:section:end */
 
-/* §147 ── Small screens───────────────────────────────────────────────────────
+/* §147 ── PITCH 6: The Aerial Arbour (in the campgrounds) ────────────────────
+   Sinead's circus tent, from her brief as Helen Edgar passed it on, 2026-11-05:
+   a round circus tent near a tree, ropes and rope ladders, aerial poles, hoops
+   and silks hanging off a tree inside it, a tightrope, a hammock and beanbags on
+   the floor, very cosy, fairy lights inside, deep purples, pinks and silver,
+   dark pink and teal, like the Faery Yurt but more colourful.
+
+   THE FAERY YURT IS NEXT DOOR AND IT IS THE ONE TO WATCH, because the brief
+   asks for its vibe and both are a round tent lit by small lights on a dark
+   field. What keeps them apart is structural and has to stay that way:
+     · the yurt is lit by CANDLES and is BROWN: canvas, tallow and wood, cream on
+       dark all the way down, and its strung lights twinkle at MAX. Here there is
+       no flame and no brown anywhere, not even the tree, which is a silver
+       birch: the light is cool silver points, steady at every setting, and ALL
+       THE COLOUR IS IN THE CLOTH, the canvas's stripes, the silks and the
+       beanbags. If a warm light or a brown ever comes into §147 it has become
+       the yurt with a trapeze in it, and it is this room that moves.
+     · the yurt is a lattice wall under a crown, with soft bordered cards. This
+       is a big top: one pole in the middle (the tree), every seam radiating from
+       it, and every card hangs from a rope along its top edge with a valance of
+       scallops under the rope, the way a big top's canvas is trimmed.
+     · the yurt sets high-contrast old serifs; this sets painted banner letters
+       for the name and the headings, and a plain sans for everything read.
+   L-SPACE is the other deep violet room with lines all running to one middle,
+   and nothing in it is lit; here the lines are strings of lights. Pink Pony
+   Club is the pink room and is flat hot pink with no dark in it; this is dark
+   with pink in the cloth. The Chappell is indigo and gold under a rose window;
+   there is no gold here.
+
+   NOTHING MOVES BELOW MAX GLITTER, and nothing flashes at any setting. At MAX
+   the silks, the hoop and the pole sway a little inside the drawing, slowly,
+   each on its own time, and the lights stay steady, because twinkling is the
+   yurt's. Every word is on flat ground: the stripes are only ever in the
+   drawing, never behind a sentence.
+   Emilys Candy sets the name and the headings and nothing at reading size;
+   Quattrocento Sans carries every word that is read. */
+.arbour { background-color: var(--aar-night); color: var(--aar-silver); font-family: 'Quattrocento Sans', var(--sans), sans-serif; font-synthesis: none; }
+.arbour a { color: var(--aar-pink); text-underline-offset: 3px; text-decoration-thickness: 2px; }
+.arbour a:hover { color: var(--aar-glow); }
+.arbour :focus-visible { outline-color: var(--aar-glow); }
+.arbour :where(p, li) { font-size: 18px; line-height: 1.6; }
+.arbour strong, .arbour b { font-weight: 700; }
+.arbour .backlink { font-family: 'Quattrocento Sans', var(--sans), sans-serif; font-size: 16px; letter-spacing: 0; color: var(--aar-pink); }
+
+.aar-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.arbour .aar-trail { margin: 0; font-size: 15px; color: var(--aar-silver-2); }
+.aar-head { margin: 26px 0 0; }
+.arbour .aar-over { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--aar-silver-2); }
+.arbour h1 {
+  margin: 6px 0 0; font-family: 'Emilys Candy', cursive; font-weight: 400;
+  font-size: clamp(44px, 8.4vw, 84px); line-height: 1.08; color: var(--aar-pink);
+}
+.arbour .aar-sub { margin: 12px 0 0; font-size: 21px; line-height: 1.45; max-width: 46ch; }
+.arbour h2 { font-family: 'Emilys Candy', cursive; font-weight: 400; font-size: clamp(27px, 3.9vw, 36px); line-height: 1.2; margin: 0 0 12px; color: var(--aar-pink); }
+
+/* THE TENT, seen through its open door: the drawing is cut to the doorway's
+   round top, and it is the only place on the page the stripes are. */
+.aar-tent { margin: 22px auto 0; max-width: 760px; line-height: 0; }
+.aar-tent__draw { display: block; width: 100%; height: auto; }
+.arbour .aar-lede { max-width: 760px; margin: 20px auto 0; font-size: 19px; }
+
+/* EVERY CARD HANGS FROM A ROPE, with a valance of scallops under it in the
+   silks' two colours, the way a big top's canvas is trimmed. The scallops sit
+   in the card's top padding, above every word, and the ground under the
+   words is flat plum. */
+.aar-part {
+  position: relative; max-width: 760px; margin: 34px auto 0; padding: 34px 26px 24px;
+  background: var(--aar-panel); border-top: 3px solid var(--aar-steel); border-radius: 0 0 14px 14px;
+}
+.aar-part::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 12px;
+  background:
+    radial-gradient(circle at 12px 0, var(--aar-rose) 11.5px, transparent 12px) 0 0 / 48px 12px repeat-x,
+    radial-gradient(circle at 36px 0, var(--aar-sea) 11.5px, transparent 12px) 0 0 / 48px 12px repeat-x;
+}
+.aar-part > :last-child { margin-bottom: 0; }
+.aar-hangs { margin: 0 0 14px; padding: 0 0 0 1.1em; }
+.aar-hangs li { margin: 0 0 8px; }
+.aar-hangs li::marker { color: var(--aar-pink); }
+
+/* AT MAX GLITTER the silks, the hoop and the pole sway inside the drawing,
+   each from where it hangs, each on its own time. Below MAX they hang still,
+   and §3 takes the animation away at Gentle in any case. */
+.aar-sway { transform-box: fill-box; transform-origin: 50% 0; }
+html[data-intensity="max"] .aar-sway--silks { animation: aar-sway 7s ease-in-out infinite alternate; }
+html[data-intensity="max"] .aar-sway--hoop  { animation: aar-sway 5.5s ease-in-out -2s infinite alternate; }
+html[data-intensity="max"] .aar-sway--pole  { animation: aar-sway 8.5s ease-in-out -4s infinite alternate; }
+@keyframes aar-sway { from { transform: rotate(-2deg); } to { transform: rotate(2deg); } }
+
+/* The job marker lies on the rug, and opens onto a card. */
+.arbour .quest__panel { background: var(--aar-panel); color: var(--aar-silver); border-color: var(--aar-steel); }
+
+@media (max-width: 560px) {
+  .aar-part { padding: 30px 18px 20px; }
+}
+
+/* §148 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -33087,7 +33208,7 @@ body.sunshine {
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §147 says every
+   shipped with no rule here at all — which on a street whose §148 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -33211,7 +33332,7 @@ body.sunshine {
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §148 ── Print ───────────────────────────────────────────────────────────────
+/* §149 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

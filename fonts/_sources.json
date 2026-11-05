@@ -3358,5 +3358,41 @@
    "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/mplus2/MPLUS2%5Bwght%5D.ttf",
    "note": "Byte-identical to the 400 above, declared again against its weight axis: the allergen lines, the backlink and the line over the name."
   }
+ ],
+ "emilys-candy": [
+  {
+   "file": "emilys-candy-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 83364,
+   "src": "https://fonts.gstatic.com/s/emilyscandy/v21/2EbgL-1mD1Rnb0OGKudbk0yJqNZqfc0ZjQ.woff2",
+   "note": "The Aerial Arbour (§147), Sinead's circus tent at pitch 06: the name and the headings and nothing at reading size. Curly, striped and a little sugared, like the lettering painted on a big top's banner. One weight."
+  }
+ ],
+ "quattrocento-sans": [
+  {
+   "file": "quattrocento-sans-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 12848,
+   "src": "https://fonts.gstatic.com/s/quattrocentosans/v22/va9c4lja2NVIDdIAAoMR5MfuElaRB0zJt0_8H3HI.woff2",
+   "note": "The Aerial Arbour (§147), every word that is read. A plain humanist sans, so the only fancy letters under the canvas are on the banners. Static files: a regular, a bold and an italic."
+  },
+  {
+   "file": "quattrocento-sans-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 12468,
+   "src": "https://fonts.gstatic.com/s/quattrocentosans/v22/va9Z4lja2NVIDdIAAoMR5MfuElaRB0RyklrRPXziirsI.woff2",
+   "note": "The bold of the 400 above, for names and the words that carry the weight of a line."
+  },
+  {
+   "file": "quattrocento-sans-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 14716,
+   "src": "https://fonts.gstatic.com/s/quattrocentosans/v22/va9a4lja2NVIDdIAAoMR5MfuElaRB0zMh032GFPKgLM.woff2",
+   "note": "The italic of the 400 above."
+  }
  ]
 }

@@ -1873,6 +1873,24 @@
         "--bns-stone"
       ]
     },
+    "the-aerial-arbour.html": {
+      "kind": "orbit",
+      "trap": "ring",
+      "radius": 0.9,
+      "c": [
+        -0.39,
+        0.59
+      ],
+      "orbit": 0.018,
+      "ground": "--aar-night",
+      "inks": [
+        "--aar-pink",
+        "--aar-sea",
+        "--aar-bulb",
+        "--aar-rose",
+        "--aar-glow"
+      ]
+    },
     "the-bough-house.html": {
       "kind": "ifs",
       "figure": "tree",

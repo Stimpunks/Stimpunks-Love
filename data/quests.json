@@ -4644,6 +4644,47 @@
   }
  },
  {
+  "id": "aar-ribbon",
+  "page": "the-aerial-arbour.html",
+  "room": "The Aerial Arbour",
+  "title": "What holds up the circus tent?",
+  "posted": "There is a round circus tent pitched beside a tree on the Campgrounds, with silks and a hoop hanging inside it. Go in, and come back with what holds the canvas up.",
+  "rank": 3,
+  "takes": "two minutes, and a swing in the hammock if you want one",
+  "target": "a scrap of dark pink silk, tied in a loop and dropped on the rug",
+  "code": "ARBOUR",
+  "learned": "A silver birch holds it up. The tent was pitched round the tree, so the tree is its pole: every seam of the canvas runs down from its top, and everything inside hangs off its branches.",
+  "hints": [
+   "It is not on the street. Go out past the treeline to the campgrounds first.",
+   "Pitch 06 on the board, the circus tent beside a tree.",
+   "On the floor of the room, before the sign-off."
+  ],
+  "ask": {
+   "question": "What holds up the Aerial Arbour?",
+   "accept": [
+    "tree",
+    "the tree",
+    "a tree",
+    "birch",
+    "a birch",
+    "the birch",
+    "silver birch",
+    "a silver birch",
+    "the silver birch",
+    "birch tree",
+    "a birch tree",
+    "the birch tree"
+   ],
+   "answer": "A silver birch",
+   "why": "A silver birch: the tent was pitched round it, so every seam of the canvas runs down from the top of the tree, and everything inside hangs off its branches.",
+   "hints": [
+    "It is in the first paragraph under the drawing.",
+    "Look at what stands in the middle of the tent.",
+    "Everything inside hangs off it."
+   ]
+  }
+ },
+ {
   "id": "exc-fold",
   "page": "excursions.html",
   "room": "Excursions",
