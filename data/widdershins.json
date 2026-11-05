@@ -581,13 +581,17 @@
       "page": "golem-trust.html",
       "name": "The Golem Trust",
       "line": "the trust from *Going Postal* for golems, who were property and own themselves now, and who say what they have to say on slates.",
-      "holds": []
+      "holds": [
+        "a slate held up is a whole way of talking"
+      ]
     },
     {
       "page": "sunshine-sanctuary.html",
       "name": "The Sunshine Sanctuary for Sick Dragons",
       "line": "Lady Sybil Ramkin’s sanctuary from *Guards! Guards!*, for the small swamp dragons nobody else wanted.",
-      "holds": []
+      "holds": [
+        "nobody else wanted"
+      ]
     }
   ],
   "elsewhere": [
