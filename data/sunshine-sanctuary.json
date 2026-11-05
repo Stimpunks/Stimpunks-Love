@@ -1,0 +1,121 @@
+{
+  "_what": "The Sunshine Sanctuary for Sick Dragons, a room behind Widdershins in the city over the bridge (love.css §145). tools/make-sunshine-sanctuary.py writes the yard, every section, the credits and the liner notes' table of quotations out of this file, between ssd:<part> markers in sunshine-sanctuary.html. Do not hand-edit between them.",
+  "_who": "Ryan's ask, 2026-11-04: subrooms of Widdershins inspired by places in the Discworld novels, in the city over the bridge. This one is Lady Sybil Ramkin's sanctuary for small swamp dragons nobody else wanted, from Terry Pratchett's Guards! Guards! (1989).",
+  "_book": "THE BOOK IS NEVER QUOTED HERE. Neither Star Stuff nor any page of ours prints a line of Pratchett's about the sanctuary or its dragons, and nothing here is quoted from memory, so the facts about the book are three, plain and certain: whose sanctuary it is and in which book, that swamp dragons are small and breathe fire, and that now and then one goes off. Nothing about the Disc is taken from a fan wiki or a fan site, and nobody from the book is drawn: not the lady whose sanctuary it is, and not any dragon of hers. The dragons in the yard are the yard's, unnamed.",
+  "words": 40,
+  "read": "2026-11-04",
+  "pages": {
+    "atom": {
+      "from": "starstuff",
+      "title": "One Atom of Justice",
+      "url": "https://starstuff.earth/one-atom-of-justice-zine.html",
+      "file": "one-atom-of-justice-zine.html",
+      "holds": ["He called it an", "embuggerance"]
+    },
+    "chronic": {
+      "from": "mirror",
+      "title": "Chronic",
+      "url": "https://stimpunks.org/glossary/chronic/",
+      "file": "glossary/chronic.md"
+    },
+    "careweb": {
+      "from": "mirror",
+      "title": "Care Web",
+      "url": "https://stimpunks.org/glossary/care-web/",
+      "file": "glossary/care-web.md"
+    },
+    "interdependence": {
+      "from": "mirror",
+      "title": "Interdependence",
+      "url": "https://stimpunks.org/glossary/interdependence/",
+      "file": "glossary/interdependence.md"
+    }
+  },
+  "quotes": {
+    "chronic": {
+      "text": "They’re health conditions that can’t be cured and so they must be managed.",
+      "who": "Brianne Benness",
+      "work": "Disease Begins Before Diagnosis",
+      "url": "https://noendinsight.co/briannes-tedx-talk-disease-begins-before-diagnosis/",
+      "note": "Her TEDx talk, on No End In Sight.",
+      "read_on": "chronic"
+    },
+    "embuggerance": {
+      "text": "Not a battle he was losing. Not a lesson. A thing that was in the way, named accurately, out loud, by the person it was in the way of.",
+      "who": "Star Stuff",
+      "read_on": "atom"
+    },
+    "webs": {
+      "text": "Sometimes we call them care webs or collectives, sometimes we call them “my friend that helps me out sometimes,” sometimes we don’t call them anything at all—care webs are just life, just what you do.",
+      "who": "Leah Lakshmi Piepzna-Samarasinha",
+      "work": "Care Work: Dreaming Disability Justice",
+      "url": "https://bookshop.org/p/books/care-work-dreaming-disability-justice-leah-lakshmi-piepzna-samarasinha/64dfa473415265f1?ean=9781551527383",
+      "year": "2018",
+      "page": "p. 41",
+      "read_on": "careweb"
+    },
+    "gratitude": {
+      "text": "Resisting the model of charity and gratitude, they are controlled by the needs and desires of the disabled people running them.",
+      "who": "Leah Lakshmi Piepzna-Samarasinha",
+      "work": "Care Work: Dreaming Disability Justice",
+      "url": "https://bookshop.org/p/books/care-work-dreaming-disability-justice-leah-lakshmi-piepzna-samarasinha/64dfa473415265f1?ean=9781551527383",
+      "year": "2018",
+      "page": "p. 41",
+      "read_on": "careweb"
+    },
+    "need": {
+      "text": "I am fighting for an interdependence that embraces need and tells the truth: no one does it on their own and the myth of independence is just that, a myth.",
+      "who": "Mia Mingus",
+      "work": "Changing the Framework: Disability Justice",
+      "url": "https://leavingevidence.wordpress.com/2011/02/12/changing-the-framework-disability-justice/",
+      "year": "2011",
+      "read_on": "interdependence"
+    }
+  },
+  "sections": {
+    "lede": [
+      { "p": "**The Sunshine Sanctuary for Sick Dragons** is Lady Sybil Ramkin’s, in Terry Pratchett’s [Guards! Guards!](https://openlibrary.org/works/OL453735W) (1989): a home for small swamp dragons that nobody else wanted. Swamp dragons are small, they breathe fire, and so much goes on inside one that now and then one goes off." },
+      { "p": "This one is ours. It is a walled yard over the bridge, behind [Widdershins](widdershins.html), at noon on a day when the city’s smoke has turned the sun down to a pale disc you can look straight at. The yard is lit by the whole smoky sky at once, so nothing in it throws more than a soft shadow round its own feet, and the brightest things in it are not the sun. They are the dragons." }
+    ],
+    "home": [
+      { "p": "The street has shelters, where animals wait to be taken home: [Rescue A Cat](rescue-a-cat.html), [Rescue A Dog](rescue-a-dog.html) and [Rescue Small Animals](rescue-small-animals.html). This is not one of them. A dragon who comes into this yard is not waiting for anybody. Nobody is shown off at the gate, nobody is chosen over anybody else, and nobody leaves to make room. The yard is the home, not the waiting room." },
+      { "p": "And nobody is here as a good deed. A sanctuary is easy to tell as a story about the kind person who keeps it, with the animals as the proof of how kind. In this yard the dragons are the point, and whoever keeps it is just somebody who lives here too." }
+    ],
+    "sick": [
+      { "p": "The sign says **sick**, and the yard keeps the word. Nothing here is put right in order to leave. A sanctuary that kept its dragons only until they were well would be a hospital, and some of these dragons are never going to be well in the way a hospital means. That is not a sad ending. It is the middle, where most of life is." },
+      { "q": "chronic" },
+      { "p": "So what changes is the yard, never the dragon. The floor is sand, so nothing on it can catch. There is a bucket by every doorway, so when a dragon goes off, nobody has to run. The pens have doorways and no doors, so a dragon goes in when it wants the dark and out when it wants the sky. None of that asks a dragon to be any different." },
+      { "p": "When Terry Pratchett was told what was happening to his brain, he gave it a word of his own, and it was not a fight. Star Stuff wrote it up in [One Atom of Justice](https://starstuff.earth/one-atom-of-justice-zine.html):" },
+      { "q": "embuggerance" }
+    ],
+    "kept": [
+      { "p": "In the book the sanctuary is one woman’s, kept by her. A yard like this is easier to keep the way our pages say care gets kept: by everybody in it, the ones who need looking after included, because everybody does, some days more than others." },
+      { "q": "webs" },
+      { "q": "gratitude" },
+      { "p": "A sanctuary is not a charity, and this is the difference: nobody in this yard owes anybody a thank-you for being let in, and nobody’s place depends on being grateful, good, or getting better. The dragons keep the yard too: the bricks round the pens are warm because the dragons are, and the yard is warmer for everybody in it." },
+      { "q": "need" }
+    ]
+  },
+  "yard": [
+    { "name": "Sand, all of it", "line": "The floor of the yard is sand, and so is the bed of every pen. A dragon having a bad day has it on something that cannot catch." },
+    { "name": "A bucket by every doorway", "line": "Sand in one and water in the other, already there. Nobody runs, and nobody makes a fuss about why they are there." },
+    { "name": "Doorways, not doors", "line": "Every pen has a way in and no way to shut it. A dragon goes in when it wants the dark and out when it wants the sky." },
+    { "name": "No card on any pen", "line": "Nothing is nailed up saying what is wrong with whoever sleeps inside, or how long they have been here. Ask them, or don’t." },
+    { "name": "Warm bricks", "line": "The bricks round the pens are warm because the dragons are. Everybody in the yard sits a little closer to them on a cold day." },
+    { "name": "A sun you can look at", "line": "The city’s smoke has turned the sun down to a pale disc. It still counts as sunshine. That is what the sign over the gate says." }
+  ],
+  "not_here": [
+    { "name": "No adopting out.", "line": "Nobody waits here to be picked, and nobody leaves to make room. It is a home and not a waiting room." },
+    { "name": "Nothing for sale, nothing asked.", "line": "There is no price at the gate and no tin by it, and nothing in here is anybody’s good deed." },
+    { "name": "No count of dragons.", "line": "How many sleep in the yard is written down nowhere, here or on a board." },
+    { "name": "No dragon from the book.", "line": "The dragons drawn here are the yard’s, small and unnamed. Nobody from the book is drawn, and nor is the lady whose sanctuary it is." },
+    { "name": "No diagnosis on a pen.", "line": "Nobody is labelled, here or anywhere on this page. Sick is the word on the sign, and it is the dragons’ word to keep." },
+    { "name": "Nothing moves.", "line": "Not a flame, not the smoke, not the sun, at any setting, MAX GLITTER included." }
+  ],
+  "elsewhere": [
+    { "page": "widdershins.html", "name": "Widdershins", "line": "back over the bridge: the crooked city with the morning halfway across it, and a Discworld appreciation against the way of normativity.", "holds": ["Against the way of normativity"] },
+    { "page": "all-needs-met.html", "name": "All Needs Met", "line": "the other sanctuary on this street, out past the campgrounds: a home for good for animals who are disabled or were abandoned, seen at night through a viewer that sees warmth.", "holds": ["a home for good for animals who are disabled or were abandoned"] },
+    { "page": "rescue-a-cat.html", "name": "Rescue A Cat", "line": "a shelter, which is the other thing: there, a cat is brought in out of the dark and waits for a home of its own.", "holds": ["anybody can adopt a cat from the shelter"] },
+    { "page": "community-care.html", "name": "Community Care", "line": "the room where you ask for help and offer it, under one roof of everybody’s umbrellas.", "holds": ["This is the room where you ask."] }
+  ]
+}

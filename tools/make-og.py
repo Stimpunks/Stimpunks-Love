@@ -89,6 +89,39 @@ def find_browser():
     )
 
 
+def card_ssd(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE YARD ARE LIFTED
+    # FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="ssd-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="ssd-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: sunshine-sanctuary.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    # The card shows the yard from the sun down to the sand, cropped by the
+    # drawing's own viewBox rather than by a margin.
+    yard = p["ssdyard"].replace('viewBox="0 0 1200 420"', 'viewBox="0 52 1200 368"', 1)
+    if yard == p["ssdyard"]:
+        raise SystemExit(
+            "REFUSING: sunshine-sanctuary.html's yard is no longer 1200 by 420, and the card crops it\n"
+            "by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--ssd" data-fit="card">'
+        f'<div class="og-room">{yard}</div>'
+        f'<div class="og-words"><p class="ssd-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="ssd-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A card the colour of a smoky sky. Across the top, a walled yard of sand under a pale disc of a sun you "
+        f"could look straight at: brick pens with open doorways along the wall, buckets at every doorway, chimneys "
+        f"over the wall breathing smoke, and small dark green dragons on the sand and on a roof, the ones awake "
+        f"each breathing a little flame brighter than the sun, and some asleep. Below, small capitals reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large dark serif letters, and under it: "
+        f"{plain(sub.group(1))}",
+    )
+
+
 # ── The box ──────────────────────────────────────────────────────────────────
 # Everything a card needs that is NOT a room's business: the 1200x630 frame, the
 # padding, and the footer. Every card but the street's signs itself -- the
@@ -1190,6 +1223,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--wds .wds-over {{ font-size: 17px; }}
 .og--wds h1 {{ font-size: 92px; margin-top: 2px !important; line-height: .95; }}
 .og--wds .wds-sub {{ font-size: 26px; margin-top: 6px !important; max-width: 1080px; }}
+
+/* the sunshine sanctuary — THE YARD UNDER A SUN YOU CAN LOOK AT. The page's own
+   drawing, lifted rather than redrawn and cropped to the sky and the sand, and
+   every word below it on the smoky sky, where the room sets every word. The
+   only pale card made of a sky the colour of weak tea. */
+.og--ssd {{ width: 100%; padding: 0 0 24px; gap: 0; justify-content: flex-start; }}
+.og--ssd .og-room {{ margin: 0 !important; line-height: 0; }}
+.og--ssd .og-room svg {{ display: block; width: 1200px; height: auto; max-width: none; border: 0; border-radius: 0; }}
+.og--ssd .og-words {{ padding: 14px 60px 0; }}
+.og--ssd .og-words > * {{ margin: 0 !important; }}
+.og--ssd .ssd-over {{ font-size: 17px; }}
+.og--ssd h1 {{ font-size: 60px; max-width: none; margin-top: 4px !important; line-height: 1.02; }}
+.og--ssd .ssd-sub {{ font-size: 24px; margin-top: 8px !important; max-width: 1080px; }}
 
 /* the golem trust — THE NAME WRITTEN ON A SLATE, held up against the hall. The
    page's own drawing, lifted rather than redrawn and cropped by its viewBox to
@@ -6353,6 +6399,7 @@ CARDS = {
     "room-lspace":  card_lspace,
     "room-oook":    card_oook,
     "widdershins": card_wds,
+    "sunshine":    card_ssd,
     "golem-trust": card_gtr,
     "dressup":      card_dressup,
     "bodymind-booth": card_booth,
@@ -6521,6 +6568,7 @@ def main():
         ("lwvview",  "loo-with-a-view.html", r'(<svg class="lwv-view".*?</svg>)'),
         ("seafront", "seaside-convenience.html", r'(<svg class="sea-front".*?</svg>)'),
         ("wdscity",  "widdershins.html",  r'(<svg class="wds-city".*?</svg>)'),
+        ("ssdyard",  "sunshine-sanctuary.html", r'(<svg class="ssd-yard".*?</svg>)'),
         ("hhset",    "haunted-house.html", r'(<svg class="hh-set".*?</svg>)'),
         ("psarch",   "paper-street.html", r'(<svg class="ps-arch".*?</svg>)'),
         ("celsky",   "cel-street.html",   r'(<svg class="cel-sky".*?</svg>)'),

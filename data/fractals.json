@@ -872,6 +872,22 @@
         "--wds-edge"
       ]
     },
+    "sunshine-sanctuary.html": {
+      "kind": "ember",
+      "c": [
+        -0.66,
+        0.14
+      ],
+      "orbit": 0.015,
+      "span": 2.6,
+      "ground": "--ssd-smog",
+      "inks": [
+        "--ssd-scale",
+        "--ssd-flame-2",
+        "--ssd-brick",
+        "--ssd-flame"
+      ]
+    },
     "oracle-deck.html": {
       "kind": "orbit",
       "power": 4,

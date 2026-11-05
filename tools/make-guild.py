@@ -285,6 +285,13 @@ DRAW = {
     # slant it has in the city. The floor line is --wds-line and carries
     # nothing. It lies still, like the morning.
     "wds-cobble": """<path d="M3 29.5 H29" stroke="var(--wds-line)" stroke-width="1.6" stroke-linecap="round"/><path d="M6.5 27.5 C5.5 22 7 17.5 12 16.5 C17 15.6 23 15.8 25.6 18.5 C27.6 21 27 25.5 25.6 27.5 Z" fill="var(--wds-ink-3)" stroke="var(--wds-line)" stroke-width="1.3" stroke-linejoin="round"/><path d="M20.5 16 L26.6 21.5" stroke="var(--wds-dawn)" stroke-width="1.8" stroke-linecap="round"/><path d="M10 23 C12.5 21.5 16 21.2 19 22" fill="none" stroke="var(--wds-line)" stroke-width=".8" opacity=".7"/>""",
+    # The Sunshine Sanctuary for Sick Dragons: a bucket of sand put down on the
+    # floor of the yard, the iron in --ssd-soot-2, 4.95 on the smoky sky it
+    # lies on and over the body threshold a marker is held to, its rim and
+    # handle in --ssd-soot, the sand heaped in it in --ssd-sand, and a soft
+    # shadow round its foot in --ssd-shade, which carries nothing. It lies
+    # still, like everything in that yard.
+    "ssd-bucket": """<ellipse cx="16" cy="28.6" rx="11" ry="2.2" fill="var(--ssd-shade)"/><path d="M8 11 L10.5 28 H21.5 L24 11 Z" fill="var(--ssd-soot-2)" stroke="var(--ssd-soot)" stroke-width="1.3" stroke-linejoin="round"/><path d="M8.6 15 H23.4 M9.4 21.5 H22.6" stroke="var(--ssd-soot)" stroke-width="1" stroke-opacity=".7"/><ellipse cx="16" cy="11" rx="8" ry="2.6" fill="var(--ssd-sand)" stroke="var(--ssd-soot)" stroke-width="1.2"/><path d="M10.5 10.6 Q16 6.4 21.5 10.6" fill="var(--ssd-sand)" stroke="var(--ssd-soot)" stroke-width="1"/><path d="M8 11 C8.5 2.5 23.5 2.5 24 11" fill="none" stroke="var(--ssd-soot)" stroke-width="1.4"/>""",
     # The Golem Trust: a writing slate leaning against the foot of the wall,
     # its face in --gtr-slate, 9.32 on the lit clay it stands on and over the
     # body threshold a marker is held to, in a frame of --gtr-clay-2, 6.12,

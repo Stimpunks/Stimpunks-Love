@@ -3406,6 +3406,34 @@
    }
   },
   {
+   "id": "ssd-bucket",
+   "page": "sunshine-sanctuary.html",
+   "room": "The Sunshine Sanctuary for Sick Dragons",
+   "title": "What will not catch?",
+   "posted": "Over the bridge behind Widdershins there is a walled yard where small dragons live who nobody else wanted, and now and then one of them goes off. The yard was built round that, not round the dragons. Go and find out what the floor is made of.",
+   "rank": 2,
+   "takes": "about as long as it takes a dragon to settle back down",
+   "target": "a bucket of sand set down on the floor",
+   "code": "BUCKET",
+   "learned": "The whole floor of the yard is sand, and so is the bed of every pen, because nothing on it can catch. What changes in that yard is the yard, never the dragon.",
+   "hints": [
+    "Through Widdershins, over the bridge into the city: the sanctuary's door is in Widdershins.",
+    "In the cards under What is in the yard, the first of them.",
+    "Right at the foot of the room, on the floor, where somebody has put a bucket down."
+   ],
+   "ask": {
+    "question": "The floor of the yard, and the bed of every pen in it, is made of one thing, so that nothing on it can catch. What is it?",
+    "accept": ["sand", "the sand"],
+    "answer": "Sand",
+    "why": "The floor of the yard is sand, and so is the bed of every pen. A dragon having a bad day has it on something that cannot catch.",
+    "hints": [
+     "It is in every bucket of one kind, at every doorway.",
+     "It is what the first card under What is in the yard is about.",
+     "Sand."
+    ]
+   }
+  },
+  {
    "id": "cavendish-marker",
    "page": "cavendish-coworking.html",
    "room": "Cavendish Coworking",

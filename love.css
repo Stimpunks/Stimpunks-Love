@@ -4624,6 +4624,25 @@
   --rth-book-lilac: #C9B8E6;  --rth-book-lilac-ink: #221A33;
   --rth-book-amber: #D9824B;  --rth-book-amber-ink: #24130A;
 
+  /* The Sunshine Sanctuary for Sick Dragons (§145): a walled yard behind
+     Widdershins at noon, under a sun the city's smoke has turned down to a
+     disc you can look at. The page: --ssd-smog its ground, the smoky sky;
+     --ssd-sand a card lying in the yard; --ssd-soot every word and every
+     outline; --ssd-soot-2 the quieter words; --ssd-scale the links and the
+     dragons. The yard, drawn in no word: --ssd-haze the thicker smoke low down
+     and the water in a bucket; --ssd-sun the sun's disc, which make-sunshine-
+     sanctuary.py holds darker than --ssd-flame, the dragons' flames, with
+     --ssd-flame-2 their hot middle and the sun's rim;
+     --ssd-scale-2 a dragon's belly and wings; --ssd-brick the wall, the
+     pens and the rule beside a quotation; --ssd-shade the soft shadow round a thing's feet; --ssd-straw the
+     straw in a doorway; --ssd-iron the buckets and the gate; --ssd-murk the
+     chimneys over the wall, their smoke and a card's shadow. */
+  --ssd-smog: #CDAE74;  --ssd-sand: #EBDDB7;  --ssd-soot: #2B2019;
+  --ssd-soot-2: #4E3C2C;  --ssd-scale: #173C2F;  --ssd-scale-2: #5F8A5C;
+  --ssd-haze: #DFC994;  --ssd-sun: #F1CB8B;  --ssd-flame: #FFF4CF;  --ssd-flame-2: #F2A23A;
+  --ssd-brick: #6D3A2B;  --ssd-shade: #C2A877;  --ssd-straw: #D7AE5E;
+  --ssd-iron: #4B4642;  --ssd-murk: #B39563;
+
   /* §144 The Golem Trust: a long hall over the bridge from Widdershins, kept
      by golems who own themselves, lit only through windows whose panes are
      clay pressed thin enough for the day to come through. --gtr-pane the lit
@@ -32432,6 +32451,134 @@ body.golem-trust { background: var(--gtr-pane); color: var(--gtr-ink); font-fami
   background: var(--gtr-pane); overflow: hidden;
 }
 .gtr-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--gtr-pane); }
+
+/* §145 ── SUBROOM: The Sunshine Sanctuary for Sick Dragons (behind Widdershins, over the bridge)
+   Lady Sybil Ramkin's sanctuary for small swamp dragons nobody else wanted,
+   from Terry Pratchett's Guards! Guards! (1989). Ryan's ask, 2026-11-04:
+   subrooms of Widdershins after places in the Discworld novels, in the city
+   over the bridge. tools/make-sunshine-sanctuary.py writes the room out of
+   data/sunshine-sanctuary.json.
+
+   THE LIGHT IS A SUN YOU CAN LOOK AT. It is noon, and the city's smoke has
+   turned the sun down to a pale disc with no rays, so the yard is lit by the
+   whole smoky sky at once: every colour is on, nothing has a lit side, and
+   nothing throws more than a soft shadow round its own feet. AND THE SUN IS
+   NOT THE BRIGHTEST THING IN THE YARD. The dragons' breaths of flame are,
+   small and brighter than the sun, and they light nothing. The tool holds
+   --ssd-sun darker than --ssd-flame; the day the sun outshines a dragon, the
+   room has become any sunny yard. The page is the smoky sky, and every word is
+   on it or on a card of sand lying in the yard.
+
+   THE COLLISIONS:
+     · ALL NEEDS MET (§105) is the other sanctuary on this street, a home for
+       good for animals who are disabled or were abandoned, and it is the one
+       to watch: there it is night, seen through a viewer that sees warmth, and
+       nothing has a hue. Here it is noon and every colour is on, and the only
+       warmth you can see is fire, in points, lighting nothing.
+     · THE SHELTERS (§87–§89) are where animals wait to be adopted, lit by a
+       torch at night, a low winter sun on snow, and day through floorboards.
+       Nobody waits here, and the light is from above, through smoke.
+     · WIDDERSHINS (§135), the parent, is a crooked city at night across a
+       river with the morning's hard edge halfway across it. This is one walled
+       yard at noon, with no skyline, no river and no edge: the city over the
+       wall is only its chimneys, breathing the smoke the light comes through.
+     · THE WATERING HOLE (§74) is noon too, in the Namib, every shadow hard and
+       straight under its thing. Here the shadows are soft, spread and nearly
+       not there. If a shadow ever sharpens, this has become the pan.
+     · PANDO CALRISSIAN (§84) is lit by a sun that has already set. Here the
+       sun is up, high, and you can look straight at it.
+     · THE BROWN ROOMS (the Faery Yurt, the Latibulum, the Den) and every other
+       flame-lit room are lit by one flame in the dark. Here many small flames
+       light nothing, and the day lights the yard.
+     · THE GUILD (§26) and the pale paper rooms are lit from nowhere, flat and
+       square. This ground is a smoky sky with a sun in it, every card is
+       round-cornered, and every card throws a soft shadow round its foot.
+
+   NOTHING MOVES, AT ANY SETTING, MAX GLITTER INCLUDED: not a flame, not the
+   smoke, not the sun. The friendly edits are a flicker on the flames at MAX
+   and smoke drifting from the chimneys; the tool refuses a keyframe, an
+   animation, a transition or a hard shadow here. The type is Young Serif for
+   the name and the headings, and Alegreya for every word that is read. */
+
+body.sunshine {
+  background-color: var(--ssd-smog); color: var(--ssd-soot);
+  font-family: 'Alegreya', Georgia, serif; font-synthesis: none;
+}
+.sunshine .wrap { width: min(980px, 100% - 44px); }
+.sunshine a { color: var(--ssd-scale); text-underline-offset: 3px; }
+.sunshine a:hover { color: var(--ssd-soot); text-decoration-thickness: 2px; }
+.sunshine :focus-visible { outline-color: var(--ssd-soot); }
+.sunshine :where(p, li) { font-size: 20px; line-height: 1.6; }
+.sunshine .backlink { font-family: 'Alegreya', Georgia, serif; font-weight: 700; font-size: 17px; color: var(--ssd-scale); }
+.ssd-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.ssd-trail { margin: 0; font-size: 17px; font-style: italic; color: var(--ssd-soot-2); }
+
+.ssd-head { margin: 30px 0 0; }
+.ssd-over { margin: 0; font-size: 16px; letter-spacing: .1em; text-transform: uppercase; color: var(--ssd-soot-2); }
+.sunshine h1 {
+  margin: 6px 0 12px; font-family: 'Young Serif', Georgia, serif; font-weight: 400;
+  font-size: clamp(40px, 8vw, 84px); line-height: 1.02; color: var(--ssd-soot); max-width: 15ch;
+}
+.ssd-sub { margin: 0; font-size: 24px; line-height: 1.4; max-width: 40ch; }
+
+.ssd-view { margin: 30px 0 0; }
+.ssd-yard { display: block; width: 100%; height: auto; border: 2px solid var(--ssd-soot); border-radius: 12px; }
+.ssd-view__words { margin: 12px 0 0; font-size: 17px; line-height: 1.6; color: var(--ssd-soot-2); max-width: 66ch; }
+
+.ssd-lede { margin: 32px 0 0; max-width: 66ch; }
+.ssd-lede > p { margin: 0 0 16px; }
+.ssd-lede > p:first-child { font-size: 23px; line-height: 1.5; }
+
+.ssd-part { margin: 58px 0 0; }
+.ssd-part > p, .ssd-part > .ssd-quote, .ssd-part > .ssd-next, .ssd-part > .ssd-credits { max-width: 66ch; }
+.ssd-part > p { margin: 0 0 16px; }
+.sunshine h2 {
+  margin: 0 0 20px; font-family: 'Young Serif', Georgia, serif; font-weight: 400;
+  font-size: clamp(30px, 5vw, 44px); line-height: 1.12; color: var(--ssd-soot);
+}
+.sunshine h3 { margin: 0 0 6px; font-family: 'Young Serif', Georgia, serif; font-weight: 400; font-size: 23px; line-height: 1.2; color: var(--ssd-soot); }
+
+.ssd-quote { margin: 24px 0; padding: 4px 0 4px 20px; border-left: 5px solid var(--ssd-brick); }
+.ssd-quote p { margin: 0; font-size: 22px; font-style: italic; line-height: 1.5; }
+.ssd-quote__who { margin: 8px 0 0; font-size: 16px; line-height: 1.55; color: var(--ssd-soot-2); }
+
+/* THE CARDS: each one lies on the sand of the yard, round-cornered, and the
+   light from the whole smoky sky leaves only a soft shadow round its foot. */
+.ssd-cards, .ssd-rules { list-style: none; margin: 24px 0; padding: 0; display: grid; gap: 18px; }
+.ssd-cards { grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); }
+.ssd-card {
+  margin: 0; padding: 18px 20px 20px; background: var(--ssd-sand);
+  border: 1px solid var(--ssd-soot-2); border-radius: 18px;
+  box-shadow: 0 12px 20px -10px var(--ssd-murk);
+}
+.ssd-card p { margin: 0; font-size: 18px; line-height: 1.55; }
+.ssd-rules .ssd-card { font-size: 19px; }
+.ssd-rules strong { font-family: 'Young Serif', Georgia, serif; font-weight: 400; }
+
+.ssd-next { margin: 18px 0 0; padding-left: 22px; }
+.ssd-next li { margin: 0 0 10px; }
+.ssd-whose .ssd-credits { margin: 16px 0 0; padding-left: 22px; }
+.ssd-credits li { margin: 0 0 12px; font-size: 17px; color: var(--ssd-soot-2); }
+.ssd-credits strong { color: var(--ssd-soot); }
+.ssd-credits code { font-size: 15px; }
+
+@media (max-width: 720px) {
+  .sunshine .wrap { width: calc(100% - 32px); }
+  .ssd-cards { grid-template-columns: 1fr; }
+}
+
+/* THE SANCTUARY, WALKED INTO ON PAPER STREET (walk-sunshine-sanctuary.js,
+   round 1, 2026-11-04). Paper Street's stage takes the yard's clothes while you
+   are in it: its frame is the wall's brick and everything behind is the smoky
+   sky. The page stands on a board of sand against the wall, round-cornered, with
+   a soft shadow round its foot and no hard edge of light on it; it is the one
+   thing in the scene that takes a pointer. */
+.ssd-walk { --ps-frame: var(--ssd-brick); --ps-back: var(--ssd-smog); --ps-backcloth: none; }
+.ssd-walk-board {
+  --ps-takes: auto; overflow: hidden; background: var(--ssd-smog);
+  border-radius: 14px; box-shadow: 0 0 0 8px var(--ssd-sand), 0 0 0 11px var(--ssd-soot);
+}
+.ssd-walk-board iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--ssd-smog); }
 
 /* §146 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */

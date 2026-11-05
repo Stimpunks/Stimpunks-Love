@@ -1008,6 +1008,10 @@ SEA_IRON, SEA_BUOY, SEA_HOT = "#1F5A4E", "#A3301F", "#76221A"
 WDS_NIGHT, WDS_SLAB, WDS_INK, WDS_INK2, WDS_INK3 = "#17161F", "#221F2C", "#EFE6D6", "#C7BDAC", "#A79FB4"
 WDS_DAWN, WDS_EDGE, WDS_SKY = "#F2B95C", "#FFE3A6", "#3A3C57"
 WDS_HEATHER, WDS_RIVER, WDS_MOSS = "#BBA6F0", "#8FD3C5", "#A8D27E"
+# The Sunshine Sanctuary for Sick Dragons (love.css §145). A walled yard at noon
+# under a sun the smoke has turned down: every word on the smoky sky or on a
+# card of sand lying in the yard; no word in the drawing of the yard.
+SSD_SMOG, SSD_SAND, SSD_SOOT, SSD_SOOT2, SSD_SCALE = "#CDAE74", "#EBDDB7", "#2B2019", "#4E3C2C", "#173C2F"
 # The Golem Trust (love.css §144). A hall lit only through windows of clay:
 # every word slate on the lit clay, or on a quotation's slightly thicker clay;
 # the two lines held up on a slate are chalk on slate. No word is set in the
@@ -3961,6 +3965,19 @@ PAIRS = [
     (SEA_BUOY,  SEA_CREAM, False, "seaside convenience: a link on a card, and the street door's knock"),
     (SEA_HOT,   SEA_CREAM, False, "seaside convenience: a link on a card under the pointer"),
     (SEA_CREAM, SEA_IRON,  False, "seaside convenience: the enamel sign on the street door and in the drawing"),
+    # ── The Sunshine Sanctuary for Sick Dragons (§145) ──────────────────────
+    # Every word on the smoky sky or on a card of sand. Nothing set in the yard.
+    (SSD_SOOT,  SSD_SMOG,  False, "sunshine sanctuary: the name, every heading, every paragraph and quotation, and "
+                                  "the focus ring"),
+    (SSD_SOOT2, SSD_SMOG,  False, "sunshine sanctuary: the trail, the line over the name, the caption under the "
+                                  "yard, whose each quotation is, and the credits"),
+    (SSD_SCALE, SSD_SMOG,  False, "sunshine sanctuary: every link and the backlink"),
+    (SSD_SOOT,  SSD_SAND,  False, "sunshine sanctuary: everything on a card: what is in the yard and what is not, "
+                                  "and the focus ring there"),
+    (SSD_SOOT2, SSD_SAND,  False, "sunshine sanctuary: the job marker's quieter words if they ever sit on a card"),
+    (SSD_SCALE, SSD_SAND,  False, "sunshine sanctuary: a link on a card"),
+    (SSD_SOOT2, SSD_SMOG,  False, "sunshine sanctuary: the job marker's bucket, held to the body threshold a "
+                                  "marker is"),
     # ── Widdershins (§135) ──────────────────────────────────────────────────
     # Every word on the night side: the flat night, a card lying in it, or one
     # of Star Stuff's figures on its slab. Nothing set on the lit city.
@@ -5478,6 +5495,26 @@ ORNAMENT = {
                "only way to tell.",
     "#b23a2e": "seaside convenience: the little lamp over a cubicle in use in the drawing, 5.49 on the cream "
                "door under it. The words say the same on the page.",
+    "#5f8a5c": "sunshine sanctuary: a dragon's belly and its folded wings, 3.06 against its own scales and 2.95 "
+               "on the sand. It carries no word.",
+    "#dfc994": "sunshine sanctuary: the thicker smoke low down by the wall and the water in a bucket, 1.30 on the "
+               "smoky sky. It carries no word.",
+    "#f1cb8b": "sunshine sanctuary: the sun, a pale disc the smoke has turned down, 1.38 on the sky and rimmed in "
+               "--ssd-flame-2. make-sunshine-sanctuary.py holds it darker than every flame. It carries no word.",
+    "#fff4cf": "sunshine sanctuary: the dragons' breaths of flame, the brightest things in the yard, 11.08 against "
+               "a dragon's scales and outlined in --ssd-soot wherever they stand on the sky or the sand. They carry "
+               "no word.",
+    "#f2a23a": "sunshine sanctuary: the hot middle of a flame and the sun's rim, 1.91 inside the flame. It carries "
+               "no word.",
+    "#6d3a2b": "sunshine sanctuary: the brick wall and the pens, 4.32 on the smoky sky and 6.79 on the sand, and "
+               "the rule beside every quotation. It carries no word.",
+    "#c2a877": "sunshine sanctuary: the soft shadow round a thing's feet and the ripples in the sand, 1.70 on the "
+               "sand, nearly not there on purpose. It carries no word.",
+    "#d7ae5e": "sunshine sanctuary: the straw spilling out of a doorway, 1.54 on the sand and outlined in "
+               "--ssd-soot at 7.64. It carries no word.",
+    "#4b4642": "sunshine sanctuary: the buckets and the open gate, 6.90 on the sand. It carries no word.",
+    "#b39563": "sunshine sanctuary: the chimneys over the wall, their smoke and a card's soft shadow, 1.34 on the "
+               "smoky sky. It carries no word.",
     "#bba6f0": "widdershins: Star Stuff's violet, also the rule beside every quotation, 8.39 on the night, which "
                "is what marks a quotation as one. It is measured as words in PAIRS too.",
     "#5e596e": "widdershins: every outline, in the city, round every card and figure and under every heading, "
