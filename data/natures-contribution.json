@@ -49,7 +49,7 @@
    "section": "Discussion"
   }
  ],
- "_places": "One entry per place on this land, in the order the fingerpost's arms run from the top. `state` is open once the place's page is built and raising until then: a raising arm is a solid sign with no link, the campgrounds' rule, and its words are never dimmed. `land` is whether the place shares its ground with another use or leaves it to wildlife; the area says out loud that it does both, because the paper is careful about what sharing can do. `offers` is what the place gives, in the brief's words, and `to` names where each thing goes: a place on this land by its key, `dairy` for the café at the farm, `honesty` for the honesty box on the street, `the-street` for the street itself, `everyone` for whoever comes, or `the-land` for the ground itself. The tool refuses a `to` it cannot find, and a place whose offers leave out a word of the brief's list.",
+ "_places": "One entry per place on this land, in the order the fingerpost's arms run from the top. `state` is open once the place's page is built and raising until then: a raising arm is a solid sign with no link, the campgrounds' rule, and its words are never dimmed. `land` is whether the place shares its ground with another use or leaves it to wildlife; the area says out loud that it does both, because the paper is careful about what sharing can do. `offers` is what the place gives, in the brief's words, and `to` names where each thing goes: a place on this land by its key, `dairy` for the café at the farm, `honesty` for the honesty box on the street, `the-street` for the street itself, `everyone` for whoever comes, or `the-land` for the ground itself. The tool refuses a `to` it cannot find, and a place whose offers leave out a word of the brief's list. A place with `home` set is somebody's house, not a part of the land's work: a home owes the land nothing, so it carries empty `offers` and `brief_offers`, the tool refuses a home that is given an offering, and the table of what goes where leaves it out.",
  "places": [
   {
    "key": "sanctuary",
@@ -308,6 +308,18 @@
      ]
     }
    ]
+  },
+  {
+   "key": "new-partington-power",
+   "page": "new-partington-power.html",
+   "name": "New Partington Power’s House",
+   "bearing": "South-east",
+   "state": "open",
+   "home": true,
+   "land": "a house and its yard, where the last street out of town stops at a gate",
+   "what": "A brick house with a covered, screened porch and a small makeshift maker space at the end of it, the last house in town, with All Together Now Farms’ fields right over the back fence.",
+   "brief_offers": [],
+   "offers": []
   }
  ],
  "_ends": "Where things go that is not a place on the fingerpost. The dairy is the café behind the farm; honesty is the honesty box on the street, the-street is the street itself; licensed is the one way cannabis leaves this land, and it never goes to the honesty box.",

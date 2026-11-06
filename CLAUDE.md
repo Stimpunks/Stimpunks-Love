@@ -3908,6 +3908,20 @@ class or drawing**: the marker swap, the anchored sweep, and the two rack shapes
 month refilled by `tools/pull-nature-month.py`), each written with the room's own prefix and dressed in its own
 section, because rack.js finds its parts by data- attributes and never by class.
 
+**A HOME ON THAT LAND OWES IT NOTHING, AND NEW PARTINGTON POWER'S HOUSE (§151) IS THE FIRST.** Their
+brief as Helen Edgar passed it on, 2026-11-06, and Helen's call on where: a suburban brick house with a
+covered, screened porch and a small makeshift maker space, in pastels and earth tones, by a farm at the
+edge of suburban and rural, so it stands south-east of the stile where the last street out of town stops at
+a gate and All Together Now Farms' fields come up to the back fence. `new-partington-power.html` is a
+hand-built page like the Aerial Arbour's. **Every pastel in it is the farm seen through the screen**: you
+are on the porch in its own shade, so the brick, the boards and the bench keep their earth colours, and the
+wire takes the edge off the sunlit farm, which is what holds it off Gentle Help's hoop house (lit through a
+skin, no view out) and the daylit domestic rooms (dark words on pale plaster). No lamp, the old television
+off, nothing moves. **A place with `home` in `data/natures-contribution.json` carries no offers and is in
+no row of what goes where**, and `make-natures-contribution.py` refuses a home given an offering and any
+other place offering nothing; the friendly edit is a little produce or some mending from the house "so it
+fits the land", which is rent in kind. The name is theirs to change.
+
 **ALL NEEDS MET (§105) HAS NO HUE ANYWHERE, AND THE TOOL CHECKS EVERY COLOUR.** Ryan's brief, 2026-10-11: a wildlife
 preserve and a sanctuary for disabled and abandoned animals. It is seen on the keepers' night round through a viewer
 that sees warmth, because a torch wakes everybody, so every resident is white with their own warmth and the night is
@@ -6139,18 +6153,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §152 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §153 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§152 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§153 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §152 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §153 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

@@ -34,6 +34,11 @@ IT REFUSES, and writes nothing when it does:
     one shop on the street that could never check anybody's age, and Colorado
     sells cannabis to adults only, through licences. The stalks' cordage and
     cloth are hemp, and go to the box like the wool.
+  · AN OFFERING FROM A HOME, OR A PLACE THAT IS NOT A HOME OFFERING NOTHING.
+    A home (`home` in the data, New Partington Power's house the first) is
+    somebody's house and owes the land nothing: it carries no offers and is
+    in no row of the table. The friendly edit is to give it one, a little
+    produce or some mending "so it fits the land"; that is rent in kind.
   · ANYTHING FROM THE SANCTUARY BUT WHAT IT GIVES. Its residents are not
     stock: nothing of theirs goes to the box or the café but the manure.
   · A QUOTATION OVER THE CAP, OR WITHOUT ITS PAGE AND SECTION. The paper is CC
@@ -107,6 +112,12 @@ def check(d):
         for f in ("name", "what", "land"):
             if not (p.get(f) or "").strip():
                 problems.refuse(f"{k}: no {f}.")
+        if p.get("home"):
+            if p.get("offers") or p.get("brief_offers"):
+                problems.refuse(f"{k}: a home carries an offering. A home owes the land nothing; it is "
+                                "somebody's house, not a part of the land's work.")
+        elif not p.get("offers"):
+            problems.refuse(f"{k}: offers nothing, and only a home may. Say what it gives and where it goes.")
         said = " ".join(o["what"] for o in p.get("offers") or []).lower()
         for w in p.get("brief_offers") or []:
             if w.lower() not in said:
@@ -281,6 +292,15 @@ def view_svg():
                        f'stroke-width="1.6" stroke-linecap="round"/>' for x in range(700, 960, 12)))
     # The chaos gardens: seed thrown across the eastern fields.
     out.append(chaos_patch(968, 266, 1086, 384, 200, 11))
+    # New Partington Power's house, south-east, at the edge of the farm: a
+    # brick house with a covered porch, the last house before the fields,
+    # with the farm's fence running past it.
+    out.append(f'<rect x="996" y="352" width="70" height="40" fill="{v("barn")}"/>'
+               f'<path d="M988 354 L1031 326 L1074 354 Z" fill="{v("roof")}"/>'
+               f'<rect x="990" y="370" width="80" height="4" fill="{v("fleece")}"/>'
+               f'<path d="M994 374 V392 M1030 374 V392 M1066 374 V392" stroke="{v("fleece")}" stroke-width="2"/>'
+               f'<rect x="1040" y="358" width="12" height="10" fill="{v("sky")}"/>'
+               f'<path d="M960 388 H1086" stroke="{v("hedge")}" stroke-width="2"/>')
     # THE CLOUDS' SHADOWS, lying across whole fields, softer than anything
     # with an edge. Nothing on the ground casts them.
     out.append(f'<g filter="url(#{P}-soft)" fill="{v("cloud-shadow")}" opacity=".5">'
@@ -343,7 +363,7 @@ def flows(d):
            '      <tbody>']
     for p in d["places"]:
         first = True
-        for o in p["offers"]:
+        for o in p.get("offers") or []:
             frm = nc.esc(p["name"]) if first else f'<span class="sr">{nc.esc(p["name"])}</span>'
             first = False
             to = nc.listify([end_name(d, t, order) for t in o["to"]])

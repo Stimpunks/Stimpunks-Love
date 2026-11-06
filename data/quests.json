@@ -4747,6 +4747,55 @@
   }
  },
  {
+  "id": "bkh-screw",
+  "page": "new-partington-power.html",
+  "room": "New Partington Power’s House",
+  "title": "What makes the farm look pastel from the porch?",
+  "posted": "There is a brick house at the edge of town, on Nature’s Contribution by the farm, with a covered porch and a little maker space at the end of it. Sit out on the porch, look over the back fence, and come back with what softens the farm’s colours.",
+  "rank": 3,
+  "takes": "two minutes, sitting down",
+  "target": "a screw dropped out of the coffee can on the bench, lying on the porch boards",
+  "code": "PORCH",
+  "learned": "The screen: the porch is screened, and the fine wire takes the edge off the sunlit farm, so everything past it comes through pastel while everything on the porch keeps its earth colours.",
+  "hints": [
+   "It is not on the street. Go out past the campgrounds, through the wood and over the stile.",
+   "South-east on the fingerpost, the house where the last street runs out.",
+   "On the floor of the room, before the sign-off."
+  ],
+  "ask": {
+   "question": "What makes the farm look pastel from New Partington Power’s porch?",
+   "accept": [
+    "screen",
+    "the screen",
+    "a screen",
+    "screens",
+    "the screens",
+    "wire",
+    "the wire",
+    "mesh",
+    "the mesh",
+    "screen wire",
+    "the screen wire",
+    "wire mesh",
+    "the wire mesh",
+    "fly screen",
+    "the fly screen",
+    "flyscreen",
+    "insect screen",
+    "the insect screen",
+    "screening",
+    "the screening"
+   ],
+   "answer": "The screen",
+   "why": "The screen: the porch is screened, and the fine wire takes the edge off the sunlit farm, so it comes through pastel while everything near you stays its earth colours.",
+   "hints": [
+    "It is in the first paragraph under the drawing.",
+    "Everything near you is in the porch roof’s shade.",
+    "Look at what is between the posts."
+   ]
+  }
+ },
+ {
   "id": "exc-fold",
   "page": "excursions.html",
   "room": "Excursions",

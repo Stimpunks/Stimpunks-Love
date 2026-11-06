@@ -1055,6 +1055,10 @@ AAR_PINK, AAR_GLOW = "#F48CCB", "#7FDAD3"
 LBW_DIM, LBW_MOSS, LBW_MOSS2, LBW_LINK, LBW_GLOW = "#1B2416", "#D5E6B8", "#A9C089", "#FFB46A", "#FFE8B5"
 LBW_CUSH, LBW_CUSH2, LBW_INK, LBW_INK2, LBW_CLINK = "#F4A259", "#F7C38A", "#16260F", "#3B4419", "#0D3B1F"
 LBW_TV = "#0E140C"
+# New Partington Power's House (love.css §151), on Nature's Contribution by
+# the farm: every word on the porch's shade or on a card under a course of brick.
+BKH_SHADE, BKH_BOARD, BKH_TEXT, BKH_DIM = "#2F3430", "#3C423C", "#F4EDE0", "#CFD3C6"
+BKH_PEACH, BKH_LILAC, BKH_SKY, BKH_MINT = "#F5C6A5", "#D9C9EE", "#BCD6F2", "#B8E2CC"
 # Scalable Feast Ballroom (love.css §150): a big room lit from very high up,
 # every word on the ivory of the hall, on a plaque hung in it, or under a
 # canopy on the pale of its own cloth.
@@ -4133,6 +4137,20 @@ PAIRS = [
     (LBW_MOSS,  LBW_TV,    False, "luis's burrow: the words on the telly while nothing is on it"),
     (LBW_LINK,  LBW_TV,    False, "luis's burrow: the telly's own name on it"),
     (LBW_CUSH2, LBW_INK,   False, "luis's burrow: the words on a button, Put it on the telly and Switch the telly off"),
+
+    # NEW PARTINGTON POWER'S HOUSE (love.css §151). Every word sits on the
+    # porch's shade or a card; the pastel farm and the wire are only in the drawing.
+    (BKH_TEXT,  BKH_SHADE, False, "new partington power's house: the line under the name, the lede, every word between the cards"),
+    (BKH_TEXT,  BKH_BOARD, False, "new partington power's house: every word on a card, and on the job marker's panel"),
+    (BKH_DIM,   BKH_SHADE, False, "new partington power's house: the trail and the line over the name"),
+    (BKH_DIM,   BKH_BOARD, False, "new partington power's house: the fine print on a card"),
+    (BKH_PEACH, BKH_SHADE, False, "new partington power's house: the name"),
+    (BKH_PEACH, BKH_BOARD, False, "new partington power's house: every heading on a card, and a list's markers"),
+    (BKH_LILAC, BKH_BOARD, False, "new partington power's house: a smaller heading on a card"),
+    (BKH_SKY,   BKH_SHADE, False, "new partington power's house: the backlink and a link on the shade"),
+    (BKH_SKY,   BKH_BOARD, False, "new partington power's house: every link on a card"),
+    (BKH_MINT,  BKH_SHADE, False, "new partington power's house: a link under the pointer, and the focus ring, on the shade"),
+    (BKH_MINT,  BKH_BOARD, False, "new partington power's house: the same on a card"),
     (SFB_INK,   SFB_HALL,   False, "scalable feast ballroom: every word on the hall, the lede, the line under the name, the street door's blurb ground"),
     (SFB_INK2,  SFB_HALL,   False, "scalable feast ballroom: the trail, and the street door's blurb"),
     (SFB_GILT,  SFB_HALL,   False, "scalable feast ballroom: the name, the line over it, every heading on the hall, and the street door's name"),
@@ -5343,6 +5361,19 @@ ORNAMENT = {
     "#f3e9d6": "luis's burrow: --lbw-fluff, the rabbits, the owl's face, the fox's tail tip and every animal's outline, 13.31 on the dim; it carries no word.",
     "#9aa389": "luis's burrow: --lbw-owl, the owl, the rabbits' outlines and the telly's aerials, 6.08 on the dim; it carries no word.",
     "#2e4a33": "luis's burrow: --lbw-glass, the telly's glass in the drawing, 1.64 on the dim; it carries no word.",
+    "#9c4f3b": "new partington power's house: --bkh-brick, the house's wall, the knee wall and the course of brick along the top of every card, 2.17 on the shade, 3.04 on the mortar between; it carries no word.",
+    "#7a3b2d": "new partington power's house: --bkh-brick-2, the darker bricks among them and the doormat, 1.51 on the shade; it carries no word.",
+    "#c9b9a2": "new partington power's house: --bkh-mortar, the mortar, the back fence, the tools' steel and the soldering iron's stand, and the job marker's screw, 6.61 on the shade; it carries no word.",
+    "#8e6c4a": "new partington power's house: --bkh-wood, the chairs, the little table, the door-bench, the sawhorses, the pegboard and the stool, 2.66 on the shade and 1.69 on the boards; it carries no word.",
+    "#e8dfcc": "new partington power's house: --bkh-post, the porch's posts, rail and beam, the door frame and the screw's head on the job marker, 9.58 on the shade; it carries no word.",
+    "#4b524a": "new partington power's house: --bkh-floor, the painted porch boards and the porch roof's underside, 1.57 on the shade; it carries no word.",
+    "#232724": "new partington power's house: --bkh-mesh, the screen's wire, drawn faint over the farm only, 1.19 on the shade; it carries no word.",
+    "#2a2f33": "new partington power's house: --bkh-crt, the old television's case, the VCR, the tapes and the extension lead, 1.07 on the shade and 2.83 on the bench; it carries no word.",
+    "#7fa0a8": "new partington power's house: --bkh-glass, the old television's screen, switched off, 4.53 on the shade; it carries no word.",
+    "#dce9f3": "new partington power's house: --bkh-far-sky, the sky over the farm through the screen, 10.27 on the shade; it carries no word.",
+    "#cce0b8": "new partington power's house: --bkh-far-green, the farm's green fields through the screen, 9.02 on the shade; it carries no word.",
+    "#eedfb6": "new partington power's house: --bkh-far-wheat, the farm's pale fields through the screen and the tape measure, 9.59 on the shade; it carries no word.",
+    "#a9c4a0": "new partington power's house: --bkh-far-hedge, the hedges, the trees and the corn through the screen, 6.70 on the shade; it carries no word.",
     "#b9475f": "scalable feast ballroom: --sfb-rose, the striped cabana's cloth and a valance of scallops along its card, 4.33 on the hall; it carries no word.",
     "#2e7c79": "scalable feast ballroom: --sfb-teal, the round pavilion's silk and its card's valance, 4.18 on the hall; it carries no word.",
     "#6d3a79": "scalable feast ballroom: --sfb-plum, the four-poster's velvet and its card's valance, 7.06 on the hall; it carries no word.",

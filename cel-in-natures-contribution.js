@@ -35,7 +35,7 @@
 
   // The fingerpost's arms, as the page's own post has them.
   // cel:arms:begin
-  var ARMS = [{"no": "WEST", "name": "All Needs Met Wildlife Sanctuary", "page": "all-needs-met.html", "state": ""}, {"no": "NORTH-WEST", "name": "Gentle Help Cannabis Farm", "page": "gentle-help.html", "state": ""}, {"no": "NORTH", "name": "Brighter Days Solar Farm", "page": "brighter-days.html", "state": ""}, {"no": "NORTH-EAST", "name": "All Together Now Farms", "page": "all-together-now.html", "state": ""}, {"no": "EAST", "name": "Wide-Spread Chaos Gardens", "page": "wide-spread-chaos.html", "state": ""}];
+  var ARMS = [{"no": "WEST", "name": "All Needs Met Wildlife Sanctuary", "page": "all-needs-met.html", "state": ""}, {"no": "NORTH-WEST", "name": "Gentle Help Cannabis Farm", "page": "gentle-help.html", "state": ""}, {"no": "NORTH", "name": "Brighter Days Solar Farm", "page": "brighter-days.html", "state": ""}, {"no": "NORTH-EAST", "name": "All Together Now Farms", "page": "all-together-now.html", "state": ""}, {"no": "EAST", "name": "Wide-Spread Chaos Gardens", "page": "wide-spread-chaos.html", "state": ""}, {"no": "SOUTH-EAST", "name": "New Partington Power’s House", "page": "new-partington-power.html", "state": ""}];
   // cel:arms:end
 
   // Which way each arm points, in the post's own words: west is to your left

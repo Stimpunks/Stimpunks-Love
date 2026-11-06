@@ -115,7 +115,7 @@
       decor.push(kit.item(barn(900, 420), { x: -1500, z: 5200, w: 900, h: 420 }));
       decor.push(kit.item(hedge(4400, 210, 220), { x: 0, z: STILE, w: 4400, h: 210 }));
       // ps:arms:begin
-      var ARMS = [{"no": "WEST", "name": "All Needs Met Wildlife Sanctuary", "page": "all-needs-met.html", "state": ""}, {"no": "NORTH-WEST", "name": "Gentle Help Cannabis Farm", "page": "gentle-help.html", "state": ""}, {"no": "NORTH", "name": "Brighter Days Solar Farm", "page": "brighter-days.html", "state": ""}, {"no": "NORTH-EAST", "name": "All Together Now Farms", "page": "all-together-now.html", "state": ""}, {"no": "EAST", "name": "Wide-Spread Chaos Gardens", "page": "wide-spread-chaos.html", "state": ""}];
+      var ARMS = [{"no": "WEST", "name": "All Needs Met Wildlife Sanctuary", "page": "all-needs-met.html", "state": ""}, {"no": "NORTH-WEST", "name": "Gentle Help Cannabis Farm", "page": "gentle-help.html", "state": ""}, {"no": "NORTH", "name": "Brighter Days Solar Farm", "page": "brighter-days.html", "state": ""}, {"no": "NORTH-EAST", "name": "All Together Now Farms", "page": "all-together-now.html", "state": ""}, {"no": "EAST", "name": "Wide-Spread Chaos Gardens", "page": "wide-spread-chaos.html", "state": ""}, {"no": "SOUTH-EAST", "name": "New Partington Power’s House", "page": "new-partington-power.html", "state": ""}];
       // ps:arms:end
       var PX = -320, PZ = STILE + 500, PH = 100 + ARMS.length * (ARM_H + 40);
       decor.push(kit.item(fingerpost(40, PH), { x: PX, z: PZ + 4, w: 40, h: PH }));

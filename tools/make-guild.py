@@ -658,6 +658,11 @@ DRAW = {
     # cushions' orange, 9.47 on the dim it lies against, its holes the dim
     # itself, its thread --lbw-moss, 12.09, and the floor line --lbw-moss-2.
     "lbw-button": """<path d="M3 29 H29" stroke="var(--lbw-moss-2)" stroke-width="1.6" stroke-linecap="round"/><circle cx="16" cy="17" r="10" fill="var(--lbw-link)"/><circle cx="16" cy="17" r="7" fill="none" stroke="var(--lbw-dim)" stroke-width="1" opacity=".5"/><circle cx="13" cy="14" r="1.6" fill="var(--lbw-dim)"/><circle cx="19" cy="14" r="1.6" fill="var(--lbw-dim)"/><circle cx="13" cy="20" r="1.6" fill="var(--lbw-dim)"/><circle cx="19" cy="20" r="1.6" fill="var(--lbw-dim)"/><path d="M13 14 L19 20 M19 14 L13 20" stroke="var(--lbw-moss)" stroke-width="1.4" stroke-linecap="round"/><path d="M19 20 C 23 24, 26 24, 28 27" stroke="var(--lbw-moss)" stroke-width="1.2" fill="none" stroke-linecap="round"/>""",
+    # A screw dropped out of the coffee can on New Partington Power's bench,
+    # lying on the porch boards: its shank --bkh-mortar, 6.61 on the shade it
+    # lies against, its head --bkh-post, 9.58, the slot in it the shade
+    # itself, and the floor line --bkh-dim, 8.33.
+    "bkh-screw": """<path d="M3 29 H29" stroke="var(--bkh-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M11 25 L23 13" stroke="var(--bkh-mortar)" stroke-width="4" stroke-linecap="round"/><path d="M12 20 l4 4 M15 17 l4 4 M18 14 l4 4" stroke="var(--bkh-shade)" stroke-width="1.2" stroke-linecap="round"/><circle cx="24" cy="12" r="5.5" fill="var(--bkh-post)"/><path d="M21 9 L27 15" stroke="var(--bkh-shade)" stroke-width="1.6" stroke-linecap="round"/><path d="M11 25 L7.5 28.5" stroke="var(--bkh-mortar)" stroke-width="2.4" stroke-linecap="round"/>""",
     # The Run's blue ball, chewed, by the porch steps: its body is --run-link,
     # the Run's own blue, 5.15 on the grass, because the brighter ball blue is
     # 3.17 there and a marker is held to the body threshold; its outline and

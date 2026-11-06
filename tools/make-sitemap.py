@@ -139,6 +139,9 @@ ORDER = ["index.html",
          "natures-contribution.html", "all-needs-met.html", "gentle-help.html",
          "brighter-days.html", "all-together-now.html", "the-dairy.html",
          "wide-spread-chaos.html",
+         # South-east of the stile, the last house in town by the farm's
+         # fence: New Partington Power's, a home and not a part of the land's work.
+         "new-partington-power.html",
          # The other edge, past the last streetlight at the far end. An area
          # like the campgrounds, listed the same way: the road first, then
          # what is down its turnings.

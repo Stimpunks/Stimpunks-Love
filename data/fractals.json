@@ -2553,6 +2553,21 @@
         "--ss-board",
         "--ss-chalk"
       ]
+    },
+    "new-partington-power.html": {
+      "kind": "orbit",
+      "trap": "cross",
+      "radius": 0.6,
+      "c": [-0.12, 0.74],
+      "orbit": 0.012,
+      "ground": "--bkh-shade",
+      "inks": [
+        "--bkh-peach",
+        "--bkh-mint",
+        "--bkh-sky",
+        "--bkh-lilac",
+        "--bkh-mortar"
+      ]
     }
   }
 }

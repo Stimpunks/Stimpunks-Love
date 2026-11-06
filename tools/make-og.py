@@ -1751,6 +1751,20 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
   line-height: 1.4; margin: 0 0 16px; }}
 .og--luis-burrow .og-foot {{ font-family: 'Nunito', sans-serif; color: var(--lbw-moss-2); font-size: 18px; margin: 0; }}
 
+/* new partington power's house — THE PORCH beside the name, lifted off the
+   page whole: the brick wall and the mint front door, the porch in its own
+   shade, the maker space at the end of it, and the farm pastel through the
+   screen. */
+.og--brickhouse {{ flex-direction: row; align-items: center; gap: 34px; padding: 30px 46px; }}
+.og--brickhouse .og-words {{ flex: 0 0 470px; }}
+.og--brickhouse .og-porch {{ flex: 0 0 600px; line-height: 0; }}
+.og--brickhouse .og-porch svg {{ display: block; width: 100%; height: auto; border-radius: 6px; }}
+.og--brickhouse .bkh-over {{ font-size: 16px; margin: 0 0 8px !important; }}
+.og--brickhouse h1 {{ font-size: 58px; line-height: 1.06; margin: 0 0 16px !important; }}
+.og--brickhouse .og-lede {{ font-family: 'Hanken Grotesk', sans-serif; color: var(--bkh-text); font-size: 22px;
+  line-height: 1.4; margin: 0 0 16px; }}
+.og--brickhouse .og-foot {{ font-family: 'Hanken Grotesk', sans-serif; color: var(--bkh-dim); font-size: 17px; margin: 0; }}
+
 /* mountain man — THE CABIN beside the name, lifted off the page whole: the
    log walls, the fire behind the stove's glass, the lounge, the big screen
    with its speakers, the strips in teal, the one wolf on the rug and the lake
@@ -6041,6 +6055,38 @@ def card_burrow(p):
     )
 
 
+def card_brickhouse(p):
+    # THE PORCH AND THE NAME ARE LIFTED WHOLE, so the card cannot show a house
+    # the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="bkh-porch__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="bkh-over">(.*?)</p>', p["src"], re.S)
+    trail = re.search(r'<p class="bkh-trail">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and trail and p["h1"]):
+        raise SystemExit(
+            "REFUSING: new-partington-power.html has lost the drawing of the porch or\n"
+            "its header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--brickhouse" data-fit="card">'
+        f'<div class="og-words"><p class="bkh-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">{trail.group(1)} &middot; stimpunks.world</p></div>'
+        f'<div class="og-porch">{draw.group(1)}</div>'
+        f'</div>',
+        f"A dark grey-green card. On the right, a screened porch seen from just inside: on the left the "
+        f"house's red brick wall with a mint front door, across the rest pale posts and a rail over a brick "
+        f"knee wall, and through the fine wire between the posts a farm in soft pastels, sky, a hedge of "
+        f"trees, a barn and a silo, sheep, corn and a back fence. On the porch boards, in the shade, two "
+        f"wooden chairs with a mug on a little table between them, and at the far end a makeshift maker "
+        f"space: a pegboard of tools leaned on the last screen, an old door across two sawhorses with a VCR, "
+        f"a coffee can, an old television switched off, a soldering iron and three tapes on it, a stool, and "
+        f"an extension lead run across the floor. On the left, small capitals reading {plain(over.group(1))}, "
+        f"then \u201c{p['h1text']}\u201d in large peach serif lettering, then: {p['desc_plain']} "
+        f"Below it: {plain(trail.group(1))}, stimpunks.world.",
+    )
+
+
 def card_bough(p):
     # THE TREE HOUSE AND THE NAME ARE LIFTED WHOLE, so the card cannot show a
     # house the page does not, and the lede is the page's og:description.
@@ -6600,6 +6646,7 @@ CARDS = {
     "bough":        card_bough,
     "arbour":       card_arbour,
     "luis-burrow":  card_burrow,
+    "brickhouse":   card_brickhouse,
     "summit":       card_summit,
     "natures":      card_natures,
     "sanctuary":    card_sanctuary,
