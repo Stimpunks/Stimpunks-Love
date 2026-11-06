@@ -6074,9 +6074,9 @@ def card_brickhouse(p):
         f'<p class="og-foot" data-fit="footer">{trail.group(1)} &middot; stimpunks.world</p></div>'
         f'<div class="og-porch">{draw.group(1)}</div>'
         f'</div>',
-        f"A dark grey-green card. On the right, a screened porch seen from just inside: on the left the "
+        f"A dark grey-green card. On the right, a glazed porch seen from just inside: on the left the "
         f"house's red brick wall with a mint front door, across the rest pale posts and a rail over a brick "
-        f"knee wall, and through the fine wire between the posts a farm in soft pastels, sky, a hedge of "
+        f"knee wall, and through the clear glass between the posts a farm in soft pastels, sky, a hedge of "
         f"trees, a barn and a silo, sheep, corn and a back fence. On the porch boards, in the shade, two "
         f"wooden chairs with a mug on a little table between them, and at the far end a makeshift maker "
         f"space: a pegboard of tools leaned on the last screen, an old door across two sawhorses with a VCR, "

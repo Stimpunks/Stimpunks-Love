@@ -5367,7 +5367,6 @@ ORNAMENT = {
     "#8e6c4a": "new partington power's house: --bkh-wood, the chairs, the little table, the door-bench, the sawhorses, the pegboard and the stool, 2.66 on the shade and 1.69 on the boards; it carries no word.",
     "#e8dfcc": "new partington power's house: --bkh-post, the porch's posts, rail and beam, the door frame and the screw's head on the job marker, 9.58 on the shade; it carries no word.",
     "#4b524a": "new partington power's house: --bkh-floor, the painted porch boards and the porch roof's underside, 1.57 on the shade; it carries no word.",
-    "#232724": "new partington power's house: --bkh-mesh, the screen's wire, drawn faint over the farm only, 1.19 on the shade; it carries no word.",
     "#2a2f33": "new partington power's house: --bkh-crt, the old television's case, the VCR, the tapes and the extension lead, 1.07 on the shade and 2.83 on the bench; it carries no word.",
     "#7fa0a8": "new partington power's house: --bkh-glass, the old television's screen, switched off, 4.53 on the shade; it carries no word.",
     "#dce9f3": "new partington power's house: --bkh-far-sky, the sky over the farm through the screen, 10.27 on the shade; it carries no word.",

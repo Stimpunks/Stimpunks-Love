@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Fri, 06 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Clear windows on New Partington Power’s porch</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-07-clear-windows-on-the-porch</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-07-clear-windows-on-the-porch</guid>
+      <pubDate>Sat, 07 Nov 2026 12:00:00 GMT</pubDate>
+      <description>The porch at New Partington Power’s House is glazed now, in clear glass, at Helen Edgar’s ask, where it opened screened in fine wire. The farm over the back fence is still soft and pale, because it is a long way off in the afternoon haze rather than behind a mesh, and everything on the porch keeps its earth colours in the shade as before. The job marker’s question changed with it, because its old answer was the screen: it asks what the bench is made of.</description>
+    </item>
     <item>
       <title>New Partington Power’s House, at the edge of town by the farm</title>
       <link>https://stimpunks.world/changelog.html#2026-11-06-new-partington-power</link>

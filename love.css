@@ -3159,7 +3159,7 @@
   --sfb-rug:     #9B3B3B;  --sfb-rug-2:  #D7B26A;
 
   /* New Partington Power's House (§151), a brick house with a covered,
-     screened porch at the edge of town, by All Together Now Farms on Nature's
+     glazed porch at the edge of town, by All Together Now Farms on Nature's
      Contribution. You are on the porch, in its own roof's shade: --bkh-shade is
      that shade and the ground the page stands on, --bkh-board every card,
      --bkh-text every word, --bkh-dim the fine print, --bkh-peach the name and
@@ -3168,16 +3168,16 @@
      drawing's and carry no word: --bkh-brick, --bkh-brick-2 and --bkh-mortar
      the house's wall and the knee wall, --bkh-wood the chairs, the bench and the
      fence, --bkh-post the porch's posts and rails, --bkh-floor the painted
-     boards, --bkh-mesh the screen's wire, --bkh-crt the old television and the
+     boards, --bkh-crt the old television and the
      VCR, --bkh-glass its screen, and --bkh-far-sky, --bkh-far-green,
-     --bkh-far-wheat and --bkh-far-hedge the farm through the screen. Every one is
+     --bkh-far-wheat and --bkh-far-hedge the farm beyond the glass. Every one is
      in check-contrast.py. */
   --bkh-shade:   #2F3430;  --bkh-board:  #3C423C;  --bkh-text:   #F4EDE0;
   --bkh-dim:     #CFD3C6;  --bkh-peach:  #F5C6A5;  --bkh-lilac:  #D9C9EE;
   --bkh-sky:     #BCD6F2;  --bkh-mint:   #B8E2CC;
   --bkh-brick:   #9C4F3B;  --bkh-brick-2: #7A3B2D; --bkh-mortar: #C9B9A2;
   --bkh-wood:    #8E6C4A;  --bkh-post:   #E8DFCC;  --bkh-floor:  #4B524A;
-  --bkh-mesh:    #232724;  --bkh-crt:    #2A2F33;  --bkh-glass:  #7FA0A8;
+  --bkh-crt:     #2A2F33;  --bkh-glass:  #7FA0A8;
   --bkh-far-sky: #DCE9F3;  --bkh-far-green: #CCE0B8; --bkh-far-wheat: #EEDFB6;
   --bkh-far-hedge: #A9C4A0;
 
@@ -33892,18 +33892,19 @@ html[data-intensity="max"] .sfb-glint { animation: sfb-glint 6s ease-in-out infi
    out of town stops at a gate and All Together Now Farms' fields come up to
    the back fence.
 
-   THE LIGHT IS THE FARM, SEEN THROUGH A SCREEN. You are on the porch, in its
-   own roof's shade, and it is screened: fine wire between the posts. Everything
-   near you keeps its earth colours, the brick, the painted boards, the bench,
-   because it is in the shade. Everything beyond the wire is in full sun, and
-   the mesh takes the edge off it, so the sky, the fields and the barn come
-   through soft and pale: EVERY PASTEL IN THIS ROOM IS THE FARM THROUGH THE
-   SCREEN, and the pastel inks on the page are that view's. No lamp is drawn,
+   THE LIGHT IS THE FARM, SEEN THROUGH CLEAR GLASS. You are on the porch, in its
+   own roof's shade, and it is glazed: clear panes between the posts (Helen's
+   ask, 2026-11-07, over the screen it opened with). Everything near you keeps
+   its earth colours, the brick, the painted boards, the bench, because it is
+   in the shade. Everything beyond the glass is in full sun and a long way off,
+   and the afternoon haze takes the edge off it, so the sky, the fields and the
+   barn are soft and pale: EVERY PASTEL IN THIS ROOM IS THE FARM FAR OFF BEYOND
+   THE GLASS, and the pastel inks on the page are that view's. No lamp is drawn,
    and the old television on the bench is off.
      · GENTLE HELP, on the same land, is lit through its hoop house's skin, pale
-       and even, and you cannot see out. Here you see out, and the wire is the
-       only thing between: if the view ever goes milky and edgeless it has
-       become the hoop house, and it is this room that moves.
+       and even, and you cannot see out. Here you see out, through clear glass:
+       if the view ever goes milky and edgeless it has become the hoop house,
+       and it is this room that moves.
      · COVENSTEAD and THE COMMUNITY CENTER are the daylit domestic rooms, one
        window each, and their words are dark on pale plaster. Here the near is
        dark and the words are pale, the colours of what is outside, on the
@@ -33914,8 +33915,8 @@ html[data-intensity="max"] .sfb-glint { animation: sfb-glint 6s ease-in-out infi
      · THE DAIRY is the area's other building and is white glaze that casts
        nothing; this is brick and shade.
    EVERY CARD HAS A COURSE OF BRICK ALONG ITS TOP, the porch's knee wall, and
-   every word stands on the flat board under it. The mesh and the far view are
-   only in the drawing, never behind a sentence. NOTHING MOVES at any setting.
+   every word stands on the flat board under it. The far view is only in the
+   drawing, never behind a sentence. NOTHING MOVES at any setting.
    Young Serif sets the name and the headings; Hanken Grotesk carries every
    word that is read. */
 .brickhouse { background-color: var(--bkh-shade); color: var(--bkh-text); font-family: 'Hanken Grotesk', var(--sans), sans-serif; font-synthesis: none; }
@@ -33938,8 +33939,8 @@ html[data-intensity="max"] .sfb-glint { animation: sfb-glint 6s ease-in-out infi
 .brickhouse h2 { font-family: 'Young Serif', Georgia, serif; font-weight: 400; font-size: clamp(26px, 3.7vw, 34px); line-height: 1.2; margin: 0 0 12px; color: var(--bkh-peach); }
 .brickhouse h3 { font-family: 'Young Serif', Georgia, serif; font-weight: 400; font-size: 22px; line-height: 1.25; margin: 20px 0 8px; color: var(--bkh-lilac); }
 
-/* THE PORCH, from just inside the screen door: the only place on the page the
-   mesh and the pastel farm are. */
+/* THE PORCH, from just inside the door: the only place on the page the pastel
+   farm is. */
 .bkh-porch { margin: 22px auto 0; max-width: 760px; line-height: 0; }
 .bkh-porch__draw { display: block; width: 100%; height: auto; border-radius: 6px; }
 .brickhouse .bkh-lede { max-width: 760px; margin: 20px auto 0; font-size: 19px; }

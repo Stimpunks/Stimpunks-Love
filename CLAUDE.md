@@ -3910,13 +3910,14 @@ section, because rack.js finds its parts by data- attributes and never by class.
 
 **A HOME ON THAT LAND OWES IT NOTHING, AND NEW PARTINGTON POWER'S HOUSE (§151) IS THE FIRST.** Their
 brief as Helen Edgar passed it on, 2026-11-06, and Helen's call on where: a suburban brick house with a
-covered, screened porch and a small makeshift maker space, in pastels and earth tones, by a farm at the
+covered porch glazed in clear glass and a small makeshift maker space, in pastels and earth tones, by a farm at the
 edge of suburban and rural, so it stands south-east of the stile where the last street out of town stops at
 a gate and All Together Now Farms' fields come up to the back fence. `new-partington-power.html` is a
-hand-built page like the Aerial Arbour's. **Every pastel in it is the farm seen through the screen**: you
+hand-built page like the Aerial Arbour's. **Every pastel in it is the farm far off beyond the glass**: you
 are on the porch in its own shade, so the brick, the boards and the bench keep their earth colours, and the
-wire takes the edge off the sunlit farm, which is what holds it off Gentle Help's hoop house (lit through a
-skin, no view out) and the daylit domestic rooms (dark words on pale plaster). No lamp, the old television
+afternoon haze takes the edge off the sunlit farm, which is what holds it off Gentle Help's hoop house (lit through a
+skin, no view out). It opened with a screen of fine wire between the posts; Helen asked for clear windows the
+next day, and the glass is the one change, the drawing's argument kept and the daylit domestic rooms (dark words on pale plaster). No lamp, the old television
 off, nothing moves. **A place with `home` in `data/natures-contribution.json` carries no offers and is in
 no row of what goes where**, and `make-natures-contribution.py` refuses a home given an offering and any
 other place offering nothing; the friendly edit is a little produce or some mending from the house "so it
