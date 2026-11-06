@@ -735,6 +735,11 @@
    "id": "ss-bottlecap",
    "title": "Nothing written down",
    "room": "Spaceholder Saloon"
+  },
+  {
+   "id": "sfb-drop",
+   "title": "Somewhere to go under",
+   "room": "Scalable Feast Ballroom"
   }
  ],
  "badges": [

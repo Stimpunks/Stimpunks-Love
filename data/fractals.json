@@ -1891,6 +1891,20 @@
         "--aar-glow"
       ]
     },
+    "scalable-feast-ballroom.html": {
+      "kind": "newton",
+      "degree": 6,
+      "relax": 0.45,
+      "twist": 0.12,
+      "ground": "--sfb-hall",
+      "inks": [
+        "--sfb-gilt-dark",
+        "--sfb-rose",
+        "--sfb-teal",
+        "--sfb-plum",
+        "--sfb-saffron"
+      ]
+    },
     "luis-burrow.html": {
       "kind": "ifs",
       "figure": "fern",

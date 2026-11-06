@@ -477,6 +477,12 @@ DRAW = {
     # --rth-quiet and the floor line --rth-rule, which carries nothing. With the
     # lights off the tag stands out on the dark floor by its fill. It lies still.
     "rth-receipt": """<path d="M3 29 H29" stroke="var(--rth-rule)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 25.5 L8 15 L13 10 L18 15 L18 25.5 Z" fill="var(--rth-tag)" stroke="var(--rth-tag-ink)" stroke-width="1.4" stroke-linejoin="round"/><circle cx="13" cy="14.6" r="1.6" fill="var(--rth-floor)" stroke="var(--rth-tag-ink)" stroke-width="1"/><path d="M13 13 C15 6 23 5 25 11 C27 17 20 20 18 24" fill="none" stroke="var(--rth-quiet)" stroke-width="1.2" stroke-linecap="round"/>""",
+    # The Scalable Feast Ballroom: a crystal drop come off a chandelier, lying
+    # on its side on the parquet. The drop is --sfb-crystal edged in
+    # --sfb-gilt-ink, 6.41 on the hall it lies against and over the body
+    # threshold a marker is held to, its little gilt cap and the bit of wire it
+    # hung by in --sfb-link, 7.74, and the floor line in --sfb-gilt-ink.
+    "sfb-drop": """<path d="M3 29 H29" stroke="var(--sfb-gilt-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M6 21 L14 15.5 L26 21 L14 26.5 Z" fill="var(--sfb-crystal)" stroke="var(--sfb-gilt-ink)" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 15.5 L14 26.5 M6 21 H26" stroke="var(--sfb-gilt-ink)" stroke-width=".9"/><path d="M26 21 l2.4 -1.2 v2.4 Z" fill="var(--sfb-link)"/><path d="M28.4 21 q2 -3 -0.6 -5" fill="none" stroke="var(--sfb-link)" stroke-width="1.3" stroke-linecap="round"/>""",
     "chp-bract": """<path d="M3 29 H29" stroke="var(--chp-ink-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M16 20 C10 20 6 15 8 10 C12 10 16 14 16 20 Z" fill="var(--chp-bougain)"/><path d="M16 20 C17 13 22 9 27 11 C27 16 22 20 16 20 Z" fill="var(--chp-bougain)"/><path d="M16 20 C12 23 12 27 16 28 C20 27 20 23 16 20 Z" fill="var(--chp-bougain)"/><path d="M16 20 L16 15" stroke="var(--chp-ink-2)" stroke-width="1.2" stroke-linecap="round"/><circle cx="16" cy="14.5" r="1.8" fill="var(--chp-sun)" stroke="var(--chp-ink-2)" stroke-width=".8"/>""",
     # The Comfort Station: a glass prism fallen out of the pavement onto the
     # terrazzo, a squat round lens of aged violet glass lying on its side. The

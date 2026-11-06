@@ -1,0 +1,141 @@
+{
+  "_what": "The Scalable Feast Ballroom (love.css §150), Ryan's brief, 2026-11-06: a big comfortable ballroom, both cozy and grand; a grand ceiling with chandeliers, gilt and parquet; canopies, tents and cabanas at each end of the ballroom for refuge at human scale; living room areas amidst the tents with couches, chairs and rugs; plush furnishings and soft fabrics; and, on the web page, the grand size shown by scrolling down. tools/make-ballroom.py writes the ceiling, the height, the floor and both ends of the room into scalable-feast-ballroom.html from this file. Every canopy is somewhere to sit and something soft underfoot, and no two are alike.",
+  "brief": "Big Comfortable Ballroom. Both cozy and grand. Cozy Grandeur.",
+  "height": [
+    { "at": "the-ceiling", "said": "This is the ceiling. In the middle of it a sky is painted, and gilt runs all round it. Everything else in the ballroom is a long way down." },
+    { "at": "the-cornice", "said": "Still the cornice, where the ceiling turns down into the walls. A ballroom is mostly air, and this is some of it." },
+    { "at": "the-mirrors", "said": "The tops of the mirrors. Every chandelier is in them twice, and you are not in them yet: you are not that tall." },
+    { "at": "the-chandeliers", "said": "The chandeliers hang here, a long way down their chains and still a long way up. Their light reaches everything from this far off, which is why it lands evenly and leaves no patch." },
+    { "at": "the-canopies", "said": "The tops of the canopies. From here down the room is the size of people." }
+  ],
+  "ends": {
+    "west": { "said": "The west end", "lede": "Three canopies at the west end, set back against the wall so nothing comes up behind you, each with its own sofa or chairs under it and a rug to put your feet on." },
+    "east": { "said": "The east end", "lede": "Three more at the east end, as far from the first as the room goes, so there is always one at the other end of the floor too." }
+  },
+  "tents": [
+    {
+      "id": "cabana",
+      "end": "west",
+      "name": "The Striped Cabana",
+      "kind": "cabana",
+      "cloth": "rose",
+      "under": "A square cabana of striped canvas, rose and cream, its front tied back on both sides and its roof flat and taut, with a deep valance all round.",
+      "light": "The hall comes in through the stripes, so the light inside is in bands, rose and cream, across the cushions.",
+      "seats": ["a low daybed piled with bolsters", "two floor cushions as big as armchairs"],
+      "underfoot": "a sheepskin rug, deep enough to lose your toes in",
+      "soft": "a knitted throw over the end of the daybed"
+    },
+    {
+      "id": "pavilion",
+      "end": "west",
+      "name": "The Round Pavilion",
+      "kind": "pavilion",
+      "cloth": "teal",
+      "under": "A round pavilion of teal silk on a centre pole, its roof coming to a point under a gilt finial, and a scalloped valance round the rim.",
+      "light": "The silk turns the hall's light the colour of shallow water, the same all the way round.",
+      "seats": ["a round sofa built all the way round the centre pole, so you can sit facing out in any direction"],
+      "underfoot": "a round rug, thick and soft, cut to the shape of the pavilion",
+      "soft": "cushions in every colour the room has, along the back of the sofa"
+    },
+    {
+      "id": "four-poster",
+      "end": "west",
+      "name": "The Four-Poster",
+      "kind": "four-poster",
+      "cloth": "plum",
+      "under": "Four gilt posts and a canopy of plum velvet over them, with curtains on all four sides that draw shut, like a bed with nobody's bed in it.",
+      "light": "With the curtains open it is a canopy; with them drawn the velvet lets in only a little light, plum and very soft.",
+      "seats": ["one deep armchair, the kind you sit sideways in", "a footstool as wide as the chair"],
+      "underfoot": "a thick wool rug with a fringe",
+      "soft": "a weighted blanket folded over the arm of the chair"
+    },
+    {
+      "id": "bell",
+      "end": "east",
+      "name": "The Bell Tent",
+      "kind": "bell",
+      "cloth": "saffron",
+      "under": "A bell tent of saffron canvas, one pole up the middle and its walls coming all the way to the floor, with a door flap rolled up and tied.",
+      "light": "Inside, the canvas glows the colour of a field at harvest, and the hall's noise comes through it softer than its light.",
+      "seats": ["two wingback chairs facing each other", "a beanbag for whoever would rather be lower down"],
+      "underfoot": "a braided rag rug, round, in every colour of the room's other cloths",
+      "soft": "a pile of cushions against the canvas wall"
+    },
+    {
+      "id": "sail",
+      "end": "east",
+      "name": "The Sail",
+      "kind": "sail",
+      "cloth": "sage",
+      "under": "A sail of sage linen stretched between two gilt poles and a hook in the wall, low over a corner, open on two sides.",
+      "light": "The linen takes the glitter out of the chandeliers and leaves the light, green and calm.",
+      "seats": ["a chaise longue to lie along", "a velvet ottoman to put things on or sit on"],
+      "underfoot": "a long-pile rug with a border round it",
+      "soft": "a quilt over the back of the chaise"
+    },
+    {
+      "id": "crown",
+      "end": "east",
+      "name": "The Crown",
+      "kind": "crown",
+      "cloth": "blue",
+      "under": "Cornflower hangings falling from a gilt crown fixed high on the wall, swagged back on both sides, the way a canopy hangs over a grand bed.",
+      "light": "The hangings come round you on three sides, and the light between them is blue and cool, like the room just before you came in.",
+      "seats": ["a loveseat with deep arms", "a heap of floor cushions in front of it"],
+      "underfoot": "a long-pile rug, the softest one in the room",
+      "soft": "a velvet throw and a pillow you can put your face in"
+    }
+  ],
+  "rooms": [
+    {
+      "id": "conversation",
+      "name": "Round the low table",
+      "between": "between the Striped Cabana and the Round Pavilion",
+      "has": ["a sofa long enough to lie down on", "two armchairs pulled up to it", "a low table between them with a lamp on it, unlit, because the hall is light enough", "a big rug under all of it, so the floor goes quiet there"]
+    },
+    {
+      "id": "tete",
+      "name": "The tête-à-tête",
+      "between": "between the Round Pavilion and the Four-Poster",
+      "has": ["an S-shaped sofa where two people sit side by side facing opposite ways, so you can be together without looking at each other", "a rug under it"]
+    },
+    {
+      "id": "settee",
+      "name": "The long settee",
+      "between": "between the Bell Tent and the Sail",
+      "has": ["a settee along the wall under a mirror", "a row of footstools in front of it", "a runner rug the length of the settee"]
+    },
+    {
+      "id": "borne",
+      "name": "The borne",
+      "between": "between the Sail and the Crown",
+      "has": ["a round settee with a back in the middle, the kind ballrooms have always had, so people can sit near one another facing out", "a round rug under it"]
+    }
+  ],
+  "floor": {
+    "said": "The floor",
+    "lede": "Between the two ends, the parquet runs the whole length of the room, laid in herringbone and polished, with nothing on it but the long table down the middle."
+  },
+  "feast": {
+    "said": "The scalable feast",
+    "body": "The long table runs down the middle of the floor and is as long as it needs to be: a leaf goes in for whoever comes and comes out when they go, so it is the length of the people at it and never longer, and nobody sits at the end of an empty table. Take a plate to any canopy; nothing in the ballroom has to be eaten at the table."
+  },
+  "quotes": [
+    {
+      "words": "Refuge. A place for withdrawal from environmental conditions or the main flow of activity, in which the individual is protected from behind and overhead.",
+      "who": "Terrapin Bright Green",
+      "work": "14 Patterns of Biophilic Design",
+      "work_url": "https://www.terrapinbrightgreen.com/reports/14-patterns/",
+      "read_on": "https://stimpunks.org/glossary/biophilic-design/",
+      "mirror": "glossary/biophilic-design.md"
+    },
+    {
+      "words": "Prospect. An unimpeded view over a distance, for surveillance and planning.",
+      "who": "Terrapin Bright Green",
+      "work": "14 Patterns of Biophilic Design",
+      "work_url": "https://www.terrapinbrightgreen.com/reports/14-patterns/",
+      "read_on": "https://stimpunks.org/glossary/biophilic-design/",
+      "mirror": "glossary/biophilic-design.md"
+    }
+  ]
+}

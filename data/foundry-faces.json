@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-11-05",
+ "_checked": "2026-11-06",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -3476,6 +3476,23 @@
     }
    ]
   },
+  "prata": {
+   "family": "Prata",
+   "category": "Serif",
+   "designer": "Cyreal",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/prata",
+   "copyright": "Copyright 2011 The Prata Project Authors (contact@cyreal.org)",
+   "repository": "https://github.com/cyrealtype/Prata",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "prata-400.woff2",
+     "sha": "8585ed0b108281be"
+    }
+   ]
+  },
   "press-start-2p": {
    "family": "Press Start 2P",
    "category": "Display",
@@ -4664,6 +4681,35 @@
      "style": "normal",
      "file": "vt323-400.woff2",
      "sha": "043a60145af2ddbc"
+    }
+   ]
+  },
+  "wix-madefor-text": {
+   "family": "Wix Madefor Text",
+   "category": "Sans Serif",
+   "designer": "Dalton Maag",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/wixmadefortext",
+   "copyright": "Copyright 2021 The Wix Madefor Project Authors (https://github.com/wix/wixmadefor/)",
+   "repository": "https://github.com/wix-incubator/wixmadefor",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "wix-madefor-text-400.woff2",
+     "sha": "4d1e9ffda308f709"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "wix-madefor-text-400.woff2",
+     "sha": "4d1e9ffda308f709"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "wix-madefor-text-400-italic.woff2",
+     "sha": "726daa9f8c75b55f"
     }
    ]
   },

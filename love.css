@@ -1417,6 +1417,16 @@
 @font-face { font-family: 'Klee One'; src: url('fonts/klee-one-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
 @font-face { font-family: 'M PLUS 2'; src: url('fonts/m-plus-2-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'M PLUS 2'; src: url('fonts/m-plus-2-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+/* Scalable Feast Ballroom (§150): Prata, by Cyreal, for the name and the
+   headings, a Didone of hairlines and ball terminals like lettering gilded on
+   a frieze, and Wix Madefor Text, by Dalton Maag, for every word that is read,
+   soft and open with round shoulders. Google's own Latin cuts; Wix Madefor
+   Text is one variable file declared at both its weights. See
+   fonts/_sources.json. */
+@font-face { font-family: 'Prata'; src: url('fonts/prata-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Wix Madefor Text'; src: url('fonts/wix-madefor-text-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Wix Madefor Text'; src: url('fonts/wix-madefor-text-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Wix Madefor Text'; src: url('fonts/wix-madefor-text-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -3112,6 +3122,41 @@
   --lbw-wall:    #28331F;  --lbw-root:   #3A4526;  --lbw-felt:   #3F5A2A;
   --lbw-blanket: #E2672A;  --lbw-fox:    #E57B33;  --lbw-fluff:  #F3E9D6;
   --lbw-owl:     #9AA389;  --lbw-tv:     #0E140C;  --lbw-glass:  #2E4A33;
+
+  /* Scalable Feast Ballroom (§150), a shopfront on the street, Ryan's brief.
+     A BIG ROOM LIT FROM VERY HIGH UP, bright and even all the way down, with
+     its only shade under the canopies, where the hall's light comes through
+     the cloth. --sfb-hall is the ivory of the walls, the ground the page
+     stands on; --sfb-plaque every plaque and card hung in the hall; --sfb-ink
+     every word, --sfb-ink-2 the quieter words; --sfb-gilt-ink the name and
+     every heading, gilt gone deep; --sfb-link every link, --sfb-link-hot one
+     under the pointer. Each canopy is a cloth and the pale of that cloth,
+     which is the light under it and the ground of its card: --sfb-rose,
+     --sfb-teal, --sfb-plum, --sfb-saffron, --sfb-sage and --sfb-blue, and
+     --sfb-<cloth>-pale. The rest are the drawings' and carry no word: the
+     gilt (--sfb-gilt, --sfb-gilt-hi, --sfb-gilt-dark), the crystal
+     (--sfb-crystal, --sfb-glass-edge) and its glints (--sfb-glint), the
+     mirrors' --sfb-glass, the painted sky and its clouds (--sfb-sky,
+     --sfb-cloud), the coffers' --sfb-ceiling, the panelling and the wall
+     (--sfb-panel, --sfb-wall), the parquet (--sfb-oak, --sfb-oak-2,
+     --sfb-oak-3), the plush (--sfb-velvet, --sfb-plush, --sfb-cream) and the
+     rugs (--sfb-rug, --sfb-rug-2). Every one is in check-contrast.py. */
+  --sfb-hall:    #F5ECD9;  --sfb-plaque: #FBF5E8;  --sfb-ink:    #2B1B2E;
+  --sfb-ink-2:   #5B4757;  --sfb-gilt-ink: #6E4F12;
+  --sfb-link:    #8A1C3B;  --sfb-link-hot: #5E0F27;
+  --sfb-rose:    #B9475F;  --sfb-rose-pale:    #F7DEE1;
+  --sfb-teal:    #2E7C79;  --sfb-teal-pale:    #D6EDEA;
+  --sfb-plum:    #6D3A79;  --sfb-plum-pale:    #EADDF0;
+  --sfb-saffron: #D99A2A;  --sfb-saffron-pale: #F8E6C2;
+  --sfb-sage:    #6E8B5B;  --sfb-sage-pale:    #E1EBD6;
+  --sfb-blue:    #4766A8;  --sfb-blue-pale:    #DCE5F5;
+  --sfb-gilt:    #C9A043;  --sfb-gilt-hi: #E9CF86;  --sfb-gilt-dark: #8C6A22;
+  --sfb-crystal: #FFF9EA;  --sfb-glass-edge: #9FB2B4;  --sfb-glint: #FFFCF3;
+  --sfb-glass:   #CFDAD6;  --sfb-sky:    #B9D2DD;  --sfb-cloud:  #F6F2E6;
+  --sfb-ceiling: #EFE1C3;  --sfb-panel:  #EADFC6;  --sfb-wall:   #E4D7BA;
+  --sfb-oak:     #C38B4C;  --sfb-oak-2:  #A06C35;  --sfb-oak-3:  #DCAE72;
+  --sfb-velvet:  #7E2F4A;  --sfb-plush:  #B85A72;  --sfb-cream:  #FBF3E3;
+  --sfb-rug:     #9B3B3B;  --sfb-rug-2:  #D7B26A;
 
   /* The Emergent Future Worlds Meets Mountain Man (§118), David's cabin at the
      summit over the Campgrounds, inside, at night. --efw-night is the dark of
@@ -5973,6 +6018,23 @@ div.facade--square { border: 0; background: none; }
 .door--chp .door__name  { font-family: 'Klee One', var(--sans); font-weight: 600; color: var(--chp-sea); font-size: 32px; line-height: 1.08; font-synthesis: none; }
 .door--chp .door__blurb { font-family: 'M PLUS 2', var(--sans); color: var(--chp-ink-2); font-size: 16px; line-height: 1.45; font-synthesis: none; }
 .door--chp .door__knock { font-family: 'M PLUS 2', var(--sans); font-weight: 700; font-size: 15px; color: var(--chp-bougain); font-synthesis: none; }
+/* Scalable Feast Ballroom: the canopies on the awning, a valance in every
+   one of the room's cloths over a band of gilt, and the front the ivory of
+   the hall; its name in the Didone, in the gilt gone deep. */
+.door--sfb { background: var(--sfb-hall); border-color: var(--sfb-ink); }
+.door--sfb .door__awning {
+  background-color: var(--sfb-hall);
+  background-image: radial-gradient(circle at 50% 0, var(--sfb-rose) 0 9px, transparent 10px),
+                    linear-gradient(90deg, var(--sfb-rose) 0 16.6%, var(--sfb-teal) 16.6% 33.3%, var(--sfb-plum) 33.3% 50%, var(--sfb-saffron) 50% 66.6%, var(--sfb-sage) 66.6% 83.3%, var(--sfb-blue) 83.3% 100%),
+                    linear-gradient(0deg, var(--sfb-gilt) 0 6px, transparent 6px);
+  background-size: 20px 10px, 100% calc(100% - 16px), 100% 100%;
+  background-position: 0 calc(100% - 6px), 0 0, 0 0;
+  background-repeat: repeat-x, no-repeat, no-repeat;
+  border-bottom-color: var(--sfb-gilt-dark);
+}
+.door--sfb .door__name  { font-family: 'Prata', Georgia, serif; font-weight: 400; color: var(--sfb-gilt-ink); font-size: 30px; line-height: 1.1; font-synthesis: none; }
+.door--sfb .door__blurb { font-family: 'Wix Madefor Text', var(--sans); color: var(--sfb-ink-2); font-size: 16px; line-height: 1.45; font-synthesis: none; }
+.door--sfb .door__knock { font-family: 'Wix Madefor Text', var(--sans); font-weight: 700; font-size: 15px; color: var(--sfb-link); font-synthesis: none; }
 
 /* Excursions (§141). THE ONE FRONT IN THE ROW WHOSE AWNING IS A MAP: the
    backlit map of the area on the lobby wall, a lake, a wood and an orange
@@ -19549,7 +19611,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §151
+   class on it is `bb-`, its sizes are in points and millimetres, and §152
    prints it and nothing else. */
 
 .room-broadside {
@@ -19610,7 +19672,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §151 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §152 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -33597,7 +33659,208 @@ html[data-intensity="max"] .lbw-breathe { animation: lbw-breathe 4.5s ease-in-ou
   .lbw-part { padding: 30px 24px 24px; }
 }
 
-/* §150 ── Small screens───────────────────────────────────────────────────────
+/* §150 ── ROOM: Scalable Feast Ballroom (a shopfront on the street) ──────────
+   Ryan's brief, 2026-11-06: a big comfortable ballroom, both cozy and grand.
+   Cozy grandeur. A grand ceiling with chandeliers, gilt and parquet;
+   canopies, tents and cabanas at each end for refuge at human scale; living
+   rooms amid the tents with couches, chairs and rugs; plush furnishings and
+   soft fabrics; and, on the page, the grand size shown by scrolling down.
+
+   THE LIGHT IS FROM VERY HIGH UP, AND THE ONLY SHADE IS THE SHADE YOU GO
+   INTO. The chandeliers hang so far above anybody that their light lands on
+   everything evenly and leaves no patch; the hall is ivory and gilt and
+   bright all the way down. Under each canopy the hall's light comes in
+   THROUGH THE CLOTH, softer and the colour of it, which is why every canopy's
+   card is the pale of its own cloth. That is the room's argument made into a
+   light: the grandeur stays up, and cozy is something you go under. THE
+   FRIENDLY EDIT IS TO DIM THE HALL "SO IT IS COZY", which takes the grand away
+   and leaves nothing to come in out of.
+
+   THE SCROLL IS THE HEIGHT. You come in at the ceiling (.sfb-ceiling), the
+   page goes down the wall past the cornice, the mirrors and the chandeliers
+   (.sfb-height, taller than any screen on purpose), and the floor arrives
+   with the canopies on it (.sfb-floor). A way straight down to the floor is
+   above the height and a way back up is after it, so nobody has to scroll
+   it; tools/make-ballroom.py refuses the page without either. Every word in
+   the height is on a plaque's own flat ground: the pilasters are the
+   height's ::before and the mirrors, chains and chandeliers are aria-hidden
+   drawings behind the plaques.
+
+   THE ROOMS TO WATCH:
+     · THE AERIAL ARBOUR (§147) is the other room of tents and coloured cloth:
+       there you are inside ONE tent, its canvas all round you, its light
+       glowing out from inside. Here the tents are small things inside
+       something enormous, and you go into them out of a bright hall. If the
+       hall ever goes away, so the page is about one tent, it has become the
+       circus tent with sofas.
+     · PINK PONY CLUB (§6) is the street's dancefloor, flat hot pink with a
+       mirrorball. Nobody is asked to dance in here and the floor is mostly
+       for crossing; there is no mirrorball, and the chandeliers do not turn.
+     · THE CHAPPELL (§12) has the gold, on votive indigo: gold Monoton glowing
+       in the dark. This gold is gilt on ivory, catching light it does not make.
+     · COVENSTEAD and THE COMMUNITY LIBRARY are the other pale rooms with
+       light coming in: one window's patch, and the sky in high windows. There
+       is no window in the ballroom; the sky in its ceiling is PAINTED, a
+       picture in a gilt frame, and nothing comes through it.
+     · THE FAERY YURT and every warm room lit by a flame: the chandeliers are
+       crystal globes, steady, and nothing in here is lit by a flame or is brown
+       but the parquet underfoot.
+
+   NOTHING MOVES BELOW MAX GLITTER, and nothing flashes at any setting. At MAX
+   the glints on the gilt and the crystal (.sfb-glint) brighten and fade over
+   six seconds, each in its own time. Prata sets the name and the headings and
+   nothing at reading size; Wix Madefor Text carries every word that is read. */
+.ballroom { background-color: var(--sfb-hall); color: var(--sfb-ink); font-family: 'Wix Madefor Text', var(--sans), sans-serif; font-synthesis: none; }
+.ballroom a { color: var(--sfb-link); text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
+.ballroom a:hover { color: var(--sfb-link-hot); }
+.ballroom :focus-visible { outline-color: var(--sfb-link); }
+.ballroom :where(p, li) { font-size: 18px; line-height: 1.6; }
+.ballroom strong, .ballroom b { font-weight: 700; }
+.ballroom .backlink { font-family: 'Wix Madefor Text', var(--sans), sans-serif; font-size: 16px; letter-spacing: 0; color: var(--sfb-link); }
+
+.sfb-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.ballroom .sfb-trail { margin: 0; font-size: 15px; color: var(--sfb-ink-2); }
+.sfb-head { margin: 26px 0 0; text-align: center; }
+.ballroom .sfb-over { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--sfb-gilt-ink); }
+.ballroom h1 {
+  margin: 8px 0 0; font-family: 'Prata', Georgia, serif; font-weight: 400;
+  font-size: clamp(42px, 8vw, 92px); line-height: 1.06; color: var(--sfb-gilt-ink); text-wrap: balance;
+}
+.ballroom .sfb-sub { margin: 14px auto 0; font-size: 21px; line-height: 1.45; max-width: 46ch; }
+.ballroom h2 { margin: 0 0 12px; font-family: 'Prata', Georgia, serif; font-weight: 400; font-size: clamp(28px, 4vw, 40px); line-height: 1.15; color: var(--sfb-gilt-ink); }
+.ballroom h3 { margin: 0 0 8px; font-family: 'Prata', Georgia, serif; font-weight: 400; font-size: 25px; line-height: 1.2; color: var(--sfb-gilt-ink); }
+
+/* THE CEILING, where you come in, and the lede under it. */
+.sfb-ceiling { margin: 24px 0 0; line-height: 0; }
+.sfb-ceiling__draw { display: block; width: 100%; height: auto; border-radius: 4px 4px 0 0; }
+.ballroom .sfb-lede { max-width: 780px; margin: 22px auto 0; font-size: 19px; }
+
+/* EVERY CARD IS A PLAQUE hung in the hall: flat ivory, a gilt edge, and a
+   fine gilt line inside it in the padding, never under a word. */
+.sfb-part, .sfb-middle {
+  max-width: 780px; margin: 30px auto 0; padding: 32px 36px 28px;
+  background: var(--sfb-plaque); border: 3px solid var(--sfb-gilt);
+  box-shadow: inset 0 0 0 7px var(--sfb-plaque), inset 0 0 0 8px var(--sfb-gilt-dark);
+}
+.ballroom .sfb-way { max-width: 780px; margin: 14px auto 0; font-size: 17px; }
+.ballroom .sfb-way--up { margin-top: 18px; text-align: center; }
+.ballroom .sfb-his { font-style: italic; }
+
+/* THE HEIGHT: taller than any screen, on purpose. The wall's pilasters are its
+   ::before; the mirrors, the chains and the chandeliers stand behind the
+   plaques, and the plaques are the only things carrying words. */
+.sfb-height { position: relative; height: max(2600px, 330vh); margin: 30px 0 0; background-color: var(--sfb-wall); overflow: hidden; }
+.sfb-height::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: repeating-linear-gradient(90deg, var(--sfb-panel) 0 34px, var(--sfb-gilt) 34px 38px, var(--sfb-wall) 38px 156px, var(--sfb-gilt) 156px 160px);
+}
+.sfb-height__wall { position: absolute; inset: 0; }
+.sfb-mirror {
+  position: absolute; top: 12%; bottom: 24%; width: 20%;
+  background: var(--sfb-glass); border: 7px solid var(--sfb-gilt); border-radius: 50% 50% 3px 3px / 7% 7% 3px 3px;
+}
+.sfb-mirror--near { left: 5%; }
+.sfb-mirror--far { right: 5%; }
+.sfb-chain {
+  position: absolute; top: 0; height: 50%; width: 8px; margin-left: -4px;
+  background: repeating-linear-gradient(180deg, var(--sfb-gilt) 0 9px, var(--sfb-gilt-dark) 9px 11px, transparent 11px 13px);
+}
+.sfb-chain--a { left: 62%; }
+.sfb-chain--b { left: 86%; }
+.sfb-chandelier { position: absolute; top: 50%; width: 240px; height: auto; margin-left: -120px; }
+.sfb-chandelier--a { left: 62%; }
+.sfb-chandelier--b { left: 86%; }
+.sfb-levels { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
+.sfb-level {
+  position: absolute; left: 3%; width: min(420px, 50%);
+  padding: 16px 20px; background: var(--sfb-plaque); border: 3px solid var(--sfb-gilt);
+  box-shadow: inset 0 0 0 5px var(--sfb-plaque), inset 0 0 0 6px var(--sfb-gilt-dark);
+}
+.ballroom .sfb-level p { margin: 0; font-size: 17px; line-height: 1.5; }
+.sfb-level--1 { top: 1.5%; }
+.sfb-level--2 { top: 17%; }
+.sfb-level--3 { top: 34%; }
+.sfb-level--4 { top: 55%; }
+.sfb-level--5 { top: 88%; }
+
+/* THE FLOOR, standing on it, and the words of both ends and the middle. */
+.sfb-floor { margin: 0; line-height: 0; }
+.sfb-floor__draw { display: block; width: 100%; height: auto; border-radius: 0 0 4px 4px; }
+.sfb-end { max-width: 1120px; margin: 40px auto 0; }
+.ballroom .sfb-end__lede { max-width: 780px; margin: 0 0 18px; }
+.sfb-tents { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; }
+
+/* EVERY CANOPY'S CARD IS THE LIGHT UNDER IT: the pale of its own cloth, flat,
+   with the cloth itself as a valance of scallops along the top, in the
+   padding, above every word. */
+.sfb-tent { --sfb-c: var(--sfb-rose); --sfb-cp: var(--sfb-rose-pale); position: relative; padding: 50px 24px 22px; background: var(--sfb-cp); border-radius: 3px; }
+.sfb-tent--teal { --sfb-c: var(--sfb-teal); --sfb-cp: var(--sfb-teal-pale); }
+.sfb-tent--plum { --sfb-c: var(--sfb-plum); --sfb-cp: var(--sfb-plum-pale); }
+.sfb-tent--saffron { --sfb-c: var(--sfb-saffron); --sfb-cp: var(--sfb-saffron-pale); }
+.sfb-tent--sage { --sfb-c: var(--sfb-sage); --sfb-cp: var(--sfb-sage-pale); }
+.sfb-tent--blue { --sfb-c: var(--sfb-blue); --sfb-cp: var(--sfb-blue-pale); }
+.sfb-tent::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 32px; pointer-events: none;
+  background: radial-gradient(circle at 50% 0, var(--sfb-c) 0 11px, transparent 12px) 0 18px / 24px 14px repeat-x,
+              linear-gradient(var(--sfb-c), var(--sfb-c)) 0 0 / 100% 18px no-repeat;
+}
+.sfb-tent::after { content: ""; position: absolute; left: 0; right: 0; top: 18px; height: 3px; background: var(--sfb-gilt); pointer-events: none; }
+.ballroom .sfb-tent__under { margin: 0 0 8px; }
+.ballroom .sfb-tent__light { margin: 0 0 10px; font-style: italic; }
+.ballroom .sfb-tent__has, .ballroom .sfb-room__has { margin: 0; padding: 0 0 0 20px; }
+.ballroom .sfb-tent__has li, .ballroom .sfb-room__has li { font-size: 17px; line-height: 1.5; margin: 0 0 4px; }
+
+/* A LIVING ROOM OUT IN THE HALL between two canopies: a plaque with a rug
+   along its foot, the rug in the padding and under no word. */
+.sfb-room { position: relative; padding: 24px 24px 34px; background: var(--sfb-plaque); border: 2px solid var(--sfb-gilt); }
+.sfb-room::after {
+  content: ""; position: absolute; left: 14px; right: 14px; bottom: 9px; height: 12px; pointer-events: none;
+  background: var(--sfb-rug); box-shadow: inset 0 0 0 3px var(--sfb-rug), inset 0 0 0 5px var(--sfb-rug-2); border-radius: 2px;
+}
+.ballroom .sfb-room__where { margin: 0 0 8px; color: var(--sfb-ink-2); font-size: 16px; }
+
+/* THE MIDDLE OF THE FLOOR: the parquet along the foot of its plaque. */
+.sfb-middle { position: relative; padding-bottom: 46px; }
+.sfb-middle::after {
+  content: ""; position: absolute; left: 10px; right: 10px; bottom: 10px; height: 18px; pointer-events: none;
+  background: repeating-linear-gradient(45deg, var(--sfb-oak) 0 8px, var(--sfb-oak-2) 8px 9px, var(--sfb-oak-3) 9px 17px, var(--sfb-oak-2) 17px 18px);
+}
+
+.sfb-quote { margin: 18px 0; }
+.sfb-quote blockquote { margin: 0; padding: 2px 0 2px 18px; border-left: 4px solid var(--sfb-gilt); }
+.ballroom .sfb-quote blockquote p { margin: 0; font-size: 19px; }
+.ballroom .sfb-quote figcaption { margin: 6px 0 0 22px; font-size: 15px; line-height: 1.5; color: var(--sfb-ink-2); }
+.ballroom .sfb-ways { margin: 0; padding: 0 0 0 20px; }
+.ballroom .sfb-ways li { margin: 0 0 8px; }
+
+/* AT MAX GLITTER, AND NOWHERE ELSE, the glints on the gilt and the crystal
+   brighten and fade over six seconds, each in its own time. Nothing flashes. */
+.sfb-glint { opacity: .85; }
+@keyframes sfb-glint { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+html[data-intensity="max"] .sfb-glint { animation: sfb-glint 6s ease-in-out infinite; }
+
+/* ON PAPER STREET (walk-scalable-feast-ballroom.js): its frame is the gilt,
+   the printed night goes, and what is behind everything, above the walls the
+   stage cannot reach, is the ceiling. The page hangs inside the doors in a
+   gilt frame; every card lifted off the page stands on the hall's own ivory. */
+.sfb-walk { --ps-frame: var(--sfb-gilt); --ps-back: var(--sfb-ceiling); --ps-backcloth: none; }
+.sfb-walk-page { --ps-takes: auto; overflow: hidden; background: var(--sfb-hall); border-radius: 2px; box-shadow: 0 0 0 10px var(--sfb-gilt); }
+.sfb-walk-page iframe { display: block; width: 100%; height: 100%; border: 0; background: var(--sfb-hall); }
+.sfb-walk-card { box-shadow: 0 0 0 4px var(--sfb-gilt); }
+
+@media (max-width: 640px) {
+  .sfb-part, .sfb-middle { padding: 26px 22px 24px; }
+  .sfb-middle { padding-bottom: 44px; }
+  .sfb-level { width: 62%; padding: 12px 14px; }
+  .ballroom .sfb-level p { font-size: 16px; }
+  .sfb-mirror { width: 30%; }
+  .sfb-mirror--near { display: none; }
+  .sfb-chain--b, .sfb-chandelier--b { display: none; }
+  .sfb-chain--a, .sfb-chandelier--a { left: 82%; }
+  .sfb-chandelier { width: 150px; margin-left: -75px; }
+}
+
+/* §151 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -33701,7 +33964,7 @@ html[data-intensity="max"] .lbw-breathe { animation: lbw-breathe 4.5s ease-in-ou
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §150 says every
+   shipped with no rule here at all — which on a street whose §151 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -33825,7 +34088,7 @@ html[data-intensity="max"] .lbw-breathe { animation: lbw-breathe 4.5s ease-in-ou
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §151 ── Print ───────────────────────────────────────────────────────────────
+/* §152 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

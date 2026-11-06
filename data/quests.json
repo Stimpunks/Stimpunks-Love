@@ -4878,6 +4878,47 @@
    "why": "A ledger: there is nothing to fill in, and nothing anybody brings to the saloon is written down or sent anywhere."
   },
   "learned": "Some things are easier to set down in a place that keeps no record of them."
+ },
+ {
+  "id": "sfb-drop",
+  "page": "scalable-feast-ballroom.html",
+  "room": "Scalable Feast Ballroom",
+  "rank": 1,
+  "title": "Somewhere to go under",
+  "posted": "There is a ballroom on the street so high that the page takes a long time to get from its ceiling to its floor. Go down to the floor, by the long way or the short one, and come back with what stands at each end of it.",
+  "target": "a crystal drop come off a chandelier, lying on the parquet",
+  "takes": "as long as the way down takes, or no time at all by the short way",
+  "code": "CHANDELIER",
+  "hints": [
+   "On the street itself, in the row of shopfronts: the front with every colour of cloth on its awning, near the end of the row.",
+   "There is a link straight down to the floor under How big it is.",
+   "On the parquet, at the very foot of the room, where a drop has come off a chandelier."
+  ],
+  "ask": {
+   "question": "What stands at each end of the ballroom for somewhere to go under?",
+   "answer": "Canopies",
+   "accept": [
+    "canopies",
+    "canopy",
+    "a canopy",
+    "the canopies",
+    "tents",
+    "tent",
+    "the tents",
+    "cabanas",
+    "cabana",
+    "canopies and tents",
+    "tents and canopies",
+    "canopies, tents and cabanas"
+   ],
+   "hints": [
+    "It is in the line under the name.",
+    "They are made of cloth, and the hall's light comes through them.",
+    "Under one of these is a refuge, with something over your head."
+   ],
+   "why": "Canopies, tents and cabanas: at each end of the ballroom, each one a living room with a sofa, a rug and something soft, and the hall's light coming through its cloth."
+  },
+  "learned": "A big room is easier to be in when there is a smaller one inside it. The grandeur stays, and you choose how much of it to have."
  }
  ],
  "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none.",

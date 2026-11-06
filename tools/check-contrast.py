@@ -1055,6 +1055,12 @@ AAR_PINK, AAR_GLOW = "#F48CCB", "#7FDAD3"
 LBW_DIM, LBW_MOSS, LBW_MOSS2, LBW_LINK, LBW_GLOW = "#1B2416", "#D5E6B8", "#A9C089", "#FFB46A", "#FFE8B5"
 LBW_CUSH, LBW_CUSH2, LBW_INK, LBW_INK2, LBW_CLINK = "#F4A259", "#F7C38A", "#16260F", "#3B4419", "#0D3B1F"
 LBW_TV = "#0E140C"
+# Scalable Feast Ballroom (love.css §150): a big room lit from very high up,
+# every word on the ivory of the hall, on a plaque hung in it, or under a
+# canopy on the pale of its own cloth.
+SFB_HALL, SFB_PLAQUE, SFB_INK, SFB_INK2, SFB_GILT = "#F5ECD9", "#FBF5E8", "#2B1B2E", "#5B4757", "#6E4F12"
+SFB_LINK, SFB_HOT = "#8A1C3B", "#5E0F27"
+SFB_PALES = {"rose": "#F7DEE1", "teal": "#D6EDEA", "plum": "#EADDF0", "saffron": "#F8E6C2", "sage": "#E1EBD6", "blue": "#DCE5F5"}
 # The Emergent Future Worlds Meets Mountain Man (§118): David's cabin at the
 # summit, inside at night, warm words on a blue-charcoal dark.
 EFW_NIGHT, EFW_PANEL, EFW_TEXT, EFW_DIM = "#1A1F2B", "#242B3A", "#F1EDE4", "#BFC6D4"
@@ -4127,6 +4133,21 @@ PAIRS = [
     (LBW_MOSS,  LBW_TV,    False, "luis's burrow: the words on the telly while nothing is on it"),
     (LBW_LINK,  LBW_TV,    False, "luis's burrow: the telly's own name on it"),
     (LBW_CUSH2, LBW_INK,   False, "luis's burrow: the words on a button, Put it on the telly and Switch the telly off"),
+    (SFB_INK,   SFB_HALL,   False, "scalable feast ballroom: every word on the hall, the lede, the line under the name, the street door's blurb ground"),
+    (SFB_INK2,  SFB_HALL,   False, "scalable feast ballroom: the trail, and the street door's blurb"),
+    (SFB_GILT,  SFB_HALL,   False, "scalable feast ballroom: the name, the line over it, every heading on the hall, and the street door's name"),
+    (SFB_LINK,  SFB_HALL,   False, "scalable feast ballroom: every link and the backlink on the hall, the street door's knock, the focus ring, and the job marker's wire"),
+    (SFB_HOT,   SFB_HALL,   False, "scalable feast ballroom: a link under the pointer on the hall"),
+    (SFB_INK,   SFB_PLAQUE, False, "scalable feast ballroom: every word on a plaque, in the height and on every card in the hall"),
+    (SFB_INK2,  SFB_PLAQUE, False, "scalable feast ballroom: a quotation's credit, and where a living room is"),
+    (SFB_GILT,  SFB_PLAQUE, False, "scalable feast ballroom: every heading on a plaque, and a living room's name"),
+    (SFB_LINK,  SFB_PLAQUE, False, "scalable feast ballroom: a link on a plaque"),
+    (SFB_HOT,   SFB_PLAQUE, False, "scalable feast ballroom: a link under the pointer on a plaque"),
+] + [
+    (ink, pale, False, f"scalable feast ballroom: {what} under the {cloth} canopy, on the pale of its cloth")
+    for cloth, pale in SFB_PALES.items()
+    for ink, what in ((SFB_INK, "every word"), (SFB_GILT, "the canopy's name"))
+] + [
     (EFW_TEXT,    EFW_NIGHT,   False, "mountain man: the name, the line under it, the lede and the switch's words on the night"),
     (EFW_DIM,     EFW_NIGHT,   False, "mountain man: the trail, the line over the name and the status line on the night"),
     (EFW_LINK,    EFW_NIGHT,   False, "mountain man: the backlink, a link on the night, and the focus ring there"),
@@ -5322,6 +5343,32 @@ ORNAMENT = {
     "#f3e9d6": "luis's burrow: --lbw-fluff, the rabbits, the owl's face, the fox's tail tip and every animal's outline, 13.31 on the dim; it carries no word.",
     "#9aa389": "luis's burrow: --lbw-owl, the owl, the rabbits' outlines and the telly's aerials, 6.08 on the dim; it carries no word.",
     "#2e4a33": "luis's burrow: --lbw-glass, the telly's glass in the drawing, 1.64 on the dim; it carries no word.",
+    "#b9475f": "scalable feast ballroom: --sfb-rose, the striped cabana's cloth and a valance of scallops along its card, 4.33 on the hall; it carries no word.",
+    "#2e7c79": "scalable feast ballroom: --sfb-teal, the round pavilion's silk and its card's valance, 4.18 on the hall; it carries no word.",
+    "#6d3a79": "scalable feast ballroom: --sfb-plum, the four-poster's velvet and its card's valance, 7.06 on the hall; it carries no word.",
+    "#d99a2a": "scalable feast ballroom: --sfb-saffron, the bell tent's canvas and its card's valance, 2.08 on the hall; it carries no word.",
+    "#6e8b5b": "scalable feast ballroom: --sfb-sage, the sail's linen and its card's valance, 3.25 on the hall; it carries no word.",
+    "#4766a8": "scalable feast ballroom: --sfb-blue, the hangings under the crown and their card's valance, 4.79 on the hall; it carries no word.",
+    "#c9a043": "scalable feast ballroom: --sfb-gilt, the gilt on every frame, coffer, pilaster, chain and post, 2.08 on the hall; it carries no word.",
+    "#e9cf86": "scalable feast ballroom: --sfb-gilt-hi, the light on the gilt, 1.30 on the hall; it carries no word.",
+    "#8c6a22": "scalable feast ballroom: --sfb-gilt-dark, the gilt's shadowed edges and the fine line inside every plaque, 4.26 on the hall; it carries no word.",
+    "#fff9ea": "scalable feast ballroom: --sfb-crystal, the chandeliers' globes, beads and drops and the job marker's drop, 1.12 on the hall, always edged in --sfb-glass-edge or --sfb-gilt-ink; it carries no word.",
+    "#9fb2b4": "scalable feast ballroom: --sfb-glass-edge, the edge of every crystal, 1.88 on the hall; it carries no word.",
+    "#fffcf3": "scalable feast ballroom: --sfb-glint, the glints on the gilt and the crystal that brighten and fade at MAX GLITTER, 1.15 on the hall; it carries no word.",
+    "#cfdad6": "scalable feast ballroom: --sfb-glass, the tall mirrors, 1.22 on the hall; it carries no word.",
+    "#b9d2dd": "scalable feast ballroom: --sfb-sky, the sky painted in the ceiling, 1.34 on the hall; it carries no word.",
+    "#f6f2e6": "scalable feast ballroom: --sfb-cloud, the clouds in the painted sky, 1.05 on the hall; it carries no word.",
+    "#efe1c3": "scalable feast ballroom: --sfb-ceiling, the coffers of the ceiling, 1.09 on the hall; it carries no word.",
+    "#eadfc6": "scalable feast ballroom: --sfb-panel, the cove, the wainscot and the pilasters, 1.13 on the hall; it carries no word.",
+    "#e4d7ba": "scalable feast ballroom: --sfb-wall, the wall the height runs down, behind every plaque, 1.21 on the hall; it carries no word.",
+    "#c38b4c": "scalable feast ballroom: --sfb-oak, the parquet, 2.51 on the hall; it carries no word.",
+    "#a06c35": "scalable feast ballroom: --sfb-oak-2, the parquet's darker blocks and joints, 3.81 on the hall; it carries no word.",
+    "#dcae72": "scalable feast ballroom: --sfb-oak-3, the parquet's lighter blocks, 1.73 on the hall; it carries no word.",
+    "#7e2f4a": "scalable feast ballroom: --sfb-velvet, every sofa, chair, settee and chaise, 7.47 on the hall; it carries no word.",
+    "#b85a72": "scalable feast ballroom: --sfb-plush, their seats and footstools, 3.77 on the hall; it carries no word.",
+    "#fbf3e3": "scalable feast ballroom: --sfb-cream, the cushions, the cabana's cream stripes and the long table's cloth, 1.06 on the hall; it carries no word.",
+    "#9b3b3b": "scalable feast ballroom: --sfb-rug, every rug, and the rug along the foot of a living room's card, 5.80 on the hall; it carries no word.",
+    "#d7b26a": "scalable feast ballroom: --sfb-rug-2, the border of every rug, 1.71 on the hall; it carries no word.",
     "#f07ac0": "campgrounds: --camp-through, the Aerial Arbour's canvas lit from inside, every "
                "other stripe on its sign, 6.99 on the dusk. It carries no word.",
     "#f7c08e": "campgrounds: --camp-breath, Luis's Burrow's warm breath rising lit out of its mouth on its sign, 10.92 on the dusk. It carries no word.",

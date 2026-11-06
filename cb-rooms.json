@@ -609,6 +609,12 @@
    "about": "A saloon for spaceholding, venting, solidarity and straight up bitchin' on spoon fumes, lit by oil lamps on the mantle."
   },
   {
+   "tag": "scalable-feast-ballroom",
+   "name": "Scalable Feast Ballroom",
+   "path": "/scalable-feast-ballroom.html",
+   "about": "A big comfortable ballroom on the street, cozy and grand at once: a coffered ceiling with a sky painted in it, chandeliers on long chains, gilt and herringbone parquet, and at each end canopies, tents and cabanas to go under, each a living room with a sofa, a rug and something soft, the hall’s light coming through the cloth. Scroll down and you feel how high it is."
+  },
+  {
    "tag": "your-room",
    "name": "Your Room",
    "path": "/your-room.html",

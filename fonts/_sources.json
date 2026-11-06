@@ -3394,5 +3394,42 @@
    "src": "https://fonts.gstatic.com/s/quattrocentosans/v22/va9a4lja2NVIDdIAAoMR5MfuElaRB0zMh032GFPKgLM.woff2",
    "note": "The italic of the 400 above."
   }
+ ],
+
+ "prata": [
+  {
+   "file": "prata-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 11916,
+   "src": "https://fonts.gstatic.com/s/prata/v22/6xKhdSpbNNCT-sWPCm7bLnwI.woff2",
+   "note": "The Scalable Feast Ballroom (\u00a7150): the name and the headings and nothing at reading size. A Didone cut for display, all hairlines and ball terminals, like lettering gilded on a frieze. One weight."
+  }
+ ],
+ "wix-madefor-text": [
+  {
+   "file": "wix-madefor-text-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 20320,
+   "src": "https://fonts.gstatic.com/s/wixmadefortext/v17/-W_lXI_oSymQ8Qj-Apx3HGN_Hu1RZiUR5y4coj8.woff2",
+   "note": "The Scalable Feast Ballroom (\u00a7150), every word that is read. A soft, open sans with round shoulders, so what you read under a canopy is as comfortable as the couch. Google's Latin cut of the variable font, weight axis kept, declared at both its weights."
+  },
+  {
+   "file": "wix-madefor-text-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 20320,
+   "src": "https://fonts.gstatic.com/s/wixmadefortext/v17/-W_lXI_oSymQ8Qj-Apx3HGN_Hu1RZiUR5y4coj8.woff2",
+   "note": "The same variable file at its bold, for the words that carry the weight of a line."
+  },
+  {
+   "file": "wix-madefor-text-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 11960,
+   "src": "https://fonts.gstatic.com/s/wixmadefortext/v17/-W_WXI_oSymQ8Qj-Apx3HGN_Hu1RZiAL6QzqeqKx1td3dw_GuJdF8oF8zIeWGA.woff2",
+   "note": "The italic of the 400 above."
+  }
  ]
 }

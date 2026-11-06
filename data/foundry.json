@@ -1751,6 +1751,20 @@
       "sections": [
         147
       ]
+    },
+    "prata": {
+      "where": "The Scalable Feast Ballroom",
+      "page": "scalable-feast-ballroom.html",
+      "sections": [
+        150
+      ]
+    },
+    "wix-madefor-text": {
+      "where": "The Scalable Feast Ballroom",
+      "page": "scalable-feast-ballroom.html",
+      "sections": [
+        150
+      ]
     }
   }
 }

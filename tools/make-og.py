@@ -1575,6 +1575,17 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 
 /* champuru — THE LANE, lifted whole, beside the name on the shade; the frame
    round the lane is the room's own ink, and nothing on the card is in the sun. */
+/* scalable feast ballroom — THE FLOOR, lifted whole, under the name: the
+   canopies at each end, the long table between them and the chandeliers'
+   lowest tiers hanging into the top. The ivory of the hall is the card. */
+.og--ballroom {{ flex-direction: column; align-items: stretch; justify-content: flex-end; padding: 0; }}
+.og--ballroom .og-words {{ padding: 12px 60px 6px; text-align: center; }}
+.og--ballroom .sfb-over {{ font-size: 15px; margin: 0 0 6px !important; }}
+.og--ballroom h1 {{ font-size: 58px; line-height: 1.02; margin: 0 0 8px !important; }}
+.og--ballroom .og-lede {{ font-family: 'Wix Madefor Text', sans-serif; color: var(--sfb-ink); font-size: 20px; line-height: 1.35; margin: 0 auto; max-width: 1040px; }}
+.og--ballroom .og-view {{ line-height: 0; border-top: 4px solid var(--sfb-gilt); }}
+.og--ballroom .og-view svg {{ display: block; width: 1170px; height: auto; margin: 0 auto; }}
+
 .og--champuru {{ flex-direction: row; align-items: center; gap: 32px; padding: 40px 46px; }}
 .og--champuru .og-words {{ flex: 0 0 420px; }}
 .og--champuru .og-view {{ flex: 0 0 660px; border: 3px solid var(--chp-ink); border-radius: 8px; overflow: hidden; }}
@@ -5690,6 +5701,34 @@ def card_champuru(p):
     )
 
 
+def card_ballroom(p):
+    # THE FLOOR AND THE NAME ARE LIFTED WHOLE, so the card cannot show a
+    # canopy the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="sfb-floor__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="sfb-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: scalable-feast-ballroom.html has lost its floor or its header,\n"
+            "and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--ballroom" data-fit="card">'
+        f'<div class="og-words"><p class="sfb-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-view">{draw.group(1)}</div>'
+        f'</div>',
+        f"An ivory card. Across the bottom, the floor of a ballroom seen standing on it: herringbone parquet, "
+        f"an ivory wall with gilt pilasters and two tall arched mirrors, a long table down the middle with a "
+        f"white cloth to the floor and velvet chairs drawn up to it, and at each end three canopies in "
+        f"different cloths, a striped cabana in rose, a round pavilion in teal, a four-poster in plum, a bell "
+        f"tent in saffron, a sail in sage and blue hangings falling from a gilt crown, each with a sofa or "
+        f"chairs on a rug under it. The lowest tiers of three crystal chandeliers hang into the top of the "
+        f"picture. Above it, small capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in "
+        f"tall, fine Didone capitals in deep gilt, then: {p['desc_plain']}",
+    )
+
+
 def card_excursions(p):
     # THE LOBBY AND THE NAME ARE LIFTED WHOLE, so the card cannot show a rack
     # the page does not, and the lede is the page's og:description.
@@ -6570,6 +6609,7 @@ CARDS = {
     "honestybox":   card_honestybox,
     "dairy":        card_dairy,
     "champuru":     card_champuru,
+    "ballroom":     card_ballroom,
     "excursions":   card_excursions,
     "retail-therapy": card_retail_therapy,
     "comfort-station": card_comfort_station,

@@ -827,6 +827,14 @@ credits line listing what the tool refuses said "the vocabulary of … authentic
 `vital.js` reads every item, shape and ink off the page and keeps no copy; the copy button puts a
 plain-text ticket on the visitor's own clipboard and nothing is stored or sent.
 
+`make-ballroom.py` builds the Scalable Feast Ballroom out of `data/ballroom.json`, Ryan's big comfortable ballroom on
+the street, cozy and grand. It **draws the ceiling, the chandeliers, the height and the floor** (every canopy on the
+floor drawn from the same list its card is written from) and writes both ends, the floor's words and two quotations
+from our Biophilic Design page, checked against the mirror word for word when the mirror is here. It **refuses an end
+with no canopy, two canopies alike, a canopy with nowhere to sit or nothing soft underfoot, the height out of order, a
+guest list, a dress code, a ticket or a word for who sits out, a count, a page with no way straight down past the
+height or back up, and any motion in §150 below MAX GLITTER**.
+
 `make-champuru.py` builds Champuru out of `data/champuru.json`, Ryan's restaurant on the street: a table in the shade
 of a lane at noon, lit by the sunlit wall across from it. It **draws the lane**, writes the name, Ryan's own words
 (quoted as his and never swept), the menu, the kitchen's note and the house rules. **Every dish goes through Hey, Good

@@ -3599,6 +3599,23 @@ are each room's own promises, and this is about what a member brings. Signed mea
 Retail Therapy's shop does in her words. The friendly edits are a referral code or a pitch in somebody else's room, and a
 shop link added to a room whose own page says nothing in it is for sale.
 
+**THE SCALABLE FEAST BALLROOM (§150) IS COZY GRANDEUR, AND THE ONLY SHADE IN IT IS THE SHADE YOU GO INTO.** Ryan's brief,
+2026-11-06: a big comfortable ballroom, chandeliers, gilt and parquet, canopies at each end for refuge at human scale,
+living rooms amid them, plush and soft, its size shown on the page by scrolling down, and the room on both 3D streets.
+`tools/make-ballroom.py` writes it from `data/ballroom.json`. **The page is as tall as the room**: you come in at the
+ceiling and scroll down the height (`.sfb-height`, taller than any screen, a plaque at each level) to the floor, and the
+tool refuses the page without a way straight down to the floor above the height and a way back up after it, so nobody
+has to scroll it. **The hall is lit from very high up, evenly, and stays bright; under each canopy the hall's light
+comes through the cloth**, so every canopy's card is the pale of its cloth. The friendly edit is to dim the hall "so it
+is cozy", which takes away the grand and leaves nothing to come in out of. **Every canopy is a living room** (somewhere
+to sit, a rug, something soft), there is one at each end at least, and no two share a kind or a cloth; the floor's
+drawing is made from the same list as the cards. The tool refuses a guest list, a dress code, a ticket, a VIP rope, a
+dance card and a word for whoever sits out (a ballroom is the shape of room that grows them), and a count. **The Aerial
+Arbour is the one to watch** (coloured cloth and tents): there you are inside one tent; here the tents are small things
+inside something enormous. Nothing moves below MAX; at MAX the gilt's glints brighten and fade. On Cel Street the hall is
+fifty-odd metres long and fourteen high, the height's plaques hang up the wall at their own heights, the chandeliers can
+be turned low or out and glint at MAX, and the four-poster's curtains draw on a press.
+
 **CHAMPURU (§136) IS RYAN'S OWN TABLE, AND NOTHING ON IT SAYS WHAT FOOD DOES FOR A BODY.** Ryan's brief, 2026-11-03:
 a restaurant to sit in when he eats, next door to Vital Plant Living, with Mediterranean and Okinawan dishes and the
 two mixed, first and foremost for him and a prescription for nobody. `tools/make-champuru.py` builds it out of
@@ -6122,18 +6139,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §151 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §152 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§151 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§152 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §151 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §152 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
