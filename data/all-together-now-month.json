@@ -9,34 +9,24 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-05T12:32Z",
+ "set": "2026-11-06T12:34Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-05T12:32:04Z"
+     "2026-11-06T12:34:45Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-05T12:32:04Z"
+     "2026-11-06T12:34:45Z"
     ]
    ]
   }
  },
  "log": [
-  {
-   "id": "6D5jrR_N6mQ",
-   "source": "farming-while-beige",
-   "form": "long",
-   "title": "Online “Community” is Destroying Black Solidarity",
-   "published": "2026-10-06T14:16:26Z",
-   "state": "screen",
-   "runs": 389,
-   "channel": "Farming While Beige"
-  },
   {
    "id": "7WDZpD0_NpQ",
    "source": "farming-while-beige",
@@ -145,16 +135,6 @@
    "published": "2026-11-01T19:58:10Z",
    "state": "screen",
    "runs": 313,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "FK2338lgWIA",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "I apologize.",
-   "published": "2026-10-07T01:01:50Z",
-   "state": "screen",
-   "runs": 63,
    "channel": "Farming While Beige"
   },
   {
@@ -615,6 +595,16 @@
    "published": "2026-11-04T20:45:30Z",
    "state": "screen",
    "runs": 170,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "PRCxdJ39rEo",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "They picked another senator 😂",
+   "published": "2026-11-05T23:17:24Z",
+   "state": "screen",
+   "runs": 75,
    "channel": "Farming While Beige"
   }
  ]
