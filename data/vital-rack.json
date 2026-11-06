@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-11-05T12:20Z",
+ "set": "2026-11-06T12:20Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2024-05-03T15:53:16Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-11-05T12:20:50Z"
+     "2026-11-06T12:20:38Z"
     ]
    ]
   }
@@ -248,6 +248,16 @@
    "published": "2026-11-01T13:25:36Z",
    "state": "screen",
    "runs": 1147,
+   "channel": "Derek Sarno"
+  },
+  {
+   "id": "tnq-rSup_NE",
+   "source": "derek-sarno",
+   "form": "long",
+   "title": "Cooking For A Family That Risked Everything",
+   "published": "2026-11-05T22:22:46Z",
+   "state": "screen",
+   "runs": 1701,
    "channel": "Derek Sarno"
   },
   {
@@ -501,16 +511,6 @@
    "channel": "Ahmad Noori"
   },
   {
-   "id": "xjJhRzMm6io",
-   "source": "ahmad-noori",
-   "form": "short",
-   "title": "One Pot Coconut Curry Noodles — Cooks in 15 Minutes #easyrecipes #dinner",
-   "published": "2026-10-06T15:00:39Z",
-   "state": "screen",
-   "runs": 14,
-   "channel": "Ahmad Noori"
-  },
-  {
    "id": "7G81huL0EX4",
    "source": "ahmad-noori",
    "form": "short",
@@ -591,6 +591,16 @@
    "channel": "Ahmad Noori"
   },
   {
+   "id": "6soIcyfjg-g",
+   "source": "ahmad-noori",
+   "form": "short",
+   "title": "How to Make Crispy Potato Rings at Home #cookinghacks #shorts",
+   "published": "2026-11-05T15:00:13Z",
+   "state": "screen",
+   "runs": 24,
+   "channel": "Ahmad Noori"
+  },
+  {
    "id": "_QZHh0Xle48",
    "source": "veganproteins",
    "form": "long",
@@ -628,6 +638,16 @@
    "published": "2026-10-29T15:45:10Z",
    "state": "screen",
    "runs": 2444,
+   "channel": "VeganProteins"
+  },
+  {
+   "id": "nRdLqZ1DJ_8",
+   "source": "veganproteins",
+   "form": "long",
+   "title": "My Fall Meal Prep: Dr. Greger's Daily Dozen + 128g Protein/Day",
+   "published": "2026-11-05T16:45:25Z",
+   "state": "screen",
+   "runs": 3488,
    "channel": "VeganProteins"
   },
   {
@@ -721,16 +741,6 @@
    "channel": "PB with J"
   },
   {
-   "id": "f-e0GfoRSXw",
-   "source": "pb-with-j",
-   "form": "short",
-   "title": "Easy 20-Minute Tacos: Busy Weeknight Meal Hack #shorts",
-   "published": "2026-10-06T12:44:20Z",
-   "state": "screen",
-   "runs": 36,
-   "channel": "PB with J"
-  },
-  {
    "id": "93yiSOE66Y0",
    "source": "pb-with-j",
    "form": "short",
@@ -788,6 +798,16 @@
    "published": "2026-11-01T14:15:25Z",
    "state": "screen",
    "runs": 55,
+   "channel": "PB with J"
+  },
+  {
+   "id": "_6KR7V8vSFk",
+   "source": "pb-with-j",
+   "form": "short",
+   "title": "Weight Loss: Oil-Free Recipes & Calorie Density Explained #shorts",
+   "published": "2026-11-05T13:42:31Z",
+   "state": "screen",
+   "runs": 45,
    "channel": "PB with J"
   },
   {
@@ -884,7 +904,7 @@
    "id": "5mCJQNM1VtU",
    "source": "yeung-man-cooking",
    "form": "long",
-   "title": "Not what you would expect for Creamy Noodle Recipe!",
+   "title": "Not what you would expect for a Creamy Noodle Recipe!",
    "published": "2026-10-25T16:00:13Z",
    "state": "screen",
    "runs": 430,
@@ -898,6 +918,16 @@
    "published": "2026-10-08T16:00:18Z",
    "state": "screen",
    "runs": 111,
+   "channel": "Yeung Man Cooking"
+  },
+  {
+   "id": "QBlKgmuIuzw",
+   "source": "yeung-man-cooking",
+   "form": "short",
+   "title": "Simple is Best!  #recipe #cooking #pasta #yeungmancooking",
+   "published": "2026-11-05T17:00:18Z",
+   "state": "screen",
+   "runs": 97,
    "channel": "Yeung Man Cooking"
   },
   {
@@ -938,6 +968,16 @@
    "published": "2026-10-28T19:52:04Z",
    "state": "screen",
    "runs": 776,
+   "channel": "Merle O'Neal"
+  },
+  {
+   "id": "C63ghyTtxCw",
+   "source": "merle-oneal",
+   "form": "long",
+   "title": "$25. 21 Meals. One Week… AGAIN",
+   "published": "2026-11-05T21:15:57Z",
+   "state": "screen",
+   "runs": 1236,
    "channel": "Merle O'Neal"
   },
   {
