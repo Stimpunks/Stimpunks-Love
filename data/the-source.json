@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-11-05T12:12Z",
+  "set": "2026-11-06T12:16Z",
   "springs": [
     {
       "id": "starstuff",
@@ -73,7 +73,7 @@
           "anon": true
         }
       ],
-      "read": "2026-11-05T12:12Z"
+      "read": "2026-11-06T12:16Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-11-05T12:12Z"
+      "read": "2026-11-06T12:16Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-11-05T12:12Z"
+      "read": "2026-11-06T12:16Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-11-05T12:12Z"
+      "read": "2026-11-06T12:16Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-11-05T12:12Z"
+      "read": "2026-11-06T12:16Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-11-05T12:12Z"
+      "read": "2026-11-06T12:16Z"
     },
     {
       "id": "love",
@@ -439,6 +439,56 @@
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
         {
+          "title": "Em's nails between the parts of the front page",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/e8b946b20dafdb37c67615533745b3f7b5a3a87e",
+          "date": "2026-11-06T10:39:46Z",
+          "sha": "e8b946b",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "Luis's Burrow: A Thousand Plateaus off the shelf, and a heap of pumpkins",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/fe8c54dce8d5434cca76a75b69ad1b4048b2347e",
+          "date": "2026-11-06T05:07:42Z",
+          "sha": "fe8c54d",
+          "by": [
+            "AutisticRealms",
+            "Claude Fable 5.1"
+          ]
+        },
+        {
+          "title": "Luis's Burrow: a cave in the wood at pitch 07 on the campgrounds",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/5991deaee2f0b250fc1e7d44f43a4d9621177956",
+          "date": "2026-11-05T19:18:52Z",
+          "sha": "5991dea",
+          "by": [
+            "AutisticRealms",
+            "Claude Fable 5.1"
+          ]
+        },
+        {
+          "title": "Through the glass between the Rabbit Hole and Looking-Glass House",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/c86cf67690b91c62cb4e7b5864f806a84b076ffa",
+          "date": "2026-11-05T14:26:52Z",
+          "sha": "c86cf67",
+          "by": [
+            "AutisticRealms",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "Looking-Glass House, through a looking-glass in Helen's yurt",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/5c5b0269d282194fa158aaf671233fc8cbd5e193",
+          "date": "2026-11-05T13:16:09Z",
+          "sha": "5c5b026",
+          "by": [
+            "AutisticRealms",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
           "title": "Merge Helen's Rowena changes into the newest rooms on both streets",
           "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/d58910e94b8acdb2d1bed6b8c35b1916e8fa6177",
           "date": "2026-11-05T11:45:10Z",
@@ -447,57 +497,9 @@
             "ryanboren",
             "Claude Opus 5.5"
           ]
-        },
-        {
-          "title": "The newest rooms, on Cel Street and Paper Street",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/c35814d1988513d7920aada41bad731fc93c3439",
-          "date": "2026-11-05T11:32:23Z",
-          "sha": "c35814d",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5.5"
-          ]
-        },
-        {
-          "title": "The Aerial Arbour is Rowena's, with four photographs from her 'prayer'",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/beb40c68e46fa5e69fa4e31752ba624f3d31e347",
-          "date": "2026-11-05T11:19:33Z",
-          "sha": "beb40c6",
-          "by": [
-            "AutisticRealms",
-            "Claude Opus 5.5"
-          ]
-        },
-        {
-          "title": "Merge branch 'rooms-excursions'",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/980245a985c312404efc750590ff0838dba9a6ac",
-          "date": "2026-11-05T11:19:08Z",
-          "sha": "980245a",
-          "by": [
-            "ryanboren"
-          ]
-        },
-        {
-          "title": "Excursions and Retail Therapy on Cel Street and Paper Street",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/a2221c9adbccd536113e98a8081037b661c5e851",
-          "date": "2026-11-05T11:18:37Z",
-          "sha": "a2221c9",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5.5"
-          ]
-        },
-        {
-          "title": "Merge branch 'rooms-saloon'",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/b7f290b52da7cec7a3d776524531a0a681548808",
-          "date": "2026-11-05T11:17:15Z",
-          "sha": "b7f290b",
-          "by": [
-            "ryanboren"
-          ]
         }
       ],
-      "read": "2026-11-05T12:12Z"
+      "read": "2026-11-06T12:16Z"
     },
     {
       "id": "garden",
@@ -566,7 +568,7 @@
           "anon": true
         }
       ],
-      "read": "2026-11-05T12:12Z"
+      "read": "2026-11-06T12:16Z"
     }
   ]
 }
