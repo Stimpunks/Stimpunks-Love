@@ -5438,6 +5438,22 @@ html[data-low] {
   padding: 10px 0;
 }
 
+/* A SPOILER, ||words|| in anything the CB reads as Markdown (2026-11-06, after
+   Discord's), drawn by markdown.js on the light pages (the board, the
+   suggestion box): a bar in the words' own ink until it is pressed. Layout and
+   currentColor only, so it wears every room's ink and brings no colour of its
+   own; cb.css holds the same rules inside the CB's shadow roots. */
+[data-spoiler] { position: relative; border-radius: 3px; cursor: pointer; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+[data-spoiler="hidden"] { background: currentColor; }
+[data-spoiler="hidden"] > [data-spoiler-words] { visibility: hidden; }
+[data-spoiler="shown"] { cursor: auto; }
+[data-spoiler] > button {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+[data-spoiler]:has(> button:focus-visible) { outline: 2px solid currentColor; outline-offset: 2px; }
+[data-spoiler-words]:focus { outline: none; }
+
 /* THE SIGN-OFF, on every page but the front one, written by tools/make-signoff.py.
    It is layout and nothing else: NO colour, NO typeface, NO ground. It takes the
    room's own ink, face and link colour the way a job marker does, so that it

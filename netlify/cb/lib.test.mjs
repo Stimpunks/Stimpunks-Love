@@ -40,7 +40,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   ROLES, foldHandle, readMods, signOn, readPass, rolesOf, STARTER_GONE, PASS_LIFE, PASS_RENEW, signOffEverywhere, passesOn, checkHandle, checkInvite, joinAccount, HELD,
   makeInvite, listInvites, deleteInvite, readInvites, INVITE_USES, INVITE_DAYS, INVITE_KEEP, makeInviteCode,
   emailOn, cleanAddress, accountEmail, setAccountEmail, mailResetCode, ACCT_MAIL_FOR, ACCT_MAIL_GAP, ACCT_MAIL_SUBJECT,
-  renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages,
+  renamePet, shapeAnimal, parseBrass, spoilerless, linkWords, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages,
   readNotice, shapeNotice, setNotice, clearNotice, cleanNotice, noticeId, NOTICE_FIRST, NOTICE_MAX,
   readSuggestions, shapeSuggestion, addSuggestion, replySuggestion, editSuggestionReply, removeSuggestionReply, meTooSuggestion, removeSuggestion, SUGGEST_KEEP, SUGGEST_BODY_MAX, putSuggestImage, getSuggestImage, sweepSuggestImages, SUGGEST_PICS, REACTIONS, reactionOf, toggleReaction, canTakeOff, canEdit, editMessage, channelMentions, MENTION_MAX, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
@@ -445,6 +445,17 @@ test('the board: a picture is redrawn, described, said yes to, and goes with its
   assert.ok(await getBrassImage(stray, s), 'an upload was swept before its day was up');
   await sweepBrassImages(s, 2 * 24 * 60 * 60 * 1000);
   assert.equal(await getBrassImage(stray, s), null, 'an upload no post holds was never swept');
+});
+
+test('a ||spoiler|| is read as one, and never reaches a notification, a feed or a link card', () => {
+  const c = parseBrass('Who did it? ||The **butler**|| in `a || b`, and || || stays words')[0].c;
+  assert.deepEqual(c.map((n) => n.t), ['text', 'spoil', 'text', 'code', 'text']);
+  assert.deepEqual(c[1].c.map((n) => n.t), ['text', 'b']);
+  assert.ok(c[4].v.includes('|| ||'), 'an empty spoiler was read as one');
+  assert.ok(!brassHtml(parseBrass('a ||the ending|| b')).includes('the ending'), 'the feed showed a spoiler');
+  assert.equal(spoilerless('it was ||the butler|| all along'), 'it was (spoiler) all along');
+  assert.ok(!linkWords('so ||the butler||').includes('butler'), 'a notification showed a spoiler');
+  assert.deepEqual(chatLinks('||https://a.example/x|| and https://b.example/'), ['https://b.example/']);
 });
 
 test('the board reads Markdown into nodes, never HTML, and links only where links may go', () => {

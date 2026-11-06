@@ -1,7 +1,8 @@
 /* format.js: buttons over a box that takes Markdown, for the people who would
    rather not write it (requests from our community, 2026-10-22, Ryan's choice
    of a toolbar over a visual editor): Bold, Italic, Link, List, Numbered,
-   Checklist where the box takes one, Quote, Heading and Code, and Ctrl or Cmd
+   Checklist where the box takes one, Quote, Heading, Code and Spoiler
+   (||words||, 2026-11-06), and Ctrl or Cmd
    with B, I or K. Highlight words and press Link, or paste an address over
    them, to make them a link; a small form asks for the address.
 
@@ -198,6 +199,7 @@
     BUTTONS.push(['Quote', 'Quote', function () { lines('quote'); }]);
     BUTTONS.push(['Heading', 'Heading', function () { lines('heading'); }]);
     BUTTONS.push(['Code', 'Code', function () { wrap('`', 'Code', 'code'); }]);
+    BUTTONS.push(['Spoiler', 'Spoiler: hidden until a reader presses it', function () { wrap('||', 'Spoiler', 'spoiler words'); }]);
     var btns = BUTTONS.map(function (b, i) {
       var x = el('button', 'cb-btn ' + p + '-fmt__btn', b[0]);
       x.type = 'button';

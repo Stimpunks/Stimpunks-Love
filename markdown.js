@@ -31,6 +31,13 @@
              2026-10-24): a function given each heading once its words are in
              it, which may give it an id and a link to itself.
 
+   A SPOILER, ||words|| (2026-11-06, after Discord's), arrives as { t: 'spoil' }
+   and is drawn hidden, a bar in the words' own ink, until it is pressed; then
+   its words show for good on this page. Its words are hidden from a screen
+   reader too (visibility), its button says what it is, and a spoiler on a card
+   whose buttons are disabled (preview.js) stays hidden. The radio draws its own
+   the same way (spoiler() in cb.js); love.css §4 and cb.css style [data-spoiler].
+
    A LINK TO A TASK, A TOPIC OR A RECORD OF THE OFFICE (2026-10-21, links.js)
    arrives named for its reader by the server: { name, href } is drawn as a
    link, PREFIX-ref, with what it is before its name; { shut } as words saying
@@ -62,9 +69,31 @@
       n.gone ? words + (n.kind === 'topic' ? ' that has gone' : ' since deleted') : n.shut ? words + ' you can’t open' : words);
   }
 
+  function spoiler(n, o) {
+    var sp = el('span', o.prefix + '-spoiler'), btn = el('button', null, 'A spoiler: show it'), w = el('span');
+    sp.setAttribute('data-spoiler', 'hidden');
+    sp.title = 'A spoiler: press to show it';
+    btn.type = 'button';
+    w.setAttribute('data-spoiler-words', '');
+    w.tabIndex = -1;
+    inline(n.c || [], w, o);
+    sp.addEventListener('click', function () {
+      if (sp.getAttribute('data-spoiler') !== 'hidden' || btn.disabled) return;
+      sp.setAttribute('data-spoiler', 'shown');
+      sp.removeAttribute('title');
+      var back = sp.getRootNode().activeElement === btn;
+      btn.remove();
+      if (back) w.focus();
+    });
+    sp.appendChild(btn);
+    sp.appendChild(w);
+    return sp;
+  }
+
   function inline(nodes, into, o) {
     nodes.forEach(function (n) {
       if (n.t === 'text') into.appendChild(document.createTextNode(n.v));
+      else if (n.t === 'spoil') into.appendChild(spoiler(n, o));
       else if (n.t === 'br') into.appendChild(el('br'));
       else if (n.t === 'code') into.appendChild(el('code', null, n.v));
       else if (n.t === 'b' || n.t === 'i' || n.t === 's') { var w = el({ b: 'strong', i: 'em', s: 'del' }[n.t]); inline(n.c, w, o); into.appendChild(w); }

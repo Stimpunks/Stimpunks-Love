@@ -7572,9 +7572,12 @@ export function brassHref(u) {
   return v;                                                   // /a-room.html, #a-post, a-room.html
 }
 
-/* Inline Markdown into nodes: text, b, i, s, code, a, br, and, where the
+/* Inline Markdown into nodes: text, b, i, s, code, a, br, spoil, and, where the
    caller asks (ctx.refs), ref: a link to a task, a topic or a record of the
-   office, [[task:<id>]], which a page draws with the name its reader may see. */
+   office, [[task:<id>]], which a page draws with the name its reader may see.
+   A SPOILER is ||words||, after Discord's (Ryan's ask, 2026-11-06): its words
+   are hidden until the reader presses them, by markdown.js and by the radio's
+   own md(), and a notification or a feed never shows them (spoilerless). */
 function brassInline(src, depth = 0, ctx = null) {
   const out = [];
   let buf = '';
@@ -7619,6 +7622,10 @@ function brassInline(src, depth = 0, ctx = null) {
       const m = bare[0].replace(/[.,;:!?'")\]]+$/, '');
       const href = brassHref(m);
       if (href) { push({ t: 'a', href, c: [{ t: 'text', v: m }] }); i += m.length; continue; }
+    }
+    if (c === '|' && src[i + 1] === '|' && depth < 6) {
+      const j = src.indexOf('||', i + 2);
+      if (j > i + 2 && src.slice(i + 2, j).trim()) { push({ t: 'spoil', c: brassInline(src.slice(i + 2, j), depth + 1, ctx) }); i = j + 2; continue; }
     }
     if ((c === '*' || c === '_' || c === '~') && depth < 6) {
       const two = src.slice(i, i + 2);
@@ -7777,6 +7784,8 @@ export function brassHtml(nodes, base = 'https://stimpunks.world/') {
       try { href = new URL(href, base).href; } catch (e) { return inl(n.c); }
       return `<a href="${escHtml(href)}">${inl(n.c)}</a>`;
     }
+    // A feed reader cannot hide anything, so a spoiler's words stay on the board.
+    if (n.t === 'spoil') return '<em>(a spoiler, hidden here: read it on the board)</em>';
     const tag = { b: 'strong', i: 'em', s: 'del' }[n.t];
     return tag ? `<${tag}>${inl(n.c)}</${tag}>` : '';
   }).join('');
@@ -9906,7 +9915,7 @@ function shapeCopied(cb, who) {
 const PIC_REF = /!\[([^\]\n]*)\]\(pic:([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\)/g;
 export function placePictures(blocks, pics, placed = new Set()) {
   const inline = (ns) => ns.flatMap((n) => {
-    if (n.t === 'b' || n.t === 'i' || n.t === 's') return [{ ...n, c: inline(n.c) }];
+    if (n.t === 'b' || n.t === 'i' || n.t === 's' || n.t === 'spoil') return [{ ...n, c: inline(n.c) }];
     if (n.t !== 'text' || !n.v.includes('](pic:')) return [n];
     const out = [];
     let at = 0;
@@ -11292,6 +11301,7 @@ export function chatLinks(text) {
   const t = String(text || '')
     .replace(/```[\s\S]*?```/g, ' ')
     .replace(/`[^`\n]*`/g, ' ')
+    .replace(/\|\|[\s\S]*?\|\|/g, ' ')        // a link in a spoiler never shows a card that tells it
     .replace(/\[[^\]\n]*\]\([^)\s]*\)/g, ' ')
     .replace(/<https?:\/\/[^\s>]+>/gi, ' ');
   const out = [];
@@ -11949,7 +11959,7 @@ export async function notifyWire(msg, room, s = store(), mods, send = sendPush) 
     if (!roomAllows(who, room)) continue;
     let text = '';
     if ((d.want || {}).words !== false) {
-      text = String(msg.text || '').replace(/\s+/g, ' ').trim();
+      text = spoilerless(msg.text).replace(/\s+/g, ' ').trim();
       if ([...text].length > PUSH_WORDS) text = [...text].slice(0, PUSH_WORDS - 1).join('') + '…';
     }
     const payload = { kind: 'message', why: 'channel', handle: msg.handle, room, text, what: '', id: msg.id };
@@ -17793,7 +17803,10 @@ export function linksIn(text) {
 
 /* A link in words that go somewhere nobody's pass is asked, a notification's:
    what it is, never its name. */
-export function linkWords(text) { return String(text || '').replace(LINK_ALL, (m, k) => LINK_KINDS[k].words); }
+export function linkWords(text) { return spoilerless(String(text || '').replace(LINK_ALL, (m, k) => LINK_KINDS[k].words)); }
+/* Words with every ||spoiler|| in them said as one, for a notification, which
+   cannot hide anything: the words are the message's to show when it is opened. */
+export function spoilerless(text) { return String(text || '').replace(/\|\|([\s\S]*?)\|\|/g, (m, w) => (w.trim() ? '(spoiler)' : m)); }
 
 /* What each link is to this reader: { name, href } for one they can open,
    { gone } for one of a kind they can open that is not there any more, and

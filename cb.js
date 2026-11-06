@@ -601,8 +601,8 @@
      as HTML: a message is split into lines and every piece becomes a node built
      here, with the words as text, so nothing anybody types can become markup.
      Paragraphs and line breaks; # a heading; > a quote; - or * or 1. a list;
-     ``` a block of code; **bold**, *italic* or _italic_, ~~struck~~, `code`
-     and [words](address) inline.
+     ``` a block of code; **bold**, *italic* or _italic_, ~~struck~~, `code`,
+     ||a spoiler|| (2026-11-06) and [words](address) inline.
      A HEADING IS # AND A SPACE (Ryan's ask, 2026-10-19), so #the-den is still
      a room: # is a heading under the channel's own, an h3, ## an h4, and so
      on down to h6, the forums' rule that a heading in somebody's words is
@@ -819,21 +819,69 @@
         para = null;
         continue;
       }
-      if (!para) { para = el('p', 'cb-md-p'); box.appendChild(para); }
-      else para.appendChild(el('br'));
-      inline(para, line);
-      i++;
+      // A paragraph's lines are read together, so a spoiler may run across them.
+      var said = [];
+      while (i < lines.length && lines[i].trim() && !MD_HEAD.test(lines[i]) && !MD_FENCE.test(lines[i]) && !MD_QUOTE.test(lines[i]) && !MD_ITEM.test(lines[i])) said.push(lines[i++]);
+      para = el('p', 'cb-md-p');
+      box.appendChild(para);
+      inline(para, said.join('\n'));
     }
     return box;
   }
 
-  // `code` first: nothing inside a code span is anything but its words.
+  /* A SPOILER is ||words|| (Ryan's ask, 2026-11-06, after Discord's): the
+     words are drawn hidden, a bar in the words' own ink, until the reader
+     presses it, which shows them for good on this page. Its words are hidden
+     from a screen reader too (visibility), and its button says what it is.
+     markdown.js draws the forums', tasks', the office's and the board's the
+     same way; the server reads them there (parseBrass) and a notification says
+     "(spoiler)" in their place. Two bars inside a code span are code. */
   function inline(parent, text) {
-    var parts = text.split(/(`[^`\n]+`)/);
-    for (var i = 0; i < parts.length; i++) {
-      if (!parts[i]) continue;
-      if (i % 2) parent.appendChild(el('code', 'cb-md-code', parts[i].slice(1, -1)));
-      else emphasis(parent, parts[i]);
+    var code = [], m, re = /`[^`\n]+`/g, marks = [], at = 0, k;
+    while ((m = re.exec(text))) code.push([m.index, m.index + m[0].length]);
+    var inCode = function (n) { return code.some(function (c) { return n >= c[0] && n < c[1]; }); };
+    for (k = 0; k < text.length - 1; k++) if (text.charAt(k) === '|' && text.charAt(k + 1) === '|' && !inCode(k)) { marks.push(k); k++; }
+    for (k = 0; k + 1 < marks.length; k++) {
+      var a = marks[k], b = marks[k + 1], inner = text.slice(a + 2, b);
+      if (!inner.trim()) continue;
+      if (a > at) codeLines(parent, text.slice(at, a));
+      parent.appendChild(spoiler(function (w) { codeLines(w, inner); }));
+      at = b + 2;
+      k++;
+    }
+    if (at < text.length) codeLines(parent, text.slice(at));
+  }
+  function spoiler(fill) {
+    var sp = el('span', 'cb-md-spoiler'), btn = el('button', null, 'A spoiler: show it'), w = el('span');
+    sp.setAttribute('data-spoiler', 'hidden');
+    sp.title = 'A spoiler: press to show it';
+    btn.type = 'button';
+    w.setAttribute('data-spoiler-words', '');
+    w.tabIndex = -1;
+    fill(w);
+    sp.addEventListener('click', function () {
+      if (sp.getAttribute('data-spoiler') !== 'hidden' || btn.disabled) return;
+      sp.setAttribute('data-spoiler', 'shown');
+      sp.removeAttribute('title');
+      var back = sp.getRootNode().activeElement === btn;
+      btn.remove();
+      if (back) w.focus();
+    });
+    sp.appendChild(btn);
+    sp.appendChild(w);
+    return sp;
+  }
+  // `code` first: nothing inside a code span is anything but its words.
+  function codeLines(parent, text) {
+    var lines = text.split('\n');
+    for (var n = 0; n < lines.length; n++) {
+      if (n) parent.appendChild(el('br'));
+      var parts = lines[n].split(/(`[^`\n]+`)/);
+      for (var i = 0; i < parts.length; i++) {
+        if (!parts[i]) continue;
+        if (i % 2) parent.appendChild(el('code', 'cb-md-code', parts[i].slice(1, -1)));
+        else emphasis(parent, parts[i]);
+      }
     }
   }
 
@@ -1964,7 +2012,7 @@
     var say = this.say = el('textarea', 'cb-say cb-say--msg');
     say.id = 'cb-say';
     say.maxLength = MESSAGE_MAX;
-    var hint = helpFold('cb-say-hint', enterHint('Transmit', 'sends'), 'Writing help', 'Markdown works: **bold**, *italic*, `code`, # headings, > quotes, - lists and [words](address). Type @ and a name to mention somebody, # and a room, or [[ and part of a name to link a forum topic, or for staff a task or a record of the office. Paste a picture to add it.');
+    var hint = helpFold('cb-say-hint', enterHint('Transmit', 'sends'), 'Writing help', 'Markdown works: **bold**, *italic*, `code`, ||spoilers||, # headings, > quotes, - lists and [words](address). Type @ and a name to mention somebody, # and a room, or [[ and part of a name to link a forum topic, or for staff a task or a record of the office. Paste a picture to add it.');
     say.setAttribute('aria-describedby', hint.cbIds);
     say.autocomplete = 'off';
     sendBox(say, 'send');
@@ -2819,6 +2867,11 @@
     var words = li.querySelector('.cb-text').cloneNode(true);
     var drawn = words.querySelectorAll('[aria-hidden="true"]');
     for (var i = 0; i < drawn.length; i++) drawn[i].remove();
+    // A spoiler still hidden is said as one, never read out.
+    var hid = words.querySelectorAll('[data-spoiler="hidden"]');
+    for (i = 0; i < hid.length; i++) hid[i].replaceWith(' a spoiler ');
+    var bars = words.querySelectorAll('[data-spoiler] > button');
+    for (i = 0; i < bars.length; i++) bars[i].remove();
     // A pause between the Markdown's paragraphs, lines and list items, which
     // textContent would otherwise run together into one word.
     var parts = words.querySelectorAll('p, li, pre, br, h3, h4, h5, h6');
@@ -9059,6 +9112,7 @@
   var RE_WORDS = 90;
   function reWords(m) {
     var t = String(m.text || '')
+      .replace(/\|\|([\s\S]*?)\|\|/g, function (all, w) { return w.trim() ? '(spoiler)' : all; })
       .replace(/!?\[([^\]]*)\]\([^)\s]*\)/g, '$1')
       .replace(/^[ \t]{0,3}(?:#{1,6}[ \t]+|>[ \t]?|[-*+][ \t]+|\d+[.)][ \t]+)/gm, '')
       .replace(/\*\*|__|~~|[*`]/g, '')
