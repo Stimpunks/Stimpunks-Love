@@ -353,66 +353,6 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "k6yivXI0JIs",
-   "source": "kexp",
-   "form": "long",
-   "title": "PISS - i keep trying to change the ending (Live on KEXP)",
-   "published": "2026-10-06T13:00:14Z",
-   "state": "screen",
-   "runs": 338,
-   "channel": "KEXP"
-  },
-  {
-   "id": "pk1VmJkS3KA",
-   "source": "kexp",
-   "form": "long",
-   "title": "PISS - Full Performance (Live on KEXP)",
-   "published": "2026-10-06T17:01:13Z",
-   "state": "screen",
-   "runs": 2010,
-   "channel": "KEXP"
-  },
-  {
-   "id": "AiL56Wcvb0Q",
-   "source": "kexp",
-   "form": "long",
-   "title": "Earth Tongue - Silver Eye (Live on KEXP)",
-   "published": "2026-10-07T11:00:24Z",
-   "state": "screen",
-   "runs": 265,
-   "channel": "KEXP"
-  },
-  {
-   "id": "wAbJa2ejCTY",
-   "source": "kexp",
-   "form": "long",
-   "title": "Earth Tongue - Flashlight (Live on KEXP)",
-   "published": "2026-10-07T11:00:27Z",
-   "state": "screen",
-   "runs": 260,
-   "channel": "KEXP"
-  },
-  {
-   "id": "HnKRwWpH9qM",
-   "source": "kexp",
-   "form": "long",
-   "title": "Earth Tongue - Demon Cam (Live on KEXP)",
-   "published": "2026-10-07T11:00:29Z",
-   "state": "screen",
-   "runs": 178,
-   "channel": "KEXP"
-  },
-  {
-   "id": "XULjCpNxjQI",
-   "source": "kexp",
-   "form": "long",
-   "title": "Earth Tongue - Dungeon Vision (Live on KEXP)",
-   "published": "2026-10-07T11:00:35Z",
-   "state": "screen",
-   "runs": 238,
-   "channel": "KEXP"
-  },
-  {
    "id": "ePnja51ooGY",
    "source": "kexp",
    "form": "long",
@@ -1583,13 +1523,63 @@
    "channel": "KEXP"
   },
   {
-   "id": "1y-28rLFgZY",
+   "id": "_kWuO8rN-hE",
    "source": "kexp",
-   "form": "short",
-   "title": "PISS performs  \"time loop at hot slit\" & more Live on KEXP",
-   "published": "2026-10-06T17:16:57Z",
+   "form": "long",
+   "title": "Hariguem Zaboy - Radio Burst (Live on KEXP)",
+   "published": "2026-11-05T14:00:36Z",
    "state": "screen",
-   "runs": 60,
+   "runs": 192,
+   "channel": "KEXP"
+  },
+  {
+   "id": "u-pJE8Udvpg",
+   "source": "kexp",
+   "form": "long",
+   "title": "Hariguem Zaboy - Full Performance (Live on KEXP)",
+   "published": "2026-11-05T16:00:22Z",
+   "state": "screen",
+   "runs": 835,
+   "channel": "KEXP"
+  },
+  {
+   "id": "0-N61rZsowk",
+   "source": "kexp",
+   "form": "long",
+   "title": "Shabazz Palaces - Jheri Curl Jump (Live on KEXP)",
+   "published": "2026-11-06T12:00:14Z",
+   "state": "screen",
+   "runs": 222,
+   "channel": "KEXP"
+  },
+  {
+   "id": "FToJTq6fMgQ",
+   "source": "kexp",
+   "form": "long",
+   "title": "Shabazz Palaces - Tongue In Chic (Live on KEXP)",
+   "published": "2026-11-06T12:00:14Z",
+   "state": "screen",
+   "runs": 254,
+   "channel": "KEXP"
+  },
+  {
+   "id": "1pfZ-p2A-8c",
+   "source": "kexp",
+   "form": "long",
+   "title": "Shabazz Palaces - Are You…Can You… Were You? (Felt) (Live on KEXP)",
+   "published": "2026-11-06T12:00:21Z",
+   "state": "screen",
+   "runs": 361,
+   "channel": "KEXP"
+  },
+  {
+   "id": "DAaFOY4fc00",
+   "source": "kexp",
+   "form": "long",
+   "title": "Shabazz Palaces - An Echo From The Hosts That Profess Infinitum (Live on KEXP)",
+   "published": "2026-11-06T12:00:27Z",
+   "state": "screen",
+   "runs": 335,
    "channel": "KEXP"
   },
   {
@@ -1793,14 +1783,14 @@
    "channel": "KEXP"
   },
   {
-   "id": "Y1kDvjSz-H4",
-   "source": "kcrw",
-   "form": "long",
-   "title": "Rostam's (Vampire Weekend) Must-Listen Albums",
-   "published": "2026-10-06T14:00:05Z",
+   "id": "QAN9tM68JlM",
+   "source": "kexp",
+   "form": "short",
+   "title": "Hargiuem Zaboy performs \"Whoa!!!\" & more Live on KEXP at AXEAN Festival",
+   "published": "2026-11-05T18:05:25Z",
    "state": "screen",
-   "runs": 179,
-   "channel": "KCRW"
+   "runs": 59,
+   "channel": "KEXP"
   },
   {
    "id": "dgEwpVUBqXU",
@@ -1961,6 +1951,16 @@
    "state": "screen",
    "runs": 68,
    "channel": "KCRW"
+  },
+  {
+   "id": "lG3tidQlNjk",
+   "source": "kcrw",
+   "form": "short",
+   "title": "Melody's Echo Chamber's Must Listen CD",
+   "published": "2026-11-05T15:00:11Z",
+   "state": "screen",
+   "runs": 51,
+   "channel": "KCRW"
   }
  ],
  "covered": {
@@ -1968,13 +1968,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-05T12:37:29Z"
+     "2026-11-06T12:40:18Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-05T12:37:29Z"
+     "2026-11-06T12:40:18Z"
     ]
    ]
   },
@@ -1982,13 +1982,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-05T12:37:29Z"
+     "2026-11-06T12:40:18Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-05T12:37:29Z"
+     "2026-11-06T12:40:18Z"
     ]
    ]
   },
@@ -1996,16 +1996,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-05T12:37:29Z"
+     "2026-11-06T12:40:18Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-05T12:37:29Z"
+     "2026-11-06T12:40:18Z"
     ]
    ]
   }
  },
- "set": "2026-11-05T12:37Z"
+ "set": "2026-11-06T12:40Z"
 }
