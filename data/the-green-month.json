@@ -9,19 +9,19 @@
    "channel_id": "UCj0VqueTI8SeTUS4rykh7Pw"
   }
  ],
- "set": "2026-11-04T12:30Z",
+ "set": "2026-11-06T12:30Z",
  "covered": {
   "future-in-bloom": {
    "long": [
     [
      "2026-09-29T14:14:21Z",
-     "2026-11-04T12:30:02Z"
+     "2026-11-06T12:30:56Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:14:21Z",
-     "2026-11-04T12:30:02Z"
+     "2026-11-06T12:30:56Z"
     ]
    ]
   }
@@ -38,13 +38,13 @@
    "channel": "Future in Bloom with Steph Speirs"
   },
   {
-   "id": "mHu-xXtDv1w",
+   "id": "1__vSL7kjNs",
    "source": "future-in-bloom",
-   "form": "short",
-   "title": "How Climate Change & Expensive Bills Threaten Local Food Shops",
-   "published": "2026-10-07T12:00:02Z",
+   "form": "long",
+   "title": "How to Tell the Future of Climate Tech | Nat Bullard, Halcyon",
+   "published": "2026-11-05T13:00:20Z",
    "state": "screen",
-   "runs": 135,
+   "runs": 2302,
    "channel": "Future in Bloom with Steph Speirs"
   },
   {
