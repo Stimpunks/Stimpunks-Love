@@ -64,8 +64,8 @@
   "png": "bae2b8c741dfdc0f044014f03f3175d29e7e6e3f6c68f09c0b3b07d6e6c08bee"
  },
  "campgrounds": {
-  "made_from": "41d6e95bbd79683bd192d32eceaa7b6d8f16dc6d4ac51af8a61b6ca4ec82d7a8",
-  "png": "34bfdb6e2a866671247bc20a80e04626c7cfa6ec683d11751b490307c46e168c"
+  "made_from": "150ffe80b7e360f017bb1e4d55d73fae01505a299601c14589e79904f5e8fccb",
+  "png": "64b52fdf0b3b9ed4649ada16ae57647748029804383e78c1217baa74d9945cdd"
  },
  "cavendish-campfire": {
   "made_from": "402cebc2dc5407e0f78f69debd8d6ed3bd66753f2d04df90f8a66566b38ffafd",
@@ -311,9 +311,17 @@
   "made_from": "dc7bf27fe94271c6323de0926c14ab764ba802dea2f8aa3cb8c954abbe804029",
   "png": "710a068e6659ea6dd86949c270d2d2508c900c57ba78647de2a103a711d413c0"
  },
+ "looking-glass-house": {
+  "made_from": "ba2811ff8508be14e5a320ec38555854ebcfa4ebd36a789068bb1b5b86a24678",
+  "png": "b47201b248ab86656f54760516c7b8538aeccbe6af6e56491d17338e06637bdf"
+ },
  "looming-rocks": {
   "made_from": "418e7867e2c8d017f014e1cf1dc068a87221784a340979f759b5185f405db137",
   "png": "756ff7d429b4305f70c250d1c8aead7080b4c91162cc83696d62d3e02a77c551"
+ },
+ "luis-burrow": {
+  "made_from": "b4ce4d0daa772caa110909e780f219c485216a2cfd47799768b239f626c58292",
+  "png": "cc75088c50e783e2e21dd6da3d817070ec63b0003ee737c230347f454908528f"
  },
  "lydtyss": {
   "made_from": "da2fe406b727d3787d559e135dc9ebd25fb5b7bf9ce63a3e453062f672f4d29b",
@@ -658,13 +666,5 @@
  "zine-table": {
   "made_from": "2c89cb61598779979074664659196098f23efe58700c7c09c1e415d5a900bf8f",
   "png": "b3bbc759c389e3ae445c6645abdd67233d933e588cab4fc4770280d00b4ae550"
- },
- "looking-glass-house": {
-  "made_from": "c4acfe4b8a84d050c3d2e1bb0605d20f648162764982b560a4bd9519e6aed5d2",
-  "png": "290a773b5c4e0914af14a7de09471c9679f935aae29a39c2875eaa06ab85f016"
- },
- "luis-burrow": {
-  "made_from": "b41effce6607ba2496b1b2c504af1e6bd1b053521e701f150f9693932744821f",
-  "png": "44a13492cdb0f727940370552cfa4bdeeeaa7ed7783022c8268d05f249f61ecf"
  }
 }

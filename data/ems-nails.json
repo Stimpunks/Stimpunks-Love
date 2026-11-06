@@ -1,0 +1,873 @@
+{
+  "_what": "Where each nail is in Em's product photographs, for tools/cut-ems-nails.py. Em makes hand-painted press-on nails and sells them as Ems Nails 4 You; Stimpunks gave her a creator grant for the photography equipment these were taken with, and she gave us permission to use her photographs on Stimpunks.World however we like. That is permission to use, not a licence to pass on: the photographs and every strip cut from them are excluded from CC BY-SA in LICENSE.",
+  "_boxes": "Each box is [left, top, right, bottom] in the 1200px photograph as her site serves it, drawn round one nail by eye on a grid. A box only has to hold its nail and as little of the stand under it as possible: the cutting is Apple's subject lifting, run on this Mac, so nothing is sent anywhere.",
+  "_turn": "up means the nail's free edge is already at the top of the photograph. down means it points down and is turned over. auto means the nail lies some other way (a close-up) and the narrower end is taken to be the tip.",
+  "shop": "https://ems-nails4you.netlify.app/",
+  "maker": "Em",
+  "shop_name": "Ems Nails 4 You",
+  "permission": "Em gave Stimpunks permission to use her photographs on Stimpunks.World however we like (relayed by Ryan Boren, 2026-11-06).",
+  "left_out": {
+    "set-baby-pink": "Worn on a hand, so there are no ten nails to lift, and a hand is a person."
+  },
+  "sets": [
+    {
+      "id": "ladybirds",
+      "photo": "set-ladybirds.jpg",
+      "name": "stiletto press-ons hand painted with red and black ladybirds, spots and swirls",
+      "turn": "up",
+      "nails": [
+        [
+          150,
+          85,
+          300,
+          300
+        ],
+        [
+          350,
+          115,
+          465,
+          265
+        ],
+        [
+          555,
+          105,
+          680,
+          305
+        ],
+        [
+          720,
+          105,
+          840,
+          255
+        ],
+        [
+          900,
+          130,
+          1000,
+          268
+        ],
+        [
+          140,
+          350,
+          300,
+          532
+        ],
+        [
+          360,
+          355,
+          480,
+          500
+        ],
+        [
+          540,
+          350,
+          670,
+          545
+        ],
+        [
+          745,
+          340,
+          870,
+          510
+        ],
+        [
+          945,
+          365,
+          1040,
+          498
+        ]
+      ]
+    },
+    {
+      "id": "black-swirls",
+      "photo": "set-black-swirls.jpg",
+      "name": "stiletto press-ons with glossy black French tips, spirals and swirls on a nude base",
+      "turn": "down",
+      "nails": [
+        [
+          200,
+          80,
+          275,
+          280
+        ],
+        [
+          350,
+          80,
+          425,
+          318
+        ],
+        [
+          500,
+          80,
+          600,
+          342
+        ],
+        [
+          680,
+          80,
+          765,
+          322
+        ],
+        {
+          "box": [
+            835,
+            80,
+            955,
+            362
+          ],
+          "off": [
+            [
+              954,
+              200,
+              975,
+              200,
+              975,
+              365,
+              926,
+              365,
+              934,
+              300
+            ]
+          ]
+        },
+        {
+          "box": [
+            185,
+            368,
+            270,
+            612
+          ],
+          "off": [
+            [
+              268,
+              370,
+              290,
+              370,
+              290,
+              620,
+              222,
+              620,
+              248,
+              540,
+              266,
+              450
+            ]
+          ]
+        },
+        {
+          "box": [
+            365,
+            388,
+            475,
+            652
+          ],
+          "off": [
+            [
+              466,
+              440,
+              485,
+              440,
+              485,
+              515,
+              466,
+              515
+            ]
+          ]
+        },
+        {
+          "box": [
+            530,
+            388,
+            645,
+            642
+          ],
+          "off": [
+            [
+              632,
+              560,
+              650,
+              560,
+              650,
+              650,
+              582,
+              650
+            ],
+            [
+              633,
+              390,
+              650,
+              390,
+              650,
+              500,
+              645,
+              500
+            ]
+          ]
+        },
+        {
+          "box": [
+            700,
+            398,
+            805,
+            652
+          ],
+          "off": [
+            [
+              690,
+              450,
+              712,
+              450,
+              712,
+              535,
+              690,
+              535
+            ]
+          ]
+        },
+        {
+          "box": [
+            850,
+            383,
+            980,
+            655
+          ],
+          "off": [
+            [
+              950,
+              585,
+              990,
+              585,
+              990,
+              660,
+              935,
+              660
+            ],
+            [
+              840,
+              445,
+              858,
+              445,
+              858,
+              520,
+              840,
+              520
+            ],
+            [
+              974,
+              390,
+              990,
+              390,
+              990,
+              585,
+              950,
+              585,
+              966,
+              500
+            ]
+          ]
+        }
+      ],
+      "rack": "teal"
+    },
+    {
+      "id": "blue-stripes",
+      "photo": "set-blue-stripes.jpg",
+      "name": "square press-ons with blue and white striped tips on a soft pink base",
+      "turn": "up",
+      "nails": [
+        [
+          118,
+          118,
+          272,
+          342
+        ],
+        [
+          308,
+          122,
+          422,
+          310
+        ],
+        [
+          478,
+          118,
+          602,
+          292
+        ],
+        [
+          658,
+          102,
+          772,
+          268
+        ],
+        [
+          842,
+          102,
+          932,
+          282
+        ],
+        [
+          122,
+          358,
+          284,
+          642
+        ],
+        [
+          394,
+          362,
+          508,
+          602
+        ],
+        [
+          588,
+          358,
+          718,
+          598
+        ],
+        [
+          792,
+          358,
+          902,
+          592
+        ],
+        [
+          1001,
+          358,
+          1082,
+          572
+        ]
+      ]
+    },
+    {
+      "id": "halloween",
+      "photo": "set-halloween.jpg",
+      "name": "black stiletto press-ons hand painted in white with skeletons, ghost faces, cats, cobwebs and polka dots",
+      "turn": "down",
+      "nails": [
+        {
+          "box": [
+            118,
+            80,
+            208,
+            322
+          ],
+          "off": [
+            [
+              168,
+              255,
+              200,
+              255,
+              200,
+              330,
+              140,
+              330
+            ]
+          ]
+        },
+        {
+          "box": [
+            288,
+            80,
+            402,
+            362
+          ],
+          "off": [
+            [
+              390,
+              200,
+              410,
+              200,
+              410,
+              370,
+              352,
+              370,
+              372,
+              320,
+              388,
+              260
+            ]
+          ]
+        },
+        {
+          "box": [
+            498,
+            80,
+            612,
+            342
+          ],
+          "off": [
+            [
+              606,
+              80,
+              620,
+              80,
+              620,
+              350,
+              542,
+              350,
+              578,
+              240,
+              592,
+              180
+            ]
+          ]
+        },
+        {
+          "box": [
+            698,
+            80,
+            802,
+            352
+          ],
+          "off": [
+            [
+              799,
+              190,
+              815,
+              190,
+              815,
+              360,
+              743,
+              360,
+              768,
+              300
+            ]
+          ]
+        },
+        {
+          "box": [
+            853,
+            80,
+            992,
+            347
+          ],
+          "off": [
+            [
+              950,
+              280,
+              1000,
+              280,
+              1000,
+              355,
+              924,
+              355
+            ],
+            [
+              845,
+              100,
+              866,
+              100,
+              866,
+              175,
+              845,
+              175
+            ]
+          ]
+        },
+        {
+          "box": [
+            933,
+            363,
+            1032,
+            652
+          ],
+          "off": [
+            [
+              1006,
+              370,
+              1040,
+              370,
+              1040,
+              660,
+              998,
+              660,
+              1015,
+              583,
+              1020,
+              483
+            ]
+          ]
+        },
+        {
+          "box": [
+            632,
+            836,
+            884,
+            934
+          ],
+          "turn": "auto",
+          "closeup": true
+        },
+        {
+          "box": [
+            650,
+            976,
+            880,
+            1064
+          ],
+          "turn": "auto",
+          "closeup": true
+        },
+        {
+          "box": [
+            892,
+            970,
+            1120,
+            1050
+          ],
+          "turn": "auto",
+          "closeup": true
+        }
+      ],
+      "_short": "Nine, not ten: the second cobweb nail runs off the bottom of her frame with its tip cut away, and no other panel shows it whole. The bottom row's skeleton, cat and ghost are cut the same way, so they are lifted from her close-up instead, where they lie whole on their sides.",
+      "rack": "teal"
+    },
+    {
+      "id": "stitched",
+      "photo": "set-stitched.jpg",
+      "name": "square press-ons in pink, nude and green with hand-painted black stitches and tiny bows",
+      "turn": "up",
+      "nails": [
+        {
+          "box": [
+            118,
+            98,
+            278,
+            297
+          ],
+          "off": [
+            [
+              254,
+              95,
+              285,
+              95,
+              285,
+              200,
+              274,
+              200
+            ]
+          ]
+        },
+        {
+          "box": [
+            308,
+            83,
+            478,
+            292
+          ],
+          "off": [
+            [
+              456,
+              80,
+              490,
+              80,
+              490,
+              195,
+              474,
+              195
+            ]
+          ]
+        },
+        {
+          "box": [
+            548,
+            83,
+            672,
+            281
+          ],
+          "off": [
+            [
+              664,
+              83,
+              680,
+              83,
+              680,
+              300,
+              666,
+              300
+            ]
+          ]
+        },
+        {
+          "box": [
+            763,
+            83,
+            872,
+            294
+          ],
+          "off": [
+            [
+              843,
+              80,
+              880,
+              80,
+              880,
+              190,
+              871,
+              190
+            ]
+          ]
+        },
+        {
+          "box": [
+            958,
+            73,
+            1102,
+            286
+          ],
+          "off": [
+            [
+              1084,
+              70,
+              1110,
+              70,
+              1110,
+              200,
+              1101,
+              200
+            ]
+          ]
+        },
+        {
+          "box": [
+            103,
+            398,
+            222,
+            622
+          ],
+          "off": [
+            [
+              181,
+              395,
+              230,
+              395,
+              230,
+              630,
+              204,
+              630
+            ]
+          ]
+        },
+        {
+          "box": [
+            308,
+            373,
+            452,
+            607
+          ],
+          "off": [
+            [
+              422,
+              370,
+              460,
+              370,
+              460,
+              495,
+              447,
+              495
+            ]
+          ]
+        },
+        {
+          "box": [
+            533,
+            363,
+            662,
+            582
+          ],
+          "off": [
+            [
+              645,
+              360,
+              670,
+              360,
+              670,
+              466,
+              661,
+              466
+            ]
+          ]
+        },
+        {
+          "box": [
+            718,
+            373,
+            862,
+            592
+          ],
+          "off": [
+            [
+              852,
+              370,
+              870,
+              370,
+              870,
+              463,
+              855,
+              463
+            ]
+          ]
+        },
+        [
+          928,
+          358,
+          1082,
+          592
+        ]
+      ],
+      "rack": "teal"
+    },
+    {
+      "id": "swirls-florals",
+      "photo": "set-swirls-florals.jpg",
+      "name": "square press-ons with white tips, bronze hand-painted swirls, black florals and dotted details",
+      "turn": "up",
+      "nails": [
+        {
+          "box": [
+            328,
+            88,
+            472,
+            277
+          ],
+          "off": [
+            [
+              440,
+              85,
+              480,
+              85,
+              480,
+              280,
+              424,
+              280,
+              426,
+              230
+            ]
+          ]
+        },
+        {
+          "box": [
+            518,
+            88,
+            662,
+            277
+          ],
+          "off": [
+            [
+              652,
+              85,
+              670,
+              85,
+              670,
+              280,
+              624,
+              280,
+              628,
+              230
+            ]
+          ]
+        },
+        {
+          "box": [
+            733,
+            83,
+            852,
+            282
+          ],
+          "off": [
+            [
+              838,
+              80,
+              860,
+              80,
+              860,
+              140,
+              838,
+              140
+            ]
+          ]
+        },
+        [
+          933,
+          93,
+          1027,
+          272
+        ],
+        {
+          "box": [
+            103,
+            313,
+            282,
+            567
+          ],
+          "off": [
+            [
+              266,
+              305,
+              290,
+              305,
+              290,
+              375,
+              266,
+              375
+            ]
+          ]
+        },
+        [
+          328,
+          323,
+          462,
+          557
+        ],
+        [
+          543,
+          323,
+          682,
+          552
+        ],
+        {
+          "box": [
+            768,
+            328,
+            902,
+            562
+          ],
+          "off": [
+            [
+              760,
+              500,
+              793,
+              500,
+              800,
+              570,
+              760,
+              570
+            ]
+          ]
+        },
+        {
+          "box": [
+            998,
+            343,
+            1092,
+            557
+          ],
+          "off": [
+            [
+              990,
+              480,
+              1006,
+              480,
+              1006,
+              570,
+              990,
+              570
+            ]
+          ]
+        }
+      ],
+      "rack": "teal",
+      "_short": "Nine, not ten: the first nail on the top rack is white paint against white fur, cut off by her frame at the top, and the lift cannot find its edge. Its pair on the bottom rack is here whole."
+    }
+  ],
+  "_rack": "rack: teal drops the teal of her display racks from a lift, for the sets photographed on them. Her shadows cannot be told from her nude bases by colour (both are warm and saturated), so a box stops at the nail’s edge on the side its shadow falls."
+}
