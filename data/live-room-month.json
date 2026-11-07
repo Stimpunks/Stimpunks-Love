@@ -173,16 +173,6 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "NCmjUowXx1Y",
-   "source": "acl",
-   "form": "short",
-   "title": "Jesse Welles on ACLTV | LIVE STREAM",
-   "published": "2026-10-07T19:07:30Z",
-   "state": "screen",
-   "runs": 30,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "2bO9tIv8Cbc",
    "source": "acl",
    "form": "short",
@@ -353,74 +343,14 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "ePnja51ooGY",
-   "source": "kexp",
-   "form": "long",
-   "title": "Earth Tongue - Dimly Lit Cadaver (Live on KEXP)",
-   "published": "2026-10-07T13:00:12Z",
+   "id": "MCB7w3rwtpM",
+   "source": "acl",
+   "form": "short",
+   "title": "Gary Clark Jr. - What About The Children clip | Live From Austin City Limits TV",
+   "published": "2026-11-06T17:08:28Z",
    "state": "screen",
-   "runs": 226,
-   "channel": "KEXP"
-  },
-  {
-   "id": "wH_gtwYl5rI",
-   "source": "kexp",
-   "form": "long",
-   "title": "Earth Tongue - Pentagram On The Moon (Live on KEXP)",
-   "published": "2026-10-07T13:00:34Z",
-   "state": "screen",
-   "runs": 229,
-   "channel": "KEXP"
-  },
-  {
-   "id": "9EG3pzaTYG0",
-   "source": "kexp",
-   "form": "long",
-   "title": "Earth Tongue - Full Performance (Live on KEXP)",
-   "published": "2026-10-07T15:00:39Z",
-   "state": "screen",
-   "runs": 1777,
-   "channel": "KEXP"
-  },
-  {
-   "id": "c7YxUT1xJqo",
-   "source": "kexp",
-   "form": "long",
-   "title": "Dutch Interior - Beekeeping (Live on KEXP)",
-   "published": "2026-10-08T11:00:00Z",
-   "state": "screen",
-   "runs": 266,
-   "channel": "KEXP"
-  },
-  {
-   "id": "bD5xvK2Y4E8",
-   "source": "kexp",
-   "form": "long",
-   "title": "Dutch Interior - Canada (Live on KEXP)",
-   "published": "2026-10-08T11:00:03Z",
-   "state": "screen",
-   "runs": 360,
-   "channel": "KEXP"
-  },
-  {
-   "id": "iHMQJjgq1JI",
-   "source": "kexp",
-   "form": "long",
-   "title": "Dutch Interior - Ground Scores (Live on KEXP)",
-   "published": "2026-10-08T11:00:07Z",
-   "state": "screen",
-   "runs": 176,
-   "channel": "KEXP"
-  },
-  {
-   "id": "w3ZYQEonmnQ",
-   "source": "kexp",
-   "form": "long",
-   "title": "Dutch Interior - Fourth Street (Live on KEXP)",
-   "published": "2026-10-08T11:00:09Z",
-   "state": "screen",
-   "runs": 252,
-   "channel": "KEXP"
+   "runs": 60,
+   "channel": "Austin City Limits"
   },
   {
    "id": "FzAUF3qoclI",
@@ -1583,13 +1513,13 @@
    "channel": "KEXP"
   },
   {
-   "id": "3wnx37piL-k",
+   "id": "V8KJ89LFjD8",
    "source": "kexp",
-   "form": "short",
-   "title": "Earth Tongue performs \"Dimly Lit Cadaver\" & more Live on KEXP",
-   "published": "2026-10-07T17:06:25Z",
+   "form": "long",
+   "title": "Shabazz Palaces - Full Performance (Live on KEXP)",
+   "published": "2026-11-06T16:00:24Z",
    "state": "screen",
-   "runs": 60,
+   "runs": 1471,
    "channel": "KEXP"
   },
   {
@@ -1793,14 +1723,14 @@
    "channel": "KEXP"
   },
   {
-   "id": "dgEwpVUBqXU",
-   "source": "kcrw",
-   "form": "long",
-   "title": "Sébastien Tellier: Live on KCRW",
-   "published": "2026-10-07T14:00:19Z",
+   "id": "R4qXTklMJTc",
+   "source": "kexp",
+   "form": "short",
+   "title": "Shabazz Palaces performs \"Tongue In Chic\" & more Live on KEXP",
+   "published": "2026-11-06T18:03:38Z",
    "state": "screen",
-   "runs": 3287,
-   "channel": "KCRW"
+   "runs": 61,
+   "channel": "KEXP"
   },
   {
    "id": "TRNXBfToBzk",
@@ -1961,6 +1891,16 @@
    "state": "screen",
    "runs": 51,
    "channel": "KCRW"
+  },
+  {
+   "id": "7qMVNHJ8DiU",
+   "source": "kcrw",
+   "form": "short",
+   "title": "Melody's Echo Chamber \"I Follow You\" Live On KCRW",
+   "published": "2026-11-06T15:00:19Z",
+   "state": "screen",
+   "runs": 46,
+   "channel": "KCRW"
   }
  ],
  "covered": {
@@ -1968,13 +1908,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-06T12:40:18Z"
+     "2026-11-07T12:38:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-06T12:40:18Z"
+     "2026-11-07T12:38:57Z"
     ]
    ]
   },
@@ -1982,13 +1922,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-06T12:40:18Z"
+     "2026-11-07T12:38:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-06T12:40:18Z"
+     "2026-11-07T12:38:57Z"
     ]
    ]
   },
@@ -1996,16 +1936,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-06T12:40:18Z"
+     "2026-11-07T12:38:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-06T12:40:18Z"
+     "2026-11-07T12:38:57Z"
     ]
    ]
   }
  },
- "set": "2026-11-06T12:40Z"
+ "set": "2026-11-07T12:38Z"
 }
