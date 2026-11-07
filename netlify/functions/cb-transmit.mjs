@@ -1,7 +1,7 @@
 /* The CB: keying up. One message onto the channel the radio is tuned to, the
    World's or a room's; once it holds what its rule keeps, the newest pushes the oldest off, and takes
    its picture with it. A message may be words, a picture sent first to
-   /cb/image, or both; or a sticker of one of the sender's own pets, own
+   /cb/image (or a GIF taken first by /cb/gif), or both; or a sticker of one of the sender's own pets, own
    avatars, own chimeras or own patches, or of the sender's own battle jacket, with words
    or without. It may answer another message on the same channel (`re`, its
    id, which must be on the channel as this goes out: replyTo in lib.mjs).
@@ -10,7 +10,7 @@
    channel, so a slow push service never holds the radio up. */
 import { randomUUID } from 'node:crypto';
 import { staffShut, readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
-  imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, chimeraSticker, patchSticker, jacketSticker, notifyMessage, channelMentions, roleMentions,
+  imageId, getImage, gifFor, dropImages, droppedImages, stickerOf, avatarSticker, chimeraSticker, patchSticker, jacketSticker, notifyMessage, channelMentions, roleMentions,
   noteLatest, countMessage, replyTo, noteModCall, chatLinks, unfurlMessage, WORLD_CALL } from '../cb/lib.mjs';
 
 export default async (req, context) => {
@@ -29,9 +29,16 @@ export default async (req, context) => {
   if (b.img != null) {
     img = imageId(b.img);
     const got = img && await getImage(img);
-    if (!got || got.meta.handle !== who.handle || (got.meta.room || '') !== (room || '')) {
+    if (!got || got.meta.handle !== who.handle || (got.meta.room || '') !== (room || '') || !/^image\//.test(got.meta.type || '')) {
       return json(400, { error: 'That picture is not ready to send. Pick it again.' });
     }
+  }
+  // A GIF from Gifbox is its still (the picture) and its MP4, both taken by
+  // this handle for this channel by /cb/gif a moment ago (gifFor).
+  let gif = null;
+  if (b.gif != null) {
+    gif = img && b.gif && await gifFor(who, room, img, b.gif.vid);
+    if (!gif) return json(400, { error: 'That GIF is not ready to send. Pick it again.' });
   }
   // A sticker is one of this handle's own pets, found here, never described
   // by the request.
@@ -86,6 +93,7 @@ export default async (req, context) => {
   const roles = roleMentions(text, who);
   if (roles.length) msg.roles = roles;
   if (img) { msg.img = img; msg.alt = cleanAlt(b.alt); }
+  if (gif) msg.gif = gif;
   if (sticker) msg.sticker = sticker;
   if (avatar) msg.avatar = avatar;
   if (chimera) msg.chimera = chimera;

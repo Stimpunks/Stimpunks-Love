@@ -5440,8 +5440,16 @@ export async function dropImages(ids, s = store()) {
 /* Which pictures a change pushed off the channel: the ones in the messages it
    was given and not in the ones it left. */
 export function droppedImages(before, after) {
-  const kept = new Set(after.map((m) => m.img).filter(Boolean));
-  return before.map((m) => m.img).filter((id) => id && !kept.has(id));
+  const kept = new Set(after.flatMap(heldFiles));
+  return before.flatMap(heldFiles).filter((id) => !kept.has(id));
+}
+
+/* What a message holds under img/: its picture, and a GIF's moving copy. */
+export function heldFiles(m) {
+  const out = [];
+  if (m && m.img) out.push(m.img);
+  if (m && m.gif && imageId(m.gif.vid)) out.push(m.gif.vid);
+  return out;
 }
 
 /* Hourly: every picture no live message holds, once it is past the hour an
@@ -5450,7 +5458,7 @@ export function droppedImages(before, after) {
 export async function sweepImages(s = store(), now = Date.now()) {
   const held = new Set();
   const keys = [KEY, ...((await s.list({ prefix: ROOM_TALK })).blobs || []).map((b) => b.key)];
-  for (const key of keys) for (const m of (await readLog(key, s, now)).messages) if (m.img) held.add(m.img);
+  for (const key of keys) for (const m of (await readLog(key, s, now)).messages) for (const id of heldFiles(m)) held.add(id);
   let any = false;
   for (const b of (await s.list({ prefix: IMG })).blobs || []) {
     const id = b.key.slice(IMG.length);
@@ -5462,6 +5470,166 @@ export async function sweepImages(s = store(), now = Date.now()) {
     any = true;
   }
   return any;
+}
+
+/* ── GIFs from Gifbox ──────────────────────────────────────────────────── */
+
+/* A GIF ON THE CHANNEL IS A PICTURE THAT MOVES WHEN SOMEBODY PRESSES IT.
+   Ryan's ask, 2026-11-06: Gifbox (gifbox.me, the GIF service of the people
+   behind Stoat) in the chat. Three rules hold it, and each is a sentence in
+   privacy.html#gifs:
+
+   NOBODY'S BROWSER TALKS TO GIFBOX. The search goes from our server to
+   Gifbox's Tenor-shaped API with our key (CB_GIFBOX_KEY, in Netlify and
+   1Password, never sent to a page), so Gifbox gets the words searched for and
+   nothing about who searched; a search goes only when somebody presses
+   Search, never letter by letter. The stills in the picker come through our
+   server too (gifPreview), by Gifbox's id alone: the address is built here
+   from that id, on media.gifbox.me and nowhere else, so this cannot be asked
+   to fetch anything but a Gifbox poster. Nothing is fetched from anywhere else
+   and img-src does not move.
+
+   A SENT GIF IS COPIED ONTO THE CHANNEL AND GOES WITH ITS MESSAGE. takeGif
+   fetches the GIF's still and its little MP4 (Gifbox's own copies, well under
+   GIF_VIDEO_MAX) and keeps them under img/ beside the channel's pictures,
+   bound to the room and the sender as a picture is, so every rule a picture
+   keeps (sealed with the staff key, served with the pass, deleted when its
+   message goes, swept within the hour if never sent) holds for a GIF without a
+   word more. The still is the message's picture (`img`); the MP4 is `gif.vid`,
+   which heldFiles counts with it. The still loses what bareImage takes off,
+   and an MP4 carrying a place (QuickTime's location, 3GPP's loci) is refused.
+
+   IT NEVER MOVES BY ITSELF, AT ANY SETTING, MAX GLITTER INCLUDED. A GIF is
+   somebody else's picture and can flash, which no tool here can check, so
+   every radio shows its still with a play button, and it moves on that press
+   and stops on the next. The picker shows stills only.
+
+   Gifbox's API takes no content filter (contentfilter is accepted and changes
+   nothing, measured 2026-11-06), so it is sent at its strictest in case that
+   changes, and what anybody sends is under the house norms like any picture.
+   Its registershare, which tells Gifbox what was shared after which search, is
+   never called. NOTHING SEARCHED FOR IS LOGGED OR KEPT. */
+export const GIFBOX_API = 'https://compat.gifbox.me/v2/';
+const GIFBOX_MEDIA = 'https://media.gifbox.me/media/post/';
+export const GIFBOX_PAGE = 'https://gifbox.me/view/';
+export const GIF_PAGE = 24;              // GIFs to a page of the picker
+export const GIF_QUERY_MAX = 80;         // characters of a search
+export const GIF_VIDEO_MAX = 4000000;    // bytes of a GIF's MP4; Gifbox's run to about half a megabyte
+const GIF_POSTER_MAX = 1000000;          // bytes of its still
+const GIF_AGENT = 'stimpunks.world (+https://stimpunks.world/privacy.html#gifs)';
+
+function gifKey() {
+  const k = process.env.CB_GIFBOX_KEY;
+  return k && k.length >= 8 ? k : null;
+}
+export function gifsOn() { return !!gifKey(); }
+export function gifId(v) { return typeof v === 'string' && /^[A-Za-z0-9_-]{6,40}$/.test(v) ? v : null; }
+export function gifQuery(v) {
+  const t = tidy(v);
+  return [...t].length <= GIF_QUERY_MAX ? t : null;
+}
+// Gifbox's cursor for the next page: base64url, handed back as it came.
+export function gifPos(v) { return typeof v === 'string' && /^[A-Za-z0-9_=-]{1,300}$/.test(v) ? v : ''; }
+const gifWords = (v, n) => [...tidy(v)].slice(0, n).join('');
+
+/* One result as the picker is told it: Gifbox's id, its title and description
+   (its uploader's words), its size and how long it runs. Nothing else of
+   Gifbox's answer reaches a page, and none of its addresses. */
+export function shapeGif(r) {
+  if (!r || typeof r !== 'object' || !gifId(r.id)) return null;
+  const f = r.media_formats || {};
+  if (!f.preview || !f.mp4) return null;
+  const dims = Array.isArray(f.mp4.dims) ? f.mp4.dims : [];
+  const w = Number.isInteger(dims[0]) && dims[0] > 0 ? dims[0] : 0, h = Number.isInteger(dims[1]) && dims[1] > 0 ? dims[1] : 0;
+  const secs = typeof f.mp4.duration === 'number' && f.mp4.duration > 0 ? Math.round(f.mp4.duration * 10) / 10 : 0;
+  return { id: r.id, title: gifWords(r.title, 120), about: gifWords(r.content_description, ALT_MAX), w, h, secs };
+}
+
+async function gifboxAsk(path, params, fetchFn) {
+  const k = gifKey();
+  if (!k) return { error: 'off' };
+  const u = new URL(path, GIFBOX_API);
+  for (const [n, v] of Object.entries(params)) if (v !== '' && v != null) u.searchParams.set(n, String(v));
+  u.searchParams.set('key', k);
+  let r;
+  try {
+    r = await fetchFn(u.href, { redirect: 'error', signal: AbortSignal.timeout(6000), headers: { accept: 'application/json', 'user-agent': GIF_AGENT } });
+  } catch (e) { return { error: 'gifbox' }; }
+  if (!r.ok) return { error: 'gifbox' };
+  try { return { data: await r.json() }; } catch (e) { return { error: 'gifbox' }; }
+}
+
+/* A page of the picker: Gifbox's featured GIFs with no words, or a search. */
+export async function gifSearch(q, pos = '', fetchFn = fetch) {
+  const words = gifQuery(q);
+  if (words === null) return { error: 'long' };
+  const got = await gifboxAsk(words ? 'search' : 'featured', { q: words, pos: gifPos(pos), limit: GIF_PAGE, contentfilter: 'high', media_filter: 'preview,mp4' }, fetchFn);
+  if (got.error) return got;
+  const list = Array.isArray(got.data && got.data.results) ? got.data.results : [];
+  return { results: list.map(shapeGif).filter(Boolean), next: gifPos(got.data.next) };
+}
+
+/* A file off media.gifbox.me, at most `max` bytes, following no redirect. */
+async function gifboxFile(id, which, max, fetchFn) {
+  if (!gifId(id)) return null;
+  let r;
+  try { r = await fetchFn(GIFBOX_MEDIA + id + '/' + which, { redirect: 'error', signal: AbortSignal.timeout(8000), headers: { 'user-agent': GIF_AGENT } }); }
+  catch (e) { return null; }
+  if (!r.ok) return null;
+  if (Number(r.headers.get('content-length') || 0) > max) return null;
+  let b;
+  try { b = new Uint8Array(await r.arrayBuffer()); } catch (e) { return null; }
+  return b.length && b.length <= max ? b : null;
+}
+
+// A GIF's still, as a picture with nothing written into it: { data, type } or null.
+async function gifStill(id, fetchFn) {
+  const b = await gifboxFile(id, 'poster', GIF_POSTER_MAX, fetchFn);
+  const kind = b && imageKind(b);
+  const bare = kind && bareImage(b, kind);
+  return bare && !carriesMetadata(bare, kind) ? { data: bare, type: kind } : null;
+}
+export const gifPreview = (id, fetchFn = fetch) => gifStill(id, fetchFn);
+
+export function mp4Kind(b) { return !!b && b.length > 12 && Buffer.from(b.subarray(4, 8)).toString('latin1') === 'ftyp'; }
+// Whether an MP4 says where it was filmed: QuickTime's ©xyz or location keys, 3GPP's loci.
+export function mp4Place(b) {
+  const t = Buffer.from(b);
+  return t.includes(Buffer.from([0xa9, 0x78, 0x79, 0x7a])) || t.includes('com.apple.quicktime.location') || t.includes('loci');
+}
+
+/* A GIF picked to send: its still and its MP4, kept under img/ for the room
+   it is going to, as /cb/image keeps a picture, answering the two ids the
+   message carries. The id is checked with Gifbox first, so only a GIF Gifbox
+   still has goes. */
+export async function takeGif(who, room, id, s = store(), now = Date.now(), fetchFn = fetch) {
+  if (!gifId(id)) return { error: 'That is not a GIF on Gifbox.' };
+  const got = await gifboxAsk('posts', { ids: id, media_filter: 'preview,mp4' }, fetchFn);
+  if (got.error === 'off') return { error: 'GIFs are not switched on yet.' };
+  if (got.error) return { error: 'Gifbox did not answer just now. Try again in a moment.' };
+  const one = (Array.isArray(got.data && got.data.results) ? got.data.results : []).map(shapeGif).find((g) => g && g.id === id);
+  if (!one) return { error: 'Gifbox no longer has that GIF.' };
+  const [still, video] = await Promise.all([gifStill(id, fetchFn), gifboxFile(id, 'mp4', GIF_VIDEO_MAX, fetchFn)]);
+  if (!still || !video || !mp4Kind(video)) return { error: 'That GIF could not be fetched from Gifbox just now.' };
+  if (mp4Place(video)) return { error: 'That GIF says where it was filmed, so the radio will not send it.' };
+  const img = randomUUID(), vid = randomUUID();
+  await s.set(IMG + img, still.data, { metadata: { handle: who.handle, room: room || '', t: now, type: still.type, gif: id } });
+  await s.set(IMG + vid, video, { metadata: { handle: who.handle, room: room || '', t: now, type: 'video/mp4', gif: id, of: img } });
+  return { img, vid, gif: one };
+}
+
+/* What a message keeps of its GIF, checked by /cb/transmit: the two files this
+   handle took a moment ago for this room, belonging to each other. */
+export async function gifFor(who, room, img, vid, s = store()) {
+  if (!imageId(img) || !imageId(vid)) return null;
+  const [a, b] = await Promise.all([getImage(img, s), getImage(vid, s)]);
+  if (!a || !b) return null;
+  const mine = (m) => m.handle === who.handle && (m.room || '') === (room || '');
+  if (!mine(a.meta) || !mine(b.meta) || !gifId(a.meta.gif) || b.meta.gif !== a.meta.gif || b.meta.of !== img || b.meta.type !== 'video/mp4') return null;
+  return { vid, id: a.meta.gif };
+}
+export function shapeGifOf(g) {
+  return g && imageId(g.vid) && gifId(g.id) ? { vid: g.vid, page: GIFBOX_PAGE + g.id } : null;
 }
 
 /* ── Room channels ─────────────────────────────────────────────────────── */
@@ -12545,6 +12713,8 @@ export function shape(messages) {
     if (roles.length) out.roles = roles;
     if (replyTo(m.re)) out.re = m.re;
     if (m.img) { out.img = m.img; out.alt = m.alt || ''; }
+    const gf = m.img && shapeGifOf(m.gif);
+    if (gf) out.gif = gf;
     const st = m.sticker && shapeSticker(m.sticker);
     if (st) out.sticker = st;
     const av = m.avatar && shapeAvatarSticker(m.avatar);

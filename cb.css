@@ -1018,6 +1018,21 @@ a.cb-now-go { text-decoration: none; display: inline-flex; align-items: center; 
   border: 2px solid var(--cb-steel-2); border-radius: 6px; cursor: pointer;
 }
 .cb-stickers__art { display: block; width: 80px; height: auto; }
+/* THE GIF TRAY: stills only, in the radio's own case, and nothing in it moves. */
+.cb-gifs { margin: 8px 0 0; display: grid; gap: 6px; }
+.cb-gifs p { margin: 0; font-size: 14px; line-height: 1.45; }
+.cb-gifs__find .cb-row { flex-wrap: nowrap; }
+.cb-gifs__q { flex: 1 1 auto; min-width: 0; }
+.cb-gifs__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; max-height: 340px; overflow-y: auto; }
+.cb-gifs__pick {
+  display: grid; gap: 4px; width: 100%; padding: 4px; text-align: left;
+  font: inherit; font-size: 12px; line-height: 1.3; color: var(--cb-steel); background: var(--cb-case);
+  border: 2px solid var(--cb-steel-2); border-radius: 6px; cursor: pointer;
+}
+.cb-gifs__still { display: block; width: 100%; height: 84px; object-fit: contain; background: var(--cb-lcd); border-radius: 3px; }
+.cb-gifs__cap { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.cb-gifs__more { justify-self: start; }
+.cb-gifs__credit { font-size: 13px; }
 .cb-pets__show { margin: 10px 0 0; }
 .cb-pets__show p { margin: 6px 0 0; font-size: 13px; line-height: 1.45; }
 .cb-msg > .cb-picture { grid-column: 1 / -1; grid-row: 5; margin: 4px 0 0; min-width: 0; max-width: 100%; }
@@ -1026,6 +1041,14 @@ a.cb-now-go { text-decoration: none; display: inline-flex; align-items: center; 
 .cb-picture-under { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; margin: 4px 0 0; font-size: 13px; }
 .cb-picture-alt, .cb-picture-gone { margin: 0; font-size: 13px; color: var(--cb-amber-2); overflow-wrap: anywhere; min-width: 0; }
 .cb-picture-dl { color: var(--cb-amber); }
+/* A GIF on the channel: its still, with a plate saying it plays, until pressed. */
+.cb-picture-open.cb-gif { position: relative; cursor: pointer; }
+.cb-gif-badge {
+  position: absolute; left: 6px; bottom: 6px; padding: 1px 6px;
+  font: 700 12px/1.4 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .04em;
+  color: var(--cb-lcd); background: var(--cb-amber); border-radius: 3px;
+}
+.cb-gif--on .cb-gif-badge { display: none; }
 /* THE LIGHTBOX, over the page in the browser's top layer: the radio's own case
    and amber, the picture as large as the window allows, nothing moving. */
 .cb-lightbox {

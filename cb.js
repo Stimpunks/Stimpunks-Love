@@ -2066,9 +2066,24 @@
     stickBox.id = 'cb-stickers';
     stickBox.hidden = true;
     stickBox.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); me.setStickers(false); stickBtn.focus(); } });
+    /* A GIF FROM GIFBOX, Ryan's ask, 2026-11-06 (lib.mjs, "GIFs from
+       Gifbox"): a tray like the stickers', searched from our server, showing
+       stills only. A GIF picked is copied onto the channel by /cb/gif and
+       waits above the box like a picture until Transmit. */
+    var gifBtn = this.gifBtn = el('button', 'cb-btn cb-gifbtn', 'GIF');
+    gifBtn.type = 'button';
+    gifBtn.setAttribute('aria-label', 'Find a GIF on Gifbox to send');
+    gifBtn.setAttribute('aria-expanded', 'false');
+    gifBtn.setAttribute('aria-controls', 'cb-gifs');
+    gifBtn.addEventListener('click', function () { me.setGifs(me.gifBox.hidden); });
+    var gifBox = this.gifBox = el('div', 'cb-gifs');
+    gifBox.id = 'cb-gifs';
+    gifBox.hidden = true;
+    gifBox.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); me.setGifs(false); gifBtn.focus(); } });
     var row = el('div', 'cb-row cb-send-row');
     row.appendChild(picBtn);
     row.appendChild(stickBtn);
+    row.appendChild(gifBtn);
     row.appendChild(send);
     var ready = this.picReady = el('div', 'cb-pic-ready');
     ready.hidden = true;
@@ -2109,6 +2124,7 @@
     form.appendChild(hint);
     form.appendChild(row);
     form.appendChild(stickBox);
+    form.appendChild(gifBox);
     chanSec.appendChild(form);
     linkBox(say, function (t) { me.tell(t); });
 
@@ -4296,10 +4312,22 @@
        camera's in it. */
     var open = el('button', 'cb-picture-open');
     open.type = 'button';
-    open.setAttribute('aria-label', 'Open the picture larger. ' + img.alt);
+    var gif = m.gif && m.gif.vid && /^https:\/\/gifbox\.me\/view\/[A-Za-z0-9_-]+$/.test(m.gif.page || '') ? m.gif : null;
+    if (gif) {
+      // A GIF: the press plays it and the next stops it (playGif); no lightbox.
+      img.alt = m.alt || (m.handle + ' sent a GIF, with no description.');
+      open.classList.add('cb-gif');
+      open.setAttribute('aria-label', 'Play the GIF. ' + img.alt);
+      var badge = el('span', 'cb-gif-badge', 'GIF \u25b6');
+      badge.setAttribute('aria-hidden', 'true');
+      open.appendChild(badge);
+      open.addEventListener('click', function () { me.playGif(m, open, img); });
+    } else {
+      open.setAttribute('aria-label', 'Open the picture larger. ' + img.alt);
+      open.addEventListener('click', function () { me.lightbox(m, open); });
+    }
     img.alt = '';
-    open.appendChild(img);
-    open.addEventListener('click', function () { me.lightbox(m, open); });
+    open.insertBefore(img, open.firstChild);
     fig.appendChild(open);
     var under = el('p', 'cb-picture-under');
     // The description is shown for eyes and said once, in the button's name:
@@ -4309,10 +4337,13 @@
     keep.setAttribute('aria-label', 'Download ' + m.handle + '’s picture');
     keep.hidden = true;
     under.appendChild(keep);
+    // A GIF is Gifbox's, so it is credited and linked there and not kept.
+    if (gif) { keep.remove(); under.appendChild(awayLink('From Gifbox', new URL(gif.page))); }
     fig.appendChild(under);
     this.pics = this.pics || {};
     function ready(url) {
       img.src = url;
+      if (gif) return;
       keep.href = url;
       keep.download = pictureName(m);
       keep.hidden = false;
@@ -8768,10 +8799,195 @@
   /* `where` is 'dm' for the tray under a conversation's box (Ryan's ask,
      2026-10-20), and the channel's otherwise; one tray is open at a time, and
      sendSticker sends to whichever it was opened for. */
+  /* THE GIF TRAY (lib.mjs, "GIFs from Gifbox"). Opening it shows Gifbox's
+     featured GIFs; a search goes only when Search is pressed or Enter is, never
+     letter by letter, and only from our server, so Gifbox gets the words and
+     nothing about who typed them. Every GIF in it is a still, fetched through
+     /cb/gif with the pass, and a GIF on the channel stays still until somebody
+     presses it, which the tray says. Nothing in it moves at any setting. */
+  Radio.prototype.setGifs = function (open) {
+    var me = this, box = this.gifBox, btn = this.gifBtn;
+    if (open && this.stickBox && !this.stickBox.hidden) this.setStickers(false);
+    box.hidden = !open;
+    btn.setAttribute('aria-expanded', String(!!open));
+    this.gifStills = this.gifStills || {};
+    if (!open) { box.textContent = ''; return; }
+    box.textContent = '';
+    var form = el('form', 'cb-gifs__find');
+    form.setAttribute('role', 'search');
+    var lab = el('label', 'cb-lab', 'Search Gifbox');
+    lab.htmlFor = 'cb-gifs-q';
+    var q = el('input', 'cb-say cb-gifs__q');
+    q.id = 'cb-gifs-q';
+    q.type = 'search';
+    q.maxLength = 80;
+    q.autocomplete = 'off';
+    q.enterKeyHint = 'search';
+    var go = el('button', 'cb-btn', 'Search');
+    go.type = 'submit';
+    var line = el('div', 'cb-row');
+    line.appendChild(q);
+    line.appendChild(go);
+    form.appendChild(lab);
+    form.appendChild(line);
+    var said = this.gifSaid = el('p', 'cb-quiet', 'Fetching GIFs from Gifbox…');
+    said.setAttribute('role', 'status');
+    var list = this.gifList = el('ul', 'cb-gifs__list');
+    var more = this.gifMore = el('button', 'cb-btn cb-gifs__more', 'More GIFs');
+    more.type = 'button';
+    more.hidden = true;
+    var credit = el('p', 'cb-quiet cb-gifs__credit');
+    credit.appendChild(document.createTextNode('GIFs from '));
+    credit.appendChild(awayLink('Gifbox', new URL('https://gifbox.me/')));
+    credit.appendChild(document.createTextNode('. A GIF stays still on everybody’s radio until they press it, because a GIF can flash. Your search goes to Gifbox from our server, with nothing about you: '));
+    var why = el('a', null, 'what is sent');
+    why.href = '/privacy.html#gifs';
+    credit.appendChild(why);
+    credit.appendChild(document.createTextNode('.'));
+    box.appendChild(form);
+    box.appendChild(said);
+    box.appendChild(list);
+    box.appendChild(more);
+    box.appendChild(credit);
+    form.addEventListener('submit', function (e) { e.preventDefault(); me.gifFind(q.value.trim(), ''); });
+    more.addEventListener('click', function () { me.gifFind(me.gifWords || '', me.gifNext || '', true); });
+    q.focus();
+    this.gifFind('', '');
+  };
+
+  // A page of GIFs into the tray: Gifbox's featured with no words, or a search.
+  Radio.prototype.gifFind = function (words, pos, adding) {
+    var me = this, said = this.gifSaid, list = this.gifList, more = this.gifMore;
+    if (!said) return;
+    var ask = this.gifAsk = {};
+    this.gifWords = words;
+    more.hidden = true;
+    said.textContent = words ? 'Searching Gifbox for “' + words + '”…' : 'Fetching GIFs from Gifbox…';
+    if (!adding) list.textContent = '';
+    call('/cb/gif', { body: { action: 'search', q: words, pos: pos } }, this.state.pass).then(function (r) {
+      if (ask !== me.gifAsk || me.gifBox.hidden) return;
+      if (r.status === 401) return me.lost();
+      if (r.status !== 200) { said.textContent = why(r, 'Gifbox did not answer just now. Try again in a moment.'); return; }
+      if (!r.body.on) { said.textContent = 'GIFs are not switched on yet.'; return; }
+      var got = r.body.results || [];
+      me.gifNext = r.body.next || '';
+      more.hidden = !me.gifNext;
+      if (!got.length && !adding) { said.textContent = words ? 'Gifbox has nothing for “' + words + '”.' : 'Gifbox has nothing to show just now.'; return; }
+      said.textContent = (words ? 'GIFs for “' + words + '”.' : 'GIFs Gifbox is featuring.') + ' Press one to put it with your message.';
+      var first = null;
+      got.forEach(function (g) {
+        var li = el('li');
+        var b = el('button', 'cb-gifs__pick');
+        b.type = 'button';
+        var words = g.about || g.title || 'A GIF with no description';
+        b.setAttribute('aria-label', 'Put this GIF with your message: ' + words + (g.secs ? ', ' + g.secs + ' seconds' : ''));
+        var img = el('img', 'cb-gifs__still');
+        img.alt = '';
+        if (g.w && g.h) { img.width = g.w; img.height = g.h; }
+        b.appendChild(img);
+        var cap = el('span', 'cb-gifs__cap', g.title || g.about || 'A GIF');
+        cap.setAttribute('aria-hidden', 'true');
+        b.appendChild(cap);
+        b.addEventListener('click', function () { me.pickGif(g); });
+        li.appendChild(b);
+        list.appendChild(li);
+        me.gifStill(g.id).then(function (url) { if (url) img.src = url; });
+        if (!first) first = b;
+      });
+      if (adding && first) first.focus();
+    }).catch(function () { if (ask === me.gifAsk) said.textContent = 'No signal: Gifbox could not be reached.'; });
+  };
+
+  // A GIF's still, through /cb/gif with the pass, kept in memory for the page.
+  Radio.prototype.gifStill = function (id) {
+    var me = this;
+    this.gifStills = this.gifStills || {};
+    if (this.gifStills[id]) return Promise.resolve(this.gifStills[id]);
+    return fetch('/cb/gif?still=' + encodeURIComponent(id), { headers: { 'authorization': 'Bearer ' + this.state.pass }, credentials: 'omit' })
+      .then(function (r) { return r.ok ? r.blob() : null; })
+      .then(function (b) { if (!b) return null; return (me.gifStills[id] = URL.createObjectURL(b)); })
+      .catch(function () { return null; });
+  };
+
+  /* A GIF picked: copied onto the channel now (/cb/gif, take), for the room the
+     radio is tuned to, and shown still above the box with Gifbox's description
+     in the description box, for its sender to change. Transmit sends it. */
+  Radio.prototype.pickGif = function (g) {
+    var me = this, room = this.tunedRoom();
+    var box = this.picReady, img = this.picShown, line = this.picReadyLine;
+    line.textContent = 'Getting the GIF ready…';
+    box.hidden = false;
+    call('/cb/gif', { body: { action: 'take', id: g.id, room: room || null } }, this.state.pass).then(function (r) {
+      if (r.status === 401) return me.lost();
+      if (r.status !== 200 || !r.body.img) {
+        line.textContent = why(r, 'That GIF could not be fetched from Gifbox just now.');
+        if (!me.picture && !me.gifPicked) setTimeout(function () { if (!me.picture && !me.gifPicked) picGone(box, img); }, 4000);
+        return;
+      }
+      me.picture = null;
+      me.gifPicked = { img: r.body.img, vid: r.body.vid };
+      if (img.cbUrl) URL.revokeObjectURL(img.cbUrl);
+      img.cbUrl = null;
+      me.gifStill(g.id).then(function (url) { if (url) { img.src = url; img.hidden = false; } });
+      line.textContent = 'This is the GIF that will go with your message, from Gifbox, shown still: it moves on everybody’s radio only when they press it. Nothing has gone yet.';
+      me.picAlt.value = (g.about || g.title || '').slice(0, 280);
+      me.setGifs(false);
+      box.scrollIntoView({ block: 'nearest' });
+      me.picAlt.focus({ preventScroll: true });
+    }).catch(function () { line.textContent = 'No signal: the GIF did not come through.'; });
+  };
+
+  /* A GIF ON THE CHANNEL MOVES ONLY WHEN SOMEBODY PRESSES IT, at every
+     setting, MAX GLITTER included, because a GIF is somebody else's picture
+     and can flash. The press fetches its MP4 with the pass, once, and plays it
+     muted and looping in the picture's place; the next press puts the still
+     back. */
+  Radio.prototype.playGif = function (m, btn, img) {
+    var me = this, vid = btn.cbVideo;
+    this.pics = this.pics || {};
+    var said = m.alt || (m.handle + ' sent a GIF, with no description.');
+    // Its own state, never vid.paused: a hidden tab defers playing.
+    if (btn.cbOn) {
+      btn.cbOn = false;
+      if (vid) { vid.pause(); vid.hidden = true; }
+      img.hidden = false;
+      btn.setAttribute('aria-label', 'Play the GIF. ' + said);
+      btn.classList.remove('cb-gif--on');
+      return;
+    }
+    function play(url) {
+      if (!vid) {
+        vid = btn.cbVideo = el('video', 'cb-picture-img cb-gif-video');
+        vid.muted = true;
+        vid.loop = true;
+        vid.playsInline = true;
+        vid.setAttribute('aria-hidden', 'true');
+        vid.src = url;
+        btn.insertBefore(vid, img);
+      }
+      img.hidden = true;
+      vid.hidden = false;
+      btn.setAttribute('aria-label', 'Stop the GIF. ' + said);
+      btn.classList.add('cb-gif--on');
+      var p = vid.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+    btn.cbOn = true;
+    if (this.pics[m.gif.vid]) { play(this.pics[m.gif.vid]); return; }
+    fetch('/cb/image?id=' + encodeURIComponent(m.gif.vid), {
+      headers: { 'authorization': 'Bearer ' + this.state.pass }, credentials: 'omit', cache: 'no-store',
+    }).then(function (r) { return r.ok ? r.blob() : null; }).then(function (b) {
+      if (!b) { btn.cbOn = false; me.tell('That GIF has gone with its message.'); return; }
+      me.pics[m.gif.vid] = URL.createObjectURL(b);
+      if (btn.cbOn) play(me.pics[m.gif.vid]);
+    }).catch(function () { btn.cbOn = false; me.tell('No signal: the GIF did not come through.'); });
+  };
+
   Radio.prototype.setStickers = function (open, where) {
     var me = this, dm = where === 'dm';
     var box = dm ? this.dmStickBox : this.stickBox, btn = dm ? this.dmStickBtn : this.stickBtn;
     var other = dm ? this.stickBox : this.dmStickBox;
+    if (open && this.gifBox && !this.gifBox.hidden) this.setGifs(false);
     if (open && other && !other.hidden) { other.hidden = true; other.textContent = ''; (dm ? this.stickBtn : this.dmStickBtn).setAttribute('aria-expanded', 'false'); }
     this.stickTo = dm ? 'dm' : 'channel';
     box.hidden = !open;
@@ -13889,6 +14105,7 @@
     this.tell('');
     picPending(this.picReady, this.picShown, this.picReadyLine, file);
     redraw(file).then(function (blob) {
+      me.gifPicked = null;
       me.picture = blob;
       picReady(me.picReady, me.picShown, me.picReadyLine, blob, file);
       me.picAlt.focus({ preventScroll: true });
@@ -13900,6 +14117,7 @@
 
   Radio.prototype.dropPicture = function () {
     this.picture = null;
+    this.gifPicked = null;
     this.picAlt.value = '';
     picGone(this.picReady, this.picShown);
   };
@@ -13914,9 +14132,9 @@
   };
 
   Radio.prototype.transmit = function () {
-    var me = this, text = this.say.value.trim(), picture = this.picture;
+    var me = this, text = this.say.value.trim(), picture = this.picture, gif = this.gifPicked;
     this.close();
-    if (!text && !picture) { this.tell('Type something, or add a picture, first.'); return; }
+    if (!text && !picture && !gif) { this.tell('Type something, or add a picture, first.'); return; }
     this.tell(picture ? 'Sending the picture…' : 'Transmitting…');
     var room = this.tunedRoom(), b = { text: text };
     if (room) b.room = room;
@@ -13929,6 +14147,8 @@
       if (up && up.status === 401) return { status: 401 };
       if (up && up.status !== 200) return up;
       if (up) { b.img = up.body.id; b.alt = me.picAlt.value.trim(); }
+      // A GIF was taken already, when it was picked (pickGif).
+      else if (gif) { b.img = gif.img; b.gif = { vid: gif.vid }; b.alt = me.picAlt.value.trim(); }
       return call('/cb/transmit', { body: b }, me.state.pass);
     }).then(function (r) {
       if (r.status === 401) return me.lost();
@@ -13936,7 +14156,7 @@
         me.say.value = '';
         me.atPicked = [];
         me.grow();
-        if (picture) me.dropPicture();
+        if (picture || gif) me.dropPicture();
         if (me.replying === re) me.replyStop();
         me.tell('');
         if (room === me.tunedRoom()) { me.showFrom(r.body.messages || [], true); me.readTick(r.body.messages || []); }

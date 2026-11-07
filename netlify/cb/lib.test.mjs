@@ -46,6 +46,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   kickAccount, barAccount, liftBar, barredNow, barWords, shapeBar, accountDirectory, BAR_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
+  gifId, gifQuery, gifPos, shapeGif, gifSearch, takeGif, gifFor, mp4Place, GIFBOX_PAGE, GIF_VIDEO_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
   cleanLook, readAvatars, keepAvatar, editAvatar, removeAvatar, wearAvatar, forgetAvatars, withAvatars, avatarSticker, shapeAvatarSticker, AVATAR, AVATAR_KEEP,
   setAvatarsShown, avatarsShown, shownAvatars,
@@ -2093,6 +2094,71 @@ test('a picture goes when its message goes, and an unsent one within the hour', 
   const left = s.keys().filter((k) => k.startsWith('img/')).map((k) => k.slice(4)).sort();
   assert.deepEqual(left, [held, pushed, unsentNew].sort(), 'held stays, a fresh upload waits, an old unsent one goes');
   assert.deepEqual(shape([{ id: 'b', handle: 'Ada', t: now, img: held, alt: 'A cat' }])[0], { id: 'b', handle: 'Ada', text: '', t: now, base: false, claimed: false, img: held, alt: 'A cat' });
+});
+
+/* Gifbox, stubbed: its API answers in Tenor's shape and its files are on
+   media.gifbox.me, as measured 2026-11-06. The key is a stand-in. */
+function gifboxStub({ mp4 = null, still = null, asked = [] } = {}) {
+  const post = (id) => ({ id, title: 'Runaway\u0007 Cat', content_description: 'The silly cat escapes', itemurl: GIFBOX_PAGE + id,
+    media_formats: { preview: { url: 'https://media.gifbox.me/media/post/' + id + '/poster', dims: [364, 360] }, mp4: { url: 'x', dims: [364, 360], duration: 10.033 } } });
+  const video = mp4 || new Uint8Array([0, 0, 0, 32, ...Buffer.from('ftypisom'), 0, 0, 2, 0, ...Buffer.from('udta©too')]);
+  return async (url) => {
+    asked.push(url);
+    const u = new URL(url);
+    const ok = (body, type) => ({ ok: true, headers: new Headers({ 'content-type': type }), json: async () => body, arrayBuffer: async () => body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength) });
+    if (u.host === 'compat.gifbox.me') {
+      if (u.pathname.endsWith('/posts')) return ok({ results: u.searchParams.get('ids') === 'gone_gif_1' ? [] : [post(u.searchParams.get('ids'))], next: '' }, 'application/json');
+      return ok({ results: [post('smGy30kWfDtNbJyWRnq8a'), { id: '../x' }], next: 'eyJpZCI6Ij' }, 'application/json');
+    }
+    if (u.host === 'media.gifbox.me' && u.pathname.endsWith('/poster')) return ok(still || new Uint8Array([0xff, 0xd8, 0xff, 0xfe, 0, 6, 76, 97, 118, 99, 0xff, 0xdb, 0, 4, 0, 0, 0xff, 0xda, 0, 0]), 'image/webp');
+    if (u.host === 'media.gifbox.me' && u.pathname.endsWith('/mp4')) return ok(video, 'video/mp4');
+    return { ok: false, headers: new Headers() };
+  };
+}
+
+test('a GIF from Gifbox is searched for from the server and goes with its message', async () => {
+  const was = process.env.CB_GIFBOX_KEY;
+  try {
+    delete process.env.CB_GIFBOX_KEY;
+    assert.equal((await gifSearch('otter', '', gifboxStub())).error, 'off', 'no key, no GIFs');
+    process.env.CB_GIFBOX_KEY = 'test-key-not-real';
+    assert.equal(gifId('../poster'), null); assert.equal(gifId('cXQwxRj5VVmb4q_qmUAg6'), 'cXQwxRj5VVmb4q_qmUAg6');
+    assert.equal(gifQuery('x'.repeat(81)), null, 'a search has a length');
+    assert.equal(gifPos('a b'), '', 'a cursor is handed back only as Gifbox shaped it');
+    const asked = [];
+    const page = await gifSearch('  otters\u0000 ', '', gifboxStub({ asked }));
+    assert.equal(new URL(asked[0]).searchParams.get('q'), 'otters', 'the words, tidied, are all Gifbox is sent');
+    assert.equal(page.results.length, 1, 'a result that is not a Gifbox id is dropped');
+    assert.deepEqual(page.results[0], { id: 'smGy30kWfDtNbJyWRnq8a', title: 'Runaway Cat', about: 'The silly cat escapes', w: 364, h: 360, secs: 10 });
+    assert.ok(!JSON.stringify(page).includes('media.gifbox.me'), 'no Gifbox address reaches a page');
+    assert.equal(page.next, 'eyJpZCI6Ij');
+    const s = memoryStore({ etagOnRead: true });
+    const now = Date.now();
+    assert.ok((await takeGif(ada, null, 'gone_gif_1', s, now, gifboxStub())).error, 'only a GIF Gifbox still has');
+    const placed = new Uint8Array([0, 0, 0, 32, ...Buffer.from('ftypqt  '), ...Buffer.from('udta'), 0xa9, 0x78, 0x79, 0x7a]);
+    assert.ok(mp4Place(placed));
+    assert.ok((await takeGif(ada, null, 'smGy30kWfDtNbJyWRnq8a', s, now, gifboxStub({ mp4: placed }))).error, 'an MP4 that says where it was filmed is refused');
+    assert.ok((await takeGif(ada, null, 'smGy30kWfDtNbJyWRnq8a', s, now, gifboxStub({ mp4: new Uint8Array(GIF_VIDEO_MAX + 1) }))).error, 'too big');
+    const took = await takeGif(ada, 'the-den', 'smGy30kWfDtNbJyWRnq8a', s, now, gifboxStub());
+    assert.ok(took.img && took.vid);
+    const still = await getImage(took.img, s);
+    assert.equal(still.meta.type, 'image/jpeg', 'the still is the picture its bytes say, not what Gifbox labels it');
+    assert.ok(!Buffer.from(still.data).includes('Lavc'), 'the encoder comment is taken off');
+    assert.equal((await getImage(took.vid, s)).meta.room, 'the-den', 'bound to its room');
+    assert.equal(await gifFor(ada, null, took.img, took.vid, s), null, 'for the room it was taken for');
+    assert.equal(await gifFor({ handle: 'Bo' }, 'the-den', took.img, took.vid, s), null, 'by whoever took it');
+    assert.equal(await gifFor(ada, 'the-den', took.vid, took.img, s), null, 'the still and the MP4 the right way round');
+    const g = await gifFor(ada, 'the-den', took.img, took.vid, s);
+    assert.deepEqual(g, { vid: took.vid, id: 'smGy30kWfDtNbJyWRnq8a' });
+    const msg = { id: 'g', handle: 'Ada', text: '', t: now, img: took.img, alt: 'A cat', gif: g };
+    assert.deepEqual(shape([msg])[0].gif, { vid: took.vid, page: GIFBOX_PAGE + 'smGy30kWfDtNbJyWRnq8a' });
+    assert.deepEqual(droppedImages([msg], []).sort(), [took.img, took.vid].sort(), 'its message going takes both');
+    await updateTuned('the-den', (list) => { list.push(msg); return list; }, s);
+    await sweepImages(s, now + 2 * 60 * 60 * 1000);
+    assert.ok(await getImage(took.vid, s), 'a GIF on the air keeps its MP4 through the sweep');
+  } finally {
+    if (was === undefined) delete process.env.CB_GIFBOX_KEY; else process.env.CB_GIFBOX_KEY = was;
+  }
 });
 
 test('a claimed username is marked on the channel, and only by the server', () => {

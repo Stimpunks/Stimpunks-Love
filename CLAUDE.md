@@ -4556,6 +4556,21 @@ moderation kept against a person. `DECISIONS.md` has what is open.
 the redrawn blob, which is exactly what is sent, above the box with the file's name, for the channel and
 for Messages alike. It is a `blob:` address that goes with the picture.
 
+**A GIF ON THE CB IS GIFBOX'S, COPIED ONTO THE CHANNEL, AND IT NEVER MOVES BY ITSELF.** Ryan's ask, 2026-11-06:
+Gifbox in the chat (`CB_GIFBOX_KEY` in Netlify and 1Password). The "GIFs from Gifbox" part of `lib.mjs`, `/cb/gif`, and
+`setGifs`, `gifFind`, `pickGif` and `playGif` in `cb.js`. **Nobody's browser talks to Gifbox**: `gifSearch` asks its
+Tenor-shaped API from our server, on Search or Enter and never per keystroke, and answers ids and words, never Gifbox's
+addresses; the picker's stills come through `/cb/gif?still=<id>`, whose address `gifboxFile` builds on
+`media.gifbox.me/media/post/<id>/` and nowhere else; and `takeGif` copies a picked GIF's still (through `bareImage`) and
+MP4 (refused if it carries a place) under `img/`, so the message's `img` is the still and `gif.vid` the MP4, which
+`heldFiles` counts in `droppedImages` and `sweepImages`, and every picture rule holds without a word more. `/cb/transmit`
+checks the pair with `gifFor`, and refuses an `img` that is not an image. Only `media-src` moved, to `blob:`. **Every
+radio shows the still with a GIF plate, and a press plays it**, at every setting, MAX included, because a GIF can flash
+and nothing here can check it. The friendly edits are **autoplay at MAX "so the chat feels alive"**, **the picker's
+previews hotlinked from media.gifbox.me "to save our bandwidth"**, which hands Gifbox every reader, **a search as you
+type**, and **calling registershare**, which tells Gifbox what was shared after which search. GIFs are the channel's
+only; `DECISIONS.md` has conversations as open.
+
 **THE CHAT PAGE IS THE RADIO DOCKED INTO A PAGE, AND IT CHANGES NOTHING FOR THE RADIO ANYWHERE ELSE.** Ryan's ask,
 2026-10-22: a Discord-style page for the rooms' channels. `chat.html` says `data-cb-chat`, and `cb.js` (`inChat`) puts the
 radio into `[data-cb-dock]` at Full rather than over the page, adds a Channels part down the left (`chatMake`), and makes

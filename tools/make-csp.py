@@ -129,8 +129,13 @@ csp = (
     # no new origin: 8x8's blob is 8x8's, inside the frame 8x8 already has.
     f"frame-src 'self' blob: {origins}; "
     # 'self' for the recordings this site does serve (the audio room, the
-    # Playhouse's yells, the yurt), then whatever AUDIO_ORIGINS holds.
-    f"media-src 'self' {media}; "
+    # Playhouse's yells, the yurt), then whatever AUDIO_ORIGINS holds. blob: is
+    # for a GIF on the CB (Ryan, 2026-11-06): its MP4 is copied onto the channel
+    # from Gifbox and has no public address, so cb.js fetches it from
+    # /cb/image with the pass, on a press, and plays it from memory, as img-src's
+    # blob: shows a picture. It reaches no other origin; Gifbox itself is never
+    # in this policy, because no page ever talks to it.
+    f"media-src 'self' blob: {media}; "
     "style-src 'self' 'unsafe-inline'; "
     f"script-src 'self' 'sha256-{digest}'; "
     # A SAFETY NET, NOT A FIX. Every subresource here is already https or
@@ -240,4 +245,4 @@ if set(keyers) - PASSKEYERS:
     sys.exit(2)
 hdr.write_text(new)
 print(f"csp: sha256-{digest}  ({len(pages)} pages, 1 snippet)\n     frame-src 'self' blob: " + origins + "  (read from love-embed.js)"
-      + "\n     media-src 'self' " + media + "  (read from love-embed.js)")
+      + "\n     media-src 'self' blob: " + media + "  (read from love-embed.js)")

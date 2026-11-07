@@ -9,38 +9,45 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sat, 07 Nov 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>GIFs on the CB, from Gifbox</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-06-gifs-from-gifbox</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-06-gifs-from-gifbox</guid>
+      <pubDate>Fri, 06 Nov 2026 12:00:00 GMT</pubDate>
+      <description>GIF beside the message box opens a tray of GIFs from Gifbox: what Gifbox is featuring when it opens, or a search, which goes when you press Search or Enter. Press one and it waits above the box like a picture, with Gifbox’s description in the description box for you to change, until you transmit. Nobody’s browser talks to Gifbox. The search goes from our server with our own key, the stills in the tray come through our server, and a GIF you send is copied onto the channel, so it is kept, sealed and deleted with its message exactly as a picture is. What is sent, and what is kept. A GIF never moves by itself, at any setting, because a GIF can flash. Everybody sees its still with a little GIF plate until they press it, and pressing again stops it. From Gifbox under it goes to its page there.</description>
+    </item>
+    <item>
       <title>A popped-out call: a warning first, the chat beside it, and the way back</title>
       <link>https://stimpunks.world/changelog.html#2026-11-06-popped-out-calls</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-06-popped-out-calls</guid>
-      <pubDate>Fri, 06 Nov 2026 12:00:00 GMT</pubDate>
+      <pubDate>Fri, 06 Nov 2026 11:59:00 GMT</pubDate>
       <description>Pop out now warns you before it drops you from the call. Its first press says that popping out drops you from the call and you join again in the new window, with Pop out and rejoin and Stay in the call. By request, the call’s own window can show the chat. Show the chat on its bar puts the chat for the call’s room beside the call, and the window grows to make room if your screen has it; Hide the chat takes it away and it stops listening. Show the page, on the same bar, brings forward the page you popped the call out of, the way Show the call window on the radio already went the other way. If your browser will not let it, the window says so.</description>
     </item>
     <item>
       <title>Who is in a call, on Who’s online and Happening now too, with avatars</title>
       <link>https://stimpunks.world/changelog.html#2026-11-06-who-is-in-a-call-everywhere</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-06-who-is-in-a-call-everywhere</guid>
-      <pubDate>Fri, 06 Nov 2026 11:59:00 GMT</pubDate>
+      <pubDate>Fri, 06 Nov 2026 11:58:00 GMT</pubDate>
       <description>Who is in a call is now shown wherever the radio names a call: under each room on Who’s online’s Calls going now, in Happening now (this room’s call, and on World every other room’s), and under each channel on the chat page, to anybody signed on who may go into the room. Ryan’s call, the same evening as the chat page’s list. You no longer need Be seen here on to see who is in your room’s call. Each name opens that person’s profile, as a name on Who’s online does, with the avatar they wear beside it. Still alphabetical, still no number, and a room that keeps to itself, a staff room you are not in and a call between two people are never shown. The privacy page says so. Who’s online named the World call twice, once as the World call and once as the World room; it names it once now.</description>
     </item>
     <item>
       <title>Who is in a call, under its channel on the chat page</title>
       <link>https://stimpunks.world/changelog.html#2026-11-06-who-is-in-a-call-on-the-chat-page</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-06-who-is-in-a-call-on-the-chat-page</guid>
-      <pubDate>Fri, 06 Nov 2026 11:58:00 GMT</pubDate>
+      <pubDate>Fri, 06 Nov 2026 11:57:00 GMT</pubDate>
       <description>By popular request, the chat page now lists who is in each call, under its channel, the way Discord lists the people in a voice channel. A channel whose call has somebody in it gets a small camera beside its name and the names of everybody in the call under it, alphabetical and with no number, BASE beside the base. Pressing the channel is still the way in. This shows who is in a call more widely than before, and it was Ryan’s call: until now a room’s call named its people only to radios seen in that room, and to people looking at an event on now in that call. On the chat page it names them to anybody signed on who may go into the room. A staff room shows its call only to the people it is for, a room that keeps to itself is never named, and a call between two people is never shown. The privacy page says so, and nothing more is kept for it.</description>
     </item>
     <item>
       <title>Your status &amp; availability, a part of its own on the radio</title>
       <link>https://stimpunks.world/changelog.html#2026-11-06-your-status-and-availability</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-06-your-status-and-availability</guid>
-      <pubDate>Fri, 06 Nov 2026 11:57:00 GMT</pubDate>
+      <pubDate>Fri, 06 Nov 2026 11:56:00 GMT</pubDate>
       <description>Your chat status and Your availability have moved out of Who’s around into a part of their own, Your status &amp; availability, straight after it, because they are about you and not about who else is around. It folds like the other parts. On Your page it now shows beside Unreads, and in the chat app on a phone it is under the You tab. Nothing about what either one does has changed; the CB guide lists the new part.</description>
     </item>
     <item>
       <title>Spoiler tags, on the CB and everywhere it reads Markdown</title>
       <link>https://stimpunks.world/changelog.html#2026-11-06-spoiler-tags</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-06-spoiler-tags</guid>
-      <pubDate>Fri, 06 Nov 2026 11:56:00 GMT</pubDate>
+      <pubDate>Fri, 06 Nov 2026 11:55:00 GMT</pubDate>
       <description>Put two bars either side of some words, ||like this||, and they are a spoiler, after Discord’s: hidden behind a bar in the words’ own colour until somebody presses it, and then shown for good on that page. It works on the channel and in messages, in the forums, Tasks and the office, on the Brass Tacks Board, in the suggestion box, in profiles, props and events: anywhere the CB reads Markdown. A spoiler can run across the lines of a paragraph, and two bars inside `code` stay code. A screen reader hears that there is a spoiler and nothing of its words until it is pressed; then the keyboard lands on the words, so they are read. Read aloud and Speak new messages aloud say “a spoiler” in its place. Nothing that cannot hide words shows them: a notification and your past notifications say “(spoiler)”, so does the quote above a reply, the Brass Tacks Board’s feed sends readers to the board for it, and a link inside a spoiler never gets a card that would give it away. The forums’, Tasks’ and the office’s toolbars have a Spoiler button, and the CB guide lists it with the rest of the Markdown.</description>
     </item>
     <item>
@@ -54,21 +61,21 @@
       <title>New Partington Power’s House, at the edge of town by the farm</title>
       <link>https://stimpunks.world/changelog.html#2026-11-06-new-partington-power</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-06-new-partington-power</guid>
-      <pubDate>Fri, 06 Nov 2026 11:55:00 GMT</pubDate>
+      <pubDate>Fri, 06 Nov 2026 11:54:00 GMT</pubDate>
       <description>A home for New Partington Power: New Partington Power’s House, from their brief as Helen Edgar passed it on. A suburban brick house with a covered porch, the last house where the last street out of town stops at a gate, south-east of the stile on Nature’s Contribution, with All Together Now Farms’ fields right over the back fence. The porch is screened, and it is in its own shade, so everything near you keeps its earth colours, the brick, the painted boards, the chairs, and the farm past the wire comes through soft and pale: every pastel in the room is the farm, seen through the screen. Nothing moves at any setting. A small makeshift maker space at the end of the porch: an old door across two sawhorses for a bench, a pegboard of tools leaned on the last screen, an old television and a VCR, a soldering iron, a coffee can of screws and an extension lead run out from the house. Nature’s Contribution has its first home. Its fingerpost has an arm south-east, the view from the stile has the house in it, and the table of what goes where leaves it out on purpose: every other place out there gives something to the others, and a home owes the land nothing. The land’s tool now refuses an offering from a home. A job marker, a screw dropped out of the coffee can, lies on the porch boards; a share card; a cross-trapped orbit in its fractal window, like the screen’s wire; its place on the map and the street’s other ways round.</description>
     </item>
     <item>
       <title>The Scalable Feast Ballroom, cozy grandeur</title>
       <link>https://stimpunks.world/changelog.html#2026-11-06-scalable-feast-ballroom</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-06-scalable-feast-ballroom</guid>
-      <pubDate>Fri, 06 Nov 2026 11:54:00 GMT</pubDate>
+      <pubDate>Fri, 06 Nov 2026 11:53:00 GMT</pubDate>
       <description>A big comfortable ballroom on the street: the Scalable Feast Ballroom, from Ryan’s brief: “Both cozy and grand. Cozy Grandeur.” A coffered ceiling with a sky painted in the middle of it, chandeliers on long chains, gilt everywhere and herringbone parquet underfoot, lit from so high up that the light lands on everything evenly. The page is as tall as the room. You come in at the ceiling and scroll down the height of the ballroom, past the cornice, the mirrors and the chandeliers, with a plaque at each level saying where you are, to the floor. A link above the height goes straight down to the floor and one after it goes back up, so nobody has to scroll it. At each end, canopies to go under: a striped cabana, a round pavilion, a four-poster, a bell tent, a sail and hangings under a gilt crown, no two alike, each a living room with a sofa or chairs, a rug and something soft, and the hall’s light coming through its cloth. Living rooms out in the hall between them, and the long table down the middle of the floor, as long as the people at it. No guest list, no dress code, no ticket, and nobody is asked to dance; nothing is counted. At MAX GLITTER the glints on the gilt and the crystal brighten and fade, slowly; nothing moves at any other setting. Prata and Wix Madefor Text join the faces. A door, a job marker (a crystal drop on the parquet), a share card, a fractal window, and its place on the map.</description>
     </item>
     <item>
       <title>Em’s nails between the parts of the street</title>
       <link>https://stimpunks.world/changelog.html#2026-11-06-ems-nails</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-06-ems-nails</guid>
-      <pubDate>Fri, 06 Nov 2026 11:53:00 GMT</pubDate>
+      <pubDate>Fri, 06 Nov 2026 11:52:00 GMT</pubDate>
       <description>Rows of hand-painted press-on nails now stand between the parts of the front page: ladybirds, blue stripes, stitches, bronze swirls and florals, black spirals, and a Halloween set, each one a set by Em, who makes and sells them as Ems Nails 4 You. Every nail was lifted out of her own product photographs, with her permission, turned upright and stood on one line; nothing is recoloured or redrawn. A line at the foot of the page says whose they are and links her shop, the liner notes say how they were cut, and her photographs stay hers, outside this site’s licence.</description>
     </item>
     <item>
