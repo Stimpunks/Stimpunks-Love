@@ -1706,7 +1706,11 @@
       me.setCall(b.dataset.on !== 'true', w);
     });
     // On the chat page, beside the channel's name (chatMake's chanTop).
-    (this.chanTop || nameRow).appendChild(headCall);
+    // Elsewhere it shares a group with Open in Chat (below), on one line
+    // beside the name, or under it on a narrow radio (Ryan's ask, 2026-11-07).
+    var hereActs = this.chanTop ? null : el('div', 'cb-here-acts');
+    if (hereActs) { hereActs.appendChild(headCall); nameRow.appendChild(hereActs); }
+    else this.chanTop.appendChild(headCall);
     (whereSec || hereSec).appendChild(nameRow);
 
     /* I NEED A BODYMIND BREAK (Helen Edgar's idea and Ryan's answer,
@@ -1744,8 +1748,8 @@
     var toChat = this.toChatLink = el('a', 'cb-btn cb-to-chat', 'Open in Chat');
     toChat.href = '/' + CHAT_PAGE + '.html';
     toChat.hidden = true;
-    whereRow.appendChild(toChat);
-    (whereSec || hereSec).appendChild(whereRow);
+    if (hereActs) hereActs.appendChild(toChat);
+    else { whereRow.appendChild(toChat); (whereSec || hereSec).appendChild(whereRow); }
     /* STILL AVAILABLE? (2026-10-29): your availability, chosen before today,
        asked about once, at the top where it is seen. The day is kept in this
        browser alone (love-cb's availDay) and never sent. See availStaleShown. */
