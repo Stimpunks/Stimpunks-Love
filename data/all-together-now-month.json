@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-06T12:34Z",
+ "set": "2026-11-07T12:33Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-06T12:34:45Z"
+     "2026-11-07T12:33:18Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-06T12:34:45Z"
+     "2026-11-07T12:33:18Z"
     ]
    ]
   }
@@ -138,13 +138,13 @@
    "channel": "Farming While Beige"
   },
   {
-   "id": "ERHdAy70gAE",
+   "id": "OlPQcgdEESo",
    "source": "farming-while-beige",
-   "form": "short",
-   "title": "Yes, gently tossing day-old chicks is perfectly normal and safe",
-   "published": "2026-10-07T16:26:30Z",
+   "form": "long",
+   "title": "Abdul El-Sayed’s Agriculture Plan",
+   "published": "2026-11-07T01:57:36Z",
    "state": "screen",
-   "runs": 142,
+   "runs": 538,
    "channel": "Farming While Beige"
   },
   {
