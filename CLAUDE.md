@@ -4351,6 +4351,26 @@ in the browser, not a real one**: the first test on a Quest is what tells us abo
 friendly edits are smooth stick walking "because games have it", rendering every frame outside a session, and showing
 Enter VR on every room before each is tried.
 
+**THE RADIO FOLLOWS YOU INTO A ROOM ON CEL STREET, AND THE PEOPLE IN IT STAND THERE AS FIGURES.** Helen Edgar's ask,
+2026-11-07, her Faery Yurt first, a trial for her and Ryan: see who is in the 3D yurt and chat with them. **The chat is the
+room's own channel**: `radioRoom()` in `cel-street.js` writes the room on `<body>` as `data-cel-room` (the forums' rule,
+`placeRadio`), fires `love-cel-room`, and `celHere()` in `cb.js` makes the radio that room's, channel, Be seen here and
+call, so the yurt's people on its page and on Cel Street are one channel. **Where you stand is sent by the radio, never by
+the page**: `spotTell()` in `cel-street.js` says which of the room's places you are nearest (`love-cel-spot`, an index into
+the room's own list of places, never a position), and **Show my avatar in 3D rooms** (`celShown`, `sendCel`, `setCelOut`,
+kept in `love-cb` as `cel`, Be seen here's rule, off until pressed, claimed only) posts it to `/cb/cel`
+(`cb-cel.mjs`, `showCelFolk` in `lib.mjs`, one blob `cel-folk`, the familiars' arrangement, room and spot and nothing about
+when). `/cb/here` answers with each seen claimed person's place and the avatar they wear (`withCelFolk`), only for an entry
+naming that room, so a figure is seen only where its person is seen and only by people seen there; the radio hands the
+list to the page (`love-cel-folk`) and `figureOf()` in `cel-street.js` builds each figure out of the look's choices (shape,
+skin, hair, pose and chair, aids, clothes as blocks in their colourways' first ink), every colour read out of
+`loveAvatar.data` by name, with the username on a sprite over its head. **A figure stands beside its place, never on it**:
+you may be standing there yourself, and from inside a figure all you see is its ink (found on the first test). Leaving the
+room, switching it off, `forgetAvatars` and deleting the username delete the record; `lib.test.mjs` races fifteen and holds
+the record to room and spot. `privacy.html#cel-folk` was written first. **The friendly edits are sending your exact
+position "so figures walk", a list of who is in every 3D room, figures for people who did not press the switch, and
+the page fetching `/cb/here` itself** (`make-cel-street.py` lets it fetch only the front page and your avatars).
+
 **PAPER STREET WALKS INTO EVERY ROOM CEL STREET DOES, ROUND 1** (Ryan's ask, 2026-11-04, built by eight helper agents
 from one brief): a `walk-<page>.js` for each, its walk classes at the end of that room's own section of love.css, its page
 up through `kit.screen()`, a few drawn things in its own declared colours and no new tokens. **A room's name is `NAMES[page]`

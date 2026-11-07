@@ -1947,6 +1947,20 @@
     famSub.appendChild(famBtn);
     famSub.appendChild(this.famNow);
     hereSec.appendChild(famSub);
+    /* SHOW MY AVATAR IN 3D ROOMS (Helen Edgar, 2026-11-07): on Cel Street, in
+       a room, for a claimed username wearing an avatar, off until pressed;
+       see celShown(). */
+    var celSub = this.celSub = el('div', 'cb-sub cb-cel-sub');
+    celSub.appendChild(el('h3', 'cb-h3', 'Your avatar in 3D rooms'));
+    var celBtn = this.celBtn = el('button', 'cb-btn cb-seen', 'Show my avatar in 3D rooms: off');
+    celBtn.type = 'button';
+    celBtn.setAttribute('aria-pressed', 'false');
+    celBtn.hidden = true;
+    this.celNow = el('p', 'cb-seen-now');
+    this.celNow.hidden = true;
+    celSub.appendChild(celBtn);
+    celSub.appendChild(this.celNow);
+    hereSec.appendChild(celSub);
     /* HAPPENING NOW's smaller parts. The room's call (callSub, above) stands
        here while somebody is in it, and under In this channel otherwise: see
        callPlace. What is on now from the schedule stands here always, and is
@@ -2602,6 +2616,7 @@
     bw.addEventListener('click', function () { me.setBand('world'); });
     seenBtn.addEventListener('click', function () { me.setSeen(!me.state.seen); });
     famBtn.addEventListener('click', function () { me.setFamiliarOut(!me.famOut); });
+    celBtn.addEventListener('click', function () { me.setCelOut(!me.state.cel); });
     // A familiar taken, changed or sent home on this page: the switch follows.
     window.addEventListener('love-familiar', function () { if (me.present) me.familiarShown(true); });
     ob.addEventListener('click', function () { me.setOnline(online.hidden); });
@@ -3715,6 +3730,12 @@
        two shared a name from 2026-10-18, and the list being there kept the
        voice from ever starting (Speak new messages aloud said nothing). */
     this.aired = messages;
+    // On Cel Street, the newest few for the headset's panel (cel-street.js):
+    // who and their words, out of what this radio already shows.
+    if (celPage()) {
+      var tail = messages.slice(-4).map(function (m) { return { handle: m.handle, text: m.text || '' }; });
+      window.dispatchEvent(new CustomEvent('love-cel-chat', { detail: { channel: this.tunedRoom() ? 'This room' : 'World', lines: tail } }));
+    }
     var log = this.log;
     var atEnd = log.hidden || log.scrollHeight - log.scrollTop - log.clientHeight < 24;
     var fromEnd = log.scrollHeight - log.scrollTop;
@@ -4749,6 +4770,20 @@
       path: '/' + FORUM_PAGE + '.html#/c/' + tag.slice(FORUM_ROOM.length), forum: true };
   }
   function forumHereTag() { var f = forumHere(); return f ? f.tag : ''; }
+
+  /* ON CEL STREET, THE ROOM YOU HAVE WALKED INTO (Helen Edgar's ask,
+     2026-11-07, so people in the 3D yurt can chat with whoever is in the
+     yurt). cel-street.js says which on the page's own <body>, data-cel-room,
+     and takes it off again out on the street, and this radio then is that
+     room's: its channel, Be seen here and its call. Only a room on the
+     street's own list counts, so a room that keeps to itself never does. */
+  function celHere() {
+    var d = streetDoc();
+    if (!d || !d.body || herePath() !== '/cel-street.html') return null;
+    var tag = d.body.getAttribute('data-cel-room');
+    return tag && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tag) && byTag[tag] ? byTag[tag] : null;
+  }
+  function celHereTag() { var c = celHere(); return c ? c.tag : ''; }
 
   // Whether a room on a list is the one this page is in.
   function isHere(r) {
@@ -15013,6 +15048,8 @@
     if (offList()) return quietHere();
     var f = forumHere();
     if (f) return f;
+    var cl = celHere();
+    if (cl) return cl;
     var p = herePath();
     for (var i = 0; rooms && i < rooms.length; i++) if (rooms[i].path === p) return rooms[i];
     return null;
@@ -15110,7 +15147,7 @@
      it was hosted in the room you left. Answers whether it retuned, which has
      listened already. */
   Radio.prototype.whereNow = function () {
-    var now = herePath() + (offList() ? '|quiet' : '') + '|' + forumHereTag();
+    var now = herePath() + (offList() ? '|quiet' : '') + '|' + forumHereTag() + '|' + celHereTag();
     if (now === this.wasPath) return false;
     var first = this.wasPath === undefined;
     this.wasPath = now;
@@ -15359,6 +15396,7 @@
     var seenA = tag && this.seenFrom === tag ? this.seenAnswer : null;
     this.visitorsShown(this.state.seen && !this.state.folded && seenA && !seenA.refused ? seenA.others : []);
     this.familiarShown();
+    this.celShown(this.state.seen && seenA && !seenA.refused ? seenA.others : []);
     // Who is in the call is told only to a radio seen here; it is outside the
     // Seen here subsection, so it is put away here rather than with it.
     this.inCallNow.hidden = true;
@@ -15601,6 +15639,66 @@
       if (r.status === 200) { me.famOut = false; me.famSent = ''; if (!quiet) me.tell('Your familiar stays with you alone now: nobody else sees it.'); }
       me.familiarShown();
     }, function () { me.famBusy = false; });
+  };
+
+  /* YOUR AVATAR IN 3D ROOMS (Helen Edgar's ask, 2026-11-07: see the people in
+     the 3D Faery Yurt on Cel Street and chat with them). On Cel Street, in a
+     room (celHere), with a claimed username: Show my avatar in 3D rooms sends
+     which room and which of its places you are standing at (cel-street.js says
+     so on the page, love-cel-spot, an index into the room's own list of places
+     and never a position), each time it changes, to /cb/cel; out on the street,
+     or switched off, or not seen, it sends that you are nowhere. The people
+     seen here come back on /cb/here with where each stands and the avatar they
+     wear (privacy.html#cel-folk), and the page draws them (love-cel-folk).
+     Whether it is on is kept in love-cb as `cel`, Be seen here's rule. */
+  var celSpot = null;
+  window.addEventListener('love-cel-spot', function (e) {
+    celSpot = e.detail && Number.isInteger(e.detail.spot) ? { room: e.detail.room, spot: e.detail.spot } : null;
+    if (radio && !radio.state.folded) radio.celShown();
+  });
+  function celPage() { return !inWindow() && herePath() === '/cel-street.html'; }
+  Radio.prototype.celShown = function (others) {
+    var me = this, claimed = !!this.state.claimed || forumPass(this.state.pass);
+    var here = presentRoom(), show = !!(claimed && celPage() && here && celHere());
+    this.celBtn.hidden = !show;
+    this.celNow.hidden = !show;
+    if (others !== undefined && celPage()) {
+      var mine = fold(this.state.handle);
+      var folk = (others || []).filter(function (o) { return o && o.cel && fold(o.handle) !== mine; })
+        .map(function (o) { return { handle: o.handle, base: !!o.base, spot: o.cel.spot, look: o.cel.look }; });
+      var key = JSON.stringify(folk);
+      if (key !== this.celFolkSent) { this.celFolkSent = key; window.dispatchEvent(new CustomEvent('love-cel-folk', { detail: { room: here, folk: folk } })); }
+    }
+    // What the street should hold about you: your place while you are on,
+    // seen, in a room on Cel Street, and nothing otherwise.
+    var want = this.state.cel && this.state.seen && show && celSpot && celSpot.room === here ? { room: here, spot: celSpot.spot } : null;
+    var wantKey = want ? JSON.stringify(want) : '';
+    // Sent when it changes. The first time with nothing to send, once, in case
+    // a record from an earlier visit is still there.
+    if (!this.celBusy && (this.celSent === undefined ? (!!want || !!this.state.cel) : wantKey !== this.celSent)) this.sendCel(want);
+    if (!show) return;
+    var on = !!this.state.cel;
+    this.celBtn.setAttribute('aria-pressed', String(on));
+    this.celBtn.textContent = 'Show my avatar in 3D rooms: ' + (on ? 'on' : 'off');
+    this.celNow.textContent = on
+      ? (this.state.seen ? 'The avatar you wear stands where you stand, as a 3D figure, for the people seen in this room with you.' : 'Press Be seen here too: your avatar is shown only while you are seen.')
+      : 'Switch it on and the people seen in this room see the avatar you wear on the CB standing where you stand, as a 3D figure, while you are seen. It is off until you do, and it shows only which place you are at, never your exact spot.';
+  };
+  Radio.prototype.sendCel = function (want) {
+    var me = this, key = want ? JSON.stringify(want) : '';
+    this.celBusy = true;
+    call('/cb/cel', { body: { at: want } }, this.state.pass).then(function (r) {
+      me.celBusy = false;
+      if (r.status === 401) return me.lost();
+      if (r.status === 200) me.celSent = key;
+      else if (want) { me.celSent = ''; me.tell((r.body && r.body.error) || 'That did not work just now.'); }
+    }, function () { me.celBusy = false; });
+  };
+  Radio.prototype.setCelOut = function (on) {
+    this.state.cel = !!on;
+    save(this.state);
+    this.tell(on ? 'Your avatar stands with you in 3D rooms now, for the people seen there with you.' : 'Your avatar is yours alone again in 3D rooms: nobody else sees it there.');
+    this.celShown();
   };
 
   Radio.prototype.quietText = function () {
@@ -16879,13 +16977,16 @@
     window.addEventListener('pageshow', function () { popLine.postMessage({ arrived: true }); });
     window.addEventListener('focus', function () { popLine.postMessage({ arrived: true }); });
   }
-  // The forums have moved to another category, or out of one (forum.js), on
-  // this page: the radio here, or the one in its own window, follows.
+  // The forums have moved to another category, or out of one (forum.js), or
+  // Cel Street into a room or out of one (cel-street.js), on this page: the
+  // radio here, or the one in its own window, follows.
   if (!inWindow()) {
-    window.addEventListener('love-forum-room', function () {
+    var moved = function () {
       if (popLine) popLine.postMessage({ arrived: true });
       if (radio && !radio.state.folded && radio.wasPath !== undefined) radio.whereNow();
-    });
+    };
+    window.addEventListener('love-forum-room', moved);
+    window.addEventListener('love-cel-room', moved);
   }
 
   /* ── The counter at the Community Center ──────────────────────────────── */

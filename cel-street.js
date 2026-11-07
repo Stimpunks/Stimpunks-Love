@@ -1235,6 +1235,7 @@ function start() {
 
   var said = '';
   function tell() {
+    spotTell();
     if (!hereEl) return;
     var s = nearest();
     var words = inside
@@ -1646,7 +1647,7 @@ function start() {
       me = { x: made.start.x, z: made.start.z, yaw: made.start.yaw || 0, pitch: 0.05 };
       up = false; glide = null; held = {};
       if (push !== false) history.pushState({ celIn: page }, '', '#in=' + page.replace(/\.html$/, ''));
-      wayOut(); places(); roomCtl(); vrOffer();
+      wayOut(); places(); roomCtl(); vrOffer(); radioRoom();
       said = '';
       draw(); tell(); plateUp(); moves();
       if (list) list.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
@@ -1692,10 +1693,20 @@ function start() {
     inside = was.inside; glide = null; held = {};
     // The room you came back into shows its own page again.
     scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = ''; });
-    wayOut(); places(); roomCtl(); vrOffer();
+    wayOut(); places(); roomCtl(); vrOffer(); radioRoom();
     if (!inside && list) list.querySelectorAll('a').forEach(function (a) { a.removeAttribute('tabindex'); });
     said = '';
     draw(); tell(); plateUp(); moves();
+  }
+  // THE RADIO FOLLOWS YOU IN (Helen Edgar's ask, 2026-11-07): the room you are
+  // in is written on the page's <body>, and cb.js makes the radio that room's,
+  // its channel and Be seen here, so you chat with whoever else is in it.
+  function radioRoom() {
+    var tag = inside ? inside.page.replace(/\.html$/, '') : '';
+    folkClear(); spotSaid = ''; spotTell();
+    if ((document.body.getAttribute('data-cel-room') || '') === tag) return;
+    if (tag) document.body.setAttribute('data-cel-room', tag); else document.body.removeAttribute('data-cel-room');
+    window.dispatchEvent(new CustomEvent('love-cel-room'));
   }
   function outOfRoom() {
     if (history.state && history.state.celIn) history.back();
@@ -2284,6 +2295,189 @@ function start() {
     stage.focus({ preventScroll: true });
   });
 
+  /* ── Other people in the room, as 3D figures ──────────────────────────── */
+  // Helen Edgar's ask, 2026-11-07, her Faery Yurt first: see the people who
+  // are in the room and chat with them. THE RADIO DOES THE ASKING AND THIS
+  // DOES THE DRAWING. Walking into a room says so on <body> (radioRoom), and
+  // the radio becomes that room's: its channel is where you chat, Be seen here
+  // is how you are seen, and Show my avatar in 3D rooms (cb.js) sends which of
+  // this room's places you are at. This page says which (love-cel-spot: the
+  // place's index in the room's own list, never a position), and draws the
+  // people the radio hears of (love-cel-folk), each a figure built here out of
+  // the avatar they wear: its body's shape, skin, hair, pose, chair and aids,
+  // and its clothes as blocks of their own colours, every colour read by name
+  // out of avatar.js's own tables. Nothing here is fetched or kept: the list
+  // is the radio's, and it goes when you leave the room.
+  var folkGroup = null, folkList = null, spotSaid = '';
+  // The place you are at: the nearest by distance alone, so a headset's free
+  // walking still counts, and none when you are far from any.
+  function spotOf() {
+    var best = -1, bd = 6;
+    stops.forEach(function (s, i) { var d = Math.hypot(s.x - me.x, s.z - me.z); if (d < bd) { bd = d; best = i; } });
+    return best;
+  }
+  function spotTell() {
+    var i = inside ? spotOf() : -1;
+    var key = inside ? inside.page + ':' + i : '';
+    if (key === spotSaid) return;
+    spotSaid = key;
+    window.dispatchEvent(new CustomEvent('love-cel-spot', { detail: inside && i >= 0 ? { room: inside.page.replace(/\.html$/, ''), spot: i } : null }));
+  }
+  function folkClear() {
+    if (!folkGroup) return;
+    folkGroup.traverse(function (o) {
+      if (o.geometry) o.geometry.dispose();
+      if (o.material && o.material.map) o.material.map.dispose();
+    });
+    if (folkGroup.parent) folkGroup.parent.remove(folkGroup);
+    folkGroup = null;
+  }
+  // A figure in its colours: a toon mesh and the ink hull behind it.
+  function figurePart(g, geo, colour, m) {
+    var mesh = new THREE.Mesh(geo, painted(new THREE.MeshToonMaterial({ color: new THREE.Color(colour), gradientMap: gradient })));
+    mesh.matrixAutoUpdate = false; mesh.matrix.copy(m); mesh.castShadow = true;
+    g.add(mesh);
+    var h = new THREE.Mesh(geo, inkMat);
+    h.matrixAutoUpdate = false;
+    h.matrix.copy(m).multiply(new THREE.Matrix4().makeScale(1.07, 1.05, 1.07));
+    g.add(h);
+    return mesh;
+  }
+  var SIZE = { shorter: 0.92, middling: 1, taller: 1.08 };
+  var WIDTH = { narrow: 0.34, middling: 0.4, broad: 0.46 };
+  var DEPTH = { flat: 0.18, soft: 0.22, round: 0.26, big: 0.32 };
+  var HIPS = { narrow: 0.3, middling: 0.36, wide: 0.42 };
+  function figureOf(who) {
+    var A = window.loveAvatar && window.loveAvatar.data, look = who.look;
+    if (!A || !look) return null;
+    var g = new THREE.Group();
+    var body = look.base === 'bodymind' && look.body ? look.body : {};
+    var wear = look.wear || {};
+    var skin = (A.body.colours.skin[body.skin] || A.body.colours.skin.t5);
+    var hairC = body.hairColour === 'rainbow' ? A.body.colours.hair_rainbow[0] : (A.body.colours.hair[body.hairColour] || A.body.colours.hair.brown);
+    var layer = A.inks[body.layer] || A.inks.coal;
+    function cloth(slot, fallback) {
+      var w = wear[slot], cw = w && A.colourways[w[2]];
+      return cw && cw.inks && A.inks[cw.inks[0]] ? A.inks[cw.inks[0]] : fallback;
+    }
+    var k = SIZE[body.height] || 1, sw = WIDTH[body.shoulders] || 0.4, sd = DEPTH[body.middle] || 0.22, hw = HIPS[body.hips] || 0.36;
+    var seated = body.pose === 'wheelchair' || body.pose === 'powerchair';
+    var chair = A.body.colours.chair, chairL = A.body.colours.chair_light;
+    var legY = seated ? 0.5 : 0, legH = seated ? 0.46 : 0.78 * k, torsoY = legY + legH;
+    var top = cloth('top', layer), bottom = cloth('bottom', A.inks.denim === layer ? A.inks.coal : layer), feet = cloth('feet', A.inks.black);
+    // Legs and feet.
+    if (seated) {
+      figurePart(g, new THREE.BoxGeometry(hw, 0.16, 0.44), bottom, at(0, legY + 0.38, -0.2));
+      figurePart(g, new THREE.BoxGeometry(hw, 0.4, 0.14), bottom, at(0, legY + 0.1, -0.4));
+      figurePart(g, new THREE.BoxGeometry(hw, 0.08, 0.22), feet, at(0, 0.12, -0.46));
+      // The chair: seat, back, wheels; a powerchair sits lower and squarer, with a joystick.
+      var power = body.pose === 'powerchair';
+      figurePart(g, new THREE.BoxGeometry(hw + 0.16, 0.08, 0.5), chair, at(0, legY - 0.04, -0.12));
+      figurePart(g, new THREE.BoxGeometry(hw + 0.16, 0.5, 0.06), chair, at(0, legY + 0.22, 0.14));
+      if (power) {
+        figurePart(g, new THREE.BoxGeometry(hw + 0.2, 0.26, 0.56), chair, at(0, legY - 0.22, -0.1));
+        [-1, 1].forEach(function (sd2) { figurePart(g, new THREE.CylinderGeometry(0.16, 0.16, 0.08, 12), chairL, at(sd2 * (hw / 2 + 0.14), 0.16, -0.12, 0, 0, Math.PI / 2)); });
+        figurePart(g, new THREE.CylinderGeometry(0.02, 0.02, 0.1, 6), chairL, at(hw / 2 + 0.16, legY + 0.14, -0.2));
+      } else {
+        [-1, 1].forEach(function (sd2) { figurePart(g, new THREE.CylinderGeometry(0.3, 0.3, 0.04, 16), chairL, at(sd2 * (hw / 2 + 0.12), 0.3, -0.02, 0, 0, Math.PI / 2)); });
+      }
+    } else {
+      [-1, 1].forEach(function (sd2) {
+        figurePart(g, new THREE.BoxGeometry(hw * 0.42, legH, 0.2), bottom, at(sd2 * hw * 0.27, legH / 2, 0));
+        figurePart(g, new THREE.BoxGeometry(hw * 0.42, 0.08, 0.3), feet, at(sd2 * hw * 0.27, 0.04, -0.06));
+      });
+    }
+    // Torso, an outer layer over it, arms, hands.
+    var torsoH = 0.6 * k;
+    figurePart(g, new THREE.BoxGeometry(sw, torsoH, sd), top, at(0, torsoY + torsoH / 2, 0));
+    if (wear.outer) figurePart(g, new THREE.BoxGeometry(sw + 0.08, torsoH * 0.9, sd + 0.08), cloth('outer', layer), at(0, torsoY + torsoH * 0.5, 0));
+    var sleeve = wear.outer ? cloth('outer', layer) : top;
+    var armH = torsoH * 0.9;
+    [-1, 1].forEach(function (sd2) {
+      var ax = sd2 * (sw / 2 + 0.07 + (wear.outer ? 0.04 : 0));
+      figurePart(g, new THREE.BoxGeometry(0.11, armH, 0.11), sleeve, at(ax, torsoY + torsoH - armH / 2, seated ? -0.04 : 0));
+      figurePart(g, new THREE.BoxGeometry(0.1, 0.1, 0.1), skin, at(ax, torsoY + torsoH - armH - 0.04, seated ? -0.04 : 0));
+    });
+    // Head, face (the eyes and the mouth in ink, so every face reads at a
+    // distance), hair, hat, glasses, mask.
+    var headY = torsoY + torsoH + 0.18, faceZ = -0.13;
+    figurePart(g, new THREE.BoxGeometry(0.24, 0.28, 0.24), skin, at(0, headY, 0));
+    var ink = css('--cel-ink');
+    if (body.eyes !== 'closed') [-1, 1].forEach(function (sd2) { figurePart(g, new THREE.BoxGeometry(0.035, 0.035, 0.02), ink, at(sd2 * 0.055, headY + 0.03, faceZ)); });
+    else [-1, 1].forEach(function (sd2) { figurePart(g, new THREE.BoxGeometry(0.05, 0.012, 0.02), ink, at(sd2 * 0.055, headY + 0.03, faceZ)); });
+    figurePart(g, new THREE.BoxGeometry(body.mouth === 'grin' || body.mouth === 'smile' ? 0.08 : 0.05, 0.012, 0.02), ink, at(0, headY - 0.06, faceZ));
+    if (body.faceAid === 'mask') figurePart(g, new THREE.BoxGeometry(0.2, 0.12, 0.03), A.body.colours.mask, at(0, headY - 0.05, faceZ));
+    if (body.eyewear === 'glasses' || body.eyewear === 'dark') figurePart(g, new THREE.BoxGeometry(0.22, 0.05, 0.02), body.eyewear === 'dark' ? ink : A.body.colours.aid, at(0, headY + 0.03, faceZ - 0.01));
+    var hair = body.hair || 'short';
+    if (hair !== 'bald') {
+      var big = hair === 'afro' || hair === 'curly', longH = hair === 'long' || hair === 'wavy' || hair === 'braids' || hair === 'locs';
+      figurePart(g, new THREE.BoxGeometry(big ? 0.34 : 0.27, big ? 0.2 : hair === 'shaved' ? 0.06 : 0.1, big ? 0.34 : 0.27), hairC, at(0, headY + 0.13 + (big ? 0.03 : 0), 0.01));
+      if (longH) figurePart(g, new THREE.BoxGeometry(0.26, 0.36, 0.1), hairC, at(0, headY - 0.04, 0.14));
+      if (hair === 'bun' || hair === 'ponytail') figurePart(g, new THREE.SphereGeometry(0.07, 10, 8), hairC, at(0, headY + (hair === 'bun' ? 0.14 : 0.02), 0.16));
+      if (hair === 'mohawk') figurePart(g, new THREE.BoxGeometry(0.06, 0.14, 0.26), hairC, at(0, headY + 0.22, 0));
+      if (hair === 'bob') figurePart(g, new THREE.BoxGeometry(0.3, 0.2, 0.3), hairC, at(0, headY + 0.02, 0.02));
+    }
+    if (wear.head) figurePart(g, new THREE.BoxGeometry(0.32, 0.1, 0.32), cloth('head', layer), at(0, headY + 0.22, 0));
+    if (body.ears === 'defenders' || body.ears === 'headphones') [-1, 1].forEach(function (sd2) { figurePart(g, new THREE.BoxGeometry(0.05, 0.1, 0.1), A.body.colours.aid_dark, at(sd2 * 0.14, headY, 0)); });
+    // Something always with them, in the hand it is in.
+    var hands = body.hands;
+    if (hands === 'cane' || hands === 'white' || hands === 'crutches' || hands === 'walker') {
+      var ac = hands === 'white' ? A.body.colours.white_cane : A.body.colours.aid;
+      var hx = sw / 2 + 0.2;
+      if (hands === 'walker') {
+        figurePart(g, new THREE.BoxGeometry(sw + 0.2, 0.04, 0.04), ac, at(0, 0.9 * k, -0.3));
+        [-1, 1].forEach(function (sd2) { figurePart(g, new THREE.CylinderGeometry(0.015, 0.015, 0.9 * k, 6), ac, at(sd2 * (sw / 2 + 0.08), 0.45 * k, -0.3)); });
+      } else {
+        figurePart(g, new THREE.CylinderGeometry(0.015, 0.015, torsoY + 0.1, 6), ac, at(hx, (torsoY + 0.1) / 2, -0.05));
+        if (hands === 'white') figurePart(g, new THREE.CylinderGeometry(0.025, 0.025, 0.1, 6), A.body.colours.cane_tip, at(hx, 0.05, -0.05));
+        if (hands === 'crutches') figurePart(g, new THREE.CylinderGeometry(0.015, 0.015, torsoY + 0.1, 6), ac, at(-hx, (torsoY + 0.1) / 2, -0.05));
+      }
+    }
+    // Their name over their head, facing you wherever you stand.
+    var map = tex(512, 128, function (c, w, h) {
+      var face = getComputedStyle(stage).fontFamily;
+      c.fillStyle = css('--cel-page'); c.fillRect(0, 0, w, h);
+      c.strokeStyle = css('--cel-ink'); c.lineWidth = 10; c.strokeRect(5, 5, w - 10, h - 10);
+      c.fillStyle = css('--cel-ink'); c.textAlign = 'center'; c.textBaseline = 'middle';
+      var size = 56;
+      do { c.font = '700 ' + size + 'px ' + face; size -= 4; } while (c.measureText(who.handle).width > w - 40 && size > 20);
+      c.fillText(who.handle, w / 2, h / 2);
+    });
+    var tag = new THREE.Sprite(new THREE.SpriteMaterial({ map: map, depthTest: false }));
+    tag.scale.set(0.5, 0.125, 1);
+    tag.position.set(0, headY + 0.5, 0);
+    g.add(tag);
+    return g;
+  }
+  function folkDraw() {
+    folkClear();
+    if (!inside || !folkList || folkList.room !== inside.page.replace(/\.html$/, '') || !folkList.folk.length) { draw(); return; }
+    folkGroup = new THREE.Group();
+    var bySpot = {};
+    folkList.folk.forEach(function (who) {
+      var s = stops[who.spot];
+      if (!s) return;
+      var fig = figureOf(who);
+      if (!fig) return;
+      var n = (bySpot[who.spot] = (bySpot[who.spot] || 0) + 1);
+      // Beside the place, never on it: you may be standing there yourself, and
+      // from inside a figure all you see is its ink. Several at one place
+      // stand side by side, a stride apart, facing what the place faces.
+      var side = (Math.floor((n - 1) / 2) + 1) * 0.8 * (n % 2 ? 1 : -1);
+      fig.position.set(s.x + Math.cos(s.yaw) * side, 0, s.z - Math.sin(s.yaw) * side);
+      fig.rotation.y = s.yaw;
+      folkGroup.add(fig);
+    });
+    scene.add(folkGroup);
+    draw();
+  }
+  window.addEventListener('love-cel-folk', function (e) {
+    var d = e.detail;
+    folkList = d && d.room && Array.isArray(d.folk) ? { room: d.room, folk: d.folk } : null;
+    if (!folkList || !folkList.folk.length) { folkDraw(); return; }
+    loadScript('avatar.js', function () { return !!window.loveAvatar; }).then(folkDraw, function () {});
+  });
+
   /* ── In a headset ──────────────────────────────────────────────────────── */
   // Helen Edgar's ask, 2026-11-07, starting with her Faery Yurt: the room in a
   // VR headset, through the headset's own browser (WebXR). It is offered only
@@ -2316,7 +2510,14 @@ function start() {
   var dolly = new THREE.Group();
   var FLOOR = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
   var xrRay = new THREE.Raycaster(), xrAim = new THREE.Matrix4(), xrAt = new THREE.Vector3(), xrQ = new THREE.Euler();
-  var hands = [], panel = null, panelTiles = [], panelOpen = true, panelWords = '';
+  var hands = [], panel = null, panelTiles = [], panelOpen = true, panelWords = '', chatLast = null;
+  // The newest few messages on the radio's channel, for the panel, handed over
+  // by the radio (cb.js) out of what it already shows; nothing asked for here.
+  window.addEventListener('love-cel-chat', function (e) {
+    var d = e.detail;
+    chatLast = d && Array.isArray(d.lines) && d.lines.length ? { channel: String(d.channel || ''), lines: d.lines.slice(-3) } : null;
+    if (xrOn && panelOpen) vrPanel();
+  });
   if (navigator.xr && navigator.xr.isSessionSupported) {
     navigator.xr.isSessionSupported('immersive-vr').then(function (ok) { xrCan = !!ok; vrOffer(); }).catch(function () {});
   }
@@ -2376,6 +2577,13 @@ function start() {
     var items = [];
     if (panelOpen) {
       items.push({ words: panelWords || ('In ' + (inside ? inside.name : 'the room') + '. Point and press: at the floor to stand there, at a switch to press it.'), wide: true });
+      if (chatLast) {
+        items.push({ words: 'On the radio, ' + chatLast.channel.toLowerCase() + ':', wide: true, label: true });
+        chatLast.lines.forEach(function (l) {
+          var words = String(l.handle || '') + ': ' + String(l.text || '').replace(/\s+/g, ' ');
+          items.push({ words: words.length > 110 ? words.slice(0, 107) + '\u2026' : words, wide: true });
+        });
+      }
       var holder = document.createElement('div');
       (scene.userData.ctl || []).forEach(function (c) { holder.appendChild(c.make(false)); });
       holder.querySelectorAll('.cel-roomctl__name, button').forEach(function (el) {
