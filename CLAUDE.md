@@ -888,7 +888,7 @@ so far is an event's call** (Events, 2026-10-29), and it is held to the event be
 2026-10-24, after Discord's Online, Idle, Do Not Disturb and Invisible: Be seen here is already Online and Invisible, a
 room at a time, so the radio did not grow Discord's selector. What it grew is the interaction badges, **come say hi** (a
 green circle), **people i know** (a yellow triangle) and **not right now** (a red square), in the Cavendish Space
-Project's cards' own words, which are CC0: chosen at the foot of Who's around (`chatMake` in `cb.js`), kept in one blob,
+Project's cards' own words, which are CC0: chosen in the radio's Your status & availability part (`chatStatusMake` in `cb.js`; at the foot of Who's around until 2026-11-06), kept in one blob,
 `chat-status`, holding each claimed person's pet key and badge and nothing about when (`setChatStatus` in `lib.mjs`,
 `/cb/chat-status`), and shown beside a claimed name on Who's online and Also seen here (`withChatStatus`), under the name
 on a profile, and at the top of a conversation before anybody writes; your own rides back on `/cb/unread`, so it needs no
@@ -986,7 +986,7 @@ they were), **and since 2026-10-23 the channel comes straight after where you ar
 around, Unreads and Events had pushed it too far down): Where you are (the room's name in the largest words on
 the radio, `hereShown`, and nothing else), Channel, Happening now, Messages, In this channel (On the channel as, Be seen here,
 Bring my familiar, the room's call and what is on now, under the heading the chat page uses), Who's around,
-Unreads, Events, Watching together (only there while something in it is, `filmShown`), You (Profile, Account,
+Your status & availability (your chat status and availability, Ryan's ask, 2026-11-06), Unreads, Events, Watching together (only there while something in it is, `filmShown`), You (Profile, Account,
 their trays and Sign off, Ryan's asks of 2026-10-19 after losing where an open Profile began) and Your radio.
 The chat page keeps its own arrangement, with its channels down the left and no Where you are.
 **PROFILE'S SECTIONS START FOLDED, AND EACH IS READ ONLY WHEN IT IS OPENED** (Ryan's choice, 2026-10-19,

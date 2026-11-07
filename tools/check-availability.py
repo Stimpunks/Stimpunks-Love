@@ -187,7 +187,7 @@ def main():
                           ("var av = chat && availLine(x);", "Also seen here"),
                           ("var availNow = rs[0].status === 200 && rs[0].body ? availLine(rs[0].body) : null;", "a profile"),
                           ("var av = availOf(b.avail);", "a conversation"),
-                          ("if (forumPass(this.state.pass)) this.availMake(aroundSec);", "Who's around (the picker)"),
+                          ("if (statusSec) this.availMake(statusSec);", "Your status & availability (the picker)"),
                           ("if (forumPass(this.state.pass)) this.availStaleMake(whereSec || hereSec);", "the top (Still true?)")):
         if needle not in cb:
             refuse(f"cb.js no longer shows the availability on {where}.")

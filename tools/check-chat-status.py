@@ -97,7 +97,7 @@ def main():
     part = between(lib, "/* ── Chat status", "/* ── Availability", "lib.mjs's Chat status part")
     code = uncomment(part)
     radio = between(cb, "  /* CHAT STATUS (Ryan's ask", "  function personLine", "cb.js's chat status badges")
-    picker = between(cb, "  /* YOUR CHAT STATUS, under Who's around", "  // The channel being listened to", "cb.js's chat status picker")
+    picker = between(cb, "  /* YOUR CHAT STATUS, in Your status & availability", "  // The channel being listened to", "cb.js's chat status picker")
     rcode = uncomment(radio + picker)
     ids = [c[0] for c in CARDS]
 

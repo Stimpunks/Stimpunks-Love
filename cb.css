@@ -901,6 +901,8 @@ ol.cb-md-list { list-style: decimal; }
 .cb-seen-now .cb-chat { margin-left: 4px; }
 .cb-chatpick { margin: 12px 0 0; padding: 0; border: 0; min-width: 0; display: grid; gap: 4px; }
 .cb-chatpick legend { padding: 0; margin-bottom: 2px; }
+/* Your status & availability: the chat status is the first thing under its heading. */
+.cb-sec--status > .cb-chatpick:first-of-type { margin-top: 0; }
 .cb-chatpick__row { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-height: 32px; font-size: 14px; cursor: pointer; }
 .cb-chatpick__row input { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--cb-amber); cursor: pointer; }
 .cb-chatpick__row .cb-chat { margin-left: 0; }
@@ -2454,7 +2456,8 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
      middle without Search, and Search is Search alone. */
   .cb-radio--app[data-pane="people"] .cb-col--c > .cb-sec--you,
   .cb-radio--app[data-pane="people"] .cb-col--c > .cb-sec--yours,
-  .cb-radio--app[data-pane="you"] .cb-col--c > .cb-sec:not(.cb-sec--you):not(.cb-sec--yours),
+  .cb-radio--app[data-pane="people"] .cb-col--c > .cb-sec--status,
+  .cb-radio--app[data-pane="you"] .cb-col--c > .cb-sec:not(.cb-sec--you):not(.cb-sec--yours):not(.cb-sec--status),
   .cb-radio--app[data-pane="chat"] .cb-col--b > .cb-sec--search,
   .cb-radio--app[data-pane="search"] .cb-col--b > .cb-sec:not(.cb-sec--search) { display: none; }
   /* Each part's groove is between parts on one screen, never over the first. */
@@ -2462,6 +2465,7 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
   .cb-radio--app .cb-col > .cb-sec > .cb-divider { display: none; }
   .cb-radio--app[data-pane="people"] .cb-col--c > .cb-sec:not(:first-child),
   .cb-radio--app[data-pane="you"] .cb-col--c > .cb-sec--yours,
+  .cb-radio--app[data-pane="you"] .cb-col--c > .cb-sec--status ~ .cb-sec--you,
   .cb-radio--app[data-pane="chans"] .cb-col--a > .cb-sec:not(:first-child) { padding-top: 14px; border-top: 2px solid var(--cb-bar); }
   /* The channels are always out here: the tab is their button. */
   .cb-radio--app .cb-chans-toggle { display: none; }

@@ -179,7 +179,7 @@
      now; on the chat page not Messages or Events either, which are views in
      its middle, nor its Channels or Search; on Your page not You, which is the
      page. */
-  var FOLDS = ['here', 'around', 'new', 'events', 'dm', 'film', 'you', 'yours'];
+  var FOLDS = ['here', 'around', 'status', 'new', 'events', 'dm', 'film', 'you', 'yours'];
   function foldable(key) {
     if (FOLDS.indexOf(key) < 0) return false;
     if (inChat() && (key === 'dm' || key === 'events')) return false;
@@ -1601,6 +1601,13 @@
        here, under Messages. */
     var hereSec = this.hereSec = part('cb-sec--here', 'In this channel', 2);
     var aroundSec = part('cb-sec--around', 'Who\u2019s around', 2);
+    /* YOUR STATUS & AVAILABILITY (Ryan's ask, 2026-11-06): your chat status
+       and your availability, which were the foot of Who's around, in a part
+       of their own after it, because they are about you and not about who
+       else is around. Only for a claimed username, the only kind that can set
+       either; on Your page it stands beside Unreads, and in the app it is
+       under the You tab. See chatStatusMake and availMake. */
+    var statusSec = forumPass(this.state.pass) ? part('cb-sec--status', 'Your status & availability', you ? 3 : 2) : null;
     /* UNREADS (Ryan's proposal, 2026-10-20): World, the rooms you follow and
        your conversations, each listed while something has been said there
        since you last read it, and never how much. See newsShown. */
@@ -1870,9 +1877,9 @@
     aroundSaid.setAttribute('role', 'status');
     aroundSec.appendChild(aroundSaid);
     // YOUR CHAT STATUS (Ryan's ask, 2026-10-24), for a claimed username. See chatStatusMake.
-    if (forumPass(this.state.pass)) this.chatStatusMake(aroundSec);
+    if (statusSec) this.chatStatusMake(statusSec);
     // YOUR AVAILABILITY (Ryan's ask, 2026-10-29), under it. See availMake.
-    if (forumPass(this.state.pass)) this.availMake(aroundSec);
+    if (statusSec) this.availMake(statusSec);
 
     /* BE SEEN HERE, the Slake's switch in every room. Ryan, 2026-09-29. One
        switch both ways: seen, the radio is told who else is seen in this room
@@ -10277,7 +10284,7 @@
     }, function () { me.newsAt = Date.now(); }).then(function () { me.newsBusy = false; });
   };
 
-  /* YOUR CHAT STATUS, under Who's around (Ryan's ask, 2026-10-24): none, or
+  /* YOUR CHAT STATUS, in Your status & availability (Ryan's ask, 2026-10-24): none, or
      one of the three badges, chosen with ordinary radio buttons, so arrows
      move between them and a screen reader hears a group. It is sent to
      /cb/chat-status half a second after the last change, so walking the
