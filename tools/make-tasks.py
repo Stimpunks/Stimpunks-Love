@@ -403,8 +403,9 @@ def check_js():
     # Pages it links to are on the list beside the one thing it calls; the office
     # and the forums are one press away in the bar (Ryan, 2026-10-21).
     for url in set(re.findall(r"""['"](/[a-z][^'"?#]*)""", js)):
-        if url not in ("/cb/tasks", "/cb/tasks/file", "/cb.css", "/tasks.css", "/privacy.html", "/cb-guide.html", "/community-center.html", "/tasks.html", "/office.html", "/forum.html"):
-            problems.append(f"{JS.name}: it calls {url}. Tasks talk to /cb/tasks, and /cb/tasks/file for pictures and files, and nothing else.")
+        # /cb/emoji (2026-11-06): our own emoji, asked once, so markdown.js draws :name: in tasks and comments.
+        if url not in ("/cb/tasks", "/cb/tasks/file", "/cb/emoji", "/cb.css", "/tasks.css", "/privacy.html", "/cb-guide.html", "/community-center.html", "/tasks.html", "/office.html", "/forum.html"):
+            problems.append(f"{JS.name}: it calls {url}. Tasks talk to /cb/tasks, /cb/tasks/file for pictures and files, and /cb/emoji for our own emoji, and nothing else.")
 
 
 def check_timeline():

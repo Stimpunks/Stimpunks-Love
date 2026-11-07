@@ -2869,5 +2869,15 @@
     step.land(done);
   }
   window.addEventListener('hashchange', function () { if ((location.hash || '').indexOf('#/') === 0 || !location.hash) route(); });
+  // Our own emoji in what people write here: the list asked for once, with
+  // the pass, and handed to markdown.js, which draws them (loveMarkdown.emoji).
+  (function () {
+    var s = cbState();
+    if (!s || !window.loveMarkdown || !window.loveMarkdown.emoji) return;
+    fetch('/cb/emoji', { headers: { accept: 'application/json', authorization: 'Bearer ' + s.pass }, credentials: 'omit', cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (b) { if (b && Array.isArray(b.emoji)) window.loveMarkdown.emoji(b.emoji); })
+      .catch(function () {});
+  }());
   route();
 })();

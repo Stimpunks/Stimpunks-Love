@@ -969,10 +969,10 @@ a.cb-now-go { text-decoration: none; display: inline-flex; align-items: center; 
 .cb-rx__pick { font-size: 17px; min-width: 36px; justify-content: center; }
 .cb-rx__one[aria-pressed="true"], .cb-rx__pick[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
 .cb-rx__who { overflow-wrap: anywhere; }
-.cb-rx__other { flex: 1 1 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 4px 0 0; }
-.cb-rx__olab { flex: 1 1 100%; font-size: 13px; }
-.cb-rx-pick .cb-rx__in { width: 6em; flex: none; font-size: 18px; padding: 3px 8px; }
-.cb-rx__go { font-size: 13px; }
+/* Every other emoji, under the quick row: the message box's emoji panel, on
+   the case, as it is under the box. */
+.cb-rx__all { flex: 1 1 100%; margin: 4px 0 0; padding: 8px; color: var(--cb-steel); background: var(--cb-case); border: 2px solid var(--cb-steel-2); border-radius: 8px; }
+.cb-rx__emoji .cb-cemoji { height: 1.3em; vertical-align: -0.3em; }
 .cb-msg > .cb-sticker { grid-column: 1 / -1; grid-row: 5; margin: 4px 0 0; }
 /* LINK CARDS (cb.js, drawUnfurls): on the readout in its own two ambers, the
    pairs every message's words and times already use, so nothing here is a
@@ -1826,6 +1826,9 @@ a.cb-now-go { text-decoration: none; display: inline-flex; align-items: center; 
   color: var(--cb-amber);
 }
 .cb-opt__tag { font-size: 13px; color: var(--cb-amber-2); overflow-wrap: anywhere; text-align: right; }
+/* An emoji offered after a :, the device's own or ours, before its name. */
+.cb-opt__emoji { flex: none; font-size: 22px; line-height: 1; font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }
+.cb-opt__emoji + .cb-opt__name { flex: 1 1 auto; }
 /* Where a room found by its description was found: the page's own words, on a
    line of their own under the name, in the tag's pair so nothing is unmeasured. */
 .cb-opt__why { display: block; margin-top: 2px; font-size: 13px; color: var(--cb-amber-2); }

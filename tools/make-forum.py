@@ -563,8 +563,9 @@ def check_js():
     if not re.search(r"var SEEN = 'love-forum';", js):
         problems.append(f"{JS.name}: its one key in the browser is love-forum.")
     for url in set(re.findall(r"""['"](/[a-z][^'"?#]*)""", js)):
-        if url not in ("/cb/forum", "/cb/forum/file", "/cb/online", "/cb-rooms.json", "/cb.css", "/forum.css", "/cb-themes.js", "/call.js", "/forum.html", "/privacy.html", "/cb-guide.html", "/community-center.html", "/tasks.html", "/office.html"):
-            problems.append(f"{JS.name}: it calls {url}. The forums talk to /cb/forum and /cb/forum/file, read the list of rooms and Who's online, and nothing else.")
+        # /cb/emoji (2026-11-06): our own emoji's names and pictures, asked once, so markdown.js draws :name: in posts.
+        if url not in ("/cb/forum", "/cb/forum/file", "/cb/online", "/cb/emoji", "/cb-rooms.json", "/cb.css", "/forum.css", "/cb-themes.js", "/call.js", "/forum.html", "/privacy.html", "/cb-guide.html", "/community-center.html", "/tasks.html", "/office.html"):
+            problems.append(f"{JS.name}: it calls {url}. The forums talk to /cb/forum and /cb/forum/file, read the list of rooms, Who's online and our own emoji, and nothing else.")
     if "window.loveRedraw(file)" not in js or re.search(r"getContext\(|toBlob\(|OffscreenCanvas", js):
         problems.append(f"{JS.name}: a picture must be redrawn by window.loveRedraw, the radio's one redraw, and by no canvas of the forums' own.")
     att = code_of(ROOT / "attach.js")

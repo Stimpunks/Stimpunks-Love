@@ -4581,7 +4581,11 @@ hand-edit it) and the Emoji tab loads on first opening. **Our own emoji** are th
 `/cb/emoji`: a name, a picture redrawn to a PNG in the browser (`redrawEmoji`), and `authorMark`, never a username or a
 time; public pictures, because a message's `<img>` cannot carry a pass; taken down by the adder or a moderator. `md()`
 marks every `:name:` with a letter in it (`emojiSpans`), and `emojiUpgrade` draws ours and puts a taken-down one back
-into words; an unknown name asks for the list once per page (`emojiWant`), never on a timer. The friendly edits are
+into words; an unknown name asks for the list once per page (`emojiWant`), never on a timer. **React uses the same panel**
+(`emojiPanel`, under the quick row), and a reaction can be one of ours, kept as `:name:` and pressed only while the street
+has it (`reactionReady` in `lib.mjs`, which every reaction path calls); **`:` and two letters in the box** offers emoji
+(`emojiFor`, the `emoji` kind of `token`); and **markdown.js draws ours** in the forums, Tasks and the office once the page
+calls `loveMarkdown.emoji(pass)`. Anybody signed on adds one, Ryan's call for now. The friendly edits are
 **Discord's Top Emoji and POPULAR**, a ranking by use, **a recently used list "so favourites are quick"**, which is a
 record of what somebody says, **animated custom emoji**, which move by themselves, and **a username on each emoji "for
 accountability"**, which then needs deleting when the username goes.

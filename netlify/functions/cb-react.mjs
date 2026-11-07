@@ -2,7 +2,7 @@
    presses that reaction on that message as you, or takes yours back if it was
    there. It is part of the message and goes with it. See ../cb/lib.mjs for why
    a reaction names who and never says how many. */
-import { staffShut, readPass, updateTuned, roomTag, roomAllows, reactionOf, toggleReaction, shape, json, body, sameSite } from '../cb/lib.mjs';
+import { staffShut, readPass, updateTuned, roomTag, roomAllows, reactionReady, toggleReaction, shape, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -15,14 +15,17 @@ export default async (req) => {
   // A staff room's channel is sealed with CB_STAFF_KEY (lib.mjs): without it, shut.
   if (staffShut(room)) return json(503, { error: 'This room\'s channel is shut just now. Nothing was read or sent.' });
   if (typeof b.id !== 'string' || b.id.length > 64) return json(400, { error: 'Which message?' });
-  if (!reactionOf(b.emoji)) return json(400, { error: 'A reaction is one emoji, and only an emoji.' });
+  // One emoji, or one of our own while the street has it (reactionReady).
+  const ready = await reactionReady(b.emoji);
+  if (!ready) return json(400, { error: 'A reaction is one emoji, and only an emoji.' });
   try {
     let found = true;
     const messages = await updateTuned(room, (list) => {
-      const next = toggleReaction(list, b.id, b.emoji, who.handle);
-      if (!next) { found = !!list.find((m) => m.id === b.id) && 'full'; return null; }
+      const next = toggleReaction(list, b.id, ready.emoji, who.handle, ready.off);
+      if (!next) { found = !!list.find((m) => m.id === b.id) && (ready.off ? 'gone' : 'full'); return null; }
       return next;
     });
+    if (found === 'gone') return json(409, { error: 'That emoji has been taken down, so it cannot be pressed again.', messages: shape(messages) });
     if (found === 'full') return json(409, { error: 'That message has as many different reactions as it can hold. Press one that is already there.', messages: shape(messages) });
     if (!found) return json(404, { error: 'That message has gone off the air.', messages: shape(messages) });
     return json(200, { messages: shape(messages) });

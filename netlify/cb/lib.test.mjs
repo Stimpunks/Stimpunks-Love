@@ -46,7 +46,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   kickAccount, barAccount, liftBar, barredNow, barWords, shapeBar, accountDirectory, BAR_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
-  emojiName, emojiList, addEmoji, removeEmoji, getEmojiImage, readEmoji, EMOJI_EACH,
+  emojiName, emojiList, addEmoji, removeEmoji, getEmojiImage, readEmoji, EMOJI_EACH, reactionReady,
   gifId, gifQuery, gifPos, shapeGif, gifSearch, takeGif, gifFor, mp4Place, GIFBOX_PAGE, GIF_VIDEO_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
   cleanLook, readAvatars, keepAvatar, editAvatar, removeAvatar, wearAvatar, forgetAvatars, withAvatars, avatarSticker, shapeAvatarSticker, AVATAR, AVATAR_KEEP,
@@ -2190,6 +2190,25 @@ test('a custom emoji is a name and a picture, from Stimpunks, and its adder or a
   for (let i = 0; i < EMOJI_EACH; i++) await addEmoji(ann, 'e' + i, png(), true, s);
   assert.ok((await addEmoji(ann, 'onemore', png(), true, s)).error, 'one person adds so many');
   assert.equal(s.keys().filter((k) => k.startsWith('emoji-img/')).length, EMOJI_EACH, 'a refused one leaves no picture behind');
+});
+
+test('one of our own emoji is a reaction while the street has it, and can be taken back after', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const png = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 13, ...Buffer.from('IHDR'), 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...Buffer.from('IEND'), 0, 0, 0, 0]);
+  const ann = { handle: 'Ann', account: true, since: 1 };
+  const e = (await addEmoji(ann, 'WhiteRabbit', png, true, s)).added;
+  assert.equal(reactionOf(':whiterabbit:'), ':whiterabbit:', 'shaped like one');
+  assert.equal(reactionOf(':White Rabbit:'), null);
+  assert.deepEqual(await reactionReady(':whiterabbit:', s), { emoji: ':WhiteRabbit:', off: false }, 'pressed as the street spells it');
+  assert.deepEqual(await reactionReady('\u{1F9A6}', s), { emoji: '\u{1F9A6}', off: false });
+  let list = [{ id: 'm1', handle: 'Bo', text: 'hi', t: 1 }];
+  list = toggleReaction(list, 'm1', ':WhiteRabbit:', 'Ann');
+  assert.deepEqual(shape(list)[0].reactions, [{ emoji: ':WhiteRabbit:', name: ':WhiteRabbit:', who: ['Ann'] }]);
+  await removeEmoji(ann, e.id, s);
+  const gone = await reactionReady(':WhiteRabbit:', s);
+  assert.equal(gone.off, true, 'taken down, it can only be taken back');
+  assert.equal(toggleReaction(list, 'm1', gone.emoji, 'Cy', gone.off), null, 'nobody presses it again');
+  assert.equal(toggleReaction(list, 'm1', gone.emoji, 'Ann', gone.off)[0].reactions, undefined, 'and Ann takes hers back');
 });
 
 test('a claimed username is marked on the channel, and only by the server', () => {

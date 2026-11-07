@@ -4699,14 +4699,16 @@ export async function editDm(who, handle, id, text, s = store(), now = Date.now(
    for a message that is not there, 'full' for one with every kind it holds. */
 export async function reactDm(who, handle, id, emoji, s = store(), now = Date.now()) {
   if (typeof id !== 'string' || !DM_ID.test(id)) return { error: 'which' };
-  if (!reactionOf(emoji)) return { error: 'emoji' };
+  const ready = await reactionReady(emoji, s);
+  if (!ready) return { error: 'emoji' };
+  emoji = ready.emoji;
   const p = await pairOf(who, handle, s);
   if (p.error) return { error: 'which' };
   return updateConv(p.key, (c) => {
     if (!c.open) return { error: 'accepted' };
     if (!c.messages.some((x) => x.id === id)) return { error: 'which' };
-    const next = toggleReaction(c.messages, id, emoji, who.handle);
-    return next ? { ...c, messages: next } : { error: 'full' };
+    const next = toggleReaction(c.messages, id, emoji, who.handle, ready.off);
+    return next ? { ...c, messages: next } : { error: ready.off ? 'emoji' : 'full' };
   }, s, now);
 }
 
@@ -10699,9 +10701,11 @@ export async function uncopyMessage(who, id, pid, mid, s = store(), now = Date.n
 
 export async function reactPost(who, id, pid, emoji, s = store(), now = Date.now()) {
   if (!forumReader(who)) return { error: CLAIM };
-  if (!reactionOf(emoji)) return { error: 'That is not a reaction the forums can show.' };
+  const ready = await reactionReady(emoji, s);
+  if (!ready) return { error: 'That is not a reaction the forums can show.' };
+  emoji = ready.emoji;
   return changeTopic(who, id, now, s, (t) => {
-    const next = toggleReaction(t.posts, pid, emoji, who.handle);
+    const next = toggleReaction(t.posts, pid, emoji, who.handle, ready.off);
     if (!next) return { why: 'That post has been taken down, or has as many different reactions as it can hold.' };
     t.posts = next;
     return t;
@@ -12761,15 +12765,34 @@ const EMOJI_PARTS = /^[\p{Extended_Pictographic}\p{Emoji_Modifier}\p{Regional_In
 const EMOJI_CORE = /\p{Extended_Pictographic}|\p{Regional_Indicator}|\u20E3/u;
 const GRAPHEMES = new Intl.Segmenter('en', { granularity: 'grapheme' });
 export function reactionOf(e) {
-  if (typeof e !== 'string' || !e || e.length > 32) return null;
+  if (typeof e !== 'string' || !e || e.length > 36) return null;
   if (REACTIONS.some((x) => x[0] === e)) return e;
+  // One of our own emoji (below, "Custom emoji"), by its name between colons.
+  const own = /^:([^:]+):$/.exec(e);
+  if (own) return emojiName(own[1]) ? e : null;
+  if (e.length > 32) return null;
   if (!EMOJI_PARTS.test(e) || !EMOJI_CORE.test(e)) return null;
   return [...GRAPHEMES.segment(e)].length === 1 ? e : null;
 }
 
+/* A REACTION CAN BE ONE OF OUR OWN EMOJI (Ryan's ask, 2026-11-06), kept as
+   :its-name: like a message's words, so one taken down shows its name. It is
+   pressed only while the street has it, in the case the street spells it
+   (reactionReady), and once taken down it can still be taken back, never
+   pressed again: `off` says so to toggleReaction. */
+export async function reactionReady(e, s = store()) {
+  const ok = reactionOf(e);
+  if (!ok) return null;
+  const own = /^:([^:]+):$/.exec(ok);
+  if (!own) return { emoji: ok, off: false };
+  const found = (await readEmoji(s)).find((x) => emojiFold(x.name) === emojiFold(own[1]));
+  return found ? { emoji: ':' + found.name + ':', off: false } : { emoji: ok, off: true };
+}
+
 /* Press `emoji` on message `id` as `handle`: on if it was off, off if it was
-   on. Answers the next list, or null when there is no such message. */
-export function toggleReaction(list, id, emoji, handle) {
+   on. Answers the next list, or null when there is no such message, when it
+   holds every kind it can, or when `off` and this handle has not pressed it. */
+export function toggleReaction(list, id, emoji, handle, off = false) {
   const i = list.findIndex((m) => m.id === id);
   if (i < 0 || !reactionOf(emoji)) return null;
   const m = { ...list[i] };
@@ -12777,6 +12800,7 @@ export function toggleReaction(list, id, emoji, handle) {
   if (!rx[emoji] && Object.keys(rx).length >= REACT_KINDS) return null;
   const who = (rx[emoji] || []).slice();
   const at = who.findIndex((h) => foldHandle(h) === foldHandle(handle));
+  if (off && at < 0) return null;
   if (at >= 0) who.splice(at, 1); else who.push(handle);
   if (who.length) rx[emoji] = who; else delete rx[emoji];
   if (Object.keys(rx).length) m.reactions = rx; else delete m.reactions;
@@ -12796,7 +12820,8 @@ function shapeReactions(rx) {
   for (const e of order) {
     if (!reactionOf(e)) continue;
     const who = Array.isArray(rx[e]) ? [...new Set(rx[e])].sort((a, b) => a.localeCompare(b)) : [];
-    const name = (REACTIONS.find((x) => x[0] === e) || [e, e])[1];
+    const own = /^:([^:]+):$/.exec(e);
+    const name = own ? ':' + own[1] + ':' : (REACTIONS.find((x) => x[0] === e) || [e, e])[1];
     if (who.length) out.push({ emoji: e, name, who });
   }
   return out.length ? out : null;

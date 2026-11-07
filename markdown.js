@@ -38,6 +38,15 @@
    whose buttons are disabled (preview.js) stays hidden. The radio draws its own
    the same way (spoiler() in cb.js); love.css §4 and cb.css style [data-spoiler].
 
+   OUR OWN EMOJI (2026-11-06, the CB's "Custom emoji"): every :name: with a
+   letter in it, outside code and links, is marked as it is drawn, and a page
+   signed on to the CB (the forums, Tasks and the office) asks /cb/emoji for
+   the list itself, once, and hands it to loveMarkdown.emoji(list), which draws
+   each one the street has as its picture, with :name: as its words. This file
+   asks nothing of anybody. A name the street does not have stays the words
+   that were typed, and a page that never hands it a list (the Brass Tacks
+   Board, the suggestion box, the notice) shows the words.
+
    A LINK TO A TASK, A TOPIC OR A RECORD OF THE OFFICE (2026-10-21, links.js)
    arrives named for its reader by the server: { name, href } is drawn as a
    link, PREFIX-ref, with what it is before its name; { shut } as words saying
@@ -159,9 +168,68 @@
     });
   }
 
+  var EMOJI = null, ROOTS = [], EMOJI_RE = /:((?=[A-Za-z0-9_]*[A-Za-z])[A-Za-z0-9_]{2,32}):/g;
+  function marks(box) {
+    if (!box || box.textContent.indexOf(':') < 0) return;
+    var walk = document.createTreeWalker(box, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        for (var p = n.parentNode; p && p !== box; p = p.parentNode) if (/^(CODE|PRE|A|BUTTON|KBD)$/.test(p.nodeName)) return NodeFilter.FILTER_REJECT;
+        return n.nodeValue.indexOf(':') >= 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      },
+    });
+    var hits = [], n;
+    while ((n = walk.nextNode())) hits.push(n);
+    hits.forEach(function (t) {
+      var text = t.nodeValue, at = 0, m, frag = null;
+      EMOJI_RE.lastIndex = 0;
+      while ((m = EMOJI_RE.exec(text))) {
+        frag = frag || document.createDocumentFragment();
+        if (m.index > at) frag.appendChild(document.createTextNode(text.slice(at, m.index)));
+        var sp = el('span', null, m[0]);
+        sp.setAttribute('data-md-emoji', m[1]);
+        frag.appendChild(sp);
+        at = m.index + m[0].length;
+      }
+      if (!frag) return;
+      if (at < text.length) frag.appendChild(document.createTextNode(text.slice(at)));
+      t.parentNode.replaceChild(frag, t);
+    });
+    var root = box.getRootNode();
+    if (ROOTS.indexOf(root) < 0) ROOTS.push(root);
+    draw(box);
+  }
+  function draw(root) {
+    if (!EMOJI || !root) return;
+    root.querySelectorAll('span[data-md-emoji]').forEach(function (sp) {
+      var e = EMOJI[sp.getAttribute('data-md-emoji').toLowerCase()];
+      if (!e) return;
+      var img = el('img');
+      img.src = '/cb/emoji?img=' + e.id;
+      img.alt = ':' + e.name + ':';
+      img.title = ':' + e.name + ':';
+      img.decoding = 'async';
+      img.style.height = '1.4em';
+      img.style.width = 'auto';
+      img.style.maxWidth = '3em';
+      img.style.verticalAlign = '-0.35em';
+      img.style.objectFit = 'contain';
+      sp.replaceWith(img);
+    });
+  }
+
   window.loveMarkdown = {
     blocks: function (nodes, into, opts) {
+      var start = into.childNodes.length;
       blocks(nodes || [], into, { top: (opts && opts.top) || 2, prefix: (opts && opts.prefix) || 'md', pic: (opts && opts.pic) || null, box: (opts && opts.box) || null, head: (opts && opts.head) || null });
+      for (var i = start; i < into.childNodes.length; i++) if (into.childNodes[i].nodeType === 1) marks(into.childNodes[i]);
+    },
+    // Our own emoji, as the page asked /cb/emoji for them ({ id, name } each),
+    // drawn wherever words have been drawn and wherever they are drawn after.
+    emoji: function (list) {
+      if (!Array.isArray(list)) return;
+      EMOJI = {};
+      list.forEach(function (e) { if (e && e.id && e.name) EMOJI[String(e.name).toLowerCase()] = e; });
+      ROOTS.forEach(draw);
     },
   };
 }());

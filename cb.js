@@ -2020,7 +2020,7 @@
     var say = this.say = el('textarea', 'cb-say cb-say--msg');
     say.id = 'cb-say';
     say.maxLength = MESSAGE_MAX;
-    var hint = helpFold('cb-say-hint', enterHint('Transmit', 'sends'), 'Writing help', 'Markdown works: **bold**, *italic*, `code`, ||spoilers||, # headings, > quotes, - lists and [words](address). Type @ and a name to mention somebody, # and a room, or [[ and part of a name to link a forum topic, or for staff a task or a record of the office. Paste a picture to add it.');
+    var hint = helpFold('cb-say-hint', enterHint('Transmit', 'sends'), 'Writing help', 'Markdown works: **bold**, *italic*, `code`, ||spoilers||, # headings, > quotes, - lists and [words](address). Type @ and a name to mention somebody, # and a room, : and two letters for an emoji, or [[ and part of a name to link a forum topic, or for staff a task or a record of the office. Paste a picture to add it.');
     say.setAttribute('aria-describedby', hint.cbIds);
     say.autocomplete = 'off';
     sendBox(say, 'send');
@@ -4556,6 +4556,11 @@
     if (m) return { kind: 'room', start: c - m[2].length - 1, end: c, q: m[2].toLowerCase() };
     m = before.match(/(^|[\s(\[])\/([a-z][a-z0-9-]*)$/i);
     if (m) return { kind: 'page', start: c - m[2].length - 1, end: c, q: m[2].toLowerCase() };
+    /* A : AND TWO LETTERS IS AN EMOJI (Ryan's ask, 2026-11-06, after
+       Discord's): after a space or at the start, so 10:30 and a link's
+       https: never open it. */
+    m = before.match(/(^|[\s(\[]):([a-z0-9_]*[a-z][a-z0-9_]*)$/i);
+    if (m && m[2].length >= 2) return { kind: 'emoji', start: c - m[2].length - 1, end: c, q: m[2].toLowerCase() };
     m = before.match(/(^|[^\p{L}\p{N}_@.\/])@([^\s@][^\n@]{0,23})$/u) || before.match(/(^|[^\p{L}\p{N}_@.\/])@()$/u);
     if (!m || (m[2].match(/ /g) || []).length > 3 || / {2}$/.test(m[2]) || /^\d{1,3}(?::\d{0,2}){0,2}$/.test(m[2])) return null;
     return { kind: 'person', start: c - m[2].length - 1, end: c, q: fold(m[2]), done: / $/.test(m[2]) };
@@ -4589,6 +4594,33 @@
     })).slice(0, PICK);
   };
 
+  /* WHAT A : OFFERS: our own emoji whose names start with what was typed, then
+     contain it, then Unicode's whose name or a keyword has a word starting with
+     it, the name's first, up to PICK. Both lists are asked for the first time
+     a : is typed, and the list is offered again when they arrive. Nothing
+     typed is sent: the search is on this page. */
+  Radio.prototype.emojiFor = function (t) {
+    var me = this, q = t.q, out = [];
+    if (!window.loveEmoji && !this.emojiListAsked) { this.emojiListAsked = true; withEmojiList(function () { me.complete(); }); }
+    // The first : on a page asks afresh, so an emoji somebody added since is offered.
+    if (!this.emojiAskedHere) { this.emojiAskedHere = true; this.loadEmoji(function () { me.complete(); }); }
+    var ours = (CEMOJI ? CEMOJI.list : []).map(function (e) { var n = e.name.toLowerCase(); return { img: true, id: e.id, name: e.name, s: n.indexOf(q) === 0 ? 0 : n.indexOf(q) >= 0 ? 1 : 9 }; })
+      .filter(function (e) { return e.s < 9; });
+    var theirs = [];
+    (window.loveEmoji || []).forEach(function (g) {
+      g[1].forEach(function (x) {
+        var n = x[1].toLowerCase(), k = (x[2] || '').toLowerCase(), sc = 9;
+        if (n.indexOf(q) === 0) sc = 2;
+        else if ((' ' + n).indexOf(' ' + q) >= 0) sc = 3;
+        else if ((' ' + k).indexOf(' ' + q) >= 0) sc = 4;
+        if (sc < 9) theirs.push({ char: x[0], name: x[1], s: sc });
+      });
+    });
+    out = ours.concat(theirs);
+    out.sort(function (a, b) { return a.s - b.s; });
+    return out.slice(0, PICK);
+  };
+
   // Everybody the words might @mention, for the server to check against them
   // (channelMentions in netlify/cb/lib.mjs keeps only the ones they name).
   Radio.prototype.mentioned = function (text, more) {
@@ -4600,20 +4632,29 @@
 
   Radio.prototype.complete = function () {
     var t = this.say.getRootNode().activeElement === this.say && this.token();
-    if (t && t.kind !== 'person' && !rooms) t = null;
+    if (t && t.kind !== 'person' && t.kind !== 'emoji' && !rooms) t = null;
     if (!t || t.start === this.dismissed) { if (!t) this.dismissed = -1; this.close(); return; }
-    var person = t.kind === 'person';
-    var offer = person ? this.peopleFor(t) : roomsFor(t.q);
+    var person = t.kind === 'person', emo = t.kind === 'emoji';
+    var offer = person ? this.peopleFor(t) : emo ? this.emojiFor(t) : roomsFor(t.q);
     if (!offer.length) { this.close(); return; }
     var keep = this.active >= 0 && this.offer[this.active] && offer.indexOf(this.offer[this.active]);
     this.offer = offer;
     this.offerKind = t.kind;
     this.pick.textContent = '';
-    this.pick.setAttribute('aria-label', person ? (offer[0] && offer[0].role ? 'Roles and people to mention' : 'People to mention') : t.kind === 'page' ? 'Rooms\u2019 pages on the street' : 'Rooms on the street');
+    this.pick.setAttribute('aria-label', emo ? 'Emoji' : person ? (offer[0] && offer[0].role ? 'Roles and people to mention' : 'People to mention') : t.kind === 'page' ? 'Rooms\u2019 pages on the street' : 'Rooms on the street');
     for (var i = 0; i < offer.length; i++) {
       var li = el('li', 'cb-opt');
       li.setAttribute('role', 'option');
-      if (person && offer[i].role) {
+      if (emo) {
+        li.id = 'cb-pick-emoji-' + i;
+        var face = el('span', 'cb-opt__emoji');
+        face.setAttribute('aria-hidden', 'true');
+        if (offer[i].img) { var im = el('img', 'cb-cemoji'); im.src = '/cb/emoji?img=' + offer[i].id; im.alt = ''; face.appendChild(im); }
+        else face.textContent = offer[i].char;
+        li.appendChild(face);
+        li.appendChild(el('span', 'cb-opt__name', offer[i].img ? ':' + offer[i].name + ':' : offer[i].name));
+        if (offer[i].img) li.appendChild(el('span', 'cb-opt__tag', 'from Stimpunks'));
+      } else if (person && offer[i].role) {
         li.id = 'cb-pick-at-' + i;
         li.appendChild(el('span', 'cb-opt__name', '@' + offer[i].role));
         li.appendChild(el('span', 'cb-opt__tag', ROLE_SAYS[offer[i].role]));
@@ -8936,7 +8977,7 @@
     box.dispatchEvent(new Event('input', { bubbles: true }));
     this.grow(box);
     if (!keep) this.pickerClose(where);
-    else if (this.emojiFocus) this.emojiFocus.focus();
+    else if (p.panels.emoji.cbFocus) p.panels.emoji.cbFocus.focus();
   };
 
   /* THE EMOJI TAB: our own emoji first, under Stimpunks, then Unicode's, in
@@ -8984,8 +9025,17 @@
   Radio.prototype.setEmoji = function (open, where) {
     var me = this, box = this.pk[where].panels.emoji;
     box.textContent = '';
-    this.emojiFocus = null;
+    box.cbFocus = null;
     if (!open) return;
+    this.emojiPanel(box, where, function (words, keep) { me.putEmoji(where, words, keep); });
+  };
+
+  /* THE EMOJI PANEL ITSELF, for the message box's Emoji tab and for React
+     (Ryan's ask, 2026-11-06: the full picker for reactions). `key` makes its
+     ids its own; `onPick(words, keep)` is given an emoji, or :name: for one of
+     ours, and whether Shift was held. */
+  Radio.prototype.emojiPanel = function (box, key, onPick, stay) {
+    var me = this, where = key;
     var top = el('div', 'cb-row cb-emoji__top');
     var lab = el('label', 'sr', 'Search emoji');
     lab.htmlFor = 'cb-emoji-q-' + where;
@@ -9005,7 +9055,7 @@
     var addBox = el('div', 'cb-emoji__new');
     addBox.hidden = true;
     box.appendChild(addBox);
-    addBtn.addEventListener('click', function () { me.emojiAddForm(where, addBox, addBtn); });
+    addBtn.addEventListener('click', function () { me.emojiAddForm(where, addBox, addBtn, function () { draw(); }); });
     var jump = el('div', 'cb-emoji__jump');
     jump.setAttribute('role', 'group');
     jump.setAttribute('aria-label', 'Go to a group');
@@ -9044,11 +9094,11 @@
     function roving(b) {
       all.forEach(function (x) { x.tabIndex = -1; });
       b.tabIndex = 0;
-      me.emojiFocus = b;
+      box.cbFocus = b;
     }
     function pick(e) {
       var b = e.currentTarget;
-      me.putEmoji(where, b.cbEmoji.img ? ':' + b.cbEmoji.name + ':' : b.cbEmoji.char, e.shiftKey);
+      onPick(b.cbEmoji.img ? ':' + b.cbEmoji.name + ':' : b.cbEmoji.char, e.shiftKey);
     }
     function button(item, label) {
       var b = el('button', 'cb-emoji__pick');
@@ -9121,7 +9171,7 @@
       jump.hidden = !!words.length;
       none.hidden = any;
       var vis = all.filter(function (b) { return !b.hidden; });
-      if (vis.length && (!me.emojiFocus || me.emojiFocus.hidden)) { roving(vis[0]); show(vis[0]); }
+      if (vis.length && (!box.cbFocus || box.cbFocus.hidden)) { roving(vis[0]); show(vis[0]); }
     }
     q.addEventListener('input', filter);
     q.addEventListener('keydown', function (e) {
@@ -9169,11 +9219,11 @@
     });
     said.textContent = 'Fetching the emoji…';
     var waiting = 2;
-    function ready() { if (--waiting) return; if (box.firstChild !== top) return; said.textContent = ''; draw(); pickFocus(box, q); }
+    function ready() { if (--waiting) return; if (box.firstChild !== top) return; said.textContent = ''; draw(); if (!stay) pickFocus(box, q); }
     withEmojiList(ready);
     this.loadEmoji(ready);
     if (!this.state || !this.state.pass) ready();
-    this.emojiRedraw = draw;
+    box.cbRedraw = draw;
   };
 
   /* ADD EMOJI (Ryan's ask, after Discord's): a picture of your own, redrawn
@@ -9199,7 +9249,7 @@
       img.src = url;
     });
   }
-  Radio.prototype.emojiAddForm = function (where, box, btn) {
+  Radio.prototype.emojiAddForm = function (where, box, btn, redraw) {
     var me = this;
     if (!box.hidden) { box.hidden = true; box.textContent = ''; btn.setAttribute('aria-expanded', 'false'); return; }
     box.textContent = '';
@@ -9253,7 +9303,7 @@
         said.textContent = 'This is the emoji as it will be kept. Nothing has gone yet.';
       }, function () { said.textContent = 'The radio could not read that picture.'; });
     });
-    no.addEventListener('click', function () { me.emojiAddForm(where, box, btn); btn.focus(); });
+    no.addEventListener('click', function () { me.emojiAddForm(where, box, btn, redraw); btn.focus(); });
     go.addEventListener('click', function () {
       var name = nm.value.trim();
       if (!blob) { said.textContent = 'Pick a picture first.'; file.focus(); return; }
@@ -9268,7 +9318,7 @@
           if (r.status === 401) return me.lost();
           if (r.status !== 200) { said.textContent = why(r, 'That emoji could not be added just now.'); return; }
           me.useEmoji(r.body.emoji || []);
-          if (me.emojiRedraw) me.emojiRedraw();
+          if (redraw) redraw();
           box.hidden = true; box.textContent = ''; btn.setAttribute('aria-expanded', 'false');
           var msg = box.parentNode && box.parentNode.querySelector('.cb-emoji__said');
           if (msg) msg.textContent = ':' + name + ': is added. Type it between colons, or pick it under Stimpunks.';
@@ -9709,11 +9759,6 @@
     ['\u{1F917}', 'hugging face'], ['\u{1FAC2}', 'people hugging'], ['\u{1F622}', 'crying face'],
     ['\u{1F4AF}', 'hundred points'],
   ];
-  /* How to reach the system's own emoji picker, which a page cannot open: it
-     types into the box under the quick row like any other keyboard. */
-  var PICKER = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)
-    ? (/iPhone|iPad/.test(navigator.userAgent) ? 'the emoji key on your keyboard' : 'Control, Command and Space')
-    : /Win/.test(navigator.platform || '') ? 'the Windows key and full stop' : /Android/.test(navigator.userAgent) ? 'the emoji key on your keyboard' : 'your system\u2019s emoji picker';
   function fold(h) { return String(h || '').normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim(); }
   function names(list) {
     if (list.length < 2) return list.join('');
@@ -9751,6 +9796,7 @@
       b.setAttribute('aria-pressed', String(yours));
       b.setAttribute('aria-label', x.name + ', from ' + names(x.who) + (yours ? '. Press to take yours back.' : '. Press to add yours.'));
       var e = el('span', 'cb-rx__emoji', x.emoji); e.setAttribute('aria-hidden', 'true');
+      if (x.emoji.charAt(0) === ':') emojiSpans(e);
       b.appendChild(e);
       b.appendChild(el('span', 'cb-rx__who', names(x.who)));
       b.addEventListener('click', function () { send(x.emoji); });
@@ -9791,29 +9837,18 @@
         });
         pick.appendChild(p);
       });
-      /* ANY OTHER EMOJI: a box the system picker can type into. One emoji,
-         checked again by the server, and nothing else. */
-      var other = el('span', 'cb-rx__other');
-      var oid = 'cb-rx-other-' + m.id;
-      var olab = el('label', 'cb-rx__olab', 'Or any emoji, with ' + PICKER + ':');
-      olab.htmlFor = oid;
-      var oin = el('input', 'cb-say cb-rx__in');
-      oin.id = oid; oin.type = 'text'; oin.maxLength = 16; oin.autocomplete = 'off'; oin.spellcheck = false;
-      oin.setAttribute('enterkeyhint', 'send');
-      var ogo = el('button', 'cb-rx__pick cb-rx__go', 'React');
-      ogo.type = 'button';
-      function sendOther() {
-        var v = oin.value.trim();
-        if (!v) { oin.focus(); return; }
+      /* EVERY OTHER EMOJI, AND OURS (Ryan's ask, 2026-11-06): the message
+         box's own emoji panel under the quick row, with its search, its
+         groups, our own emoji and Add Emoji. One press reacts with it and
+         shuts the set, and the server checks it again. */
+      var all = el('div', 'cb-emoji cb-rx__all');
+      pick.appendChild(all);
+      me.emojiPanel(all, 'rx-' + m.id, function (words) {
         pick.remove(); b.setAttribute('aria-expanded', 'false'); b.focus();
-        send(v);
-      }
-      ogo.addEventListener('click', sendOther);
-      oin.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); sendOther(); } });
-      other.appendChild(olab); other.appendChild(oin); other.appendChild(ogo);
-      pick.appendChild(other);
+        send(words);
+      }, true);
       pick.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') { e.preventDefault(); pick.remove(); b.setAttribute('aria-expanded', 'false'); b.focus(); }
+        if (e.key === 'Escape' && !e.defaultPrevented) { e.preventDefault(); pick.remove(); b.setAttribute('aria-expanded', 'false'); b.focus(); }
       });
       li.appendChild(pick);
       b.setAttribute('aria-expanded', 'true');
@@ -14634,7 +14669,8 @@
     var t = this.token(), pick = this.offer[n];
     if (!t || !pick || t.kind !== this.offerKind) { this.close(); return; }
     var v = this.say.value, after = v.slice(t.end);
-    var put = (t.kind === 'person' ? '@' + (pick.role || pick) : (t.kind === 'page' ? '/' : '#') + pick.tag) + (after.charAt(0) === ' ' ? '' : ' ');
+    var put = t.kind === 'emoji' ? (pick.img ? ':' + pick.name + ':' + (after.charAt(0) === ' ' ? '' : ' ') : pick.char)
+      : (t.kind === 'person' ? '@' + (pick.role || pick) : (t.kind === 'page' ? '/' : '#') + pick.tag) + (after.charAt(0) === ' ' ? '' : ' ');
     var next = v.slice(0, t.start) + put + after;
     if (next.length > this.say.maxLength) { this.tell(t.kind === 'person' ? 'That name would not fit in the message.' : 'That room would not fit in the message.'); this.close(); return; }
     // A role is found in the words by the server, so it is not one of the people picked.

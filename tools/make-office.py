@@ -835,8 +835,9 @@ def check_js():
     for url in set(re.findall(r"""['"](/[a-z][^'"?#]*)""", js)):
         # Pages it links to (tasks, the forums' topics, the privacy page, the member map on the
         # Community Center's wall) are not calls.
-        if url not in ("/cb/office", "/cb/office/file", "/cb.css", "/office.css", "/privacy.html", "/tasks.html", "/forum.html", "/community-center.html"):
-            problems.append(f"{JS.name}: it calls {url}. The office talks to /cb/office, and /cb/office/file for pictures and files, and nothing else.")
+        # /cb/emoji (2026-11-06): our own emoji, asked once, so markdown.js draws :name: in the office.
+        if url not in ("/cb/office", "/cb/office/file", "/cb/emoji", "/cb.css", "/office.css", "/privacy.html", "/tasks.html", "/forum.html", "/community-center.html"):
+            problems.append(f"{JS.name}: it calls {url}. The office talks to /cb/office, /cb/office/file for pictures and files, and /cb/emoji for our own emoji, and nothing else.")
 
 
 def check_css():
