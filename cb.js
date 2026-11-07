@@ -3639,6 +3639,8 @@
     if (this.pages > 1) qs.push('n=' + WINDOW * this.pages);
     // What it last heard, so a channel nothing has happened on sends nothing back.
     if (this.chanV) qs.push('v=' + encodeURIComponent(this.chanV));
+    // The chat page's list names who is in each call (chatCallers); nothing else asks.
+    if (inChat()) qs.push('calls=names');
     call('/cb/channel' + (qs.length ? '?' + qs.join('&') : ''), null, sent).then(function (r) {
       // A listen that left just before the pass changed, by claiming the
       // username or changing its password, is refused for the old pass: only a
@@ -3659,6 +3661,8 @@
         me.calls = !!r.body.calls;
         me.callsKnown = true;
         me.callGoing = Array.isArray(r.body.going) ? r.body.going : null;
+        me.callNames = r.body.inCalls && typeof r.body.inCalls === 'object' ? r.body.inCalls : null;
+        me.chatCallers();
         me.callShown();
         if (me.callWanted) me.toCall();
         me.keepRoles(r.body.roles);
@@ -6230,6 +6234,53 @@
       this.chatAfterPick = false;
       (evView ? this.evH : this.chanH).focus();
     }
+    this.chatCallers();
+  };
+
+  /* WHO IS IN EACH CALL, UNDER ITS CHANNEL IN THE CHAT PAGE'S LIST, as Discord
+     lists them (Ryan's call, 2026-11-06, by popular request, reversing "who is
+     in a call is shown only in its room, to radios seen there" for this list:
+     privacy.html#chat-calls). The names come on each listen as `inCalls`
+     (callsWith in lib.mjs), which only this page asks for: each once,
+     alphabetical, BASE beside the base, and no number. Only rooms the reader
+     may enter, never a room that keeps to itself (it has no channel here
+     anyway), and a conversation's call never, because nothing is kept about
+     one. The channel's link says a call is going, for a screen reader that
+     reaches the link and not the list. Words only, nothing to press: the
+     channel is the way in. Redrawn only when the names change, so nothing
+     under the pointer moves on a quiet listen. */
+  Radio.prototype.chatCallers = function () {
+    if (!inChat() || !this.chatLinks) return;
+    var on = this.callNames || {};
+    this.chatLinks.forEach(function (x) {
+      if (x.dm != null || x.ev) return;
+      var names = Array.isArray(on[x.tag]) ? on[x.tag] : [];
+      var sig = names.map(function (p) { return (p.base ? '*' : '') + p.name; }).join('\n');
+      if (x.callSig === sig) return;
+      x.callSig = sig;
+      var ul = x.li.querySelector(':scope > .cb-chan-callers'), note = x.a.querySelector(':scope > .cb-chan-call');
+      if (!names.length) {
+        if (ul) ul.remove();
+        if (note) note.remove();
+        return;
+      }
+      var label = x.tag === WORLD_CALL ? 'World' : '#' + ((x.room && x.room.name) || x.tag);
+      if (!note) {
+        note = el('span', 'cb-chan-call');
+        note.appendChild(appIcon('call'));
+        note.appendChild(el('span', 'sr', ', a call going'));
+        x.a.insertBefore(note, x.a.querySelector(':scope > .cb-new'));
+      }
+      if (!ul) { ul = el('ul', 'cb-chan-callers'); x.li.appendChild(ul); }
+      ul.setAttribute('aria-label', 'In the call in ' + label);
+      ul.textContent = '';
+      names.forEach(function (p) {
+        var li = el('li', 'cb-chan-caller');
+        li.appendChild(el('span', 'cb-chan-caller-name', String(p.name || '')));
+        if (p.base) { li.appendChild(document.createTextNode(' ')); li.appendChild(el('span', 'cb-tag', 'BASE')); }
+        ul.appendChild(li);
+      });
+    });
   };
 
   Radio.prototype.chatBuild = function (groups) {

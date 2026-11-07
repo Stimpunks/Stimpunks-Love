@@ -3892,12 +3892,30 @@ export async function inCall(tag, s = store(), now = Date.now()) {
    whoSeen's rules. Tags in alphabetical order; the radio puts them in the
    street's walking order. Nothing is stored for it, or records who asked. */
 export async function callsOn(who, s = store(), now = Date.now()) {
-  const on = new Set();
+  return Object.keys(await callsWith(who, s, now));
+}
+
+/* WHO IS IN EVERY CALL, FOR THE CHAT PAGE'S LIST OF CHANNELS. Ryan's call,
+   2026-11-06, by popular request, after Discord, which lists the people in a
+   channel's call under the channel: it reverses "who is in a call is shown
+   only in its room, to radios seen there" for the chat page, as an event on
+   now in a call already had (eventsFor). The same rooms as callsOn, by the
+   same rules (a room the asker may not enter left out, a room that keeps to
+   itself never named, a call between two people never kept at all), and for
+   each the names inCall gives: each once, alphabetical, BASE from the call's
+   own record, and no number. Read from the call records on each ask; nothing
+   more is kept for it and nothing records who asked. privacy.html#chat-calls
+   says so. Tags sorted, so callsOn's list keeps its order. */
+export async function callsWith(who, s = store(), now = Date.now()) {
+  const on = new Map();
   for (const r of await listed(s, IN_CALL, parseInCall)) {
     if (now - r.t >= callStale() || !roomAllows(who, r.tag) || quietRoom(r.tag)) continue;
-    on.add(r.tag);
+    if (!on.has(r.tag)) on.set(r.tag, new Map());
+    const names = on.get(r.tag);
+    if (!names.has(r.name)) names.set(r.name, { name: r.name, base: r.base });
   }
-  return [...on].sort();
+  return Object.fromEntries([...on.keys()].sort().map((tag) =>
+    [tag, [...on.get(tag).values()].sort((a, b) => a.name.localeCompare(b.name))]));
 }
 
 /* ── The World room's index ─────────────────────────────────────────────

@@ -55,7 +55,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   CRYSTAL_IDS, crystalId, readCrystals, pouchCrystal, forgetCrystals, setCrystalsShown, crystalsShown, shownCrystals,
   HERB_IDS, herbId, readHerbs, basketHerb, forgetHerbs, setHerbsShown, herbsShown, shownHerbs,
   PATCH_IDS, patchId, readPatches, takePatch, forgetPatches, setPatchesShown, patchesShown, shownPatches, patchSticker, shapePatchSticker, jacketSticker, shapeJacketSticker,
-  cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls,
+  cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, callsWith, sweepCalls,
   PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, clearProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS,
   TAGLINE_MAX, communityDirectory, profilePage,
   CHAT_STATUSES, cleanChatStatus, setChatStatus, chatStatusOf, withChatStatus, forgetChatStatus,
@@ -2291,6 +2291,13 @@ test("who's online names every room whose call has somebody in it, and only the 
     'the board room is named to the people it is for');
   const keyholder = { role: 'base', handle: 'Ryan', roles: new Set(['moderator', 'administrator']) };
   assert.ok(!(await callsOn(keyholder, s, now + 1)).includes(QUIET_ROOMS[0]), 'a quiet room is named to nobody, not even its keyholders');
+  // The chat page's list of channels names who is in each (Ryan, 2026-11-06), under the same rules.
+  assert.deepEqual(await callsWith(ada, s, now + 1), {
+    'cavendish-events': [{ name: 'A guest', base: false }],
+    'the-den': [{ name: 'Ada', base: false }, { name: 'Sam', base: false }],
+  }, 'names each once, alphabetical, no number; the board room and the quiet room left out');
+  assert.ok(!Object.keys(await callsWith(keyholder, s, now + 1)).includes(QUIET_ROOMS[0]), 'nobody in a quiet room\'s call is named, even to its keyholders');
+  assert.deepEqual(Object.keys(await callsWith(board, s, now + 1)), await callsOn(board, s, now + 1), 'the same rooms as Who\'s online');
   await callEvent({ eventType: 'PARTICIPANT_LEFT', fqn: `${JAAS_APP}/stimpunks-cavendish-events`, timestamp: now + 2,
     data: { participantId: 'c3' } }, s, now);
   assert.deepEqual(await callsOn(ada, s, now + 3), ['the-den'], 'a call nobody is left in is not named');

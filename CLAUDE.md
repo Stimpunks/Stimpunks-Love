@@ -879,10 +879,14 @@ switch only ever said "out here", and nothing on it joins this list.
 2026-10-13, after user testing, with **a name on the list opening that person's profile** (the peek a
 handle on the channel opens, drawn under the list). `callsOn` in `lib.mjs` reads the call records under
 `whoSeen`'s rules (`roomAllows`, never a quiet room) and `/cb/online` sends the tags with `callHeard`, so
-an empty list is never a guess. **The friendly edit is to put the names in**, so people can see who is
-in a call before they walk over; who is in a call is still shown only in its room, to radios seen there,
-and widening that is Ryan's call, written in `privacy.html#calls` first. No number either. **The one widening
-so far is an event's call** (Events, 2026-10-29), and it is held to the event being on.
+an empty list is never a guess. No number either. **Who is in a call is shown in its room to radios seen
+there, and in two wider places, each Ryan's call written in `privacy.html#calls` first**: an event's call
+while the event is on (Events, 2026-10-29), and **the chat page's list of channels** (2026-11-06, by popular
+request, after Discord): `callsWith` in `lib.mjs` gives callsOn's rooms with inCall's names, `/cb/channel`
+sends it as `inCalls` only for `?calls=names`, which only the chat page asks (`chatCallers` in `cb.js`), and
+each channel with somebody in its call gets a camera and the names under it, words only, nothing to press.
+The friendly edits are names on Who's online or the radio's Happening now "since the chat page has them",
+which widens it again (Ryan's call), a number beside the names, and a call between two people in the list.
 
 **A CHAT STATUS SAYS WHETHER SOMEBODY WANTS TO BE TALKED TO, AND BE SEEN HERE STAYS WHAT IT IS.** Ryan's ask,
 2026-10-24, after Discord's Online, Idle, Do Not Disturb and Invisible: Be seen here is already Online and Invisible, a
