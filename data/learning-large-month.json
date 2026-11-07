@@ -90,7 +90,7 @@
    "channel_id": "UCgscS8mBsQZ5sFRkJIFWD7Q"
   }
  ],
- "set": "2026-11-06T12:25Z",
+ "set": "2026-11-07T12:24Z",
  "log": [
   {
    "id": "mn0agTT8lG8",
@@ -111,16 +111,6 @@
    "state": "screen",
    "runs": 77,
    "channel": "Tina Huang"
-  },
-  {
-   "id": "jlEMo6Dsh9E",
-   "source": "ai-labs",
-   "form": "long",
-   "title": "This Just Fixed Your Claude Code Setup's Biggest Flaw",
-   "published": "2026-10-07T15:32:03Z",
-   "state": "screen",
-   "runs": 855,
-   "channel": "AI LABS"
   },
   {
    "id": "ERNqRK6sMJY",
@@ -310,6 +300,16 @@
    "published": "2026-11-04T16:40:16Z",
    "state": "screen",
    "runs": 1964,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "IrAHINf0M6E",
+   "source": "matt-wolfe",
+   "form": "long",
+   "title": "AI News: New ChatGPT & Google Models (14 Updates Worth Knowing)",
+   "published": "2026-11-06T18:20:31Z",
+   "state": "screen",
+   "runs": 1483,
    "channel": "Matt Wolfe"
   },
   {
@@ -533,14 +533,14 @@
    "channel": "Matt Wolfe"
   },
   {
-   "id": "sVQ3XlM9I40",
-   "source": "nate-b-jones",
-   "form": "long",
-   "title": "Google's Gemini Argon Is #1 On A Leaderboard. It Hasn't Passed The Benchmark That Matters.",
-   "published": "2026-10-07T14:00:32Z",
+   "id": "w3z3Fa7ACt8",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "That is Some Crazy Fabric",
+   "published": "2026-11-07T07:36:33Z",
    "state": "screen",
-   "runs": 956,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
+   "runs": 70,
+   "channel": "Matt Wolfe"
   },
   {
    "id": "wep2EQ9Y_Tc",
@@ -693,13 +693,13 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "EZAugIwI1Do",
+   "id": "S6SEgMooZpE",
    "source": "nate-b-jones",
-   "form": "short",
-   "title": "Can Google still catch up? Argon is entering the chat #AI #Google #Argon #AInews #tech",
-   "published": "2026-10-08T03:00:37Z",
+   "form": "long",
+   "title": "The end of git? OpenAI CTO on the future of coding.",
+   "published": "2026-11-06T15:00:23Z",
    "state": "screen",
-   "runs": 105,
+   "runs": 966,
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
@@ -913,16 +913,6 @@
    "channel": "Less Bitter"
   },
   {
-   "id": "nYA0yASgaZI",
-   "source": "theo",
-   "form": "long",
-   "title": "Does the $200 Codex plan suck now?",
-   "published": "2026-10-07T20:40:02Z",
-   "state": "screen",
-   "runs": 2013,
-   "channel": "Theo - t3․gg"
-  },
-  {
    "id": "38_6C0dkKmU",
    "source": "theo",
    "form": "long",
@@ -1103,13 +1093,13 @@
    "channel": "Theo - t3․gg"
   },
   {
-   "id": "KqLXX0Wv6NU",
+   "id": "TFCDWrEBaFM",
    "source": "theo",
-   "form": "short",
-   "title": "Ultrafast's ACTUAL Cost for Work",
-   "published": "2026-10-07T18:00:29Z",
+   "form": "long",
+   "title": "How Claude Fixes It's Own Code",
+   "published": "2026-11-06T23:00:39Z",
    "state": "screen",
-   "runs": 29,
+   "runs": 2534,
    "channel": "Theo - t3․gg"
   },
   {
@@ -1131,16 +1121,6 @@
    "state": "screen",
    "runs": 43,
    "channel": "Theo - t3․gg"
-  },
-  {
-   "id": "RWCljagU6no",
-   "source": "paul-j-lipsky",
-   "form": "long",
-   "title": "ChatGPT Space: 7 Incredible Use Cases You Need To Try",
-   "published": "2026-10-07T13:00:19Z",
-   "state": "screen",
-   "runs": 865,
-   "channel": "Paul J Lipsky"
   },
   {
    "id": "S-IQRTRsJjo",
@@ -1280,6 +1260,16 @@
    "published": "2026-11-05T14:00:28Z",
    "state": "screen",
    "runs": 1377,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "85mhGo9jNGY",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "AI News: New Grok Bot Limits, Muse Voice Is Here, ChatGPT Images 2.6 and More!",
+   "published": "2026-11-06T14:00:23Z",
+   "state": "screen",
+   "runs": 1733,
    "channel": "Paul J Lipsky"
   },
   {
@@ -1983,14 +1973,24 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
-   "id": "omNMcR6WWzQ",
-   "source": "chase-ai",
-   "form": "long",
-   "title": "Claude Haiku 5.5 Is LIVE (RIP OpenAI)",
-   "published": "2026-10-07T18:50:05Z",
+   "id": "16lpGeMZlzY",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Do people say please to AI?",
+   "published": "2026-11-06T14:01:00Z",
    "state": "screen",
-   "runs": 347,
-   "channel": "Chase AI"
+   "runs": 61,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "9qvqlSxgzgk",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Would you pick an AI co-founder or a human one?",
+   "published": "2026-11-07T02:00:49Z",
+   "state": "screen",
+   "runs": 57,
+   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "JJMChiMYW_g",
@@ -2283,16 +2283,6 @@
    "channel": "Greg Isenberg"
   },
   {
-   "id": "Wkaw03p3BrM",
-   "source": "two-minute-papers",
-   "form": "long",
-   "title": "DeepMind's New AI Just Cracked The Code Of Life",
-   "published": "2026-10-07T13:29:33Z",
-   "state": "screen",
-   "runs": 1997,
-   "channel": "Two Minute Papers"
-  },
-  {
    "id": "4fLVq6HJsKc",
    "source": "two-minute-papers",
    "form": "long",
@@ -2351,26 +2341,6 @@
    "state": "screen",
    "runs": 2779,
    "channel": "Two Minute Papers"
-  },
-  {
-   "id": "Fuo1i_-9Frc",
-   "source": "robonuggets",
-   "form": "long",
-   "title": "Someone Just Rebuilt Adobe for Free, and Claude Can Run Them All (7 apps tested)",
-   "published": "2026-10-08T11:08:06Z",
-   "state": "screen",
-   "runs": 518,
-   "channel": "Jay E | RoboNuggets"
-  },
-  {
-   "id": "lDrAZ1wAyVs",
-   "source": "robonuggets",
-   "form": "long",
-   "title": "9 NEW Claude Mods that can truly change how you work",
-   "published": "2026-10-08T12:12:10Z",
-   "state": "screen",
-   "runs": 767,
-   "channel": "Jay E | RoboNuggets"
   },
   {
    "id": "gvESqM6s0kM",
@@ -2641,6 +2611,26 @@
    "state": "screen",
    "runs": 29,
    "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "yM_UwE49ZCI",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "3 Claude Design tricks that stop the AI slop look #shorts",
+   "published": "2026-11-06T22:00:29Z",
+   "state": "screen",
+   "runs": 43,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "pu244PSxE9Y",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "Someone just gave Claude Code ears and 200+ free sound effects #shorts",
+   "published": "2026-11-07T06:00:19Z",
+   "state": "screen",
+   "runs": 26,
+   "channel": "Jay E | RoboNuggets"
   }
  ],
  "covered": {
@@ -2648,13 +2638,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ]
   },
@@ -2662,13 +2652,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ]
   },
@@ -2676,13 +2666,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ]
   },
@@ -2690,13 +2680,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ]
   },
@@ -2704,13 +2694,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ]
   },
@@ -2718,13 +2708,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ]
   },
@@ -2732,13 +2722,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ]
   },
@@ -2746,13 +2736,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ]
   },
@@ -2760,13 +2750,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ]
   },
@@ -2774,13 +2764,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ]
   },
@@ -2788,13 +2778,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ]
   },
@@ -2802,13 +2792,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ]
   },
@@ -2816,13 +2806,13 @@
    "long": [
     [
      "2026-08-28T09:44:44Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:12:16Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ]
   },
@@ -2830,13 +2820,13 @@
    "long": [
     [
      "2026-09-23T01:33:56Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-25T03:00:26Z",
-     "2026-11-06T12:25:08Z"
+     "2026-11-07T12:24:24Z"
     ]
    ]
   }
