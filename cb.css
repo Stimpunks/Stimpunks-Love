@@ -2851,6 +2851,33 @@ body.cb-callwin--chat .cb-call-host { --cb-callwin-right: 400px; }
   body.cb-callwin--chat .cb-call-host { --cb-callwin-right: 0px; --cb-callwin-bottom: 55vh; }
   .cb-callwin__chat { top: auto; left: 0; width: 100%; height: 55vh; border-left: 0; border-top: 2px solid var(--cb-steel-2); }
 }
+/* SHOW THE FILM (call-window.js): the film hosted in the call's room, above
+   the call, left of the chat when the chat is beside it. The call's top moves
+   down by the film's height, which the body carries into the call's shadow
+   root. The film is as wide as it can be at 16:9 in what is left. */
+.cb-call--whole { top: var(--cb-callwin-top, 0px); }
+body.cb-callwin--chat { --cb-callwin-chat: 400px; }
+body.cb-callwin--film { --cb-callwin-top: min(62vh, calc((100vw - var(--cb-callwin-chat, 0px)) * 9 / 16 + 5.5em)); }
+.cb-callwin__film {
+  position: fixed; z-index: 90; top: 0; left: 0; right: var(--cb-callwin-chat, 0px); height: var(--cb-callwin-top);
+  box-sizing: border-box; display: flex; flex-direction: column; gap: 6px; padding: 8px 12px;
+  background: var(--cb-case); color: var(--cb-steel); border-bottom: 2px solid var(--cb-steel-2);
+}
+.cb-callwin__film-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.cb-callwin__film-line { margin: 0; flex: 1 1 16em; }
+.cb-callwin__film-said { margin: 0; font-size: .9em; }
+.cb-callwin__film-said:empty { display: none; }
+.cb-callwin__screen { flex: 1; min-height: 0; container-type: size; display: flex; align-items: center; justify-content: center; }
+.cb-callwin__screen .facade {
+  width: min(100cqw, calc(100cqh * 16 / 9)); height: auto; aspect-ratio: 16 / 9; box-sizing: border-box;
+  background: var(--cb-lcd); color: var(--cb-amber); border-color: var(--cb-steel-2);
+}
+/* The readout's own pair, amber on the glass, which check-contrast.py holds for every theme. */
+.cb-callwin__screen .facade__play { color: var(--cb-amber); }
+@media (max-width: 759.98px) {
+  body.cb-callwin--chat { --cb-callwin-chat: 0px; }
+  body.cb-callwin--film { --cb-callwin-top: min(40vh, calc(100vw * 9 / 16 + 6.5em)); }
+}
 /* POP OUT ASKS FIRST (call.js): the warning under the bar, and its two buttons. */
 .cb-call-popask { padding: 8px 12px; background: var(--cb-bar); border-top: 1px solid var(--cb-steel-2); }
 .cb-call-popask__row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px !important; }

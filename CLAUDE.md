@@ -990,8 +990,16 @@ rejoin opens the window. **The window's bar has Show the chat and Show the page*
 day): the chat is `chat.html#<the call's room>` in a frame beside the call, **the one frame of this site
 that gets a radio** (`callFramed` in `love.js` and `cb.js`, which every other frame still fails), taken away
 again on Hide so it listens only while shown; Show the page brings the opener forward and says so when the
-browser will not. The friendly edits are a chat shown by default "since people asked for it", which is a
-second radio listening unasked, and widening `callFramed` to other frames. The browser pane in this app opens a pop-up
+browser will not. **Show the film** (Ryan's ask, the same evening) puts the room's hosted film above the call
+as an unpressed plate (`call-window.js`): it asks `/cb/channel?room=` with the `v` it has every `FILM_EVERY`, only
+while shown and in front, and puts up only a film the room's own page has a play button for (read once from the
+page's markup, a list at the host's film through `data-embed-entry`) or a base beacon's, **`plateFor`'s rule
+carried into the window**; the start is set the moment the plate is pressed, Catch up is `loveEmbed.seek` and
+presses nothing, and a new film while yours plays goes up only on Put it up instead. Follow stays the radio's.
+The friendly edits are a chat shown by default "since people asked for it", which is a
+second radio listening unasked, widening `callFramed` to other frames, any host's film on the plate "since
+they are in the call", which lets anybody put any video on everybody's screen, and a second copy of
+`followTick` in the window. The browser pane in this app opens a pop-up
 in the same tab, so test the two sides in two tabs there, or in a real browser.
 
 **THE RADIO IS IN PARTS, EACH UNDER A REAL HEADING** (Ryan, 2026-10-13, after people could not tell where
