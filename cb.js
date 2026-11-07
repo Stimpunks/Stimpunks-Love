@@ -3639,8 +3639,6 @@
     if (this.pages > 1) qs.push('n=' + WINDOW * this.pages);
     // What it last heard, so a channel nothing has happened on sends nothing back.
     if (this.chanV) qs.push('v=' + encodeURIComponent(this.chanV));
-    // The chat page's list names who is in each call (chatCallers); nothing else asks.
-    if (inChat()) qs.push('calls=names');
     call('/cb/channel' + (qs.length ? '?' + qs.join('&') : ''), null, sent).then(function (r) {
       // A listen that left just before the pass changed, by claiming the
       // username or changing its password, is refused for the old pass: only a
@@ -6237,25 +6235,76 @@
     this.chatCallers();
   };
 
-  /* WHO IS IN EACH CALL, UNDER ITS CHANNEL IN THE CHAT PAGE'S LIST, as Discord
-     lists them (Ryan's call, 2026-11-06, by popular request, reversing "who is
-     in a call is shown only in its room, to radios seen there" for this list:
-     privacy.html#chat-calls). The names come on each listen as `inCalls`
-     (callsWith in lib.mjs), which only this page asks for: each once,
-     alphabetical, BASE beside the base, and no number. Only rooms the reader
-     may enter, never a room that keeps to itself (it has no channel here
-     anyway), and a conversation's call never, because nothing is kept about
-     one. The channel's link says a call is going, for a screen reader that
-     reaches the link and not the list. Words only, nothing to press: the
-     channel is the way in. Redrawn only when the names change, so nothing
-     under the pointer moves on a quiet listen. */
+  /* WHO IS IN A CALL, wherever the radio names them (Ryan's calls,
+     2026-11-06, by popular request, after Discord): under each channel in the
+     chat page's list, on Who's online's Calls going now, and in Happening now,
+     to anybody signed on who may go into the room, which reverses "who is in a
+     call is shown only in its room, to radios seen there" (privacy.html#chat-
+     calls). The names come on each listen and with Who's online as `inCalls`
+     (callsWith in lib.mjs): each once, alphabetical, no number, and the avatar
+     each wears. Each name is a button that opens their profile, as a name on
+     Who's online does, with their avatar beside it (heard as what they wrote
+     about it, or not at all), BASE beside the base and "(you)" beside you.
+     Redrawn only when what it says changes, and the keyboard put back on the
+     same name, so a listen every few seconds moves nothing under the hand. */
+  function callSig(names) {
+    return (names || []).map(function (p) { return (p.base ? '*' : '') + p.name + (p.avatar ? '|' + JSON.stringify(p.avatar) : ''); }).join('\n');
+  }
+  Radio.prototype.callFolk = function (ul, names, at, tabIndex) {
+    var me = this, mine = fold(this.state.handle || ''), root = ul.getRootNode(), on = root.activeElement;
+    // A list drawn afresh by its caller says which name had the keyboard (folkAgain).
+    var again = (on && ul.contains(on) && on.dataset ? on.dataset.at : null) || this.folkAgain || null, wait = false;
+    ul.textContent = '';
+    (names || []).forEach(function (p) {
+      var li = el('li', 'cb-call-person');
+      if (p.avatar) {
+        if (window.loveAvatar) li.appendChild(avatarArt(p.avatar.look, p.avatar.about, 'cb-online-face', 'bust', p.name + '\u2019s avatar'));
+        else wait = true;
+      }
+      var b = el('button', 'cb-handle', String(p.name || ''));
+      b.type = 'button';
+      b.setAttribute('aria-haspopup', 'dialog');
+      b.dataset.at = at + '|' + p.name;
+      if (tabIndex != null) b.tabIndex = tabIndex;
+      b.addEventListener('click', function () { me.peek(p.name, b, { handle: p.name, base: !!p.base, claimed: true }); });
+      li.appendChild(b);
+      if (p.base) li.appendChild(el('span', 'cb-tag', 'BASE'));
+      if (fold(p.name) === mine) li.appendChild(document.createTextNode(' (you)'));
+      ul.appendChild(li);
+      if (again && b.dataset.at === again) setTimeout(function () { b.focus(); }, 0);
+    });
+    // Somebody wears an avatar and avatar.js is not here yet: fetch it once, and draw again.
+    if (wait && !this.facesComing) {
+      this.facesComing = true;
+      withAvatar(function () {
+        me.facesComing = false;
+        (me.chatLinks || []).forEach(function (x) { x.callSig = null; });
+        me.elseKey = null; me.onlineKey = null; me.inCallSig = null; me.callOnSig = null;
+        me.chatCallers();
+        me.presenceDraw();
+        me.callPlace();
+        if (!me.online.hidden) me.onlineShown();
+      });
+    }
+  };
+  // Who is in a room's call, by its tag, from the latest listen or Who's online.
+  Radio.prototype.callersOf = function (tag) {
+    var on = this.callNames || this.onlineCalls || {};
+    return Array.isArray(on[tag]) ? on[tag] : [];
+  };
+
+  /* Under each channel in the chat page's list, as Discord lists a voice
+     channel's people, with a small camera on the channel, which also tells a
+     screen reader on the link that a call is going. The names come after the
+     channel's menu in the Tab order, on the row the arrows are on (chatRove).
+     Never a conversation's call, because nothing is kept about one. */
   Radio.prototype.chatCallers = function () {
     if (!inChat() || !this.chatLinks) return;
-    var on = this.callNames || {};
+    var me = this;
     this.chatLinks.forEach(function (x) {
       if (x.dm != null || x.ev) return;
-      var names = Array.isArray(on[x.tag]) ? on[x.tag] : [];
-      var sig = names.map(function (p) { return (p.base ? '*' : '') + p.name; }).join('\n');
+      var names = me.callersOf(x.tag);
+      var sig = callSig(names);
       if (x.callSig === sig) return;
       x.callSig = sig;
       var ul = x.li.querySelector(':scope > .cb-chan-callers'), note = x.a.querySelector(':scope > .cb-chan-call');
@@ -6273,13 +6322,7 @@
       }
       if (!ul) { ul = el('ul', 'cb-chan-callers'); x.li.appendChild(ul); }
       ul.setAttribute('aria-label', 'In the call in ' + label);
-      ul.textContent = '';
-      names.forEach(function (p) {
-        var li = el('li', 'cb-chan-caller');
-        li.appendChild(el('span', 'cb-chan-caller-name', String(p.name || '')));
-        if (p.base) { li.appendChild(document.createTextNode(' ')); li.appendChild(el('span', 'cb-tag', 'BASE')); }
-        ul.appendChild(li);
-      });
+      me.callFolk(ul, names, 'chan|' + x.tag, x.a.tabIndex === 0 ? 0 : -1);
     });
   };
 
@@ -6444,7 +6487,7 @@
     this.chatLinks.forEach(function (x) {
       x.a.tabIndex = x.a === stop ? 0 : -1;
       // Its menu button, and while arranging its Move buttons, come next in the Tab order.
-      x.li.querySelectorAll('.cb-chan-menu, .cb-chan-move').forEach(function (b) { b.tabIndex = x.a === stop ? 0 : -1; });
+      x.li.querySelectorAll('.cb-chan-menu, .cb-chan-move, .cb-chan-callers .cb-handle').forEach(function (b) { b.tabIndex = x.a === stop ? 0 : -1; });
     });
   };
 
@@ -13461,6 +13504,7 @@
       if (r.status === 200 && Array.isArray(r.body.people)) {
         me.people = r.body.people; me.peopleAt = Date.now(); me.peopleFailed = false;
         me.callsNow = Array.isArray(r.body.calls) ? r.body.calls : [];
+        me.onlineCalls = r.body.inCalls && typeof r.body.inCalls === 'object' ? r.body.inCalls : null;
         me.callsHeard = r.body.callHeard === true;
         // Somebody wears an avatar, and avatar.js is not here yet: fetch it
         // once, and draw the list again when it comes.
@@ -13599,9 +13643,11 @@
       return;
     }
     var shown = this.people.filter(function (p) { return roomsOf(p).length; });
-    var calls = (rooms || []).filter(function (r) { return (me.callsNow || []).indexOf(r.tag) >= 0; });
+    // The World room's call is the World call, which has its own line (2026-11-06: it was named twice).
+    var calls = (rooms || []).filter(function (r) { return r.tag !== WORLD_CALL && (me.callsNow || []).indexOf(r.tag) >= 0; });
     var world = (this.callsNow || []).indexOf(WORLD_CALL) >= 0;
-    var key = JSON.stringify([shown, calls.map(function (r) { return r.tag; }), world, !!this.callsHeard, here, this.state.handle]);
+    var callsOf = function (t) { var on = me.onlineCalls || me.callNames || {}; return Array.isArray(on[t]) ? on[t] : []; };
+    var key = JSON.stringify([shown, calls.map(function (r) { return [r.tag, callSig(callsOf(r.tag))]; }), world && callSig(callsOf(WORLD_CALL)), !!this.callsHeard, here, this.state.handle]);
     none.hidden = shown.length > 0;
     none.textContent = 'Nobody is seen in a room right now.';
     ul.hidden = !shown.length;
@@ -13665,7 +13711,21 @@
     this.callNone.textContent = 'Nobody is in a call right now.';
     // The World call is no room's, so it has no address to go to: it is joined
     // from wherever you are, with Join World call just above.
-    if (world) this.callList.appendChild(el('li', 'cb-online-row', 'The World call, which Join World call above takes you into'));
+    // Who is in each, under it (Ryan's call, 2026-11-06): see callFolk.
+    this.folkAgain = again;
+    function folk(li, t, name) {
+      var names = callsOf(t);
+      if (!names.length) return;
+      var ul = el('ul', 'cb-call-folk');
+      ul.setAttribute('aria-label', 'In the call in ' + name);
+      li.appendChild(ul);
+      me.callFolk(ul, names, 'online|' + t);
+    }
+    if (world) {
+      var wli = el('li', 'cb-online-row', 'The World call, which Join World call above takes you into');
+      folk(wli, WORLD_CALL, 'the World call');
+      this.callList.appendChild(wli);
+    }
     calls.forEach(function (r) {
       var li = el('li', 'cb-online-row');
       if (isHere(r)) { li.appendChild(el('span', null, r.name + ' (this room)')); }
@@ -13676,8 +13736,10 @@
         li.appendChild(a);
         back(a);
       }
+      folk(li, r.tag, r.name);
       me.callList.appendChild(li);
     });
+    this.folkAgain = null;
   };
 
   /* @ IN THE TELEPORTER: a person rather than a room. Helen Edgar's ask and
@@ -14494,14 +14556,23 @@
     } else this.seenNow.textContent = 'Nobody else here is seen.';
     // Only once 8x8 is telling us, so an empty list is never a guess.
     if (a.callHeard) {
-      var inc = a.call || [];
+      var inc = a.call || [], me = this, faces = this.callersOf(tag);
+      // The avatars come with the listen's names (callersOf), by name.
+      inc = inc.map(function (p) { var f = faces.filter(function (q) { return q.name === p.name; })[0]; return f && f.avatar ? Object.assign({}, p, { avatar: f.avatar }) : p; });
       this.inCallNow.hidden = false;
       if (inc.length) {
         this.callFull = true;
-        this.inCallNow.textContent = '';
-        this.inCallNow.appendChild(document.createTextNode('In this room\u2019s call: '));
-        var c = el('span'); whoList(c, inc, 'name'); this.inCallNow.appendChild(c);
-      } else this.inCallNow.textContent = 'Nobody is in this room\u2019s call.';
+        var sig = tag + '\n' + callSig(inc);
+        if (sig !== this.inCallSig || !this.inCallNow.querySelector('ul')) {
+          this.inCallSig = sig;
+          this.inCallNow.textContent = '';
+          this.inCallNow.appendChild(document.createTextNode('In this room\u2019s call:'));
+          var c = el('ul', 'cb-call-folk');
+          c.setAttribute('aria-label', 'In this room\u2019s call');
+          this.inCallNow.appendChild(c);
+          me.callFolk(c, inc, 'here|' + tag);
+        }
+      } else { this.inCallSig = null; this.inCallNow.textContent = 'Nobody is in this room\u2019s call.'; }
     }
   };
 
@@ -14520,9 +14591,20 @@
     // What a radio seen here is told outranks the list: it is about this room alone.
     var listed = !!(here && !worldHere() && this.inCallNow.hidden && Array.isArray(this.callGoing) && this.callGoing.indexOf(here.tag) >= 0);
     this.callOnNow.hidden = inIt || !listed;
-    this.callOnNow.textContent = this.state.seen
-      ? 'Somebody is in this room\u2019s call now.'
-      : 'Somebody is in this room\u2019s call now. Switch on Be seen here' + (this.appCallCol && !this.chatWide() ? ', under People,' : '') + ' to see who.';
+    /* Who is in it, from the listen (Ryan's call, 2026-11-06), for a radio not
+       seen here too; until the server sends names, that somebody is. */
+    var folks = listed ? this.callersOf(here.tag) : [], osig = listed ? here.tag + '\n' + callSig(folks) : '';
+    if (osig !== this.callOnSig) {
+      this.callOnSig = osig;
+      if (folks.length) {
+        this.callOnNow.textContent = '';
+        this.callOnNow.appendChild(document.createTextNode('In this room\u2019s call now:'));
+        var oul = el('ul', 'cb-call-folk');
+        oul.setAttribute('aria-label', 'In this room\u2019s call');
+        this.callOnNow.appendChild(oul);
+        this.callFolk(oul, folks, 'on|' + here.tag);
+      } else this.callOnNow.textContent = 'Somebody is in this room\u2019s call now.';
+    }
     var going = inIt || !!this.callFull || listed;
     var to = going ? this.nowSec : this.hereSec, before = going ? this.elseSub : this.famSub;
     // In the chat app on a phone it is on the Call tab, whatever is going.
@@ -14558,9 +14640,11 @@
     var tags = worldWide() && Array.isArray(this.callGoing) ? this.callGoing.filter(function (t) {
       return t !== WORLD_CALL && (!here || t !== here.tag) && byTag[t] && !byTag[t].quiet;
     }) : [];
-    var key = tags.join('|');
+    var key = tags.map(function (t) { return t + '\n' + callSig(me.callersOf(t)); }).join('|');
     if (key === this.elseKey) return;
     this.elseKey = key;
+    var on = ul.getRootNode().activeElement;
+    this.folkAgain = on && ul.contains(on) && on.dataset ? on.dataset.at : null;
     ul.textContent = '';
     tags.forEach(function (t) {
       var r = byTag[t], li = el('li', 'cb-beacon'), a = el('a', 'cb-room');
@@ -14570,7 +14654,15 @@
       a.appendChild(document.createTextNode(r.name));
       a.href = chatHref(r) || r.path;
       li.appendChild(a);
-      li.appendChild(document.createTextNode(': somebody is in its call.'));
+      // Who is in it (Ryan's call, 2026-11-06), or that somebody is, until names come.
+      var folks = me.callersOf(t);
+      if (folks.length) {
+        li.appendChild(document.createTextNode(': in its call,'));
+        var ful = el('ul', 'cb-call-folk');
+        ful.setAttribute('aria-label', 'In the call in ' + r.name);
+        li.appendChild(ful);
+        me.callFolk(ful, folks, 'else|' + t);
+      } else li.appendChild(document.createTextNode(': somebody is in its call.'));
       if (inChat() && me.chatHas(t)) {
         var j = el('button', 'cb-btn cb-now-go', 'Join the call');
         j.type = 'button';
@@ -14585,6 +14677,7 @@
       }
       ul.appendChild(li);
     });
+    this.folkAgain = null;
     ul.hidden = !tags.length;
   };
 

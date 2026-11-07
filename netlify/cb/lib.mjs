@@ -3895,18 +3895,23 @@ export async function callsOn(who, s = store(), now = Date.now()) {
   return Object.keys(await callsWith(who, s, now));
 }
 
-/* WHO IS IN EVERY CALL, FOR THE CHAT PAGE'S LIST OF CHANNELS. Ryan's call,
+/* WHO IS IN EVERY CALL, TO ANYBODY WHO MAY GO INTO THE ROOM. Ryan's calls,
    2026-11-06, by popular request, after Discord, which lists the people in a
-   channel's call under the channel: it reverses "who is in a call is shown
-   only in its room, to radios seen there" for the chat page, as an event on
-   now in a call already had (eventsFor). The same rooms as callsOn, by the
-   same rules (a room the asker may not enter left out, a room that keeps to
-   itself never named, a call between two people never kept at all), and for
-   each the names inCall gives: each once, alphabetical, BASE from the call's
-   own record, and no number. Read from the call records on each ask; nothing
-   more is kept for it and nothing records who asked. privacy.html#chat-calls
-   says so. Tags sorted, so callsOn's list keeps its order. */
-export async function callsWith(who, s = store(), now = Date.now()) {
+   channel's call under the channel: first the chat page's list of channels,
+   then the same evening Who's online's Calls going now and every radio's
+   Happening now, each name opening its profile, with the avatar it wears. It
+   reverses "who is in a call is shown only in its room, to radios seen
+   there", as an event on now in a call already had (eventsFor). The same
+   rooms as callsOn, by the same rules (a room the asker may not enter left
+   out, a room that keeps to itself never named, a call between two people
+   never kept at all), and for each the names inCall gives: each once,
+   alphabetical, BASE from the call's own record, and no number. With
+   `faces`, each name carries the avatar it wears (withAvatars: a call's name
+   is the handle on the pass that got its token, and every username is
+   claimed). Read from the call records on each ask; nothing more is kept for
+   it and nothing records who asked. privacy.html#chat-calls says so. Tags
+   sorted, so callsOn's list keeps its order. */
+export async function callsWith(who, s = store(), now = Date.now(), faces = false) {
   const on = new Map();
   for (const r of await listed(s, IN_CALL, parseInCall)) {
     if (now - r.t >= callStale() || !roomAllows(who, r.tag) || quietRoom(r.tag)) continue;
@@ -3914,8 +3919,13 @@ export async function callsWith(who, s = store(), now = Date.now()) {
     const names = on.get(r.tag);
     if (!names.has(r.name)) names.set(r.name, { name: r.name, base: r.base });
   }
-  return Object.fromEntries([...on.keys()].sort().map((tag) =>
+  const out = Object.fromEntries([...on.keys()].sort().map((tag) =>
     [tag, [...on.get(tag).values()].sort((a, b) => a.name.localeCompare(b.name))]));
+  if (!faces || !on.size) return out;
+  const worn = await withAvatars([...new Set(Object.values(out).flat().map((p) => p.name))].map((handle) => ({ handle, claimed: true })), s);
+  const face = new Map(worn.filter((p) => p.avatar).map((p) => [p.handle, p.avatar]));
+  for (const tag of Object.keys(out)) out[tag] = out[tag].map((p) => (face.has(p.name) ? { ...p, avatar: face.get(p.name) } : p));
+  return out;
 }
 
 /* ── The World room's index ─────────────────────────────────────────────

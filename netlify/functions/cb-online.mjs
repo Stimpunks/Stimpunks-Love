@@ -6,8 +6,10 @@
    and its teleporter asks when an @ is typed; nothing records who asked.
 
    And every room whose call has somebody in it (Ryan, 2026-10-13): the rooms
-   only, by callsOn()'s rules, which are whoSeen's. callHeard says whether 8x8
-   is telling us at all, so an empty list of calls is never a guess.
+   only, by callsOn()'s rules, which are whoSeen's, and since 2026-11-06 who
+   is in each, with the avatar each wears (inCalls, callsWith: Ryan's call,
+   privacy.html#chat-calls). callHeard says whether 8x8 is telling us at all,
+   so an empty list of calls is never a guess.
 
    And the avatar each claimed person wears on the CB (Ryan, 2026-10-14), out
    of one blob, beside a claimed name only, by withAvatars()'s rules, and the
@@ -15,14 +17,15 @@
    withPlates()'s, and the chat status each chose (2026-10-24), by
    withChatStatus()'s, and the availability each chose (2026-10-29), by
    withAvailability()'s. */
-import { readPass, whoSeen, withAvatars, withPlates, withChatStatus, withAvailability, callsOn, json, sameSite } from '../cb/lib.mjs';
+import { readPass, whoSeen, withAvatars, withPlates, withChatStatus, withAvailability, callsWith, json, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The CB only answers stimpunks.world.' });
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   const heard = !!process.env.CB_JAAS_EVENTS_SECRET;
-  return json(200, { people: await withAvailability(await withChatStatus(await withPlates(await withAvatars(await whoSeen(who))))), calls: heard ? await callsOn(who) : [], callHeard: heard });
+  const inCalls = heard ? await callsWith(who, undefined, undefined, true) : {};
+  return json(200, { people: await withAvailability(await withChatStatus(await withPlates(await withAvatars(await whoSeen(who))))), calls: Object.keys(inCalls), inCalls, callHeard: heard });
 };
 
 export const config = {

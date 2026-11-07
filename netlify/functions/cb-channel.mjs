@@ -25,9 +25,9 @@
    never a room that keeps to itself, and it says nothing about where the
    asker is. null until 8x8 is telling us who is in calls.
 
-   ?calls=names, which only the chat page sends, adds `inCalls`: who is in each
-   of those calls (callsWith), for its list of channels (Ryan's call,
-   2026-11-06, privacy.html#chat-calls). */
+   `inCalls` is who is in each of those calls, with the avatar each wears
+   (callsWith), for Happening now and the chat page's list of channels (Ryan's
+   calls, 2026-11-06, privacy.html#chat-calls). */
 import { createHash } from 'node:crypto';
 import { staffShut, readPass, readTuned, readBeacons, roomTag, roomAllows, rolesOf, mentionableRoles, shape, shapeRule, shapeBeacons, callsReady, callsOn, callsWith, WINDOW, json } from '../cb/lib.mjs';
 
@@ -46,15 +46,14 @@ export default async (req) => {
   // A staff room's channel is sealed with CB_STAFF_KEY (lib.mjs): without it, shut.
   if (staffShut(room)) return json(503, { error: 'This room\'s channel is shut just now. Nothing was read or sent.' });
   const heard = !!process.env.CB_JAAS_EVENTS_SECRET;
-  const named = heard && q.get('calls') === 'names';
-  const [ch, beacons, inCalls] = await Promise.all([readTuned(room), readBeacons(), heard ? callsWith(who) : null]);
+  const [ch, beacons, inCalls] = await Promise.all([readTuned(room), readBeacons(), heard ? callsWith(who, undefined, undefined, true) : null]);
   const going = inCalls && Object.keys(inCalls);
   const n = Math.max(WINDOW, Math.min(ch.rule.keep, Math.ceil((Number(q.get('n')) || WINDOW) / WINDOW) * WINDOW));
   const messages = shape(ch.messages.slice(-n));
   const rule = shapeRule(ch.rule), older = ch.messages.length > n;
   const v = createHash('sha256').update(JSON.stringify([messages, rule, older])).digest('base64url').slice(0, 22);
   const said = q.get('v') === v ? { same: true } : { messages };
-  return json(200, { room: room || null, ...said, v, older, rule, beacons: shapeBeacons(beacons, who, room), now: Date.now(), calls: callsReady(), going, ...(named ? { inCalls } : {}), roles: rolesOf(who), mention: mentionableRoles(who), ...(who.twostep ? { twostep: who.twostep } : {}), ...swap });
+  return json(200, { room: room || null, ...said, v, older, rule, beacons: shapeBeacons(beacons, who, room), now: Date.now(), calls: callsReady(), going, inCalls, roles: rolesOf(who), mention: mentionableRoles(who), ...(who.twostep ? { twostep: who.twostep } : {}), ...swap });
 };
 
 export const config = {

@@ -2217,18 +2217,23 @@ button.cb-help-btn[hidden] { display: none; }
    the pointer on the bar's grey, as a channel is. */
 .cb-chan-list > li.cb-chan-row { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; }
 .cb-chan-row > .cb-chan { flex: 1 1 0; min-width: 0; }
-/* WHO IS IN A CHANNEL'S CALL (cb.js, chatCallers): a small camera on the
-   channel, and the names under it, stepped in from the channel's own words
-   with a steel line down their side, the way Discord lists a voice channel's
-   people. The channels' own steel and face; nothing to press. */
+/* WHO IS IN A CALL (cb.js, callFolk), wherever the radio names them: each
+   person a row of the avatar they wear, their name as a button that opens
+   their profile, and BASE, in the radio's own steel. Under a channel in the
+   chat page's list (chatCallers), a small camera on the channel and the names
+   stepped in from the channel's own words with a steel line down their side,
+   the way Discord lists a voice channel's people. */
 .cb-chan-call { flex: none; align-self: center; display: inline-grid; place-items: center; width: 18px; height: 18px; margin-left: 6px; color: var(--cb-steel); }
 .cb-chan-call svg { width: 18px; height: 18px; }
 .cb-radio .cb-chan[aria-current] > .cb-chan-call { color: var(--cb-amber); }
+.cb-call-folk { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.cb-call-person { margin: 0; display: inline-flex; align-items: center; gap: 2px; min-height: 32px; overflow-wrap: anywhere; }
+.cb-call-person > .cb-online-face { margin-right: 4px; }
 .cb-chan-callers {
   flex: 1 1 100%; list-style: none; margin: 0 0 4px 22px; padding: 0 0 0 10px;
   border-left: 2px solid var(--cb-steel-2); display: grid; gap: 1px;
 }
-.cb-chan-caller { margin: 0; padding: 2px 0; color: var(--cb-steel); font: 14px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; overflow-wrap: anywhere; }
+.cb-chan-callers > .cb-call-person { color: var(--cb-steel); font: 14px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; }
 /* Delete my messages asks under its conversation, the row's whole width. */
 .cb-chan-row > .cb-chan-sure { flex: 1 1 100%; margin: 2px 0 6px; }
 .cb-radio .cb-chan-menu {

@@ -880,13 +880,15 @@ switch only ever said "out here", and nothing on it joins this list.
 handle on the channel opens, drawn under the list). `callsOn` in `lib.mjs` reads the call records under
 `whoSeen`'s rules (`roomAllows`, never a quiet room) and `/cb/online` sends the tags with `callHeard`, so
 an empty list is never a guess. No number either. **Who is in a call is shown in its room to radios seen
-there, and in two wider places, each Ryan's call written in `privacy.html#calls` first**: an event's call
-while the event is on (Events, 2026-10-29), and **the chat page's list of channels** (2026-11-06, by popular
-request, after Discord): `callsWith` in `lib.mjs` gives callsOn's rooms with inCall's names, `/cb/channel`
-sends it as `inCalls` only for `?calls=names`, which only the chat page asks (`chatCallers` in `cb.js`), and
-each channel with somebody in its call gets a camera and the names under it, words only, nothing to press.
-The friendly edits are names on Who's online or the radio's Happening now "since the chat page has them",
-which widens it again (Ryan's call), a number beside the names, and a call between two people in the list.
+there, and wider, each Ryan's call written in `privacy.html#calls` first**: an event's call while the
+event is on (Events, 2026-10-29), and since 2026-11-06 (by popular request, after Discord) **everywhere the
+radio names a call, to anybody signed on who may go into the room**: `callsWith(…, faces)` in `lib.mjs`
+gives callsOn's rooms with inCall's names and each name's worn avatar, `/cb/channel` sends it on every
+listen and `/cb/online` with Who's online as `inCalls`, and `callFolk` in `cb.js` draws each name as a
+button that opens the profile, avatar beside it, under the chat page's channels (`chatCallers`), Who's
+online's Calls going now and Happening now. The call window's own line (`loveCall.whoLine`) is still for
+radios seen there. The friendly edits are a number beside the names, and a call between two people in any
+list.
 
 **A CHAT STATUS SAYS WHETHER SOMEBODY WANTS TO BE TALKED TO, AND BE SEEN HERE STAYS WHAT IT IS.** Ryan's ask,
 2026-10-24, after Discord's Online, Idle, Do Not Disturb and Invisible: Be seen here is already Online and Invisible, a

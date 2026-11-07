@@ -2298,6 +2298,13 @@ test("who's online names every room whose call has somebody in it, and only the 
   }, 'names each once, alphabetical, no number; the board room and the quiet room left out');
   assert.ok(!Object.keys(await callsWith(keyholder, s, now + 1)).includes(QUIET_ROOMS[0]), 'nobody in a quiet room\'s call is named, even to its keyholders');
   assert.deepEqual(Object.keys(await callsWith(board, s, now + 1)), await callsOn(board, s, now + 1), 'the same rooms as Who\'s online');
+  // With faces, a name carries the avatar it wears and nothing else changes.
+  assert.deepEqual(await callsWith(ada, s, now + 1, true), await callsWith(ada, s, now + 1), 'nobody wears one yet');
+  const sam = (await keepAvatar(petKey('Sam'), { look: lookOf(), about: 'in a hat' }, s)).kept;
+  await wearAvatar(petKey('Sam'), sam.id, s);
+  const faced = await callsWith(ada, s, now + 1, true);
+  assert.deepEqual(faced['the-den'], [{ name: 'Ada', base: false }, { name: 'Sam', base: false, avatar: { look: sam.look, about: 'in a hat' } }]);
+  assert.deepEqual(faced['cavendish-events'], [{ name: 'A guest', base: false }]);
   await callEvent({ eventType: 'PARTICIPANT_LEFT', fqn: `${JAAS_APP}/stimpunks-cavendish-events`, timestamp: now + 2,
     data: { participantId: 'c3' } }, s, now);
   assert.deepEqual(await callsOn(ada, s, now + 3), ['the-den'], 'a call nobody is left in is not named');
