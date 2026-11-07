@@ -9415,7 +9415,7 @@ import { sign as nodeSign, createHash as hashOf, randomBytes as rb } from 'node:
 }
 
 /* ── The Wiki's bot ──────────────────────────────────────────────────────── */
-import { forumBot, forumBotSigned, botCat, FORUM_BOT_NAME } from './lib.mjs';
+import { forumBot, forumBotSigned, botCat, botOpen, FORUM_BOT_NAME } from './lib.mjs';
 
 test('the Wiki’s bot starts and edits pages in the Wiki only, as BOT, calling no role and nobody’s name', async () => {
   const s = memoryStore({ etagOnRead: true });
@@ -9426,7 +9426,7 @@ test('the Wiki’s bot starts and edits pages in the Wiki only, as BOT, calling 
   assert.ok(t.bot && !t.base, 'the bot’s topic was not marked bot, or was marked base');
   assert.ok(t.posts[0].bot && !t.posts[0].base);
   assert.equal(t.posts[0].roles, undefined, 'the bot called a role');
-  for (const cat of FORUM_CATEGORIES.filter((c) => !botCat(c, T0))) {
+  for (const cat of FORUM_CATEGORIES.filter((c) => !botCat(c, T0) && !botOpen(c))) {
     assert.ok((await forumBot({ action: 'start', cat: cat.slug, title: 'x', body: 'y' }, s, T0, NO_NET)).error, `the bot started a topic in ${cat.slug}`);
   }
   for (const slug of ['grantmaking', 'board', 'directors', 'executive-session', 'announcements']) {
@@ -9462,6 +9462,21 @@ test('the Wiki’s bot starts and edits pages in the Wiki only, as BOT, calling 
   assert.ok(list.topics.some((x) => x.id === ryans.id));
   assert.ok((await forumBot({ action: 'list', cat: 'grantmaking' }, s, T0 + 10, NO_NET)).error, 'the bot listed Grantmaking');
   assert.ok(botWord(FORUM_BOT_NAME) && botWord('claude'), 'somebody could claim the bot’s name');
+});
+
+test('in a public category the bot keeps only the topics it started (2026-11-07)', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const cat = 'reading-watching-listening';
+  assert.ok(botOpen(forumCat(cat, T0)), 'the bot cannot start the Hermitage’s book topics');
+  for (const c of FORUM_CATEGORIES.filter((c) => c.see)) assert.ok(!botOpen(c), `botOpen let the bot into ${c.slug}`);
+  const made = await forumBot({ action: 'start', cat, title: 'Parable of the Sower', body: 'Words.' }, s, T0, NO_NET);
+  assert.ok(made.page, made.error);
+  assert.ok((await forumBot({ action: 'edit', id: made.page.id, body: 'Better.' }, s, T0 + 1, NO_NET)).page, 'the bot could not edit its own topic');
+  const ada = (await startTopic(ADA, { cat, title: 'A film', body: 'Mine.' }, s, T0, NO_NET)).topic;
+  assert.ok((await forumBot({ action: 'read', id: ada.id }, s, T0 + 2, NO_NET)).error, 'the bot read a member’s topic');
+  assert.ok((await forumBot({ action: 'edit', id: ada.id, body: 'x' }, s, T0 + 2, NO_NET)).error, 'the bot edited a member’s topic');
+  const list = await forumBot({ action: 'list', cat }, s, T0 + 3, NO_NET);
+  assert.deepEqual(list.topics.map((x) => x.id), [made.page.id], 'the bot listed somebody else’s topic');
 });
 
 test('the Wiki’s bot answers only a request signed with its own key, recently', () => {

@@ -58,6 +58,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/hermitage.json"
+TOPIC = re.compile(r"t[A-Za-z0-9_-]{12}")
 ROOM = ROOT / "solarpunk-hermitage.html"
 NOTES = ROOT / "liner-notes.html"
 
@@ -113,6 +114,11 @@ def check(data):
             bad.append(f"{t!r} has no borrow link. Access is the point; buying is the fallback.")
         if not (b.get("source") or "").strip():
             bad.append(f"{t!r} has no citing page on stimpunks.org.")
+        # Each book's topic in the forums' Reading, watching, listening, playing
+        # (Helen's ask, 2026-11-07), started by the forums' bot and linking back
+        # to the book's anchor here. The id is the forums' own, never made up.
+        if "topic" in b and not TOPIC.fullmatch(b.get("topic") or ""):
+            bad.append(f"{t!r} has topic {b.get('topic')!r}, which is not a forum topic's id.")
 
     ids = set()
     for d in docs:
@@ -347,14 +353,22 @@ def records(recs):
     return "\n".join(out)
 
 
+def book_id(b):
+    """The book's anchor here, which its forum topic links back to, so it is
+    worked out from the title the same way every time."""
+    return "book-" + re.sub(r"[^a-z0-9]+", "-", b["title"].lower().split(":")[0]).strip("-")
+
+
 def shelves(books):
     out = []
     for b in books:
         links = [f'<a href="{esc(b["borrow"])}">Borrow or read it &rarr;</a>']
         if b.get("buy"):
             links.append(f'<a href="{esc(b["buy"])}">Buy it from a bookshop &rarr;</a>')
+        if b.get("topic"):
+            links.append(f'<a href="forum.html#/t/{esc(b["topic"])}">Talk about it in the forums &rarr;</a>')
         out.append(
-            '      <li><details class="book">\n'
+            f'      <li id="{book_id(b)}"><details class="book">\n'
             f'        <summary>{esc(b["title"])}'
             f' <span class="book__by">{esc(b["author"])}</span></summary>\n'
             '        <div class="book__open">\n'

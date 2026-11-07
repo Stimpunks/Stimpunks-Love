@@ -718,9 +718,20 @@ def check_bot(lib):
                         "another category is Ryan's call, written on privacy.html#forum-bot first.")
     if "cat.strict" not in code or "cat.shelf" not in code:
         problems.append(f"{LIB.name}: botCat must refuse a strict category and a shelf.")
+    # 2026-11-07, Ryan's ask: one public category where the bot keeps only the
+    # topics it started (the Solarpunk Hermitage's books). Never one with roles.
+    opened = re.search(r"FORUM_BOT_OPEN = \[([^\]]*)\]", lib)
+    if not opened or sorted(re.findall(r"'([^']+)'", opened.group(1))) != ["reading-watching-listening"]:
+        problems.append(f"{LIB.name}: FORUM_BOT_OPEN must be exactly Reading, watching, listening, playing. Widening "
+                        "it is Ryan's call, written on privacy.html#forum-bot first.")
+    bo = re.search(r"export function botOpen\(cat\) \{(.*?)\n\}", lib, re.S)
+    if not bo or not all(x in bo.group(1) for x in ("!cat.see", "!cat.parent", "!cat.shelf", "!cat.strict")):
+        problems.append(f"{LIB.name}: botOpen must refuse a category with roles, a subcategory, a shelf and a strict one.")
+    if "function botMay(cat, t, now) { return botCat(cat, now) || (botOpen(cat) && (!t || !!t.bot)); }" not in lib:
+        problems.append(f"{LIB.name}: botMay must let the bot touch only its own topics outside the Wiki and Team Docs.")
     body = re.search(r"export async function forumBot\(.*?\n\}", code, re.S).group(0)
     calls = set(re.findall(r"\b(\w+)\(", body)) - {"forumBot", "store", "now", "forumBotWho", "page", "forumCat", "botCat", "readForumIndex", "readTopic",
-        "topicLive", "summaryOf", "editPost", "startTopic", "retagTopic", "forumCategories", "filter", "map", "slice", "if", "return", "some"}
+        "topicLive", "summaryOf", "editPost", "startTopic", "retagTopic", "forumCategories", "filter", "map", "slice", "if", "return", "some", "botMay"}
     if calls:
         problems.append(f"{LIB.name}: forumBot calls {sorted(calls)}. It lists, reads, starts and edits a page and changes its "
                         "tags, and nothing else: no reply, no take down, no notifyForum.")

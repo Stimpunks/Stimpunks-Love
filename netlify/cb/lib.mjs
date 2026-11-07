@@ -11050,24 +11050,36 @@ export function botCat(cat, now = Date.now()) {
   for (let i = 0; top && top.parent && i < 8; i++) top = forumCat(top.parent, now);
   return !!top && !top.parent && FORUM_BOT_TOPS.includes(top.slug);
 }
+/* AND A PUBLIC CATEGORY, ONLY FOR ITS OWN TOPICS (Ryan's ask, 2026-11-07, after
+   Helen asked for a book discussion under each book on the Solarpunk
+   Hermitage's shelf): in FORUM_BOT_OPEN the bot starts topics and lists, reads,
+   edits and tags only the ones it started, never anybody else's. These are
+   categories every member reads, so the key reads nothing it could not before
+   their topics were there; one with roles, a shelf or under another is
+   refused, so this list can never become a way into a staff category. */
+export const FORUM_BOT_OPEN = ['reading-watching-listening'];
+export function botOpen(cat) {
+  return !!cat && !cat.parent && !cat.shelf && !cat.strict && !cat.see && FORUM_BOT_OPEN.includes(cat.slug);
+}
+function botMay(cat, t, now) { return botCat(cat, now) || (botOpen(cat) && (!t || !!t.bot)); }
 export async function forumBot(b, s = store(), now = Date.now(), get = safeGet) {
   const act = b && b.action;
   const who = forumBotWho();
   const page = (t) => ({ id: t.id, cat: t.cat, title: t.title, body: (t.posts[0] && t.posts[0].body) || '', tags: (t.tags || []).slice(),
     by: t.handle, edited: (t.posts[0] && t.posts[0].edited) || null, editedBy: (t.posts[0] && t.posts[0].editedBy) || null });
   if (act === 'cats') {
-    return { cats: forumCategories(now).filter((c) => botCat(c, now)).map((c) => ({ slug: c.slug, name: c.name, parent: c.parent || null })) };
+    return { cats: forumCategories(now).filter((c) => botMay(c, null, now)).map((c) => ({ slug: c.slug, name: c.name, parent: c.parent || null })) };
   }
   if (act === 'list') {
     const cat = forumCat(b.cat, now);
-    if (!botCat(cat, now)) return { error: 'The bot writes only in the Wiki and Team Docs.' };
-    const list = await readForumIndex(cat.slug, s);
+    if (!botMay(cat, null, now)) return { error: 'The bot writes only in the Wiki, Team Docs and FORUM_BOT_OPEN.' };
+    const list = (await readForumIndex(cat.slug, s)).filter((x) => botCat(cat, now) || x.bot);
     return { topics: list.map((x) => ({ id: x.id, title: x.title, by: x.handle, last: x.last, tags: (x.tags || []).slice() })) };
   }
   if (act === 'read' || act === 'edit') {
     const t = typeof b.id === 'string' ? await readTopic(b.id, s) : null;
     const cat = t && forumCat(t.cat, now);
-    if (!t || !botCat(cat, now) || !topicLive(summaryOf(t), cat, now)) return { error: 'There is no such page where the bot writes.' };
+    if (!t || !botMay(cat, t, now) || !topicLive(summaryOf(t), cat, now)) return { error: 'There is no such page where the bot writes.' };
     if (act === 'read') return { page: page(t) };
     if (!t.posts[0]) return { error: 'That page has no first post to edit.' };
     const f = { body: b.body, at: [] };
@@ -11079,14 +11091,14 @@ export async function forumBot(b, s = store(), now = Date.now(), get = safeGet) 
   if (act === 'tags') {
     const t = typeof b.id === 'string' ? await readTopic(b.id, s) : null;
     const cat = t && forumCat(t.cat, now);
-    if (!t || !botCat(cat, now) || !topicLive(summaryOf(t), cat, now)) return { error: 'There is no such page where the bot writes.' };
+    if (!t || !botMay(cat, t, now) || !topicLive(summaryOf(t), cat, now)) return { error: 'There is no such page where the bot writes.' };
     const r = await retagTopic(who, t.id, { tags: b.tags }, s, now);
     if (r.error) return r;
     return { page: page(r.topic || t) };
   }
   if (act === 'start') {
     const cat = forumCat(b.cat, now);
-    if (!botCat(cat, now)) return { error: 'The bot writes only in the Wiki and Team Docs.' };
+    if (!botMay(cat, null, now)) return { error: 'The bot writes only in the Wiki, Team Docs and FORUM_BOT_OPEN.' };
     const r = await startTopic(who, { cat: cat.slug, title: b.title, body: b.body, tags: b.tags, at: [] }, s, now, get);
     if (r.error) return r;
     return { page: page(r.topic) };
