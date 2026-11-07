@@ -68,8 +68,48 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-11-06T12:29Z",
+ "set": "2026-11-07T12:28Z",
  "latest": [
+  {
+   "id": "L6yP0Bgh7Ac",
+   "title": "Thieves steal tools from Las Vegas urban farm Obodo Collective",
+   "channel": "FOX5 Las Vegas",
+   "published": "2026-11-07T07:23:17Z",
+   "runs": 142,
+   "search": "urban-farms"
+  },
+  {
+   "id": "T6dj28tug_I",
+   "title": "Urban Forestry Commission | November 4, 2026",
+   "channel": "Northampton Government Video Archive",
+   "published": "2026-11-06T22:28:02Z",
+   "runs": 3268,
+   "search": "urban-forests"
+  },
+  {
+   "id": "kVOdW47uIOg",
+   "title": "Riversdale: A Renewable Start | Episode 1 - Our Town, Our Power",
+   "channel": "Herholdt's Group",
+   "published": "2026-11-06T13:54:37Z",
+   "runs": 1533,
+   "search": "renewable-energy"
+  },
+  {
+   "id": "jJI_ol9R6XM",
+   "title": "Can Urban Green Space Cut City Crime A Chicago Study Says Yes.",
+   "channel": "Peaceproud",
+   "published": "2026-11-06T13:36:41Z",
+   "runs": 91,
+   "search": "green-spaces"
+  },
+  {
+   "id": "UNA3NnWjTP4",
+   "title": "Junior Energy Series 2026 - Community Renewables",
+   "channel": "Burness Paull LLP",
+   "published": "2026-11-06T11:05:20Z",
+   "runs": 1782,
+   "search": "renewable-energy"
+  },
   {
    "id": "JpFbRKNILDE",
    "title": "She Turned a TINY HOA Yard Into a FOOD FOREST!",
@@ -79,12 +119,12 @@
    "search": "edibles"
   },
   {
-   "id": "4p0nq1MEFd0",
-   "title": "Riversdale: A Renewable Start | Episode 1 - Our Town, Our Power",
-   "channel": "Herholdt's Group",
-   "published": "2026-11-06T10:29:02Z",
-   "runs": 1533,
-   "search": "renewable-energy"
+   "id": "v0KedZ9385s",
+   "title": "Dating dugyot ngayon into Green Space Manila Underpass na ! Grabe pagpapaganda ! 2026",
+   "channel": "Tour from Johnny",
+   "published": "2026-11-06T07:26:06Z",
+   "runs": 488,
+   "search": "green-spaces"
   },
   {
    "id": "b3ZNqAWwvTc",
@@ -95,19 +135,19 @@
    "search": "green-building"
   },
   {
-   "id": "uhk6bQCJcNo",
-   "title": "Kenosha County Case Study for Renewable Energy Projects",
-   "channel": "University of Wisconsin Extension",
-   "published": "2026-11-05T22:27:23Z",
-   "runs": 1210,
-   "search": "renewable-energy"
-  },
-  {
    "id": "YsqJJx0eqfk",
    "title": "HPARD Upgrades Heavy Duty Urban Forestry Equipment",
    "channel": "Houston Parks and Recreation Department",
    "published": "2026-11-05T19:11:32Z",
    "runs": 122,
+   "search": "urban-forests"
+  },
+  {
+   "id": "gm-5qACsTYE",
+   "title": "Arlington County Urban Forestry Town Hall | October 29, 2026",
+   "channel": "Arlington County Meetings",
+   "published": "2026-11-05T17:41:46Z",
+   "runs": 5351,
    "search": "urban-forests"
   },
   {
@@ -127,14 +167,6 @@
    "search": "green-spaces"
   },
   {
-   "id": "9tXlW3GkICw",
-   "title": "CUF Karachi's Coastal Revival: 700,000 Trees & 152 Bird Species | Clifton Urban Forest",
-   "channel": "Clifton Urban Forest",
-   "published": "2026-11-04T20:16:25Z",
-   "runs": 130,
-   "search": "urban-forests"
-  },
-  {
    "id": "o6NhMkJDVtI",
    "title": "Tiny Home Cabin in SolarPunk Eco-village",
    "channel": "Alex Jurj SolarPunk",
@@ -143,24 +175,8 @@
    "search": "solarpunk"
   },
   {
-   "id": "An2QKPwWs6E",
-   "title": "Ideas Festival: Green Space for All: Lessons from Pennsylvania Communities",
-   "channel": "Spotlight PA",
-   "published": "2026-11-04T17:41:43Z",
-   "runs": 3637,
-   "search": "green-spaces"
-  },
-  {
-   "id": "m6lbTZbxSk4",
-   "title": "NEST Waterbury: Growing Stronger Neighborhoods Through Urban Forestry | Connecting Canopies",
-   "channel": "The Nature Conservancy in Connecticut",
-   "published": "2026-11-04T12:45:08Z",
-   "runs": 192,
-   "search": "urban-forests"
-  },
-  {
    "id": "_lI6zXoHqNY",
-   "title": "Low-Maintenance Food Forest Design for Subtropical Climates",
+   "title": "Transformed a Suburban Yard into a Subtropical Food Forest",
    "channel": "Dan's Food Forest",
    "published": "2026-11-04T12:00:23Z",
    "runs": 1465,
@@ -199,27 +215,11 @@
    "search": "edibles"
   },
   {
-   "id": "hJNZc-XF9lg",
-   "title": "2026 Extraordinary Urban Farm Spooktackula!",
-   "channel": "GREEN GROW GUY",
-   "published": "2026-11-02T10:18:38Z",
-   "runs": 73,
-   "search": "urban-farms"
-  },
-  {
-   "id": "F9rIczm6-II",
-   "title": "The Hidden Power of Urban Green Spaces: Why Concrete Cities Need This Now MP4",
-   "channel": "Mekonene Nigussu",
-   "published": "2026-11-02T04:06:27Z",
-   "runs": 7179,
-   "search": "green-spaces"
-  },
-  {
-   "id": "_EREyKl-RfQ",
-   "title": "Relaxing Gameplay Highlights - Solarpunk",
-   "channel": "Elf King",
-   "published": "2026-11-01T22:28:43Z",
-   "runs": 242,
+   "id": "2207EDV6vr0",
+   "title": "What's Hiding on These NEW Islands? 👀 | Solarpunk #11 | The Arc",
+   "channel": "Living Arc",
+   "published": "2026-11-02T13:10:35Z",
+   "runs": 1727,
    "search": "solarpunk"
   },
   {
@@ -233,15 +233,6 @@
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
  "seen": [
-  {
-   "id": "5Xt05aUenUc",
-   "search": "green-spaces",
-   "title": "Urban planning and green spaces (ep. 4) | Advanced French Comprehensible Input (Level 6)",
-   "channel": "Bubblegum French",
-   "published": "2026-10-30T12:30:48Z",
-   "runs": 471,
-   "state": "screen"
-  },
   {
    "id": "6xH2F8XnWao",
    "search": "green-spaces",
@@ -259,6 +250,15 @@
    "channel": "Mekonene Nigussu",
    "published": "2026-11-02T04:06:27Z",
    "runs": 7179,
+   "state": "screen"
+  },
+  {
+   "id": "e7k3shhA1qQ",
+   "search": "green-spaces",
+   "title": "🏛️ Balancing new housing and green spaces sparks a passionate debate among neighbors!",
+   "channel": "Bubblegum Serbian",
+   "published": "2026-11-02T11:31:36Z",
+   "runs": 180,
    "state": "screen"
   },
   {
@@ -280,12 +280,21 @@
    "state": "screen"
   },
   {
-   "id": "nsDlikLZ1nI",
-   "search": "green-building",
-   "title": "What should every home have under the Green Building Policy? | Envoirmental Expert Explains",
-   "channel": "Times of Karachi",
-   "published": "2026-10-31T05:09:21Z",
-   "runs": 214,
+   "id": "v0KedZ9385s",
+   "search": "green-spaces",
+   "title": "Dating dugyot ngayon into Green Space Manila Underpass na ! Grabe pagpapaganda ! 2026",
+   "channel": "Tour from Johnny",
+   "published": "2026-11-06T07:26:06Z",
+   "runs": 488,
+   "state": "screen"
+  },
+  {
+   "id": "jJI_ol9R6XM",
+   "search": "green-spaces",
+   "title": "Can Urban Green Space Cut City Crime A Chicago Study Says Yes.",
+   "channel": "Peaceproud",
+   "published": "2026-11-06T13:36:41Z",
+   "runs": 91,
    "state": "screen"
   },
   {
@@ -316,21 +325,12 @@
    "state": "screen"
   },
   {
-   "id": "qXYfGa2Mw-Y",
+   "id": "ZpgoMFBgIuU",
    "search": "urban-forests",
-   "title": "Restoring urban forests and reconnecting communities with nature across Japan",
-   "channel": "Amazon Sustainability",
-   "published": "2026-10-30T16:32:45Z",
-   "runs": 107,
-   "state": "screen"
-  },
-  {
-   "id": "zAl9LKfsI0E",
-   "search": "urban-forests",
-   "title": "1,200 TREES PLANTED IN LA MESA URBAN FOREST",
-   "channel": "MegaNoticiasNogales",
-   "published": "2026-10-30T20:30:31Z",
-   "runs": 48,
+   "title": "Explore Bangkok's New 30-Rai \"Urban Forest\" Mall! HAPPITAT BANGNA VLOG | PART 1: Halloween Edition 🎃",
+   "channel": "Creating Memories",
+   "published": "2026-11-01T17:09:22Z",
+   "runs": 1934,
    "state": "screen"
   },
   {
@@ -388,6 +388,15 @@
    "state": "screen"
   },
   {
+   "id": "gm-5qACsTYE",
+   "search": "urban-forests",
+   "title": "Arlington County Urban Forestry Town Hall | October 29, 2026",
+   "channel": "Arlington County Meetings",
+   "published": "2026-11-05T17:41:46Z",
+   "runs": 5351,
+   "state": "screen"
+  },
+  {
    "id": "YsqJJx0eqfk",
    "search": "urban-forests",
    "title": "HPARD Upgrades Heavy Duty Urban Forestry Equipment",
@@ -397,21 +406,12 @@
    "state": "screen"
   },
   {
-   "id": "W2jw4hI73IM",
-   "search": "urban-farms",
-   "title": "Hounslow Urban Farm, London",
-   "channel": "elenwashere",
-   "published": "2026-10-30T17:40:13Z",
-   "runs": 404,
-   "state": "screen"
-  },
-  {
-   "id": "YWHQleQPZPM",
-   "search": "urban-farms",
-   "title": "🌱URBAN FARMING IN KENYA – SMALL SPACES, BIG OPPORTUNITIES!",
-   "channel": "mkulima digital",
-   "published": "2026-10-31T11:37:51Z",
-   "runs": 431,
+   "id": "T6dj28tug_I",
+   "search": "urban-forests",
+   "title": "Urban Forestry Commission | November 4, 2026",
+   "channel": "Northampton Government Video Archive",
+   "published": "2026-11-06T22:28:02Z",
+   "runs": 3268,
    "state": "screen"
   },
   {
@@ -451,12 +451,12 @@
    "state": "screen"
   },
   {
-   "id": "OV271QS1M64",
-   "search": "edibles",
-   "title": "Food Forest Tour: Exotic Tropical Plants Garden in Zone 7b Virginia",
-   "channel": "Garden Foraged",
-   "published": "2026-10-30T16:53:20Z",
-   "runs": 1017,
+   "id": "L6yP0Bgh7Ac",
+   "search": "urban-farms",
+   "title": "Thieves steal tools from Las Vegas urban farm Obodo Collective",
+   "channel": "FOX5 Las Vegas",
+   "published": "2026-11-07T07:23:17Z",
+   "runs": 142,
    "state": "screen"
   },
   {
@@ -480,7 +480,7 @@
   {
    "id": "_lI6zXoHqNY",
    "search": "edibles",
-   "title": "Low-Maintenance Food Forest Design for Subtropical Climates",
+   "title": "Transformed a Suburban Yard into a Subtropical Food Forest",
    "channel": "Dan's Food Forest",
    "published": "2026-11-04T12:00:23Z",
    "runs": 1465,
@@ -494,13 +494,6 @@
    "published": "2026-11-06T11:00:05Z",
    "runs": 4255,
    "state": "screen"
-  },
-  {
-   "id": "5zDogLqPoOI",
-   "search": "solarpunk",
-   "title": "Solarpunk Ambient LIVESTREAM",
-   "state": "pending",
-   "why": "live, or not out yet"
   },
   {
    "id": "mNqlSAuzdjk",
@@ -589,6 +582,25 @@
    "state": "screen"
   },
   {
+   "id": "wgfven_Nla0",
+   "search": "solarpunk",
+   "title": "I had 20 hours to build The Coziest Solarpunk Home!",
+   "channel": "Sammyagem",
+   "published": "2026-11-01T21:12:24Z",
+   "runs": 376,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "pHZwYfMXK78",
+   "search": "solarpunk",
+   "title": "Batteries Included V0.1 - Solarpunk Slopcore music video, early rendering",
+   "channel": "mrericboyd",
+   "published": "2026-11-01T21:31:10Z",
+   "runs": 228,
+   "state": "screen"
+  },
+  {
    "id": "_EREyKl-RfQ",
    "search": "solarpunk",
    "title": "Relaxing Gameplay Highlights - Solarpunk",
@@ -596,6 +608,26 @@
    "published": "2026-11-01T22:28:43Z",
    "runs": 242,
    "state": "screen"
+  },
+  {
+   "id": "sLyIlGPOSrM",
+   "search": "solarpunk",
+   "title": "I left a big city to create my own heaven in Solarpunk!",
+   "channel": "Sammyagem",
+   "published": "2026-11-01T23:09:43Z",
+   "runs": 237,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "BwiAR4_UEgI",
+   "search": "solarpunk",
+   "title": "Building My Dream Cozy Farmhouse in Solarpunk",
+   "channel": "Deboborah",
+   "published": "2026-11-01T23:35:48Z",
+   "runs": 398,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
    "id": "uQH6zEif3go",
@@ -634,6 +666,35 @@
    "channel": "True Blue",
    "published": "2026-11-02T10:53:08Z",
    "runs": 3883,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "-kwHrPsh-Ig",
+   "search": "solarpunk",
+   "title": "🌱 Learning to Mend in the Workshop | 3H Solarpunk Ambience for Creative Focus",
+   "channel": "Verdant Vistas",
+   "published": "2026-11-02T13:00:14Z",
+   "runs": 10800,
+   "state": "left",
+   "why": "filed under Music"
+  },
+  {
+   "id": "2207EDV6vr0",
+   "search": "solarpunk",
+   "title": "What's Hiding on These NEW Islands? 👀 | Solarpunk #11 | The Arc",
+   "channel": "Living Arc",
+   "published": "2026-11-02T13:10:35Z",
+   "runs": 1727,
+   "state": "screen"
+  },
+  {
+   "id": "GJeb9rIHzr4",
+   "search": "solarpunk",
+   "title": "🔴Just Chilling in solarpunk | Bobbayh Live🔴",
+   "channel": "Bobbayh",
+   "published": "2026-11-02T16:26:54Z",
+   "runs": 9,
    "state": "left",
    "why": "filed under Gaming"
   },
@@ -786,20 +847,21 @@
    "why": "filed under Gaming"
   },
   {
+   "id": "iJ54oMzPeHs",
+   "search": "solarpunk",
+   "title": "SolarPunk: Part 7 - 11/06/26",
+   "channel": "Tiger Shera Plays",
+   "published": "2026-11-06T21:00:38Z",
+   "runs": 2325,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
    "id": "MswsQzTIMQE",
    "search": "renewable-energy",
    "title": "Accelerating the clean energy rollout: balancing rapid renewable deployment with biodiversity [...]",
    "state": "pending",
    "why": "live, or not out yet"
-  },
-  {
-   "id": "c6_QlJYVHf4",
-   "search": "renewable-energy",
-   "title": "Making Energy Futures: Exploring a Prefigurative Role for Journalism in Renewable Energy Culture",
-   "channel": "Community Energy Cooperative Canada",
-   "published": "2026-10-31T03:51:32Z",
-   "runs": 3553,
-   "state": "screen"
   },
   {
    "id": "LA95MviZisE",
@@ -843,6 +905,24 @@
    "title": "Riversdale: A Renewable Start | Episode 1 - Our Town, Our Power",
    "channel": "Herholdt's Group",
    "published": "2026-11-06T10:29:02Z",
+   "runs": 1533,
+   "state": "screen"
+  },
+  {
+   "id": "UNA3NnWjTP4",
+   "search": "renewable-energy",
+   "title": "Junior Energy Series 2026 - Community Renewables",
+   "channel": "Burness Paull LLP",
+   "published": "2026-11-06T11:05:20Z",
+   "runs": 1782,
+   "state": "screen"
+  },
+  {
+   "id": "kVOdW47uIOg",
+   "search": "renewable-energy",
+   "title": "Riversdale: A Renewable Start | Episode 1 - Our Town, Our Power",
+   "channel": "Herholdt's Group",
+   "published": "2026-11-06T13:54:37Z",
    "runs": 1533,
    "state": "screen"
   }

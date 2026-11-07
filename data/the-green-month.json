@@ -9,19 +9,19 @@
    "channel_id": "UCj0VqueTI8SeTUS4rykh7Pw"
   }
  ],
- "set": "2026-11-06T12:30Z",
+ "set": "2026-11-07T12:29Z",
  "covered": {
   "future-in-bloom": {
    "long": [
     [
      "2026-09-29T14:14:21Z",
-     "2026-11-06T12:30:56Z"
+     "2026-11-07T12:29:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:14:21Z",
-     "2026-11-06T12:30:56Z"
+     "2026-11-07T12:29:44Z"
     ]
    ]
   }
@@ -85,6 +85,16 @@
    "published": "2026-10-30T12:00:03Z",
    "state": "screen",
    "runs": 127,
+   "channel": "Future in Bloom with Steph Speirs"
+  },
+  {
+   "id": "BRdZICl8lEM",
+   "source": "future-in-bloom",
+   "form": "short",
+   "title": "From Climate Tech To Just \"Tech\"",
+   "published": "2026-11-07T12:00:31Z",
+   "state": "screen",
+   "runs": 41,
    "channel": "Future in Bloom with Steph Speirs"
   }
  ]
