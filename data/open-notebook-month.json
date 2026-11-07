@@ -174,7 +174,7 @@
    "channel_id": "UChl5ao9UL_LwHngOMSpkkmg"
   }
  ],
- "set": "2026-11-06T12:22Z",
+ "set": "2026-11-07T12:21Z",
  "log": [
   {
    "id": "-F9-3R6viZM",
@@ -237,16 +237,6 @@
    "channel": "Novie by the Sea"
   },
   {
-   "id": "RgowQODAxIQ",
-   "source": "martinas-world",
-   "form": "long",
-   "title": "So our Paris pop up went viral… 🇫🇷",
-   "published": "2026-10-08T05:52:06Z",
-   "state": "screen",
-   "runs": 479,
-   "channel": "Martina's World"
-  },
-  {
    "id": "g5MgGCSnTAY",
    "source": "martinas-world",
    "form": "long",
@@ -284,16 +274,6 @@
    "published": "2026-10-31T12:00:26Z",
    "state": "screen",
    "runs": 1067,
-   "channel": "Margarete Miller"
-  },
-  {
-   "id": "NXjn9YHC09A",
-   "source": "margarete-miller",
-   "form": "short",
-   "title": "Got Paper Scraps? Let’s Use Them Up With Rubber Stamps💌",
-   "published": "2026-10-07T16:01:50Z",
-   "state": "screen",
-   "runs": 43,
    "channel": "Margarete Miller"
   },
   {
@@ -364,6 +344,16 @@
    "published": "2026-11-04T17:00:03Z",
    "state": "screen",
    "runs": 59,
+   "channel": "Margarete Miller"
+  },
+  {
+   "id": "lV-vgELYT1U",
+   "source": "margarete-miller",
+   "form": "short",
+   "title": "Low-Stakes DIY: Mini Cereal Box Junk Journal ✂️📜",
+   "published": "2026-11-06T17:00:37Z",
+   "state": "screen",
+   "runs": 51,
    "channel": "Margarete Miller"
   },
   {
@@ -487,6 +477,16 @@
    "channel": "Amanda Close"
   },
   {
+   "id": "SihgJERHtsY",
+   "source": "amanda-close",
+   "form": "long",
+   "title": "Don’t make my mistake -- Journaling Materials Part 2",
+   "published": "2026-11-06T15:09:07Z",
+   "state": "screen",
+   "runs": 1331,
+   "channel": "Amanda Close"
+  },
+  {
    "id": "WPrB5eBsHpg",
    "source": "amanda-close",
    "form": "short",
@@ -524,6 +524,16 @@
    "published": "2026-10-25T15:00:32Z",
    "state": "screen",
    "runs": 1240,
+   "channel": "Rachelle in theory"
+  },
+  {
+   "id": "WCkG1YMaUms",
+   "source": "rachelle-in-theory",
+   "form": "long",
+   "title": "Fix your planning system in 1 day.",
+   "published": "2026-11-06T16:00:40Z",
+   "state": "screen",
+   "runs": 1833,
    "channel": "Rachelle in theory"
   },
   {
@@ -568,6 +578,17 @@
    "channel": "Seaweed Kisses"
   },
   {
+   "id": "HgcvwEzOiP4",
+   "source": "seaweed-kisses",
+   "form": "long",
+   "title": "Pen Talk: Cheap Thrills, Keepers & Regrets",
+   "published": "2026-11-06T22:59:18Z",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 2664,
+   "channel": "Seaweed Kisses"
+  },
+  {
    "id": "4em-zKSR6Lk",
    "source": "seaweed-kisses",
    "form": "short",
@@ -585,6 +606,16 @@
    "published": "2026-11-02T17:44:19Z",
    "state": "screen",
    "runs": 38,
+   "channel": "Seaweed Kisses"
+  },
+  {
+   "id": "cZ64kZIEbDk",
+   "source": "seaweed-kisses",
+   "form": "short",
+   "title": "For my notebook lovers, run to Walmart for these‼️🏃‍♀️✨",
+   "published": "2026-11-06T18:05:21Z",
+   "state": "screen",
+   "runs": 56,
    "channel": "Seaweed Kisses"
   },
   {
@@ -628,6 +659,16 @@
    "channel": "julia here."
   },
   {
+   "id": "czWXgPLxSzM",
+   "source": "julia-here",
+   "form": "long",
+   "title": "Dialing It Back for November’s Currently Inked Fountain Pen + Ink Rotation 🍂",
+   "published": "2026-11-06T16:00:16Z",
+   "state": "screen",
+   "runs": 1982,
+   "channel": "julia here."
+  },
+  {
    "id": "Kpau4x3AwTE",
    "source": "julia-here",
    "form": "short",
@@ -636,16 +677,6 @@
    "state": "screen",
    "runs": 127,
    "channel": "julia here."
-  },
-  {
-   "id": "h-cNrBhuBoQ",
-   "source": "bookish-mandy",
-   "form": "long",
-   "title": "My Freak Out Before I Leave for the Colorado Pen Show",
-   "published": "2026-10-07T13:17:14Z",
-   "state": "screen",
-   "runs": 3633,
-   "channel": "Bookish Artist | Mandy"
   },
   {
    "id": "lnZdjb9S1uk",
@@ -818,6 +849,16 @@
    "channel": "Bookish Artist | Mandy"
   },
   {
+   "id": "5wwtXAOl8Yc",
+   "source": "bookish-mandy",
+   "form": "long",
+   "title": "Let’s Celebrate Fountain Pen Day Together!",
+   "published": "2026-11-07T00:08:56Z",
+   "state": "screen",
+   "runs": 4588,
+   "channel": "Bookish Artist | Mandy"
+  },
+  {
    "id": "jvYmrSq1tyg",
    "source": "bookish-mandy",
    "form": "short",
@@ -938,6 +979,16 @@
    "channel": "Jenna Hong"
   },
   {
+   "id": "0QmS-lMtMIE",
+   "source": "jenna-hong",
+   "form": "long",
+   "title": "if you want a NORMAL 9-5 corporate work week from utah this is it 🏔️",
+   "published": "2026-11-06T15:00:07Z",
+   "state": "screen",
+   "runs": 1499,
+   "channel": "Jenna Hong"
+  },
+  {
    "id": "dXjO_EZKHn8",
    "source": "jenna-hong",
    "form": "short",
@@ -1005,6 +1056,16 @@
    "published": "2026-10-30T15:24:15Z",
    "state": "screen",
    "runs": 1401,
+   "channel": "Darrell Fitch"
+  },
+  {
+   "id": "k0dvre-KcRs",
+   "source": "darrell-fitch",
+   "form": "long",
+   "title": "What I Do When a Journal Is Finally Full.",
+   "published": "2026-11-06T19:37:23Z",
+   "state": "screen",
+   "runs": 851,
    "channel": "Darrell Fitch"
   },
   {
@@ -1116,16 +1177,6 @@
    "state": "screen",
    "runs": 1215,
    "channel": "Job's Journal"
-  },
-  {
-   "id": "3cJyGO9vSAM",
-   "source": "yoseka",
-   "form": "long",
-   "title": "Bechori's 6 Notebooks! Travel Journal, Junk Journal, Gratitude, Bullet Journaling & More!",
-   "published": "2026-10-07T20:36:06Z",
-   "state": "screen",
-   "runs": 859,
-   "channel": "Yoseka Stationery"
   },
   {
    "id": "qV2L1GNHV4E",
@@ -1271,7 +1322,7 @@
    "id": "Ux-JAzEcO4E",
    "source": "jetpens",
    "form": "long",
-   "title": "Please Adopt Me... 🥹 | Criminally Underhyped Stationery 🫢",
+   "title": "Why won't anyone buy this stationery??",
    "published": "2026-10-08T23:00:29Z",
    "state": "screen",
    "runs": 263,
@@ -1398,6 +1449,16 @@
    "channel": "JetPens"
   },
   {
+   "id": "ewe2IVxw1Qk",
+   "source": "jetpens",
+   "form": "short",
+   "title": "The BEST Fountain Pen for Glittery Inks ✨🖋",
+   "published": "2026-11-06T16:00:20Z",
+   "state": "screen",
+   "runs": 44,
+   "channel": "JetPens"
+  },
+  {
    "id": "MO86FJHDFvA",
    "source": "lori-ann-tata",
    "form": "long",
@@ -1435,6 +1496,16 @@
    "published": "2026-10-28T13:09:19Z",
    "state": "screen",
    "runs": 179,
+   "channel": "Lori Ann Tata"
+  },
+  {
+   "id": "pmw3q1GmOiM",
+   "source": "lori-ann-tata",
+   "form": "short",
+   "title": "Friday Night Journal Vibes",
+   "published": "2026-11-07T00:43:34Z",
+   "state": "screen",
+   "runs": 74,
    "channel": "Lori Ann Tata"
   },
   {
@@ -1748,6 +1819,16 @@
    "channel": "The Desk Standard"
   },
   {
+   "id": "AFT_oGr6JPw",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "6 Notebooks Only Old Money Carry (And It’s Never Moleskine)",
+   "published": "2026-11-06T19:04:21Z",
+   "state": "screen",
+   "runs": 1274,
+   "channel": "The Desk Standard"
+  },
+  {
    "id": "QkFgvickblk",
    "source": "goulet-pens",
    "form": "long",
@@ -1805,6 +1886,16 @@
    "published": "2026-11-04T17:36:49Z",
    "state": "screen",
    "runs": 769,
+   "channel": "The Goulet Pen Company"
+  },
+  {
+   "id": "Swv_s0dYL-s",
+   "source": "goulet-pens",
+   "form": "long",
+   "title": "Sailor King of Pens Availability, BENU’s Nib Change & NEW LAMY 2000 | Goulet Q&A Ep. 375",
+   "published": "2026-11-06T19:45:48Z",
+   "state": "screen",
+   "runs": 7439,
    "channel": "The Goulet Pen Company"
   },
   {
@@ -2116,6 +2207,16 @@
    "state": "screen",
    "runs": 180,
    "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "mxdxC_GShVQ",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "Straight lines only 🤗 and minimal products used ✨️",
+   "published": "2026-11-06T12:41:16Z",
+   "state": "screen",
+   "runs": 146,
+   "channel": "Doodlewithrachel"
   }
  ],
  "covered": {
@@ -2123,13 +2224,13 @@
    "long": [
     [
      "2026-02-25T12:01:38Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-05-23T13:01:11Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2137,13 +2238,13 @@
    "long": [
     [
      "2026-03-31T18:00:00Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2025-11-26T18:00:24Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2151,13 +2252,13 @@
    "long": [
     [
      "2025-04-23T20:59:59Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2165,13 +2266,13 @@
    "long": [
     [
      "2026-05-09T13:15:14Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-08-11T18:31:31Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2179,13 +2280,13 @@
    "long": [
     [
      "2025-12-23T01:30:17Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-07-06T18:30:31Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2193,13 +2294,13 @@
    "long": [
     [
      "2026-06-21T15:00:05Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2207,13 +2308,13 @@
    "long": [
     [
      "2026-01-13T17:46:02Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2025-07-05T01:57:47Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2221,13 +2322,13 @@
    "long": [
     [
      "2026-05-13T15:00:36Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2025-05-23T15:01:39Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2235,13 +2336,13 @@
    "long": [
     [
      "2025-12-16T18:34:18Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2025-12-28T22:47:07Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2249,13 +2350,13 @@
    "long": [
     [
      "2026-05-23T23:39:19Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-07-08T13:11:24Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2263,13 +2364,13 @@
    "long": [
     [
      "2026-06-26T15:00:10Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2025-06-03T14:46:05Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2277,13 +2378,13 @@
    "long": [
     [
      "2026-09-10T20:18:43Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-07-13T04:01:07Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2291,13 +2392,13 @@
    "long": [
     [
      "2026-05-30T11:30:33Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2305,13 +2406,13 @@
    "long": [
     [
      "2026-08-10T13:30:06Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2025-08-19T14:37:02Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2319,13 +2420,13 @@
    "long": [
     [
      "2026-03-30T13:14:26Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2023-12-04T02:58:57Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2333,13 +2434,13 @@
    "long": [
     [
      "2026-01-22T17:31:11Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2025-07-21T17:45:47Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2347,13 +2448,13 @@
    "long": [
     [
      "2026-02-19T00:28:45Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2361,13 +2462,13 @@
    "long": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2024-09-07T00:14:00Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2375,13 +2476,13 @@
    "long": [
     [
      "2025-08-02T00:06:33Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2389,13 +2490,13 @@
    "long": [
     [
      "2026-07-15T03:00:21Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2403,13 +2504,13 @@
    "long": [
     [
      "2026-03-03T07:32:57Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-04-30T04:08:40Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2417,13 +2518,13 @@
    "long": [
     [
      "2026-08-12T19:29:13Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T14:30:53Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2431,13 +2532,13 @@
    "long": [
     [
      "2026-06-04T23:00:22Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T15:00:22Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2445,13 +2546,13 @@
    "long": [
     [
      "2026-06-19T13:16:14Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T22:28:36Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2459,13 +2560,13 @@
    "long": [
     [
      "2026-07-03T14:00:00Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-07-21T22:16:43Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2473,13 +2574,13 @@
    "long": [
     [
      "2026-10-11T18:17:54Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-09-26T09:56:33Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2487,13 +2588,13 @@
    "long": [
     [
      "2026-08-26T19:13:05Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2025-10-29T12:41:34Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   },
@@ -2501,13 +2602,13 @@
    "long": [
     [
      "2025-02-09T13:41:25Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ],
    "short": [
     [
      "2026-10-12T10:07:54Z",
-     "2026-11-06T12:22:28Z"
+     "2026-11-07T12:21:42Z"
     ]
    ]
   }
