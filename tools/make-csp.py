@@ -226,6 +226,23 @@ if set(sharers) - SHARERS:
     print("web-share was turned on for the sticker drawer. Add the script to SHARERS on")
     print("purpose, with its reason beside it, if another room really needs it.")
     sys.exit(2)
+# A HEADSET IS SELF'S AND ONE SCRIPT'S (Helen's ask, 2026-11-07, her Faery
+# Yurt in a VR headset on Cel Street): xr-spatial-tracking is given to this
+# site and to no frame, and only cel-street.js asks the browser for a headset,
+# on a press of Enter VR, so a second use is a decision here.
+XR_USERS = {"cel-street.js"}
+xr = re.search(r"(?:^|, )xr-spatial-tracking=\(([^)]*)\)", pp.group(1))
+if not xr or xr.group(1).split() != ["self"]:
+    print(f"REFUSING: xr-spatial-tracking in the Permissions-Policy is ({xr.group(1) if xr else 'missing'}).")
+    print("It is self and nothing else: Cel Street opens a room in a headset on this site,")
+    print("and no frame of anybody else's is given it.")
+    sys.exit(2)
+xrs = sorted(str(p.relative_to(ROOT)) for p in ROOT.rglob("*.js")
+             if p.relative_to(ROOT).parts[0] not in SKIP and re.search(r"navigator\.xr\b", p.read_text(errors="replace")))
+if set(xrs) - XR_USERS:
+    print("REFUSING: a script of ours asks the browser for a headset that is not in XR_USERS:")
+    for a3 in sorted(set(xrs) - XR_USERS): print("  " + a3)
+    sys.exit(2)
 # PASSKEYS ARE SELF'S AND ONE SCRIPT'S (two-step sign-in, 2026-10-26): making
 # and using a passkey is given to this site and to no frame, and only
 # twostep.js asks the browser for one, so a second use is a decision here.

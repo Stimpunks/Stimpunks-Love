@@ -159,6 +159,20 @@ if _num("TWINKLE") < 3 or _num("TURN_MIN") < 1.8:
            "in 1.8: the yurt's own lights take 3.4 and her record six.")
 if "hasAttribute('data-low')" not in code or "document.hidden" not in code:
     refuse("cel-street.js lets something move in a low-stimulation mode or a hidden tab.")
+# IN A HEADSET (Helen's ask, 2026-11-07): the headset asks for a picture every
+# frame, so the frames run only while a session is open, set when it opens and
+# cleared when it ends; a session is asked for only on a press of Enter VR;
+# and nobody is carried along in one, so a glide never runs in a headset.
+loops = re.findall(r"setAnimationLoop\(\s*([^)]*?)\s*\)", code)
+if sorted(loops) != ["null", "xrFrame"]:
+    refuse(f"cel-street.js sets the headset's frames as {loops}; they are xrFrame while a session is open and null when it ends, and nothing else.")
+_req = code.find("requestSession(")
+if _req != -1 and code.rfind("vrBtn.addEventListener('click'", 0, _req) == -1:
+    refuse("cel-street.js asks for a headset outside the Enter VR press.")
+if "if (xrOn) { glide = null; vrStand(to); return; }" not in code:
+    refuse("cel-street.js no longer stands you at a place in a headset without carrying you there.")
+if not re.search(r'data-cel-vr hidden', PAGE.read_text()):
+    refuse("cel-street.html's Enter VR button no longer ships hidden; it shows only where a headset can open the room.")
 if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", code):
     refuse("cel-street.js writes markup from a string. It copies the front page's own elements and builds the rest.")
 if re.search(r"#[0-9a-fA-F]{3,8}\b|\b(rgb|hsl)a?\(\s*\d", code):

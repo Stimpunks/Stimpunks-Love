@@ -4333,6 +4333,23 @@ which wraps and moves the page under it on every long name, and scrolling to the
 first build called that function `named`, which `cel-street.js` already used for the doors' names, and the street
 stopped building**: the same lesson as `street`, a second time.
 
+**A ROOM ON CEL STREET CAN BE OPENED IN A VR HEADSET, AND ONLY A ROOM WHOSE FILE SAYS `vr: true`** (Helen Edgar's ask,
+2026-11-07, her Faery Yurt first): **Enter VR** (`[data-cel-vr]`, shipped hidden) shows only in such a room and only where
+`navigator.xr.isSessionSupported('immersive-vr')` says yes, so on every screen the room is unchanged. The headset is three.js's
+own WebXR, already in the pinned file: `cel-street.js` puts the camera in a `dolly` (your feet, `me`), `place()` moves the
+dolly and leaves the camera to the headset, `draw()` only moves you while a session is open, and the headset's frames
+(`renderer.setAnimationLoop(xrFrame)`, set when the session opens and cleared on three's `sessionend`) step what a room
+lets move under the same line (`stepMoves`). **You move by pointing and pressing and by snap turns, never by being carried**
+(`standAt` jumps with `vrStand`), because a glide in a headset makes people sick. **The room's switches are a panel of tiles
+read off the buttons the room's own controls make** (`vrPanel`, each tile clicks its button), so the panel says what the
+buttons say; what each did is written at its top (`vrTell` from `ctlSay`). **A page or a lift stood in the scene (CSS3D) is
+not in the headset**, which shows only the WebGL picture. `xr-spatial-tracking=(self)` in `_headers`; `make-csp.py` holds it
+to self and only `cel-street.js` asking for a headset (`XR_USERS`), and `make-cel-street.py` holds the frames to the session,
+the session to the Enter VR press, no glide in a headset and the button shipped hidden. **It was tried with a pretend headset
+in the browser, not a real one**: the first test on a Quest is what tells us about comfort, size and the panel's place. The
+friendly edits are smooth stick walking "because games have it", rendering every frame outside a session, and showing
+Enter VR on every room before each is tried.
+
 **PAPER STREET WALKS INTO EVERY ROOM CEL STREET DOES, ROUND 1** (Ryan's ask, 2026-11-04, built by eight helper agents
 from one brief): a `walk-<page>.js` for each, its walk classes at the end of that room's own section of love.css, its page
 up through `kit.screen()`, a few drawn things in its own declared colours and no new tokens. **A room's name is `NAMES[page]`

@@ -566,7 +566,10 @@
       return {
         start: { x: 0, z: R - 1.2, yaw: 0 },
         bounds: { x: [-(R - 1.6), R - 1.6], z: [-(R - 1.6), R - 1.0] },
-        stops: stops
+        stops: stops,
+        // Helen's ask, 2026-11-07: her yurt is the first room offered in a VR
+        // headset. On a screen this changes nothing.
+        vr: true
       };
     }
   };
