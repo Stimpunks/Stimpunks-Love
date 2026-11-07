@@ -179,7 +179,7 @@
      now; on the chat page not Messages or Events either, which are views in
      its middle, nor its Channels or Search; on Your page not You, which is the
      page. */
-  var FOLDS = ['here', 'around', 'status', 'new', 'events', 'dm', 'film', 'you', 'yours'];
+  var FOLDS = ['comfort', 'here', 'around', 'status', 'new', 'events', 'dm', 'film', 'you', 'yours'];
   function foldable(key) {
     if (FOLDS.indexOf(key) < 0) return false;
     if (inChat() && (key === 'dm' || key === 'events')) return false;
@@ -1597,10 +1597,21 @@
        around, Unreads and Events). The chat page names the channel picked
        over its messages instead, so it has no Where you are. */
     var whereSec = chat ? null : part('cb-sec--where', 'Where you are', 1);
+    /* COMFORT (Ryan's call, 2026-11-07): I need a bodymind break and the
+       Glitter dial, which are about you and not the room, in a part of their
+       own straight after Where you are, where somebody overwhelmed finds them
+       at a glance. It folds, and starts open: somebody who never uses it
+       folds it once, and it stays folded (love-cb's fold). On the chat page,
+       which has no Where you are, it follows In this channel; Break on
+       the folded radio's bar and the dial's box on every page stay as they are. */
+    var comfortSec = part('cb-sec--comfort', 'Comfort', chat ? 2 : 1);
     /* IN THIS CHANNEL, as the chat page has it (the same day): On the channel
        as, Be seen here, Bring my familiar, the room's call and what is on now
        here, under Messages. */
     var hereSec = this.hereSec = part('cb-sec--here', 'In this channel', 2);
+    // On the chat page Happening now heads the right-hand column (below), so
+    // Comfort stands after In this channel there, where these two were.
+    if (chat) hereSec.after(comfortSec);
     var aroundSec = part('cb-sec--around', 'Who\u2019s around', 2);
     /* YOUR STATUS & AVAILABILITY (Ryan's ask, 2026-11-06): your chat status
        and your availability, which were the foot of Who's around, in a part
@@ -1705,11 +1716,12 @@
        which is full; the dial's box has one too. Opening it sends nothing, and
        the radio says nothing aloud while it is up (see speak). */
     var whereRow = el('div', 'cb-tools cb-where-tools');
+    var comfortRow = el('div', 'cb-tools cb-where-tools cb-comfort-tools');
     var brk = this.breakBtn = el('button', 'cb-btn cb-break', 'I need a bodymind break');
     brk.type = 'button';
     brk.setAttribute('aria-haspopup', 'dialog');
     brk.addEventListener('click', function () { me.hush(); takeBreak(brk); });
-    whereRow.appendChild(brk);
+    comfortRow.appendChild(brk);
     /* THE GLITTER DIAL, beside it (a request from our community, 2026-10-24):
        the dial's levels and its low-stimulation modes, from any page the
        radio is on, the pages with no dial of their own included. Its panel
@@ -1719,11 +1731,12 @@
     dialBtn.setAttribute('aria-expanded', 'false');
     dialBtn.setAttribute('aria-controls', 'cb-dial');
     dialBtn.addEventListener('click', function () { me.dialOpen(dialBtn.getAttribute('aria-expanded') !== 'true'); });
-    whereRow.appendChild(dialBtn);
+    comfortRow.appendChild(dialBtn);
     var dialPanel = this.dialPanel = el('div', 'cb-dial');
     dialPanel.id = 'cb-dial';
     dialPanel.hidden = true;
-    whereRow.appendChild(dialPanel);
+    comfortRow.appendChild(dialPanel);
+    comfortSec.appendChild(comfortRow);
     /* OPEN IN CHAT, after the dial (the same request): the chat page with the
        room you are in picked, or World where this page is no room. Not on
        the chat page, and not in a room that keeps to itself, whose name the

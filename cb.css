@@ -2216,7 +2216,7 @@ button.cb-help-btn[hidden] { display: none; }
   .cb-radio--full .cb-set .cb-col > .cb-sec[hidden]:first-child + .cb-sec--after { padding-top: 0; border-top: 0; }
   .cb-radio--full .cb-set .cb-col > .cb-sec[hidden]:first-child + .cb-sec > .cb-divider { display: none; }
   .cb-radio--full .cb-set--parts > .cb-col--b { display: flex; flex-direction: column; }
-  .cb-radio--full .cb-col--b > .cb-sec--where { flex: none; }
+  .cb-radio--full .cb-col--b > .cb-sec--where, .cb-radio--full .cb-col--b > .cb-sec--comfort { flex: none; }
   .cb-radio--full .cb-col--b > .cb-sec--channel { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
   .cb-radio--full .cb-sec--channel > * { flex: none; }
   .cb-radio--full .cb-sec--channel > .cb-lcd { flex: 1 1 0; min-height: 12rem; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
@@ -2586,7 +2586,8 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
   .cb-radio--app[data-pane="people"] .cb-col--c > .cb-sec--you,
   .cb-radio--app[data-pane="people"] .cb-col--c > .cb-sec--yours,
   .cb-radio--app[data-pane="people"] .cb-col--c > .cb-sec--status,
-  .cb-radio--app[data-pane="you"] .cb-col--c > .cb-sec:not(.cb-sec--you):not(.cb-sec--yours):not(.cb-sec--status),
+  .cb-radio--app[data-pane="people"] .cb-col--c > .cb-sec--comfort,
+  .cb-radio--app[data-pane="you"] .cb-col--c > .cb-sec:not(.cb-sec--you):not(.cb-sec--yours):not(.cb-sec--status):not(.cb-sec--comfort),
   .cb-radio--app[data-pane="chat"] .cb-col--b > .cb-sec--search,
   .cb-radio--app[data-pane="search"] .cb-col--b > .cb-sec:not(.cb-sec--search) { display: none; }
   /* Each part's groove is between parts on one screen, never over the first. */
@@ -2595,6 +2596,7 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
   .cb-radio--app[data-pane="people"] .cb-col--c > .cb-sec:not(:first-child),
   .cb-radio--app[data-pane="you"] .cb-col--c > .cb-sec--yours,
   .cb-radio--app[data-pane="you"] .cb-col--c > .cb-sec--status ~ .cb-sec--you,
+  .cb-radio--app[data-pane="you"] .cb-col--c > .cb-sec--comfort ~ .cb-sec--status,
   .cb-radio--app[data-pane="chans"] .cb-col--a > .cb-sec:not(:first-child) { padding-top: 14px; border-top: 2px solid var(--cb-bar); }
   /* The channels are always out here: the tab is their button. */
   .cb-radio--app .cb-chans-toggle { display: none; }
