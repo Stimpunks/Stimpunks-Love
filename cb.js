@@ -826,6 +826,7 @@
       box.appendChild(para);
       inline(para, said.join('\n'));
     }
+    emojiSpans(box);
     return box;
   }
 
@@ -2046,9 +2047,11 @@
        channel, which goes when its message goes. The file is redrawn here,
        in this browser, before anything is sent, which drops what the camera
        wrote into it, GPS first. The description is optional. */
-    var picBtn = el('button', 'cb-btn cb-pic', 'Picture');
+    var picBtn = el('button', 'cb-fico cb-pic');
     picBtn.type = 'button';
+    picBtn.appendChild(msgIcon('plus'));
     picBtn.setAttribute('aria-label', 'Add a picture to your message');
+    picBtn.title = 'Add a picture';
     var picFile = this.picFile = el('input', 'cb-pic-file');
     picFile.type = 'file';
     picFile.accept = 'image/*';
@@ -2056,34 +2059,22 @@
     picFile.tabIndex = -1;
     picBtn.addEventListener('click', function () { picFile.click(); });
     picFile.addEventListener('change', function () { me.pickPicture(picFile.files && picFile.files[0]); });
-    var stickBtn = this.stickBtn = el('button', 'cb-btn cb-stick', 'Sticker');
-    stickBtn.type = 'button';
-    stickBtn.setAttribute('aria-label', 'Send a sticker of one of your avatars or pets');
-    stickBtn.setAttribute('aria-expanded', 'false');
-    stickBtn.setAttribute('aria-controls', 'cb-stickers');
-    stickBtn.addEventListener('click', function () { me.setStickers(me.stickBox.hidden); });
-    var stickBox = this.stickBox = el('div', 'cb-stickers');
-    stickBox.id = 'cb-stickers';
-    stickBox.hidden = true;
-    stickBox.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); me.setStickers(false); stickBtn.focus(); } });
-    /* A GIF FROM GIFBOX, Ryan's ask, 2026-11-06 (lib.mjs, "GIFs from
-       Gifbox"): a tray like the stickers', searched from our server, showing
-       stills only. A GIF picked is copied onto the channel by /cb/gif and
-       waits above the box like a picture until Transmit. */
-    var gifBtn = this.gifBtn = el('button', 'cb-btn cb-gifbtn', 'GIF');
-    gifBtn.type = 'button';
-    gifBtn.setAttribute('aria-label', 'Find a GIF on Gifbox to send');
-    gifBtn.setAttribute('aria-expanded', 'false');
-    gifBtn.setAttribute('aria-controls', 'cb-gifs');
-    gifBtn.addEventListener('click', function () { me.setGifs(me.gifBox.hidden); });
-    var gifBox = this.gifBox = el('div', 'cb-gifs');
-    gifBox.id = 'cb-gifs';
-    gifBox.hidden = true;
-    gifBox.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); me.setGifs(false); gifBtn.focus(); } });
-    var row = el('div', 'cb-row cb-send-row');
-    row.appendChild(picBtn);
-    row.appendChild(stickBtn);
-    row.appendChild(gifBtn);
+    /* THE MESSAGE BOX IS A FIELD WITH ITS TOOLS IN IT (Ryan's ask,
+       2026-11-06, after Stoat's): + for a picture on the left, and GIF,
+       Sticker and Emoji on the right, each opening the one picker under it
+       on its own tab (pickerMake). A GIF from Gifbox (lib.mjs, "GIFs from
+       Gifbox") is copied onto the channel by /cb/gif and waits above the box
+       like a picture until Transmit; a sticker goes at once; an emoji goes
+       into the words where the cursor is. */
+    var pk = this.pickerMake('channel', say, ['gif', 'stick', 'emoji']);
+    this.gifBtn = pk.btns.gif; this.gifBox = pk.panels.gif;
+    this.stickBtn = pk.btns.stick; this.stickBox = pk.panels.stick;
+    var field = el('div', 'cb-field');
+    field.appendChild(picBtn);
+    field.appendChild(say);
+    field.appendChild(pk.tools);
+    var row = el('div', 'cb-row cb-compose');
+    row.appendChild(field);
     row.appendChild(send);
     var ready = this.picReady = el('div', 'cb-pic-ready');
     ready.hidden = true;
@@ -2120,11 +2111,9 @@
     form.appendChild(reB);
     form.appendChild(lab);
     form.appendChild(pick);
-    form.appendChild(say);
-    form.appendChild(hint);
     form.appendChild(row);
-    form.appendChild(stickBox);
-    form.appendChild(gifBox);
+    form.appendChild(hint);
+    form.appendChild(pk.picker);
     chanSec.appendChild(form);
     linkBox(say, function (t) { me.tell(t); });
 
@@ -8799,6 +8788,562 @@
   /* `where` is 'dm' for the tray under a conversation's box (Ryan's ask,
      2026-10-20), and the channel's otherwise; one tray is open at a time, and
      sendSticker sends to whichever it was opened for. */
+  /* ONE PICKER UNDER EACH MESSAGE BOX, WITH A TAB FOR EACH THING IT HOLDS
+     (Ryan's ask, 2026-11-06, after Stoat's and Discord's): GIFs (the
+     channel's only), Stickers and Emoji, the ARIA tabs pattern, opened by
+     the field's icon for that tab and shut by Close, Escape or the same icon
+     again. Each tab is filled when it is opened and emptied when it is left,
+     so nothing is fetched for a tab nobody looks at, and nothing in it moves.
+     `where` is 'channel' or 'dm'; `say` is the box an emoji goes into. */
+  var PICK_TABS = {
+    gif: ['GIFs', 'Find a GIF on Gifbox to send', 'GIF'],
+    stick: ['Stickers', 'Send a sticker of one of your avatars, chimeras, pets or patches', 'Sticker'],
+    emoji: ['Emoji', 'Put an emoji in your message', 'Emoji'],
+  };
+  Radio.prototype.pickerMake = function (where, say, kinds) {
+    var me = this, id = 'cb-picker-' + where;
+    var p = { where: where, say: say, tab: null, btns: {}, tabs: {}, panels: {} };
+    this.pk = this.pk || {};
+    this.pk[where] = p;
+    var tools = p.tools = el('div', 'cb-ftools');
+    var picker = p.picker = el('div', 'cb-picker');
+    picker.id = id;
+    picker.hidden = true;
+    picker.setAttribute('role', 'group');
+    picker.setAttribute('aria-label', 'GIFs, stickers and emoji');
+    var list = el('div', 'cb-picker__tabs');
+    list.setAttribute('role', 'tablist');
+    picker.appendChild(list);
+    kinds.forEach(function (k) {
+      var b = el('button', 'cb-fico cb-fico--' + k);
+      b.type = 'button';
+      b.appendChild(msgIcon(k));
+      b.setAttribute('aria-label', PICK_TABS[k][1]);
+      b.title = PICK_TABS[k][2];
+      b.setAttribute('aria-expanded', 'false');
+      b.setAttribute('aria-controls', id);
+      b.addEventListener('click', function () { if (p.tab === k) me.pickerClose(where, true); else me.pickerOpen(where, k); });
+      tools.appendChild(b);
+      p.btns[k] = b;
+      var t = el('button', 'cb-picker__tab', PICK_TABS[k][0]);
+      t.type = 'button';
+      t.id = id + '-tab-' + k;
+      t.setAttribute('role', 'tab');
+      t.setAttribute('aria-selected', 'false');
+      t.setAttribute('aria-controls', id + '-' + k);
+      t.tabIndex = -1;
+      t.addEventListener('click', function () { me.pickerOpen(where, k); });
+      list.appendChild(t);
+      p.tabs[k] = t;
+      var panel = el('div', k === 'gif' ? 'cb-gifs' : k === 'stick' ? 'cb-stickers' : 'cb-emoji');
+      panel.id = id + '-' + k;
+      panel.setAttribute('role', 'tabpanel');
+      panel.setAttribute('aria-labelledby', t.id);
+      panel.hidden = true;
+      picker.appendChild(panel);
+      p.panels[k] = panel;
+    });
+    // Left and right move between the tabs that are shown, as the pattern does.
+    list.addEventListener('keydown', function (e) {
+      if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].indexOf(e.key) < 0) return;
+      var shown = kinds.filter(function (k) { return !p.tabs[k].hidden; });
+      var at = shown.indexOf(p.tab), next;
+      if (e.key === 'Home') next = shown[0];
+      else if (e.key === 'End') next = shown[shown.length - 1];
+      else next = shown[(at + (e.key === 'ArrowRight' ? 1 : shown.length - 1)) % shown.length];
+      e.preventDefault();
+      me.pickerOpen(where, next, true);
+    });
+    picker.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !e.defaultPrevented) { e.preventDefault(); me.pickerClose(where, true); }
+    });
+    var shut = el('button', 'cb-btn cb-picker__shut', 'Close');
+    shut.type = 'button';
+    shut.addEventListener('click', function () { me.pickerClose(where, true); });
+    picker.appendChild(shut);
+    return p;
+  };
+
+  Radio.prototype.pickerOpen = function (where, k, fromTab) {
+    var p = this.pk && this.pk[where];
+    if (!p || !p.panels[k] || p.btns[k].hidden) return;
+    var other = where === 'dm' ? 'channel' : 'dm';
+    if (this.pk[other] && this.pk[other].tab) this.pickerClose(other);
+    if (p.tab && p.tab !== k) this.pickerFill(p, p.tab, false);
+    p.tab = k;
+    p.picker.hidden = false;
+    Object.keys(p.panels).forEach(function (n) {
+      var on = n === k;
+      p.panels[n].hidden = !on;
+      p.tabs[n].setAttribute('aria-selected', String(on));
+      p.tabs[n].tabIndex = on ? 0 : -1;
+      p.btns[n].setAttribute('aria-expanded', String(on));
+    });
+    this.pickerFill(p, k, true);
+    if (fromTab) p.tabs[k].focus();
+    p.picker.scrollIntoView({ block: 'nearest' });
+  };
+
+  // A tab's first control takes the keyboard, unless the keyboard is on the
+  // tabs themselves, where the pattern keeps it.
+  function pickFocus(box, target) {
+    var root = box.getRootNode(), on = root && root.activeElement;
+    if (on && on.getAttribute && on.getAttribute('role') === 'tab') return;
+    if (target) target.focus();
+  }
+
+  Radio.prototype.pickerFill = function (p, k, open) {
+    if (k === 'gif') this.setGifs(open);
+    else if (k === 'stick') this.setStickers(open, p.where);
+    else this.setEmoji(open, p.where);
+  };
+
+  // Shut, emptying the tab it was on; `back` puts the keyboard on that tab's icon.
+  Radio.prototype.pickerClose = function (where, back) {
+    var p = this.pk && this.pk[where];
+    if (!p || !p.tab) return;
+    var k = p.tab;
+    this.pickerFill(p, k, false);
+    p.tab = null;
+    p.picker.hidden = true;
+    Object.keys(p.panels).forEach(function (n) {
+      p.panels[n].hidden = true;
+      p.tabs[n].setAttribute('aria-selected', 'false');
+      p.btns[n].setAttribute('aria-expanded', 'false');
+    });
+    if (back && !p.btns[k].hidden) p.btns[k].focus();
+  };
+
+  /* AN EMOJI GOES INTO THE WORDS, where the cursor is, as typing it would, so
+     Undo takes it back (insertText); one of our own goes in as :its-name:,
+     which every radio draws as its picture. The picker shuts unless Shift is
+     held, which keeps it open for another, as Discord's does. */
+  Radio.prototype.putEmoji = function (where, words, keep) {
+    var p = this.pk[where], box = p.say;
+    box.focus();
+    var at = box.selectionStart || 0, before = box.value.slice(0, at), after = box.value.slice(box.selectionEnd || at);
+    var put = words;
+    if (words.charAt(0) === ':') {
+      if (before && !/\s$/.test(before)) put = ' ' + put;
+      if (!/^\s/.test(after)) put += ' ';
+    }
+    var done = false;
+    try { done = document.execCommand('insertText', false, put); } catch (e) { done = false; }
+    if (!done || box.value.slice(at, at + put.length) !== put) {
+      box.value = before + put + after;
+      box.setSelectionRange(at + put.length, at + put.length);
+    }
+    box.dispatchEvent(new Event('input', { bubbles: true }));
+    this.grow(box);
+    if (!keep) this.pickerClose(where);
+    else if (this.emojiFocus) this.emojiFocus.focus();
+  };
+
+  /* THE EMOJI TAB: our own emoji first, under Stimpunks, then Unicode's, in
+     Unicode's own groups and order, out of cb-emoji.js (tools/pull-emoji.py),
+     loaded the first time the tab opens. Every one is the device's own
+     emoji, drawn by its own font, so nothing is fetched to show them; ours are
+     pictures served from /cb/emoji. A search looks in names and keywords on
+     this page and sends nothing. The grid is one stop for Tab, and the arrows
+     move in it. Under it, the one the keyboard or the pointer is on, larger,
+     with its name. Nothing is counted: no "most used" and no "popular", and no
+     list of what you used is kept. */
+  var CEMOJI = null;          // our own emoji: { list, by folded name }, from /cb/emoji
+  var EMOJI_SRC = '/cb-emoji.js';
+  function withEmojiList(then) {
+    if (window.loveEmoji) { then(); return; }
+    var sc = document.querySelector('script[data-cb-emoji]');
+    if (!sc) {
+      sc = document.createElement('script');
+      sc.src = EMOJI_SRC;
+      sc.async = true;
+      sc.setAttribute('data-cb-emoji', '');
+      document.head.appendChild(sc);
+    }
+    sc.addEventListener('load', function () { then(); });
+    sc.addEventListener('error', function () { then(); });
+  }
+
+  Radio.prototype.loadEmoji = function (then) {
+    var me = this;
+    if (!this.state || !this.state.pass) return;
+    call('/cb/emoji', null, this.state.pass).then(function (r) {
+      if (r.status === 401) return me.lost();
+      if (r.status !== 200 || !Array.isArray(r.body.emoji)) return;
+      me.useEmoji(r.body.emoji);
+      if (then) then();
+    }).catch(function () {});
+  };
+  Radio.prototype.useEmoji = function (list) {
+    var by = {};
+    list.forEach(function (e) { by[e.name.toLowerCase()] = e; });
+    CEMOJI = { list: list, by: by };
+    if (this.host && this.host.shadowRoot) emojiUpgrade(this.host.shadowRoot);
+  };
+
+  Radio.prototype.setEmoji = function (open, where) {
+    var me = this, box = this.pk[where].panels.emoji;
+    box.textContent = '';
+    this.emojiFocus = null;
+    if (!open) return;
+    var top = el('div', 'cb-row cb-emoji__top');
+    var lab = el('label', 'sr', 'Search emoji');
+    lab.htmlFor = 'cb-emoji-q-' + where;
+    var q = el('input', 'cb-say cb-emoji__q');
+    q.id = 'cb-emoji-q-' + where;
+    q.type = 'search';
+    q.placeholder = 'Search emoji';
+    q.autocomplete = 'off';
+    q.maxLength = 40;
+    top.appendChild(lab);
+    top.appendChild(q);
+    var addBtn = el('button', 'cb-btn cb-emoji__add', 'Add Emoji');
+    addBtn.type = 'button';
+    addBtn.setAttribute('aria-expanded', 'false');
+    top.appendChild(addBtn);
+    box.appendChild(top);
+    var addBox = el('div', 'cb-emoji__new');
+    addBox.hidden = true;
+    box.appendChild(addBox);
+    addBtn.addEventListener('click', function () { me.emojiAddForm(where, addBox, addBtn); });
+    var jump = el('div', 'cb-emoji__jump');
+    jump.setAttribute('role', 'group');
+    jump.setAttribute('aria-label', 'Go to a group');
+    box.appendChild(jump);
+    var grid = el('div', 'cb-emoji__grid');
+    box.appendChild(grid);
+    var none = el('p', 'cb-quiet cb-emoji__none', 'No emoji with that in its name.');
+    none.hidden = true;
+    box.appendChild(none);
+    var foot = el('div', 'cb-emoji__foot');
+    foot.setAttribute('aria-hidden', 'true');
+    var big = el('span', 'cb-emoji__big');
+    var name = el('span', 'cb-emoji__name');
+    var from = el('span', 'cb-emoji__from');
+    foot.appendChild(big);
+    foot.appendChild(name);
+    foot.appendChild(from);
+    box.appendChild(foot);
+    var down = el('button', 'cb-btn cb-emoji__down', 'Take it down');
+    down.type = 'button';
+    down.hidden = true;
+    box.appendChild(down);
+    var said = el('p', 'cb-quiet cb-emoji__said');
+    said.setAttribute('role', 'status');
+    box.appendChild(said);
+    var all = [], cur = null;
+    function show(b) {
+      cur = b;
+      big.textContent = '';
+      if (b.cbEmoji.img) { var i = el('img', 'cb-cemoji cb-cemoji--big'); i.src = '/cb/emoji?img=' + b.cbEmoji.id; i.alt = ''; big.appendChild(i); }
+      else big.textContent = b.cbEmoji.char;
+      name.textContent = b.cbEmoji.img ? ':' + b.cbEmoji.name + ':' : b.cbEmoji.name;
+      from.textContent = b.cbEmoji.img ? 'from Stimpunks' : '';
+      down.hidden = !(b.cbEmoji.img && (b.cbEmoji.mine || me.state.base));
+    }
+    function roving(b) {
+      all.forEach(function (x) { x.tabIndex = -1; });
+      b.tabIndex = 0;
+      me.emojiFocus = b;
+    }
+    function pick(e) {
+      var b = e.currentTarget;
+      me.putEmoji(where, b.cbEmoji.img ? ':' + b.cbEmoji.name + ':' : b.cbEmoji.char, e.shiftKey);
+    }
+    function button(item, label) {
+      var b = el('button', 'cb-emoji__pick');
+      b.type = 'button';
+      b.cbEmoji = item;
+      b.tabIndex = -1;
+      b.setAttribute('aria-label', label);
+      if (item.img) { var i = el('img', 'cb-cemoji'); i.src = '/cb/emoji?img=' + item.id; i.alt = ''; i.loading = 'lazy'; b.appendChild(i); }
+      else b.textContent = item.char;
+      b.addEventListener('click', pick);
+      b.addEventListener('focus', function () { roving(b); show(b); });
+      b.addEventListener('mouseenter', function () { show(b); });
+      all.push(b);
+      return b;
+    }
+    function section(title, items, mark, idx) {
+      var sec = el('section', 'cb-emoji__group');
+      var h = el('h3', 'cb-emoji__h', title);
+      h.id = 'cb-emoji-' + where + '-' + idx;
+      sec.appendChild(h);
+      var ul = el('div', 'cb-emoji__set');
+      ul.setAttribute('role', 'group');
+      ul.setAttribute('aria-labelledby', h.id);
+      items.forEach(function (b) { ul.appendChild(b); });
+      sec.appendChild(ul);
+      grid.appendChild(sec);
+      var j = el('button', 'cb-emoji__go');
+      j.type = 'button';
+      j.setAttribute('aria-label', 'Go to ' + title);
+      j.title = title;
+      if (mark && mark.nodeType) j.appendChild(mark); else j.textContent = mark;
+      j.addEventListener('click', function () {
+        var first = sec.querySelector('.cb-emoji__pick:not([hidden])');
+        h.scrollIntoView({ block: 'start' });
+        if (first) first.focus({ preventScroll: true });
+      });
+      jump.appendChild(j);
+      return sec;
+    }
+    function draw() {
+      grid.textContent = ''; jump.textContent = ''; all = [];
+      var ours = (CEMOJI ? CEMOJI.list : []).map(function (e) {
+        return button({ img: true, id: e.id, name: e.name, mine: e.mine, words: e.name.toLowerCase() }, ':' + e.name + ': from Stimpunks');
+      });
+      if (ours.length) {
+        var logo = el('span', 'cb-emoji__ours', 'S');
+        section('Stimpunks', ours, logo, 'ours');
+      }
+      (window.loveEmoji || []).forEach(function (g, gi) {
+        var items = g[1].map(function (x) { return button({ char: x[0], name: x[1], words: (x[1] + ' ' + (x[2] || '')).toLowerCase() }, x[1]); });
+        section(g[0], items, g[1][0][0], gi);
+      });
+      if (!window.loveEmoji) said.textContent = 'The emoji could not be fetched just now.';
+      var first = all[0];
+      if (first) { roving(first); show(first); }
+      filter();
+    }
+    function filter() {
+      var words = q.value.trim().toLowerCase().split(/\s+/).filter(Boolean), any = false;
+      grid.querySelectorAll('.cb-emoji__group').forEach(function (sec) {
+        var shown = 0;
+        sec.querySelectorAll('.cb-emoji__pick').forEach(function (b) {
+          var hit = words.every(function (w) { return b.cbEmoji.words.indexOf(w) >= 0; });
+          b.hidden = !hit;
+          if (hit) shown++;
+        });
+        sec.hidden = !shown;
+        if (shown) any = true;
+      });
+      jump.hidden = !!words.length;
+      none.hidden = any;
+      var vis = all.filter(function (b) { return !b.hidden; });
+      if (vis.length && (!me.emojiFocus || me.emojiFocus.hidden)) { roving(vis[0]); show(vis[0]); }
+    }
+    q.addEventListener('input', filter);
+    q.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' || (e.key === 'Enter' && q.value.trim())) {
+        var vis = all.filter(function (b) { return !b.hidden; });
+        if (!vis.length) return;
+        e.preventDefault();
+        if (e.key === 'Enter') vis[0].click(); else vis[0].focus();
+      }
+    });
+    // The arrows in the grid: left and right one at a time, up and down a row.
+    grid.addEventListener('keydown', function (e) {
+      if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].indexOf(e.key) < 0) return;
+      var vis = all.filter(function (b) { return !b.hidden; }), at = vis.indexOf(e.target);
+      if (at < 0) return;
+      e.preventDefault();
+      var next = at;
+      if (e.key === 'ArrowLeft') next = Math.max(0, at - 1);
+      else if (e.key === 'ArrowRight') next = Math.min(vis.length - 1, at + 1);
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = vis.length - 1;
+      else {
+        var r = e.target.getBoundingClientRect(), dir = e.key === 'ArrowDown' ? 1 : -1, best = -1, bestD = Infinity;
+        for (var i = at + dir; i >= 0 && i < vis.length; i += dir) {
+          var b = vis[i].getBoundingClientRect();
+          if (dir > 0 ? b.top <= r.top + 2 : b.top >= r.top - 2) continue;
+          if (best >= 0 && Math.abs(b.top - vis[best].getBoundingClientRect().top) > 2) break;
+          var d = Math.abs(b.left - r.left);
+          if (d < bestD) { bestD = d; best = i; }
+        }
+        if (best >= 0) next = best;
+      }
+      vis[next].focus();
+    });
+    down.addEventListener('click', function () {
+      if (!cur || !cur.cbEmoji.img) return;
+      var it = cur.cbEmoji;
+      call('/cb/emoji', { body: { remove: it.id } }, me.state.pass).then(function (r) {
+        if (r.status === 401) return me.lost();
+        if (r.status !== 200) { said.textContent = why(r, 'That emoji could not be taken down just now.'); return; }
+        me.useEmoji(r.body.emoji || []);
+        draw();
+        said.textContent = ':' + it.name + ': is taken down. A message that used it now shows its name.';
+      }).catch(function () { said.textContent = 'No signal: nothing was taken down.'; });
+    });
+    said.textContent = 'Fetching the emoji…';
+    var waiting = 2;
+    function ready() { if (--waiting) return; if (box.firstChild !== top) return; said.textContent = ''; draw(); pickFocus(box, q); }
+    withEmojiList(ready);
+    this.loadEmoji(ready);
+    if (!this.state || !this.state.pass) ready();
+    this.emojiRedraw = draw;
+  };
+
+  /* ADD EMOJI (Ryan's ask, after Discord's): a picture of your own, redrawn
+     here to at most EMOJI_PX across as a PNG, which keeps its transparency and
+     loses anything written into it, under a name of letters, numbers and
+     underscores. It goes to /cb/emoji and is public there, which the form says
+     before it goes, and asks you to say it is yours to share. */
+  var EMOJI_PX = 128;
+  function redrawEmoji(file) {
+    return new Promise(function (ok, no) {
+      var url = URL.createObjectURL(file), img = new Image();
+      img.addEventListener('load', function () {
+        var w = img.naturalWidth, h = img.naturalHeight, k = Math.min(1, EMOJI_PX / Math.max(w, h));
+        var c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(w * k)); c.height = Math.max(1, Math.round(h * k));
+        var g = c.getContext('2d');
+        g.imageSmoothingQuality = 'high';
+        g.drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        c.toBlob(function (b) { if (b) ok(b); else no(new Error('no picture')); }, 'image/png');
+      });
+      img.addEventListener('error', function () { URL.revokeObjectURL(url); no(new Error('no picture')); });
+      img.src = url;
+    });
+  }
+  Radio.prototype.emojiAddForm = function (where, box, btn) {
+    var me = this;
+    if (!box.hidden) { box.hidden = true; box.textContent = ''; btn.setAttribute('aria-expanded', 'false'); return; }
+    box.textContent = '';
+    box.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    box.appendChild(el('h3', 'cb-emoji__h', 'Add an emoji'));
+    box.appendChild(el('p', 'cb-quiet', 'A picture of your own becomes an emoji everybody on the CB can use, by its name between colons. It is public: anybody who sees a message with it in can fetch it. It is made small and square-ish here, keeps its transparency, and loses anything a camera wrote into it. Whoever added one, or a moderator, can take it down.'));
+    var file = el('input', 'cb-pic-file');
+    file.type = 'file';
+    file.accept = 'image/png,image/jpeg,image/webp,image/gif';
+    file.id = 'cb-emoji-file-' + where;
+    var flab = el('label', 'cb-lab', 'The picture');
+    flab.htmlFor = file.id;
+    var shown = el('img', 'cb-cemoji cb-cemoji--big');
+    shown.alt = '';
+    shown.hidden = true;
+    var nlab = el('label', 'cb-lab', 'Its name, letters, numbers and underscores');
+    var nm = el('input', 'cb-say cb-emoji__nm');
+    nm.id = 'cb-emoji-name-' + where;
+    nlab.htmlFor = nm.id;
+    nm.maxLength = 32;
+    nm.autocomplete = 'off';
+    nm.spellcheck = false;
+    var yesLab = el('label', 'cb-check');
+    var yes = el('input');
+    yes.type = 'checkbox';
+    yesLab.appendChild(yes);
+    yesLab.appendChild(document.createTextNode(' This picture is mine to share, and anybody recognisable in it has said yes to it being an emoji.'));
+    var row = el('div', 'cb-row');
+    var go = el('button', 'cb-btn', 'Add it');
+    go.type = 'button';
+    var no = el('button', 'cb-btn', 'Cancel');
+    no.type = 'button';
+    row.appendChild(go);
+    row.appendChild(no);
+    var said = el('p', 'cb-quiet');
+    said.setAttribute('role', 'status');
+    [flab, file, shown, nlab, nm, yesLab, row, said].forEach(function (x) { box.appendChild(x); });
+    var blob = null;
+    file.addEventListener('change', function () {
+      var f = file.files && file.files[0];
+      blob = null;
+      if (!f || !/^image\//.test(f.type) || /svg/i.test(f.type)) { said.textContent = 'That is not a picture the radio can make an emoji of.'; return; }
+      said.textContent = 'Getting it ready…';
+      redrawEmoji(f).then(function (b) {
+        blob = b;
+        if (shown.cbUrl) URL.revokeObjectURL(shown.cbUrl);
+        shown.src = shown.cbUrl = URL.createObjectURL(b);
+        shown.hidden = false;
+        if (!nm.value) nm.value = (f.name || '').replace(/\.[^.]*$/, '').replace(/[^A-Za-z0-9_]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 32);
+        said.textContent = 'This is the emoji as it will be kept. Nothing has gone yet.';
+      }, function () { said.textContent = 'The radio could not read that picture.'; });
+    });
+    no.addEventListener('click', function () { me.emojiAddForm(where, box, btn); btn.focus(); });
+    go.addEventListener('click', function () {
+      var name = nm.value.trim();
+      if (!blob) { said.textContent = 'Pick a picture first.'; file.focus(); return; }
+      if (!/^(?=[A-Za-z0-9_]*[A-Za-z])[A-Za-z0-9_]{2,32}$/.test(name)) { said.textContent = 'A name is 2 to 32 letters, numbers or underscores, with at least one letter and no spaces.'; nm.focus(); return; }
+      if (!yes.checked) { said.textContent = 'Say that the picture is yours to share first.'; yes.focus(); return; }
+      said.textContent = 'Adding it…';
+      fetch('/cb/emoji?name=' + encodeURIComponent(name) + '&yes=1', {
+        method: 'POST', body: blob, credentials: 'omit', cache: 'no-store',
+        headers: { 'content-type': 'image/png', 'authorization': 'Bearer ' + me.state.pass, 'accept': 'application/json' },
+      }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; }); })
+        .then(function (r) {
+          if (r.status === 401) return me.lost();
+          if (r.status !== 200) { said.textContent = why(r, 'That emoji could not be added just now.'); return; }
+          me.useEmoji(r.body.emoji || []);
+          if (me.emojiRedraw) me.emojiRedraw();
+          box.hidden = true; box.textContent = ''; btn.setAttribute('aria-expanded', 'false');
+          var msg = box.parentNode && box.parentNode.querySelector('.cb-emoji__said');
+          if (msg) msg.textContent = ':' + name + ': is added. Type it between colons, or pick it under Stimpunks.';
+          btn.focus();
+        }).catch(function () { said.textContent = 'No signal: the emoji did not go.'; });
+    });
+    file.focus();
+  };
+
+  /* OUR OWN EMOJI IN A MESSAGE: md() writes every :name: in its words, out of
+     code and links, as a span (emojiSpans), and emojiUpgrade turns each one
+     whose name is ours into its picture, with :name: as its words for a screen
+     reader and a tooltip. A name that is not ours, or one taken down, stays
+     the words that were typed. */
+  var CEMOJI_RE = /:((?=[A-Za-z0-9_]*[A-Za-z])[A-Za-z0-9_]{2,32}):/g;
+  // Asks the server for our emoji: the first time a message names one, and
+  // again at most once a minute when one names an emoji this page does not know.
+  var emojiNeed = null, emojiAsked = 0, emojiLater = null, emojiTried = {};
+  function emojiWant(name) {
+    if (!emojiNeed) return;
+    if (name) { name = name.toLowerCase(); if (emojiTried[name]) return; emojiTried[name] = true; }
+    var wait = emojiAsked + 60000 - Date.now();
+    if (wait > 0) { if (!emojiLater) emojiLater = setTimeout(function () { emojiLater = null; emojiWant(); }, wait); return; }
+    emojiAsked = Date.now();
+    emojiNeed();
+  }
+  function emojiSpans(box) {
+    if (!box || box.textContent.indexOf(':') < 0) return;
+    var walk = document.createTreeWalker(box, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        for (var p = n.parentNode; p && p !== box; p = p.parentNode) if (/^(CODE|PRE|A|BUTTON|KBD)$/.test(p.nodeName)) return NodeFilter.FILTER_REJECT;
+        return n.nodeValue.indexOf(':') >= 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      },
+    });
+    var hits = [], n;
+    while ((n = walk.nextNode())) hits.push(n);
+    hits.forEach(function (t) {
+      var text = t.nodeValue, at = 0, m, frag = null;
+      CEMOJI_RE.lastIndex = 0;
+      while ((m = CEMOJI_RE.exec(text))) {
+        frag = frag || document.createDocumentFragment();
+        if (m.index > at) frag.appendChild(document.createTextNode(text.slice(at, m.index)));
+        var sp = el('span', 'cb-cemoji-wait', m[0]);
+        sp.dataset.emoji = m[1];
+        frag.appendChild(sp);
+        at = m.index + m[0].length;
+      }
+      if (!frag) return;
+      if (at < text.length) frag.appendChild(document.createTextNode(text.slice(at)));
+      t.parentNode.replaceChild(frag, t);
+    });
+    if (hits.length && box.querySelector('.cb-cemoji-wait')) { if (!CEMOJI) emojiWant(); else emojiUpgrade(box); }
+  }
+  function emojiUpgrade(root) {
+    if (!CEMOJI || !root) return;
+    root.querySelectorAll('.cb-cemoji-wait').forEach(function (sp) {
+      var e = CEMOJI.by[sp.dataset.emoji.toLowerCase()];
+      if (!e) { emojiWant(sp.dataset.emoji); return; }
+      var img = el('img', 'cb-cemoji');
+      img.src = '/cb/emoji?img=' + e.id;
+      img.alt = ':' + e.name + ':';
+      img.title = ':' + e.name + ':';
+      img.decoding = 'async';
+      img.dataset.emoji = sp.dataset.emoji;
+      sp.replaceWith(img);
+    });
+    // One taken down goes back to the words that were typed.
+    root.querySelectorAll('img.cb-cemoji[data-emoji]').forEach(function (img) {
+      if (CEMOJI.by[img.dataset.emoji.toLowerCase()]) return;
+      var sp = el('span', 'cb-cemoji-wait', ':' + img.dataset.emoji + ':');
+      sp.dataset.emoji = img.dataset.emoji;
+      img.replaceWith(sp);
+    });
+  }
+
   /* THE GIF TRAY (lib.mjs, "GIFs from Gifbox"). Opening it shows Gifbox's
      featured GIFs; a search goes only when Search is pressed or Enter is, never
      letter by letter, and only from our server, so Gifbox gets the words and
@@ -8806,10 +9351,7 @@
      /cb/gif with the pass, and a GIF on the channel stays still until somebody
      presses it, which the tray says. Nothing in it moves at any setting. */
   Radio.prototype.setGifs = function (open) {
-    var me = this, box = this.gifBox, btn = this.gifBtn;
-    if (open && this.stickBox && !this.stickBox.hidden) this.setStickers(false);
-    box.hidden = !open;
-    btn.setAttribute('aria-expanded', String(!!open));
+    var me = this, box = this.gifBox;
     this.gifStills = this.gifStills || {};
     if (!open) { box.textContent = ''; return; }
     box.textContent = '';
@@ -8851,7 +9393,7 @@
     box.appendChild(credit);
     form.addEventListener('submit', function (e) { e.preventDefault(); me.gifFind(q.value.trim(), ''); });
     more.addEventListener('click', function () { me.gifFind(me.gifWords || '', me.gifNext || '', true); });
-    q.focus();
+    pickFocus(box, q);
     this.gifFind('', '');
   };
 
@@ -8865,7 +9407,7 @@
     said.textContent = words ? 'Searching Gifbox for “' + words + '”…' : 'Fetching GIFs from Gifbox…';
     if (!adding) list.textContent = '';
     call('/cb/gif', { body: { action: 'search', q: words, pos: pos } }, this.state.pass).then(function (r) {
-      if (ask !== me.gifAsk || me.gifBox.hidden) return;
+      if (ask !== me.gifAsk || me.gifBox.hidden || !me.gifBox.firstChild) return;
       if (r.status === 401) return me.lost();
       if (r.status !== 200) { said.textContent = why(r, 'Gifbox did not answer just now. Try again in a moment.'); return; }
       if (!r.body.on) { said.textContent = 'GIFs are not switched on yet.'; return; }
@@ -8931,7 +9473,7 @@
       me.gifStill(g.id).then(function (url) { if (url) { img.src = url; img.hidden = false; } });
       line.textContent = 'This is the GIF that will go with your message, from Gifbox, shown still: it moves on everybody’s radio only when they press it. Nothing has gone yet.';
       me.picAlt.value = (g.about || g.title || '').slice(0, 280);
-      me.setGifs(false);
+      me.pickerClose('channel');
       box.scrollIntoView({ block: 'nearest' });
       me.picAlt.focus({ preventScroll: true });
     }).catch(function () { line.textContent = 'No signal: the GIF did not come through.'; });
@@ -8985,13 +9527,8 @@
 
   Radio.prototype.setStickers = function (open, where) {
     var me = this, dm = where === 'dm';
-    var box = dm ? this.dmStickBox : this.stickBox, btn = dm ? this.dmStickBtn : this.stickBtn;
-    var other = dm ? this.stickBox : this.dmStickBox;
-    if (open && this.gifBox && !this.gifBox.hidden) this.setGifs(false);
-    if (open && other && !other.hidden) { other.hidden = true; other.textContent = ''; (dm ? this.stickBtn : this.dmStickBtn).setAttribute('aria-expanded', 'false'); }
+    var box = dm ? this.dmStickBox : this.stickBox;
     this.stickTo = dm ? 'dm' : 'channel';
-    box.hidden = !open;
-    btn.setAttribute('aria-expanded', String(!!open));
     if (!open) { box.textContent = ''; return; }
     box.textContent = '';
     /* YOUR AVATARS FIRST, then your pets: each a button that sends a sticker
@@ -9023,8 +9560,7 @@
           ul.appendChild(li);
         });
         avSaid.after(ul);
-        var first = ul.querySelector('button');
-        if (first) first.focus();
+        pickFocus(box, ul.querySelector('button'));
       }, function () { avSaid.textContent = 'Your avatars could not be fetched just now.'; });
     });
     /* YOUR CHIMERAS next, each a button that sends a sticker of it. */
@@ -9088,7 +9624,7 @@
         // goes to the first pet only when no avatar above took it.
         var noneYet = !(avSaid.nextElementSibling && avSaid.nextElementSibling.tagName === 'UL');
         said.after(ul);
-        if (noneYet) { var first = ul.querySelector('button'); if (first) first.focus(); }
+        if (noneYet) pickFocus(box, ul.querySelector('button'));
       }, function () { said.textContent = 'Your pets could not be fetched just now.'; });
     });
     /* YOUR PATCHES (Ryan, 2026-10-14): each one on your battle jacket, a
@@ -9134,7 +9670,6 @@
         pSaid.after(ul);
       }, function () { pSaid.textContent = 'Your patches could not be fetched just now.'; });
     });
-    box.appendChild(this.footClose('Close stickers', function () { me.setStickers(false, where); }, btn));
   };
 
   Radio.prototype.sendSticker = function (id, kind) {
@@ -9147,7 +9682,7 @@
       b.send = '';
       this.dmTold('Sending the sticker\u2026');
       this.dmJustSent = true;
-      this.dmCall(b, '').then(function (r) { if (r) { me.setStickers(false, 'dm'); me.dmStickBtn.focus(); } });
+      this.dmCall(b, '').then(function (r) { if (r) me.pickerClose('dm', true); });
       return;
     }
     if (room) b.room = room;
@@ -9155,9 +9690,8 @@
     call('/cb/transmit', { body: b }, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
       if (r.status === 200) {
-        me.setStickers(false);
+        me.pickerClose('channel', true);
         me.tell('');
-        me.stickBtn.focus();
         if (room === me.tunedRoom()) me.showFrom(r.body.messages || [], true);
         return;
       }
@@ -9414,6 +9948,28 @@
       var bend = { fill: 'none', stroke: 'currentColor', 'stroke-width': '1.8', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' };
       add('path', Object.assign({ d: 'M8 4.5 3.5 9 8 13.5' }, bend));
       add('path', Object.assign({ d: 'M4 9h7.5a5 5 0 0 1 5 5v1.5' }, bend));
+    } else if (kind === 'plus') {
+      add('path', { d: 'M10 3.5v13M3.5 10h13', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round' });
+    } else if (kind === 'emoji') {
+      var face = { fill: 'none', stroke: 'currentColor', 'stroke-width': '1.8', 'stroke-linecap': 'round' };
+      add('circle', Object.assign({ cx: '10', cy: '10', r: '7.6' }, face));
+      add('circle', { cx: '7.3', cy: '8.2', r: '1.15', fill: 'currentColor' });
+      add('circle', { cx: '12.7', cy: '8.2', r: '1.15', fill: 'currentColor' });
+      add('path', Object.assign({ d: 'M6.4 11.6a4.1 4.1 0 0 0 7.2 0' }, face));
+    } else if (kind === 'stick') {
+      var edge = { fill: 'none', stroke: 'currentColor', 'stroke-width': '1.8', 'stroke-linejoin': 'round', 'stroke-linecap': 'round' };
+      add('path', Object.assign({ d: 'M4 3.5h12v7.5l-5.5 5.5H4z' }, edge));
+      add('path', Object.assign({ d: 'M16 11h-5.5v5.5' }, edge));
+      add('circle', { cx: '7.6', cy: '8', r: '1', fill: 'currentColor' });
+      add('circle', { cx: '11.6', cy: '8', r: '1', fill: 'currentColor' });
+    } else if (kind === 'gif') {
+      add('rect', { x: '1.5', y: '4.5', width: '17', height: '11', rx: '2.5', fill: 'none', stroke: 'currentColor', 'stroke-width': '1.6' });
+      var word = document.createElementNS(SVGNS, 'text');
+      word.setAttribute('x', '10'); word.setAttribute('y', '12.9'); word.setAttribute('text-anchor', 'middle');
+      word.setAttribute('font-size', '7.2'); word.setAttribute('font-weight', '700'); word.setAttribute('fill', 'currentColor');
+      word.setAttribute('font-family', 'Atkinson Hyperlegible, system-ui, sans-serif');
+      word.textContent = 'GIF';
+      svg.appendChild(word);
     } else {
       [4, 10, 16].forEach(function (x) { add('circle', { cx: String(x), cy: '10', r: '1.9', fill: 'currentColor' }); });
     }
@@ -11453,9 +12009,11 @@
     /* A PICTURE, once the conversation is accepted (Ryan's call, 2026-10-19):
        a request is words only, so the button is there only in an open
        conversation (dmDrawTalk). The channel's redraw, before anything goes. */
-    var picBtn = this.dmPicBtn = el('button', 'cb-btn cb-pic', 'Picture');
+    var picBtn = this.dmPicBtn = el('button', 'cb-fico cb-pic');
     picBtn.type = 'button';
+    picBtn.appendChild(msgIcon('plus'));
     picBtn.setAttribute('aria-label', 'Add a picture to your message');
+    picBtn.title = 'Add a picture';
     picBtn.hidden = true;
     var picFile = this.dmPicFile = el('input', 'cb-pic-file');
     picFile.type = 'file';
@@ -11488,20 +12046,17 @@
     ready.appendChild(drop);
     /* A STICKER, once the conversation is accepted (Ryan's ask, 2026-10-20):
        the channel's tray, sending here instead (setStickers' where). */
-    var stickBtn = this.dmStickBtn = el('button', 'cb-btn cb-stick', 'Sticker');
-    stickBtn.type = 'button';
+    var dpk = this.pickerMake('dm', say, ['stick', 'emoji']);
+    var stickBtn = this.dmStickBtn = dpk.btns.stick;
+    this.dmStickBox = dpk.panels.stick;
     stickBtn.hidden = true;
-    stickBtn.setAttribute('aria-label', 'Send a sticker of one of your avatars or pets');
-    stickBtn.setAttribute('aria-expanded', 'false');
-    stickBtn.setAttribute('aria-controls', 'cb-dm-stickers');
-    stickBtn.addEventListener('click', function () { me.setStickers(me.dmStickBox.hidden, 'dm'); });
-    var stickBox = this.dmStickBox = el('div', 'cb-stickers');
-    stickBox.id = 'cb-dm-stickers';
-    stickBox.hidden = true;
-    stickBox.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); me.setStickers(false, 'dm'); stickBtn.focus(); } });
-    var frow = el('div', 'cb-acct__row');
-    frow.appendChild(picBtn);
-    frow.appendChild(stickBtn);
+    dpk.tabs.stick.hidden = true;
+    var dfield = el('div', 'cb-field');
+    dfield.appendChild(picBtn);
+    dfield.appendChild(say);
+    dfield.appendChild(dpk.tools);
+    var frow = el('div', 'cb-row cb-compose');
+    frow.appendChild(dfield);
     frow.appendChild(send);
     /* REPLYING TO, as on the channel, once the conversation is accepted. */
     var reB = this.dmReBar = reBar('cb-dm-re-line', hint.cbIds, function () { me.dmReplyStop(); say.focus(); });
@@ -11510,10 +12065,9 @@
     form.appendChild(ready);
     form.appendChild(reB);
     form.appendChild(lab);
-    form.appendChild(say);
-    form.appendChild(hint);
     form.appendChild(frow);
-    form.appendChild(stickBox);
+    form.appendChild(hint);
+    form.appendChild(dpk.picker);
     talk.appendChild(form);
     linkBox(say, function (t) { if (me.dmSaid) me.dmSaid.textContent = t; });
     /* DISAPPEARING MESSAGES (a request from our community, Ryan's go,
@@ -11840,7 +12394,8 @@
     if (!pics && this.dmPicture) this.dmDropPicture();
     // So with a sticker, and a reaction (dmDrawActs).
     this.dmStickBtn.hidden = !pics;
-    if (!pics && !this.dmStickBox.hidden) this.setStickers(false, 'dm');
+    this.pk.dm.tabs.stick.hidden = !pics;
+    if (!pics && this.pk.dm.tab === 'stick') this.pickerClose('dm');
     // So with a reply.
     if (!pics) this.dmReplyStop();
     this.dmLive = pics;
@@ -15963,6 +16518,9 @@
       popLine.postMessage({ ask: true });
     }
     radio = new Radio(s);
+    /* Our own emoji are asked for the first time a message names one, so a
+       folded radio, which draws nothing, asks for nothing (emojiSpans). */
+    emojiNeed = function () { if (radio) radio.loadEmoji(); };
     /* The forums open a person's profile the way a handle on the channel does:
        their names are buttons, and this is what those buttons press. */
     window.loveRadioPeek = function (handle, from, mark, tab) { if (radio) radio.peek(handle, from, mark || null, tab); };

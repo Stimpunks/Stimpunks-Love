@@ -5632,6 +5632,104 @@ export function shapeGifOf(g) {
   return g && imageId(g.vid) && gifId(g.id) ? { vid: g.vid, page: GIFBOX_PAGE + g.id } : null;
 }
 
+/* ── Custom emoji ──────────────────────────────────────────────────────── */
+
+/* OUR OWN EMOJI, ADDED FROM THE PICKER. Ryan's ask, 2026-11-06, after
+   Discord's Add Emoji: anybody signed on adds a small picture under a name,
+   and :thename: in any message on the CB is drawn as it. Every word in the
+   list below is a sentence in privacy.html#custom-emoji.
+
+   WHAT IS KEPT: one blob (EMOJIS) listing each emoji's id, its name and a
+   scrambled mark of who added it (authorMark, the forums'), which is never
+   sent to anybody, ourselves included; nothing about when, and no username,
+   so an emoji says it is from Stimpunks, as Discord's say they are from their
+   server, and nothing needs deleting when a username goes. Its picture is
+   EMOJI_IMG + id, redrawn in the adder's browser to at most EMOJI_PX across
+   (a PNG, so it keeps its transparency), with anything written into it taken
+   off here (bareImage) before it is kept.
+
+   IT IS PUBLIC: a message's <img> cannot carry a pass, so each picture is
+   served from /cb/emoji to anybody, at an address made of its id, asking
+   search engines not to keep it. The adder says it is theirs to share and
+   that anybody recognisable in it has said yes, and the radio says so before
+   it goes.
+
+   WHO TAKES ONE DOWN: whoever added it (their mark) or any moderator. A
+   message that used it then shows its :name: as words. Nothing is counted:
+   there is no "most used" and no "popular", the ranking the street refuses,
+   and the picker lists them by name. */
+export const EMOJI_MAX = 300;            // custom emoji on the street
+export const EMOJI_EACH = 40;            // added by any one person
+export const EMOJI_PX = 128;             // the most a picture is across, redrawn in the browser
+export const EMOJI_BYTES = 200000;
+const EMOJIS = 'emoji';
+const EMOJI_IMG = 'emoji-img/';
+
+// At least one letter, so a time like 10:30:45 is never an emoji's name.
+export function emojiName(v) { return typeof v === 'string' && /^(?=[A-Za-z0-9_]*[A-Za-z])[A-Za-z0-9_]{2,32}$/.test(v) ? v : null; }
+const emojiFold = (n) => String(n).toLowerCase();
+
+export async function readEmoji(s = store()) {
+  const d = await s.get(EMOJIS, { type: 'json' }).catch(() => null);
+  return d && Array.isArray(d.list) ? d.list.filter((e) => e && imageId(e.id) && emojiName(e.name)) : [];
+}
+// What anybody is told: its id and name, and whether it is the asker's to take down.
+export function shapeEmoji(e, who) {
+  const out = { id: e.id, name: e.name };
+  if (who && forumReader(who) && e.by === authorMark(who)) out.mine = true;
+  return out;
+}
+export async function emojiList(who, s = store()) {
+  return (await readEmoji(s)).map((e) => shapeEmoji(e, who)).sort((a, b) => emojiFold(a.name).localeCompare(emojiFold(b.name)));
+}
+
+export async function addEmoji(who, name, bytes, yes, s = store()) {
+  if (!forumReader(who)) return { error: 'Adding an emoji needs a username of your own. Join with an invite under Account.' };
+  const n = emojiName(name);
+  if (!n) return { error: 'An emoji’s name is 2 to 32 letters, numbers or underscores, with at least one letter and no spaces.' };
+  if (yes !== true) return { error: 'Say that the picture is yours to share, and that anybody recognisable in it has said yes.' };
+  if (!bytes || !bytes.length || bytes.length > EMOJI_BYTES) return { error: 'That picture is too big for an emoji, even after the radio made it smaller.' };
+  const kind = imageKind(bytes);
+  const bare = kind && bareImage(bytes, kind);
+  if (!bare || carriesMetadata(bare, kind)) return { error: 'That is not a picture the radio can make an emoji of.' };
+  const id = randomUUID(), by = authorMark(who);
+  await s.set(EMOJI_IMG + id, bare, { metadata: { type: kind } });
+  let why = null;
+  await updateDoc(EMOJIS, (d) => {
+    const list = d && Array.isArray(d.list) ? d.list.slice() : [];
+    if (list.some((e) => emojiFold(e.name) === emojiFold(n))) { why = `There is an emoji called :${n}: already. Pick another name.`; return null; }
+    if (list.length >= EMOJI_MAX) { why = 'The street has as many emoji as it keeps. Ask a moderator to take some down first.'; return null; }
+    if (list.filter((e) => e.by === by).length >= EMOJI_EACH) { why = `You have added ${EMOJI_EACH} emoji, which is as many as one person adds. Take one of yours down first.`; return null; }
+    list.push({ id, name: n, by });
+    return { list };
+  }, s);
+  if (why) { await s.delete(EMOJI_IMG + id); return { error: why }; }
+  return { added: { id, name: n, mine: true } };
+}
+
+export async function removeEmoji(who, id, s = store()) {
+  if (!imageId(id)) return { error: 'Which emoji?' };
+  let gone = null, refused = false;
+  await updateDoc(EMOJIS, (d) => {
+    const list = d && Array.isArray(d.list) ? d.list : [];
+    const e = list.find((x) => x.id === id);
+    if (!e) return null;
+    if (!(who && (who.role === 'base' || (forumReader(who) && e.by === authorMark(who))))) { refused = true; return null; }
+    gone = e;
+    return { list: list.filter((x) => x.id !== id) };
+  }, s);
+  if (refused) return { error: 'Only whoever added an emoji, or a moderator, takes it down.' };
+  if (!gone) return { error: 'That emoji has gone already.' };
+  await s.delete(EMOJI_IMG + id);
+  return { gone: id };
+}
+
+export async function getEmojiImage(id, s = store()) {
+  if (!imageId(id)) return null;
+  const got = await s.getWithMetadata(EMOJI_IMG + id, { type: 'arrayBuffer' });
+  return got && got.metadata ? { data: got.data, type: got.metadata.type } : null;
+}
+
 /* ── Room channels ─────────────────────────────────────────────────────── */
 
 const ROOM_TALK = 'room-talk-';

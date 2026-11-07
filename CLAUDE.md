@@ -4571,6 +4571,21 @@ previews hotlinked from media.gifbox.me "to save our bandwidth"**, which hands G
 type**, and **calling registershare**, which tells Gifbox what was shared after which search. GIFs are the channel's
 only; `DECISIONS.md` has conversations as open.
 
+**THE MESSAGE BOX IS A FIELD, AND ONE PICKER UNDER IT HOLDS GIFS, STICKERS AND EMOJI.** Ryan's ask, 2026-11-06, after
+Stoat's and Discord's. `pickerMake(where, say, kinds)` in `cb.js` builds the field's icons and the picker (the ARIA tabs
+pattern) for the channel (`gif`, `stick`, `emoji`) and for Messages (`stick`, `emoji`); `pickerOpen` and `pickerClose`
+are the only things that show or hide a tab, and `setGifs`, `setStickers` and `setEmoji` only fill and empty their
+panel, so a new tab is a kind in `PICK_TABS`, an icon in `msgIcon` and a fill function, never a tray of its own. **Unicode's
+emoji are the device's own**, listed in `cb-emoji.js`, which `tools/pull-emoji.py` writes from Unicode's data (never
+hand-edit it) and the Emoji tab loads on first opening. **Our own emoji** are the "Custom emoji" part of `lib.mjs` and
+`/cb/emoji`: a name, a picture redrawn to a PNG in the browser (`redrawEmoji`), and `authorMark`, never a username or a
+time; public pictures, because a message's `<img>` cannot carry a pass; taken down by the adder or a moderator. `md()`
+marks every `:name:` with a letter in it (`emojiSpans`), and `emojiUpgrade` draws ours and puts a taken-down one back
+into words; an unknown name asks for the list once per page (`emojiWant`), never on a timer. The friendly edits are
+**Discord's Top Emoji and POPULAR**, a ranking by use, **a recently used list "so favourites are quick"**, which is a
+record of what somebody says, **animated custom emoji**, which move by themselves, and **a username on each emoji "for
+accountability"**, which then needs deleting when the username goes.
+
 **THE CHAT PAGE IS THE RADIO DOCKED INTO A PAGE, AND IT CHANGES NOTHING FOR THE RADIO ANYWHERE ELSE.** Ryan's ask,
 2026-10-22: a Discord-style page for the rooms' channels. `chat.html` says `data-cb-chat`, and `cb.js` (`inChat`) puts the
 radio into `[data-cb-dock]` at Full rather than over the page, adds a Channels part down the left (`chatMake`), and makes

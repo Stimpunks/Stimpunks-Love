@@ -46,6 +46,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   kickAccount, barAccount, liftBar, barredNow, barWords, shapeBar, accountDirectory, BAR_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
+  emojiName, emojiList, addEmoji, removeEmoji, getEmojiImage, readEmoji, EMOJI_EACH,
   gifId, gifQuery, gifPos, shapeGif, gifSearch, takeGif, gifFor, mp4Place, GIFBOX_PAGE, GIF_VIDEO_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
   cleanLook, readAvatars, keepAvatar, editAvatar, removeAvatar, wearAvatar, forgetAvatars, withAvatars, avatarSticker, shapeAvatarSticker, AVATAR, AVATAR_KEEP,
@@ -97,7 +98,7 @@ function memoryStore({ etagOnRead }) {
     async set(key, value, opts = {}) {
       await tick();
       // A picture's or a forum upload's key is a fresh random id, so writing it can race nothing.
-      if (!/^(mud-here|room-here|call-in|call-left|img|brass-img|suggest-img|forum-up|forum-file|task-up|task-file|office-up|office-file|dm-img|dm-report-img)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
+      if (!/^(mud-here|room-here|call-in|call-left|img|brass-img|suggest-img|forum-up|forum-file|task-up|task-file|office-up|office-file|dm-img|dm-report-img|emoji-img)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
       blobs.set(key, { value, etag: `e${++n}`, metadata: opts.metadata });
       return { modified: true };
     },
@@ -2159,6 +2160,36 @@ test('a GIF from Gifbox is searched for from the server and goes with its messag
   } finally {
     if (was === undefined) delete process.env.CB_GIFBOX_KEY; else process.env.CB_GIFBOX_KEY = was;
   }
+});
+
+test('a custom emoji is a name and a picture, from Stimpunks, and its adder or a moderator takes it down', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const png = (...extra) => new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
+    0, 0, 0, 13, ...Buffer.from('IHDR'), 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, 0, 0, 0, 0, 0, 0, 0, ...extra,
+    0, 0, 0, 0, ...Buffer.from('IEND'), 0, 0, 0, 0]);
+  const ann = { handle: 'Ann', account: true, since: 1 }, bo = { handle: 'Bo', account: true, since: 2 };
+  const mod = { handle: 'Mo', account: true, since: 3, role: 'base' };
+  assert.equal(emojiName('White Rabbit'), null); assert.equal(emojiName('WhiteRabbit'), 'WhiteRabbit'); assert.equal(emojiName('30'), null, 'a time is no name');
+  assert.ok((await addEmoji({ handle: 'Guest' }, 'rab', png(), true, s)).error, 'a username of your own');
+  assert.ok((await addEmoji(ann, 'rab', png(), false, s)).error, 'the adder says it is theirs to share');
+  const textChunk = [0, 0, 0, 7, ...Buffer.from('tEXtGPS 1,2'), 0, 0, 0, 0];
+  const a = await addEmoji(ann, 'WhiteRabbit', png(...textChunk), true, s);
+  assert.equal(a.added.name, 'WhiteRabbit');
+  assert.ok(!Buffer.from((await getEmojiImage(a.added.id, s)).data).includes('GPS'), 'what is written into it is taken off');
+  assert.ok((await addEmoji(bo, 'whiterabbit', png(), true, s)).error, 'one name, whatever its case');
+  const list = await emojiList(bo, s);
+  assert.deepEqual(list, [{ id: a.added.id, name: 'WhiteRabbit' }], 'no adder, no time, and not Bo’s');
+  assert.ok(!JSON.stringify(await readEmoji(s)).includes('Ann'), 'no username is kept');
+  assert.equal((await emojiList(ann, s))[0].mine, true);
+  assert.ok((await removeEmoji(bo, a.added.id, s)).error, 'not somebody else’s');
+  assert.equal((await removeEmoji({ ...ann, since: 9 }, a.added.id, s)).error ? 'refused' : 'gone', 'refused', 'a name claimed again is a different adder');
+  assert.equal((await removeEmoji(ann, a.added.id, s)).gone, a.added.id);
+  assert.equal(await getEmojiImage(a.added.id, s), null, 'its picture goes with it');
+  const b = await addEmoji(bo, 'frog', png(), true, s);
+  assert.equal((await removeEmoji(mod, b.added.id, s)).gone, b.added.id, 'a moderator takes any down');
+  for (let i = 0; i < EMOJI_EACH; i++) await addEmoji(ann, 'e' + i, png(), true, s);
+  assert.ok((await addEmoji(ann, 'onemore', png(), true, s)).error, 'one person adds so many');
+  assert.equal(s.keys().filter((k) => k.startsWith('emoji-img/')).length, EMOJI_EACH, 'a refused one leaves no picture behind');
 });
 
 test('a claimed username is marked on the channel, and only by the server', () => {

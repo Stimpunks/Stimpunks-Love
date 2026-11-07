@@ -1850,6 +1850,78 @@ a.cb-now-go { text-decoration: none; display: inline-flex; align-items: center; 
   .cb-say { font-size: 16px; }
 }
 .cb-send-row { justify-content: flex-end; margin-top: 8px; }
+/* THE MESSAGE BOX AS A FIELD (Ryan's ask, 2026-11-06, after Stoat's): the
+   readout's ground with the box's own rim, + on the left and the picker's
+   icons on the right, all in the readout's amber, a pair every theme holds;
+   Transmit beside it. On a narrow radio Transmit goes under the field. */
+.cb-compose { flex-wrap: wrap; align-items: flex-end; }
+.cb-field {
+  flex: 1 1 240px; min-width: 0; display: flex; align-items: flex-end; gap: 2px; padding: 2px;
+  background: var(--cb-lcd); border: 2px solid var(--cb-steel-2); border-radius: 6px;
+}
+.cb-field:focus-within { border-color: var(--cb-amber); }
+/* links.js puts the [[ menu just before the box it serves: inside the field it
+   takes a line of its own above the words, never a slice of the row. */
+.cb-field { flex-wrap: wrap; }
+.cb-field > .cb-pick { flex: 1 1 100%; order: -1; margin: 0; }
+.cb-field > .cb-say--msg { flex: 1 1 auto; width: auto; min-width: 0; border: 0; border-radius: 4px; padding: 9px 6px; }
+.cb-ftools { display: flex; flex: none; gap: 0; }
+.cb-fico {
+  flex: none; min-width: 40px; min-height: 40px; padding: 0; display: inline-grid; place-items: center;
+  color: var(--cb-amber); background: var(--cb-lcd); border: 1px solid transparent; border-radius: 4px; cursor: pointer;
+}
+.cb-fico:hover, .cb-fico[aria-expanded="true"] { border-color: var(--cb-amber); }
+.cb-fico .cb-ico__art { width: 22px; height: 22px; }
+.cb-fico--gif .cb-ico__art { width: 26px; }
+.cb-compose > .cb-send { align-self: stretch; }
+/* THE PICKER under the box: tabs, the tab's own panel, and Close. The panels
+   keep the trays' looks; the emoji grid is the device's own emoji on the
+   case, each a 40px target, one stop for Tab. */
+.cb-picker { margin: 8px 0 0; padding: 8px; display: grid; gap: 8px; background: var(--cb-case); border: 2px solid var(--cb-steel-2); border-radius: 8px; }
+.cb-picker__tabs { display: flex; gap: 6px; }
+.cb-picker__tab {
+  min-height: 36px; padding: 4px 14px; font: 700 14px/1.2 'Atkinson Hyperlegible', system-ui, sans-serif;
+  color: var(--cb-steel); background: var(--cb-case); border: 2px solid var(--cb-steel-2); border-radius: 999px; cursor: pointer;
+}
+.cb-picker__tab[aria-selected="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
+.cb-picker__shut { justify-self: end; min-height: 36px; }
+.cb-picker > .cb-gifs, .cb-picker > .cb-stickers { margin: 0; }
+.cb-stickers { max-height: 380px; overflow-y: auto; }
+.cb-emoji { display: grid; gap: 6px; }
+.cb-emoji__top { align-items: center; }
+.cb-emoji__q { flex: 1 1 auto; min-height: 40px; }
+.cb-emoji__add { flex: none; }
+.cb-emoji__new { display: grid; gap: 6px; padding: 8px; border: 2px dashed var(--cb-steel-2); border-radius: 6px; }
+.cb-emoji__new p { margin: 0; font-size: 13px; line-height: 1.45; }
+.cb-check { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; line-height: 1.4; }
+.cb-check input { margin-top: 3px; width: 18px; height: 18px; flex: none; }
+.cb-emoji__jump { display: flex; flex-wrap: wrap; gap: 2px; }
+.cb-emoji__go {
+  min-width: 36px; min-height: 36px; padding: 0; display: inline-grid; place-items: center; font-size: 20px; line-height: 1;
+  color: var(--cb-steel); background: var(--cb-case); border: 1px solid transparent; border-radius: 4px; cursor: pointer;
+}
+.cb-emoji__go:hover { border-color: var(--cb-steel-2); }
+.cb-emoji__ours { font: 700 15px/1 'Atkinson Hyperlegible', system-ui, sans-serif; color: var(--cb-lcd); background: var(--cb-amber); border-radius: 4px; padding: 3px 6px; }
+.cb-emoji__grid { max-height: 300px; overflow-y: auto; padding: 2px; }
+.cb-emoji__h { margin: 6px 0 4px; font-size: 13px; font-weight: 700; color: var(--cb-steel); }
+.cb-emoji__set { display: flex; flex-wrap: wrap; gap: 2px; }
+.cb-emoji__pick {
+  width: 40px; height: 40px; padding: 0; display: inline-grid; place-items: center; font-size: 26px; line-height: 1;
+  background: var(--cb-case); border: 1px solid transparent; border-radius: 4px; cursor: pointer;
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+}
+.cb-emoji__pick:hover, .cb-emoji__pick:focus { border-color: var(--cb-amber); }
+.cb-emoji__none { margin: 0; }
+.cb-emoji__foot { display: flex; align-items: center; gap: 10px; min-height: 44px; padding-top: 6px; border-top: 1px solid var(--cb-steel-2); }
+.cb-emoji__big { font-size: 32px; line-height: 1; font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }
+.cb-emoji__name { font-weight: 700; font-size: 14px; overflow-wrap: anywhere; }
+.cb-emoji__from { font-size: 13px; color: var(--cb-amber-2); }
+.cb-emoji__down { justify-self: start; min-height: 36px; }
+.cb-emoji__said:empty { display: none; }
+/* OUR OWN EMOJI, as pictures: the height of a line in a message, larger in the picker. */
+.cb-cemoji { display: inline-block; width: auto; height: 1.4em; max-width: 3em; vertical-align: -0.35em; object-fit: contain; }
+.cb-emoji__pick .cb-cemoji { height: 30px; max-width: 36px; vertical-align: middle; }
+.cb-cemoji--big { height: 40px; max-width: 64px; }
 .cb-hint { margin: 4px 0 0; font-size: 12px; color: var(--cb-steel); }
 /* HELP UNDER ITS OWN NAME (cb.js, helpFold): what the box needs every time
    in sight, and a button saying what else there is, which opens it in place
