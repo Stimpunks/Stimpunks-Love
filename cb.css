@@ -1867,7 +1867,21 @@ a.cb-now-go { text-decoration: none; display: inline-flex; align-items: center; 
    takes a line of its own above the words, never a slice of the row. */
 .cb-field { flex-wrap: wrap; }
 .cb-field > .cb-pick { flex: 1 1 100%; order: -1; margin: 0; }
-.cb-field > .cb-say--msg { flex: 1 1 auto; width: auto; min-width: 0; border: 0; border-radius: 4px; padding: 9px 6px; }
+/* The box takes what the icons leave (a basis of 0, so its own width never
+   pushes it onto a row of its own), and its focus ring is drawn just inside
+   its edge, where the + and the icons beside it cannot cover it. */
+.cb-field > .cb-say--msg { flex: 1 1 0; width: auto; min-width: 4em; border: 0; border-radius: 4px; padding: 9px 6px; }
+.cb-radio .cb-field > .cb-say--msg:focus-visible { outline-offset: -3px; }
+/* WHERE THE BOX IS NARROW (the radio at most sizes, a phone), the words get
+   the field's whole width and + and the icons sit on a row under them, +
+   to the left and the icons to the right, as on a phone's chat; one row,
+   Stoat's, only where there is room for the words beside them. */
+.cb-compose { container-type: inline-size; }
+@container (max-width: 520px) {
+  .cb-field > .cb-say--msg { flex-basis: 100%; order: -1; }
+  .cb-field > .cb-pick { order: -2; }
+  .cb-field > .cb-ftools { margin-left: auto; }
+}
 .cb-ftools { display: flex; flex: none; gap: 0; }
 .cb-fico {
   flex: none; min-width: 40px; min-height: 40px; padding: 0; display: inline-grid; place-items: center;
