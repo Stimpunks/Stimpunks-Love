@@ -1932,6 +1932,7 @@ export async function wearAvatar(pk, id, s = store()) {
 /* FORGET ME, and deleting the username: off the CB first, then the record,
    then the switch that showed the rest. */
 export async function forgetAvatars(pk, s = store()) {
+  await showCelFolk(pk, null, s);
   await showWorn(pk, null, s);
   await s.delete(avatarsBlob(pk));
   await s.delete(avShownBlob(pk));
@@ -2287,6 +2288,75 @@ export async function withFamiliars(people, s = store()) {
     const k = petKey(p.handle);
     const f = own(out, k) ? cleanFamiliar(out[k]) : null;
     return f ? { ...p, familiar: f } : p;
+  });
+}
+
+/* ── Your avatar in a 3D room ─────────────────────────────────────────────
+
+   Helen Edgar's ask, 2026-11-07: see the people in the 3D Faery Yurt on Cel
+   Street as 3D figures, and chat with them. Walking into a room on Cel Street
+   makes the radio that room's (cel-street.js says which on <body>), and with a
+   claimed username, Show my avatar in 3D rooms on the radio sends which room
+   and which of its places (an index into the room's own list of places, never
+   a position) each time you move to another, filed under the pet key in one
+   blob (`cel-folk`), the familiars' arrangement. Out on the street it sends
+   null and the entry goes, so nothing says where you were.
+
+   IT IS SEEN ONLY WHERE ITS PERSON IS SEEN, AND ONLY BY PEOPLE SEEN THERE:
+   /cb/here adds the place, with the avatar its person wears (avatars-worn),
+   to the people seen in the asker's room (withCelFolk), and only when the
+   entry names that room. Nothing about when is kept, each move replaces the
+   last, and switching it off, Forget me and deleting the username delete it
+   (forgetAvatars). privacy.html#cel-folk says so. */
+const CEL_FOLK = 'cel-folk';
+export const CEL_SPOTS = 64;
+
+export function cleanCelSpot(x) {
+  if (!x || typeof x !== 'object' || Array.isArray(x)) return null;
+  const room = roomTag(x.room);
+  const spot = Number.isInteger(x.spot) && x.spot >= 0 && x.spot < CEL_SPOTS ? x.spot : null;
+  return room && spot !== null ? { room, spot } : null;
+}
+
+async function updateCelFolk(change, s) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, CEL_FOLK);
+    const out = { ...((cur.exists && cur.data && cur.data.out) || {}) };
+    if (change(out) === false) return out;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(CEL_FOLK, { out }, opts);
+    if (res.modified) return out;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* Stand somewhere in a 3D room, move to another place, or go (at null). */
+export async function showCelFolk(pk, at, s = store()) {
+  return updateCelFolk((out) => {
+    if (!at) { if (!own(out, pk)) return false; delete out[pk]; return true; }
+    const was = own(out, pk) ? JSON.stringify(out[pk]) : '';
+    out[pk] = { room: at.room, spot: at.spot };
+    return JSON.stringify(out[pk]) !== was;
+  }, s);
+}
+
+/* The people seen in a room, with where each claimed one who switched it on
+   stands in this room, and the avatar they wear. Nothing beside an unclaimed
+   name, nothing for an entry naming another room, nothing with no avatar. */
+export async function withCelFolk(people, room, s = store()) {
+  if (!people.some((p) => p.claimed)) return people;
+  const d = await s.get(CEL_FOLK, { type: 'json' });
+  const out = (d && d.out) || {};
+  if (!Object.keys(out).length) return people;
+  const w = await s.get(WORN, { type: 'json' });
+  const worn = (w && w.worn) || {};
+  return people.map((p) => {
+    if (!p.claimed) return p;
+    const k = petKey(p.handle);
+    const at = own(out, k) ? cleanCelSpot(out[k]) : null;
+    const look = own(worn, k) && worn[k] ? cleanLook(worn[k].look) : null;
+    return at && at.room === room && look ? { ...p, cel: { spot: at.spot, look } } : p;
   });
 }
 

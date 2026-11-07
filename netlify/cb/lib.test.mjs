@@ -53,6 +53,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   setAvatarsShown, avatarsShown, shownAvatars,
   CHIMERA, CHIMERA_KEEP, cleanChimera, readChimeras, keepChimera, editChimera, removeChimera, forgetChimeras, setChimerasShown, chimerasShown, shownChimeras, chimeraSticker, shapeChimeraSticker, shape as shapeMessages,
   CHIMERA_SAYINGS, CHIMERA_SAYING_MAX, cleanChimeraSayings, cleanFamiliar, showFamiliar, familiarOut, withFamiliars, shapeChimera,
+  cleanCelSpot, showCelFolk, withCelFolk, CEL_SPOTS,
   QUEST_IDS, questIds, readJobs, keepJobs, forgetJobs, setJobsShown, jobsShown, shownJobs,
   CRYSTAL_IDS, crystalId, readCrystals, pouchCrystal, forgetCrystals, setCrystalsShown, crystalsShown, shownCrystals,
   HERB_IDS, herbId, readHerbs, basketHerb, forgetHerbs, setHerbsShown, herbsShown, shownHerbs,
@@ -2718,6 +2719,48 @@ test('a familiar is seen beside a claimed name only, and Forget me and deleting 
   await showFamiliar(pk, f, s);
   await deleteAccount('Ada', s);
   assert.equal(await familiarOut('Ada', s), false, 'a deleted username still has a familiar out');
+}));
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`fifteen people standing in 3D rooms at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => showCelFolk(`pk${i}`, { room: 'faery-yurt', spot: i }, s)));
+    const out = (await s.get('cel-folk', { type: 'json' })).out;
+    told.forEach((r, i) => { if (r.status === 'fulfilled') assert.deepEqual(out[`pk${i}`], { room: 'faery-yurt', spot: i }, 'a place told it was kept is not there'); });
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(Object.keys(out).length, 15);
+  });
+}
+
+test('a 3D figure is seen only in its own room, beside a claimed name wearing an avatar, and goes when its person does', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.equal(cleanCelSpot({ room: 'faery-yurt', spot: CEL_SPOTS }), null, 'a place past the list');
+  assert.equal(cleanCelSpot({ room: 'faery-yurt', spot: 1.5 }), null, 'a position, not a place');
+  assert.equal(cleanCelSpot({ room: 'not a room!', spot: 1 }), null);
+  assert.deepEqual(Object.keys(cleanCelSpot({ room: 'faery-yurt', spot: 2, x: 3, when: 9 })).sort(), ['room', 'spot'], 'kept something more');
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  const pk = petKey('Ada');
+  const people = [{ handle: 'Ada', claimed: true }, { handle: 'Bex', claimed: false }];
+  await showCelFolk(pk, { room: 'faery-yurt', spot: 3 }, s);
+  assert.equal((await withCelFolk(people, 'faery-yurt', s))[0].cel, undefined, 'shown with no avatar worn');
+  const a = (await keepAvatar(pk, { look: lookOf(), about: '' }, s)).kept;
+  await wearAvatar(pk, a.id, s);
+  const seen = await withCelFolk(people, 'faery-yurt', s);
+  assert.deepEqual(seen[0].cel, { spot: 3, look: a.look });
+  assert.equal(seen[1].cel, undefined);
+  assert.equal((await withCelFolk(people, 'the-den', s))[0].cel, undefined, 'seen in another room');
+  assert.equal((await withCelFolk([{ handle: 'Ada', claimed: false }], 'faery-yurt', s))[0].cel, undefined, 'beside an unclaimed name');
+  assert.deepEqual(Object.keys((await s.get('cel-folk', { type: 'json' })).out[pk]).sort(), ['room', 'spot'], 'the record kept something more');
+  await showCelFolk(pk, null, s);
+  assert.equal((await withCelFolk(people, 'faery-yurt', s))[0].cel, undefined, 'gone and still seen');
+  await showCelFolk(pk, { room: 'faery-yurt', spot: 1 }, s);
+  await forgetAvatars(pk, s);
+  assert.equal(((await s.get('cel-folk', { type: 'json' })) || { out: {} }).out[pk], undefined, 'Forget me left a place');
+  await keepAvatar(pk, { look: lookOf(), about: '' }, s);
+  await showCelFolk(pk, { room: 'faery-yurt', spot: 1 }, s);
+  await deleteAccount('Ada', s);
+  assert.equal(((await s.get('cel-folk', { type: 'json' })) || { out: {} }).out[pk], undefined, 'a deleted username left a place');
 }));
 
 /* ── Props ────────────────────────────────────────────────────────────────
