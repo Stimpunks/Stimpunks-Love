@@ -5,7 +5,8 @@
    down or put in an argument anybody else could see. The server end is
    netlify/functions/cb-forum-bot.mjs, which can only list, read, start and
    edit pages in the Wiki and in Team Docs, and change their tags, under the
-   name Claude, marked BOT.
+   name Claude, marked BOT; and, since 2026-11-07, start topics in Reading,
+   watching, listening, playing and keep only the ones it started there.
 
      node tools/forum-bot.mjs test
      node tools/forum-bot.mjs cats                     where it may write
