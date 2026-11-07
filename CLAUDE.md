@@ -1005,7 +1005,8 @@ in the same tab, so test the two sides in two tabs there, or in a real browser.
 **THE RADIO IS IN PARTS, EACH UNDER A REAL HEADING** (Ryan, 2026-10-13, after people could not tell where
 they were), **and since 2026-10-23 the channel comes straight after where you are** (Ryan's order, after Who's
 around, Unreads and Events had pushed it too far down): Where you are (the room's name in the largest words on
-the radio, `hereShown`, and nothing else), Channel, Happening now, Messages, In this channel (On the channel as, Be seen here,
+the radio, `hereShown`, and Open in Chat), Comfort (I need a bodymind break and the Glitter dial, Ryan's call, 2026-11-07:
+about you and not the room; folds and starts open; after In this channel on the chat page), Channel, Happening now, Messages, In this channel (On the channel as, Be seen here,
 Bring my familiar, the room's call and what is on now, under the heading the chat page uses), Who's around,
 Your status & availability (your chat status and availability, Ryan's ask, 2026-11-06), Unreads, Events, Watching together (only there while something in it is, `filmShown`), You (Profile, Account,
 their trays and Sign off, Ryan's asks of 2026-10-19 after losing where an open Profile began) and Your radio.
@@ -5172,7 +5173,7 @@ puts the same words up again, and say when.
 answer, 2026-10-24, after Cavendish Space's button: a calm screen over any page (`bodymind-break.js`,
 `bodymind-break.css`, §2's `--bbr-*`), a far treeline in mist, a few words, crisis lines and the Help page (Helen's
 ask the same day), and a forest film and Monterey Bay Aquarium's live jelly cam on plates (the jellies Helen's ask, after which she called the break done: the friendly edit now is a third thing on it). The button is in the dial's box (`love.js` builds it, never on a
-`data-cb="off"` page or in a frame), under Where you are on the radio, and as **Break** on the folded radio's bar and the
+`data-cb="off"` page or in a frame), under Comfort on the radio, and as **Break** on the folded radio's bar and the
 guest bar, where Bodymind break wrapped the row; `love.js` holds the loader and `cb.js` a copy for its own window. Its
 own colours, not a room's and not the radio's theme, because a room's colours are what somebody is getting away
 from. **Nothing on it moves at any setting, MAX GLITTER included; it keeps and sends nothing; the forest is a frame
@@ -5215,7 +5216,7 @@ Faery Yurt's shutters). `check-gentle.py` renders every page in a mode and refus
 in; the fix is marking the layer `aria-hidden`, never an exception for the room.
 
 **THE GLITTER DIAL ON THE CB IS THE PAGE'S DIAL, NOT A SECOND ONE.** A request from our community, 2026-10-24: under
-Where you are on the radio, beside I need a bodymind break, **Glitter dial** opens the levels and the low-stimulation
+Comfort on the radio, beside I need a bodymind break, **Glitter dial** opens the levels and the low-stimulation
 modes, and **Open in Chat** after it opens `chat.html#<the room you are in>` (World where the page is no room; not on
 the chat page and not in a quiet room, whose `#tag` is its address). The radio holds no dial of its own: every press
 goes to `window.loveLevel` and `window.loveLow` in `love.js` (`setLevel`, `setLow`), which fire `love-intensity` and
