@@ -2739,6 +2739,23 @@ button.cb-ev-link {
   border: 0; border-radius: 0; box-shadow: none;
 }
 .cb-call--whole .cb-call-bar { border-radius: 0; cursor: default; }
+/* SHOW THE CHAT (call-window.js): the chat page in a frame beside the call,
+   on the right, or under it in a window too narrow for both side by side.
+   The call's host carries how much room the chat takes, which reaches the
+   call inside its shadow root. */
+.cb-call--whole { right: var(--cb-callwin-right, 0px); bottom: var(--cb-callwin-bottom, 0px); height: auto; }
+body.cb-callwin--chat .cb-call-host { --cb-callwin-right: 400px; }
+.cb-callwin__chat {
+  position: fixed; z-index: 90; top: 0; right: 0; bottom: 0; width: 400px; height: 100%;
+  border: 0; border-left: 2px solid var(--cb-steel-2); background: var(--cb-case);
+}
+@media (max-width: 759.98px) {
+  body.cb-callwin--chat .cb-call-host { --cb-callwin-right: 0px; --cb-callwin-bottom: 55vh; }
+  .cb-callwin__chat { top: auto; left: 0; width: 100%; height: 55vh; border-left: 0; border-top: 2px solid var(--cb-steel-2); }
+}
+/* POP OUT ASKS FIRST (call.js): the warning under the bar, and its two buttons. */
+.cb-call-popask { padding: 8px 12px; background: var(--cb-bar); border-top: 1px solid var(--cb-steel-2); }
+.cb-call-popask__row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px !important; }
 .cb-call--whole .cb-call-screen { aspect-ratio: auto; border-radius: 0; }
 
 /* AND THE PAGE UNDER IT, which is only seen before the call opens or when

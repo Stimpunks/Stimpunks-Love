@@ -1353,10 +1353,20 @@
      the page keeping quiet, not the lock: netlify/cb/lib.mjs refuses those
      rooms' channel, call and beacons to any other pass, whatever a browser
      says, and the roles kept here are only the last ones the server told it. */
+  /* THE CHAT IN A POPPED-OUT CALL'S WINDOW (Ryan's ask, 2026-11-06): the one
+     frame of this site that gets a radio, the chat page framed by
+     call-window.html's Show the chat. Every other frame still gets none. */
+  function callFramed() {
+    try {
+      var p = window.parent;
+      return p !== window && p === window.top && p.location.host === location.host &&
+        p.location.pathname === '/call-window.html' && document.body.hasAttribute('data-cb-chat');
+    } catch (e) { return false; }
+  }
   function cb() {
     var b = document.body;
     if (!b || b.getAttribute('data-cb') === 'off' || b.getAttribute('data-cb') === 'here') return;
-    try { if (window.top !== window.self) return; } catch (e) { return; }
+    try { if (window.top !== window.self && !callFramed()) return; } catch (e) { return; }
     var s = null;
     try { s = localStorage.getItem('love-cb'); } catch (e) { return; }
     /* NOT SIGNED ON: the guest CB, guest.js, which is the radio's bar with the

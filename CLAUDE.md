@@ -984,7 +984,14 @@ which call it holds, a radio asks when it starts, and Leave from a radio asks th
 close. **Still one call at a time**: a second Pop out replaces the first in the same named window, and
 joining a call in a page hangs up the windowed one. **Show the call window** finds it with `window.open('',
 name)`, which loads nothing, and closes the blank window a browser makes when there is none. The window
-has no radio (`data-cb="off"`), so no who-is-in-the-call line. The browser pane in this app opens a pop-up
+has no radio of its own (`data-cb="off"`), so no who-is-in-the-call line. **Pop out asks first** (Ryan's ask,
+2026-11-06): its first press says popping out drops you from the call and you rejoin, and only Pop out and
+rejoin opens the window. **The window's bar has Show the chat and Show the page** (`call-window.js`, the same
+day): the chat is `chat.html#<the call's room>` in a frame beside the call, **the one frame of this site
+that gets a radio** (`callFramed` in `love.js` and `cb.js`, which every other frame still fails), taken away
+again on Hide so it listens only while shown; Show the page brings the opener forward and says so when the
+browser will not. The friendly edits are a chat shown by default "since people asked for it", which is a
+second radio listening unasked, and widening `callFramed` to other frames. The browser pane in this app opens a pop-up
 in the same tab, so test the two sides in two tabs there, or in a real browser.
 
 **THE RADIO IS IN PARTS, EACH UNDER A REAL HEADING** (Ryan, 2026-10-13, after people could not tell where

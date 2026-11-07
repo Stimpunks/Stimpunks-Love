@@ -492,25 +492,60 @@
        you go from room to room in this one. The call here hangs up and the
        new window asks for it afresh, on 8x8's first screen again, because a
        frame cannot be carried from one window to another without starting
-       over. Not at Small or Stamp, where the bar has no room for it. */
-    var pop = null;
+       over. Not at Small or Stamp, where the bar has no room for it.
+       IT SAYS SO BEFORE IT DOES IT (Ryan's ask, 2026-11-06): the first press
+       opens a line under the bar saying that popping out drops you from the
+       call and you join again in the new window, with Pop out and rejoin and
+       Stay in the call; only the second opens the window, so nobody is
+       dropped from a call by a button that looked like it only moved it. */
+    var pop = null, popAsk = null;
     if (how.pop) {
       pop = el('button', 'cb-btn cb-call-pop', 'Pop out');
       pop.type = 'button';
-      var popHow = el('span', 'sr', 'Moves the call into a window of its own, which stays open while you go from room to room. You join again there.');
+      pop.title = 'Popping out drops you from the call: you join again in its own window.';
+      var popHow = el('span', 'sr', 'Popping out drops you from the call here, and you join again in a window of its own, which stays open while you go from room to room. It asks first.');
       popHow.id = 'cb-call-pop-how';
       pop.setAttribute('aria-describedby', 'cb-call-pop-how');
+      pop.setAttribute('aria-expanded', 'false');
+      popAsk = el('div', 'cb-call-note cb-call-popask');
+      popAsk.id = 'cb-call-popask';
+      popAsk.hidden = true;
+      pop.setAttribute('aria-controls', popAsk.id);
+      popAsk.appendChild(el('p', null, 'Popping out drops you from this call. You join it again in its own window, on the call\u2019s first screen.'));
+      var popGo = el('button', 'cb-btn', 'Pop out and rejoin'), popStay = el('button', 'cb-btn', 'Stay in the call');
+      popGo.type = popStay.type = 'button';
+      var popRow = el('p', 'cb-call-popask__row');
+      popRow.appendChild(popGo);
+      popRow.appendChild(popStay);
+      popAsk.appendChild(popRow);
+      var asking = function (on) {
+        popAsk.hidden = !on;
+        pop.setAttribute('aria-expanded', String(on));
+        if (mover) mover.place();
+      };
       pop.addEventListener('click', function () {
-        if (!how.pop()) note('Your browser stopped the window opening. Allow pop-ups for stimpunks.world to pop the call out, or stay in it here.');
+        var on = popAsk.hidden;
+        asking(on);
+        if (on) popGo.focus();
       });
+      popGo.addEventListener('click', function () {
+        asking(false);
+        if (!how.pop()) { note('Your browser stopped the window opening. Allow pop-ups for stimpunks.world to pop the call out, or stay in it here.'); pop.focus(); }
+      });
+      popStay.addEventListener('click', function () { asking(false); pop.focus(); });
+      popAsk.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.stopPropagation(); asking(false); pop.focus(); } });
     }
     if (!whole) { bar.appendChild(move); bar.appendChild(moveHow); }
     if (pop) { bar.appendChild(pop); bar.appendChild(popHow); }
     if (!whole) bar.appendChild(sizer);
+    // The call's own window brings buttons of its own (call-window.js): Show the chat, Show the page.
+    (how.tools || []).forEach(function (t) { bar.appendChild(t); });
     bar.appendChild(leave);
     size('regular');
     box.appendChild(bar);
+    if (popAsk) box.appendChild(popAsk);
     box.appendChild(moveSaid);
+    if (how.said) box.appendChild(how.said);
     /* ONE LINE, AND WHAT IS KEPT IS A LINK (Ryan, 2026-11-01: the note took
        two lines in every call). The privacy page says what stimpunks.world
        keeps while you are in a call; the link opens it in a new tab, because
@@ -719,6 +754,7 @@
             leave('switch');
             current = callWindow(room, frame, leave, {
               whole: !!opts.whole,
+              tools: opts.tools, said: opts.said,
               // The window asks with the pass.
               // A conversation's call has no name a window could ask for again.
               pop: pass && !opts.whole && line && !room.with ? function () { return popOut(room); } : null

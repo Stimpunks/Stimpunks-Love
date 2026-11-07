@@ -15697,13 +15697,24 @@
     document.head.appendChild(s);
   }
 
+  /* THE CHAT IN A POPPED-OUT CALL'S WINDOW (Ryan's ask, 2026-11-06): the one
+     frame of this site that gets a radio, the chat page framed by
+     call-window.html's Show the chat. Every other frame still gets none. */
+  function callFramed() {
+    try {
+      var p = window.parent;
+      return p !== window && p === window.top && p.location.host === location.host &&
+        p.location.pathname === '/call-window.html' && document.body.hasAttribute('data-cb-chat');
+    } catch (e) { return false; }
+  }
   function tuneIn() {
     var s = load();
     if (!s || radio || stub || claiming) return;
     if (!window.loveCall) { withCall(tuneIn); return; }
     // Never inside a frame: the Hermitage's laptop shows this site inside
-    // itself, and a radio inside that screen would be a second radio.
-    try { if (window.top !== window.self) return; } catch (e) { return; }
+    // itself, and a radio inside that screen would be a second radio. The
+    // chat beside a popped-out call is the one exception (callFramed).
+    try { if (window.top !== window.self && !callFramed()) return; } catch (e) { return; }
     if (document.body.getAttribute('data-cb') === 'off') return;
     // A Town Hall private room: the radio is the base's there (love.js does not
     // load this file for anybody else, and the server refuses them anyway).
