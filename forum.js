@@ -82,7 +82,7 @@
   var root = host.attachShadow({ mode: 'open' });
   var waiting = 2;
   host.style.visibility = 'hidden';
-  ['/cb.css', '/forum.css'].forEach(function (href) {
+  ['/cb.css?v=dbda23b021', '/forum.css?v=dd9c2845d8'].forEach(function (href) {
     var l = document.createElement('link');
     l.rel = 'stylesheet';
     l.href = href;

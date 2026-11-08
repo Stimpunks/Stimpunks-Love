@@ -469,7 +469,7 @@
     /* Hidden until its stylesheet has arrived, so it never shows up for a
        moment as bare buttons at the foot of the page. */
     this.host.hidden = true;
-    var sheet = el('link'); sheet.rel = 'stylesheet'; sheet.href = '/fractal.css';
+    var sheet = el('link'); sheet.rel = 'stylesheet'; sheet.href = '/fractal.css?v=aae9b7c7df';
     function ready() {
       if (!self.host.hidden) return;
       self.host.hidden = false;

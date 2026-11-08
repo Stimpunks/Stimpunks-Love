@@ -2722,7 +2722,7 @@
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css';
+    sheet.href = '/cb.css?v=dbda23b021';
     host.style.visibility = 'hidden';
     function shown() {
       host.style.visibility = ''; me.place(); me.drawArt();
@@ -16681,7 +16681,7 @@
     var host = el('div', 'cb-under-host'), root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css';
+    sheet.href = '/cb.css?v=dbda23b021';
     root.appendChild(sheet);
     var wrap = el('div', 'cb-under');
     var strip = el('div', 'cb-strip');
@@ -17177,7 +17177,7 @@
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css';
+    sheet.href = '/cb.css?v=dbda23b021';
     host.style.visibility = 'hidden';
     sheet.addEventListener('load', function () { host.style.visibility = ''; });
     sheet.addEventListener('error', function () { host.style.visibility = ''; });
@@ -17258,7 +17258,7 @@
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css';
+    sheet.href = '/cb.css?v=dbda23b021';
     host.style.visibility = 'hidden';
     sheet.addEventListener('load', function () { host.style.visibility = ''; });
     sheet.addEventListener('error', function () { host.style.visibility = ''; });

@@ -156,7 +156,7 @@
     root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/bodymind-break.css';
+    sheet.href = '/bodymind-break.css?v=c5f6318482';
     function loaded() { ready = true; if (waiting) { var w = waiting; waiting = null; show(w); } }
     sheet.addEventListener('load', loaded);
     sheet.addEventListener('error', loaded);

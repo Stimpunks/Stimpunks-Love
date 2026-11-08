@@ -43,6 +43,10 @@ first. So:
      check-contrast-live and check-focus run side by side (a `+` joins them in `STEPS`), because
      each only reads and keeps its own probe file and Chrome profile; never join a step that
      writes, and a new checker that renders pages lists them without dotfiles, as those three do.
+     **A stylesheet a script puts into a page is asked for by its version** (`tools/make-css-versions.py`,
+     2026-11-08, after an iPhone kept a cb.css from October under today's cb.js): it writes `'/<name>.css?v=<hash>'`
+     into every top-level script that names one, on every run. Never hand-edit the `?v=`; a new script that loads a
+     stylesheet writes `'/<name>.css'` and the tool versions it.
      **A page is not rendered in Chrome again when nothing that made it has changed** (Ryan, 2026-11-08,
      after fourteen-minute runs with Chrome churning in the Dock): make-og, make-icons, check-print and the
      three page checkers keep

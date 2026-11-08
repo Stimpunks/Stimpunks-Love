@@ -376,7 +376,7 @@
     var root = host.attachShadow({ mode: 'open' });
     var sheet = el('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/familiar.css';
+    sheet.href = '/familiar.css?v=fbb3b3cd03';
     // Shown once its stylesheet has arrived and it has a place, so it never
     // appears for a moment as a bare button, or in the corner.
     function ready() { me.styled = true; me.reveal(); }

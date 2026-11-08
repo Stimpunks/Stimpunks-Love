@@ -104,7 +104,7 @@
     var root = host.attachShadow({ mode: 'open' });
     var sheet = el('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/muchness.css';
+    sheet.href = '/muchness.css?v=a363c2d48f';
     root.appendChild(sheet);
 
     stage = el('div', 'much');
