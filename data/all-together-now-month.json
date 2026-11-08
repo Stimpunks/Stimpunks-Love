@@ -9,34 +9,24 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-07T12:33Z",
+ "set": "2026-11-08T12:24Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-07T12:33:18Z"
+     "2026-11-08T12:24:49Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-07T12:33:18Z"
+     "2026-11-08T12:24:49Z"
     ]
    ]
   }
  },
  "log": [
-  {
-   "id": "7WDZpD0_NpQ",
-   "source": "farming-while-beige",
-   "form": "long",
-   "title": "I am not a “Black Thought Leader” 😂",
-   "published": "2026-10-08T22:58:57Z",
-   "state": "screen",
-   "runs": 233,
-   "channel": "Farming While Beige"
-  },
   {
    "id": "6stxdrMB10Q",
    "source": "farming-while-beige",
@@ -605,6 +595,26 @@
    "published": "2026-11-05T23:17:24Z",
    "state": "screen",
    "runs": 75,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "YxHPy3vmGI4",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "No more hero worship.",
+   "published": "2026-11-07T16:34:54Z",
+   "state": "screen",
+   "runs": 65,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "F5SD3bRjNvw",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Abdul talking about farming is like me talking about tech? 😂",
+   "published": "2026-11-07T18:11:16Z",
+   "state": "screen",
+   "runs": 76,
    "channel": "Farming While Beige"
   }
  ]
