@@ -23,16 +23,6 @@
  ],
  "log": [
   {
-   "id": "MGtFVEz2JUU",
-   "source": "acl",
-   "form": "long",
-   "title": "Maggie Rose - Used To It | Live on Austin City Limits TV",
-   "published": "2026-10-08T17:00:08Z",
-   "state": "screen",
-   "runs": 313,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "LCLxvYAmUcE",
    "source": "acl",
    "form": "long",
@@ -170,26 +160,6 @@
    "published": "2026-11-01T01:00:07Z",
    "state": "screen",
    "runs": 3201,
-   "channel": "Austin City Limits"
-  },
-  {
-   "id": "2bO9tIv8Cbc",
-   "source": "acl",
-   "form": "short",
-   "title": "Watch Olivia Rodrigo on ACLTV",
-   "published": "2026-10-08T17:17:27Z",
-   "state": "screen",
-   "runs": 30,
-   "channel": "Austin City Limits"
-  },
-  {
-   "id": "ObY9y8aItnw",
-   "source": "acl",
-   "form": "short",
-   "title": "Lola Young on ACLTV | LIVE STREAM",
-   "published": "2026-10-08T19:32:23Z",
-   "state": "screen",
-   "runs": 20,
    "channel": "Austin City Limits"
   },
   {
@@ -353,54 +323,14 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "FzAUF3qoclI",
-   "source": "kexp",
-   "form": "long",
-   "title": "Dutch Interior - Full Performance (Live on KEXP)",
-   "published": "2026-10-08T15:00:29Z",
+   "id": "YcgB4zTUuME",
+   "source": "acl",
+   "form": "short",
+   "title": "Gary Clark Jr. & Black Pumas - Season 50 Episode Promo | Live From Austin City Limits TV",
+   "published": "2026-11-07T21:08:27Z",
    "state": "screen",
-   "runs": 1493,
-   "channel": "KEXP"
-  },
-  {
-   "id": "CKMjDELEU0E",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Womack Sisters - If You Want Me (Live on KEXP)",
-   "published": "2026-10-09T11:00:01Z",
-   "state": "screen",
-   "runs": 214,
-   "channel": "KEXP"
-  },
-  {
-   "id": "3yGNGEzGK44",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Womack Sisters - You Went Away Too Long (Live on KEXP)",
-   "published": "2026-10-09T11:00:08Z",
-   "state": "screen",
-   "runs": 215,
-   "channel": "KEXP"
-  },
-  {
-   "id": "xLIgAAG0_yI",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Womack Sisters - Didn’t Mean Much (Live on KEXP)",
-   "published": "2026-10-09T11:00:23Z",
-   "state": "screen",
-   "runs": 237,
-   "channel": "KEXP"
-  },
-  {
-   "id": "fRPiGcb6Z3U",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Womack Sisters - Chauffeur (Live on KEXP)",
-   "published": "2026-10-09T11:00:25Z",
-   "state": "screen",
-   "runs": 305,
-   "channel": "KEXP"
+   "runs": 23,
+   "channel": "Austin City Limits"
   },
   {
    "id": "AQqQbsFLDd8",
@@ -1523,16 +1453,6 @@
    "channel": "KEXP"
   },
   {
-   "id": "96PwraUpN-g",
-   "source": "kexp",
-   "form": "short",
-   "title": "Dutch Interior performs \"Fourth Street\" & more Live on KEXP",
-   "published": "2026-10-08T17:08:17Z",
-   "state": "screen",
-   "runs": 60,
-   "channel": "KEXP"
-  },
-  {
    "id": "H0D3KQPmgVI",
    "source": "kexp",
    "form": "short",
@@ -1908,13 +1828,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-07T12:38:57Z"
+     "2026-11-08T12:28:19Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-07T12:38:57Z"
+     "2026-11-08T12:28:19Z"
     ]
    ]
   },
@@ -1922,13 +1842,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-07T12:38:57Z"
+     "2026-11-08T12:28:19Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-07T12:38:57Z"
+     "2026-11-08T12:28:19Z"
     ]
    ]
   },
@@ -1936,16 +1856,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-07T12:38:57Z"
+     "2026-11-08T12:28:19Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-07T12:38:57Z"
+     "2026-11-08T12:28:19Z"
     ]
    ]
   }
  },
- "set": "2026-11-07T12:38Z"
+ "set": "2026-11-08T12:28Z"
 }
