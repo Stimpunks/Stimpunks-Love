@@ -2569,14 +2569,21 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
    chat or what is in this channel, as the switch at its head says. The
    switch is the bar's own buttons, so no pair here is new. Neither is there
    at any other time. */
-.cb-call-slot, .cb-side-flip { display: none; }
+.cb-call-slot, .cb-side-flip, .cb-call-mid { display: none; }
 @media (min-width: 1000px) {
   .cb-radio--app.cb-radio--beside:not(.cb-radio--big).cb-radio--full:not(.cb-radio--folded) .cb-set--parts {
     grid-template-columns: minmax(14rem, .8fr) minmax(0, 2.2fr) minmax(20rem, 1.35fr);
     grid-template-rows: auto minmax(0, 1fr);
   }
   .cb-radio--beside:not(.cb-radio--big) .cb-set--parts > .cb-col--a { grid-column: 1; grid-row: 1 / -1; }
-  .cb-radio--beside:not(.cb-radio--big) .cb-set--parts > .cb-call-slot { display: block; grid-column: 2; grid-row: 1 / -1; min-height: 0; border-left: 2px solid var(--cb-bar); }
+  .cb-radio--beside:not(.cb-radio--big) .cb-set--parts > .cb-call-mid {
+    display: flex; flex-direction: column; grid-column: 2; grid-row: 1 / -1; min-height: 0; border-left: 2px solid var(--cb-bar);
+  }
+  /* A hosted film over the call (chatFilmPlace), and the call in what is left under it. */
+  .cb-radio--beside:not(.cb-radio--big) .cb-call-mid > .cb-call-slot { display: block; flex: 1 1 0; min-height: 10rem; }
+  .cb-cfilm-mid { flex: none; padding: 10px 12px 8px; border-bottom: 2px solid var(--cb-bar); }
+  .cb-cfilm-mid:empty, .cb-cfilm-mid:has(> .cb-cfilm[hidden]) { display: none; }
+  .cb-cfilm--over .cb-cfilm__screen > .facade { width: min(100%, calc(48vh * 16 / 9)); }
   .cb-radio--beside:not(.cb-radio--big) .cb-set--parts > .cb-side-flip {
     display: flex; flex-wrap: wrap; gap: 6px; grid-column: 3; grid-row: 1;
     padding: 10px 16px; border-left: 2px solid var(--cb-bar); border-bottom: 2px solid var(--cb-bar);

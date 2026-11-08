@@ -5595,6 +5595,15 @@
        (reveal). Which side was shown is kept nowhere. */
     var slot = this.callSlot = el('div', 'cb-call-slot');
     slot.setAttribute('aria-hidden', 'true');
+    /* THE FILM OVER THE CALL (Ryan's ask, 2026-11-08, after watching a film
+       and talking at once left the chat beside them a few lines high): the
+       middle holds a hosted film's box (chatFilmPlace) above the place kept
+       for the call, as a popped-out call's window has its film above the
+       call, and the call takes what is left under it. */
+    var callMid = el('div', 'cb-call-mid');
+    this.chatFilmMid = el('div', 'cb-cfilm-mid');
+    callMid.appendChild(this.chatFilmMid);
+    callMid.appendChild(slot);
     var flip = el('div', 'cb-side-flip');
     flip.setAttribute('role', 'group');
     flip.setAttribute('aria-label', 'Beside the call');
@@ -5606,12 +5615,17 @@
       me.sideBtns[t[0]] = b;
       flip.appendChild(b);
     });
-    parts.insertBefore(slot, mid);
+    parts.insertBefore(callMid, mid);
     parts.insertBefore(flip, mid);
     this.setSide('chat');
     if (CHAT_WIDE && CHAT_WIDE.addEventListener) CHAT_WIDE.addEventListener('change', function () { me.callPlace(); });
     this.callPlace();
-    if (window.ResizeObserver) new ResizeObserver(function () { me.appPlaceCall(); }).observe(this.box);
+    if (window.ResizeObserver) {
+      var placeIt = new ResizeObserver(function () { me.appPlaceCall(); });
+      placeIt.observe(this.box);
+      // The film's box coming and going above it changes the slot alone.
+      placeIt.observe(slot);
+    }
     if (CHAT_WIDE && CHAT_WIDE.addEventListener) CHAT_WIDE.addEventListener('change', function () { me.appCall(); me.chatFilmDraw(); });
     this.appTo(chatFromHash() || evFromHash() !== null ? 'chat' : 'chans');
     /* The screen's own height, less the keyboard where a browser shows the
@@ -16387,6 +16401,7 @@
         if (b && b.video === p.dataset.cfVideo) {
           if (b.live) delete p.dataset.embedStart; else p.dataset.embedStart = String(Math.floor(me.placeOf(b)));
         }
+        cf.playedVideo = p.dataset.cfVideo;
         E.press(p);
         me.chatFilmDraw();
       });
@@ -16460,17 +16475,34 @@
   };
   /* WHERE IT STANDS: on a wide window, at the head of the right-hand column,
      over Happening now, which names the host, so the messages keep the middle
-     whole (in the middle, a film pushed the message box below the window); on
-     a phone, beside a call or enlarged, over the messages, where the chat is.
-     Moving a frame reloads it, so a film that is playing stays where it is
-     until it is hidden. */
+     whole (in the middle, a film pushed the message box below the window);
+     beside a call, in the middle above the call, as a popped-out call's
+     window has it (Ryan's ask, 2026-11-08: in the column with the chat, the
+     film and the call left the messages a few lines high); on a phone or
+     enlarged, over the messages, where the chat is.
+     Moving a frame reloads it, at the place it was first pressed at, so a
+     film that is playing is put up again where the host is now and played
+     (live, it is only moved), and the keyboard stays where it was. */
   Radio.prototype.chatFilmPlace = function () {
     var cf = this.cf;
-    if (!cf || !this.nowSec || cf.screen.querySelector('div.facade')) return;
-    var wide = !!(CHAT_WIDE && CHAT_WIDE.matches) && !this.besideOn && !this.big;
-    if (wide && cf.box.parentNode !== this.nowSec.parentNode) this.nowSec.parentNode.insertBefore(cf.box, this.nowSec);
-    else if (!wide && cf.box.parentNode !== this.chatFilmHome) this.chatFilmHome.appendChild(cf.box);
-    cf.box.classList.toggle('cb-cfilm--side', wide);
+    if (!cf || !this.nowSec) return;
+    var wideWin = !!(CHAT_WIDE && CHAT_WIDE.matches) && !this.big;
+    var home = wideWin && this.besideOn && this.chatFilmMid ? this.chatFilmMid
+      : wideWin ? this.nowSec.parentNode : this.chatFilmHome;
+    cf.box.classList.toggle('cb-cfilm--side', home === this.nowSec.parentNode);
+    cf.box.classList.toggle('cb-cfilm--over', home === this.chatFilmMid);
+    if (cf.box.parentNode === home) return;
+    var playing = cf.screen.querySelector('div.facade'), b = playing ? this.chatFilmBeacon() : null;
+    var again = !!(playing && b && !b.live && b.video === cf.playedVideo && window.loveEmbed && this.chatFilmPut(b));
+    var had = this.host.shadowRoot.activeElement;
+    if (home === this.nowSec.parentNode) home.insertBefore(cf.box, this.nowSec); else home.appendChild(cf.box);
+    if (again) {
+      var p = this.chatFilmPlate(b, true);
+      p.dataset.embedStart = String(Math.floor(this.placeOf(b)));
+      window.loveEmbed.press(p);
+      this.chatFilmSay('The film moved, so it picked up again where ' + b.handle + ' is.');
+      if (had && had.isConnected && had !== p) { try { had.focus({ preventScroll: true }); } catch (e) { had.focus(); } }
+    }
   };
   Radio.prototype.chatFilmDraw = function () {
     var cf = this.cf, me = this;

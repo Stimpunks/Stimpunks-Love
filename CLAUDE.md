@@ -1022,7 +1022,10 @@ ask, 2026-11-08, `chatFilmMake` and its kin in `cb.js`): a box while somebody el
 room, Show the film putting up a plate in the radio's shadow root, pressed through `loveEmbed.press` (the
 page's own listener never sees a shadow root's click), the start set at the press; `readyFilm` falls back to
 it, so Catch up and Follow work there. On a wide window it stands over Happening now (`chatFilmPlace`), so the
-middle keeps the messages, and a playing frame is never moved, because moving reloads it. **Which films a room
+middle keeps the messages, and **beside a call it stands in the middle above the call** (`cb-call-mid`, which holds
+`chatFilmMid` and the call's slot, so `dockTo` lays the call under the film; Ryan's ask the same evening, after
+the film and the call left the chat a few lines high). Moving a frame reloads it at its first start, so a playing
+film is put up again at the host's place and pressed (`cf.playedVideo`), a live one only moved. **Which films a room
 offers is `loveEmbed.offers` and `offerFor` in `love-embed.js`, one copy for the call window and the chat.**
 The friendly edits are the film shown by itself as somebody starts hosting, and any host's film up there. The browser pane in this app opens a pop-up
 in the same tab, so test the two sides in two tabs there, or in a real browser.
