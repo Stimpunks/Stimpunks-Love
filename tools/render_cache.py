@@ -1,6 +1,7 @@
 """What a page rendered in Chrome was made from, so an unchanged page is not
 rendered again. Shared by check-gentle.py, check-contrast-live.py and
-check-focus.py, and by make-og.py for its share cards.
+check-focus.py, by make-og.py for its share cards, and (keyed without asking
+the page, at the foot of this file) by check-print.py and make-icons.py.
 
 WHY (Ryan's ask, 2026-11-08): a full check-all.sh started Chrome about seven
 hundred times, once a page for each of four tools, and took fourteen minutes,
@@ -190,3 +191,75 @@ class Cache:
     def said(self):
         return (f"{self.rendered} rendered in Chrome, {self.reused} unchanged since this Mac last "
                 "rendered them and reused (tools/render_cache.py).")
+
+
+# ── For tools that cannot ask the page what it loaded ──────────────────────
+# check-print.py prints to PDF and make-icons.py takes screenshots, so neither
+# gets a page back to read LOADED_JS out of. Each is keyed on what could decide
+# its render instead, read without Chrome, erring towards rendering again.
+
+REF = re.compile(r'''(?:src|href)\s*=\s*["']([^"'#?]+)''')
+
+
+def page_refs(page):
+    """Every file in the repository a page names in src or href."""
+    out = set()
+    for u in REF.findall(page.read_text()):
+        if u.startswith(("data:", "http:", "https:", "mailto:", "//")):
+            continue
+        try:
+            rel = (page.parent / u.lstrip("/")).resolve().relative_to(ROOT).as_posix()
+        except ValueError:
+            continue
+        out.add(rel)
+    return out
+
+
+def site_code():
+    """Every script and stylesheet at the root: any one of them can be loaded by
+    another, and a print cannot say which were."""
+    return {p.name for p in ROOT.glob("*.js") if not p.name.startswith(".")} | \
+           {p.name for p in ROOT.glob("*.css") if not p.name.startswith(".")}
+
+
+def static_files(page):
+    return sorted(page_refs(page) | site_code())
+
+
+class Whole:
+    """One key for a tool whose every output comes from a few named inputs
+    (make-icons.py: favicon.svg). Unchanged means the key matches and every
+    output is still the file this Mac wrote last time."""
+
+    def __init__(self, name, tool, browser, inputs, outputs):
+        self.path = CACHE / f"{name}.json"
+        self.outputs = [Path(o) for o in outputs]
+        h = hashlib.sha256()
+        for src in (Path(tool), Path(__file__)):
+            h.update(src.read_bytes())
+        h.update(f"\nchrome {chrome_version(browser)}\n".encode())
+        for f in inputs:
+            rel = Path(f).resolve().relative_to(ROOT).as_posix()
+            h.update(f"{rel} {digest(rel)}\n".encode())
+        self.key = h.hexdigest()
+
+    @staticmethod
+    def _now(p):
+        return hashlib.sha256(p.read_bytes()).hexdigest() if p.is_file() else None
+
+    def unchanged(self):
+        if FRESH:
+            return False
+        try:
+            e = json.loads(self.path.read_text())
+        except Exception:
+            return False
+        if e.get("key") != self.key:
+            return False
+        return all(self._now(o) is not None and self._now(o) == e.get("outputs", {}).get(o.name)
+                   for o in self.outputs)
+
+    def save(self):
+        CACHE.mkdir(parents=True, exist_ok=True)
+        self.path.write_text(json.dumps({"key": self.key,
+                                         "outputs": {o.name: self._now(o) for o in self.outputs}}))

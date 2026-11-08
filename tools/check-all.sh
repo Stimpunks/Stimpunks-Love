@@ -57,7 +57,8 @@
 #
 # NOTHING IS RENDERED TWICE FOR NOTHING, AND IT RUNS IN THE BACKGROUND (Ryan's
 # ask, 2026-11-08: fourteen minutes, Chrome icons coming and going in the Dock
-# and the laptop slow throughout). The share cards and the three page checkers
+# and the laptop slow throughout). The share cards, the icons, the print check
+# and the three page checkers
 # keep this Mac's record of what each page was rendered from (tools/
 # render_cache.py, in .cache/, never committed), and a page whose bytes, loaded
 # scripts and stylesheets, love.css, faces, tool and Chrome are all unchanged is

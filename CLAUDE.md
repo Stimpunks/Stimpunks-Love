@@ -44,7 +44,8 @@ first. So:
      each only reads and keeps its own probe file and Chrome profile; never join a step that
      writes, and a new checker that renders pages lists them without dotfiles, as those three do.
      **A page is not rendered in Chrome again when nothing that made it has changed** (Ryan, 2026-11-08,
-     after fourteen-minute runs with Chrome churning in the Dock): make-og and the three page checkers keep
+     after fourteen-minute runs with Chrome churning in the Dock): make-og, make-icons, check-print and the
+     three page checkers keep
      this Mac's record in `.cache/render/` (`tools/render_cache.py`, gitignored), keyed on the page's
      bytes, every script and stylesheet it reported loading, love.css and its faces, the tool and Chrome,
      so an ordinary run starts no Chrome for pages and takes about three and a half minutes; a love.css

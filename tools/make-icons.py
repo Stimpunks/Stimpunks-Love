@@ -69,6 +69,7 @@ import tempfile
 from pathlib import Path
 
 import imgsize
+import render_cache  # icons drawn from the same favicon.svg are not drawn again
 
 ROOT = Path(__file__).resolve().parent.parent
 SVG = ROOT / "favicon.svg"
@@ -170,6 +171,22 @@ def main():
     if not SVG.exists():
         raise SystemExit("REFUSING: favicon.svg is the source of every icon and it is missing.")
     chrome = browser()
+    # NOT DRAWN AGAIN WHEN NOTHING THAT DRAWS THEM CHANGED (Ryan, 2026-11-08):
+    # every icon comes from favicon.svg and this tool, so if those and this Mac's
+    # Chrome are what drew the icons on disk, and the icons are still those
+    # files, Chrome is not started. The manifest is still checked and written.
+    outs = [ROOT / n for n, *_ in ICONS] + [ROOT / "favicon.ico", ROOT / BADGE[0]]
+    whole = render_cache.Whole("make-icons", __file__, chrome, [SVG], outs)
+    if whole.unchanged():
+        print("  every icon is unchanged since this Mac last drew it from favicon.svg (tools/render_cache.py)")
+    else:
+        draw(chrome)
+        whole.save()
+    finish()
+    return 0
+
+
+def draw(chrome):
     with tempfile.TemporaryDirectory() as t:
         tmp = Path(t)
         for name, size, fill, bleed in ICONS:
@@ -186,6 +203,8 @@ def main():
         render(chrome, tmp, size, 1.0, False, ROOT / name, src=heart(tmp))
         print(f"  {name:<24} {size}x{size}")
 
+
+def finish():
     declared = {i["src"].lstrip("/") for i in MANIFEST_ICONS}
     missing = [d for d in declared if not (ROOT / d).exists()]
     if missing:
@@ -204,7 +223,6 @@ def main():
     m["icons"] = MANIFEST_ICONS
     MANIFEST.write_text(json.dumps(m, indent=2, ensure_ascii=False) + "\n")
     print(f"site.webmanifest: {len(MANIFEST_ICONS)} icons declared, every one on disk")
-    return 0
 
 
 if __name__ == "__main__":

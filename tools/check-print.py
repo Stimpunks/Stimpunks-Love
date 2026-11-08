@@ -52,6 +52,7 @@ worse than no check, so it is not here. The ink allowlist covers the cause rathe
 than the symptom: the grounds that made text invisible were themselves inks that
 are no longer allowed.
 """
+import atexit
 import os
 import re
 import shutil
@@ -60,6 +61,9 @@ import zlib
 import sys
 import tempfile
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import render_cache  # noqa: E402  a page that prints the same is not printed again
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -162,7 +166,7 @@ def render(browser, page, out):
     return out.read_bytes()
 
 
-def broadside_check(browser):
+def broadside_check(browser, cache):
     """The press's claim: two pages per sheet, and only the sheet's own inks.
     Returns the list of failures, printed as it goes."""
     import json
@@ -188,9 +192,31 @@ def broadside_check(browser):
     bad = []
     with tempfile.TemporaryDirectory() as tmp:
         for page in pages:
-            pdf = render(browser, page, Path(tmp) / (page.stem + ".pdf"))
-            n, want = sheets_in(pdf), 2 * len(sheets)
-            stray = sorted(i for i in inks_in(pdf) if not ok_ink(i))
+            got = cache.get(page)
+            if got is None:
+                pdf = render(browser, page, Path(tmp) / (page.stem + ".pdf"))
+                got = {"n": sheets_in(pdf), "inks": [list(i) for i in sorted(inks_in(pdf))]}
+                # AND AGAIN WITH SOMETHING ELSE IN THE DOCUMENT. The first version of
+                # this room printed two clean pages here and two blank ones in Ryan's
+                # browser, because he was signed on to the CB and its host is a block
+                # at the foot of <body> -- and a browser extension's injected box is
+                # the same shape. So the page is printed a second time with a stray
+                # block at each end of <body>, from a copy beside it so every relative
+                # path still resolves, and must come out the same.
+                src = page.read_text()
+                copy = ROOT / f"_print-stray-{page.name}"
+                try:
+                    copy.write_text(src.replace(
+                        '<body class="room-broadside"',
+                        '<body class="room-broadside" data-stray', 1).replace(
+                        'id="top">', 'id="top"><div style="height:40px">stray</div>', 1).replace(
+                        '</body>', '<div class="cb-host" style="height:30px">stray</div></body>', 1))
+                    got["n2"] = sheets_in(render(browser, copy, Path(tmp) / "stray.pdf"))
+                finally:
+                    copy.unlink(missing_ok=True)
+                cache.put(page, render_cache.static_files(page), got)
+            n, n2, want = got["n"], got["n2"], 2 * len(sheets)
+            stray = sorted(tuple(i) for i in got["inks"] if not ok_ink(tuple(i)))
             good = n == want and not stray
             print(f"{'ok  ' if good else 'FAIL'} {n} pages for {len(sheets)} broadside"
                   f"{'s' if len(sheets) != 1 else ''} (want {want}), {len(stray)} stray "
@@ -199,24 +225,6 @@ def broadside_check(browser):
                 print(f"       {describe(i)}")
             if not good:
                 bad.append(page.name)
-            # AND AGAIN WITH SOMETHING ELSE IN THE DOCUMENT. The first version of
-            # this room printed two clean pages here and two blank ones in Ryan's
-            # browser, because he was signed on to the CB and its host is a block
-            # at the foot of <body> -- and a browser extension's injected box is
-            # the same shape. So the page is printed a second time with a stray
-            # block at each end of <body>, from a copy beside it so every relative
-            # path still resolves, and must come out the same.
-            src = page.read_text()
-            stray = ROOT / f"_print-stray-{page.name}"
-            try:
-                stray.write_text(src.replace(
-                    '<body class="room-broadside"',
-                    '<body class="room-broadside" data-stray', 1).replace(
-                    'id="top">', 'id="top"><div style="height:40px">stray</div>', 1).replace(
-                    '</body>', '<div class="cb-host" style="height:30px">stray</div></body>', 1))
-                n2 = sheets_in(render(browser, stray, Path(tmp) / "stray.pdf"))
-            finally:
-                stray.unlink(missing_ok=True)
             print(f"{'ok  ' if n2 == want else 'FAIL'} {n2} pages with a stray box at each end "
                   f"of <body> (want {want})  {page.name}")
             if n2 != want:
@@ -243,21 +251,34 @@ def main():
         )
 
     fails, inkbad = [], []
-    broadside = broadside_check(browser)
+    # A PAGE THAT WOULD PRINT THE SAME IS NOT PRINTED AGAIN (Ryan, 2026-11-08).
+    # A print hands back no page to ask what it loaded, so the key is the page,
+    # everything it names, and every script and stylesheet at the root, any of
+    # which one of its scripts could load (render_cache.static_files), with
+    # love.css's faces, this tool and Chrome. What is kept is what was read out
+    # of the PDF (how many pages, every ink), and the inks are judged afresh
+    # against today's list every run.
+    cache = render_cache.Cache("check-print", __file__, browser)
+    atexit.register(cache.save)
+    broadside = broadside_check(browser, cache)
     with tempfile.TemporaryDirectory() as tmp:
         for page in pages:
-            out = Path(tmp) / (page.stem + ".pdf")
-            subprocess.run(
-                [browser, "--headless=new", "--disable-gpu", "--no-sandbox",
-                 # let the self-hosted faces load; their metrics decide the layout
-                 "--virtual-time-budget=4000",
-                 "--no-pdf-header-footer",
-                 f"--print-to-pdf={out}", page.as_uri()],
-                check=True, capture_output=True, timeout=120,
-            )
-            pdf = out.read_bytes()
-            n = sheets_in(pdf)
-            stray = sorted(i for i in inks_in(pdf) if not nearest_allowed(i))
+            got = cache.get(page)
+            if got is None:
+                out = Path(tmp) / (page.stem + ".pdf")
+                subprocess.run(
+                    [browser, "--headless=new", "--disable-gpu", "--no-sandbox",
+                     # let the self-hosted faces load; their metrics decide the layout
+                     "--virtual-time-budget=4000",
+                     "--no-pdf-header-footer",
+                     f"--print-to-pdf={out}", page.as_uri()],
+                    check=True, capture_output=True, timeout=120,
+                )
+                pdf = out.read_bytes()
+                got = {"n": sheets_in(pdf), "inks": [list(i) for i in sorted(inks_in(pdf))]}
+                cache.put(page, render_cache.static_files(page), got)
+            n = got["n"]
+            stray = sorted(tuple(i) for i in got["inks"] if not nearest_allowed(tuple(i)))
             ok = (n == 1 and not stray)
             print(f"{'ok  ' if ok else 'FAIL'} {n} sheet{'s' if n != 1 else ' '} "
                   f"{len(stray)} stray ink{'s' if len(stray) != 1 else ' '}  {page.name}")
@@ -270,6 +291,7 @@ def main():
 
     print(f"\n{len(pages)} zine page(s) rendered, {len(fails)} over one sheet, "
           f"{len(inkbad)} printing ink that is not on the list.")
+    print(cache.said())
     if inkbad:
         print(
             "\nThe room says it prints in black and white. An ink that is not on\n"
