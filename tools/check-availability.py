@@ -11,9 +11,16 @@ is cb.js, and Tasks and the office show it beside their people's names.
 
 Ryan asked whether Available should turn to Not shown after an hour unseen,
 and chose not to: that needs a record of when each person was last heard,
-which the street keeps nowhere, and anybody watching the change would learn
-it. What stands in its place is a question the radio asks its own person, on
-a day after the state was chosen, from a day kept in that browser alone.
+and anybody watching the change would learn it. What stands in its place is
+a question the radio asks its own person, on a day after the state was
+chosen, from a day kept in that browser alone.
+
+AWAY BY ITSELF reversed that for whoever switches it on (Ryan's call,
+2026-11-08, after staff asked for auto-away). It starts off. On, the server
+keeps the minute it last heard from that person's radio (`heard`, from
+/cb/unread alone) beside the minutes they chose (`auto`), and shows Available
+or Busy as Away once it has not heard from them for that long, worked out at
+reading and never written over what they chose. Off takes both away.
 
 WHAT IT REFUSES, and why each one is here:
 
@@ -22,10 +29,14 @@ WHAT IT REFUSES, and why each one is here:
     length is the same on both sides.
   · A DEFAULT. Nobody is started on a state: no id appears in either half
     outside its list.
-  · A TIME, AN IDLE, AN EXPIRY OR A TIMER. The record is each person's state
-    and line and nothing about when; the server keeps no last-seen and runs no
-    timer. The radio's day for asking is never sent: no netlify file names it,
-    and what the radio sends is the state and the line.
+  · A TIME, AN IDLE, AN EXPIRY OR A TIMER, past Away by itself. The record is
+    each person's state and line, and a minute heard only while Away by
+    itself is on; the server runs no timer, and its one clock is minuteNow.
+    The radio's day for asking is never sent: no netlify file names it, and
+    what the radio sends is the state and the line, or the minutes.
+  · AWAY BY ITSELF ON FOR SOMEBODY WHO DID NOT SWITCH IT ON, `heard` kept or
+    moved without it, `heard` or `auto` sent to anybody, it written over what
+    was chosen, or it showing anything but Available or Busy as Away.
   · A LOCK, OR AN ANSWER SENT FOR SOMEBODY. sendDm, pairOf and readDmWith never
     read it, nothing in the part or the endpoint sends a message, and
     /cb/dm reads it only to show it.
@@ -108,7 +119,11 @@ def main():
         refuse("AVAIL_NOTE_MAX is not the same number in lib.mjs and cb.js.")
 
     # No default. Its first run read the store's own retry, Error('busy'), as the state: narrowed, not excepted.
-    bare = code.replace("new Error('busy')", "")
+    over = "const AUTO_OVER = ['available', 'busy'];"
+    if over not in part:
+        refuse("lib.mjs's AUTO_OVER is not exactly Available and Busy: Away by itself shows nothing else as Away.")
+    # availOf's Away, shown in Available's or Busy's place and never kept, is held below.
+    bare = code.replace("new Error('busy')", "").replace(over, "").replace("return { avail: 'away', note: '' };", "", 1)
     for i in ids:
         if bare.count(f"'{i}'") != 1:
             refuse(f"lib.mjs's Availability part names '{i}' outside AVAILABILITY, which is how somebody gets started on a state they never chose.")
@@ -117,15 +132,50 @@ def main():
     if re.search(r"availMine\s*=\s*\{\s*avail:\s*'[a-z]", rcode):
         refuse("cb.js starts somebody on a state they never chose.")
 
-    # Nothing about when on the server, no timer, no idle.
-    if re.search(r"Date\.|\bsince\b|\bwhen\s*:|\bt\s*:|\bat\s*:|lastSeen|last_seen|\bseen\s*:", code):
-        refuse("lib.mjs's Availability part keeps or reads a time: the record is each person's state and line and nothing about when.")
+    # Nothing about when on the server, but Away by itself's minute; no timer, no idle.
+    if re.search(r"\bsince\b|\bwhen\s*:|\bt\s*:|\bat\s*:|lastSeen|last_seen|\bseen\s*:", code):
+        refuse("lib.mjs's Availability part keeps or reads a time besides Away by itself's heard.")
+    if code.count("Date.") != 1 or "const minuteNow = () => Math.floor(Date.now() / 60000) * 60000;" not in code:
+        refuse("lib.mjs's Availability part reads the clock somewhere besides minuteNow, which keeps heard to the minute.")
     if "s.setJSON(AVAIL, { status }, opts)" not in part:
         refuse("lib.mjs writes the availability blob with something besides each person's state and line.")
-    if "all[pk] = note ? { a: avail, note } : { a: avail };" not in part:
-        refuse("setAvailability keeps something besides the state and the line.")
-    if "if (!avail) { if (!own(all, pk)) return false; delete all[pk]; return true; }" not in part:
-        refuse("Choosing Not shown no longer takes somebody out of the availability blob.")
+    setter_fn = fn(part, "setAvailability")
+    if "const next = avail ? (note ? { a: avail, note } : { a: avail }) : {};" not in setter_fn or "if (auto) { next.auto = auto; next.heard = minuteNow(); }" not in setter_fn:
+        refuse("setAvailability keeps something besides the state, the line and, only with Away by itself on, its minutes and heard.")
+    if "if (!avail && !auto) { if (!had) return false; delete all[pk]; return true; }" not in setter_fn:
+        refuse("Choosing Not shown, with Away by itself off, no longer takes somebody out of the availability blob.")
+
+    # Away by itself: starts off, heard only while on, never sent, never over what was chosen.
+    am = re.search(r"export const AUTO_AWAY = \[([^\]]*)\];", part)
+    rm2 = re.search(r"var AUTO_AWAY = \[([^\]]*)\];", words)
+    lib_auto = re.findall(r"\d+", am.group(1)) if am else []
+    if not lib_auto or "0" in lib_auto or not rm2 or re.findall(r"\d+", rm2.group(1)) != lib_auto:
+        refuse("AUTO_AWAY is not the same minutes in lib.mjs and cb.js, or offers 0 as a time rather than as off.")
+    clean = fn(part, "cleanAutoAway")
+    if "return 0;" not in clean or "AUTO_AWAY.includes(v)" not in clean:
+        refuse("cleanAutoAway no longer reads nothing as off, or takes minutes AUTO_AWAY does not offer.")
+    auto_fn = fn(part, "setAutoAway")
+    if "all[pk] = had.note ? { a: had.a, note: had.note } : { a: had.a };" not in auto_fn or "if (!had.a) { delete all[pk]; return true; }" not in auto_fn:
+        refuse("Switching Away by itself off leaves heard or auto behind.")
+    heard_fn = fn(part, "availabilityHeard")
+    if "if (!had || !cleanAutoAway(had.auto)) return false;" not in heard_fn:
+        refuse("availabilityHeard would keep a minute heard for somebody without Away by itself on.")
+    of_fn = fn(part, "availOf")
+    rets = re.findall(r"return ([^;]*);", of_fn)
+    if sorted(rets) != sorted(["null", "{ avail: 'away', note: '' }", "{ avail, note: note || '' }"]):
+        refuse(f"availOf answers something besides the state and the line ({rets}): heard and auto never leave the server.")
+    if "AUTO_OVER.includes(avail)" not in of_fn or "x.a =" in of_fn:
+        refuse("availOf shows something besides Available or Busy as Away, or writes over what was chosen.")
+    for f in FN.glob("*.mjs"):
+        t = f.read_text()
+        if "availabilityHeard" in t and f.name != "cb-unread.mjs":
+            refuse(f"{f.name} calls availabilityHeard: only the radio's own ask of what is new (/cb/unread) is the CB hearing from somebody.")
+    if "...(await availabilityHeard(petKey(who.handle)))" not in (FN / "cb-unread.mjs").read_text():
+        refuse("/cb/unread no longer hears from its person through availabilityHeard.")
+    if "var opts = [{ n: 0, name: 'Off' }]" not in picker or re.search(r"autoMine\s*=\s*[1-9]", picker):
+        refuse("cb.js no longer offers Away by itself as Off first, or switches it on for somebody.")
+    if "call('/cb/availability', { body: { auto: n } }" not in picker:
+        refuse("cb.js sends Away by itself something besides its minutes.")
     if re.search(r"setInterval|\bidle\b|\bafk\b|expires?\b|runs? out", rcode + code, re.I):
         refuse("The availability runs on a timer, or works out an idle or a time it runs out: nothing changes it but its person.")
     for f in FN.glob("*.mjs"):
@@ -177,7 +227,7 @@ def main():
     # Every place it is shown.
     shows = {
         "cb-online.mjs": "withAvailability(", "cb-here.mjs": "withAvailability(",
-        "cb-profile-of.mjs": "availabilityOf(", "cb-unread.mjs": "availabilityOf(petKey(who.handle))",
+        "cb-profile-of.mjs": "availabilityOf(", "cb-unread.mjs": "availabilityHeard(petKey(who.handle))",
         "cb-tasks.mjs": "availabilityFor(taskPeople())", "cb-office.mjs": "availabilityFor(me.people)",
     }
     for f, needle in shows.items():
@@ -205,8 +255,8 @@ def main():
     priv = (ROOT / "privacy.html").read_text()
     if 'id="availability"' not in priv:
         refuse("privacy.html has no section on availability (#availability).")
-    elif "the radio never sends it" not in priv or "not when you were last seen" not in priv:
-        refuse("privacy.html#availability no longer says the day stays in the browser and no last-seen is kept.")
+    elif "the radio never sends it" not in priv or "not when you were last seen" not in priv or "Away by itself" not in priv:
+        refuse("privacy.html#availability no longer says the day stays in the browser, that no last-seen is kept, and what Away by itself keeps.")
     if 'id="availability"' not in (ROOT / "cb-guide.html").read_text():
         refuse("cb-guide.html has no section on availability (#availability), which the radio links.")
 

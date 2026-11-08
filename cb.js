@@ -11347,7 +11347,7 @@
     var box = this.availBox = el('fieldset', 'cb-chatpick cb-availpick');
     box.appendChild(el('legend', 'cb-h3', 'Your availability'));
     var about = el('p', 'cb-online-about');
-    about.appendChild(document.createTextNode('Whether you are around for working together, with a line of your own if you like. It is shown beside your name wherever your chat status is, and in Tasks and the office. Only you change it: nothing sets it for you, it never goes by itself, and nothing about when you chose it is kept. Do not disturb asks people to hold what can wait; it silences none of your notifications. '));
+    about.appendChild(document.createTextNode('Whether you are around for working together, with a line of your own if you like. It is shown beside your name wherever your chat status is, and in Tasks and the office. Only you change it: nothing sets it for you unless you switch on Away by itself, below, and nothing about when you chose it is kept. Do not disturb asks people to hold what can wait; it silences none of your notifications. '));
     var more = el('a', null, 'More about it');
     more.href = '/cb-guide.html#availability';
     about.appendChild(more);
@@ -11381,7 +11381,65 @@
     said.setAttribute('role', 'status');
     box.appendChild(said);
     sec.appendChild(box);
+    this.autoAwayMake(sec);
     this.availShown();
+  };
+
+  /* AWAY BY ITSELF (Ryan's call, 2026-11-08, after staff asked for
+     auto-away): off until its person switches it on. On, the server shows
+     Available or Busy as Away once it has not heard from this radio (or any of
+     theirs) for the minutes chosen, and the next ask puts it back; what was
+     chosen never changes. The radio is heard only while it is open and in
+     front, so a folded radio or a tab behind another counts as away. Sent as
+     the minutes and nothing else; the server keeps the minute it last heard. */
+  Radio.prototype.autoAwayMake = function (sec) {
+    var me = this;
+    var box = this.autoBox = el('fieldset', 'cb-chatpick cb-availpick');
+    box.appendChild(el('legend', 'cb-h3', 'Away by itself'));
+    box.appendChild(el('p', 'cb-online-about', 'Off unless you switch it on. On, when the CB has not heard from your radio for the time you choose, people see Away in place of Available or Busy, with no line, and it goes back by itself the next time any radio of yours is open in front of you. Away, Do not disturb and Out of office stay as you chose them. The radio is only heard while it is open and its page is in front, so folding it or working in another tab counts as away. While it is on, the CB keeps the minute it last heard from you, and nobody is sent it; anybody watching can still tell roughly when you stepped away.'));
+    var opts = [{ n: 0, name: 'Off' }].concat(AUTO_AWAY.map(function (n) { return { n: n, name: 'After ' + n + ' minutes' }; }));
+    this.autoInputs = opts.map(function (c) {
+      var lab = el('label', 'cb-chatpick__row');
+      var r = el('input');
+      r.type = 'radio';
+      r.name = 'cb-auto-away';
+      r.value = String(c.n);
+      lab.appendChild(r);
+      lab.appendChild(el('b', 'cb-availpick__name', c.name));
+      r.addEventListener('change', function () { if (r.checked) me.setAutoAway(); });
+      box.appendChild(lab);
+      return r;
+    });
+    var said = this.autoSaid = el('p', 'cb-said');
+    said.setAttribute('role', 'status');
+    box.appendChild(said);
+    sec.appendChild(box);
+  };
+
+  Radio.prototype.setAutoAway = function () {
+    var me = this;
+    clearTimeout(this.autoTimer);
+    this.availHold = Infinity;
+    var seq = this.autoSeq = (this.autoSeq || 0) + 1;
+    var chosen = this.autoInputs.filter(function (r) { return r.checked; })[0];
+    var n = chosen ? Number(chosen.value) : 0;
+    this.autoTimer = setTimeout(function () {
+      call('/cb/availability', { body: { auto: n } }, me.state.pass).then(function (r) {
+        if (r.status === 401) return me.lost();
+        if (seq !== me.autoSeq) return;
+        me.availHold = Date.now();
+        if (r.status === 200 && r.body && typeof r.body.auto === 'number') {
+          me.autoMine = r.body.auto;
+          me.autoSaid.textContent = r.body.auto ? 'Done. After ' + r.body.auto + ' minutes without hearing from your radio, people see Away in place of Available or Busy.' : 'Done. Away by itself is off, and the CB keeps nothing about when it last heard from you.';
+        } else me.autoSaid.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.';
+        me.availShown();
+      }, function () {
+        if (seq !== me.autoSeq) return;
+        me.availHold = Date.now();
+        me.autoSaid.textContent = 'That did not work just now. Nothing changed.';
+        me.availShown();
+      });
+    }, 500);
   };
 
   Radio.prototype.setAvailability = function (wait) {
@@ -11420,8 +11478,10 @@
   Radio.prototype.availKnown = function (b, asked) {
     if (this.availHold && asked < this.availHold) return;
     var v = { avail: b.avail, note: typeof b.note === 'string' ? b.note : '' };
-    if (this.availMine && this.availMine.avail === v.avail && this.availMine.note === v.note) return;
+    var auto = AUTO_AWAY.indexOf(b.auto) >= 0 ? b.auto : 0;
+    if (this.availMine && this.availMine.avail === v.avail && this.availMine.note === v.note && this.autoMine === auto) return;
     this.availMine = v;
+    this.autoMine = auto;
     this.availShown();
   };
 
@@ -11433,6 +11493,10 @@
       var root = this.availNote.getRootNode();
       if (m && root.activeElement !== this.availNote) this.availNote.value = m.note;
       this.availNote.disabled = !m || !m.avail;
+    }
+    if (this.autoInputs) {
+      var auto = this.autoMine || 0;
+      this.autoInputs.forEach(function (r) { r.checked = Number(r.value) === auto; });
     }
     this.availStaleShown();
   };
@@ -14458,6 +14522,8 @@
      holds the ids (AVAILABILITY) and tools/check-availability.py the two
      together. Do not disturb is a sign: it silences nobody's notifications. */
   var AVAIL_NOTE_MAX = 100;
+  // Away by itself's minutes, lib.mjs's AUTO_AWAY; off is 0.
+  var AUTO_AWAY = [5, 10, 15, 30, 60];
   var AVAIL = [
     { id: 'available', name: 'Available', says: 'around, and glad to be asked for things.' },
     { id: 'busy', name: 'Busy', says: 'working on something, and slower to answer.' },

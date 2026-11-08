@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Sat, 07 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 08 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Away by itself, for your availability</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-08-away-by-itself</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-08-away-by-itself</guid>
+      <pubDate>Sun, 08 Nov 2026 12:00:00 GMT</pubDate>
+      <description>Your availability can now turn to Away by itself, if you switch it on. Under Your availability on the radio, Away by itself is Off until you choose After 5, 10, 15, 30 or 60 minutes. Then, when the CB has not heard from your radio for that long, people see Away in place of Available or Busy, without your line, and it goes back by itself the next time any radio of yours is open in front of you. Away, Do not disturb and Out of office stay as you chose them, and nothing changes what you chose. Our staff asked for it. This reverses a call of 29 October, when availability was built never to change by itself, because doing so means keeping when somebody was last heard and lets anybody watching tell when they stepped away. Both are still true, so it starts off, and only for the people who switch it on does the CB keep the minute their radio last asked what is new. Nobody is sent that minute. Switching it off, Forget me and deleting your username take it away. Ryan’s call; the privacy page and the CB guide say how it works. The radio is only heard while it is open and its page is in front, so folding it, working in another tab or closing the laptop all count as away.</description>
+    </item>
     <item>
       <title>Through the Faery Yurt’s doors in a VR headset, and turning by gliding</title>
       <link>https://stimpunks.world/changelog.html#2026-11-07-the-yurts-rooms-in-a-headset</link>

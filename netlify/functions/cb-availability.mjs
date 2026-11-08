@@ -6,8 +6,10 @@
    read back on the radio's ask of /cb/unread; everybody else's travels with
    Who's online, Be seen here, their profile, a conversation with them, and
    Tasks' and the office's people. Nothing about when it was chosen is kept,
-   and nothing changes it but you. See setAvailability in ../cb/lib.mjs. */
-import { readPass, forumReader, setAvailability, petKey, AVAIL_NOTE_MAX, json, body, sameSite } from '../cb/lib.mjs';
+   and nothing changes it but you. POST { auto: minutes | 0 } switches Away by
+   itself on or off (Ryan's call, 2026-11-08, opt-in) and answers { auto }.
+   See setAvailability and setAutoAway in ../cb/lib.mjs. */
+import { readPass, forumReader, setAvailability, setAutoAway, petKey, AVAIL_NOTE_MAX, json, body, sameSite } from '../cb/lib.mjs';
 
 const NOINDEX = { 'x-robots-tag': 'noindex, nofollow, noarchive' };
 
@@ -18,6 +20,11 @@ export default async (req) => {
   if (!forumReader(who)) return json(403, { error: 'Claim your username first, under Account on this radio: an unclaimed handle is anybody’s who signs on with it.' }, NOINDEX);
   const b = (await body(req)) || {};
   try {
+    if (b.auto !== undefined) {
+      const a = await setAutoAway(petKey(who.handle), b.auto);
+      if (a.error) return json(400, { error: 'Away by itself is off, or after 5, 10, 15, 30 or 60 minutes.' }, NOINDEX);
+      return json(200, a, NOINDEX);
+    }
     const r = await setAvailability(petKey(who.handle), b.avail, b.note);
     if (r.error === 'which') return json(400, { error: 'The street does not know that availability.' }, NOINDEX);
     if (r.error === 'note') return json(400, { error: `Your line is one line of at most ${AVAIL_NOTE_MAX} characters.` }, NOINDEX);

@@ -62,7 +62,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, clearProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS,
   TAGLINE_MAX, communityDirectory, profilePage,
   CHAT_STATUSES, cleanChatStatus, setChatStatus, chatStatusOf, withChatStatus, forgetChatStatus,
-  AVAILABILITY, AVAIL_NOTE_MAX, cleanAvailability, cleanAvailNote, setAvailability, availabilityOf, withAvailability, availabilityFor, forgetAvailability,
+  AVAILABILITY, AVAIL_NOTE_MAX, cleanAvailability, cleanAvailNote, setAvailability, availabilityOf, withAvailability, availabilityFor, forgetAvailability, AUTO_AWAY, cleanAutoAway, setAutoAway, availabilityHeard,
   PROP_MAX, PROPS_KEEP, PROPS_WAITING, cleanProp, readProps, giveProp, confirmProp, rejectProp, dropProp, setPropsOpen, forgetProps, ownProps, shownProps } from './lib.mjs';
 import { generateKeyPairSync, createVerify, createECDH, randomBytes as rnd, verify as cryptoVerify, createPublicKey, createHmac } from 'node:crypto';
 import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, keepDevice, readDevices, readDevice, dropDevice, dropDevicesOf,
@@ -3326,6 +3326,61 @@ test('an availability is one of five states with a line, or not shown, nobody ha
   assert.deepEqual(await availabilityFor(['Ada', 'Bex'], s), { Ada: { avail: 'busy', note: '' } });
   await forgetAvailability(pk, s);
   assert.deepEqual(await availabilityOf(pk, s), { avail: '', note: '' }, 'Forget me left the availability');
+});
+
+test('Away by itself starts off, shows Available or Busy as Away once unheard, puts it back when heard, and off keeps nothing about when', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.deepEqual(AUTO_AWAY, [5, 10, 15, 30, 60]);
+  for (const v of [0, '', null, undefined, false]) assert.equal(cleanAutoAway(v), 0);
+  for (const v of [1, 7, 120, '15', -5, {}, [15], true]) assert.equal(cleanAutoAway(v), null, `${JSON.stringify(v)} was taken`);
+  const pk = petKey('Ada'), bex = petKey('Bex');
+  const raw = async () => (await s.get('availability', { type: 'json' })).status;
+  // Rewind somebody's heard, as a test may and the code never does.
+  const rewind = async (k, heard) => {
+    const cur = await s.getWithMetadata('availability');
+    const status = cur.data.status;
+    await s.setJSON('availability', { status: { ...status, [k]: { ...status[k], heard } } }, { onlyIfMatch: cur.etag });
+  };
+  await setAvailability(pk, 'busy', 'grant review', s);
+  assert.deepEqual((await availabilityHeard(pk, s)), { avail: 'busy', note: 'grant review', auto: 0 }, 'Away by itself was on before anybody switched it on');
+  assert.deepEqual(await raw(), { [pk]: { a: 'busy', note: 'grant review' } }, 'asking with Away by itself off kept a time');
+  assert.deepEqual(await setAutoAway(pk, 7, s), { error: 'which' });
+  assert.deepEqual(await setAutoAway(pk, 15, s), { auto: 15 });
+  const on = (await raw())[pk];
+  assert.equal(on.auto, 15);
+  assert.equal(on.heard % 60000, 0, 'heard was kept finer than the minute');
+  assert.deepEqual(await availabilityOf(pk, s), { avail: 'busy', note: 'grant review' });
+  // Unheard for longer than its minutes: shown as Away, with no line, and what was chosen is untouched.
+  await rewind(pk, on.heard - 16 * 60000);
+  assert.deepEqual(await availabilityOf(pk, s), { avail: 'away', note: '' });
+  const shown = await withAvailability([{ handle: 'Ada', claimed: true, rooms: [] }], s);
+  assert.equal(shown[0].avail, 'away');
+  assert.equal('heard' in shown[0] || 'auto' in shown[0], false, 'somebody else was sent heard or auto');
+  assert.deepEqual(await availabilityFor(['Ada'], s), { Ada: { avail: 'away', note: '' } });
+  assert.equal((await raw())[pk].a, 'busy', 'Away by itself changed what was chosen');
+  // The radio's ask is the CB hearing from them, and puts it back.
+  assert.deepEqual(await availabilityHeard(pk, s), { avail: 'busy', note: 'grant review', auto: 15 });
+  assert.deepEqual(await availabilityOf(pk, s), { avail: 'busy', note: 'grant review' });
+  // Do not disturb, Out of office and Away are left as chosen.
+  for (const kept of ['dnd', 'out-of-office', 'away']) {
+    await setAvailability(bex, kept, 'line', s);
+    await setAutoAway(bex, 5, s);
+    await rewind(bex, 0);
+    assert.deepEqual(await availabilityOf(bex, s), { avail: kept, note: 'line' }, `${kept} was shown as Away`);
+  }
+  // Not shown keeps the switch and shows nothing; off takes heard and auto together.
+  await setAvailability(pk, '', '', s);
+  assert.deepEqual(Object.keys((await raw())[pk]).sort(), ['auto', 'heard']);
+  assert.deepEqual(await availabilityOf(pk, s), { avail: '', note: '' });
+  assert.deepEqual(await setAutoAway(pk, 0, s), { auto: 0 });
+  assert.equal(pk in (await raw()), false, 'off left a record with nothing in it');
+  await setAvailability(pk, 'available', '', s);
+  await setAutoAway(pk, 30, s);
+  await setAutoAway(pk, 0, s);
+  assert.deepEqual((await raw())[pk], { a: 'available' }, 'off left heard or auto behind');
+  await setAutoAway(bex, 10, s);
+  await forgetAvailability(bex, s);
+  assert.equal(bex in (await raw()), false, 'Forget me left Away by itself behind');
 });
 
 test('deleting a username takes its availability with it', () => withPasswords(async () => {

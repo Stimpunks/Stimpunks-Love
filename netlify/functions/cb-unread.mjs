@@ -14,10 +14,11 @@
    The {} answer also carries your own chat status, `chat` (2026-10-24), so a
    badge chosen on another device reaches this radio by its next ask without a
    request of its own; it is chosen at /cb/chat-status. Your own availability
-   rides on it too, `avail` and `note`, chosen at /cb/availability. And `due` (2026-10-29),
+   rides on it too, `avail` and `note`, chosen at /cb/availability, with `auto`, Away by
+   itself's minutes; with that on, this ask is the CB hearing from you (availabilityHeard). And `due` (2026-10-29),
    whether a reminder of yours has come due, so the Inbox can be marked: yes or
    no, never how many. */
-import { readPass, forumReader, newFor, markRead, chatStatusOf, availabilityOf, remindersDue, petKey, json, body, sameSite } from '../cb/lib.mjs';
+import { readPass, forumReader, newFor, markRead, chatStatusOf, availabilityHeard, remindersDue, petKey, json, body, sameSite } from '../cb/lib.mjs';
 
 // Every answer asks search engines not to index or archive it.
 const NOINDEX = { 'x-robots-tag': 'noindex, nofollow, noarchive' };
@@ -35,7 +36,7 @@ export default async (req) => {
       if (r.error) return json(400, { error: 'Which channel or conversation?' }, NOINDEX);
       return json(200, { read: true }, NOINDEX);
     }
-    return json(200, { ...(await newFor(who)), chat: await chatStatusOf(petKey(who.handle)), ...(await availabilityOf(petKey(who.handle))), due: await remindersDue(who) }, NOINDEX);
+    return json(200, { ...(await newFor(who)), chat: await chatStatusOf(petKey(who.handle)), ...(await availabilityHeard(petKey(who.handle))), due: await remindersDue(who) }, NOINDEX);
   } catch (e) {
     return json(503, { error: 'busy' }, NOINDEX);
   }

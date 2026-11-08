@@ -3731,14 +3731,29 @@ export async function forgetChatStatus(pk, s = store()) {
    it: the badges say whether you would like to be talked to, this says
    whether you are working.
 
-   IT IS SET BY ITS PERSON AND NOTHING ELSE. Ryan asked whether available
-   should turn to not shown after an hour unseen, and chose not: that needs a
-   record of when each person was last heard, which the street keeps nowhere,
-   and anybody watching the flip would learn it anyway. So there is no idle,
-   no time it runs out and no timer, and the blob, availability, holds each
-   claimed person's pet key, their state and their line and nothing about
-   when. The reminder that a state has gone stale is the radio's, in its own
-   browser (love-cb's availDay), and is never sent.
+   IT IS SET BY ITS PERSON, AND BY NOTHING ELSE UNLESS THEY SAY SO. Ryan asked
+   whether available should turn to not shown after an hour unseen, and chose
+   not (2026-10-29): that needs a record of when each person was last heard,
+   and anybody watching the flip would learn it anyway. The blob,
+   availability, holds each claimed person's pet key, their state and their
+   line, and for everybody who has not switched on Away by itself, nothing
+   about when. The reminder that a state has gone stale is the radio's, in its
+   own browser (love-cb's availDay), and is never sent.
+
+   AWAY BY ITSELF IS THE ONE EXCEPTION, AND IT IS OPT-IN (Ryan's call,
+   2026-11-08, after staff asked for auto-away, reversing the call above for
+   whoever switches it on). It starts off. Switched on, after one of
+   AUTO_AWAY's minutes, it keeps `auto` (those minutes) and `heard`, the
+   minute their radio last asked what is new (availabilityHeard, from
+   /cb/unread, which the radio asks while it is open and in front, and only
+   then). When the CB has not heard from them for that long, Available or Busy
+   is SHOWN as Away, with no line, worked out at reading and never written:
+   nothing changes what they chose, and the next ask from any of their radios
+   puts it back. Away, Do not disturb and Out of office are left as chosen.
+   `heard` never leaves the server, nobody is sent `auto`, and switching it
+   off takes both away, as do Forget me and deleting the username. Anybody
+   watching can still tell, to within those minutes, when somebody stepped
+   away, which is what they switched on; privacy.html#availability says so.
 
    DO NOT DISTURB IS A SIGN, NOT A SWITCH. It holds no notification, the chat
    status's rule (Ryan's call, 2026-10-24): those are device by device. And it
@@ -3749,7 +3764,13 @@ export async function forgetChatStatus(pk, s = store()) {
    and choosing not shown takes the line too. */
 export const AVAILABILITY = ['available', 'busy', 'away', 'dnd', 'out-of-office'];
 export const AVAIL_NOTE_MAX = 100;
+// Away by itself: after this many minutes unheard, 0 for off, which is where everybody starts.
+export const AUTO_AWAY = [5, 10, 15, 30, 60];
+// Shown as Away in their place, and only these.
+const AUTO_OVER = ['available', 'busy'];
 const AVAIL = 'availability';
+// The only clock in this part: `heard` is kept to the minute, and only while Away by itself is on.
+const minuteNow = () => Math.floor(Date.now() / 60000) * 60000;
 
 /* A state as sent, '' for not shown, or null for one the street does not know. */
 export function cleanAvailability(v) {
@@ -3758,6 +3779,11 @@ export function cleanAvailability(v) {
 }
 /* Its line: one line of at most AVAIL_NOTE_MAX characters, '' for none, null for too long. */
 export const cleanAvailNote = (v) => cleanUpTo(v, AVAIL_NOTE_MAX);
+/* Away by itself's minutes as sent, 0 for off, or null for a number not offered. */
+export function cleanAutoAway(v) {
+  if (v === 0 || v === '' || v == null || v === false) return 0;
+  return typeof v === 'number' && AUTO_AWAY.includes(v) ? v : null;
+}
 
 async function updateAvail(change, s) {
   for (let attempt = 0; attempt < 12; attempt++) {
@@ -3780,13 +3806,39 @@ export async function setAvailability(pk, v, line, s = store()) {
   const note = avail ? cleanAvailNote(line) : '';
   if (note === null) return { error: 'note' };
   await updateAvail((all) => {
-    if (!avail) { if (!own(all, pk)) return false; delete all[pk]; return true; }
     const had = own(all, pk) ? all[pk] : null;
-    if (had && had.a === avail && (had.note || '') === note) return false;
-    all[pk] = note ? { a: avail, note } : { a: avail };
+    const auto = had ? cleanAutoAway(had.auto) || 0 : 0;
+    if (!avail && !auto) { if (!had) return false; delete all[pk]; return true; }
+    if (had && (had.a || '') === avail && (had.note || '') === note && !auto) return false;
+    const next = avail ? (note ? { a: avail, note } : { a: avail }) : {};
+    // Choosing is being here.
+    if (auto) { next.auto = auto; next.heard = minuteNow(); }
+    all[pk] = next;
     return true;
   }, s);
   return { avail, note };
+}
+
+/* Switch Away by itself on, after one of AUTO_AWAY's minutes, or off with 0.
+   The caller has checked the username is claimed. { auto } or { error: 'which' }.
+   Off takes `auto` and `heard` away together, and a record left with neither
+   a state nor the switch goes. */
+export async function setAutoAway(pk, v, s = store()) {
+  const auto = cleanAutoAway(v);
+  if (auto === null) return { error: 'which' };
+  await updateAvail((all) => {
+    const had = own(all, pk) ? all[pk] : null;
+    if (!auto) {
+      if (!had) return false;
+      if (!had.a) { delete all[pk]; return true; }
+      if (!('auto' in had) && !('heard' in had)) return false;
+      all[pk] = had.note ? { a: had.a, note: had.note } : { a: had.a };
+      return true;
+    }
+    all[pk] = { ...(had || {}), auto, heard: minuteNow() };
+    return true;
+  }, s);
+  return { auto };
 }
 
 async function readAvail(s) {
@@ -3794,10 +3846,15 @@ async function readAvail(s) {
   return (d && d.status && typeof d.status === 'object') ? d.status : {};
 }
 
-function availOf(all, k) {
+/* What somebody else sees: the state and the line, or Away with no line once
+   Away by itself has not heard from them for its minutes. Never `heard`, never
+   `auto`. */
+function availOf(all, k, now = minuteNow()) {
   const x = own(all, k) ? all[k] : null;
   const avail = x && typeof x === 'object' ? cleanAvailability(x.a) : null;
   if (!avail) return null;
+  const auto = cleanAutoAway(x.auto);
+  if (auto && AUTO_OVER.includes(avail) && !(now - (Number(x.heard) || 0) < auto * 60000)) return { avail: 'away', note: '' };
   const note = cleanAvailNote(x.note);
   return { avail, note: note || '' };
 }
@@ -3805,6 +3862,29 @@ function availOf(all, k) {
 /* One person's, { avail: '' , note: '' } when not shown. */
 export async function availabilityOf(pk, s = store()) {
   return availOf(await readAvail(s), pk) || { avail: '', note: '' };
+}
+
+/* Your own, for your radio's ask of what is new (/cb/unread, and nowhere
+   else): what you chose, not what others see, and Away by itself's minutes,
+   0 for off. With Away by itself on, this ask is the CB hearing from you, so
+   `heard` moves to this minute, written only when it has moved. */
+export async function availabilityHeard(pk, s = store()) {
+  const all = await readAvail(s);
+  const x = own(all, pk) && all[pk] && typeof all[pk] === 'object' ? all[pk] : null;
+  const auto = x ? cleanAutoAway(x.auto) || 0 : 0;
+  if (auto && Number(x.heard) !== minuteNow()) {
+    await updateAvail((now) => {
+      const had = own(now, pk) ? now[pk] : null;
+      if (!had || !cleanAutoAway(had.auto)) return false;
+      const m = minuteNow();
+      if (Number(had.heard) === m) return false;
+      now[pk] = { ...had, heard: m };
+      return true;
+    }, s);
+  }
+  const avail = x ? cleanAvailability(x.a) || '' : '';
+  const note = avail ? cleanAvailNote(x.note) || '' : '';
+  return { avail, note, auto };
 }
 
 /* Who's online and the people seen in a room, with each claimed person's
@@ -3833,7 +3913,7 @@ export async function availabilityFor(handles, s = store()) {
 
 /* Forget me, and deleting the username. */
 export async function forgetAvailability(pk, s = store()) {
-  await setAvailability(pk, '', '', s);
+  await updateAvail((all) => { if (!own(all, pk)) return false; delete all[pk]; return true; }, s);
   return true;
 }
 

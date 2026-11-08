@@ -914,13 +914,21 @@ person's words (`AVAIL_NOTE_MAX`), or Not shown, where everybody starts; under Y
 (`availMake` in `cb.js`), beside the chat status wherever it is shown and never in its place, and in Tasks and the office
 beside their people's names (`me.away`). One blob, `availability`, each claimed person's state and line and nothing about
 when (`setAvailability` in `lib.mjs`, `/cb/availability`). **Ryan asked whether Available should turn to Not shown after an
-hour unseen and chose not**: that needs a last-seen time the street keeps nowhere, and anybody watching the change learns it.
-What stands in its place is **Still true?**, which the radio asks its own person on a later day, from `availDay` in
-`love-cb`, never sent. Do not disturb silences no notification, and nothing answers for anybody.
-`tools/check-availability.py` holds it. **The friendly edits are an auto-away or an auto-off "since it is only an hour",
-an automatic reply, a stored return date for Out of office, Do not disturb holding notifications, and a coloured dot per
-state**: the first two publish somebody's attention or speak for them, the third is a status that runs out, the fourth is
-the chat status's settled call, and the fifth puts a second set of coloured badges beside the first. `DECISIONS.md` has what is open.
+hour unseen and chose not**: that needs a last-seen time, and anybody watching the change learns it. What stands in its
+place is **Still true?**, which the radio asks its own person on a later day, from `availDay` in `love-cb`, never sent.
+**AWAY BY ITSELF IS THE OPT-IN EXCEPTION** (Ryan's call, 2026-11-08, after staff asked for auto-away, reversing the
+above for whoever switches it on): under Your availability (`autoAwayMake` in `cb.js`), Off until somebody picks one of
+`AUTO_AWAY`'s minutes (`setAutoAway`, `{ auto }` on `/cb/availability`). On, their record also keeps `auto` and `heard`,
+the minute their radio last asked `/cb/unread` (`availabilityHeard`, called from there and nowhere else, so only an open
+radio in front is heard), and `availOf` **shows** Available or Busy as Away, with no line, once unheard for that long:
+worked out at reading, never written over what they chose, Away, Do not disturb and Out of office left alone. `heard`
+and `auto` never leave the server; off, Forget me and deleting the username take both. `minuteNow` is the part's one
+clock. Do not disturb silences no notification, and nothing answers for anybody. `tools/check-availability.py` holds
+it. **The friendly edits are Away by itself on by default "since staff asked for it", an auto-off to Not shown, `heard`
+sent to the radio "to say how long somebody has been away", an automatic reply, a stored return date for Out of office,
+Do not disturb holding notifications, and a coloured dot per state**: the first three publish somebody's attention
+without their choosing (or more of it than they chose), the fourth speaks for them, the fifth is a status that runs
+out, the sixth is the chat status's settled call, and the last puts a second set of coloured badges beside the first. `DECISIONS.md` has what is open.
 
 **FOLLOWING A LINK NO LONGER HANGS UP YOUR CALL.** Ryan's ask and choice, 2026-10-24: every room is a page and a page
 that goes takes its call, so a #tag on the channel hung up the call you were in. **While a call is open in the page,
