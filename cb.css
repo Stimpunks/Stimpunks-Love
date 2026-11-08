@@ -638,6 +638,8 @@ a.cb-chat-bar[hidden] { display: none; }
 .cb-name-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; min-width: 0; }
 .cb-name-row > :first-child { flex: 1 1 12rem; min-width: 0; }
 .cb-head-call { display: inline-flex; align-items: center; gap: 6px; flex: none; }
+/* On the chat page, Follow this room and Join the call together at the end of the channel's name. */
+.cb-chan-acts { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px; flex: none; }
 /* Join the call and Open in Chat, together beside the room's name, or on a line of their own under it. */
 .cb-here-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; flex: none; max-width: 100%; }
 .cb-here-acts > [hidden] { display: none; }
@@ -1964,6 +1966,13 @@ button.cb-help-btn::before { content: '\25B8\00a0'; display: inline-block; text-
 button.cb-help-btn[aria-expanded="true"]::before { content: '\25BE\00a0'; }
 button.cb-help-btn[hidden] { display: none; }
 .cb-said:empty { display: none; }
+/* The channel's answer line and its Dismiss (cb.js, saidRow). */
+.cb-said-row { display: flex; align-items: flex-start; gap: 6px; }
+.cb-said-row > .cb-said { flex: 1 1 auto; min-width: 0; margin: 0; }
+.cb-said-row:has(> .cb-said:empty) { display: none; }
+.cb-said-off { flex: none; min-width: 32px; min-height: 32px; padding: 0 8px; font-size: 18px; line-height: 1; }
+/* On the chat page, the band under the channel's name is gone once Follow has moved beside Join the call. */
+.cb-radio--chat .cb-sec--channel > .cb-band { display: none; }
 .cb-tools { display: flex; flex-wrap: wrap; gap: 8px; }
 .cb-norms { font-size: 13px; }
 
@@ -2588,7 +2597,16 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
   .cb-radio--beside:not(.cb-radio--big) .cb-call-mid > .cb-call-slot { display: block; flex: 1 1 0; min-height: 10rem; }
   .cb-cfilm-mid { flex: none; padding: 10px 12px 8px; border-bottom: 2px solid var(--cb-bar); }
   .cb-cfilm-mid:empty, .cb-cfilm-mid:has(> .cb-cfilm[hidden]) { display: none; }
-  .cb-cfilm--over .cb-cfilm__screen > .facade { width: min(100%, calc(48vh * 16 / 9)); }
+  /* While the film's screen is open over the call, the call takes its share of
+     the column (--cb-call-share, chosen with the call's minus and plus) and the
+     film fits what is left at 16:9, so nothing scrolls. */
+  .cb-call-mid--film > .cb-cfilm-mid { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
+  .cb-call-mid--film .cb-cfilm { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
+  .cb-call-mid--film .cb-cfilm > * { flex: none; }
+  .cb-call-mid--film .cb-cfilm > .cb-cfilm__screen { flex: 1 1 0; min-height: 0; container-type: size; display: flex; align-items: center; justify-content: center; }
+  .cb-call-mid--film .cb-cfilm__screen > .facade { width: min(100cqw, calc(100cqh * 16 / 9)); }
+  .cb-call-mid--film .cb-cfilm__screen > .facade--square { width: min(100cqw, 100cqh); }
+  .cb-radio--beside:not(.cb-radio--big) .cb-call-mid--film > .cb-call-slot { flex: 0 0 var(--cb-call-share, 35%); min-height: 6rem; }
   .cb-radio--beside:not(.cb-radio--big) .cb-set--parts > .cb-side-flip {
     display: flex; flex-wrap: wrap; gap: 6px; grid-column: 3; grid-row: 1;
     padding: 10px 16px; border-left: 2px solid var(--cb-bar); border-bottom: 2px solid var(--cb-bar);
@@ -2824,6 +2842,8 @@ button.cb-ev-link {
 }
 .cb-call.cb-call--app.cb-call--behind { visibility: hidden; }
 .cb-call.cb-call--app .cb-move, .cb-call.cb-call--app .cb-sizer { display: none; }
+/* Under a hosted film in the chat's middle, minus and plus give the call more or less of the column (dockTo's step). */
+.cb-call.cb-call--app.cb-call--sized .cb-sizer { display: inline-flex; }
 .cb-call.cb-call--app .cb-call-bar { border-radius: 0; cursor: default; touch-action: auto; }
 .cb-call.cb-call--app .cb-call-screen { aspect-ratio: auto; border-radius: 0; }
 /* BESIDE THE RADIO (call.js, besideOf; Ryan's ask, 2026-11-01): the window's

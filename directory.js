@@ -49,7 +49,7 @@
   var root = host.attachShadow({ mode: 'open' });
   var waiting = 2;
   host.style.visibility = 'hidden';
-  ['/cb.css?v=dbda23b021', '/directory.css?v=978f551cf3'].forEach(function (href) {
+  ['/cb.css?v=68004e34ba', '/directory.css?v=978f551cf3'].forEach(function (href) {
     var l = document.createElement('link');
     l.rel = 'stylesheet';
     l.href = href;

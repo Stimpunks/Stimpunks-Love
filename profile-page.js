@@ -60,7 +60,7 @@
   var root = host.attachShadow({ mode: 'open' });
   var waiting = 2;
   host.style.visibility = 'hidden';
-  ['/cb.css?v=dbda23b021', '/profile-page.css?v=4714ea22f5'].forEach(function (href) {
+  ['/cb.css?v=68004e34ba', '/profile-page.css?v=4714ea22f5'].forEach(function (href) {
     var l = document.createElement('link');
     l.rel = 'stylesheet';
     l.href = href;

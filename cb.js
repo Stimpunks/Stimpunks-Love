@@ -1739,7 +1739,12 @@
     // beside the name, or under it on a narrow radio (Ryan's ask, 2026-11-07).
     var hereActs = this.chanTop ? null : el('div', 'cb-here-acts');
     if (hereActs) { hereActs.appendChild(headCall); nameRow.appendChild(hereActs); }
-    else this.chanTop.appendChild(headCall);
+    else {
+      // With Follow this room before it (below), as one group at the name's end.
+      this.chanActs = el('div', 'cb-chan-acts');
+      this.chanActs.appendChild(headCall);
+      this.chanTop.appendChild(this.chanActs);
+    }
     (whereSec || hereSec).appendChild(nameRow);
 
     /* I NEED A BODYMIND BREAK (Helen Edgar's idea and Ryan's answer,
@@ -1828,7 +1833,13 @@
     fr.hidden = true;
     fr.setAttribute('aria-pressed', 'false');
     fr.addEventListener('click', function () { me.setFollowRoom(fr.getAttribute('aria-pressed') !== 'true'); });
-    band.appendChild(fr);
+    /* On the chat page it stands beside Join the call, at the end of the
+       channel's name, in fewer words (Ryan's ask, 2026-11-08: on a line of
+       its own it took a row from the messages, in the middle and beside a
+       call alike). Its words stay its whole name, so what a voice-control
+       user says is what they see. */
+    if (this.chanActs) this.chanActs.insertBefore(fr, this.chanActs.firstChild);
+    else band.appendChild(fr);
     chanSec.appendChild(band);
     /* THE FORUMS (Ryan, 2026-10-18): for what needs longer than the channel's
        day, for claimed usernames. A link, and Take to the forums under a
@@ -2069,7 +2080,22 @@
        after people thought Follow was broken). It used to sit under the box. */
     this.said = el('p', 'cb-said');
     this.said.setAttribute('role', 'status');
-    chanSec.appendChild(this.said);
+    /* IT CAN BE PUT AWAY (Ryan's ask, 2026-11-08: beside a call, a long answer
+       about where the call is took rows from the messages until something else
+       was said). A Dismiss beside it, only while it says something, empties
+       it; the keyboard goes on to the message box. Nothing is remembered. */
+    var saidRow = el('div', 'cb-said-row'), saidOff = el('button', 'cb-btn cb-icon-btn cb-said-off');
+    saidOff.type = 'button';
+    saidOff.setAttribute('aria-label', 'Dismiss');
+    saidOff.title = 'Dismiss';
+    saidOff.textContent = '\u00d7';
+    saidOff.hidden = true;
+    saidOff.addEventListener('click', function () { me.said.textContent = ''; me.say.focus(); });
+    saidRow.appendChild(this.said);
+    saidRow.appendChild(saidOff);
+    function saidShown() { saidOff.hidden = !me.said.textContent; }
+    if (window.MutationObserver) new MutationObserver(saidShown).observe(this.said, { childList: true, characterData: true, subtree: true });
+    chanSec.appendChild(saidRow);
 
     var form = this.form = el('form', 'cb-tx');
     var lab = el('label', 'cb-lab', 'Your message');
@@ -2722,7 +2748,7 @@
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css?v=dbda23b021';
+    sheet.href = '/cb.css?v=68004e34ba';
     host.style.visibility = 'hidden';
     function shown() {
       host.style.visibility = ''; me.place(); me.drawArt();
@@ -5600,7 +5626,7 @@
        middle holds a hosted film's box (chatFilmPlace) above the place kept
        for the call, as a popped-out call's window has its film above the
        call, and the call takes what is left under it. */
-    var callMid = el('div', 'cb-call-mid');
+    var callMid = this.callMid = el('div', 'cb-call-mid');
     this.chatFilmMid = el('div', 'cb-cfilm-mid');
     callMid.appendChild(this.chatFilmMid);
     callMid.appendChild(slot);
@@ -5690,8 +5716,9 @@
     var lc = window.loveCall;
     if (!lc || !lc.dockTo || !lc.isOpen()) return;
     if (this.besideOn) {
-      var r = this.callSlot.getBoundingClientRect(), page = document.documentElement;
-      lc.dockTo({ top: r.top, bottom: Math.max(0, page.clientHeight - r.bottom), left: r.left, right: Math.max(0, page.clientWidth - r.right), shown: true });
+      var r = this.callSlot.getBoundingClientRect(), page = document.documentElement, me = this;
+      lc.dockTo({ top: r.top, bottom: Math.max(0, page.clientHeight - r.bottom), left: r.left, right: Math.max(0, page.clientWidth - r.right), shown: true,
+                  step: this.filmOverCall() ? function (by) { return me.callShareStep(by); } : null });
       return;
     }
     if (!this.appCallOn) { lc.dockTo(null); return; }
@@ -11667,7 +11694,8 @@
     if (b.hidden) return;
     var on = (this.state.follow || []).indexOf(here.tag) >= 0;
     b.setAttribute('aria-pressed', String(on));
-    b.textContent = 'Follow this room: ' + (on ? 'on' : 'off');
+    b.textContent = (this.chanActs ? 'Follow: ' : 'Follow this room: ') + (on ? 'on' : 'off');
+    if (this.chanActs) b.title = 'Follow this room, for Unreads';
   };
 
   Radio.prototype.setFollowRoom = function (on) {
@@ -16504,7 +16532,37 @@
       if (had && had.isConnected && had !== p) { try { had.focus({ preventScroll: true }); } catch (e) { had.focus(); } }
     }
   };
+  /* THE CALL'S SHARE UNDER THE FILM (Ryan's ask, 2026-11-08: with a film
+     over the call, the call was short). While the film's screen is open in
+     the middle above a call, the call's own minus and plus (call.js, dockTo's
+     step) give the call more or less of the column, and the film fits what
+     is left at 16:9, so nothing scrolls. Not remembered. */
+  var CALL_SHARES = [0.25, 0.35, 0.5, 0.65, 0.8];
+  Radio.prototype.filmOverCall = function () {
+    var cf = this.cf;
+    return !!(cf && this.besideOn && cf.box.parentNode === this.chatFilmMid && !cf.box.hidden && cf.open);
+  };
+  Radio.prototype.callShareShown = function () {
+    if (!this.callMid) return;
+    var on = this.filmOverCall();
+    if (this.callShare == null) this.callShare = 1;
+    this.callMid.classList.toggle('cb-call-mid--film', on);
+    this.callMid.style.setProperty('--cb-call-share', (CALL_SHARES[this.callShare] * 100) + '%');
+    this.appPlaceCall();
+  };
+  Radio.prototype.callShareStep = function (by) {
+    var i = Math.max(0, Math.min(CALL_SHARES.length - 1, this.callShare + by));
+    if (i === this.callShare) return false;
+    this.callShare = i;
+    this.callShareShown();
+    return true;
+  };
   Radio.prototype.chatFilmDraw = function () {
+    this.chatFilmDrawIn();
+    // The middle's film class and the call's share follow every change to the film.
+    if (this.cf) this.callShareShown();
+  };
+  Radio.prototype.chatFilmDrawIn = function () {
     var cf = this.cf, me = this;
     if (!cf) return;
     this.chatFilmPlace();
@@ -16681,7 +16739,7 @@
     var host = el('div', 'cb-under-host'), root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css?v=dbda23b021';
+    sheet.href = '/cb.css?v=68004e34ba';
     root.appendChild(sheet);
     var wrap = el('div', 'cb-under');
     var strip = el('div', 'cb-strip');
@@ -17177,7 +17235,7 @@
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css?v=dbda23b021';
+    sheet.href = '/cb.css?v=68004e34ba';
     host.style.visibility = 'hidden';
     sheet.addEventListener('load', function () { host.style.visibility = ''; });
     sheet.addEventListener('error', function () { host.style.visibility = ''; });
@@ -17258,7 +17316,7 @@
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css?v=dbda23b021';
+    sheet.href = '/cb.css?v=68004e34ba';
     host.style.visibility = 'hidden';
     sheet.addEventListener('load', function () { host.style.visibility = ''; });
     sheet.addEventListener('error', function () { host.style.visibility = ''; });

@@ -393,7 +393,7 @@
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css?v=dbda23b021';
+    sheet.href = '/cb.css?v=68004e34ba';
     root.appendChild(sheet);
     var box = el('section', 'cb-call' + (whole ? ' cb-call--whole' : ''));
     box.setAttribute('aria-label', here.title || 'Call in ' + here.name);
@@ -451,6 +451,12 @@
     }
     // One size down or up; at either end, the button with nowhere to go says so.
     function step(by) {
+      // Under a hosted film in the chat page's middle, minus and plus give it more or less of the column (dockTo).
+      if (docked && docked.step && box.classList.contains('cb-call--app')) {
+        if (docked.step(by)) unsay();
+        else note(by < 0 ? 'The call is as short as it goes under the film.' : 'The call is as tall as it goes under the film.');
+        return;
+      }
       // Lined up under a room's screen, minus and plus make it shorter and taller there (lineTo).
       if (lined && lined.seen && lined.step) {
         if (lined.step(by)) unsay();
@@ -463,10 +469,10 @@
       size(CALL_SIZES[j]);
     }
     // Under a room's screen the two buttons change its height, and say so.
-    function heightWords(on) {
+    function heightWords(on, under) {
       if (!on) { size(now); return; }
-      smaller.setAttribute('aria-label', 'Shorter, under the screen');
-      larger.setAttribute('aria-label', 'Taller, under the screen');
+      smaller.setAttribute('aria-label', 'Shorter, under ' + (under || 'the screen'));
+      larger.setAttribute('aria-label', 'Taller, under ' + (under || 'the screen'));
       smaller.setAttribute('aria-disabled', 'false');
       larger.setAttribute('aria-disabled', 'false');
     }
@@ -778,11 +784,18 @@
      tab is. On a wide window it is the chat's middle column, with the chat
      beside it (2026-11-01). at is { top, bottom, left, right, shown } in
      pixels from the window's edges (left and right 0 when not given), or
-     null to put it back as a window. It does not move or change size there,
-     so its grip and its minus and plus are not shown (cb.css). */
+     null to put it back as a window. It does not move there, so its grip is
+     not shown (cb.css), and neither are minus and plus, unless at.step is
+     given: under a hosted film in the middle (Ryan's ask, 2026-11-08), they
+     give the call more or less of the column, and step(by) answers whether
+     it could. */
+  var docked = null;
   function dockTo(at) {
     if (!current || !current.box) return;
-    var b = current.box;
+    var b = current.box, had = !!(docked && docked.step), step = at && at.step || null;
+    docked = at ? { step: step } : null;
+    b.classList.toggle('cb-call--sized', !!step);
+    if (had !== !!step && current.words) current.words(!!step, 'the film');
     b.classList.toggle('cb-call--app', !!at);
     b.classList.toggle('cb-call--behind', !!at && !at.shown);
     if (at) {

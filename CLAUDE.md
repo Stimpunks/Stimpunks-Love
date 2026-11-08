@@ -1029,7 +1029,12 @@ it, so Catch up and Follow work there. On a wide window it stands over Happening
 middle keeps the messages, and **beside a call it stands in the middle above the call** (`cb-call-mid`, which holds
 `chatFilmMid` and the call's slot, so `dockTo` lays the call under the film; Ryan's ask the same evening, after
 the film and the call left the chat a few lines high). Moving a frame reloads it at its first start, so a playing
-film is put up again at the host's place and pressed (`cf.playedVideo`), a live one only moved. **Which films a room
+film is put up again at the host's place and pressed (`cf.playedVideo`), a live one only moved. **Under the film the
+call's own − and + set its share of the middle** (`CALL_SHARES`, `callShareStep`, passed to `dockTo` as `step`, which
+shows the sizer as `cb-call--sized`), and the film fits the rest at 16:9 by container units, so nothing scrolls; the
+friendly edit is a scrolling middle, which leaves a fixed call to chase the scroll. On the chat page **Follow is
+`Follow: on/off` beside Join the call** (`chanActs`), and **the radio's answer line has a Dismiss** (`saidRow`)
+everywhere, which empties it (Ryan's asks, 2026-11-08). **Which films a room
 offers is `loveEmbed.offers` and `offerFor` in `love-embed.js`, one copy for the call window and the chat.**
 The friendly edits are the film shown by itself as somebody starts hosting, and any host's film up there. The browser pane in this app opens a pop-up
 in the same tab, so test the two sides in two tabs there, or in a real browser.

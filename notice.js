@@ -205,7 +205,7 @@
     host.setAttribute('data-dial', dial());
     var waiting = 2;
     host.style.visibility = 'hidden';
-    ['/cb.css?v=dbda23b021', '/notice.css?v=7092e5cc6e'].forEach(function (href) {
+    ['/cb.css?v=68004e34ba', '/notice.css?v=7092e5cc6e'].forEach(function (href) {
       var l = document.createElement('link');
       l.rel = 'stylesheet';
       l.href = href;
