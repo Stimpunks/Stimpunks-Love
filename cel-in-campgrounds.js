@@ -328,7 +328,12 @@
       return {
         start: { x: 0, z: 0.5, yaw: 0 },
         bounds: { x: [-22, 22], z: [-42, 2] },
-        stops: stops
+        stops: stops,
+        // In a VR headset too (Ryan's ask, 2026-11-08), with the street: the
+        // posts and the field are drawn, and the page on the trailhead board
+        // is not in the headset, as no page stood in a scene is. A pitch
+        // whose room is not offered there takes you out of it and says so.
+        vr: true
       };
     }
   };

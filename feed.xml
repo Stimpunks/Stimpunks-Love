@@ -9,10 +9,17 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sun, 08 Nov 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Cel Street and the Campgrounds in a VR headset</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-08-the-street-in-a-headset</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-08-the-street-in-a-headset</guid>
+      <pubDate>Sun, 08 Nov 2026 12:00:00 GMT</pubDate>
+      <description>Cel Street itself and the Campgrounds can be opened in a VR headset now, as the Faery Yurt and its rooms already could. Walk down the street with the stick, point at a door to stand at it, and walk through the treeline into the Campgrounds and on into the yurt without taking the headset off; Back out brings you all the way out to the street again, still in the headset. Ryan’s ask. The panel in the headset offers the roofs too: Climb up over the roofs says how high they are before you press it, and one press brings you back down. Any other room is still on the screen only. Walking into one, a shop on the street or a pitch like the Solarpunk Hermitage, takes you out of the headset and says why. Rooms’ own pages, stood in the scene, are not in the headset either. All of this was tried with a stand-in headset in a browser, not yet on a real one.</description>
+    </item>
+    <item>
       <title>Away by itself, for your availability</title>
       <link>https://stimpunks.world/changelog.html#2026-11-08-away-by-itself</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-08-away-by-itself</guid>
-      <pubDate>Sun, 08 Nov 2026 12:00:00 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 11:59:00 GMT</pubDate>
       <description>Your availability can now turn to Away by itself, if you switch it on. Under Your availability on the radio, Away by itself is Off until you choose After 5, 10, 15, 30 or 60 minutes. Then, when the CB has not heard from your radio for that long, people see Away in place of Available or Busy, without your line, and it goes back by itself the next time any radio of yours is open in front of you. Away, Do not disturb and Out of office stay as you chose them, and nothing changes what you chose. Our staff asked for it. This reverses a call of 29 October, when availability was built never to change by itself, because doing so means keeping when somebody was last heard and lets anybody watching tell when they stepped away. Both are still true, so it starts off, and only for the people who switch it on does the CB keep the minute their radio last asked what is new. Nobody is sent that minute. Switching it off, Forget me and deleting your username take it away. Ryan’s call; the privacy page and the CB guide say how it works. The radio is only heard while it is open and its page is in front, so folding it, working in another tab or closing the laptop all count as away.</description>
     </item>
     <item>

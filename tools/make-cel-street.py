@@ -166,9 +166,10 @@ if "hasAttribute('data-low')" not in code or "document.hidden" not in code:
 # runs in a headset. A stick walks you and turns you only while it is pushed
 # (Ryan's calls, 2026-11-07, reversing the trial's "no gliding" and its snap
 # turns), slowly, and the panel switches to steps for anybody it makes sick.
-# A room that does not say vr: true, and the street, take you out of the
-# headset, so walking through a way from one room to another never puts you
-# in a room that was not offered there.
+# A room that does not say vr: true takes you out of the headset, so walking
+# through a way from one room to another never puts you in a room that was
+# not offered there; the street keeps you in it (Ryan's ask, 2026-11-08), and
+# up over the roofs there is a press of its own that says how high first.
 loops = re.findall(r"setAnimationLoop\(\s*([^)]*?)\s*\)", code)
 if sorted(loops) != ["null", "xrFrame"]:
     refuse(f"cel-street.js sets the headset's frames as {loops}; they are xrFrame while a session is open and null when it ends, and nothing else.")
@@ -185,8 +186,10 @@ if not _turn or float(_turn.group(1)) > 1.6:
     refuse(f"cel-street.js turns a headset at {_turn.group(1) if _turn else 'no set pace'} radians a second; a stick turns slowly, 1.6 at most, because turning is the most sickening way to be moved.")
 if "if (xrGlide && f && dt)" not in code or "if (xrGlide && r && dt)" not in code or "xrGlide = !xrGlide" not in code:
     refuse("cel-street.js no longer glides a headset only while a stick is pushed, or the panel has lost the switch to steps.")
-if "if (inside && inside.vr) { vrPanel(); return; }" not in code or "if (xrSession) xrSession.end();\n  }" not in code:
-    refuse("cel-street.js can keep a headset in a room that does not say vr: true, or on the street.")
+if "function vrHere() { return inside ? inside.vr : true; }" not in code or "if (vrHere()) { vrPanel(); return; }" not in code or "if (xrSession) xrSession.end();\n  }" not in code:
+    refuse("cel-street.js can keep a headset in a room that does not say vr: true.")
+if not re.search(r"'Climb up over the roofs \(high up, ' \+ ROOF \+ ' metres", code):
+    refuse("cel-street.js offers the roofs in a headset without saying how high they are before the press.")
 if not re.search(r'data-cel-vr hidden', PAGE.read_text()):
     refuse("cel-street.html's Enter VR button no longer ships hidden; it shows only where a headset can open the room.")
 if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", code):

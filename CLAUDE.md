@@ -4342,8 +4342,9 @@ which wraps and moves the page under it on every long name, and scrolling to the
 first build called that function `named`, which `cel-street.js` already used for the doors' names, and the street
 stopped building**: the same lesson as `street`, a second time.
 
-**A ROOM ON CEL STREET CAN BE OPENED IN A VR HEADSET, AND ONLY A ROOM WHOSE FILE SAYS `vr: true`** (Helen Edgar's ask,
-2026-11-07, her Faery Yurt first): **Enter VR** (`[data-cel-vr]`, shipped hidden) shows only in such a room and only where
+**THE STREET AND A ROOM ON CEL STREET CAN BE OPENED IN A VR HEADSET, AND ONLY A ROOM WHOSE FILE SAYS `vr: true`** (Helen
+Edgar's ask, 2026-11-07, her Faery Yurt first; the street and the Campgrounds since Ryan's ask of 2026-11-08): **Enter
+VR** (`[data-cel-vr]`, shipped hidden) shows only on the street or in such a room (`vrHere()`) and only where
 `navigator.xr.isSessionSupported('immersive-vr')` says yes, so on every screen the room is unchanged. The headset is three.js's
 own WebXR, already in the pinned file: `cel-street.js` puts the camera in a `dolly` (your feet, `me`), `place()` moves the
 dolly and leaves the camera to the headset, `draw()` only moves you while a session is open, and the headset's frames
@@ -4356,7 +4357,8 @@ snap turns: pointing alone was too hard to navigate by. A glide makes some peopl
 the visit (no walking, snap turns), and **nothing carries you to a place**: pointing at one still jumps you there (`standAt`
 with `vrStand`). **A room behind a room is walked into without leaving the headset**: standing at its way through, the panel
 offers Walk into it (pointing at the way again does the same), Back out returns you to the way you came in by, and
-`vrOffer` takes you out of the headset, saying why, in a room that does not say `vr: true` and on the street. The yurt's
+`vrOffer` takes you out of the headset, saying why, in a room that does not say `vr: true`; the street keeps you in it, and
+**Climb up over the roofs** there is a tile of its own that says how high (`ROOF`) before the press, one press back down. The yurt's
 subrooms say `vr: true` since then too (Ryan's ask; Helen's to send back), with what they lift off her pages still absent
 in the headset. **The room's switches are a panel of tiles
 read off the buttons the room's own controls make** (`vrPanel`, each tile clicks its button), so the panel says what the

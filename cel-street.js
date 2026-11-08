@@ -1090,7 +1090,7 @@ function start() {
   function place() {
     // In a headset you stand on the floor and the headset says where your
     // head is: what moves is where your feet stand and which way they face.
-    if (xrOn) { dolly.position.set(me.x, 0, me.z); dolly.rotation.set(0, me.yaw, 0); dolly.updateMatrixWorld(true); }
+    if (xrOn) { dolly.position.set(me.x, up ? ROOF - EYE : 0, me.z); dolly.rotation.set(0, me.yaw, 0); dolly.updateMatrixWorld(true); }
     else {
       camera.position.set(me.x, up ? ROOF : EYE, me.z);
       camera.rotation.set(me.pitch, me.yaw, 0, 'YXZ');
@@ -1698,7 +1698,7 @@ function start() {
     if (!inside && list) list.querySelectorAll('a').forEach(function (a) { a.removeAttribute('tabindex'); });
     said = '';
     draw(); tell(); plateUp(); moves();
-    if (xrOn && inside && inside.vr) vrStand({ x: me.x, z: me.z, yaw: me.yaw });
+    if (xrOn && vrHere()) vrStand({ x: me.x, z: me.z, yaw: me.yaw });
   }
   // THE RADIO FOLLOWS YOU IN (Helen Edgar's ask, 2026-11-07): the room you are
   // in is written on the page's <body>, and cb.js makes the radio that room's,
@@ -2487,8 +2487,9 @@ function start() {
   /* ── In a headset ──────────────────────────────────────────────────────── */
   // Helen Edgar's ask, 2026-11-07, starting with her Faery Yurt: the room in a
   // VR headset, through the headset's own browser (WebXR). It is offered only
-  // in a room whose file says vr: true, and only where the browser can show a
-  // room in a headset at all, so on every screen nothing about the room
+  // on the street and in a room whose file says vr: true (the street since
+  // Ryan's ask of 2026-11-08, with the Campgrounds), and only where the
+  // browser can show a room in a headset at all, so on every screen nothing about the room
   // changes: Enter VR stays hidden and none of this runs.
   //
   // IN THE HEADSET YOU MOVE ONLY WHILE YOUR OWN HAND SAYS SO. You look round
@@ -2507,8 +2508,10 @@ function start() {
   // A ROOM BEHIND A ROOM IS WALKED INTO WITHOUT LEAVING THE HEADSET: standing
   // at its way through, the panel says Walk into it (and pointing at the way
   // again does the same), and Back out takes you back to the way you came in
-  // by. A room that does not say vr: true, and the street, take you out of
-  // the headset and say so.
+  // by. A room that does not say vr: true takes you out of the headset and
+  // says so; the street and every room that does keep you in it.
+  // Up over the roofs is offered in the headset too, as a press of its own
+  // that says how high it is first, and down again is one press.
   // What a room lets move moves as it does on a screen, under the same line.
   //
   // THE ROOM'S SWITCHES ARE A PANEL IN FRONT OF YOU, the same switches as
@@ -2536,6 +2539,9 @@ function start() {
   // over, about a fifth of a turn: slow, because turning is the most
   // sickening way to be moved. With gliding off, a stick steps you round.
   var VR_WALK = 1.4, VR_TURN = 1.2, xrGlide = true, xrGoing = false, xrPrev = 0, xrWhy = '';
+  // Whether where you are now can be shown in a headset: the street can, and
+  // a room only when its file says vr: true.
+  function vrHere() { return inside ? inside.vr : true; }
   // The newest few messages on the radio's channel, for the panel, handed over
   // by the radio (cb.js) out of what it already shows; nothing asked for here.
   window.addEventListener('love-cel-chat', function (e) {
@@ -2547,11 +2553,11 @@ function start() {
     navigator.xr.isSessionSupported('immersive-vr').then(function (ok) { xrCan = !!ok; vrOffer(); }).catch(function () {});
   }
   function vrOffer() {
-    if (vrBtn) vrBtn.hidden = !(xrCan && inside && inside.vr) && !xrOn;
+    if (vrBtn) vrBtn.hidden = !(xrCan && vrHere()) && !xrOn;
     if (!xrOn) return;
     panelWords = '';
-    if (inside && inside.vr) { vrPanel(); return; }
-    xrWhy = inside ? inside.name + ' is not offered in a headset yet, so you are back on the screen.' : 'Back out on the street, which is on the screen only, so you are out of the headset.';
+    if (vrHere()) { vrPanel(); return; }
+    xrWhy = inside.name + ' is not offered in a headset yet, so you are back on the screen.';
     if (xrSession) xrSession.end();
   }
   function vrTell(words) { panelWords = words; if (xrOn) vrPanel(); }
@@ -2608,7 +2614,7 @@ function start() {
     panelTiles = [];
     var items = [];
     if (panelOpen) {
-      items.push({ words: panelWords || ('In ' + (inside ? inside.name : 'the room') + '. Push a stick forward or back to walk, or point and press: at the floor to stand there, at a switch to press it.'), wide: true });
+      items.push({ words: panelWords || ((inside ? 'In ' + inside.name : up ? 'Up over the roofs' : 'Out on Cel Street') + '. Push a stick forward or back to walk, or point and press: at the floor to stand there, at a switch to press it.'), wide: true });
       if (chatLast) {
         items.push({ words: 'On the radio, ' + chatLast.channel.toLowerCase() + ':', wide: true, label: true });
         chatLast.lines.forEach(function (l) {
@@ -2630,7 +2636,9 @@ function start() {
         items.push({ words: 'Walk into ' + (wayIn.room || wayIn.name), wide: true, go: function () { enter(inPage); } });
       }
       var back = behind.length ? behind[behind.length - 1].inside : null;
-      if (inside) items.push({ words: back ? 'Back out into ' + back.name : 'Back out onto the street (on the screen)', wide: true, go: function () { outOfRoom(); } });
+      if (inside) items.push({ words: back ? 'Back out into ' + back.name : 'Back out onto the street', wide: true, go: function () { outOfRoom(); } });
+      if (!inside) items.push({ words: up ? 'Climb back down to the street' : 'Climb up over the roofs (high up, ' + ROOF + ' metres, looking down)', wide: true,
+        go: function () { act('climb'); place(); vrPanelPlace(); tell(); vrTell(up ? 'Up over the roofs, looking down on the solar panels. One press brings you back down.' : 'Back down on the street.'); } });
       items.push({ words: xrGlide ? 'Gliding with the sticks: switch to steps' : 'Steps: switch to gliding with the sticks', pressed: !xrGlide,
         go: function () { xrGlide = !xrGlide; vrTell(xrGlide ? 'Gliding: push a stick forward or back to walk, or sideways to turn.' : 'Steps: a stick turns you a twelfth of the way round at a time; point and press to move.'); } });
       items.push({ words: 'Put the switches away', go: function () { panelOpen = false; vrPanel(); } });
