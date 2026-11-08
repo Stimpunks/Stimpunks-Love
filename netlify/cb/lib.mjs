@@ -5895,21 +5895,38 @@ export async function emojiList(who, s = store()) {
 
 export async function addEmoji(who, name, bytes, yes, s = store()) {
   if (!forumReader(who)) return { error: 'Adding an emoji needs a username of your own. Join with an invite under Account.' };
+  if (yes !== true) return { error: 'Say that the picture is yours to share, and that anybody recognisable in it has said yes.' };
+  return keepEmoji(name, bytes, authorMark(who), s);
+}
+
+/* BROUGHT IN BY THE STREET (Ryan's ask, 2026-11-08, our Discord server's
+   emoji, moving with our community). tools/import-emoji.mjs adds a folder of
+   pictures under the names given, run from Ryan's or Helen's machine with the
+   site's own Netlify login. EMOJI_HOUSE is their mark: nobody's authorMark (a
+   mark is 43 characters of base64url), so no list says it is anybody's, and
+   only a moderator takes one down. They are not held to EMOJI_EACH, which is
+   about one person, and are held to EMOJI_MAX, a name nobody has, and the same
+   picture rules. privacy.html#custom-emoji says so. */
+export const EMOJI_HOUSE = 'street';
+export async function importEmoji(name, bytes, s = store()) {
+  return keepEmoji(name, bytes, EMOJI_HOUSE, s);
+}
+
+async function keepEmoji(name, bytes, by, s) {
   const n = emojiName(name);
   if (!n) return { error: 'An emoji’s name is 2 to 32 letters, numbers or underscores, with at least one letter and no spaces.' };
-  if (yes !== true) return { error: 'Say that the picture is yours to share, and that anybody recognisable in it has said yes.' };
   if (!bytes || !bytes.length || bytes.length > EMOJI_BYTES) return { error: 'That picture is too big for an emoji, even after the radio made it smaller.' };
   const kind = imageKind(bytes);
   const bare = kind && bareImage(bytes, kind);
   if (!bare || carriesMetadata(bare, kind)) return { error: 'That is not a picture the radio can make an emoji of.' };
-  const id = randomUUID(), by = authorMark(who);
+  const id = randomUUID();
   await s.set(EMOJI_IMG + id, bare, { metadata: { type: kind } });
   let why = null;
   await updateDoc(EMOJIS, (d) => {
     const list = d && Array.isArray(d.list) ? d.list.slice() : [];
     if (list.some((e) => emojiFold(e.name) === emojiFold(n))) { why = `There is an emoji called :${n}: already. Pick another name.`; return null; }
     if (list.length >= EMOJI_MAX) { why = 'The street has as many emoji as it keeps. Ask a moderator to take some down first.'; return null; }
-    if (list.filter((e) => e.by === by).length >= EMOJI_EACH) { why = `You have added ${EMOJI_EACH} emoji, which is as many as one person adds. Take one of yours down first.`; return null; }
+    if (by !== EMOJI_HOUSE && list.filter((e) => e.by === by).length >= EMOJI_EACH) { why = `You have added ${EMOJI_EACH} emoji, which is as many as one person adds. Take one of yours down first.`; return null; }
     list.push({ id, name: n, by });
     return { list };
   }, s);

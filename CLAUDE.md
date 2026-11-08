@@ -4662,7 +4662,10 @@ into words; an unknown name asks for the list once per page (`emojiWant`), never
 (`emojiPanel`, under the quick row), and a reaction can be one of ours, kept as `:name:` and pressed only while the street
 has it (`reactionReady` in `lib.mjs`, which every reaction path calls); **`:` and two letters in the box** offers emoji
 (`emojiFor`, the `emoji` kind of `token`); and **markdown.js draws ours** in the forums, Tasks and the office once the page
-calls `loveMarkdown.emoji(pass)`. Anybody signed on adds one, Ryan's call for now. The friendly edits are
+calls `loveMarkdown.emoji(pass)`. Anybody signed on adds one, Ryan's call for now. **A folder of them comes in with
+`tools/import-emoji.mjs`** (Ryan's ask, 2026-11-08, our Discord server's emoji): a names file, a dry run, then `--go`,
+writing to the live store with the machine's Netlify login through `importEmoji`, whose mark is `EMOJI_HOUSE`, nobody's,
+so only a moderator takes one down, held to `EMOJI_MAX` and never to `EMOJI_EACH`. The friendly edits are
 **Discord's Top Emoji and POPULAR**, a ranking by use, **a recently used list "so favourites are quick"**, which is a
 record of what somebody says, **animated custom emoji**, which move by themselves, and **a username on each emoji "for
 accountability"**, which then needs deleting when the username goes.
