@@ -90,7 +90,7 @@
    "channel_id": "UCgscS8mBsQZ5sFRkJIFWD7Q"
   }
  ],
- "set": "2026-11-07T12:24Z",
+ "set": "2026-11-08T12:20Z",
  "log": [
   {
    "id": "mn0agTT8lG8",
@@ -223,6 +223,16 @@
    "channel": "AI LABS"
   },
   {
+   "id": "of628n5754g",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "Head Of Design At X's New Claude Skill Is Insane",
+   "published": "2026-11-07T15:00:30Z",
+   "state": "screen",
+   "runs": 736,
+   "channel": "AI LABS"
+  },
+  {
    "id": "NUizyuGj-kE",
    "source": "matt-wolfe",
    "form": "long",
@@ -310,16 +320,6 @@
    "published": "2026-11-06T18:20:31Z",
    "state": "screen",
    "runs": 1483,
-   "channel": "Matt Wolfe"
-  },
-  {
-   "id": "grOilk8aCS0",
-   "source": "matt-wolfe",
-   "form": "short",
-   "title": "AI Design Hack Saves HOURS",
-   "published": "2026-10-08T15:13:52Z",
-   "state": "screen",
-   "runs": 57,
    "channel": "Matt Wolfe"
   },
   {
@@ -543,14 +543,14 @@
    "channel": "Matt Wolfe"
   },
   {
-   "id": "wep2EQ9Y_Tc",
-   "source": "nate-b-jones",
-   "form": "long",
-   "title": "Google Has More Data Than Almost Anyone. So Why Is It Bidding $10 Million On Old Emails?",
-   "published": "2026-10-08T20:00:36Z",
+   "id": "A5SfzBD6M3o",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "Claude Code Just Called My Phone",
+   "published": "2026-11-07T17:00:37Z",
    "state": "screen",
-   "runs": 1494,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
+   "runs": 67,
+   "channel": "Matt Wolfe"
   },
   {
    "id": "huWizSgmRf0",
@@ -911,16 +911,6 @@
    "state": "screen",
    "runs": 25,
    "channel": "Less Bitter"
-  },
-  {
-   "id": "38_6C0dkKmU",
-   "source": "theo",
-   "form": "long",
-   "title": "finally a good small model",
-   "published": "2026-10-09T02:20:47Z",
-   "state": "screen",
-   "runs": 2470,
-   "channel": "Theo - t3․gg"
   },
   {
    "id": "ND_kRgU_WlY",
@@ -1336,7 +1326,7 @@
    "id": "BgbJFggbTVE",
    "source": "austin-marchese",
    "form": "long",
-   "title": "7 NEW Claude Features To Get You Ahead of 99% of People Using AI",
+   "title": "7 NEW Claude Features That Will Save You HOURS",
    "published": "2026-11-05T21:00:14Z",
    "state": "screen",
    "runs": 1050,
@@ -1473,26 +1463,6 @@
    "channel": "Riley Brown"
   },
   {
-   "id": "oz2CwrPV2Rg",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "Anthropic Engineers Just 10x'd Everyone's Claude Code",
-   "published": "2026-10-08T20:48:59Z",
-   "state": "screen",
-   "runs": 742,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "MgvwZaDPCs4",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "Grok Bot Just Got 2 Massive Upgrades. Do These Things Now.",
-   "published": "2026-10-09T02:02:31Z",
-   "state": "screen",
-   "runs": 551,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
    "id": "HhZdNYI4pJs",
    "source": "nate-herk",
    "form": "long",
@@ -1600,36 +1570,6 @@
    "published": "2026-11-05T10:13:40Z",
    "state": "screen",
    "runs": 880,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "w4R4l1xtfGU",
-   "source": "nate-herk",
-   "form": "short",
-   "title": "Your Popup Can Now Optimize Itself for Every Visitor",
-   "published": "2026-10-09T00:00:20Z",
-   "state": "screen",
-   "runs": 77,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "kebGZLyrvZg",
-   "source": "nate-herk",
-   "form": "short",
-   "title": "Grok Bot uses my Claude Code subscription. Here's how.",
-   "published": "2026-10-09T02:03:27Z",
-   "state": "screen",
-   "runs": 53,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "f_WsOXdGm4w",
-   "source": "nate-herk",
-   "form": "short",
-   "title": "Grok Bot now runs on Opus 5.5",
-   "published": "2026-10-09T02:21:31Z",
-   "state": "screen",
-   "runs": 61,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -1993,16 +1933,6 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
-   "id": "JJMChiMYW_g",
-   "source": "chase-ai",
-   "form": "long",
-   "title": "We Were Completely Wrong About Haiku (and Luna)",
-   "published": "2026-10-08T23:43:24Z",
-   "state": "screen",
-   "runs": 1095,
-   "channel": "Chase AI"
-  },
-  {
    "id": "o8LjTSvza0E",
    "source": "chase-ai",
    "form": "long",
@@ -2183,16 +2113,6 @@
    "channel": "Chase AI"
   },
   {
-   "id": "rkK8ZyzYyEA",
-   "source": "greg-isenberg",
-   "form": "long",
-   "title": "8 GitHub Repos To Go Viral and Make Money",
-   "published": "2026-10-08T18:30:11Z",
-   "state": "screen",
-   "runs": 1469,
-   "channel": "Greg Isenberg"
-  },
-  {
    "id": "jEOUUAPC1sc",
    "source": "greg-isenberg",
    "form": "long",
@@ -2340,6 +2260,16 @@
    "published": "2026-11-06T07:27:02Z",
    "state": "screen",
    "runs": 2779,
+   "channel": "Two Minute Papers"
+  },
+  {
+   "id": "GJ6PMUm5oTA",
+   "source": "two-minute-papers",
+   "form": "long",
+   "title": "OpenAI's Astra Just Opened The Black Box Of AI",
+   "published": "2026-11-07T16:24:47Z",
+   "state": "screen",
+   "runs": 348,
    "channel": "Two Minute Papers"
   },
   {
@@ -2631,6 +2561,16 @@
    "state": "screen",
    "runs": 26,
    "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "HPZILs6sqhY",
+   "source": "robonuggets",
+   "form": "short",
+   "title": "People are using Claude to strip the ads off their TVs #shorts",
+   "published": "2026-11-07T22:00:39Z",
+   "state": "screen",
+   "runs": 37,
+   "channel": "Jay E | RoboNuggets"
   }
  ],
  "covered": {
@@ -2638,13 +2578,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ]
   },
@@ -2652,13 +2592,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ]
   },
@@ -2666,13 +2606,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ]
   },
@@ -2680,13 +2620,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ]
   },
@@ -2694,13 +2634,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ]
   },
@@ -2708,13 +2648,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ]
   },
@@ -2722,13 +2662,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ]
   },
@@ -2736,13 +2676,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ]
   },
@@ -2750,13 +2690,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ]
   },
@@ -2764,13 +2704,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ]
   },
@@ -2778,13 +2718,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ]
   },
@@ -2792,13 +2732,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ]
   },
@@ -2806,13 +2746,13 @@
    "long": [
     [
      "2026-08-28T09:44:44Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:12:16Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ]
   },
@@ -2820,13 +2760,13 @@
    "long": [
     [
      "2026-09-23T01:33:56Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ],
    "short": [
     [
      "2026-09-25T03:00:26Z",
-     "2026-11-07T12:24:24Z"
+     "2026-11-08T12:20:14Z"
     ]
    ]
   }
