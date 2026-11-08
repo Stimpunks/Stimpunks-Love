@@ -6802,7 +6802,10 @@ say "unless our administrators set it otherwise", as the channels' do.
 newest topic, oldest topic, title A to Z and Z to A), pinned first in the same order, a later page asked by `before` for
 the latest post and by `from` otherwise; `group=tag` sends every topic at once and `forum.js` puts each under every tag it
 carries, No tags last, never saying how many. The bot can now set a page's tags too (`tags` in `forumBot`,
-`node tools/forum-bot.mjs tags <id> a,b`), which `check_bot` allows and nothing more.
+`node tools/forum-bot.mjs tags <id> a,b`), which `check_bot` allows and nothing more. **A box of tags offers the tags already in use** (Ryan's
+ask, 2026-11-08): `tagPicker` in `forum.js`, the @ list's combobox pattern, asks `view=tags` (`forumTags` in `lib.mjs`), the
+tags of the category's top category and everything under it the reader may see, from `tagsOf`, A to Z. The friendly edits
+are the most used tags first and a count beside each, which is the count `tagsOf` refuses.
 
 **A CATEGORY'S LIST IS A CACHE AND THE TOPIC IS THE RECORD, SO A BUSY LIST NEVER FAILS A CHANGE THAT LANDED.**
 2026-10-25: a vote, a reply or any change goes into its topic first and then into its category's list

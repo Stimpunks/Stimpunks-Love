@@ -9,59 +9,66 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sun, 08 Nov 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>The forums offer the tags already in use</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-08-forum-tag-completion</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-08-forum-tag-completion</guid>
+      <pubDate>Sun, 08 Nov 2026 12:00:00 GMT</pubDate>
+      <description>Typing in a box of tags in the forums offers the tags the topics around it already carry, when a topic is started and when its tags are changed, so grant-round is picked rather than typed again as grant-rounds. It offers the tags of the topic’s category and every category beside it under the same heading that you can read, A to Z, and never says how many topics carry each. The arrows move through them, Enter or Tab puts one in with a comma after it, Down offers them all on an empty tag, and Escape closes the list. Ryan’s ask.</description>
+    </item>
+    <item>
       <title>The chat on an iPhone, mended</title>
       <link>https://stimpunks.world/changelog.html#2026-11-08-iphone-chat</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-08-iphone-chat</guid>
-      <pubDate>Sun, 08 Nov 2026 12:00:00 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 11:59:00 GMT</pubDate>
       <description>The radio’s stylesheet can no longer be older than the radio. An iPhone showed the chat with today’s radio and a stylesheet from before November, so the switch for beside a call stood on a phone, the + and the GIF, sticker and emoji buttons sat outside the message box, and the camera on Join the call filled the screen. Every stylesheet a script puts into a page is now asked for by a version made from its contents, so a new radio always brings its own. If the chat still looks like that, reload it once. Ryan found it. In the themes whose buttons are pills (LCARS, Portal, Game Boy and Solarpunk), Transmit stands as tall as the message box and was an oval. It keeps a button’s rounded ends now.</description>
     </item>
     <item>
       <title>The film over the call, on the chat page</title>
       <link>https://stimpunks.world/changelog.html#2026-11-08-film-over-call</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-08-film-over-call</guid>
-      <pubDate>Sun, 08 Nov 2026 11:59:00 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 11:58:00 GMT</pubDate>
       <description>With a call and a hosted film both going on the chat page, the film stands above the call in the middle, the way a popped-out call’s window has it, and the chat beside them keeps its whole column. In the column with the chat, the two had left the messages a few lines high. When a call opening or ending moves a film that is playing, it picks up again where the host is. Ryan’s ask. The guide says so.</description>
     </item>
     <item>
       <title>A hosted film on the chat page, and more room for the chat</title>
       <link>https://stimpunks.world/changelog.html#2026-11-08-chat-film</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-08-chat-film</guid>
-      <pubDate>Sun, 08 Nov 2026 11:58:00 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 11:57:00 GMT</pubDate>
       <description>The chat page shows the film somebody is hosting in its channel’s room. A box says who and where they are, and Show the film puts up its play button, which says how long it runs and starts where the host is when you press it. Catch up and Follow under Watching together get it ready there too. On a wide window it stands at the head of the right-hand column, so the messages keep the middle; on a phone it stands over the messages. Only a film the room’s own page plays, or a moderator’s, and nothing reaches YouTube until you press play. Ryan’s ask. The guide and the privacy page say so. Beside a call, the chat has its column back. On a wide window with a call open, Search moved out of the chat’s column into a place of its own, chosen with Chat, Search and In this channel, and the lines about the forums and the World room step aside there, so the messages are taller by about half again. From feedback in our community. A link in the chat beside a popped-out call opens in the window you came from, not in the call’s little window, and a link off the street opens in a new tab there. From feedback in our community.</description>
     </item>
     <item>
       <title>Our Discord emoji, on the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-11-08-discord-emoji</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-08-discord-emoji</guid>
-      <pubDate>Sun, 08 Nov 2026 11:57:00 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 11:56:00 GMT</pubDate>
       <description>The emoji from our Discord server are on the CB now, every one under a name of its own: frogs, penguins, neon spiders and horns, pride hearts and flags, a power chair and a wheelchair, a campfire, a toadstool,:punks_not_dead: and more. Type a name between colons, or find them in the emoji picker under Stimpunks. Ryan’s ask. They came in as the street’s, so no member’s list says they are theirs, and only a moderator takes one down. A new tool, tools/import-emoji.mjs, brings in a folder of pictures under the names given. The privacy page says so.</description>
     </item>
     <item>
       <title>GIFs in Messages</title>
       <link>https://stimpunks.world/changelog.html#2026-11-08-gifs-in-messages</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-08-gifs-in-messages</guid>
-      <pubDate>Sun, 08 Nov 2026 11:56:00 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 11:55:00 GMT</pubDate>
       <description>A conversation under Messages takes GIFs from Gifbox now, from the GIF icon in its message box, once the conversation has been accepted, as pictures and stickers already did. Ryan’s ask. It waits above the box like a picture until you send it, and it stays still until it is pressed. It is kept as the conversation’s pictures are: sealed, seen by the two of you and nobody else, and gone when its message goes. Gifbox is sent what you searched for and which GIF, and nothing about who you are writing to. The privacy page says so.</description>
     </item>
     <item>
       <title>Fernand Deligny on the Faery Yurt’s shelves</title>
       <link>https://stimpunks.world/changelog.html#2026-11-08-reading-room-deligny</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-08-reading-room-deligny</guid>
-      <pubDate>Sun, 08 Nov 2026 11:55:00 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 11:54:00 GMT</pubDate>
       <description>The Reading Room has Fernand Deligny on its Neurodivergence case, and his The Arachnean and Other Texts in the card catalogue. His spine opens his page on the French Wikipedia, because there is no English one, and the title opens the book’s record on Open Library. Helen’s ask.</description>
     </item>
     <item>
       <title>Cel Street and the Campgrounds in a VR headset</title>
       <link>https://stimpunks.world/changelog.html#2026-11-08-the-street-in-a-headset</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-08-the-street-in-a-headset</guid>
-      <pubDate>Sun, 08 Nov 2026 11:54:00 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 11:53:00 GMT</pubDate>
       <description>Cel Street itself and the Campgrounds can be opened in a VR headset now, as the Faery Yurt and its rooms already could. Walk down the street with the stick, point at a door to stand at it, and walk through the treeline into the Campgrounds and on into the yurt without taking the headset off; Back out brings you all the way out to the street again, still in the headset. Ryan’s ask. The panel in the headset offers the roofs too: Climb up over the roofs says how high they are before you press it, and one press brings you back down. Any other room is still on the screen only. Walking into one, a shop on the street or a pitch like the Solarpunk Hermitage, takes you out of the headset and says why. Rooms’ own pages, stood in the scene, are not in the headset either. All of this was tried with a stand-in headset in a browser, not yet on a real one.</description>
     </item>
     <item>
       <title>Away by itself, for your availability</title>
       <link>https://stimpunks.world/changelog.html#2026-11-08-away-by-itself</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-08-away-by-itself</guid>
-      <pubDate>Sun, 08 Nov 2026 11:53:00 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 11:52:00 GMT</pubDate>
       <description>Your availability can now turn to Away by itself, if you switch it on. Under Your availability on the radio, Away by itself is Off until you choose After 5, 10, 15, 30 or 60 minutes. Then, when the CB has not heard from your radio for that long, people see Away in place of Available or Busy, without your line, and it goes back by itself the next time any radio of yours is open in front of you. Away, Do not disturb and Out of office stay as you chose them, and nothing changes what you chose. Our staff asked for it. This reverses a call of 29 October, when availability was built never to change by itself, because doing so means keeping when somebody was last heard and lets anybody watching tell when they stepped away. Both are still true, so it starts off, and only for the people who switch it on does the CB keep the minute their radio last asked what is new. Nobody is sent that minute. Switching it off, Forget me and deleting your username take it away. Ryan’s call; the privacy page and the CB guide say how it works. The radio is only heard while it is open and its page is in front, so folding it, working in another tab or closing the laptop all count as away.</description>
     </item>
     <item>

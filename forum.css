@@ -282,7 +282,7 @@ a.fm-card .fm-card__title { color: var(--cb-amber); text-decoration: underline; 
 .fm-answer, .fm-replying { font-size: 15px; color: var(--cb-steel); }
 .fm-replying { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .fm-go { font-size: 14px; }
-.fm-atpick { margin: 0; }
+.fm-atpick, .fm-tagpick { margin: 0; }
 .fm-attach { display: grid; gap: 6px; justify-items: start; }
 .fm-tpl { display: grid; gap: 4px; padding: 8px 10px; border: 2px dashed var(--cb-steel-2); border-radius: 6px; }
 .fm-tpl__row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }

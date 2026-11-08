@@ -10296,6 +10296,23 @@ function subsOf(who, cat, now) {
   return forumCatsFor(who, now).filter((c) => c.parent === cat.slug).map((c) => shapeForumCat(c, who));
 }
 
+/* TAG COMPLETION (Ryan's ask, 2026-11-08): the tags offered as somebody types
+   in a box of tags. They are the tags carried by the topics of the category's
+   top category and of every category under it that the reader may see, so a
+   page in Field Guide is offered what Notes was tagged with. The words, A to
+   Z, from tagsOf, never how many carry each; null for a category the reader
+   may not see, which tells them nothing it has. */
+export async function forumTags(who, slug, s = store(), now = Date.now()) {
+  let cat = forumCat(slug, now);
+  if (!forumAllows(who, cat)) return null;
+  while (cat.parent) {
+    const up = forumCat(cat.parent, now);
+    if (!forumAllows(who, up)) break;
+    cat = up;
+  }
+  return tagsOf(await treeTopics(who, cat, s, now));
+}
+
 /* The front of the forums: every category the reader may see that stands on
    its own, each with what is under it and the three latest topics in it or
    under it. */

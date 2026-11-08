@@ -38,7 +38,7 @@
                                                      nobody else is sent any
    A post that @mentions somebody tells their devices, if they asked
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
-import { staffReady, loadForumRules, readPass, forumReader, mentionableRoles, noteModCall, rolesOf, tasksAllow, officeAllow, taskSnippets, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
+import { staffReady, loadForumRules, readPass, forumReader, mentionableRoles, noteModCall, rolesOf, tasksAllow, officeAllow, taskSnippets, nameRefs, findLinks, backlinksTo, forumPeople, forumTags, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
   reactPost, votePoll, closePoll, addPoll, moderateTopic, retagTopic, importTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
   FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FILE_MAX, FILE_PART, FORUM_FILE_TYPES, POLL_CHOICES_MAX, POLL_CHOICE_MAX, POLL_Q_MAX, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
@@ -77,6 +77,10 @@ export default async (req, context) => {
       if (view === 'home') return answer(200, { me, cats, takes, home: await forumHome(who) }, QUIET);
       if (view === 'latest') return answer(200, { me, cats, ...(await forumLatest(who, num(url.searchParams.get('before')))) }, QUIET);
       if (view === 'people') return answer(200, { people: await forumPeople(who) }, QUIET);
+      if (view === 'tags') {
+        const tags = await forumTags(who, url.searchParams.get('c'));
+        return tags ? answer(200, { tags }, QUIET) : json(404, { error: 'There is no such category.' }, QUIET);
+      }
       if (view === 'cat') {
         const how = { sort: url.searchParams.get('sort'), group: url.searchParams.get('group'), from: num(url.searchParams.get('from')) };
         const r = await forumCategory(who, url.searchParams.get('c'), num(url.searchParams.get('before')), undefined, undefined, url.searchParams.get('tag'), how);

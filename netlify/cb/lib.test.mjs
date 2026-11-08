@@ -3595,7 +3595,7 @@ for (const etagOnRead of [true, false]) {
 }
 
 /* ── The forums ──────────────────────────────────────────────────────────── */
-import { FORUM_CATEGORIES, forumCat, forumAllows, forumNav, forumHome, forumLatest, forumCategory, forumTopic, readTopic,
+import { FORUM_CATEGORIES, forumCat, forumAllows, forumNav, forumHome, forumLatest, forumCategory, forumTags, forumTopic, readTopic,
   readForumIndex, searchForum, cbTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
   reactPost, moderateTopic, sweepForum, goesAt, publicAddress, previewFor, metaOf, playerInfo, loneLinks, authorMark, forumEditor,
   retagTopic, importTopic, cleanForumTags } from './lib.mjs';
@@ -3777,6 +3777,18 @@ test('tags are set when a topic starts, changed by its starter or a moderator, f
   assert.deepEqual([after.tags, after.last, after.posts[0].edited], [['owls'], T0, undefined], 'retagging moved the clock or marked the post edited');
   assert.ok((await retagTopic(BO, t.id, { tags: [] }, s, T0 + 5)).topic, 'a starter could not take their tags off');
   assert.deepEqual((await forumCategory(ADA, 'infodumps', null, s, T0 + 6)).tags, []);
+});
+
+test('a box of tags is offered the tags of its top category and everything under it, as words, to its readers only', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await startTopic(FMOD, { cat: 'field-guide', title: 'Claiming', body: 'Open Account.', tags: ['how-to', 'cb'] }, s, T0, NO_NET);
+  await startTopic(FMOD, { cat: 'notes', title: 'Notes', body: 'Words.', tags: ['how-to', 'board'] }, s, T0 + 1, NO_NET);
+  await startTopic(BO, { cat: 'infodumps', title: 'Owls', body: 'Hoo.', tags: ['owls'] }, s, T0 + 2, NO_NET);
+  assert.deepEqual(await forumTags(FMOD, 'field-guide', s, T0 + 3), ['board', 'cb', 'how-to'], 'a subcategory was not offered its neighbours\' tags, or was offered them counted');
+  assert.deepEqual(await forumTags(FMOD, 'team-docs', s, T0 + 3), ['board', 'cb', 'how-to']);
+  assert.deepEqual(await forumTags(ADA, 'infodumps', s, T0 + 3), ['owls']);
+  assert.equal(await forumTags(ADA, 'field-guide', s, T0 + 3), null, 'a reader was offered the tags of a category they may not see');
+  assert.equal(await forumTags(ADA, 'no-such-category', s, T0 + 3), null);
 });
 
 test('a page brought from Notion keeps its time and its maker, comes again as the same topic, and stays down once taken down', async () => {

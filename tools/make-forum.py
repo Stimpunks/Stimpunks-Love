@@ -388,6 +388,10 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: importTopic tells nobody and makes no post in the importer's name: a page keeps its own time and maker.")
     if "tags: tagsOf(all)" not in fn(sec, "forumCategory") or not re.search(r"function tagsOf\(list\) \{ return \[\.\.\.new Set\(list\.flatMap\(\(x\) => x\.tags \|\| \[\]\)\)\]\.sort\(\); \}", sec):
         problems.append(f"{LIB.name}: a category's tags must be the words its topics carry, from tagsOf, never with how many carry each.")
+    # Tag completion (2026-11-08): the tags a box of tags is offered are the same words, for the reader's own categories only.
+    ft = fn(sec, "forumTags")
+    if "if (!forumAllows(who, cat)) return null;" not in ft or "return tagsOf(await treeTopics(who, cat, s, now));" not in ft:
+        problems.append(f"{LIB.name}: forumTags must refuse a category the reader may not see, and offer only tagsOf's words for the ones they may, never how many carry each.")
     if "canTakeOff(who, m)" not in fn(sec, "uncopyMessage"):
         problems.append(f"{LIB.name}: a copied message no longer comes out under the channel's own rule, canTakeOff.")
     if "readTuned(room, s)" not in fn(sec, "cbTranscript") or "quietRoom(room)" not in fn(sec, "cbTranscript"):
@@ -553,6 +557,13 @@ def check_js():
     for bad in ("innerHTML", "outerHTML", "insertAdjacentHTML", "document.write", "DOMParser", "createContextualFragment"):
         if bad in js:
             problems.append(f"{JS.name}: {bad}. A post is built from nodes with textContent, never as HTML.")
+    # forum.js's functions sit inside its one closure, two spaces in.
+    inner = lambda name: (re.search(rf"\n  function {name}\(.*?\n  \}}", js, re.S) or [""])[0]
+    tp = inner("tagPicker")
+    if "'combobox'" not in tp or "'listbox'" not in tp or "'Escape'" not in tp or "tagsNear(" not in tp:
+        problems.append(f"{JS.name}: a box of tags offers its tags by the ARIA combobox pattern, asked through tagsNear, with Escape to close it.")
+    if re.search(r"\.length\b", inner("tagsNear")) or "count" in tp.lower():
+        problems.append(f"{JS.name}: the tags offered never say how many topics carry each.")
     if "window.loveMarkdown.blocks" not in js:
         problems.append(f"{JS.name}: it builds a post some way other than markdown.js, the street's one builder.")
     if "sessionStorage" in js or "indexedDB" in js:

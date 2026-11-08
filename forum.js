@@ -82,7 +82,7 @@
   var root = host.attachShadow({ mode: 'open' });
   var waiting = 2;
   host.style.visibility = 'hidden';
-  ['/cb.css?v=dbda23b021', '/forum.css?v=dd9c2845d8'].forEach(function (href) {
+  ['/cb.css?v=dbda23b021', '/forum.css?v=5106bbfa6a'].forEach(function (href) {
     var l = document.createElement('link');
     l.rel = 'stylesheet';
     l.href = href;
@@ -509,6 +509,132 @@
   /* What was typed in a box of tags: commas between them; the server makes the rest lower case and hyphened. */
   function tagsFrom(v) { return String(v || '').split(/[,\n]+/).map(function (x) { return x.trim(); }).filter(Boolean); }
   var TAGS_HINT = 'Separate tags with commas. Each is lower case letters, numbers and hyphens, like grant-round; a space becomes a hyphen.';
+
+  /* TAG COMPLETION (Ryan's ask, 2026-11-08): a box of tags offers the tags the
+     topics around it already carry (forumTags: its top category and everything
+     under it the reader may see), so grant-round is picked rather than typed
+     again as grant-rounds. The ARIA combobox pattern, as the @ list: typing
+     opens it, Down opens it on an empty tag too, arrows move, Enter or Tab puts
+     the tag in with a comma after it, Escape closes it for that tag. Asked once
+     per category while the page is open, A to Z, and never how many topics
+     carry each. */
+  var tagAsks = {};
+  function tagsNear(slug) {
+    if (!slug) return Promise.resolve([]);
+    if (!tagAsks[slug]) tagAsks[slug] = call('view=tags&c=' + encodeURIComponent(slug)).then(function (r) {
+      if (r.status === 200) return r.body.tags || [];
+      delete tagAsks[slug];
+      return [];
+    });
+    return tagAsks[slug];
+  }
+  // A tag as the server will keep it: lower case, a space a hyphen.
+  function tagWord(v) { return String(v || '').normalize('NFKC').toLowerCase().trim().replace(/^#/, '').replace(/[\s_]+/g, '-'); }
+  function tagPicker(input, slugOf, after) {
+    var id = input.id + '-pick';
+    input.setAttribute('role', 'combobox');
+    input.setAttribute('aria-autocomplete', 'list');
+    input.setAttribute('aria-controls', id);
+    input.setAttribute('aria-expanded', 'false');
+    input.setAttribute('autocomplete', 'off');
+    var pick = el('ul', 'cb-pick fm-tagpick');
+    pick.id = id;
+    pick.setAttribute('role', 'listbox');
+    pick.setAttribute('aria-label', 'Tags already used here');
+    pick.hidden = true;
+    var offer = [], active = -1, dismissed = -1, known = null, askedFor = null;
+    // The tag the caret is in: from the comma before it to the comma after it.
+    function part() {
+      var c = input.selectionStart;
+      if (c == null || c !== input.selectionEnd) return null;
+      var v = input.value;
+      var start = v.slice(0, c).lastIndexOf(',') + 1;
+      var end = v.indexOf(',', c);
+      if (end < 0) end = v.length;
+      return { start: start, end: end, q: tagWord(v.slice(start, c)) };
+    }
+    function shut() {
+      pick.hidden = true; pick.textContent = ''; offer = []; active = -1;
+      input.setAttribute('aria-expanded', 'false');
+      input.removeAttribute('aria-activedescendant');
+    }
+    function markAt(n) {
+      active = n;
+      var lis = pick.children;
+      for (var i = 0; i < lis.length; i++) lis[i].setAttribute('aria-selected', String(i === n));
+      if (lis[n]) input.setAttribute('aria-activedescendant', lis[n].id); else input.removeAttribute('aria-activedescendant');
+    }
+    function open(any) {
+      var p = root.activeElement === input && part();
+      if (!p || p.start === dismissed || (!p.q && !any)) { if (!p) dismissed = -1; shut(); return; }
+      var slug = slugOf();
+      if (askedFor !== slug) {
+        askedFor = slug; known = null;
+        tagsNear(slug).then(function (t) { if (askedFor === slug) { known = t; open(any); } });
+        return;
+      }
+      if (!known) return;
+      var v = input.value;
+      var have = tagsFrom(v.slice(0, p.start) + ',' + v.slice(p.end)).map(tagWord);
+      // A tag typed out in full is finished, so Enter still posts.
+      var list = known.filter(function (t) {
+        if (t === p.q || have.indexOf(t) >= 0) return false;
+        return !p.q || t.indexOf(p.q) === 0 || t.split('-').some(function (w) { return w.indexOf(p.q) === 0; });
+      }).slice(0, 8);
+      if (!list.length) { shut(); return; }
+      offer = list;
+      pick.textContent = '';
+      list.forEach(function (t, i) {
+        var li = el('li', 'cb-opt');
+        li.id = id + '-' + i;
+        li.setAttribute('role', 'option');
+        li.appendChild(el('span', 'cb-opt__name', t));
+        li.addEventListener('mousedown', function (e) { e.preventDefault(); });
+        li.addEventListener('click', function () { choose(i); });
+        pick.appendChild(li);
+      });
+      pick.hidden = false;
+      input.setAttribute('aria-expanded', 'true');
+      markAt(0);
+    }
+    function choose(n) {
+      var p = part(), t = offer[n];
+      if (!p || !t) { shut(); return; }
+      var v = input.value;
+      // A comma already after this tag stays the one comma; otherwise one goes in, ready for the next.
+      var more = /^\s*,/.test(v.slice(p.end));
+      var put = (p.start ? ' ' : '') + t + (more ? '' : ', ');
+      shut();
+      input.focus();
+      input.setSelectionRange(p.start, p.end);
+      var ok = false;
+      try { ok = document.execCommand('insertText', false, put); } catch (e) { ok = false; }
+      if (!ok || input.value === v) {
+        input.value = v.slice(0, p.start) + put + v.slice(p.end);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      var c = p.start + put.length;
+      if (more) { c = input.value.indexOf(',', c) + 1; if (input.value.charAt(c) === ' ') c++; }
+      input.setSelectionRange(c, c);
+      shut();
+      if (after) after();
+    }
+    input.addEventListener('keydown', function (e) {
+      if (e.isComposing) return;
+      if (pick.hidden) {
+        if (e.key === 'ArrowDown') { var p = part(); dismissed = -1; if (p) { e.preventDefault(); open(true); } }
+        return;
+      }
+      var n = offer.length;
+      if (e.key === 'ArrowDown') { e.preventDefault(); markAt((active + 1) % n); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); markAt((active - 1 + n) % n); }
+      else if (e.key === 'Enter' || e.key === 'Tab') { e.preventDefault(); choose(active); }
+      else if (e.key === 'Escape') { e.preventDefault(); var q = part(); dismissed = q ? q.start : -1; shut(); }
+    });
+    input.addEventListener('input', function () { open(false); });
+    input.addEventListener('blur', function () { setTimeout(shut, 150); });
+    return pick;
+  }
 
   /* The path to a category, each a link, after `lead`. */
   function crumbs(lead, path, cls) {
@@ -1248,7 +1374,9 @@
       tagsIn.setAttribute('aria-describedby', 'fm-tags-hint');
       var tgh = el('p', 'cb-quiet fm-hint', TAGS_HINT);
       tgh.id = 'fm-tags-hint';
-      tagsRow.appendChild(tgl); tagsRow.appendChild(tagsIn); tagsRow.appendChild(tgh);
+      tagsRow.appendChild(tgl); tagsRow.appendChild(tagsIn);
+      tagsRow.appendChild(tagPicker(tagsIn, function () { return catSel ? catSel.value : o.cat; }));
+      tagsRow.appendChild(tgh);
     }
     if (o.templates && o.templates.length) form.insertBefore(templateRow(), title ? title.previousSibling : null);
     if (o.above) form.appendChild(o.above);
@@ -2223,7 +2351,9 @@
       rh.id = 'fm-retag-hint';
       var rrow = el('div', 'fm-tpl__row');
       rrow.appendChild(ri); rrow.appendChild(rb);
-      rt.appendChild(rl); rt.appendChild(rrow); rt.appendChild(rh);
+      rt.appendChild(rl); rt.appendChild(rrow);
+      rt.appendChild(tagPicker(ri, function () { return t.cat.slug; }));
+      rt.appendChild(rh);
       box2.appendChild(rt);
     }
     if (t.addPoll) box2.appendChild(addPollOf(t));
