@@ -4405,6 +4405,14 @@ export async function sweepCalls(s = store(), now = Date.now()) {
    PICTURE IS COPIED ONTO THE DESK with its message (REPORT_IMG), copy first,
    and goes when the report is closed or at its thirty days.
 
+   A GIF FROM GIFBOX IS A PICTURE TOO (Ryan's ask, 2026-11-08: "I don't see gif
+   support in DMs"), on the same terms: only once the conversation is
+   accepted, fetched by our server and never by anybody's browser, kept under
+   DM_IMG sealed with CB_DM_KEY (its still and its MP4, takeDmGif), served by
+   getDmImage to the two people only, still until pressed, and gone with its
+   message, since heldFiles counts its MP4 with its still. A report copies the
+   still.
+
    DISAPPEARING MESSAGES, A TIMER ON THE CONVERSATION (a request from our
    community and Ryan's go, 2026-10-29, after WhatsApp's): either of the two,
    once the conversation is accepted, can set its new messages to go a day or a
@@ -4578,6 +4586,8 @@ export function shapeDm(m, me) {
   if (typeof m.edited === 'number') out.edited = m.edited;
   if (replyTo(m.re)) out.re = m.re;
   if (m.img) { out.img = m.img; out.alt = m.alt || ''; }
+  const gf = m.img && shapeGifOf(m.gif);
+  if (gf) out.gif = gf;
   const st = m.sticker && shapeSticker(m.sticker);
   if (st) out.sticker = st;
   const av = m.avatar && shapeAvatarSticker(m.avatar);
@@ -4615,7 +4625,8 @@ async function dmSticker(handle, said, s) {
 const stateOf = (c, me) => (!c.messages.length ? 'new' : c.open ? 'open' : c.from === me ? 'asked' : 'asking');
 
 /* Send `said` to `handle`: its words, or { text, img, alt } with a picture
-   putDmImage took for this conversation. { sent, handle, asked, accepted } or
+   putDmImage took for this conversation, or { text, img, gif: { vid }, alt }
+   with a GIF takeDmGif took for it. { sent, handle, asked, accepted } or
    { error }: 'claim', 'self', 'empty', 'long', 'closed' (switched off, blocked
    you, not claimed or nobody: the same answer), 'blocked' (you blocked them),
    'waiting' (you asked and they have not answered), 'many' (in DM_WITH
@@ -4631,10 +4642,12 @@ export async function sendDm(who, handle, said, s = store(), now = Date.now()) {
   if (pic && pic.re != null && !re) return { error: 'reply' };
   const img = pic && pic.img != null ? imageId(pic.img) : null;
   if (pic && pic.img != null && !img) return { error: 'picture' };
+  if (pic && pic.gif != null && !img) return { error: 'picture' };
   const stick = await dmSticker(who.handle, pic, s);
   if (stick && stick.error) return stick;
   if (img && stick) return { error: 'one' };
   if (!words && !img && !stick) return { error: 'empty' };
+  let gif = null;
   const p = await pairOf(who, handle, s);
   if (p.error) return { error: p.error };
   const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
@@ -4647,6 +4660,10 @@ export async function sendDm(who, handle, said, s = store(), now = Date.now()) {
     if (!was.open) return { error: 'accepted' };
     const got = await s.getWithMetadata(DM_IMG + img, { type: 'arrayBuffer' });
     if (!got || !got.metadata || got.metadata.by !== p.me || got.metadata.pair !== p.key) return { error: 'picture' };
+    if (pic.gif != null) {
+      gif = await dmGifFor(p, img, got.metadata, pic.gif, s);
+      if (!gif) return { error: 'picture' };
+    }
   }
   if (!was.messages.length) {
     if (!theirs.open) return { error: 'closed' };
@@ -4661,6 +4678,7 @@ export async function sendDm(who, handle, said, s = store(), now = Date.now()) {
   if (who.role === 'base') m.base = true;
   if (re) m.re = re;
   if (img) { m.img = img; m.alt = cleanAlt(pic.alt); }
+  if (gif) m.gif = gif;
   if (stick) Object.assign(m, stick);
   let asked = false, accepted = false;
   const next = await updateConv(p.key, (c) => {
@@ -4713,8 +4731,41 @@ export async function getDmImage(who, id, s = store(), now = Date.now()) {
   if (!meta || typeof meta.pair !== 'string' || !meta.pair.startsWith(DM)) return null;
   if (!meta.pair.slice(DM.length).split('.').includes(dmKey(who.handle, who.since))) return null;
   const c = convDoc(await getDm(meta.pair, s), now, await ruleOf(RULE_DM, s));
-  if (!c.messages.some((m) => m.img === id)) return null;
+  if (!c.messages.some((m) => heldFiles(m).includes(id))) return null;
   return { data: openDmBytes(DM_IMG + id, got.data), type: meta.type };
+}
+
+/* A GIF for the conversation with `handle`, picked from Gifbox: its still and
+   its MP4, fetched as takeGif fetches them and kept under DM_IMG, sealed with
+   CB_DM_KEY and bound to the sender and the conversation as putDmImage binds a
+   picture, so getDmImage serves them only to the two people while a message
+   holds them, and they go with it (heldFiles). { img, vid, gif } or { error }:
+   sendDm's words for who, 'accepted' until the conversation is, or a sentence
+   about Gifbox. Never in a request: a first message is words only. */
+export async function takeDmGif(who, handle, id, s = store(), now = Date.now(), fetchFn = fetch) {
+  const p = await pairOf(who, handle, s);
+  if (p.error) return { error: p.error };
+  const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
+  if (blocks(mine, p.handle)) return { error: 'blocked' };
+  if (blocks(theirs, who.handle)) return { error: 'closed' };
+  if (!convDoc(await getDm(p.key, s), now, await ruleOf(RULE_DM, s)).open) return { error: 'accepted' };
+  const g = await fetchGif(id, fetchFn);
+  if (g.error) return { error: 'gifbox', why: g.error };
+  const img = randomUUID(), vid = randomUUID();
+  await s.set(DM_IMG + img, sealDmBytes(DM_IMG + img, g.still.data), { metadata: { by: p.me, pair: p.key, t: now, type: g.still.type, gif: id } });
+  await s.set(DM_IMG + vid, sealDmBytes(DM_IMG + vid, g.video), { metadata: { by: p.me, pair: p.key, t: now, type: 'video/mp4', gif: id, of: img } });
+  return { img, vid, gif: g.one };
+}
+
+/* What a conversation's message keeps of its GIF: the MP4 that belongs to
+   this sender's still, for this conversation, as gifFor checks the channel's. */
+async function dmGifFor(p, img, meta, said, s) {
+  const vid = said && imageId(said.vid);
+  if (!vid || !gifId(meta.gif)) return null;
+  const got = await s.getWithMetadata(DM_IMG + vid, { type: 'arrayBuffer' });
+  const v = got && got.metadata;
+  if (!v || v.by !== p.me || v.pair !== p.key || v.type !== 'video/mp4' || v.gif !== meta.gif || v.of !== img) return null;
+  return { vid, id: meta.gif };
 }
 
 /* The conversation with `handle`, as the person asking is shown it:
@@ -4926,7 +4977,7 @@ export async function forgetDms(handle, since, s = store()) {
     let c = null;
     try { c = await getDm(pairBlob(me, them), s); } catch (e) { c = null; }
     await s.delete(pairBlob(me, them));
-    await dropDmImages(stored(plain(c)).map((m) => m && m.img).filter(Boolean), s);
+    await dropDmImages(stored(plain(c)).flatMap(heldFiles), s);
     await s.delete(markBlob(them, me));
     await s.delete(b.key);
   }
@@ -5485,7 +5536,7 @@ export async function sweepDms(s = store(), now = Date.now()) {
     const meta = (got && got.metadata) || {};
     if (typeof meta.t === 'number' && now - meta.t < IMG_UNSENT) continue;
     if (typeof meta.pair === 'string' && meta.pair.startsWith(DM)) {
-      if (!held.has(meta.pair)) held.set(meta.pair, new Set(convDoc(await getDm(meta.pair, s), now, await ruleOf(RULE_DM, s)).messages.map((m) => m.img).filter(Boolean)));
+      if (!held.has(meta.pair)) held.set(meta.pair, new Set(convDoc(await getDm(meta.pair, s), now, await ruleOf(RULE_DM, s)).messages.flatMap(heldFiles)));
       if (held.get(meta.pair).has(id)) {
         if (!bytesSealed(got.data)) { await s.set(b.key, sealDmBytes(b.key, got.data), { metadata: meta }); any = true; }
         continue;
@@ -5750,11 +5801,12 @@ export function mp4Place(b) {
   return t.includes(Buffer.from([0xa9, 0x78, 0x79, 0x7a])) || t.includes('com.apple.quicktime.location') || t.includes('loci');
 }
 
-/* A GIF picked to send: its still and its MP4, kept under img/ for the room
-   it is going to, as /cb/image keeps a picture, answering the two ids the
-   message carries. The id is checked with Gifbox first, so only a GIF Gifbox
-   still has goes. */
-export async function takeGif(who, room, id, s = store(), now = Date.now(), fetchFn = fetch) {
+/* A GIF picked to send: checked with Gifbox first, so only a GIF Gifbox still
+   has goes, then its still and its MP4 fetched: { one, still, video } or
+   { error } in words. takeGif keeps them under img/ for the room it is going
+   to, as /cb/image keeps a picture, answering the two ids the message carries;
+   takeDmGif keeps them for a conversation. */
+async function fetchGif(id, fetchFn) {
   if (!gifId(id)) return { error: 'That is not a GIF on Gifbox.' };
   const got = await gifboxAsk('posts', { ids: id, media_filter: 'preview,mp4' }, fetchFn);
   if (got.error === 'off') return { error: 'GIFs are not switched on yet.' };
@@ -5764,6 +5816,12 @@ export async function takeGif(who, room, id, s = store(), now = Date.now(), fetc
   const [still, video] = await Promise.all([gifStill(id, fetchFn), gifboxFile(id, 'mp4', GIF_VIDEO_MAX, fetchFn)]);
   if (!still || !video || !mp4Kind(video)) return { error: 'That GIF could not be fetched from Gifbox just now.' };
   if (mp4Place(video)) return { error: 'That GIF says where it was filmed, so the radio will not send it.' };
+  return { one, still, video };
+}
+export async function takeGif(who, room, id, s = store(), now = Date.now(), fetchFn = fetch) {
+  const g = await fetchGif(id, fetchFn);
+  if (g.error) return g;
+  const { one, still, video } = g;
   const img = randomUUID(), vid = randomUUID();
   await s.set(IMG + img, still.data, { metadata: { handle: who.handle, room: room || '', t: now, type: still.type, gif: id } });
   await s.set(IMG + vid, video, { metadata: { handle: who.handle, room: room || '', t: now, type: 'video/mp4', gif: id, of: img } });

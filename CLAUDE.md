@@ -4634,8 +4634,11 @@ checks the pair with `gifFor`, and refuses an `img` that is not an image. Only `
 radio shows the still with a GIF plate, and a press plays it**, at every setting, MAX included, because a GIF can flash
 and nothing here can check it. The friendly edits are **autoplay at MAX "so the chat feels alive"**, **the picker's
 previews hotlinked from media.gifbox.me "to save our bandwidth"**, which hands Gifbox every reader, **a search as you
-type**, and **calling registershare**, which tells Gifbox what was shared after which search. GIFs are the channel's
-only; `DECISIONS.md` has conversations as open.
+type**, and **calling registershare**, which tells Gifbox what was shared after which search. **A conversation takes GIFs
+too** (Ryan's ask, 2026-11-08): only once accepted, `takeDmGif` copies them under `dm-img/` sealed with `CB_DM_KEY`
+and bound to the sender and the pair (`/cb/gif` with `with`, the handle in the body), `sendDm` checks the pair with
+`dmGifFor`, and `getDmImage`, the sweep and Forget me count the MP4 through `heldFiles`. The friendly edit is a GIF in a
+request "so people can say hello with one", which is the first contact the picture rule keeps to words.
 
 **THE MESSAGE BOX IS A FIELD, AND ONE PICKER UNDER IT HOLDS GIFS, STICKERS AND EMOJI.** Ryan's ask, 2026-11-06, after
 Stoat's and Discord's. `pickerMake(where, say, kinds)` in `cb.js` builds the field's icons and the picker (the ARIA tabs

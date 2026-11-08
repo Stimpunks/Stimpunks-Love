@@ -4,9 +4,12 @@
    GET ?still=<id> answers that GIF's still, fetched here off media.gifbox.me,
    so the picker never talks to Gifbox. POST { action: 'take', id, room } keeps
    a GIF's still and MP4 for the channel it is going to, as /cb/image keeps a
-   picture, for /cb/transmit to send. All with the pass; nothing searched for
-   is logged or kept. */
-import { staffReady, readPass, roomTag, roomAllows, json, body, sameSite, gifsOn, gifSearch, gifPreview, takeGif } from '../cb/lib.mjs';
+   picture, for /cb/transmit to send; POST { action: 'take', id, with } keeps
+   them for the conversation with that handle, sealed with CB_DM_KEY, for
+   /cb/dm to send, once the conversation is accepted (the handle is in the
+   body, never the address, as /cb/dm keeps it). All with the pass; nothing
+   searched for is logged or kept. */
+import { staffReady, dmReady, readPass, forumReader, cleanHandle, roomTag, roomAllows, json, body, sameSite, gifsOn, gifSearch, gifPreview, takeGif, takeDmGif } from '../cb/lib.mjs';
 
 export default async (req) => {
   const who = await readPass(req);
@@ -29,6 +32,20 @@ export default async (req) => {
     if (r.error === 'long') return json(400, { error: 'That search is too long.' });
     if (r.error) return json(502, { error: 'Gifbox did not answer just now. Try again in a moment.' });
     return json(200, { on: true, results: r.results, next: r.next });
+  }
+  if (b.action === 'take' && b.with != null) {
+    // A conversation's GIF is sealed with CB_DM_KEY: without it, shut.
+    if (!dmReady()) return json(503, { error: 'Direct messages are shut just now. Nothing was sent or read.' });
+    if (!forumReader(who)) return json(403, { error: 'Claim your username first: messages are for claimed usernames only.' });
+    const handle = cleanHandle(b.with);
+    if (!handle) return json(400, { error: 'Who is the GIF for?' });
+    const r = await takeDmGif(who, handle, b.id);
+    if (r.error === 'accepted') return json(409, { error: `A GIF can go once ${handle} has accepted the conversation. A first message is words only.` });
+    if (r.error === 'blocked') return json(403, { error: `You have blocked ${handle}. Unblock them, under Messages, to write to them.` });
+    if (r.error === 'closed') return json(403, { error: `${handle} is not taking messages from you just now.` });
+    if (r.error === 'gifbox') return json(400, { error: r.why });
+    if (r.error) return json(400, { error: 'That GIF did not go.' });
+    return json(200, r, { 'x-robots-tag': 'noindex, nofollow, noarchive' });
   }
   if (b.action === 'take') {
     // A GIF is kept beside the channel's pictures, sealed with CB_STAFF_KEY: without it, shut.

@@ -147,7 +147,8 @@ def main():
     if ".open) return { error: 'accepted' };" not in fn(part, "putDmImage"):
         refuse("putDmImage takes a picture for a conversation nobody has accepted.")
     get = fn(part, "getDmImage")
-    if ".includes(dmKey(who.handle, who.since))" not in get or "c.messages.some((m) => m.img === id)" not in get:
+    # heldFiles: a message's picture, and a GIF's MP4 with its still (2026-11-08).
+    if ".includes(dmKey(who.handle, who.since))" not in get or "c.messages.some((m) => heldFiles(m).includes(id))" not in get:
         refuse("getDmImage serves a picture to somebody outside its conversation, or after its message has gone.")
     if not re.search(r"const DM_IMG = 'dm-img/';", part):
         refuse("a conversation's pictures are not under dm-img/, where the channel's sweep never deletes them early.")

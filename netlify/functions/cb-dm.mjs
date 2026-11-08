@@ -79,14 +79,14 @@ export default async (req, context) => {
     if (b.send !== undefined) {
       const kinds = ['sticker', 'avatar', 'chimera', 'patch', 'jacket'];
       const said = b.img != null || b.re != null || kinds.some((k) => b[k] != null)
-        ? { text: b.send, img: b.img, alt: b.alt, re: b.re, sticker: b.sticker, avatar: b.avatar, chimera: b.chimera, patch: b.patch, jacket: b.jacket === true ? true : undefined }
+        ? { text: b.send, img: b.img, gif: b.gif && typeof b.gif === 'object' ? { vid: b.gif.vid } : undefined, alt: b.alt, re: b.re, sticker: b.sticker, avatar: b.avatar, chimera: b.chimera, patch: b.patch, jacket: b.jacket === true ? true : undefined }
         : b.send;
       const r = await sendDm(who, handle, said);
       if (r.error === 'empty') return json(400, { error: 'Write something first.' });
       if (r.error === 'accepted') return json(409, { error: `A picture or a sticker can go once ${handle} has accepted the conversation. A first message is words only.` });
       if (r.error === 'one') return json(400, { error: 'A message is one picture or one sticker, not two.' });
       if (r.error === 'sticker') return json(400, { error: 'That is not one of yours to send as a sticker.' });
-      if (r.error === 'picture') return json(400, { error: 'That picture did not come through. Add it again.' });
+      if (r.error === 'picture') return json(400, { error: 'That picture or GIF did not come through. Add it again.' });
       if (r.error === 'reply') return json(409, { error: 'The message you were replying to is no longer in this conversation, so yours did not send. Your words are still in the box: send again to send them on their own.', gone: 're' });
       if (r.error === 'long') return json(400, { error: `A message is at most ${MESSAGE_MAX} characters.` });
       if (r.error === 'self') return json(400, { error: 'Messages are for somebody else.' });

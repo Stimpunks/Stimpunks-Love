@@ -4995,7 +4995,7 @@ test('Forget me and deleting the username delete every conversation, and a name 
   assert.deepEqual((await listDms(person('Ada', 77), s)).conversations, [], 'a name claimed again found its old owner’s messages');
 }));
 
-import { putDmImage, getDmImage, reportImage } from './lib.mjs';
+import { putDmImage, getDmImage, reportImage, takeDmGif } from './lib.mjs';
 import { reactDm } from './lib.mjs';
 
 test('a conversation takes stickers and reactions only once accepted, the channel\'s way', () => withPasswords(async () => {
@@ -5103,6 +5103,46 @@ test('a conversation takes a picture only once accepted, shows it only to the tw
   await sendDm(cy, 'Bex', { text: '', img: cys }, s);
   await forgetDms('Cy', 33, s);
   assert.deepEqual(s.keys().filter((k) => k.startsWith('dm-img/')), [], 'Forget me left a picture behind');
+}));
+
+test('a conversation takes a GIF only once accepted, sealed, for the two, and loses both files with its message', () => withPasswords(async () => {
+  const was = process.env.CB_GIFBOX_KEY;
+  try {
+    process.env.CB_GIFBOX_KEY = 'test-key-not-real';
+    const s = memoryStore({ etagOnRead: true });
+    const [ada, bex] = await twoPeople(s);
+    await setDmOpen(bex, true, s);
+    const gid = 'smGy30kWfDtNbJyWRnq8a';
+    assert.equal((await takeDmGif(ada, 'Bex', gid, s, Date.now(), gifboxStub())).error, 'accepted', 'a GIF was taken before there was a conversation');
+    await sendDm(ada, 'Bex', 'hello', s);
+    assert.equal((await takeDmGif(ada, 'Bex', gid, s, Date.now(), gifboxStub())).error, 'accepted', 'a GIF was taken with a request waiting');
+    await acceptDm(bex, 'Ada', s);
+    assert.equal((await takeDmGif(ada, 'Bex', 'gone_gif_1', s, Date.now(), gifboxStub())).error, 'gifbox', 'only a GIF Gifbox still has');
+    const took = await takeDmGif(ada, 'Bex', gid, s, Date.now(), gifboxStub());
+    assert.ok(took.img && took.vid);
+    assert.ok(s.keys().includes('dm-img/' + took.img) && s.keys().includes('dm-img/' + took.vid), 'a conversation’s GIF is kept with its pictures');
+    assert.ok(!s.keys().includes('img/' + took.img), 'a conversation’s GIF reached the channel’s pictures');
+    const raw = await s.getWithMetadata('dm-img/' + took.vid, { type: 'arrayBuffer' });
+    assert.ok(!Buffer.from(raw.data).includes('ftyp'), 'a conversation’s GIF was kept in the clear');
+    // The MP4 has to be the one that belongs to the still, from this sender, for this conversation.
+    assert.equal((await sendDm(ada, 'Bex', { text: '', img: took.img, gif: { vid: took.img } }, s)).error, 'picture', 'the still went as its own MP4');
+    assert.equal((await sendDm(bex, 'Ada', { text: '', img: took.img, gif: { vid: took.vid } }, s)).error, 'picture', 'somebody else’s GIF went');
+    assert.equal((await sendDm(ada, 'Bex', { text: '', gif: { vid: took.vid } }, s)).error, 'picture', 'an MP4 went with no still');
+    const sent = (await sendDm(ada, 'Bex', { text: '', img: took.img, gif: { vid: took.vid }, alt: 'A cat' }, s)).sent;
+    const seen = (await readDmWith(bex, 'Ada', s)).messages.at(-1);
+    assert.deepEqual(seen.gif, { vid: took.vid, page: GIFBOX_PAGE + gid });
+    assert.equal(seen.gif.id, undefined);
+    const vid = await getDmImage(bex, took.vid, s);
+    assert.ok(vid && vid.type === 'video/mp4' && Buffer.from(vid.data).includes('ftyp'), 'the other person could not play it');
+    await claimAccount('Cy', 'a long enough phrase', s, 33, null);
+    assert.equal(await getDmImage(person('Cy', 33), took.vid, s), null, 'somebody outside the conversation fetched its GIF');
+    await sweepDms(s, Date.now() + 2 * 60 * 60 * 1000);
+    assert.ok(s.keys().includes('dm-img/' + took.vid), 'the sweep took a GIF still held');
+    await takeDm(ada, 'Bex', sent.id, s);
+    assert.ok(!s.keys().includes('dm-img/' + took.img) && !s.keys().includes('dm-img/' + took.vid), 'a GIF outlived its message');
+  } finally {
+    if (was === undefined) delete process.env.CB_GIFBOX_KEY; else process.env.CB_GIFBOX_KEY = was;
+  }
 }));
 
 test('a message tells only the devices switched on for messages, as that claimed username', () => withPasswords(async () => {

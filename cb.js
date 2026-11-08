@@ -4348,7 +4348,7 @@
       var badge = el('span', 'cb-gif-badge', 'GIF \u25b6');
       badge.setAttribute('aria-hidden', 'true');
       open.appendChild(badge);
-      open.addEventListener('click', function () { me.playGif(m, open, img); });
+      open.addEventListener('click', function () { me.playGif(m, open, img, from); });
     } else {
       open.setAttribute('aria-label', 'Open the picture larger. ' + img.alt);
       open.addEventListener('click', function () { me.lightbox(m, open); });
@@ -8986,7 +8986,7 @@
   }
 
   Radio.prototype.pickerFill = function (p, k, open) {
-    if (k === 'gif') this.setGifs(open);
+    if (k === 'gif') this.setGifs(open, p.where);
     else if (k === 'stick') this.setStickers(open, p.where);
     else this.setEmoji(open, p.where);
   };
@@ -9452,17 +9452,20 @@
      nothing about who typed them. Every GIF in it is a still, fetched through
      /cb/gif with the pass, and a GIF on the channel stays still until somebody
      presses it, which the tray says. Nothing in it moves at any setting. */
-  Radio.prototype.setGifs = function (open) {
-    var me = this, box = this.gifBox;
+  Radio.prototype.setGifs = function (open, where) {
+    var me = this, dm = where === 'dm', box = dm ? this.dmGifBox : this.gifBox;
     this.gifStills = this.gifStills || {};
-    if (!open) { box.textContent = ''; return; }
+    this.gifTs = this.gifTs || {};
+    if (!open) { box.textContent = ''; this.gifTs[dm ? 'dm' : 'channel'] = null; return; }
     box.textContent = '';
+    // Each message box's tray keeps its own search: the channel's and a conversation's may both be open.
+    var tr = this.gifTs[dm ? 'dm' : 'channel'] = { where: dm ? 'dm' : 'channel', box: box };
     var form = el('form', 'cb-gifs__find');
     form.setAttribute('role', 'search');
     var lab = el('label', 'cb-lab', 'Search Gifbox');
-    lab.htmlFor = 'cb-gifs-q';
+    lab.htmlFor = 'cb-gifs-q-' + tr.where;
     var q = el('input', 'cb-say cb-gifs__q');
-    q.id = 'cb-gifs-q';
+    q.id = 'cb-gifs-q-' + tr.where;
     q.type = 'search';
     q.maxLength = 80;
     q.autocomplete = 'off';
@@ -9474,16 +9477,18 @@
     line.appendChild(go);
     form.appendChild(lab);
     form.appendChild(line);
-    var said = this.gifSaid = el('p', 'cb-quiet', 'Fetching GIFs from Gifbox…');
+    var said = tr.said = el('p', 'cb-quiet', 'Fetching GIFs from Gifbox…');
     said.setAttribute('role', 'status');
-    var list = this.gifList = el('ul', 'cb-gifs__list');
-    var more = this.gifMore = el('button', 'cb-btn cb-gifs__more', 'More GIFs');
+    var list = tr.list = el('ul', 'cb-gifs__list');
+    var more = tr.more = el('button', 'cb-btn cb-gifs__more', 'More GIFs');
     more.type = 'button';
     more.hidden = true;
     var credit = el('p', 'cb-quiet cb-gifs__credit');
     credit.appendChild(document.createTextNode('GIFs from '));
     credit.appendChild(awayLink('Gifbox', new URL('https://gifbox.me/')));
-    credit.appendChild(document.createTextNode('. A GIF stays still on everybody’s radio until they press it, because a GIF can flash. Your search goes to Gifbox from our server, with nothing about you: '));
+    credit.appendChild(document.createTextNode(dm
+      ? '. A GIF stays still until it is pressed, because a GIF can flash. Your search goes to Gifbox from our server, with nothing about you or who you are writing to: '
+      : '. A GIF stays still on everybody’s radio until they press it, because a GIF can flash. Your search goes to Gifbox from our server, with nothing about you: '));
     var why = el('a', null, 'what is sent');
     why.href = '/privacy.html#gifs';
     credit.appendChild(why);
@@ -9493,31 +9498,31 @@
     box.appendChild(list);
     box.appendChild(more);
     box.appendChild(credit);
-    form.addEventListener('submit', function (e) { e.preventDefault(); me.gifFind(q.value.trim(), ''); });
-    more.addEventListener('click', function () { me.gifFind(me.gifWords || '', me.gifNext || '', true); });
+    form.addEventListener('submit', function (e) { e.preventDefault(); me.gifFind(tr, q.value.trim(), ''); });
+    more.addEventListener('click', function () { me.gifFind(tr, tr.words || '', tr.next || '', true); });
     pickFocus(box, q);
-    this.gifFind('', '');
+    this.gifFind(tr, '', '');
   };
 
   // A page of GIFs into the tray: Gifbox's featured with no words, or a search.
-  Radio.prototype.gifFind = function (words, pos, adding) {
-    var me = this, said = this.gifSaid, list = this.gifList, more = this.gifMore;
-    if (!said) return;
-    var ask = this.gifAsk = {};
-    this.gifWords = words;
+  Radio.prototype.gifFind = function (tr, words, pos, adding) {
+    var me = this, said = tr.said, list = tr.list, more = tr.more;
+    var ask = tr.ask = {};
+    tr.words = words;
     more.hidden = true;
     said.textContent = words ? 'Searching Gifbox for “' + words + '”…' : 'Fetching GIFs from Gifbox…';
     if (!adding) list.textContent = '';
     call('/cb/gif', { body: { action: 'search', q: words, pos: pos } }, this.state.pass).then(function (r) {
-      if (ask !== me.gifAsk || me.gifBox.hidden || !me.gifBox.firstChild) return;
+      if (ask !== tr.ask || tr.box.hidden || !tr.box.firstChild) return;
       if (r.status === 401) return me.lost();
       if (r.status !== 200) { said.textContent = why(r, 'Gifbox did not answer just now. Try again in a moment.'); return; }
       if (!r.body.on) { said.textContent = 'GIFs are not switched on yet.'; return; }
       var got = r.body.results || [];
-      me.gifNext = r.body.next || '';
-      more.hidden = !me.gifNext;
+      tr.next = r.body.next || '';
+      more.hidden = !tr.next;
       if (!got.length && !adding) { said.textContent = words ? 'Gifbox has nothing for “' + words + '”.' : 'Gifbox has nothing to show just now.'; return; }
       said.textContent = (words ? 'GIFs for “' + words + '”.' : 'GIFs Gifbox is featuring.') + ' Press one to put it with your message.';
+      var pick = tr.where === 'dm' ? me.dmPickGif : me.pickGif;
       var first = null;
       got.forEach(function (g) {
         var li = el('li');
@@ -9532,14 +9537,14 @@
         var cap = el('span', 'cb-gifs__cap', g.title || g.about || 'A GIF');
         cap.setAttribute('aria-hidden', 'true');
         b.appendChild(cap);
-        b.addEventListener('click', function () { me.pickGif(g); });
+        b.addEventListener('click', function () { pick.call(me, g); });
         li.appendChild(b);
         list.appendChild(li);
         me.gifStill(g.id).then(function (url) { if (url) img.src = url; });
         if (!first) first = b;
       });
       if (adding && first) first.focus();
-    }).catch(function () { if (ask === me.gifAsk) said.textContent = 'No signal: Gifbox could not be reached.'; });
+    }).catch(function () { if (ask === tr.ask) said.textContent = 'No signal: Gifbox could not be reached.'; });
   };
 
   // A GIF's still, through /cb/gif with the pass, kept in memory for the page.
@@ -9586,7 +9591,7 @@
      and can flash. The press fetches its MP4 with the pass, once, and plays it
      muted and looping in the picture's place; the next press puts the still
      back. */
-  Radio.prototype.playGif = function (m, btn, img) {
+  Radio.prototype.playGif = function (m, btn, img, from) {
     var me = this, vid = btn.cbVideo;
     this.pics = this.pics || {};
     var said = m.alt || (m.handle + ' sent a GIF, with no description.');
@@ -9618,7 +9623,7 @@
     }
     btn.cbOn = true;
     if (this.pics[m.gif.vid]) { play(this.pics[m.gif.vid]); return; }
-    fetch('/cb/image?id=' + encodeURIComponent(m.gif.vid), {
+    fetch((from || '/cb/image?id=') + encodeURIComponent(m.gif.vid), {
       headers: { 'authorization': 'Bearer ' + this.state.pass }, credentials: 'omit', cache: 'no-store',
     }).then(function (r) { return r.ok ? r.blob() : null; }).then(function (b) {
       if (!b) { btn.cbOn = false; me.tell('That GIF has gone with its message.'); return; }
@@ -12196,12 +12201,18 @@
     ready.appendChild(alt);
     ready.appendChild(drop);
     /* A STICKER, once the conversation is accepted (Ryan's ask, 2026-10-20):
-       the channel's tray, sending here instead (setStickers' where). */
-    var dpk = this.pickerMake('dm', say, ['stick', 'emoji']);
+       the channel's tray, sending here instead (setStickers' where). And a GIF
+       from Gifbox (Ryan's ask, 2026-11-08), the channel's tray too, taken into
+       this conversation, sealed, by /cb/gif when it is picked (dmPickGif). */
+    var dpk = this.pickerMake('dm', say, ['gif', 'stick', 'emoji']);
     var stickBtn = this.dmStickBtn = dpk.btns.stick;
     this.dmStickBox = dpk.panels.stick;
+    this.dmGifBtn = dpk.btns.gif;
+    this.dmGifBox = dpk.panels.gif;
     stickBtn.hidden = true;
     dpk.tabs.stick.hidden = true;
+    this.dmGifBtn.hidden = true;
+    dpk.tabs.gif.hidden = true;
     var dfield = el('div', 'cb-field');
     dfield.appendChild(picBtn);
     dfield.appendChild(say);
@@ -12542,11 +12553,13 @@
     // A picture only once the conversation is accepted: a request is words only.
     var pics = b.can === 'yes' && b.state === 'open';
     this.dmPicBtn.hidden = !pics;
-    if (!pics && this.dmPicture) this.dmDropPicture();
-    // So with a sticker, and a reaction (dmDrawActs).
+    if (!pics && (this.dmPicture || this.dmGifPicked)) this.dmDropPicture();
+    // So with a GIF and a sticker, and a reaction (dmDrawActs).
     this.dmStickBtn.hidden = !pics;
     this.pk.dm.tabs.stick.hidden = !pics;
-    if (!pics && this.pk.dm.tab === 'stick') this.pickerClose('dm');
+    this.dmGifBtn.hidden = !pics;
+    this.pk.dm.tabs.gif.hidden = !pics;
+    if (!pics && (this.pk.dm.tab === 'stick' || this.pk.dm.tab === 'gif')) this.pickerClose('dm');
     // So with a reply.
     if (!pics) this.dmReplyStop();
     this.dmLive = pics;
@@ -12976,6 +12989,7 @@
     this.dmTold('');
     picPending(this.dmPicReady, this.dmPicShown, this.dmPicLine, file);
     redraw(file).then(function (blob) {
+      me.dmGifPicked = null;
       me.dmPicture = blob;
       picReady(me.dmPicReady, me.dmPicShown, me.dmPicLine, blob, file);
       me.dmPicAlt.focus({ preventScroll: true });
@@ -12987,8 +13001,42 @@
 
   Radio.prototype.dmDropPicture = function () {
     this.dmPicture = null;
+    this.dmGifPicked = null;
     this.dmPicAlt.value = '';
     picGone(this.dmPicReady, this.dmPicShown);
+  };
+
+  /* A GIF picked for this conversation: taken into it now (/cb/gif, take,
+     with the handle in the body), sealed and bound to the two of you, and
+     shown still above the box, pickGif's way. Send sends it. */
+  Radio.prototype.dmPickGif = function (g) {
+    var me = this, who = this.dmWith;
+    var box = this.dmPicReady, img = this.dmPicShown, line = this.dmPicLine;
+    if (!who) return;
+    line.textContent = 'Getting the GIF ready…';
+    box.hidden = false;
+    call('/cb/gif', { body: { action: 'take', id: g.id, with: who } }, this.state.pass).then(function (r) {
+      if (r.status === 401) return me.lost();
+      if (r.status !== 200 || !r.body.img) {
+        // Said under the box, where the conversation's other answers are, with no timer.
+        if (me.dmPicture || me.dmGifPicked) line.textContent = ''; else picGone(box, img);
+        me.dmTold(why(r, 'That GIF could not be fetched from Gifbox just now.'));
+        return;
+      }
+      me.dmPicture = null;
+      me.dmGifPicked = { img: r.body.img, vid: r.body.vid, with: who };
+      if (img.cbUrl) URL.revokeObjectURL(img.cbUrl);
+      img.cbUrl = null;
+      me.gifStill(g.id).then(function (url) { if (url) { img.src = url; img.hidden = false; } });
+      line.textContent = 'This is the GIF that will go with your message, from Gifbox, shown still: it moves only when it is pressed. Nothing has gone yet.';
+      me.dmPicAlt.value = (g.about || g.title || '').slice(0, 280);
+      me.pickerClose('dm');
+      box.scrollIntoView({ block: 'nearest' });
+      me.dmPicAlt.focus({ preventScroll: true });
+    }).catch(function () {
+      if (!me.dmPicture && !me.dmGifPicked) picGone(box, img);
+      me.dmTold('No signal: the GIF did not come through.');
+    });
   };
 
   /* A reply in a conversation: the channel's bar, sending here. */
@@ -13007,9 +13055,11 @@
   };
 
   Radio.prototype.dmSend = function () {
-    var me = this, say = this.dmSay, text = say.value, who = this.dmWith, picture = this.dmPicture, re = this.dmReplying;
+    var me = this, say = this.dmSay, text = say.value, who = this.dmWith, picture = this.dmPicture, re = this.dmReplying, gif = this.dmGifPicked;
     if (!who) return;
-    if (!text.trim() && !picture) { this.dmTold('Write something, or add a picture, first.'); say.focus(); return; }
+    // A GIF is taken for one conversation and goes in no other.
+    if (gif && gif.with !== who) { this.dmDropPicture(); gif = null; }
+    if (!text.trim() && !picture && !gif) { this.dmTold('Write something, or add a picture, first.'); say.focus(); return; }
     if (this.dmSending) return;
     this.dmSending = true;
     if (picture) this.dmTold('Sending the picture…');
@@ -13019,6 +13069,7 @@
       var body = { with: who, send: text };
       if (re) body.re = re.id;
       if (up) { body.img = up.body.id; body.alt = me.dmPicAlt.value.trim(); }
+      else if (gif) { body.img = gif.img; body.gif = { vid: gif.vid }; body.alt = me.dmPicAlt.value.trim(); }
       return call('/cb/dm', { body: body }, me.state.pass);
     }).then(function (r) {
       if (r.status === 401) return me.lost();
@@ -13026,7 +13077,7 @@
       if (r.status === 200 && r.body) {
         say.value = '';
         me.grow(say);
-        if (picture) me.dmDropPicture();
+        if (picture || gif) me.dmDropPicture();
         if (me.dmReplying === re) me.dmReplyStop();
         me.dmJustSent = true;
         me.dmDrawTalk(r.body);
