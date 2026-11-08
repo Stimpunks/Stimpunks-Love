@@ -2622,9 +2622,12 @@ function start() {
         if (el.tagName === 'BUTTON') items.push({ words: el.textContent, pressed: el.getAttribute('aria-pressed') === 'true', btn: el });
         else items.push({ words: el.textContent, wide: true, label: true });
       });
-      var at = nearest();
-      if (at && ROOMS[at.page] && !(inside && at.page === inside.page)) {
-        items.push({ words: 'Walk into ' + (at.room || at.name), wide: true, go: function () { enter(at.page); } });
+      // (Not called at: the tiles' layout below counts columns in a var at,
+      // the same variable, and Walk into pressed with a number.)
+      var wayIn = nearest();
+      if (wayIn && ROOMS[wayIn.page] && !(inside && wayIn.page === inside.page)) {
+        var inPage = wayIn.page;
+        items.push({ words: 'Walk into ' + (wayIn.room || wayIn.name), wide: true, go: function () { enter(inPage); } });
       }
       var back = behind.length ? behind[behind.length - 1].inside : null;
       if (inside) items.push({ words: back ? 'Back out into ' + back.name : 'Back out onto the street (on the screen)', wide: true, go: function () { outOfRoom(); } });
