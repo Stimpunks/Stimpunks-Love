@@ -245,8 +245,37 @@
      tab, 'kept' when the browser would not open one, so nothing moved, and
      nothing at all when it went. */
   function goPage(href) {
+    if (callFramed() && leavesPage(href)) return goHome(href);
     if (callUp() && leavesPage(href)) return newTab(href) ? 'tab' : 'kept';
     location.href = href;
+  }
+
+  /* A LINK IN THE CHAT BESIDE A POPPED-OUT CALL GOES TO THE WINDOW THE CALL
+     WAS POPPED OUT OF (feedback from our community, 2026-11-08: a link
+     pressed there walked the little window off the chat, and an address off
+     the street opened in the call's window). The chat is call-window.html's
+     frame (callFramed), and that window's opener is the page somebody was on
+     before they popped the call out, which has no call in it now, so it can
+     go wherever the link says. An address off the street opens in a new tab
+     of that window. If it has closed, a new tab. Answers tabTold's word. */
+  function framedHome() {
+    try {
+      var o = window.top.opener;
+      if (o && !o.closed && o.location.host === location.host) return o;
+    } catch (e) { /* elsewhere now, or gone */ }
+    return null;
+  }
+  function goHome(href) {
+    var w = framedHome();
+    if (w) { try { w.location.href = href; w.focus(); return 'home'; } catch (e) { /* gone */ } }
+    return newTab(href) ? 'away' : 'stayed';
+  }
+  function awayHome(href) {
+    // With noopener, open() answers null whether or not it opened, so only a
+    // throw says the window could not take it.
+    var w = framedHome();
+    if (w) { try { w.open(href, '_blank', 'noopener'); w.focus(); return 'home'; } catch (e) { /* gone */ } }
+    return newTab(href) ? 'away' : 'stayed';
   }
 
   // An address on the street: opened here, or from the radio's own window, in
@@ -2030,6 +2059,7 @@
     filmSec.appendChild(hosts);
     this.beacons = [];
     this.skew = 0;
+    if (inChat()) { this.chatFilmHome = el('div', 'cb-cfilm-home'); this.chatFilmHome.appendChild(this.chatFilmMake()); chanSec.appendChild(this.chatFilmHome); }
     chanSec.appendChild(lcd);
     this.lcdBox = lcd;
 
@@ -2727,6 +2757,26 @@
       });
       window.addEventListener('focus', function () { if (me.whereNow() === false) me.bandShown(); });
       this.whereNow();
+    } else if (callFramed()) {
+      /* The chat beside a popped-out call: a link that would leave the chat
+         page goes to the window the call was popped out of, and one off the
+         street opens in a new tab there, never in the call's window
+         (framedHome). A press with a key held is the browser's. */
+      root.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[href]');
+        if (!a || a.hasAttribute('download') || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        var u;
+        try { u = new URL(a.getAttribute('href'), location.href); } catch (x) { return; }
+        if (!/^https?:$/.test(u.protocol)) return;
+        if (u.origin === location.origin && !a.target) {
+          if (!leavesPage(u.href)) return;
+          e.preventDefault();
+          me.tabTold(goHome(u.href), a);
+          return;
+        }
+        e.preventDefault();
+        me.tabTold(awayHome(u.href), a);
+      });
     } else {
       /* While a call is open on this page, a link in the radio that would
          leave the page opens in a new tab, so the call stays up (callUp). A
@@ -5006,6 +5056,7 @@
     var moved = radio.wasPath !== undefined ? radio.whereNow() : (radio.bandShown(), false);
     if (said) radio.tell(said);
     chatJoin();
+    radio.chatFilmDraw();
     return moved;
   }
 
@@ -5532,8 +5583,11 @@
     parts.appendChild(col);
     /* BESIDE THE CALL (Ryan's ask, 2026-11-01, after Discord's): on a wide
        window a call open in the chat page stands in the middle column, where
-       the channel was, and the right-hand column holds the chat or what is in
-       this channel, one at a time, by a switch at its head. The middle is a
+       the channel was, and the right-hand column holds the chat, Search or
+       what is in this channel, one at a time, by a switch at its head. Search
+       has a place of its own there, as it has a tab on a phone (feedback from
+       our community, 2026-11-08: beside a call, the search box and the line
+       about the forums left the messages a few lines high). The middle is a
        place kept for the call (callSlot), which call.js's dockTo lays the
        call over; it holds nothing and is not read. Picking a channel, a
        conversation, Events or a search turns the switch to Chat (appTo), and
@@ -5545,7 +5599,7 @@
     flip.setAttribute('role', 'group');
     flip.setAttribute('aria-label', 'Beside the call');
     this.sideBtns = {};
-    [['chat', 'Chat'], ['here', 'In this channel']].forEach(function (t) {
+    [['chat', 'Chat'], ['search', 'Search'], ['here', 'In this channel']].forEach(function (t) {
       var b = el('button', 'cb-btn cb-side-btn', t[1]);
       b.type = 'button';
       b.addEventListener('click', function () { me.setSide(t[0]); });
@@ -5558,7 +5612,7 @@
     if (CHAT_WIDE && CHAT_WIDE.addEventListener) CHAT_WIDE.addEventListener('change', function () { me.callPlace(); });
     this.callPlace();
     if (window.ResizeObserver) new ResizeObserver(function () { me.appPlaceCall(); }).observe(this.box);
-    if (CHAT_WIDE && CHAT_WIDE.addEventListener) CHAT_WIDE.addEventListener('change', function () { me.appCall(); });
+    if (CHAT_WIDE && CHAT_WIDE.addEventListener) CHAT_WIDE.addEventListener('change', function () { me.appCall(); me.chatFilmDraw(); });
     this.appTo(chatFromHash() || evFromHash() !== null ? 'chat' : 'chans');
     /* The screen's own height, less the keyboard where a browser shows the
        page under it (iOS), so the message box stays above the keyboard. */
@@ -5591,6 +5645,7 @@
       this.box.classList.toggle('cb-radio--beside', beside);
       if (beside) this.setSide('chat');
       logs.forEach(function (l) { l.scrollTop = l.scrollHeight; });
+      this.chatFilmDraw();
     }
     if (open && !this.appCallOn) { this.appCallOn = true; this.appTo('call'); }
     // Ended: the tab shows the channel's call again, with Join, which the radio
@@ -5660,7 +5715,7 @@
     }
     this.appPane = pane;
     this.box.dataset.pane = pane;
-    if (pane === 'chat' || pane === 'search') this.setSide('chat');
+    if (pane === 'chat' || pane === 'search') this.setSide(pane);
     for (var k in this.appTabs) {
       if (k === pane) this.appTabs[k].setAttribute('aria-current', 'true');
       else this.appTabs[k].removeAttribute('aria-current');
@@ -5761,6 +5816,7 @@
     logs.forEach(function (l) { l.scrollTop = l.scrollHeight; });
     // A call beside the chat goes back to being a window while it is enlarged.
     if (inApp()) this.appCall();
+    this.chatFilmDraw();
   };
 
   /* A conversation, or All messages, in the middle: the channel steps out of
@@ -13481,7 +13537,7 @@
     if (sec && this.state.size === 'half' && !sec.classList.contains('cb-sec--channel')) this.setSize('normal', true);
     // Beside a call, the side that part is on.
     if (this.besideOn && sec) {
-      if (sec.closest('.cb-col--b')) this.setSide('chat');
+      if (sec.closest('.cb-col--b')) this.setSide(sec.classList.contains('cb-sec--search') ? 'search' : 'chat');
       else if (sec.closest('.cb-col--c, .cb-col--d')) this.setSide('here');
     }
     for (var k in this.folds) if (this.folds[k].sec === sec && this.partFolded(k)) this.setPart(k, true, true);
@@ -16278,6 +16334,197 @@
     this.filmShown();
     this.filmNowShown(list, keys);
     this.screenStrip();
+    this.chatFilmDraw();
+  };
+
+  /* THE HOSTED FILM ON THE CHAT PAGE (Ryan's ask, 2026-11-08): the chat page
+     has no screen of its own, so a film somebody hosts in the channel's room
+     could only be watched by going to the room. Now, while somebody hosts one
+     there, a panel over the messages says who and where they are, and Show
+     the film puts its play button up there, saying how long it runs; pressed,
+     it starts where the host is (love-embed.js builds the frame, through
+     loveEmbed.press, because the button is in the radio's shadow root, where
+     the page's own listener never sees it). Catch up and Follow get it ready
+     there too (readyFilm), so Follow keeps pace on the chat page as in the room.
+       · Only a film the room itself offers, or the base's (love-embed.js's
+         offers and offerFor, the popped-out call's window's rule and
+         plateFor's): a beacon names whatever video its sender says.
+       · Nothing more is asked: the hosts come with every listen already, and
+         the room's own page is read once, only when somebody hosts there.
+         Nothing reaches YouTube until the press.
+       · Not shown at all while nobody hosts there and nothing plays; hidden
+         again by Hide the film, which takes the frame away. Not remembered,
+         and a channel picked afresh starts without it.
+       · Your own hosting is on the page the film plays on, so it is not here.
+     The friendly edits are the film shown by itself as somebody starts
+     hosting, which pushes the messages down unasked, and any host's film up
+     "since they are in the channel", which lets anybody put any video on
+     everybody's chat. */
+  Radio.prototype.chatFilmMake = function () {
+    var me = this, box = el('div', 'cb-cfilm');
+    box.hidden = true;
+    var top = el('div', 'cb-cfilm__top'), line = el('p', 'cb-cfilm__line');
+    var show = el('button', 'cb-btn', 'Show the film'), catchUp = el('button', 'cb-btn', 'Catch up'), swap = el('button', 'cb-btn', '');
+    show.type = catchUp.type = swap.type = 'button';
+    show.setAttribute('aria-expanded', 'false');
+    catchUp.hidden = swap.hidden = true;
+    top.appendChild(line); top.appendChild(show); top.appendChild(catchUp); top.appendChild(swap);
+    var said = el('p', 'cb-cfilm__said');
+    said.setAttribute('role', 'status');
+    var screen = el('div', 'cb-cfilm__screen');
+    screen.hidden = true;
+    box.appendChild(top); box.appendChild(said); box.appendChild(screen);
+    var cf = this.cf = { box: box, line: line, show: show, catchUp: catchUp, swap: swap, said: said, screen: screen,
+                         room: null, offers: null, asked: null, open: false, shown: '', saidFor: null };
+    show.addEventListener('click', function () { me.chatFilmOpen(!cf.open); });
+    // The host's place, read the moment the play button is pressed.
+    screen.addEventListener('click', function (e) {
+      var p = e.target.closest && e.target.closest('button.cb-cfilm__plate');
+      if (!p) return;
+      withEmbed(function () {
+        var E = window.loveEmbed, b = me.chatFilmBeacon();
+        if (!E || !E.press || !p.isConnected) return;
+        if (b && b.video === p.dataset.cfVideo) {
+          if (b.live) delete p.dataset.embedStart; else p.dataset.embedStart = String(Math.floor(me.placeOf(b)));
+        }
+        E.press(p);
+        me.chatFilmDraw();
+      });
+    });
+    catchUp.addEventListener('click', function () {
+      var b = me.chatFilmBeacon(), E = window.loveEmbed, w = E && E.where ? E.where() : null;
+      if (!b || !w) { me.chatFilmSay('Press play on the film first; it starts where they are.'); return; }
+      var at = me.placeOf(b), got = E.seek(at);
+      me.chatFilmSay(got && !got.past ? 'Moved to ' + place(at) + ', where ' + b.handle + ' is. Whether it plays is yours.'
+        : 'Your film could not be moved there. Hide the film and show it again to start where they are.');
+    });
+    swap.addEventListener('click', function () {
+      var b = me.chatFilmBeacon(), p = me.chatFilmPlate(b, true);
+      if (!p) return;
+      me.chatFilmDraw();
+      p.focus();
+      me.chatFilmSay('\u201c' + b.film + '\u201d is up, waiting for your press.');
+    });
+    return box;
+  };
+  // The film hosted in the channel's room by somebody else, or null.
+  Radio.prototype.chatFilmBeacon = function () {
+    var tag = hereTag(), mine = String(this.state.handle || '').toLowerCase();
+    return this.beacons.filter(function (b) { return b.room === tag && String(b.handle).toLowerCase() !== mine; })[0] || null;
+  };
+  Radio.prototype.chatFilmSay = function (s) {
+    var cf = this.cf;
+    if (!cf) return;
+    cf.said.textContent = s;
+    clearTimeout(cf.saidFor);
+    if (s) cf.saidFor = setTimeout(function () { cf.said.textContent = ''; }, 8000);
+  };
+  // What can go up for b here, or null, once love-embed.js is loaded.
+  Radio.prototype.chatFilmPut = function (b) {
+    var E = window.loveEmbed;
+    return b && E && E.offerFor && (this.cf.offers || b.base) ? E.offerFor(this.cf.offers, b) : null;
+  };
+  /* b's play button on the screen, in place of what was there when `over`,
+     or else only when nothing is playing. Gives back the button, or null. */
+  Radio.prototype.chatFilmPlate = function (b, over) {
+    var cf = this.cf, put = this.chatFilmPut(b);
+    if (!cf || !put) return null;
+    var key = [b.handle, b.video, b.list || ''].join('|');
+    var have = cf.screen.querySelector('button.cb-cfilm__plate');
+    if (have && cf.shown === key) return have;
+    if (cf.screen.querySelector('div.facade') && !over) return null;
+    cf.screen.textContent = '';
+    var p = el('button', 'cb-cfilm__plate');
+    p.type = 'button';
+    p.dataset.embedTitle = b.film;
+    p.dataset.cfVideo = b.video;
+    if (put.src) { p.dataset.embedSrc = put.src; p.dataset.embedEntry = put.entry; } else p.dataset.embedId = put.id;
+    p.appendChild(el('span', null, '\u201c' + b.film + '\u201d \u2014 ' +
+      (b.live ? 'live, so it runs until you close it' : b.length ? 'runs ' + place(b.length) : 'how long it runs was not said') +
+      ', hosted on the CB by ' + b.handle + (b.live ? '.' : '. It starts where they are when you press it.')));
+    p.appendChild(el('span', 'cb-cfilm__play', '\u25B6 PRESS PLAY'));
+    cf.screen.appendChild(p);
+    cf.shown = key;
+    return p;
+  };
+  Radio.prototype.chatFilmOpen = function (on) {
+    var cf = this.cf;
+    if (!cf) return;
+    cf.open = on;
+    cf.show.textContent = on ? 'Hide the film' : 'Show the film';
+    cf.show.setAttribute('aria-expanded', String(on));
+    cf.screen.hidden = !on;
+    // Taken away, not hidden, so nothing more plays.
+    if (!on) { cf.screen.textContent = ''; cf.shown = ''; this.chatFilmSay(''); }
+    this.chatFilmDraw();
+  };
+  /* WHERE IT STANDS: on a wide window, at the head of the right-hand column,
+     over Happening now, which names the host, so the messages keep the middle
+     whole (in the middle, a film pushed the message box below the window); on
+     a phone, beside a call or enlarged, over the messages, where the chat is.
+     Moving a frame reloads it, so a film that is playing stays where it is
+     until it is hidden. */
+  Radio.prototype.chatFilmPlace = function () {
+    var cf = this.cf;
+    if (!cf || !this.nowSec || cf.screen.querySelector('div.facade')) return;
+    var wide = !!(CHAT_WIDE && CHAT_WIDE.matches) && !this.besideOn && !this.big;
+    if (wide && cf.box.parentNode !== this.nowSec.parentNode) this.nowSec.parentNode.insertBefore(cf.box, this.nowSec);
+    else if (!wide && cf.box.parentNode !== this.chatFilmHome) this.chatFilmHome.appendChild(cf.box);
+    cf.box.classList.toggle('cb-cfilm--side', wide);
+  };
+  Radio.prototype.chatFilmDraw = function () {
+    var cf = this.cf, me = this;
+    if (!cf) return;
+    this.chatFilmPlace();
+    var tag = hereTag();
+    if (cf.room !== tag) {
+      // Another channel: whatever was up goes, and its room's films are read afresh.
+      cf.room = tag;
+      cf.offers = null;
+      cf.asked = null;
+      if (cf.open) { cf.open = false; cf.show.textContent = 'Show the film'; cf.show.setAttribute('aria-expanded', 'false'); cf.screen.hidden = true; }
+      cf.screen.textContent = '';
+      cf.shown = '';
+    }
+    var b = this.chatFilmBeacon(), room = byTag[tag], name = room ? '#' + room.name : 'this channel';
+    // The room's own films, read once, and only once somebody hosts there.
+    if (b && !b.base && cf.asked !== tag) {
+      cf.asked = tag;
+      withEmbed(function () {
+        var E = window.loveEmbed;
+        if (!E || !E.offers) return;
+        E.offers(room && room.path).then(function (o) { if (cf.room === tag) { cf.offers = o; me.chatFilmDraw(); } });
+      });
+    }
+    var playing = cf.screen.querySelector('div.facade'), put = this.chatFilmPut(b);
+    cf.box.hidden = !put && !playing;
+    cf.catchUp.hidden = !(playing && b && !b.live && put);
+    cf.swap.hidden = true;
+    if (cf.box.hidden) return;
+    if (!put) {
+      cf.line.textContent = 'Nobody is hosting a film in ' + name + ' now. Yours plays on until you hide the film.';
+      return;
+    }
+    cf.line.textContent = b.handle + ' is hosting \u201c' + b.film + '\u201d in ' + name + ': ' + this.beaconAt(b) + '.';
+    if (!cf.open) return;
+    var key = [b.handle, b.video, b.list || ''].join('|');
+    if (playing && key !== cf.shown) {
+      // Yours is playing: another film goes up only on your press.
+      cf.swap.textContent = 'Put \u201c' + b.film + '\u201d up instead';
+      cf.swap.hidden = false;
+      return;
+    }
+    if (!playing) this.chatFilmPlate(b);
+  };
+  /* readyFilm's way onto the chat page's screen, for Catch up and Follow:
+     the film's play button up there, open, in place of anything else. */
+  Radio.prototype.chatFilmReady = function (b) {
+    var cf = this.cf;
+    if (!cf || !b || b.room !== hereTag() || !this.chatFilmPut(b)) return null;
+    if (!cf.open) this.chatFilmOpen(true);
+    var p = this.chatFilmPlate(b, true);
+    this.chatFilmDraw();
+    return p;
   };
 
   Radio.prototype.beaconAt = function (b) {
@@ -16618,7 +16865,13 @@
     if (!how) return;
     var s = how === 'tab'
       ? 'That opened in a new tab, so your call stays up where it is. Pop out, on the call, takes the call with you from room to room instead.'
-      : 'Your browser would not open a new tab, so you are still here and so is your call. Hold Ctrl or Cmd as you press the link, or pop the call out first.';
+      : how === 'home'
+        ? 'That opened in the window you popped the call out of, so the call and this chat stay here.'
+        : how === 'away'
+          ? 'The window you popped the call out of has closed, so that opened in a new tab. The call and this chat stay here.'
+          : how === 'stayed'
+            ? 'Your browser would not open a new tab, so you are still in this chat beside the call. Hold Ctrl or Cmd as you press the link.'
+          : 'Your browser would not open a new tab, so you are still here and so is your call. Hold Ctrl or Cmd as you press the link, or pop the call out first.';
     var dlg = near && near.closest ? near.closest('dialog') : null;
     if (dlg) {
       var p = dlg.querySelector('.cb-said--tab');
@@ -17416,6 +17669,7 @@
   function readyFilm(film, video, secs, beacon) {
     var list = beacon && beacon.list, hit = filmButton(film, video, list), put = null;
     if (!hit && beacon && (put = plateFor(beacon))) hit = put.button;
+    if (!hit && beacon && radio && inChat()) hit = radio.chatFilmReady(beacon);
     if (!hit) return null;
     var old = document.querySelectorAll('[data-cb-ready]');
     for (var o = 0; o < old.length; o++) old[o].removeAttribute('data-cb-ready');
@@ -17453,6 +17707,8 @@
      icon is smaller than Small already and is left as it is. */
   function clearOf(node) {
     var shrank = false;
+    // The chat page's film is in the radio itself (chatFilmReady), never under it.
+    if (radio && radio.box.contains(node)) return false;
     if (radio && !radio.tiny() && !radio.state.folded) {
       var a = node.getBoundingClientRect(), r = radio.box.getBoundingClientRect();
       if (a.left < r.right && a.right > r.left && a.top < r.bottom && a.bottom > r.top) { radio.setSize('small', true); shrank = true; }

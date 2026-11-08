@@ -433,7 +433,41 @@
     return el;
   }
 
-  window.loveEmbed = { frame: frame, frameUrl: frameUrl, audio: audio, where: where, seek: seek, play: play, pause: pause, toEntry: toEntry, withStart: withStart, playing: playing, quiet: quiet };
+  /* WHICH FILMS A ROOM OFFERS, read once off its own page's play buttons:
+     single films by id, and lists by their list id with the address their
+     button frames (never a mix, which is each listener's own). A host's
+     beacon names whatever video its sender says, so a film is put up from a
+     beacon somewhere other than the room's own page (a popped-out call's
+     window, the chat page) only when the room itself has a play button for
+     it, or the server marks the host as the base, cb.js's plateFor rule.
+     One copy, here, for call-window.js and cb.js (2026-11-08). */
+  function offers(path) {
+    var got = { ids: {}, lists: {} };
+    if (!path || path.charAt(0) !== '/' || path.indexOf('#') >= 0) return Promise.resolve(got);
+    return fetch(path).then(function (r) { return r.ok ? r.text() : null; }).catch(function () { return null; })
+      .then(function (html) {
+        if (!html) return got;
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var bs = doc.querySelectorAll('[data-embed-id], [data-embed-src]');
+        for (var i = 0; i < bs.length; i++) {
+          var id = bs[i].getAttribute('data-embed-id'), src = bs[i].getAttribute('data-embed-src') || '', m;
+          if (id && VIDEO.test(id)) got.ids[id] = true;
+          if ((m = /[?&]list=([A-Za-z0-9_-]+)/.exec(src)) && m[1].indexOf('RD') !== 0) { if (!got.lists[m[1]]) got.lists[m[1]] = src; }
+          else if ((m = /\/embed\/([A-Za-z0-9_-]{11})(?:[?#]|$)/.exec(src))) got.ids[m[1]] = true;
+        }
+        return got;
+      });
+  }
+  // What can go up for a beacon, or null: the room's list at the host's film,
+  // the room's own film, or the base's film by its id.
+  function offerFor(o, b) {
+    if (!b || !VIDEO.test(b.video || '')) return null;
+    if (o && b.list && o.lists[b.list]) return { src: o.lists[b.list], entry: b.video };
+    if ((o && o.ids[b.video]) || b.base) return { id: b.video };
+    return null;
+  }
+
+  window.loveEmbed = { frame: frame, frameUrl: frameUrl, audio: audio, where: where, seek: seek, play: play, pause: pause, toEntry: toEntry, withStart: withStart, playing: playing, quiet: quiet, offers: offers, offerFor: offerFor, press: function (btn) { swap(btn); } };
 
   function swap(btn) {
     /* Named player, not `frame`: `var frame` here would be hoisted over the

@@ -116,7 +116,6 @@
 
   /* ── SHOW THE FILM ─────────────────────────────────────────────────────── */
   var FILM_EVERY = 6000;   // ms between asks for the room's host, while shown and in front
-  var VIDEO = /^[A-Za-z0-9_-]{11}$/;
   var film = null;         // the panel's parts and state while it is shown
   filmBtn.setAttribute('aria-expanded', 'false');
   function cbState() { try { var v = JSON.parse(localStorage.getItem('love-cb') || 'null'); return v || {}; } catch (e) { return {}; } }
@@ -128,42 +127,20 @@
   }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
 
-  // The room's own play buttons, read once from its page: single films by id,
-  // and lists by their list id with the address their button frames.
+  // The room's own play buttons, read once from its page (love-embed.js's
+  // offers, which cb.js's chat uses too): the room's page out of the
+  // street's list of rooms, then what it offers.
   function pageOffers(tag) {
     return fetch('/cb-rooms.json').then(function (r) { return r.ok ? r.json() : { rooms: [] }; }).catch(function () { return { rooms: [] }; })
       .then(function (j) {
         var path = null;
         (j.rooms || []).forEach(function (x) { if (x.tag === tag) path = x.path; });
-        if (!path) path = '/' + tag + '.html';
-        if (path.indexOf('#') >= 0 || path.charAt(0) !== '/') return null;
-        return fetch(path).then(function (r) { return r.ok ? r.text() : null; });
-      })
-      .catch(function () { return null; })
-      .then(function (html) {
-        var got = { ids: {}, lists: {} };
-        if (!html) return got;
-        var doc = new DOMParser().parseFromString(html, 'text/html');
-        var bs = doc.querySelectorAll('[data-embed-id], [data-embed-src]');
-        for (var i = 0; i < bs.length; i++) {
-          var id = bs[i].getAttribute('data-embed-id'), src = bs[i].getAttribute('data-embed-src') || '', m;
-          if (id && VIDEO.test(id)) got.ids[id] = true;
-          if ((m = /[?&]list=([A-Za-z0-9_-]+)/.exec(src)) && m[1].indexOf('RD') !== 0) { if (!got.lists[m[1]]) got.lists[m[1]] = src; }
-          else if ((m = /\/embed\/([A-Za-z0-9_-]{11})(?:[?#]|$)/.exec(src))) got.ids[m[1]] = true;
-        }
-        return got;
+        return window.loveEmbed.offers(path || '/' + tag + '.html');
       });
   }
 
-  // What the window can put up for this beacon, or null: the room's list at the
-  // host's film, the room's own film, or a moderator's film by its id.
-  function offered(b) {
-    var o = film && film.offers;
-    if (!b || !VIDEO.test(b.video || '')) return null;
-    if (o && b.list && o.lists[b.list]) return { src: o.lists[b.list], entry: b.video };
-    if ((o && o.ids[b.video]) || b.base) return { id: b.video };
-    return null;
-  }
+  // What the window can put up for this beacon, or null (love-embed.js's offerFor).
+  function offered(b) { return window.loveEmbed.offerFor(film && film.offers, b); }
   // A line under the host's, for what a press here did; it goes after a while.
   function filmSay(s) {
     if (!film) return;

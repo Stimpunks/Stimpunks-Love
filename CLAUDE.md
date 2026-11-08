@@ -1015,7 +1015,16 @@ presses nothing, and a new film while yours plays goes up only on Put it up inst
 The friendly edits are a chat shown by default "since people asked for it", which is a
 second radio listening unasked, widening `callFramed` to other frames, any host's film on the plate "since
 they are in the call", which lets anybody put any video on everybody's screen, and a second copy of
-`followTick` in the window. The browser pane in this app opens a pop-up
+`followTick` in the window. **A link in that framed chat goes to the call window's opener** (`framedHome`,
+`goHome`, `awayHome` in `cb.js`, 2026-11-08): a street link walks the page the call was popped out of, one off
+the street opens a tab there, never in the call's window. **The chat page shows a hosted film too** (Ryan's
+ask, 2026-11-08, `chatFilmMake` and its kin in `cb.js`): a box while somebody else hosts in the channel's
+room, Show the film putting up a plate in the radio's shadow root, pressed through `loveEmbed.press` (the
+page's own listener never sees a shadow root's click), the start set at the press; `readyFilm` falls back to
+it, so Catch up and Follow work there. On a wide window it stands over Happening now (`chatFilmPlace`), so the
+middle keeps the messages, and a playing frame is never moved, because moving reloads it. **Which films a room
+offers is `loveEmbed.offers` and `offerFor` in `love-embed.js`, one copy for the call window and the chat.**
+The friendly edits are the film shown by itself as somebody starts hosting, and any host's film up there. The browser pane in this app opens a pop-up
 in the same tab, so test the two sides in two tabs there, or in a real browser.
 
 **THE RADIO IS IN PARTS, EACH UNDER A REAL HEADING** (Ryan, 2026-10-13, after people could not tell where
@@ -4720,8 +4729,10 @@ tab. **No familiar comes into the chat** (`data-cb-chat` in love.js's `familiar(
 `display: none` for a hidden call, which risks the browser stopping its frame. **On a wide window a call open in the chat
 stands in the middle column, with the chat beside it** (Ryan's ask, 2026-11-01, after Discord's): `appCall` sets
 `cb-radio--beside`, `appPlaceCall` docks the call over `callSlot` through `dockTo`'s `left` and `right`, and the
-right-hand column holds the middle's parts or In this channel's by the box's `data-side`, switched by Chat and In this
-channel (`setSide`, which `appTo` and `reveal()` turn too), kept nowhere. Enlarge the chat lets the call go back to a
+right-hand column holds the middle's parts, Search or In this channel's by the box's `data-side`, switched by Chat,
+Search and In this channel (`setSide`, which `appTo` and `reveal()` turn too), kept nowhere. Search got its own side,
+and the forums and World room lines step aside there, after feedback on 2026-11-08 that the messages were a few
+lines high beside a call. Enlarge the chat lets the call go back to a
 window. The friendly edit is both columns stacked beside the call "so nothing needs switching", which leaves the
 messages half a column. **Join the call also stands beside the name** (`headCall`, the same day, after Element's): beside the
 channel's name on the chat page (`chanTop`) and the room's under Where you are, pressing the room's own Join or the World

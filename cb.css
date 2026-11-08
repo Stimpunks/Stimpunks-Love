@@ -2505,6 +2505,31 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
   .cb-radio--big .cb-bar { border-radius: 0; }
 }
 
+/* THE HOSTED FILM ON THE CHAT PAGE (cb.js, chatFilmMake; Ryan's ask,
+   2026-11-08): over the channel's messages, outlined in the case's groove,
+   the events cards' way; the play button is the readout's own pair, amber on
+   the glass, and the line is steel on the case, so every pair here is one
+   check-contrast.py's CB_ROLES already holds. Unpressed, the button is a
+   strip, not a 16:9 plate, so it takes a line or two of the messages and no
+   more; pressed, the film is as wide as the column allows at 16:9, never
+   taller than about two fifths of the window. Nothing in it moves. */
+.cb-cfilm { display: grid; gap: 6px; padding: 8px 10px; border: 2px solid var(--cb-steel-2); border-radius: 6px; }
+.cb-cfilm[hidden], .cb-cfilm__screen[hidden], .cb-cfilm-home:empty, .cb-cfilm-home:has(> .cb-cfilm[hidden]) { display: none; }
+.cb-cfilm__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.cb-cfilm__line { margin: 0; flex: 1 1 14em; overflow-wrap: anywhere; }
+.cb-cfilm__said { margin: 0; font-size: .9em; }
+.cb-cfilm__said:empty { display: none; }
+.cb-cfilm__plate {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 4px; width: 100%; box-sizing: border-box;
+  padding: 10px 12px; font: inherit; text-align: left; cursor: pointer;
+  background: var(--cb-lcd); color: var(--cb-amber); border: 2px solid var(--cb-steel-2); border-radius: 6px;
+}
+.cb-cfilm__play { font-weight: 700; }
+.cb-cfilm__plate:focus-visible, .cb-cfilm__plate[data-cb-ready] { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.cb-cfilm__screen > .facade { position: relative; width: min(100%, calc(42vh * 16 / 9)); aspect-ratio: 16 / 9; margin-inline: auto; }
+.cb-cfilm__screen > .facade--square { width: min(100%, 42vh); aspect-ratio: 1; }
+.cb-cfilm__screen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 4px; }
+
 /* THE APP (chat.html, cb.js inApp; Ryan's ask, 2026-10-30, after Discord's
    mobile app): the chat page with no page round it, because the page round it
    was a second scroll on a phone that nobody liked. The radio is the whole
@@ -2561,7 +2586,18 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
   .cb-radio--beside:not(.cb-radio--big) .cb-set--parts > .cb-col--d { grid-column: 3; grid-row: 2; border-left: 2px solid var(--cb-bar); }
   .cb-radio--beside[data-side="chat"]:not(.cb-radio--big) .cb-set--parts > .cb-col--c,
   .cb-radio--beside[data-side="chat"]:not(.cb-radio--big) .cb-set--parts > .cb-col--d,
+  .cb-radio--beside[data-side="search"]:not(.cb-radio--big) .cb-set--parts > .cb-col--c,
+  .cb-radio--beside[data-side="search"]:not(.cb-radio--big) .cb-set--parts > .cb-col--d,
   .cb-radio--beside[data-side="here"]:not(.cb-radio--big) .cb-set--parts > .cb-col--b { display: none; }
+  /* The column is narrow beside a call, so the messages have it: Search is
+     its own side, as it is its own tab on a phone, and the lines about the
+     forums and the World room step aside, as they do on a short radio
+     (feedback from our community, 2026-11-08). */
+  .cb-radio--beside[data-side="chat"]:not(.cb-radio--big) .cb-col--b > .cb-sec--search,
+  .cb-radio--beside[data-side="search"]:not(.cb-radio--big) .cb-col--b > .cb-sec:not(.cb-sec--search),
+  .cb-radio--beside:not(.cb-radio--big) .cb-forum-line,
+  .cb-radio--beside:not(.cb-radio--big) .cb-world-line { display: none; }
+  .cb-radio--beside[data-side="search"]:not(.cb-radio--big) .cb-col--b > .cb-sec--search { padding-top: 0; border-top: 0; }
   .cb-radio--beside .cb-side-btn[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
 }
 @media (max-width: 999.98px) {
