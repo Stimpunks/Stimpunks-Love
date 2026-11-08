@@ -43,6 +43,13 @@ first. So:
      check-contrast-live and check-focus run side by side (a `+` joins them in `STEPS`), because
      each only reads and keeps its own probe file and Chrome profile; never join a step that
      writes, and a new checker that renders pages lists them without dotfiles, as those three do.
+     **A page is not rendered in Chrome again when nothing that made it has changed** (Ryan, 2026-11-08,
+     after fourteen-minute runs with Chrome churning in the Dock): make-og and the three page checkers keep
+     this Mac's record in `.cache/render/` (`tools/render_cache.py`, gitignored), keyed on the page's
+     bytes, every script and stylesheet it reported loading, love.css and its faces, the tool and Chrome,
+     so an ordinary run starts no Chrome for pages and takes about three and a half minutes; a love.css
+     change renders everything, `--full` ignores the record, and the run is niced. The friendly edit is
+     keying on file dates or names "to make it simpler", which skips a page that changed.
      make-og.py draws its cards several at a time too, **and its Chromes must never get a
      `--user-data-dir`**: a profile of its own changes the height of the viewport a card is laid
      out in, which moved thirteen cards' prints (pictures unchanged) the first time it was tried. A card Chrome

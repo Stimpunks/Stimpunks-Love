@@ -63,30 +63,36 @@ def main():
     bad = []
 
     pages = sorted(ROOT.glob("*.html"))
+    # Each page read once: its ids, as a list (for repeats) and a set, and the
+    # scripts it loads. (Reading every page again for every id a script asks
+    # for made this a minute of check-all.sh; 2026-11-08.)
+    srcs = {p: p.read_text() for p in pages}
+    id_list = {p: ID.findall(srcs[p]) for p in pages}
+    id_set = {p: set(id_list[p]) for p in pages}
+    loads = {p: scripts(srcs[p]) for p in pages}
+    asks = {}
     for p in pages:
-        ids = ID.findall(p.read_text())
-        for name, n in sorted(Counter(ids).items()):
+        for name, n in sorted(Counter(id_list[p]).items()):
             if n > 1:
                 bad.append(f'{p.name}: id="{name}" appears {n} times')
 
     # Every id a page's own scripts ask for, against the ids that page has.
     for p in pages:
-        src = p.read_text()
-        here = set(ID.findall(src))
-        for js in scripts(src):
+        here = id_set[p]
+        for js in loads[p]:
             f = ROOT / js
             if not f.exists():
                 bad.append(f"{p.name}: loads {js}, which is not in the repository")
                 continue
-            for want in sorted(set(GET.findall(f.read_text()))):
+            if js not in asks:
+                asks[js] = sorted(set(GET.findall(f.read_text())))
+            for want in asks[js]:
                 if want not in here:
                     # A script shared by several pages legitimately asks for ids
                     # only some of them have -- love.js reaches for the yurt's
                     # tiles from every page on the street. Only complain when NO
                     # page that loads this script has the id.
-                    holders = [q for q in pages
-                               if js in scripts(q.read_text())
-                               and want in set(ID.findall(q.read_text()))]
+                    holders = [q for q in pages if js in loads[q] and want in id_set[q]]
                     if not holders:
                         bad.append(f"{js}: asks for id {want!r} and no page that loads it has one")
 

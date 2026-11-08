@@ -61,6 +61,9 @@ import sys
 import tempfile
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import render_cache  # noqa: E402  an unchanged page is not rendered again
+
 ROOT = Path(__file__).resolve().parent.parent
 
 # Beside the original, not in a temp directory: the stylesheet, the fonts and
@@ -241,7 +244,7 @@ def probe(browser, page: Path):
     # one that ships is the blind spot this tool exists to close. The probe sits
     # in ROOT, so dropping the leading slash points at the same file.
     src = re.sub(r'((?:href|src)=")/(?!/)', r"\1", src)
-    PROBE.write_text(src.replace("</body>", JS + "</body>", 1))
+    PROBE.write_text(src.replace("</body>", JS + render_cache.LOADED_JS + "</body>", 1))
     try:
         proc = subprocess.run(
             [browser, "--headless=new", "--disable-gpu", "--no-sandbox", f"--user-data-dir={PROFILE}",
@@ -258,7 +261,7 @@ def probe(browser, page: Path):
             "have thrown before it ran. A page this cannot measure is a page whose\n"
             "text is unmeasured, which is the same as a failure."
         )
-    return json.loads(H.unescape(m.group(1)))
+    return json.loads(H.unescape(m.group(1))), render_cache.loaded(proc.stdout.decode("utf-8", "replace"))
 
 
 def main():
@@ -274,8 +277,13 @@ def main():
 
     bad_pages, checked, revealed, failures, skipped = [], 0, 0, 0, 0
 
+    cache = render_cache.Cache("check-contrast-live", __file__, browser)
+    atexit.register(lambda: cache.save(pages))
     for page in pages:
-        res = probe(browser, page)
+        res = cache.get(page)
+        if res is None:
+            res, files = probe(browser, page)
+            cache.put(page, files, res)
         checked += res["seen"]
         revealed += res["woke"]
         skipped += res.get("skipped", 0)
@@ -306,6 +314,7 @@ def main():
             "If the colour looks right in the stylesheet, two rules disagree about\n"
             "which one applies and the page is the one telling the truth."
         )
+    print(cache.said())
     sys.exit(1 if bad_pages else 0)
 
 

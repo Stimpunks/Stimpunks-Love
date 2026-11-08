@@ -44,6 +44,9 @@ import sys
 import tempfile
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import render_cache  # noqa: E402  an unchanged page is not rendered again
+
 ROOT = Path(__file__).resolve().parent.parent
 PROBE = ROOT / ".check-focus-probe.html"
 # A Chrome profile of this tool's own, removed when it exits: check-all.sh runs
@@ -240,7 +243,7 @@ def probe(browser, page: Path):
     # reason: from file:// "/love.css" is the root of the disk, and an unstyled
     # 404 would be measured against the browser's default ring instead of ours.
     src = re.sub(r'((?:href|src)=")/(?!/)', r"\1", src)
-    PROBE.write_text(src.replace("</body>", JS + "</body>", 1))
+    PROBE.write_text(src.replace("</body>", JS + render_cache.LOADED_JS + "</body>", 1))
     try:
         proc = subprocess.run(
             [browser, "--headless=new", "--disable-gpu", "--no-sandbox", f"--user-data-dir={PROFILE}",
@@ -256,7 +259,7 @@ def probe(browser, page: Path):
             f"REFUSING: the probe did not report back for {page.name}. A page this\n"
             "cannot focus is a page whose rings are unmeasured, which is a failure."
         )
-    return json.loads(H.unescape(m.group(1)))
+    return json.loads(H.unescape(m.group(1))), render_cache.loaded(proc.stdout.decode("utf-8", "replace"))
 
 
 def main():
@@ -273,8 +276,13 @@ def main():
         raise SystemExit("REFUSING: no pages found to check.")
 
     bad_pages, seen, skipped, failures, others = [], 0, 0, 0, 0
+    cache = render_cache.Cache("check-focus", __file__, browser)
+    atexit.register(lambda: cache.save(pages))
     for page in pages:
-        res = probe(browser, page)
+        res = cache.get(page)
+        if res is None:
+            res, files = probe(browser, page)
+            cache.put(page, files, res)
         seen += res["seen"]
         skipped += res["skipped"]
         bad = res["bad"]
@@ -313,6 +321,7 @@ def main():
             "pattern -- rather than changing §2's yellow, which is right on the dark\n"
             "street."
         )
+    print(cache.said())
     sys.exit(1 if bad_pages else 0)
 
 

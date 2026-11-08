@@ -54,8 +54,20 @@
 # WITHOUT a profile of its own, because a profile changes the height of the
 # viewport a card is laid out in, and that moved thirteen cards' prints. perl gives tenths of a second (the bash on a Mac is 3.2, which has no
 # clock of its own finer than a second); without perl it counts whole seconds.
+#
+# NOTHING IS RENDERED TWICE FOR NOTHING, AND IT RUNS IN THE BACKGROUND (Ryan's
+# ask, 2026-11-08: fourteen minutes, Chrome icons coming and going in the Dock
+# and the laptop slow throughout). The share cards and the three page checkers
+# keep this Mac's record of what each page was rendered from (tools/
+# render_cache.py, in .cache/, never committed), and a page whose bytes, loaded
+# scripts and stylesheets, love.css, faces, tool and Chrome are all unchanged is
+# not started in Chrome again: its last result is used. A change to love.css
+# renders everything; a change to one room's script renders the pages that load
+# it. --full renders everything regardless (RENDER_FRESH). And the whole run is
+# niced, so whatever else the Mac is doing comes first.
 set -uo pipefail
 cd "$(dirname "$0")/.."
+renice -n 10 $$ >/dev/null 2>&1 || true
 
 NOTES="DECISIONS.md README.md CLAUDE.md SECURITY.md"
 
@@ -121,7 +133,7 @@ report() {
 
 # ── The quick path ──────────────────────────────────────────────────────────
 full=""
-[ "${1:-}" = "--full" ] && full=1
+[ "${1:-}" = "--full" ] && { full=1; export RENDER_FRESH=1; }
 changed=$({ git diff --name-only --no-renames HEAD; git ls-files --others --exclude-standard; } | sort -u)
 quick=""
 if [ -z "$full" ] && [ -n "$changed" ]; then

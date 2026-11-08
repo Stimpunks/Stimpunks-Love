@@ -86,6 +86,9 @@ import sys
 import tempfile
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import render_cache  # noqa: E402  an unchanged page is not rendered again
+
 ROOT = Path(__file__).resolve().parent.parent
 
 # The probe has to run inside the page, and the page's stylesheet, fonts and
@@ -247,7 +250,7 @@ def probe(browser, page: Path):
     # one that ships is the blind spot this tool exists to close. The probe sits
     # in ROOT, so dropping the leading slash points at the same file.
     src = re.sub(r'((?:href|src)=")/(?!/)', r"\1", src)
-    PROBE.write_text(src.replace("</body>", JS + "</body>", 1))
+    PROBE.write_text(src.replace("</body>", JS + render_cache.LOADED_JS + "</body>", 1))
     try:
         proc = subprocess.run(
             [browser, "--headless=new", "--disable-gpu", "--no-sandbox", f"--user-data-dir={PROFILE}",
@@ -264,7 +267,7 @@ def probe(browser, page: Path):
             "have thrown before it ran. A page this cannot measure is a page whose\n"
             "dial is unverified, which is the same as a failure."
         )
-    return json.loads(H.unescape(m.group(1)))
+    return json.loads(H.unescape(m.group(1))), render_cache.loaded(proc.stdout.decode("utf-8", "replace"))
 
 
 def main():
@@ -280,8 +283,13 @@ def main():
 
     tilt_bad, quiet_bad, word_bad, low_bad, checked = [], [], [], [], 0
 
+    cache = render_cache.Cache("check-gentle", __file__, browser)
+    atexit.register(lambda: cache.save(pages))
     for page in pages:
-        res = probe(browser, page)
+        res = cache.get(page)
+        if res is None:
+            res, files = probe(browser, page)
+            cache.put(page, files, res)
         where, gentle = res["where"], res["gentle"]["rows"]
         regular, mx = res["regular"]["rows"], res["max"]["rows"]
         checked += len(where)
@@ -358,6 +366,7 @@ def main():
             "decoration that covers something on purpose says data-low-cover. Do not\n"
             "give the mode an exception for the room."
         )
+    print(cache.said())
     sys.exit(1 if (tilt_bad or quiet_bad or word_bad or low_bad) else 0)
 
 

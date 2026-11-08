@@ -44,3 +44,6 @@ deno.lock
 # day. Nothing of ours is named with a space and a digit.
 * [0-9]
 * [0-9].*
+
+# This Mac's record of what each page rendered in Chrome was made from (tools/render_cache.py).
+.cache/

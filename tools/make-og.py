@@ -64,6 +64,7 @@ OUT = ROOT / "og"
 # And a window (tools/windows.py) has no card either: nobody shares a call
 # window, and a card for an empty one would unfurl a page that shows nothing.
 from windows import WINDOWS
+import render_cache  # noqa: E402  a card whose inputs are unchanged is not drawn again
 NO_CARD = {"404.html"} | WINDOWS
 W, H = 1200, 630
 # How many cards Chrome draws at once: half the machine's cores, at most six. Each
@@ -2656,6 +2657,7 @@ window.addEventListener('load', function () { document.fonts.ready.then(async fu
 }); });
 """
 PRINTS = ROOT / "data/og-prints.json"
+OG_CACHE = render_cache.CACHE / "make-og.json"
 
 
 def font_files():
@@ -7281,6 +7283,13 @@ def main():
     faces = font_files()
     prints = json.loads(PRINTS.read_text()) if PRINTS.exists() else {}
     fresh, kept = {}, []
+    # This Mac's record of what each committed card was drawn from (never committed).
+    og_base = render_cache.base(__file__, browser, f"{W}x{H}")
+    try:
+        og_cache = {} if render_cache.FRESH else json.loads(OG_CACHE.read_text())
+    except Exception:
+        og_cache = {}
+    reused = 0
 
     # SEVERAL CARDS AT A TIME (Ryan's ask, 2026-10-24, when this was the slowest
     # step in check-all.sh at over three minutes). Each card is one Chrome call
@@ -7313,15 +7322,42 @@ def main():
             html_path = tmpdir / f"{p['stem']}.html"
             html_path.write_text(doc)
             png = OUT / f"{p['stem']}.png"
+            before = png.read_bytes() if png.exists() else None
+            # A CARD MADE FROM EXACTLY WHAT MADE IT LAST TIME IS NOT DRAWN AGAIN
+            # (Ryan's ask, 2026-11-08: this was a Chrome per card, every run, for
+            # cards nothing had touched). What decides a card: its markup and
+            # inline scripts (the doc), card.css and this tool's source, love.css
+            # and every file it names in url() (render_cache.base), every file
+            # the doc names, and this Mac's Chrome. If all of that is what this
+            # Mac drew the committed card from, and the committed card is still
+            # the picture data/og-prints.json records, the card and its print
+            # are carried over without starting Chrome.
+            refs = []
+            for u in re.findall(r'''(?:src|href)="([^"#?]+)|url\(['"]?([^'")#?]+)''', doc):
+                u = u[0] or u[1]
+                if not u or u.startswith(("data:", "http:", "https:")) or u == "card.css":
+                    continue
+                try:
+                    refs.append((tmpdir / u).resolve().relative_to(ROOT).as_posix())
+                except ValueError:
+                    continue
+            inputs = render_cache.key(og_base, doc.encode(), refs)
+            was_in = og_cache.get(p["stem"], {})
+            skip = (before is not None and was_in.get("inputs") == inputs
+                    and hashlib.sha256(before).hexdigest() == was_in.get("png")
+                    == prints.get(p["stem"], {}).get("png"))
             jobs.append({"p": p, "alt": alt, "html": html_path, "png": png,
-                         "before": png.read_bytes() if png.exists() else None})
+                         "before": before, "inputs": inputs, "skip": skip})
 
         def render(job):
             # A CARD IS TRIED THREE TIMES. Headless Chrome now and then exits
             # with status 2 having drawn nothing, six at a time or not (twice on
             # 2026-10-24, both on gentle-help, in check-all.sh), and the same
-            # card draws at once on the next try. Only that is tried again: a
-            # hang is still the timeout, and still stops the run.
+            # card draws at once on the next try. A HANG IS TRIED AGAIN TOO
+            # (2026-11-08): a card's Chrome sat for the whole timeout twice that
+            # day, home.png and otterly-adorbs.png, each of which draws in a few
+            # seconds, and each stopped a fourteen-minute run. A card takes a few
+            # seconds, so ninety is plenty; three hangs in a row still stop it.
             for attempt in range(3):
                 # Out of the way first, so a picture left from an earlier run
                 # can never pass for one Chrome has just made.
@@ -7334,10 +7370,10 @@ def main():
                          f"--window-size={W},{H}",
                          "--virtual-time-budget=5000",
                          f"--screenshot={job['png']}", "--dump-dom", job["html"].as_uri()],
-                        check=True, capture_output=True, timeout=180,
+                        check=True, capture_output=True, timeout=90,
                     )
                     break
-                except subprocess.CalledProcessError:
+                except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
                     if attempt == 2:
                         raise
             job["out"] = proc.stdout.decode("utf-8", "replace")
@@ -7345,7 +7381,7 @@ def main():
 
         pool = ThreadPoolExecutor(max_workers=RENDERERS)
         try:
-            for f in [pool.submit(render, j) for j in jobs]:
+            for f in [pool.submit(render, j) for j in jobs if not j["skip"]]:
                 f.result()
         except BaseException:
             # A Chrome that hangs or crashes, or a run stopped part way, must not
@@ -7365,6 +7401,12 @@ def main():
         try:
             for j in jobs:
                 p, alt, png, before = j["p"], j["alt"], j["png"], j["before"]
+                if j["skip"]:
+                    fresh[p["stem"]] = prints[p["stem"]]
+                    built.append((p, alt, "ok"))
+                    reused += 1
+                    decided += 1
+                    continue
                 fit = field(j["out"], r'<meta id="og-fit" content="([^"]*)"')
                 if not png.exists():
                     raise SystemExit(f"REFUSING: Chrome produced no image for {p['file']}.")
@@ -7420,6 +7462,11 @@ def main():
         sys.exit(1)
 
     PRINTS.write_text(json.dumps(dict(sorted(fresh.items())), indent=1) + "\n")
+    og_cache.clear()
+    for j in jobs:
+        og_cache[j["p"]["stem"]] = {"inputs": j["inputs"], "png": fresh[j["p"]["stem"]]["png"]}
+    render_cache.CACHE.mkdir(parents=True, exist_ok=True)
+    OG_CACHE.write_text(json.dumps(og_cache, sort_keys=True))
 
     # ── Write the tags back into the pages ───────────────────────────────────
     # Alt first, then the image: the tool has no way to emit one without the
@@ -7447,6 +7494,8 @@ def main():
     rooms = len({p["room"] for p, _, _ in built})
     print(f"\n{len(built)} cards at {W}x{H}, {rooms} rooms, "
           f"{len(built)} pages tagged with an image and its alt text.")
+    print(f"{len(jobs) - reused} drawn in Chrome, {reused} unchanged since this Mac last drew them "
+          "and carried over (tools/render_cache.py).")
     if kept:
         print(f"{len(kept)} kept as committed: made from exactly what made them, and only\n"
               "drawn differently by this Mac. Anything that changes a card is a new card.")
