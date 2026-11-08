@@ -4340,16 +4340,21 @@ stopped building**: the same lesson as `street`, a second time.
 own WebXR, already in the pinned file: `cel-street.js` puts the camera in a `dolly` (your feet, `me`), `place()` moves the
 dolly and leaves the camera to the headset, `draw()` only moves you while a session is open, and the headset's frames
 (`renderer.setAnimationLoop(xrFrame)`, set when the session opens and cleared on three's `sessionend`) step what a room
-lets move under the same line (`stepMoves`). **You move by pointing and pressing and by snap turns, never by being carried**
-(`standAt` jumps with `vrStand`), because a glide in a headset makes people sick. **The room's switches are a panel of tiles
+lets move under the same line (`stepMoves`). **You move by pointing and pressing, by snap turns, and by pushing a stick
+forward or back** (`xrSticks`), which walks your head the way it faces at `VR_WALK` (a walking pace, 1.6 metres a second at
+most) only while the stick is pushed, kept inside the room by `clampPoint`. That is Ryan's call of the same evening,
+reversing the trial's "never by being carried": pointing alone was too hard to navigate by. A glide makes some people sick,
+so the panel has a switch that turns stick walking off for the visit, and **nothing carries you to a place**: pointing at one
+still jumps you there (`standAt` with `vrStand`). **The room's switches are a panel of tiles
 read off the buttons the room's own controls make** (`vrPanel`, each tile clicks its button), so the panel says what the
 buttons say; what each did is written at its top (`vrTell` from `ctlSay`). **A page or a lift stood in the scene (CSS3D) is
 not in the headset**, which shows only the WebGL picture. `xr-spatial-tracking=(self)` in `_headers`; `make-csp.py` holds it
 to self and only `cel-street.js` asking for a headset (`XR_USERS`), and `make-cel-street.py` holds the frames to the session,
-the session to the Enter VR press, no glide in a headset and the button shipped hidden. **It was tried with a pretend headset
+the session to the Enter VR press, no glide to a place in a headset, the stick's pace and its off switch, and the button
+shipped hidden. **It was tried with a pretend headset
 in the browser, not a real one**: the first test on a Quest is what tells us about comfort, size and the panel's place. The
-friendly edits are smooth stick walking "because games have it", rendering every frame outside a session, and showing
-Enter VR on every room before each is tried.
+friendly edits are a faster stick "because games have it", taking away the switch that turns it off, gliding you to a
+place you point at, rendering every frame outside a session, and showing Enter VR on every room before each is tried.
 
 **THE RADIO FOLLOWS YOU INTO A ROOM ON CEL STREET, AND THE PEOPLE IN IT STAND THERE AS FIGURES.** Helen Edgar's ask,
 2026-11-07, her Faery Yurt first, a trial for her and Ryan: see who is in the 3D yurt and chat with them. **The chat is the

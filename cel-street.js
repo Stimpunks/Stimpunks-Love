@@ -1882,13 +1882,17 @@ function start() {
   // A room that is more than one rectangle (a narrow passage opening into a
   // wide hollow) gives its bounds as areas, and you keep to whichever you are
   // in, or are brought back into the nearest.
-  function clamp() {
+  function clampPoint(px, pz) {
     var areas = bounds.areas || [bounds], best = null, bd = Infinity;
     areas.forEach(function (a) {
-      var x = Math.max(a.x[0], Math.min(a.x[1], me.x)), z = Math.max(a.z[0], Math.min(a.z[1], me.z));
-      var d = Math.hypot(x - me.x, z - me.z);
+      var x = Math.max(a.x[0], Math.min(a.x[1], px)), z = Math.max(a.z[0], Math.min(a.z[1], pz));
+      var d = Math.hypot(x - px, z - pz);
       if (d < bd) { bd = d; best = { x: x, z: z }; }
     });
+    return best;
+  }
+  function clamp() {
+    var best = clampPoint(me.x, me.z);
     me.x = best.x; me.z = best.z;
     me.pitch = Math.max(up ? -1.2 : -0.55, Math.min(0.75, me.pitch));
   }
@@ -2485,11 +2489,16 @@ function start() {
   // room in a headset at all, so on every screen nothing about the room
   // changes: Enter VR stays hidden and none of this runs.
   //
-  // IN THE HEADSET YOU STAND ON THE FLOOR AND NOTHING CARRIES YOU. You look
-  // round by turning your head, and you move by pointing and pressing: at the
-  // floor to stand there, at a place to stand at it, facing what is there.
-  // A stick turns you a twelfth of the way round at a time. There is no
-  // gliding, because being carried along in a headset makes people sick.
+  // IN THE HEADSET YOU MOVE ONLY WHILE YOUR OWN HAND SAYS SO. You look round
+  // by turning your head, and you move by pointing and pressing (at the floor
+  // to stand there, at a place to stand at it, facing what is there) or by
+  // pushing a stick forward or back, which glides you the way your head faces
+  // for as long as it is pushed, at a walking pace, and stops when you let go.
+  // A stick pushed sideways turns you a twelfth of the way round at a time.
+  // Ryan's call, 2026-11-07, reversing the trial's "no gliding": navigating
+  // by pointing alone was too hard. Gliding makes some people sick, so the
+  // panel has a switch to turn it off, and pointing still works either way.
+  // Nothing ever carries you to a place: pointing at one stands you there.
   // What a room lets move moves as it does on a screen, under the same line.
   //
   // THE ROOM'S SWITCHES ARE A PANEL IN FRONT OF YOU, the same switches as
@@ -2511,6 +2520,9 @@ function start() {
   var FLOOR = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
   var xrRay = new THREE.Raycaster(), xrAim = new THREE.Matrix4(), xrAt = new THREE.Vector3(), xrQ = new THREE.Euler();
   var hands = [], panel = null, panelTiles = [], panelOpen = true, panelWords = '', chatLast = null;
+  // Metres a second with a stick pushed all the way: a walking pace, slower
+  // than the screen's, because speed is what makes a glide sickening.
+  var VR_WALK = 1.4, xrGlide = true, xrGoing = false, xrPrev = 0;
   // The newest few messages on the radio's channel, for the panel, handed over
   // by the radio (cb.js) out of what it already shows; nothing asked for here.
   window.addEventListener('love-cel-chat', function (e) {
@@ -2576,7 +2588,7 @@ function start() {
     panelTiles = [];
     var items = [];
     if (panelOpen) {
-      items.push({ words: panelWords || ('In ' + (inside ? inside.name : 'the room') + '. Point and press: at the floor to stand there, at a switch to press it.'), wide: true });
+      items.push({ words: panelWords || ('In ' + (inside ? inside.name : 'the room') + '. Push a stick forward or back to walk, or point and press: at the floor to stand there, at a switch to press it.'), wide: true });
       if (chatLast) {
         items.push({ words: 'On the radio, ' + chatLast.channel.toLowerCase() + ':', wide: true, label: true });
         chatLast.lines.forEach(function (l) {
@@ -2590,6 +2602,8 @@ function start() {
         if (el.tagName === 'BUTTON') items.push({ words: el.textContent, pressed: el.getAttribute('aria-pressed') === 'true', btn: el });
         else items.push({ words: el.textContent, wide: true, label: true });
       });
+      items.push({ words: xrGlide ? 'Walking with the stick: switch it off' : 'Stick walking is off: switch it on', pressed: xrGlide,
+        go: function () { xrGlide = !xrGlide; vrTell(xrGlide ? 'Walking with the stick is on: push forward or back.' : 'Walking with the stick is off: point and press to move.'); } });
       items.push({ words: 'Put the switches away', go: function () { panelOpen = false; vrPanel(); } });
       items.push({ words: 'Take the headset out of the room', go: function () { if (xrSession) xrSession.end(); } });
     } else {
@@ -2663,11 +2677,16 @@ function start() {
   }
   // A stick pushed sideways turns you a twelfth of the way round about your
   // own head, once, and it has to come back before it turns you again.
-  function xrSticks() {
+  // Pushed forward or back, it walks your head the way your head faces, for
+  // as long as it is pushed, kept inside the room as on a screen; whichever
+  // stick is pushed further is the one that counts.
+  function xrSticks(dt) {
+    var push = 0;
     hands.forEach(function (hand) {
       var src = hand.userData.src, pad = src && src.gamepad;
       if (!pad || pad.axes.length < 4) return;
-      var x = pad.axes[2];
+      var x = pad.axes[2], y = -pad.axes[3];
+      if (Math.abs(y) > Math.abs(push)) push = y;
       if (Math.abs(x) > 0.6 && !hand.userData.turned) {
         hand.userData.turned = true;
         var hw = headWorld(), yaw = me.yaw - Math.sign(x) * STEP_TURN, h = headLocal(), c = Math.cos(yaw), s = Math.sin(yaw);
@@ -2675,6 +2694,13 @@ function start() {
         vrPanelPlace();
       } else if (Math.abs(x) < 0.3) hand.userData.turned = false;
     });
+    var f = Math.abs(push) > 0.2 ? Math.sign(push) * (Math.abs(push) - 0.2) / 0.8 : 0;
+    if (xrGlide && f && dt) {
+      var hw = headWorld(), d = f * VR_WALK * dt;
+      var to = clampPoint(hw.x - Math.sin(hw.yaw) * d, hw.z - Math.cos(hw.yaw) * d);
+      me.x += to.x - hw.x; me.z += to.z - hw.z;
+      xrGoing = true;
+    } else if (xrGoing) { xrGoing = false; tell(); }
   }
   function xrBeams() {
     hands.forEach(function (hand) {
@@ -2695,7 +2721,8 @@ function start() {
   function xrFrame(now) {
     if (dolly.parent !== scene) scene.add(dolly);
     stepMoves(now);
-    xrSticks();
+    xrSticks(xrPrev ? Math.min((now - xrPrev) / 1000, 0.1) : 0);
+    xrPrev = now;
     place();
     xrBeams();
     renderer.render(scene, camera);
@@ -2703,7 +2730,7 @@ function start() {
   }
   function xrEnd() {
     renderer.setAnimationLoop(null);
-    xrOn = false; xrSession = null; xrLast = 0;
+    xrOn = false; xrSession = null; xrLast = 0; xrPrev = 0; xrGoing = false;
     renderer.xr.enabled = false;
     hands.forEach(function (hand) { if (hand.userData.dot.parent) hand.userData.dot.parent.remove(hand.userData.dot); dolly.remove(hand); });
     hands = [];
@@ -2731,7 +2758,7 @@ function start() {
         handsUp(); panelOpen = true; panelWords = ''; vrPanel();
         renderer.setAnimationLoop(xrFrame);
         vrBtn.textContent = 'Leave VR';
-        if (vrNote) vrNote.textContent = 'In the headset. Point and press to move and to press things; the headset’s own menu takes you out.';
+        if (vrNote) vrNote.textContent = 'In the headset. Push a stick forward or back to walk, or point and press to move and to press things; the headset’s own menu takes you out.';
       });
     }).catch(function () {
       xrSession = null; renderer.xr.enabled = false;

@@ -162,7 +162,10 @@ if "hasAttribute('data-low')" not in code or "document.hidden" not in code:
 # IN A HEADSET (Helen's ask, 2026-11-07): the headset asks for a picture every
 # frame, so the frames run only while a session is open, set when it opens and
 # cleared when it ends; a session is asked for only on a press of Enter VR;
-# and nobody is carried along in one, so a glide never runs in a headset.
+# and nobody is carried along to a place in one, so a glide to a place never
+# runs in a headset. A stick walks you only while it is pushed (Ryan's call,
+# 2026-11-07, reversing the trial's "no gliding"), at a walking pace, and the
+# panel can switch it off for anybody it makes sick.
 loops = re.findall(r"setAnimationLoop\(\s*([^)]*?)\s*\)", code)
 if sorted(loops) != ["null", "xrFrame"]:
     refuse(f"cel-street.js sets the headset's frames as {loops}; they are xrFrame while a session is open and null when it ends, and nothing else.")
@@ -171,6 +174,11 @@ if _req != -1 and code.rfind("vrBtn.addEventListener('click'", 0, _req) == -1:
     refuse("cel-street.js asks for a headset outside the Enter VR press.")
 if "if (xrOn) { glide = null; vrStand(to); return; }" not in code:
     refuse("cel-street.js no longer stands you at a place in a headset without carrying you there.")
+_walk = re.search(r"var VR_WALK = ([0-9.]+)", code)
+if not _walk or float(_walk.group(1)) > 1.6:
+    refuse(f"cel-street.js walks a headset at {_walk.group(1) if _walk else 'no set pace'} metres a second; a stick walks at a walking pace, 1.6 at most, because speed is what makes a glide sickening.")
+if "if (xrGlide && f && dt)" not in code or "xrGlide = !xrGlide" not in code:
+    refuse("cel-street.js no longer walks a headset only while a stick is pushed, or the panel has lost the switch that turns stick walking off.")
 if not re.search(r'data-cel-vr hidden', PAGE.read_text()):
     refuse("cel-street.html's Enter VR button no longer ships hidden; it shows only where a headset can open the room.")
 if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", code):
