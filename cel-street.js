@@ -1218,9 +1218,9 @@ function start() {
 
   function nearest() {
     if (up) return null;
-    var best = null, bd = 1e9;
+    var best = null, bd = 1e9, p = xrOn ? headWorld() : me;
     stops.forEach(function (s) {
-      var d = Math.hypot(s.x - me.x, s.z - me.z) + Math.abs(angle(s.yaw - me.yaw)) * 2;
+      var d = Math.hypot(s.x - p.x, s.z - p.z) + Math.abs(angle(s.yaw - p.yaw)) * 2;
       if (d < bd) { bd = d; best = s; }
     });
     return bd < 3.2 ? best : null;
@@ -1243,6 +1243,7 @@ function start() {
       : up ? 'Up over the roofs, looking down on the solar panels.' : s ? 'In front of ' + s.name + '.' : 'Out on Cel Street, in the sun.';
     if (words === said) return;
     said = words;
+    if (xrOn) vrPanel();
     hereEl.textContent = words + ' ';
     if (s && ROOMS[s.page] && !(inside && s.page === inside.page)) {
       var b = document.createElement('button');
@@ -1650,6 +1651,7 @@ function start() {
       wayOut(); places(); roomCtl(); vrOffer(); radioRoom();
       said = '';
       draw(); tell(); plateUp(); moves();
+      if (xrOn && inside.vr) vrStand({ x: me.x, z: me.z, yaw: me.yaw });
       if (list) list.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
       if (then) then();
     });
@@ -1683,7 +1685,6 @@ function start() {
   }
   function leave() {
     if (!inside) return;
-    if (xrSession) xrSession.end();
     scene.traverse(function (o) {
       if (o.geometry) o.geometry.dispose();
       if (o.isCSS3DObject && o.element.parentNode) o.element.parentNode.removeChild(o.element);
@@ -1697,6 +1698,7 @@ function start() {
     if (!inside && list) list.querySelectorAll('a').forEach(function (a) { a.removeAttribute('tabindex'); });
     said = '';
     draw(); tell(); plateUp(); moves();
+    if (xrOn && inside && inside.vr) vrStand({ x: me.x, z: me.z, yaw: me.yaw });
   }
   // THE RADIO FOLLOWS YOU IN (Helen Edgar's ask, 2026-11-07): the room you are
   // in is written on the page's <body>, and cb.js makes the radio that room's,
@@ -2493,12 +2495,20 @@ function start() {
   // by turning your head, and you move by pointing and pressing (at the floor
   // to stand there, at a place to stand at it, facing what is there) or by
   // pushing a stick forward or back, which glides you the way your head faces
-  // for as long as it is pushed, at a walking pace, and stops when you let go.
-  // A stick pushed sideways turns you a twelfth of the way round at a time.
-  // Ryan's call, 2026-11-07, reversing the trial's "no gliding": navigating
-  // by pointing alone was too hard. Gliding makes some people sick, so the
-  // panel has a switch to turn it off, and pointing still works either way.
-  // Nothing ever carries you to a place: pointing at one stands you there.
+  // for as long as it is pushed, at a walking pace, and stops when you let go;
+  // pushed sideways, it turns you, slowly, for as long as it is pushed.
+  // Ryan's calls, 2026-11-07, reversing the trial's "no gliding" and its
+  // snap turns: navigating by pointing alone was too hard. Gliding makes some
+  // people sick, so the panel switches to steps (no walking, and a stick
+  // turns you a twelfth of the way round at a time), and pointing still works
+  // either way. Nothing ever carries you to a place: pointing at one stands
+  // you there.
+  //
+  // A ROOM BEHIND A ROOM IS WALKED INTO WITHOUT LEAVING THE HEADSET: standing
+  // at its way through, the panel says Walk into it (and pointing at the way
+  // again does the same), and Back out takes you back to the way you came in
+  // by. A room that does not say vr: true, and the street, take you out of
+  // the headset and say so.
   // What a room lets move moves as it does on a screen, under the same line.
   //
   // THE ROOM'S SWITCHES ARE A PANEL IN FRONT OF YOU, the same switches as
@@ -2522,7 +2532,10 @@ function start() {
   var hands = [], panel = null, panelTiles = [], panelOpen = true, panelWords = '', chatLast = null;
   // Metres a second with a stick pushed all the way: a walking pace, slower
   // than the screen's, because speed is what makes a glide sickening.
-  var VR_WALK = 1.4, xrGlide = true, xrGoing = false, xrPrev = 0;
+  // Turning with a stick glides too, at VR_TURN radians a second all the way
+  // over, about a fifth of a turn: slow, because turning is the most
+  // sickening way to be moved. With gliding off, a stick steps you round.
+  var VR_WALK = 1.4, VR_TURN = 1.2, xrGlide = true, xrGoing = false, xrPrev = 0, xrWhy = '';
   // The newest few messages on the radio's channel, for the panel, handed over
   // by the radio (cb.js) out of what it already shows; nothing asked for here.
   window.addEventListener('love-cel-chat', function (e) {
@@ -2533,7 +2546,14 @@ function start() {
   if (navigator.xr && navigator.xr.isSessionSupported) {
     navigator.xr.isSessionSupported('immersive-vr').then(function (ok) { xrCan = !!ok; vrOffer(); }).catch(function () {});
   }
-  function vrOffer() { if (vrBtn) vrBtn.hidden = !(xrCan && inside && inside.vr); }
+  function vrOffer() {
+    if (vrBtn) vrBtn.hidden = !(xrCan && inside && inside.vr) && !xrOn;
+    if (!xrOn) return;
+    panelWords = '';
+    if (inside && inside.vr) { vrPanel(); return; }
+    xrWhy = inside ? inside.name + ' is not offered in a headset yet, so you are back on the screen.' : 'Back out on the street, which is on the screen only, so you are out of the headset.';
+    if (xrSession) xrSession.end();
+  }
   function vrTell(words) { panelWords = words; if (xrOn) vrPanel(); }
 
   // Where your head is, on the floor, in the room, and which way it faces.
@@ -2602,8 +2622,14 @@ function start() {
         if (el.tagName === 'BUTTON') items.push({ words: el.textContent, pressed: el.getAttribute('aria-pressed') === 'true', btn: el });
         else items.push({ words: el.textContent, wide: true, label: true });
       });
-      items.push({ words: xrGlide ? 'Walking with the stick: switch it off' : 'Stick walking is off: switch it on', pressed: xrGlide,
-        go: function () { xrGlide = !xrGlide; vrTell(xrGlide ? 'Walking with the stick is on: push forward or back.' : 'Walking with the stick is off: point and press to move.'); } });
+      var at = nearest();
+      if (at && ROOMS[at.page] && !(inside && at.page === inside.page)) {
+        items.push({ words: 'Walk into ' + (at.room || at.name), wide: true, go: function () { enter(at.page); } });
+      }
+      var back = behind.length ? behind[behind.length - 1].inside : null;
+      if (inside) items.push({ words: back ? 'Back out into ' + back.name : 'Back out onto the street (on the screen)', wide: true, go: function () { outOfRoom(); } });
+      items.push({ words: xrGlide ? 'Gliding with the sticks: switch to steps' : 'Steps: switch to gliding with the sticks', pressed: !xrGlide,
+        go: function () { xrGlide = !xrGlide; vrTell(xrGlide ? 'Gliding: push a stick forward or back to walk, or sideways to turn.' : 'Steps: a stick turns you a twelfth of the way round at a time; point and press to move.'); } });
       items.push({ words: 'Put the switches away', go: function () { panelOpen = false; vrPanel(); } });
       items.push({ words: 'Take the headset out of the room', go: function () { if (xrSession) xrSession.end(); } });
     } else {
@@ -2656,7 +2682,11 @@ function start() {
     if (!a) return;
     if (a.tile) { if (a.tile.btn) a.tile.btn.click(); else a.tile.go(); vrPanel(); return; }
     if (a.hit && a.hit.userData.act) { a.hit.userData.act.go(); vrPanel(); return; }
-    if (a.hit) { vrStand(stops[a.hit.userData.stop]); return; }
+    if (a.hit) {
+      var st = stops[a.hit.userData.stop];
+      if (ROOMS[st.page] && !(inside && st.page === inside.page) && nearest() === st) { enter(st.page); return; }
+      vrStand(st); return;
+    }
     if (a.floor) { footFor(a.floor.x, a.floor.z, me.yaw); place(); vrPanelPlace(); tell(); }
   }
   function handsUp() {
@@ -2675,18 +2705,20 @@ function start() {
       dolly.add(hand); hands.push(hand);
     }
   }
-  // A stick pushed sideways turns you a twelfth of the way round about your
-  // own head, once, and it has to come back before it turns you again.
+  // A stick pushed sideways turns you about your own head: gliding, for as
+  // long as it is pushed; in steps, a twelfth of the way round, once, and it
+  // has to come back before it turns you again.
   // Pushed forward or back, it walks your head the way your head faces, for
   // as long as it is pushed, kept inside the room as on a screen; whichever
   // stick is pushed further is the one that counts.
   function xrSticks(dt) {
-    var push = 0;
+    var push = 0, spin = 0;
     hands.forEach(function (hand) {
       var src = hand.userData.src, pad = src && src.gamepad;
       if (!pad || pad.axes.length < 4) return;
       var x = pad.axes[2], y = -pad.axes[3];
       if (Math.abs(y) > Math.abs(push)) push = y;
+      if (xrGlide) { if (Math.abs(x) > Math.abs(spin)) spin = x; return; }
       if (Math.abs(x) > 0.6 && !hand.userData.turned) {
         hand.userData.turned = true;
         var hw = headWorld(), yaw = me.yaw - Math.sign(x) * STEP_TURN, h = headLocal(), c = Math.cos(yaw), s = Math.sin(yaw);
@@ -2694,13 +2726,19 @@ function start() {
         vrPanelPlace();
       } else if (Math.abs(x) < 0.3) hand.userData.turned = false;
     });
+    var r = Math.abs(spin) > 0.2 ? Math.sign(spin) * (Math.abs(spin) - 0.2) / 0.8 : 0;
+    if (xrGlide && r && dt) {
+      var hw0 = headWorld(), yaw = me.yaw - r * VR_TURN * dt, h = headLocal(), c = Math.cos(yaw), s = Math.sin(yaw);
+      me.yaw = yaw; me.x = hw0.x - (c * h.x + s * h.z); me.z = hw0.z - (-s * h.x + c * h.z);
+    }
     var f = Math.abs(push) > 0.2 ? Math.sign(push) * (Math.abs(push) - 0.2) / 0.8 : 0;
+    if (xrGlide && (f || r)) xrGoing = true;
     if (xrGlide && f && dt) {
       var hw = headWorld(), d = f * VR_WALK * dt;
       var to = clampPoint(hw.x - Math.sin(hw.yaw) * d, hw.z - Math.cos(hw.yaw) * d);
       me.x += to.x - hw.x; me.z += to.z - hw.z;
-      xrGoing = true;
-    } else if (xrGoing) { xrGoing = false; tell(); }
+    }
+    if (!(xrGlide && (f || r)) && xrGoing) { xrGoing = false; vrPanelPlace(); tell(); }
   }
   function xrBeams() {
     hands.forEach(function (hand) {
@@ -2739,9 +2777,10 @@ function start() {
     if (dolly.parent) dolly.parent.remove(dolly);
     camera.position.set(0, 0, 0); camera.quaternion.identity();
     camera.zoom = ZOOMS[zoomAt];
-    clamp(); resize(); tell(); moves();
+    clamp(); resize(); tell(); moves(); vrOffer();
     if (vrBtn) vrBtn.textContent = 'Enter VR';
-    if (vrNote) vrNote.textContent = 'Out of the headset, back on the screen where you were.';
+    if (vrNote) vrNote.textContent = xrWhy || 'Out of the headset, back on the screen where you were.';
+    xrWhy = '';
   }
   // After three.js has put its own size back, or the picture is drawn at the
   // headset's size and then cleared.

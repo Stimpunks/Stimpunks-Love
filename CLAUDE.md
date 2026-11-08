@@ -4340,12 +4340,17 @@ stopped building**: the same lesson as `street`, a second time.
 own WebXR, already in the pinned file: `cel-street.js` puts the camera in a `dolly` (your feet, `me`), `place()` moves the
 dolly and leaves the camera to the headset, `draw()` only moves you while a session is open, and the headset's frames
 (`renderer.setAnimationLoop(xrFrame)`, set when the session opens and cleared on three's `sessionend`) step what a room
-lets move under the same line (`stepMoves`). **You move by pointing and pressing, by snap turns, and by pushing a stick
-forward or back** (`xrSticks`), which walks your head the way it faces at `VR_WALK` (a walking pace, 1.6 metres a second at
-most) only while the stick is pushed, kept inside the room by `clampPoint`. That is Ryan's call of the same evening,
-reversing the trial's "never by being carried": pointing alone was too hard to navigate by. A glide makes some people sick,
-so the panel has a switch that turns stick walking off for the visit, and **nothing carries you to a place**: pointing at one
-still jumps you there (`standAt` with `vrStand`). **The room's switches are a panel of tiles
+lets move under the same line (`stepMoves`). **You move by pointing and pressing, and by the sticks** (`xrSticks`): pushed
+forward or back, a stick walks your head the way it faces at `VR_WALK` (a walking pace, 1.6 metres a second at most), and
+sideways it turns you about your head at `VR_TURN` (1.6 radians a second at most), only while it is pushed, kept inside the
+room by `clampPoint`. Those are Ryan's calls of the same evening, reversing the trial's "never by being carried" and its
+snap turns: pointing alone was too hard to navigate by. A glide makes some people sick, so the panel switches to steps for
+the visit (no walking, snap turns), and **nothing carries you to a place**: pointing at one still jumps you there (`standAt`
+with `vrStand`). **A room behind a room is walked into without leaving the headset**: standing at its way through, the panel
+offers Walk into it (pointing at the way again does the same), Back out returns you to the way you came in by, and
+`vrOffer` takes you out of the headset, saying why, in a room that does not say `vr: true` and on the street. The yurt's
+subrooms say `vr: true` since then too (Ryan's ask; Helen's to send back), with what they lift off her pages still absent
+in the headset. **The room's switches are a panel of tiles
 read off the buttons the room's own controls make** (`vrPanel`, each tile clicks its button), so the panel says what the
 buttons say; what each did is written at its top (`vrTell` from `ctlSay`). **A page or a lift stood in the scene (CSS3D) is
 not in the headset**, which shows only the WebGL picture. `xr-spatial-tracking=(self)` in `_headers`; `make-csp.py` holds it
@@ -4353,7 +4358,7 @@ to self and only `cel-street.js` asking for a headset (`XR_USERS`), and `make-ce
 the session to the Enter VR press, no glide to a place in a headset, the stick's pace and its off switch, and the button
 shipped hidden. **It was tried with a pretend headset
 in the browser, not a real one**: the first test on a Quest is what tells us about comfort, size and the panel's place. The
-friendly edits are a faster stick "because games have it", taking away the switch that turns it off, gliding you to a
+friendly edits are a faster stick "because games have it", taking away the switch to steps, gliding you to a
 place you point at, rendering every frame outside a session, and showing Enter VR on every room before each is tried.
 
 **THE RADIO FOLLOWS YOU INTO A ROOM ON CEL STREET, AND THE PEOPLE IN IT STAND THERE AS FIGURES.** Helen Edgar's ask,

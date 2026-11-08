@@ -486,7 +486,12 @@
       return {
         start: { x: 0, z: 0.2, yaw: 0 },
         bounds: { x: [-W / 2 + 0.9, W / 2 - 0.9], z: [back + 2.6, 0.2] },
-        stops: stops
+        stops: stops,
+        // Offered in a VR headset, as the yurt it opens off is (Ryan's ask,
+        // 2026-11-07), so you walk in from the yurt without leaving the
+        // headset. On a screen this changes nothing. What is lifted off her
+        // page is not in the headset, which shows only the picture.
+        vr: true
       };
     }
   };
