@@ -68,8 +68,32 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-11-07T12:28Z",
+ "set": "2026-11-08T12:22Z",
  "latest": [
+  {
+   "id": "7rvht5PZuHk",
+   "title": "Richmond works on first urban forest master plan with $6M grant",
+   "channel": "WTVR CBS 6",
+   "published": "2026-11-08T04:21:49Z",
+   "runs": 49,
+   "search": "urban-forests"
+  },
+  {
+   "id": "yfQgCnoxsjw",
+   "title": "SolarPunk: Healing the Earth, Rebuilding Democracy, and Reimagining the Future",
+   "channel": "Sean Taylor Reading Sage",
+   "published": "2026-11-07T18:52:58Z",
+   "runs": 593,
+   "search": "solarpunk"
+  },
+  {
+   "id": "Kva4tzQm6vI",
+   "title": "Green Building vs Sustainability | LEED Green Associate v5 – Chapter 2",
+   "channel": "LEEDtricks | Green Building | LEED Training",
+   "published": "2026-11-07T14:00:07Z",
+   "runs": 779,
+   "search": "green-building"
+  },
   {
    "id": "L6yP0Bgh7Ac",
    "title": "Thieves steal tools from Las Vegas urban farm Obodo Collective",
@@ -84,6 +108,14 @@
    "channel": "Northampton Government Video Archive",
    "published": "2026-11-06T22:28:02Z",
    "runs": 3268,
+   "search": "urban-forests"
+  },
+  {
+   "id": "GokdE4ZYxLw",
+   "title": "I planted an Urban Forest on My Nature Strip… My Neighbour Wasn't Happy!",
+   "channel": "Garden Groovers",
+   "published": "2026-11-06T21:51:34Z",
+   "runs": 197,
    "search": "urban-forests"
   },
   {
@@ -133,22 +165,6 @@
    "published": "2026-11-06T06:45:46Z",
    "runs": 408,
    "search": "green-building"
-  },
-  {
-   "id": "YsqJJx0eqfk",
-   "title": "HPARD Upgrades Heavy Duty Urban Forestry Equipment",
-   "channel": "Houston Parks and Recreation Department",
-   "published": "2026-11-05T19:11:32Z",
-   "runs": 122,
-   "search": "urban-forests"
-  },
-  {
-   "id": "gm-5qACsTYE",
-   "title": "Arlington County Urban Forestry Town Hall | October 29, 2026",
-   "channel": "Arlington County Meetings",
-   "published": "2026-11-05T17:41:46Z",
-   "runs": 5351,
-   "search": "urban-forests"
   },
   {
    "id": "RQgaeS6YfzE",
@@ -213,22 +229,6 @@
    "published": "2026-11-02T20:52:53Z",
    "runs": 496,
    "search": "edibles"
-  },
-  {
-   "id": "2207EDV6vr0",
-   "title": "What's Hiding on These NEW Islands? 👀 | Solarpunk #11 | The Arc",
-   "channel": "Living Arc",
-   "published": "2026-11-02T13:10:35Z",
-   "runs": 1727,
-   "search": "solarpunk"
-  },
-  {
-   "id": "dB5Ej5Cryqg",
-   "title": "Exploring Green Building Standards in Real Estate Development",
-   "channel": "Vera Bites",
-   "published": "2026-10-31T20:41:50Z",
-   "runs": 169,
-   "search": "green-building"
   }
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
@@ -259,6 +259,15 @@
    "channel": "Bubblegum Serbian",
    "published": "2026-11-02T11:31:36Z",
    "runs": 180,
+   "state": "screen"
+  },
+  {
+   "id": "iRnDV8TBF4g",
+   "search": "green-spaces",
+   "title": "The Hidden Power of Urban Green Spaces: Why Concrete Cities Need This Now MP4",
+   "channel": "Mekonene Nigussu",
+   "published": "2026-11-04T05:29:14Z",
+   "runs": 7172,
    "state": "screen"
   },
   {
@@ -298,12 +307,12 @@
    "state": "screen"
   },
   {
-   "id": "dB5Ej5Cryqg",
+   "id": "pXSuidzhdLc",
    "search": "green-building",
-   "title": "Exploring Green Building Standards in Real Estate Development",
-   "channel": "Vera Bites",
-   "published": "2026-10-31T20:41:50Z",
-   "runs": 169,
+   "title": "IGBC WEBINAR | Building Performance Analysis for Green Building Certification Series",
+   "channel": "simulationHub",
+   "published": "2026-11-02T11:56:11Z",
+   "runs": 4534,
    "state": "screen"
   },
   {
@@ -322,6 +331,15 @@
    "channel": "Green Building Council South Africa GBCSA",
    "published": "2026-11-06T06:45:46Z",
    "runs": 408,
+   "state": "screen"
+  },
+  {
+   "id": "Kva4tzQm6vI",
+   "search": "green-building",
+   "title": "Green Building vs Sustainability | LEED Green Associate v5 – Chapter 2",
+   "channel": "LEEDtricks | Green Building | LEED Training",
+   "published": "2026-11-07T14:00:07Z",
+   "runs": 779,
    "state": "screen"
   },
   {
@@ -406,6 +424,15 @@
    "state": "screen"
   },
   {
+   "id": "GokdE4ZYxLw",
+   "search": "urban-forests",
+   "title": "I planted an Urban Forest on My Nature Strip… My Neighbour Wasn't Happy!",
+   "channel": "Garden Groovers",
+   "published": "2026-11-06T21:51:34Z",
+   "runs": 197,
+   "state": "screen"
+  },
+  {
    "id": "T6dj28tug_I",
    "search": "urban-forests",
    "title": "Urban Forestry Commission | November 4, 2026",
@@ -415,12 +442,12 @@
    "state": "screen"
   },
   {
-   "id": "UdKYAKuIWLg",
-   "search": "urban-farms",
-   "title": "PIGGERY FARMING IN A 100X50 URBAN PLOT||MEET URBAN FARMER JOHN MWANGA",
-   "channel": "Its ME Again - ELDER EM",
-   "published": "2026-10-31T13:44:10Z",
-   "runs": 1978,
+   "id": "7rvht5PZuHk",
+   "search": "urban-forests",
+   "title": "Richmond works on first urban forest master plan with $6M grant",
+   "channel": "WTVR CBS 6",
+   "published": "2026-11-08T04:21:49Z",
+   "runs": 49,
    "state": "screen"
   },
   {
@@ -460,15 +487,6 @@
    "state": "screen"
   },
   {
-   "id": "jWSgYaWifMQ",
-   "search": "edibles",
-   "title": "Exciting Fruit Harvest + Garden Tour 🎉🌿🫐 in my Small Urban Food Forest",
-   "channel": "Sustainable Holly",
-   "published": "2026-10-31T22:41:35Z",
-   "runs": 1390,
-   "state": "screen"
-  },
-  {
    "id": "bg1_81P3Ylg",
    "search": "edibles",
    "title": "New Edible Garden in Industrial Zone - Ep1 Yucca Removal",
@@ -496,43 +514,11 @@
    "state": "screen"
   },
   {
-   "id": "mNqlSAuzdjk",
+   "id": "PVeGFtDHdiw",
    "search": "solarpunk",
-   "title": "2050 Solarpunk & Deep-Sea Sanctuaries: Extended 4K Ambient Deep-Focus Journey [16 Min Special]",
-   "channel": "Chromatic Vibes",
-   "published": "2026-10-31T16:00:25Z",
-   "runs": 960,
-   "state": "screen"
-  },
-  {
-   "id": "k5kYRo4Wd4I",
-   "search": "solarpunk",
-   "title": "Rainy Night on a Solarpunk City Street | Dreamy Ambient Lofi",
-   "channel": "Solar Lofi",
-   "published": "2026-10-31T17:59:57Z",
-   "runs": 4129,
-   "state": "left",
-   "why": "filed under Music"
-  },
-  {
-   "id": "88fpi3pAuZM",
-   "search": "solarpunk",
-   "title": "Building the Tower of Power in Solarpunk",
-   "channel": "The Hermit",
-   "published": "2026-10-31T19:33:21Z",
-   "runs": 292,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "DkNpVQq18MQ",
-   "search": "solarpunk",
-   "title": "Solarpunk Transport Drone Guide tips and tricks!",
-   "channel": "Hioz Mobile",
-   "published": "2026-10-31T22:54:06Z",
-   "runs": 268,
-   "state": "left",
-   "why": "filed under Gaming"
+   "title": "Solarpunk Ambient LIVESTREAM",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
    "id": "cu_qXP4WbDc",
@@ -648,6 +634,15 @@
    "runs": 10931,
    "state": "left",
    "why": "filed under Music"
+  },
+  {
+   "id": "1Jzy8B8W56o",
+   "search": "solarpunk",
+   "title": "Solarpunk Sanctuary ￼(1.4)",
+   "channel": "KashiOS",
+   "published": "2026-11-02T06:22:48Z",
+   "runs": 106,
+   "state": "screen"
   },
   {
    "id": "j2wls3NtED4",
@@ -857,11 +852,23 @@
    "why": "filed under Gaming"
   },
   {
-   "id": "MswsQzTIMQE",
-   "search": "renewable-energy",
-   "title": "Accelerating the clean energy rollout: balancing rapid renewable deployment with biodiversity [...]",
-   "state": "pending",
-   "why": "live, or not out yet"
+   "id": "yfQgCnoxsjw",
+   "search": "solarpunk",
+   "title": "SolarPunk: Healing the Earth, Rebuilding Democracy, and Reimagining the Future",
+   "channel": "Sean Taylor Reading Sage",
+   "published": "2026-11-07T18:52:58Z",
+   "runs": 593,
+   "state": "screen"
+  },
+  {
+   "id": "pKH3h_u0Qe4",
+   "search": "solarpunk",
+   "title": "The Future Is In The Sky? | Solarpunk",
+   "channel": "FluffyMare",
+   "published": "2026-11-08T04:57:47Z",
+   "runs": 4985,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
    "id": "LA95MviZisE",
@@ -888,6 +895,24 @@
    "channel": "GIZ Bosnia and Herzegovina and Montenegro",
    "published": "2026-11-04T08:51:08Z",
    "runs": 244,
+   "state": "screen"
+  },
+  {
+   "id": "MnD0gTMOlns",
+   "search": "renewable-energy",
+   "title": "Community Shared Ownership of Renewables in South Lanarkshire 2026",
+   "channel": "South Lanarkshire Council",
+   "published": "2026-11-05T11:09:30Z",
+   "runs": 4494,
+   "state": "screen"
+  },
+  {
+   "id": "il5pG6RKp0U",
+   "search": "renewable-energy",
+   "title": "Community Shared Ownership of Renewables in South Lanarkshire 2026",
+   "channel": "VASLan South Lanarkshire's TSI",
+   "published": "2026-11-05T12:47:02Z",
+   "runs": 4494,
    "state": "screen"
   },
   {
