@@ -30,6 +30,26 @@
    by name. It keeps nothing, sends nothing and
    fetches nothing; her page arrives through Cel Street's screen().
    tools/make-cel-street.py holds each of those.
+
+   HER THREE ANIMALS ARE ASLEEP IN IT (Helen Edgar's ask, 2026-11-09). Until
+   then the scene never drew them, because they are her real pets and that
+   was hers to decide; she decided. A cat curled on the egg chair's cushion
+   (one cat standing for the clowder), the dog asleep on the sheepskin at its
+   foot and the hamster asleep in a bowl on the little table beside it, each
+   a generic figure of its kind in the yurt's own inks by name, never drawn
+   from her photographs, still at every setting, and hers to keep or send
+   back. They are WebGL, so they are seen in the headset too.
+
+   THE BELL AT THE DOOR IS HER PAGE'S BELL, lifted (Helen's ask, the same
+   day): the bell string's markup off faery-yurt.html stands small on the wall
+   inside the door, and yurt-bell.js is wired to it, so a press here rings the
+   same chime under the same ceiling, and never rings by itself.
+
+   THE BASKET OF WINGS BY HER DOOR LENDS A PAIR HERE (the same day): the room
+   names its pairs (wings, below), Cel Street puts Borrow a pair of wings under
+   the room's switches, the pair goes with your place to the radio and is
+   worn by your figure for whoever sees it, and it is back in the basket when
+   you leave; nothing about who borrowed which is kept anywhere.
    ========================================================================== */
 (function () {
   'use strict';
@@ -272,6 +292,13 @@
       var pg = round(0, R - 0.14, 0);
       box(sw0 + 0.2, sh0 + 0.2, 0.06, M(pg, at(0, sy0, 0)), '--timber');
       var frame = kit.screen(1180, 800, sw0, M(pg, at(0, sy0, 0.04)), 'Helen Edgar’s Faery Yurt’s own page, on the far wall facing the door');
+      // THE BELL STRING ON THE DOOR (Helen's ask, 2026-11-09): her page's own
+      // bell, lifted off it and stood small on the wall inside the door frame,
+      // on the side away from the blanket basket, with only its drawing, its
+      // button and its said line; yurt-bell.js is wired to it, so the press
+      // here rings her chime under its own ceiling, and nothing rings by itself.
+      kit.lift(frame, '.yurt-bell', { w: 240, ww: 0.5, m: M(round(Math.PI, R - 0.14, 0), at(-1.45, 1.05, 0)), drop: 'h3, :scope > p:not([data-yurt-bell-said])' });
+      kit.wire(frame, 'yurt-bell.js');
       stops.push({ name: 'at the far wall, with her room’s own page on it', x: 0, z: -(R - 2.3), yaw: 0, page: kit.page, frame: frame });
 
       // THE BOOKCASE, to the Reading Room: a timber case and her spines.
@@ -397,7 +424,42 @@
       var fleece = new T.CircleGeometry(0.55, 14); fleece.scale(1, 0.7, 1);
       kit.flat(fleece, M(eg, at(0, 0.03, 1.0, 0, -Math.PI / 2)), '--tallow-2');
       for (var fl = 0; fl < 18; fl++) kit.piece(new T.SphereGeometry(0.05, 5, 3), M(eg, at((hash(fl, 12, 1) - 0.5) * 0.85, 0.04, 1.0 + (hash(fl, 12, 2) - 0.5) * 0.6)), '--tallow', false);
-      stops.push({ name: 'in the regulation nook, by the egg chair', x: (R - 3.7) * Math.sin(145 * DEG), z: -(R - 3.7) * Math.cos(145 * DEG), yaw: -145 * DEG, pitch: -0.1 });
+
+      // HER THREE ANIMALS, ASLEEP (Helen's ask, 2026-11-09; see the header).
+      // A cat curled on the cushion in the egg: a body, a head tucked in, two
+      // ears, a tail round itself, in --timber with --tallow-2 markings.
+      var catM = M(eg, at(0.04, 0.9, 0.1, 0.6));
+      var catBody = new T.SphereGeometry(0.21, 14, 10); catBody.scale(1.15, 0.55, 0.85);
+      kit.piece(catBody, M(catM, at(0, 0, 0)), '--timber', 0.012);
+      var catHead = new T.SphereGeometry(0.095, 12, 9); catHead.scale(1, 0.85, 1);
+      kit.piece(catHead, M(catM, at(-0.17, 0.02, 0.12, 0.5)), '--timber', 0.01);
+      [-1, 1].forEach(function (e) { kit.piece(new T.ConeGeometry(0.03, 0.06, 6), M(catM, at(-0.17 + e * 0.05, 0.1, 0.1, 0, -0.3, e * 0.4)), '--timber', false); });
+      var catTail = new T.TorusGeometry(0.2, 0.025, 6, 14, Math.PI * 1.2);
+      kit.piece(catTail, M(catM, at(0.02, -0.06, 0.02, 0, -Math.PI / 2, 0.4)), '--timber', false);
+      [[0.04, 0.09, 0.0], [-0.06, 0.07, -0.08], [0.12, 0.04, 0.06]].forEach(function (mk) {
+        var patch = new T.SphereGeometry(0.045, 7, 5); patch.scale(1.4, 0.4, 1);
+        kit.piece(patch, M(catM, at(mk[0], mk[1], mk[2])), '--tallow-2', false);
+      });
+      // The dog asleep on the sheepskin at the egg's foot, head on its paws,
+      // in --tallow-3 with --tallow-2 ears and a --timber nose.
+      var dogM = M(eg, at(0.08, 0.04, 1.02, 0.35));
+      var dogBody = new T.SphereGeometry(0.24, 14, 10); dogBody.scale(1.5, 0.5, 0.75);
+      kit.piece(dogBody, M(dogM, at(0, 0.12, 0)), '--tallow-3', 0.012);
+      var dogHead = new T.SphereGeometry(0.11, 12, 9); dogHead.scale(1.25, 0.8, 0.95);
+      kit.piece(dogHead, M(dogM, at(-0.38, 0.1, 0.04)), '--tallow-3', 0.01);
+      kit.piece(new T.SphereGeometry(0.03, 6, 5), M(dogM, at(-0.51, 0.1, 0.05)), '--timber', false);
+      [-1, 1].forEach(function (e) { var ear = new T.SphereGeometry(0.05, 7, 5); ear.scale(0.8, 0.5, 1.4); kit.piece(ear, M(dogM, at(-0.33, 0.14, 0.04 + e * 0.1, 0, 0, e * 0.4)), '--tallow-2', false); });
+      [-1, 1].forEach(function (e) { kit.piece(new T.BoxGeometry(0.2, 0.05, 0.07), M(dogM, at(-0.42, 0.03, 0.04 + e * 0.07)), '--tallow-3', false); });
+      var dogTail = new T.CylinderGeometry(0.02, 0.03, 0.26, 6);
+      kit.piece(dogTail, M(dogM, at(0.4, 0.06, 0.05, 0, 0, Math.PI / 2 + 0.3)), '--tallow-3', false);
+      // The hamster asleep in a bowl on the little table, a small round shape
+      // in --tallow-2 with two ears, the bowl in --canvas-2.
+      var bowlM = M(sdt, at(0.0, 0.57, -0.12));
+      kit.cyl(0.085, 0.06, 0.055, M(bowlM, at(0, 0.027, 0)), '--canvas-2', 0.008, 12);
+      var ham = new T.SphereGeometry(0.05, 10, 8); ham.scale(1.25, 0.8, 1);
+      kit.piece(ham, M(bowlM, at(0, 0.075, 0, 1.1)), '--tallow-2', false);
+      [-1, 1].forEach(function (e) { kit.piece(new T.SphereGeometry(0.012, 5, 4), M(bowlM, at(-0.03 + e * 0.012, 0.11, e * 0.02)), '--tallow-2', false); });
+      stops.push({ name: 'in the regulation nook, by the egg chair, with the cat, the dog and the hamster asleep in it', x: (R - 3.7) * Math.sin(145 * DEG), z: -(R - 3.7) * Math.cos(145 * DEG), yaw: -145 * DEG, pitch: -0.1 });
 
       // THE PEBBLE BOWL on a stool, by the door.
       var pb = round(168 * DEG, R - 0.6, 0);
@@ -569,7 +631,10 @@
         stops: stops,
         // Helen's ask, 2026-11-07: her yurt is the first room offered in a VR
         // headset. On a screen this changes nothing.
-        vr: true
+        vr: true,
+        // The basket of wings by her door, 2026-11-09: the pairs it lends,
+        // named as her page names them, and as lib.mjs's CEL_WINGS has them.
+        wings: ['moth', 'dragonfly', 'ivy', 'ember']
       };
     }
   };

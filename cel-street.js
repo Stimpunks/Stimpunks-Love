@@ -1641,7 +1641,22 @@ function start() {
       scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = 'none'; });
       scene = new THREE.Scene(); far = []; hits = []; buckets = {};
       var name = room.name || (door ? door.room || door.name : page);
-      var made = room.build(kit(page, name));
+      var k = kit(page, name);
+      var made = room.build(k);
+      // A room with a basket of wings (Helen Edgar's yurt, 2026-11-09) lends a
+      // pair while you are in it: a row under the room's own switches, None
+      // first. The pair goes with your place to the radio (spotTell), and back
+      // in the basket when you leave (leave); it is kept in no storage.
+      wornWings = null;
+      if (Array.isArray(made.wings) && made.wings.length) {
+        var pairs = made.wings.filter(function (w) { return typeof w === 'string'; });
+        k.choose({ label: 'Borrow a pair of wings', choices: ['None'].concat(pairs.map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1) + ' wings'; })), start: 0,
+          pick: function (i) {
+            wornWings = i > 0 ? pairs[i - 1] : null;
+            spotTell();
+            return wornWings ? 'You are wearing ' + wornWings + ' wings, for anybody in the room who sees your figure; they go back in the basket when you leave.' : 'The wings are back in the basket.';
+          } });
+      }
       bake();
       inside = { page: page, name: name, vr: !!made.vr };
       stops = made.stops; bounds = made.bounds;
@@ -1691,7 +1706,7 @@ function start() {
     });
     var was = behind.pop();
     scene = was.scene; far = was.far; stops = was.stops; bounds = was.bounds; hits = was.hits; me = was.me;
-    inside = was.inside; glide = null; held = {};
+    inside = was.inside; glide = null; held = {}; wornWings = null;
     // The room you came back into shows its own page again.
     scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = ''; });
     wayOut(); places(); roomCtl(); vrOffer(); radioRoom();
@@ -2314,7 +2329,7 @@ function start() {
   // and its clothes as blocks of their own colours, every colour read by name
   // out of avatar.js's own tables. Nothing here is fetched or kept: the list
   // is the radio's, and it goes when you leave the room.
-  var folkGroup = null, folkList = null, spotSaid = '';
+  var folkGroup = null, folkList = null, spotSaid = '', wornWings = null;
   // The place you are at: the nearest by distance alone, so a headset's free
   // walking still counts, and none when you are far from any.
   function spotOf() {
@@ -2324,10 +2339,10 @@ function start() {
   }
   function spotTell() {
     var i = inside ? spotOf() : -1;
-    var key = inside ? inside.page + ':' + i : '';
+    var key = inside ? inside.page + ':' + i + ':' + (wornWings || '') : '';
     if (key === spotSaid) return;
     spotSaid = key;
-    window.dispatchEvent(new CustomEvent('love-cel-spot', { detail: inside && i >= 0 ? { room: inside.page.replace(/\.html$/, ''), spot: i } : null }));
+    window.dispatchEvent(new CustomEvent('love-cel-spot', { detail: inside && i >= 0 ? { room: inside.page.replace(/\.html$/, ''), spot: i, wings: wornWings } : null }));
   }
   function folkClear() {
     if (!folkGroup) return;
@@ -2353,6 +2368,66 @@ function start() {
   var WIDTH = { narrow: 0.34, middling: 0.4, broad: 0.46 };
   var DEPTH = { flat: 0.18, soft: 0.22, round: 0.26, big: 0.32 };
   var HIPS = { narrow: 0.3, middling: 0.36, wide: 0.42 };
+  // One wing's outline, flat, its root at the origin and its length along +x.
+  function wingShape(pts) {
+    var sh = new THREE.Shape();
+    sh.moveTo(0, 0);
+    pts.forEach(function (q, i) { if (i === 0) sh.lineTo(q[0], q[1]); else sh.quadraticCurveTo(q[0], q[1], q[2], q[3]); });
+    sh.lineTo(0, 0);
+    return new THREE.ShapeGeometry(sh, 10);
+  }
+  // Both wings of a pair: each rooted at a shoulder blade, angled back and up,
+  // the left one the right one mirrored. make(g, m, side) draws one side.
+  function wingPair(g, sw, sd, y, make) {
+    [-1, 1].forEach(function (side) {
+      var m = at(side * sw * 0.22, y, sd / 2 + 0.02, side * -0.95, 0, side * 0.35);
+      make(g, m, side);
+    });
+  }
+  function wingPart(g, geo, name, m, opacity) {
+    var mat = new THREE.MeshToonMaterial({ color: col(name), gradientMap: gradient, side: THREE.DoubleSide });
+    if (opacity < 1) { mat.transparent = true; mat.opacity = opacity; }
+    var mesh = new THREE.Mesh(geo, opacity < 1 ? mat : painted(mat));
+    mesh.matrixAutoUpdate = false; mesh.matrix.copy(m); mesh.castShadow = opacity >= 1;
+    g.add(mesh);
+    var h = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: col('--cel-ink'), side: THREE.BackSide, transparent: opacity < 1, opacity: Math.min(1, opacity + 0.3) }));
+    h.matrixAutoUpdate = false; h.matrix.copy(m).multiply(new THREE.Matrix4().makeScale(1.04, 1.04, 1));
+    g.add(h);
+    return mesh;
+  }
+  var WINGS = {
+    moth: function (g, sw, sd, y) {
+      wingPair(g, sw, sd, y, function (gg, m, side) {
+        wingPart(gg, wingShape([[0.05, 0.22], [0.3, 0.3, 0.42, 0.12], [0.44, -0.04, 0.3, -0.16], [0.14, -0.22, 0.03, -0.06]]), '--tallow-2', m, 1);
+        [[0.22, 0.1, 0.035], [0.32, -0.02, 0.025], [0.12, -0.08, 0.02]].forEach(function (sp) {
+          wingPart(gg, new THREE.CircleGeometry(sp[2], 10), '--timber', m.clone().multiply(at(sp[0], sp[1], 0.004)), 1);
+        });
+      });
+    },
+    dragonfly: function (g, sw, sd, y) {
+      wingPair(g, sw, sd, y, function (gg, m, side) {
+        wingPart(gg, wingShape([[0.04, 0.09], [0.3, 0.13, 0.56, 0.06], [0.6, 0.0, 0.5, -0.05], [0.25, -0.08, 0.03, -0.04]]), '--tallow', m, 0.42);
+        wingPart(gg, wingShape([[0.04, -0.02], [0.28, 0.0, 0.5, -0.1], [0.52, -0.16, 0.4, -0.2], [0.2, -0.2, 0.03, -0.1]]), '--tallow', m.clone().multiply(at(0, -0.04, -0.004)), 0.42);
+        [0.14, 0.28, 0.42].forEach(function (vx) { wingPart(gg, new THREE.BoxGeometry(0.006, 0.16, 0.004), '--candle', m.clone().multiply(at(vx, 0.0, 0.003)), 1); });
+        wingPart(gg, new THREE.BoxGeometry(0.5, 0.006, 0.004), '--candle', m.clone().multiply(at(0.27, 0.04, 0.003)), 1);
+      });
+    },
+    ivy: function (g, sw, sd, y) {
+      wingPair(g, sw, sd, y, function (gg, m, side) {
+        wingPart(gg, wingShape([[0.08, 0.14], [0.16, 0.24, 0.28, 0.14], [0.4, 0.1, 0.44, -0.02], [0.3, -0.14, 0.16, -0.12], [0.08, -0.2, 0.0, -0.04]]), '--ivy', m, 1);
+        [[0.22, 0, 0.4, 0], [0.12, 0.02, 0.2, 0.16], [0.14, -0.03, 0.26, -0.1]].forEach(function (v) {
+          var len = Math.hypot(v[2] - v[0], v[3] - v[1]), ang = Math.atan2(v[3] - v[1], v[2] - v[0]);
+          wingPart(gg, new THREE.BoxGeometry(len, 0.007, 0.004), '--ivy-2', m.clone().multiply(at((v[0] + v[2]) / 2, (v[1] + v[3]) / 2, 0.004, 0, 0, ang)), 1);
+        });
+      });
+    },
+    ember: function (g, sw, sd, y) {
+      wingPair(g, sw, sd, y, function (gg, m, side) {
+        wingPart(gg, wingShape([[0.06, 0.2], [0.26, 0.36, 0.5, 0.18], [0.42, 0.04, 0.3, -0.1], [0.12, -0.18, 0.02, -0.05]]), '--ember', m, 1);
+        wingPart(gg, wingShape([[0.05, 0.12], [0.2, 0.24, 0.36, 0.12], [0.3, 0.02, 0.2, -0.06], [0.08, -0.1, 0.02, -0.03]]), '--ember-2', m.clone().multiply(at(0.02, 0, 0.005)), 1);
+      });
+    }
+  };
   function figureOf(who) {
     var A = window.loveAvatar && window.loveAvatar.data, look = who.look;
     if (!A || !look) return null;
@@ -2404,6 +2479,11 @@ function start() {
       figurePart(g, new THREE.BoxGeometry(0.11, armH, 0.11), sleeve, at(ax, torsoY + torsoH - armH / 2, seated ? -0.04 : 0));
       figurePart(g, new THREE.BoxGeometry(0.1, 0.1, 0.1), skin, at(ax, torsoY + torsoH - armH - 0.04, seated ? -0.04 : 0));
     });
+    // A pair of wings borrowed from a room's basket (Helen's yurt), angled
+    // back from the shoulders, in the yurt's own inks by name: moth, dusty and
+    // spotted; dragonfly, clear and veined; two ivy leaves; ember, the fire's
+    // colours. Nothing of them moves.
+    if (WINGS[who.wings]) WINGS[who.wings](g, sw, sd, torsoY + torsoH * 0.78);
     // Head, face (the eyes and the mouth in ink, so every face reads at a
     // distance), hair, hat, glasses, mask.
     var headY = torsoY + torsoH + 0.18, faceZ = -0.13;

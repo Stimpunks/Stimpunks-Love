@@ -230,6 +230,11 @@ if "three.js" not in page or "MIT" not in page:
 # (its page goes up only through the kit's screen(), so every room's page
 # arrives the same honest way), and draws only in colours love.css declares,
 # by name.
+_lib = (ROOT / "netlify" / "cb" / "lib.mjs").read_text()
+_cw = re.search(r"export const CEL_WINGS = \[([^\]]*)\];", _lib)
+CEL_WINGS = re.findall(r"'([^']+)'", _cw.group(1)) if _cw else []
+if not CEL_WINGS:
+    refuse("netlify/cb/lib.mjs has lost CEL_WINGS, the pairs a room's basket may lend.")
 rooms = {}
 for f in sorted(ROOT.glob("cel-in-*.js")):
     rpage = f.name[len("cel-in-"):-3] + ".html"
@@ -273,6 +278,16 @@ for f in sorted(ROOT.glob("cel-in-*.js")):
     for src_js in re.findall(r"kit\.wire\(\s*\w+\s*,\s*'([^']+)'", c):
         if f'<script src="{src_js}"' not in page_src:
             refuse(f"{f.name} runs {src_js} against its lifts, and {rpage} does not load {src_js} itself.")
+    # A room that lends wings (the Faery Yurt's basket, 2026-11-09) names only
+    # pairs the server keeps (CEL_WINGS in lib.mjs) and cel-street.js draws,
+    # or a pair would be borrowed and never seen.
+    wm = re.search(r"\bwings\s*:\s*\[([^\]]*)\]", c)
+    if wm:
+        for pair in re.findall(r"'([^']+)'", wm.group(1)):
+            if pair not in CEL_WINGS:
+                refuse(f"{f.name} lends {pair!r} wings, which lib.mjs's CEL_WINGS does not keep.")
+            if not re.search(r"^\s*" + re.escape(pair) + r"\s*:\s*function", code, re.M):
+                refuse(f"{f.name} lends {pair!r} wings, which cel-street.js's WINGS does not draw.")
     rooms[rpage] = f.name
 
 # ── The campgrounds' pitches, read off its own board ────────────────────────
