@@ -9086,8 +9086,6 @@ html:not([data-intensity="gentle"]) .yurt-faedoor[open] .yurt-faedoor__drawer { 
 html[data-intensity="max"] .yurt-wheel__spokes { animation: yurt-spin 4s linear infinite; }
 .crown-sky { position: absolute; top: 54px; left: calc(50% - 74px); width: 148px; pointer-events: none; }
 .crown-sky svg { display: block; width: 100%; height: auto; }
-.room-yurt .yurt-moth-credit { margin: 0 auto 10px; max-width: 60ch; font-size: 13.5px; line-height: 1.45; color: var(--tallow-3); }
-.room-yurt .yurt-moth-credit a { color: var(--tallow-2); }
 .crown-moth { transform: translate(118px, 31px); }
 html[data-intensity="max"] .crown-moth { animation: yurt-moth 11s ease-in-out infinite; }
 @keyframes yurt-moth {
@@ -9101,8 +9099,6 @@ html[data-intensity="max"] .crown-moth { animation: yurt-moth 11s ease-in-out in
    drawn in the crown's gold and shade; today's cell has the candle's rim.
    The portal doors to the Music Room and the Cinema open on photographs now,
    credited under each; the sparkle stays behind the Reading Room's. */
-.yurt-portal__credit { margin: 8px auto 0; max-width: 60ch; text-align: center; font-size: 13.5px; line-height: 1.45; color: var(--tallow-3); }
-.yurt-portal__credit a { color: var(--tallow-2); }
 .yurt-mooncal__place { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 0 0 16px; }
 .yurt-mooncal__label { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 16px; color: var(--tallow-2); display: inline-flex; align-items: center; gap: 8px; }
 .room-yurt .yurt-mooncal__select, .room-yurt .yurt-mooncal__in { font: inherit; font-size: 16px; color: var(--tallow); background: var(--hearth); border: 1px solid var(--tallow-3); border-radius: 4px; padding: 6px 8px; max-width: 100%; }
@@ -9123,6 +9119,35 @@ html[data-intensity="max"] .crown-moth { animation: yurt-moth 11s ease-in-out in
 .yurt-mooncal__quarter { display: block; font-family: 'Caveat', cursive; font-weight: 600; font-size: 17px; line-height: 1.2; color: var(--candle); margin: 0 0 3px; }
 .yurt-mooncal__times { display: block; font-size: 13.5px; line-height: 1.4; color: var(--tallow-2); }
 .room-yurt .yurt-mooncal__quarters { margin: 14px 0 0; font-size: 16px; color: var(--tallow); }
+/* Helen's review, 2026-11-09: a contents list after the welcome, the
+   borrowed pictures' credits gathered at the foot, the calendar a list on a
+   phone (each day a row, its weekday from data-dow), and the Stim Tin two
+   across on a phone. */
+.yurt-contents { max-width: 640px; margin: 22px auto 0; padding: 14px 18px; background: linear-gradient(180deg, var(--canvas), var(--tent)); border: 1px solid rgba(233,200,116,.18); border-radius: 6px; }
+.room-yurt .yurt-contents h2 { font-size: 20px; font-style: italic; margin: 0 0 8px; }
+.yurt-contents__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 15.5px; }
+.yurt-contents__list li::after { content: "·"; margin-left: 14px; color: var(--tallow-3); }
+.yurt-contents__list li:last-child::after { content: none; }
+.yurt-credits__list { list-style: none; margin: 0; padding: 0; font-size: 14.5px; line-height: 1.55; color: var(--tallow-2); }
+.yurt-credits__list li { margin: 0 0 8px; }
+.yurt-credits__list b { font-weight: 600; color: var(--tallow); }
+.room-yurt .yurt-moon__go { font-style: normal; font-size: 15px; }
+@media (max-width: 600px) {
+  .yurt-mooncal__table { min-width: 0; display: block; border-spacing: 0; }
+  .yurt-mooncal__table thead { display: none; }
+  .yurt-mooncal__table tbody, .yurt-mooncal__table tr { display: block; }
+  .yurt-mooncal__blank { display: none; }
+  .yurt-mooncal__day { display: grid; grid-template-columns: 3.2em 34px 1fr; align-items: center; gap: 10px; text-align: left; margin: 0 0 6px; padding: 6px 10px; }
+  .yurt-mooncal__day::before { content: attr(data-dow); font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; letter-spacing: .06em; color: var(--tallow-2); }
+  .yurt-mooncal__day .yurt-mooncal__num { grid-column: 1; grid-row: 1; margin: 0; font-size: 18px; }
+  .yurt-mooncal__day::before { grid-column: 1; grid-row: 2; }
+  .yurt-mooncal__day svg { grid-column: 2; grid-row: 1 / 3; margin: 0; }
+  .yurt-mooncal__day .yurt-mooncal__quarter, .yurt-mooncal__day .yurt-mooncal__times { grid-column: 3; }
+  .yurt-stim__toys { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .yurt-stim__toy { padding: 6px 6px 10px; }
+  .room-yurt .yurt-stim__name { font-size: 16px; }
+  .room-yurt .yurt-stim__feel { font-size: 14px; }
+}
 .room-yurt .yurt-moon { margin: 0 0 8px; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 17px; color: var(--tallow-2); }
 html[data-intensity="max"] body[data-moon="full"] .lights span { background: var(--tallow); box-shadow: 0 0 6px 2px rgba(242,230,212,.6); }
 html[data-intensity="max"] body[data-moon="full"] .crown-light { fill: var(--tallow); }

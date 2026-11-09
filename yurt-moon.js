@@ -215,6 +215,7 @@
   /* The crown. */
   var crown = document.querySelector('[data-crown-moon]');
   var line = document.querySelector('[data-yurt-moon]');
+  var cal = document.querySelector('[data-yurt-mooncal]');
   function crownDraw(where) {
     if (!crown || !line) return;
     var now = Date.now(), phase = phaseOf(now), lit = 0.5 * (1 - Math.cos(phase * 2 * Math.PI));
@@ -227,11 +228,11 @@
     var ev = riseSet(start, end, where.lat, where.lon);
     var words = ev.map(function (e) { return (e.kind === 'rise' ? 'rises at ' : 'sets at ') + clock(e.ms, where.tz); }).join(' and ');
     line.textContent = 'Over the yurt tonight: ' + phaseName(phase) + '. From ' + where.name + ' it ' + (words || 'neither rises nor sets today') + (full ? '. At MAX the lights go silver for it.' : '.');
+    if (cal) { line.appendChild(document.createTextNode(' ')); var go = el('a', 'yurt-moon__go', 'The month\u2019s calendar is below.'); go.href = '#moon-calendar'; line.appendChild(go); }
     line.hidden = false;
   }
 
   /* The calendar. */
-  var cal = document.querySelector('[data-yurt-mooncal]');
   var where = load() || home();
   crownDraw(where);
   if (!cal) return;
@@ -271,6 +272,7 @@
     for (var d = 1; d <= days; d++) {
       var start = midnight(y, m, d, tz), end = midnight(y, m, d + 1, tz), noon = (start + end) / 2;
       var td = el('td', 'yurt-mooncal__day');
+      td.setAttribute('data-dow', DAYS[(firstDow + d - 1) % 7]);
       if (today.y === y && today.m === m && today.d === d) { td.className += ' is-today'; }
       var num = el('span', 'yurt-mooncal__num', String(d)); td.appendChild(num);
       td.appendChild(moonSvg(phaseOf(noon), flip, 34));
