@@ -129,8 +129,8 @@
        things: a bell string on the door, a basket of wings to borrow, and a
        saucer of milk on the step. The bell is yurt-bell.js (a chime made of
        arithmetic under its ceiling, rung only by a press, at every setting);
-       the wings are borrowed at the door of the yurt on Cel Street and come off
-       when you leave, kept nowhere; the saucer is drawn and never moves. The
+       the wings (real ones, photographs) are borrowed at the door of the yurt on Cel
+       Street and come off when you leave, kept nowhere; the saucer is drawn and never moves. The
        brownie's house rule is written in the yurt's voice and is Helen's to
        change. -->
   <section class="hearth-card yurt-door" aria-labelledby="by-the-door">
@@ -138,13 +138,16 @@
     <div class="yurt-door__row">
       <div class="yurt-door__thing yurt-bell" data-yurt-bell>
         <svg class="yurt-bell__art" viewBox="0 0 120 180" aria-hidden="true" focusable="false">
-          <line x1="60" y1="0" x2="60" y2="52" stroke="#A4907B" stroke-width="2.5" stroke-dasharray="3 4"/>
-          <path d="M44 52 C44 40 76 40 76 52 L80 96 C80 102 40 102 40 96 Z" fill="#E0904A" stroke="#4A372B" stroke-width="2"/>
-          <path d="M50 56 C52 48 68 48 70 56" fill="none" stroke="#F2B673" stroke-width="2" opacity=".8"/>
-          <ellipse cx="60" cy="100" rx="22" ry="5" fill="#4A372B"/>
-          <circle class="yurt-bell__clapper" cx="60" cy="108" r="6" fill="#E9C874" stroke="#4A372B" stroke-width="1.5"/>
-          <line x1="60" y1="102" x2="60" y2="140" stroke="#A4907B" stroke-width="2"/>
-          <path d="M52 140 C52 150 68 150 68 140 L66 168 C66 172 54 172 54 168 Z" fill="#6D8A56" stroke="#38491F" stroke-width="1.5"/>
+          <line x1="60" y1="0" x2="60" y2="14" stroke="#A4907B" stroke-width="2.5" stroke-dasharray="3 4"/>
+          <g class="yurt-bell__swing">
+            <line x1="60" y1="14" x2="60" y2="52" stroke="#A4907B" stroke-width="2.5" stroke-dasharray="3 4"/>
+            <path d="M44 52 C44 40 76 40 76 52 L80 96 C80 102 40 102 40 96 Z" fill="#E0904A" stroke="#4A372B" stroke-width="2"/>
+            <path d="M50 56 C52 48 68 48 70 56" fill="none" stroke="#F2B673" stroke-width="2" opacity=".8"/>
+            <ellipse cx="60" cy="100" rx="22" ry="5" fill="#4A372B"/>
+            <circle class="yurt-bell__clapper" cx="60" cy="108" r="6" fill="#E9C874" stroke="#4A372B" stroke-width="1.5"/>
+            <line x1="60" y1="102" x2="60" y2="140" stroke="#A4907B" stroke-width="2"/>
+            <path d="M52 140 C52 150 68 150 68 140 L66 168 C66 172 54 172 54 168 Z" fill="#6D8A56" stroke="#38491F" stroke-width="1.5"/>
+          </g>
           <path class="yurt-bell__ring1" d="M28 70 C20 78 20 90 28 98" fill="none" stroke="#E9C874" stroke-width="2" stroke-linecap="round" opacity="0"/>
           <path class="yurt-bell__ring2" d="M92 70 C100 78 100 90 92 98" fill="none" stroke="#E9C874" stroke-width="2" stroke-linecap="round" opacity="0"/>
         </svg>
@@ -158,26 +161,35 @@
           <path d="M20 90 C24 130 136 130 140 90 L130 140 L30 140 Z" fill="#5A4433" stroke="#3A2A20" stroke-width="2"/>
           <path d="M22 92 h116" stroke="#A4907B" stroke-width="2" stroke-dasharray="4 3"/>
           <path d="M34 120 h92 M30 132 h100" stroke="#3A2A20" stroke-width="1.5" opacity=".6"/>
-          <g data-wings="moth"><path d="M56 60 C30 40 24 72 50 82 Z" fill="#C2AC91" opacity=".95"/><path d="M60 62 C86 40 92 72 66 82 Z" fill="#C2AC91" opacity=".95"/><circle cx="43" cy="66" r="3" fill="#4A372B"/><circle cx="76" cy="66" r="3" fill="#4A372B"/></g>
-          <g data-wings="dragonfly"><path d="M96 48 C118 34 132 54 104 62 Z" fill="#F2E6D4" opacity=".55" stroke="#E9C874" stroke-width="1"/><path d="M98 66 C120 58 134 74 104 78 Z" fill="#F2E6D4" opacity=".55" stroke="#E9C874" stroke-width="1"/></g>
-          <g data-wings="ivy"><path d="M40 96 C28 84 42 70 52 86 C56 78 70 86 56 100 Z" fill="#6D8A56" stroke="#38491F" stroke-width="1"/></g>
-          <g data-wings="ember"><path d="M102 92 C118 72 134 84 118 104 Z" fill="#E0904A" opacity=".9"/><path d="M98 100 C110 82 126 94 108 110 Z" fill="#F2B673" opacity=".9"/></g>
+          <image data-wings="moth" href="faery-yurt/moth.png" x="30" y="48" width="58" height="45" preserveAspectRatio="xMidYMid meet"/>
+          <image data-wings="monarch" href="faery-yurt/wings-monarch.png" x="86" y="40" width="60" height="40" preserveAspectRatio="xMidYMid meet"/>
+          <image data-wings="lady" href="faery-yurt/wings-lady.png" x="24" y="84" width="56" height="37" preserveAspectRatio="xMidYMid meet"/>
+          <image data-wings="fritillary" href="faery-yurt/wings-fritillary.png" x="92" y="78" width="56" height="38" preserveAspectRatio="xMidYMid meet"/>
         </svg>
         <h3 id="a-basket-of-wings">A basket of wings</h3>
-        <p>Borrow a pair while you are in the yurt: moth wings, dusty and soft; dragonfly wings, clear and veined; a pair of ivy leaves; or ember wings, the colour of the fire. They are borrowed at the door of the yurt on <a href="cel-street.html#in=faery-yurt">Cel Street</a>, where your figure wears them for anybody in the room, and they go back in the basket when you leave. Nothing is written down about who borrowed which.</p>
+        <p>Borrow a pair while you are in the yurt, real ones: a moth&rsquo;s, tawny with an eye on each wing; a monarch&rsquo;s, orange and black; an American lady&rsquo;s, with her eyespots underneath; or a fritillary&rsquo;s, chequered brown and gold. They are borrowed at the door of the yurt on <a href="cel-street.html#in=faery-yurt">Cel Street</a>, where your figure wears them for anybody in the room, and they go back in the basket when you leave. Nothing is written down about who borrowed which.</p>
+        <p class="yurt-portal__credit">The wings in the basket: the moth is a photograph by Fir0002, <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Polyphemus_moth_transparent_bkgrnd.png">via Wikimedia Commons</a>; the <a href="https://commons.wikimedia.org/wiki/File:Danaus_plexippus-transparent.png">monarch</a>, the <a href="https://commons.wikimedia.org/wiki/File:Vanessa_virginiensis-transparent.png">American lady</a> and the <a href="https://commons.wikimedia.org/wiki/File:Speyeria_aphrodite_alcestis-transparent.png">fritillary</a> are coloured photographs of real butterflies from the Nature Study Publishing Company of Chicago, about 1900, public domain, via Wikimedia Commons. Each cut from its background by its uploader, and resized here.</p>
       </div>
-      <div class="yurt-door__thing yurt-saucer">
+      <div class="yurt-door__thing yurt-saucer" data-yurt-saucer>
         <svg class="yurt-saucer__art" viewBox="0 0 160 110" aria-hidden="true" focusable="false">
+          <defs><clipPath id="yurt-saucer-milk"><ellipse cx="80" cy="76" rx="36" ry="8"/></clipPath></defs>
           <path d="M0 96 H160 V110 H0 Z" fill="#3A2A20"/>
           <path d="M0 96 C40 84 120 84 160 96" fill="#4A372B"/>
           <ellipse cx="80" cy="78" rx="46" ry="12" fill="#C2AC91" stroke="#A4907B" stroke-width="2"/>
           <ellipse cx="80" cy="76" rx="36" ry="8" fill="#F2E6D4"/>
+          <g class="yurt-saucer__rings" clip-path="url(#yurt-saucer-milk)" fill="none" stroke="#C2AC91" stroke-width="1.2">
+            <ellipse class="yurt-saucer__ring" cx="80" cy="76" rx="6" ry="1.4" opacity="0"/>
+            <ellipse class="yurt-saucer__ring" cx="80" cy="76" rx="6" ry="1.4" opacity="0"/>
+            <ellipse class="yurt-saucer__ring" cx="80" cy="76" rx="6" ry="1.4" opacity="0"/>
+          </g>
           <path d="M34 78 C34 86 126 86 126 78" fill="none" stroke="#A4907B" stroke-width="2"/>
           <path d="M120 40 l3 8 8 1 -6 5 2 8 -7 -4 -7 4 2 -8 -6 -5 8 -1 z" fill="#E9C874" opacity=".8"/>
           <path d="M28 30 l2 5 5 1 -4 3 1 5 -4 -3 -4 3 1 -5 -4 -3 5 -1 z" fill="#E9C874" opacity=".6"/>
         </svg>
         <h3 id="a-saucer-of-milk-on-the-step">A saucer of milk on the step</h3>
         <p>For the brownie, who does the sweeping while nobody is looking. The house rule: a saucer of milk or a bit of bread and honey goes on the step at night, and that is all. Nobody thanks them out loud, nobody leaves them new clothes, and nobody watches for them, because every one of those is how a brownie leaves. If the saucer is empty in the morning, that is the cats, and the brownie had some too.</p>
+        <button type="button" class="yurt-magic__btn yurt-saucer__stir" data-yurt-saucer-stir hidden>Stir the milk</button>
+        <p class="yurt-bell__said" data-yurt-saucer-said aria-live="polite"></p>
       </div>
     </div>
   </section>
@@ -1470,7 +1482,7 @@
          a looking glass instead of woodern doors". A tall glass in a gilt
          frame, opened the oak doors' way, with a checkbox and no script: in
          the glass is this yurt, given back the other way round; pressed, the
-         reflection goes and the chessboard country shows through. Drawn in
+         reflection goes and a swirl of mist shows through (the chessboard country until 2026-11-09). Drawn in
          §148's colours and the yurt's own; nothing on it is a word. -->
     <div class="yurt-glass">
       <div class="yurt-glass__door">
@@ -1480,16 +1492,20 @@
         <svg viewBox="0 0 300 400" aria-hidden="true" focusable="false">
           <defs>
             <clipPath id="yg-oval"><ellipse cx="150" cy="210" rx="106" ry="156"/></clipPath>
+            <filter id="yg-soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="14"/></filter>
             <linearGradient id="yg-sheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--lgh-mist)" stop-opacity=".6"/><stop offset=".45" stop-color="var(--lgh-mist)" stop-opacity="0"/><stop offset=".72" stop-color="var(--lgh-mist)" stop-opacity=".22"/><stop offset="1" stop-color="var(--lgh-mist)" stop-opacity="0"/></linearGradient>
           </defs>
           <g clip-path="url(#yg-oval)">
-            <!-- Behind the glass: the chessboard country, brooks across it, and a white pawn on the second square. -->
+            <!-- Behind the glass, once it is pressed: a swirl of mist (Helen's ask,
+                 2026-11-09, in place of the chessboard country). Soft blurred shapes in the
+                 glass's own mist and silver, turning slowly about the oval at Regular and MAX
+                 once the glass is open, still at Gentle. -->
             <rect x="40" y="50" width="220" height="330" fill="var(--lgh-meadow)"/>
-            <g fill="var(--lgh-field)"><rect x="44" y="130" width="42" height="42"/><rect x="128" y="130" width="42" height="42"/><rect x="212" y="130" width="42" height="42"/><rect x="86" y="172" width="42" height="42"/><rect x="170" y="172" width="42" height="42"/><rect x="44" y="214" width="42" height="42"/><rect x="128" y="214" width="42" height="42"/><rect x="212" y="214" width="42" height="42"/><rect x="86" y="256" width="42" height="42"/><rect x="170" y="256" width="42" height="42"/><rect x="44" y="298" width="42" height="42"/><rect x="128" y="298" width="42" height="42"/><rect x="212" y="298" width="42" height="42"/></g>
-            <path d="M40 172 Q90 168 150 172 T260 172 M40 214 Q90 210 150 214 T260 214 M40 256 Q90 252 150 256 T260 256 M40 298 Q90 294 150 298 T260 298 M40 340 Q90 336 150 340 T260 340" fill="none" stroke="var(--lgh-brook)" stroke-width="3"/>
-            <path d="M40 130 H260" stroke="var(--lgh-hedge)" stroke-width="4"/>
-            <path d="M40 130 Q100 96 150 112 Q200 92 260 120 V50 H40 Z" fill="var(--lgh-mist)"/>
-            <g transform="translate(150 320)"><path d="M-11 12 H11 Q11 6 6 4 Q4 -2 5 -6 H-5 Q-4 -2 -6 4 Q-11 6 -11 12 Z" fill="var(--lgh-pawn)" stroke="var(--lgh-ink)" stroke-width="1.8"/><circle cx="0" cy="-11" r="6" fill="var(--lgh-pawn)" stroke="var(--lgh-ink)" stroke-width="1.8"/></g>
+            <g class="yurt-glass__mist" filter="url(#yg-soft)">
+              <g class="yurt-glass__swirl yurt-glass__swirl--1"><ellipse cx="150" cy="210" rx="92" ry="34" fill="var(--lgh-mist)" opacity=".55" transform="rotate(-28 150 210)"/><ellipse cx="118" cy="168" rx="46" ry="22" fill="var(--lgh-silver)" opacity=".35"/></g>
+              <g class="yurt-glass__swirl yurt-glass__swirl--2"><ellipse cx="150" cy="210" rx="76" ry="28" fill="var(--lgh-silver)" opacity=".4" transform="rotate(34 150 210)"/><ellipse cx="190" cy="258" rx="40" ry="18" fill="var(--lgh-mist)" opacity=".5"/></g>
+              <g class="yurt-glass__swirl yurt-glass__swirl--3"><ellipse cx="150" cy="210" rx="58" ry="20" fill="var(--lgh-mist)" opacity=".6" transform="rotate(-70 150 210)"/><ellipse cx="150" cy="210" rx="26" ry="14" fill="var(--lgh-silver)" opacity=".5"/></g>
+            </g>
             <!-- In front of it, until it is pressed: this yurt, back to front, under the glass's silver. -->
             <g class="yurt-glass__reflect">
               <rect x="40" y="50" width="220" height="330" fill="var(--canvas)"/>

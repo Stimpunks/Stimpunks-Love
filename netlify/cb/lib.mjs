@@ -2316,7 +2316,7 @@ export async function withFamiliars(people, s = store()) {
    one of CEL_WINGS or nothing, never kept apart from a place. */
 const CEL_FOLK = 'cel-folk';
 export const CEL_SPOTS = 64;
-export const CEL_WINGS = ['moth', 'dragonfly', 'ivy', 'ember'];
+export const CEL_WINGS = ['moth', 'monarch', 'lady', 'fritillary'];
 
 export function cleanCelSpot(x) {
   if (!x || typeof x !== 'object' || Array.isArray(x)) return null;

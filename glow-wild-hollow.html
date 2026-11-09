@@ -45,47 +45,32 @@
   </div>
 
   <header class="hollow-head">
-    <svg class="hollow-scene" viewBox="0 0 400 240" role="img" aria-label="Looking out from under the gills of a great glowing mushroom into a hollow at night that runs down to the sea. There is no moon and no lamp; every light is something alive. On the left slope an old fallen log glows green with little mushrooms along it. On the right slope glow-worms shine yellow-green at the tops of grass stems. At the bottom of the hollow the waves break in a line of blue sparkle, and under the water a small jellyfish glows green.">
+    <!-- The hollow's picture is three of the room's own photographs since 2026-11-09, Helen's
+         ask ("real glowing mushrooms and plankton and fireflies here"): the left slope is
+         Yathumon M A's glowing mushrooms, the right slope Zsolyomi's fireflies, the cove
+         Doricono's sea sparkle, each credited under the picture and on its own card below,
+         fitted into the slopes' shapes with nothing drawn over them; only the great
+         mushroom's gills overhead, the way you came in, are still drawn. -->
+    <svg class="hollow-scene" viewBox="0 0 400 240" role="img" aria-label="Looking out from under the gills of a great glowing mushroom into a hollow at night that runs down to the sea, made of three photographs: on the left slope, small mushrooms glowing green on dark ground; on the right slope, fireflies glowing yellow-green among trees and ferns at dusk; and at the foot of the hollow, waves glowing blue with sea sparkle on a beach at night.">
       <defs>
-        <radialGradient id="hollow-g-fox"><stop offset="0" stop-color="var(--gwh-fox)" stop-opacity=".55"/><stop offset="1" stop-color="var(--gwh-fox)" stop-opacity="0"/></radialGradient>
-        <radialGradient id="hollow-g-worm"><stop offset="0" stop-color="var(--gwh-worm)" stop-opacity=".6"/><stop offset="1" stop-color="var(--gwh-worm)" stop-opacity="0"/></radialGradient>
-        <radialGradient id="hollow-g-sea"><stop offset="0" stop-color="var(--gwh-sea)" stop-opacity=".5"/><stop offset="1" stop-color="var(--gwh-sea)" stop-opacity="0"/></radialGradient>
+        <clipPath id="hollow-c-left"><path d="M0 64 C60 84 108 140 150 178 L158 240 H0 Z"/></clipPath>
+        <clipPath id="hollow-c-right"><path d="M400 74 C340 96 292 144 254 178 L246 240 H400 Z"/></clipPath>
+        <clipPath id="hollow-c-cove"><path d="M0 184 H400 V240 H0 Z"/></clipPath>
       </defs>
       <rect width="400" height="240" fill="var(--gwh-night)"/>
-      <!-- the cove at the foot of the hollow -->
-      <path d="M0 184 H400 V240 H0 Z" fill="var(--gwh-wave)"/>
-      <ellipse class="hollow-scene__glow" cx="202" cy="194" rx="70" ry="10" fill="url(#hollow-g-sea)"/>
-      <path d="M128 194 Q150 188 172 194 T216 194 T260 194 T282 192" fill="none" stroke="var(--gwh-sea)" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="1.5 5"/>
-      <path d="M150 206 Q170 202 190 206 T230 206 T262 205" fill="none" stroke="var(--gwh-sea)" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="1 7" opacity=".7"/>
-      <!-- a crystal jelly under the water -->
-      <circle class="hollow-scene__glow" cx="236" cy="222" r="14" fill="url(#hollow-g-fox)"/>
-      <path d="M228 223 Q236 210 244 223 Z" fill="var(--gwh-fox)" fill-opacity=".25" stroke="var(--gwh-fox)" stroke-width="1.2"/>
-      <path d="M230 224 Q229 230 231 236 M234 224 Q233 231 235 238 M238 224 Q239 231 237 238 M242 224 Q243 230 241 236" fill="none" stroke="var(--gwh-fox)" stroke-width=".8" opacity=".75"/>
-      <!-- the two slopes of the hollow -->
-      <path d="M0 64 C60 84 108 140 150 178 L158 240 H0 Z" fill="var(--gwh-hill)"/>
-      <path d="M400 74 C340 96 292 144 254 178 L246 240 H400 Z" fill="var(--gwh-hill)"/>
-      <!-- an old log on the left slope, foxfire along it -->
-      <ellipse class="hollow-scene__glow" cx="62" cy="128" rx="54" ry="20" fill="url(#hollow-g-fox)"/>
-      <path d="M18 116 L108 134 L105 147 L15 129 Z" fill="var(--gwh-deep)" stroke="var(--gwh-wave)" stroke-width="1.5" stroke-linejoin="round"/>
-      <g fill="var(--gwh-fox)">
-        <path d="M30 117 Q35 109 40 119 Z"/><path d="M46 121 Q50 114 54 122 Z"/><path d="M62 124 Q68 115 74 126 Z"/><path d="M82 128 Q86 122 90 130 Z"/><path d="M96 131 Q99 126 102 132 Z"/>
-      </g>
-      <g stroke="var(--gwh-fox)" stroke-width="1.4"><path d="M35 117 V121"/><path d="M50 121 V125"/><path d="M68 124 V128"/><path d="M86 128 V131"/></g>
-      <!-- grass and glow-worms on the right slope -->
-      <g stroke="var(--gwh-wave)" stroke-width="1.6" stroke-linecap="round" fill="none">
-        <path d="M300 150 Q302 132 298 118"/><path d="M318 136 Q322 118 316 104"/><path d="M338 124 Q340 108 344 96"/><path d="M356 114 Q352 98 358 86"/><path d="M282 164 Q286 150 280 138"/><path d="M372 104 Q376 92 370 80"/>
-      </g>
-      <g class="hollow-scene__glow">
-        <circle cx="298" cy="118" r="10" fill="url(#hollow-g-worm)"/><circle cx="344" cy="96" r="10" fill="url(#hollow-g-worm)"/><circle cx="280" cy="138" r="9" fill="url(#hollow-g-worm)"/><circle cx="370" cy="80" r="9" fill="url(#hollow-g-worm)"/>
-      </g>
-      <g fill="var(--gwh-worm)"><circle cx="298" cy="118" r="2.4"/><circle cx="344" cy="96" r="2.4"/><circle cx="280" cy="138" r="2.2"/><circle cx="370" cy="80" r="2.2"/></g>
+      <!-- the cove at the foot of the hollow: sea sparkle on Yuigahama Beach -->
+      <image href="glow-wild/sea-sparkle-kamakura.jpg" x="0" y="100" width="400" height="267" preserveAspectRatio="xMidYMid slice" clip-path="url(#hollow-c-cove)"/>
+      <!-- the two slopes: glowing mushrooms, and fireflies -->
+      <image href="glow-wild/glowing-mushrooms.jpg" x="-40" y="40" width="240" height="200" preserveAspectRatio="xMidYMid slice" clip-path="url(#hollow-c-left)"/>
+      <image href="glow-wild/fireflies-forest.jpg" x="200" y="40" width="240" height="200" preserveAspectRatio="xMidYMid slice" clip-path="url(#hollow-c-right)"/>
       <!-- the mushroom's gills overhead, which is the way you came in -->
       <path d="M0 0 H400 V22 Q200 62 0 22 Z" fill="var(--gwh-hill)"/>
       <path d="M0 22 Q200 62 400 22" fill="none" stroke="var(--gwh-fox)" stroke-width="1.6" opacity=".8"/>
       <g stroke="var(--gwh-fox)" stroke-width="1" opacity=".45">
-        <path d="M20 26 L28 0"/><path d="M50 32 L58 0"/><path d="M82 37 L88 0"/><path d="M116 40 L118 0"/><path d="M150 41 L150 0"/><path d="M184 42 L182 0"/><path d="M216 42 L218 0"/><path d="M250 41 L250 0"/><path d="M284 40 L282 0"/><path d="M318 37 L312 0"/><path d="M350 32 L342 0"/><path d="M380 26 L372 0"/>
+        <path d="M20 26 L28 0"/><path d="M50 32 L58 0"/><path d="M82 37 L88 0"/><path d="M116 40 L118 0"/><path d="M150 41 L150 0"/><path d="M184 42 L182 0"/><path d="M216 42 L218 0"/><path d="M250 41 L252 0"/><path d="M284 40 L286 0"/><path d="M318 37 L320 0"/><path d="M350 32 L352 0"/><path d="M380 26 L384 0"/>
       </g>
     </svg>
+    <p class="hollow-scene__credit">The picture is three of the photographs below: the glowing mushrooms by Yathumon M A (CC BY-SA 4.0), the fireflies by Zsolyomi (CC BY-SA 4.0) and the sea sparkle on Yuigahama Beach by Doricono (CC BY-SA 4.0), each via Wikimedia Commons and credited in full on its own card.</p>
     <p class="hollow-eyebrow">behind the faery yurt &middot; down and into the rhizome</p>
     <h1>Glow Wild Hollow</h1>
     <p class="hollow-tagline">Every light down here belongs to something alive.</p>
@@ -101,7 +86,7 @@
         <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
       </div>
       <p class="dial__note" aria-live="polite"></p>
-      <p class="dial__fine">Starts wherever your device says. In here MAX lets the lights in the drawing breathe, the jellyfish pulse by itself and a slow swell roll along the sea now and then. At Gentle the sea and the jellyfish light and stay lit, still, and nothing moves. Nothing in here ever flashes.</p>
+      <p class="dial__fine">Starts wherever your device says. In here MAX lets the jellyfish pulse by itself and a slow swell roll along the sea now and then. At Gentle the sea and the jellyfish light and stay lit, still, and nothing moves. Nothing in here ever flashes.</p>
     </div>
   </section>
 

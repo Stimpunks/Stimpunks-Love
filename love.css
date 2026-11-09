@@ -8420,6 +8420,15 @@ html[data-intensity="max"] .yurt-pod__glow { animation: ppd-breathe 6s ease-in-o
 .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__reflect { opacity: 0; }
 .yurt-glass__check:focus-visible + .yurt-glass__frame { outline: 4px solid var(--candle); outline-offset: 4px; }
 html[data-intensity="max"] .yurt-glass__glint { animation: lgh-glint 4s ease-in-out infinite alternate; }
+/* The mist behind the glass (Helen, 2026-11-09) turns slowly about the oval
+   once the glass is pressed, at Regular and MAX; at Gentle it hangs still.
+   A rotation inside the glass's own <svg>, where a transform is part of the
+   picture, and only while the glass is open. */
+.yurt-glass__swirl { transform-box: view-box; transform-origin: 150px 210px; }
+html:not([data-intensity="gentle"]) .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__swirl--1 { animation: yurt-glass-swirl 28s linear infinite; }
+html:not([data-intensity="gentle"]) .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__swirl--2 { animation: yurt-glass-swirl 40s linear infinite reverse; }
+html:not([data-intensity="gentle"]) .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__swirl--3 { animation: yurt-glass-swirl 19s linear infinite; }
+@keyframes yurt-glass-swirl { to { transform: rotate(360deg); } }
 .room-yurt .yurt-glass__step {
   position: absolute; left: 50%; bottom: 46%; transform: translateX(-50%); visibility: hidden; white-space: nowrap;
   padding: 10px 18px; border-radius: 6px; background: var(--tent); color: var(--tallow); border: 1px solid var(--candle);
@@ -9024,11 +9033,32 @@ html[data-intensity="gentle"] .yurt-notebook__sweep.is-turning { animation: none
 .yurt-bell__art { width: 110px; }
 .yurt-wish__art { width: 90px; }
 .yurt-bell__said, .yurt-wish__said { min-height: 1.5em; margin: 8px 0 0; font-size: 15.5px; color: var(--tallow-2); }
-html:not([data-intensity="gentle"]) .yurt-bell__art.is-rung .yurt-bell__clapper { animation: yurt-bell-swing .9s ease-out; }
+/* The bell swings on its cord from the point it hangs from (60,14 in its own
+   picture), a rotation inside its own <svg> where a transform is part of the
+   picture, wide at first and dying away over two and a half seconds; the
+   clapper swings the other way inside it (Helen, 2026-11-09: more sway). Only
+   after a press, never at Gentle, and only while .is-rung is on. */
+.yurt-bell__swing { transform-box: view-box; transform-origin: 60px 14px; }
+.yurt-bell__clapper { transform-box: fill-box; transform-origin: 50% 0; }
+html:not([data-intensity="gentle"]) .yurt-bell__art.is-rung .yurt-bell__swing { animation: yurt-bell-swing 2.6s ease-out; }
+html:not([data-intensity="gentle"]) .yurt-bell__art.is-rung .yurt-bell__clapper { animation: yurt-bell-clapper 2.6s ease-out; }
 html:not([data-intensity="gentle"]) .yurt-bell__art.is-rung .yurt-bell__ring1,
-html:not([data-intensity="gentle"]) .yurt-bell__art.is-rung .yurt-bell__ring2 { animation: yurt-bell-sound 1.2s ease-out; }
-@keyframes yurt-bell-swing { 0% { transform: translateX(0); } 20% { transform: translateX(5px); } 45% { transform: translateX(-4px); } 70% { transform: translateX(2px); } 100% { transform: translateX(0); } }
-@keyframes yurt-bell-sound { 0% { opacity: 0; } 20% { opacity: .9; } 100% { opacity: 0; } }
+html:not([data-intensity="gentle"]) .yurt-bell__art.is-rung .yurt-bell__ring2 { animation: yurt-bell-sound 2.4s ease-out; }
+@keyframes yurt-bell-swing {
+  0% { transform: rotate(0deg); } 8% { transform: rotate(16deg); } 24% { transform: rotate(-13deg); } 40% { transform: rotate(10deg); }
+  56% { transform: rotate(-7deg); } 72% { transform: rotate(4deg); } 86% { transform: rotate(-2deg); } 100% { transform: rotate(0deg); } }
+@keyframes yurt-bell-clapper {
+  0% { transform: translateX(0); } 8% { transform: translateX(-6px); } 24% { transform: translateX(6px); } 40% { transform: translateX(-5px); }
+  56% { transform: translateX(4px); } 72% { transform: translateX(-2px); } 86% { transform: translateX(1px); } 100% { transform: translateX(0); } }
+@keyframes yurt-bell-sound { 0% { opacity: 0; } 10% { opacity: .9; } 35% { opacity: .3; } 45% { opacity: .9; } 70% { opacity: .35; } 80% { opacity: .8; } 100% { opacity: 0; } }
+/* Stir the milk (Helen, 2026-11-09): three rings widen across the milk and
+   fade, one after another, over about two seconds, only after a press and
+   never at Gentle; the milk is clipped to the saucer so nothing spills. */
+.yurt-saucer__ring { transform-box: fill-box; transform-origin: center; }
+html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__ring { animation: yurt-saucer-ring 1.6s ease-out; }
+html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__ring:nth-child(2) { animation-delay: .3s; }
+html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__ring:nth-child(3) { animation-delay: .6s; }
+@keyframes yurt-saucer-ring { 0% { opacity: 0; transform: scale(.4); } 15% { opacity: .9; } 100% { opacity: 0; transform: scale(6); } }
 .yurt-faedoor__open { list-style: none; cursor: pointer; border-radius: 4px; }
 .yurt-faedoor__open::-webkit-details-marker { display: none; }
 .yurt-faedoor__open:focus-visible { outline: 3px solid var(--candle); outline-offset: 6px; }
@@ -30797,7 +30827,9 @@ html[data-intensity="max"] .myth-glint { animation: myth-glint 3.4s ease-in-out 
 .room-hollow button.facade { background: var(--gwh-night); color: var(--gwh-ink); border: 1px solid var(--gwh-sea); border-radius: 8px; font-family: 'Crimson Pro', Georgia, serif; font-size: 16px; }
 .room-hollow button.facade:hover { background: var(--gwh-deep); }
 .room-hollow .facade__play { color: var(--gwh-sea); }
-html[data-intensity="max"] .hollow-scene__glow { animation: hollow-breathe 6s ease-in-out infinite alternate; }
+/* Since 2026-11-09 the hollow's picture is three photographs (Helen's ask), and
+   nothing in it breathes; its credit line sits under it. */
+.hollow-scene__credit { margin: -14px auto 26px; max-width: 60ch; text-align: center; font-size: 13.5px; line-height: 1.45; color: var(--gwh-ink-2); }
 html[data-intensity="max"] .hollow-jelly__body { animation: hollow-drift 8s ease-in-out infinite alternate; }
 @keyframes hollow-breathe { from { opacity: .55; } to { opacity: 1; } }
 @keyframes hollow-drift { from { transform: translateY(0); } to { transform: translateY(-10px); } }

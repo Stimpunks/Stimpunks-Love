@@ -634,7 +634,7 @@
         vr: true,
         // The basket of wings by her door, 2026-11-09: the pairs it lends,
         // named as her page names them, and as lib.mjs's CEL_WINGS has them.
-        wings: ['moth', 'dragonfly', 'ivy', 'ember']
+        wings: ['moth', 'monarch', 'lady', 'fritillary']
       };
     }
   };

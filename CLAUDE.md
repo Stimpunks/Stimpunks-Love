@@ -1768,17 +1768,25 @@ flip south of the equator. **Gibbles' wheel and the moth move at MAX only, the r
 the yurt names them**; `make-yurt-yarn.py` still holds that line to "lights the fairy lights and turns the record". The
 wish bottle keeps nothing (its words are emptied on the cork and never leave the function), the bell is a chime under
 `MAX_GAIN`, the faery door is a `<details>`, and the words beside each of them are in the yurt's voice and Helen's to
-change. The friendly edits are **a drawn star or sparkle laid back over a photograph "so MAX has something to do"**, **the
-calendar asking for the browser's location "to save typing"**, **a photograph of the solstice crowd with faces in it**,
-and **a tidier Stonehenge sunset passed off as the midwinter one**.
+change. **The same day: the bell swings on its cord and jingles four strikes, the saucer of milk stirs on a press (three rings
+across it), the looking-glass shows a slow swirl of mist once pressed where it showed the chessboard country, and Glow
+Wild Hollow's picture is three of the room's own photographs** (its glowing mushrooms, fireflies and sea sparkle, clipped
+to the slopes and the cove, credited under it); each movement is a press's, rotation only inside its own `<svg>`, still at
+Gentle, and never by itself. The friendly edits are **a drawn star or sparkle laid back over a photograph "so MAX has
+something to do"**, **the calendar asking for the browser's location "to save typing"**, **a photograph of the solstice
+crowd with faces in it**, **a tidier Stonehenge sunset passed off as the midwinter one**, and **the mist swirling at Gentle
+"because it is only mist"**.
 
 **THE BASKET OF WINGS BY THE YURT'S DOOR LENDS A PAIR TO YOUR 3D FIGURE, AND HER THREE ANIMALS ARE ASLEEP IN THE SCENE.**
 Helen Edgar's asks, 2026-11-09. A room on Cel Street that lends wings names its pairs (`wings` in `cel-in-faery-yurt.js`,
 exactly `CEL_WINGS` in `lib.mjs`, which `make-cel-street.py` holds both ways and to `cel-street.js`'s `WINGS` drawings);
 `enter()` puts **Borrow a pair of wings** under the room's switches, the pair lives in a module variable cleared by
 `leave()`, `spotTell()` sends it with your place, `cleanCelSpot` keeps it beside room and spot or drops a pair the basket
-has not, and `figureOf` draws it on the back in the yurt's inks by name (moth, dragonfly, ivy, ember). **It travels only
-with a place**: no storage, no record of its own, and it is gone with the place when you leave. The cat, the dog and the
+has not, and `figureOf` puts it across the shoulders. **The four pairs are real wings since the same day** (Helen: "real
+butterfly and moth wings"): photographs with their backgrounds cut away (a moth, a monarch, an American lady, a
+fritillary, the files in `faery-yurt/`, the same ones the page's basket shows and credits), each on one flat plane with
+its picture as a `MeshBasicMaterial` map, never painted or inked, loaded through three.js's own image loader when a
+figure first wears it. **It travels only with a place**: no storage, no record of its own, and it is gone with the place when you leave. The cat, the dog and the
 hamster are drawn asleep in the nook as generic figures of their kind in her declared colours, never from her
 photographs, because the scene had left them out as her real pets and that was hers to decide. The bell at the door is
 her page's own bell, lifted (`kit.lift`) and wired (`kit.wire`) to `yurt-bell.js`, so there is one bell. **The friendly

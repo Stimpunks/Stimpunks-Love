@@ -1,10 +1,14 @@
-/* The Faery Yurt's bell string, Helen Edgar's ask, 2026-11-09: a little brass
+/* By the door of the Faery Yurt: the bell string, and the saucer of milk,
+   each its own function below, Helen Edgar's asks of 2026-11-09.
+
+   THE BELL STRING: a little brass
    bell on a cord by the door flap. Press to ring it. It never rings by itself,
-   at any setting, and the chime is made here out of arithmetic: three sine
-   partials of one small bell, decaying over a second and a half, never a
+   at any setting, and the chime is made here out of arithmetic: four quick
+   strikes of one small bell, three sine partials each, a jingle ringing out over
+   about two and a half seconds, never a
    recording and nothing fetched. MAX_GAIN is the ceiling the Repeater, Stay
-   Breezy and the mountain cabin's howl keep to; the clapper swings and two
-   sound lines show for a moment at Regular and MAX, and at Gentle only the
+   Breezy and the mountain cabin's howl keep to; the whole bell swings on its cord, the clapper with it, and two
+   sound lines show at Regular and MAX, and at Gentle only the
    words change (Gentle takes away the wobble, never the words). It keeps
    nothing and sends nothing.
 
@@ -22,6 +26,23 @@
   if (!btn || !said) return;
   var ctx = null, timer = 0;
   function gentle() { return document.documentElement.getAttribute('data-intensity') === 'gentle'; }
+  // Four quick strikes, a jingle, each a small bell of three sine partials
+  // (Helen, 2026-11-09: "sway and jingle more"), ringing out over about two
+  // and a half seconds; the strikes overlap under one master gain held at
+  // MAX_GAIN, so the whole jingle stays under the ceiling.
+  var STRIKES = [[0, 1760, 1], [0.17, 1864, 0.8], [0.38, 1760, 0.9], [0.72, 1976, 0.7], [1.1, 1760, 0.5]];
+  function strike(ctx, out, at, hz, how) {
+    [[1, 1], [1.5, 0.35], [2.5, 0.18]].forEach(function (p) {
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(hz * p[0], at);
+      g.gain.setValueAtTime(0.0001, at);
+      g.gain.exponentialRampToValueAtTime(p[1] * how * 0.5, at + 0.008);
+      g.gain.exponentialRampToValueAtTime(0.001, at + 1.4 + p[1] * 0.5);
+      o.connect(g); g.connect(out);
+      o.start(at); o.stop(at + 2.1);
+    });
+  }
   function ring() {
     try {
       ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
@@ -29,28 +50,49 @@
       var t = ctx.currentTime;
       var out = ctx.createGain();
       out.gain.setValueAtTime(MAX_GAIN, t);
-      out.gain.exponentialRampToValueAtTime(0.001, t + 1.6);
+      out.gain.setValueAtTime(MAX_GAIN, t + 2.0);
+      out.gain.exponentialRampToValueAtTime(0.001, t + 3.2);
       out.connect(ctx.destination);
-      [[1760, 1], [2640, 0.35], [4400, 0.18]].forEach(function (p) {
-        var o = ctx.createOscillator(), g = ctx.createGain();
-        o.type = 'sine';
-        o.frequency.setValueAtTime(p[0], t);
-        g.gain.setValueAtTime(p[1], t);
-        g.gain.exponentialRampToValueAtTime(0.001, t + 1.2 + p[1] * 0.4);
-        o.connect(g); g.connect(out);
-        o.start(t); o.stop(t + 1.7);
-      });
+      STRIKES.forEach(function (st) { strike(ctx, out, t + st[0], st[1], st[2]); });
     } catch (e) { /* no audio here; the words still say it rang */ }
-    said.textContent = 'Ting. The bell rang, and the yurt knows you are here.';
+    said.textContent = 'Ting-a-ling. The bell rang, and the yurt knows you are here.';
     if (art && !gentle()) {
       art.classList.remove('is-rung');
       void art.getBoundingClientRect();
       art.classList.add('is-rung');
       clearTimeout(timer);
-      timer = setTimeout(function () { art.classList.remove('is-rung'); }, 1400);
+      timer = setTimeout(function () { art.classList.remove('is-rung'); }, 2700);
     }
   }
   btn.hidden = false;
   btn.addEventListener('click', ring);
   window.loveYurtBell = { ring: ring };
+})();
+
+/* THE SAUCER OF MILK: Stir the milk sends three rings out across it, over
+   about two seconds, at Regular and MAX, with the words saying so at every
+   setting; at Gentle only the words. Nothing stirs it by itself, nothing is
+   kept or sent, and it makes no sound. The button ships hidden, because with
+   no script it would do nothing. */
+(function () {
+  'use strict';
+  var box = document.querySelector('[data-yurt-saucer]');
+  if (!box) return;
+  var btn = box.querySelector('[data-yurt-saucer-stir]');
+  var said = box.querySelector('[data-yurt-saucer-said]');
+  var art = box.querySelector('.yurt-saucer__art');
+  if (!btn || !said) return;
+  var timer = 0;
+  function gentle() { return document.documentElement.getAttribute('data-intensity') === 'gentle'; }
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    said.textContent = 'Stirred. The milk goes round once and settles, and the brownie pretends not to notice.';
+    if (art && !gentle()) {
+      art.classList.remove('is-stirred');
+      void art.getBoundingClientRect();
+      art.classList.add('is-stirred');
+      clearTimeout(timer);
+      timer = setTimeout(function () { art.classList.remove('is-stirred'); }, 2300);
+    }
+  });
 })();

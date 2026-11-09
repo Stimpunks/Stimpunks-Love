@@ -1650,11 +1650,11 @@ function start() {
       wornWings = null;
       if (Array.isArray(made.wings) && made.wings.length) {
         var pairs = made.wings.filter(function (w) { return typeof w === 'string'; });
-        k.choose({ label: 'Borrow a pair of wings', choices: ['None'].concat(pairs.map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1) + ' wings'; })), start: 0,
+        k.choose({ label: 'Borrow a pair of wings', choices: ['None'].concat(pairs.map(function (w) { return wingName(w) + ' wings'; })), start: 0,
           pick: function (i) {
             wornWings = i > 0 ? pairs[i - 1] : null;
             spotTell();
-            return wornWings ? 'You are wearing ' + wornWings + ' wings, for anybody in the room who sees your figure; they go back in the basket when you leave.' : 'The wings are back in the basket.';
+            return wornWings ? 'You are wearing ' + wingName(wornWings).toLowerCase() + ' wings, for anybody in the room who sees your figure; they go back in the basket when you leave.' : 'The wings are back in the basket.';
           } });
       }
       bake();
@@ -2368,66 +2368,40 @@ function start() {
   var WIDTH = { narrow: 0.34, middling: 0.4, broad: 0.46 };
   var DEPTH = { flat: 0.18, soft: 0.22, round: 0.26, big: 0.32 };
   var HIPS = { narrow: 0.3, middling: 0.36, wide: 0.42 };
-  // One wing's outline, flat, its root at the origin and its length along +x.
-  function wingShape(pts) {
-    var sh = new THREE.Shape();
-    sh.moveTo(0, 0);
-    pts.forEach(function (q, i) { if (i === 0) sh.lineTo(q[0], q[1]); else sh.quadraticCurveTo(q[0], q[1], q[2], q[3]); });
-    sh.lineTo(0, 0);
-    return new THREE.ShapeGeometry(sh, 10);
+  // The four pairs are real wings (Helen's ask, 2026-11-09: "real butterfly
+  // and moth wings"): photographs with their backgrounds cut away, the same
+  // files the yurt's basket shows and credits (faery-yurt/), each on one flat
+  // plane across the shoulders, angled back a little, drawn as the picture it
+  // is and never painted or inked (a material with a map is never painted).
+  // Loaded once each through three.js's own image loader, only when a figure
+  // first wears the pair.
+  var WING_NAMES = { moth: 'Moth', monarch: 'Monarch', lady: 'American lady', fritillary: 'Fritillary' };
+  function wingName(w) { return WING_NAMES[w] || (w.charAt(0).toUpperCase() + w.slice(1)); }
+  var WING_FILES = { moth: 'faery-yurt/moth.png', monarch: 'faery-yurt/wings-monarch.png', lady: 'faery-yurt/wings-lady.png', fritillary: 'faery-yurt/wings-fritillary.png' };
+  var wingTex = {};
+  function wingPicture(pair) {
+    if (!wingTex[pair]) {
+      var t = new THREE.TextureLoader().load(WING_FILES[pair], function () { draw(); });
+      t.colorSpace = THREE.SRGBColorSpace;
+      wingTex[pair] = t;
+    }
+    return wingTex[pair];
   }
-  // Both wings of a pair: each rooted at a shoulder blade, angled back and up,
-  // the left one the right one mirrored. make(g, m, side) draws one side.
-  function wingPair(g, sw, sd, y, make) {
-    [-1, 1].forEach(function (side) {
-      var m = at(side * sw * 0.22, y, sd / 2 + 0.02, side * -0.95, 0, side * 0.35);
-      make(g, m, side);
-    });
-  }
-  function wingPart(g, geo, name, m, opacity) {
-    var mat = new THREE.MeshToonMaterial({ color: col(name), gradientMap: gradient, side: THREE.DoubleSide });
-    if (opacity < 1) { mat.transparent = true; mat.opacity = opacity; }
-    var mesh = new THREE.Mesh(geo, opacity < 1 ? mat : painted(mat));
-    mesh.matrixAutoUpdate = false; mesh.matrix.copy(m); mesh.castShadow = opacity >= 1;
+  function wingsOf(pair, g, sw, sd, y) {
+    var w = 0.9, h = 0.62;
+    var mat = new THREE.MeshBasicMaterial({ map: wingPicture(pair), transparent: true, alphaTest: 0.2, side: THREE.DoubleSide, depthWrite: false });
+    var mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
+    mesh.matrixAutoUpdate = false;
+    mesh.matrix.copy(at(0, y + 0.12, sd / 2 + 0.05, -0.18, 0, 0));
     g.add(mesh);
-    var h = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: col('--cel-ink'), side: THREE.BackSide, transparent: opacity < 1, opacity: Math.min(1, opacity + 0.3) }));
-    h.matrixAutoUpdate = false; h.matrix.copy(m).multiply(new THREE.Matrix4().makeScale(1.04, 1.04, 1));
-    g.add(h);
-    return mesh;
   }
   var WINGS = {
-    moth: function (g, sw, sd, y) {
-      wingPair(g, sw, sd, y, function (gg, m, side) {
-        wingPart(gg, wingShape([[0.05, 0.22], [0.3, 0.3, 0.42, 0.12], [0.44, -0.04, 0.3, -0.16], [0.14, -0.22, 0.03, -0.06]]), '--tallow-2', m, 1);
-        [[0.22, 0.1, 0.035], [0.32, -0.02, 0.025], [0.12, -0.08, 0.02]].forEach(function (sp) {
-          wingPart(gg, new THREE.CircleGeometry(sp[2], 10), '--timber', m.clone().multiply(at(sp[0], sp[1], 0.004)), 1);
-        });
-      });
-    },
-    dragonfly: function (g, sw, sd, y) {
-      wingPair(g, sw, sd, y, function (gg, m, side) {
-        wingPart(gg, wingShape([[0.04, 0.09], [0.3, 0.13, 0.56, 0.06], [0.6, 0.0, 0.5, -0.05], [0.25, -0.08, 0.03, -0.04]]), '--tallow', m, 0.42);
-        wingPart(gg, wingShape([[0.04, -0.02], [0.28, 0.0, 0.5, -0.1], [0.52, -0.16, 0.4, -0.2], [0.2, -0.2, 0.03, -0.1]]), '--tallow', m.clone().multiply(at(0, -0.04, -0.004)), 0.42);
-        [0.14, 0.28, 0.42].forEach(function (vx) { wingPart(gg, new THREE.BoxGeometry(0.006, 0.16, 0.004), '--candle', m.clone().multiply(at(vx, 0.0, 0.003)), 1); });
-        wingPart(gg, new THREE.BoxGeometry(0.5, 0.006, 0.004), '--candle', m.clone().multiply(at(0.27, 0.04, 0.003)), 1);
-      });
-    },
-    ivy: function (g, sw, sd, y) {
-      wingPair(g, sw, sd, y, function (gg, m, side) {
-        wingPart(gg, wingShape([[0.08, 0.14], [0.16, 0.24, 0.28, 0.14], [0.4, 0.1, 0.44, -0.02], [0.3, -0.14, 0.16, -0.12], [0.08, -0.2, 0.0, -0.04]]), '--ivy', m, 1);
-        [[0.22, 0, 0.4, 0], [0.12, 0.02, 0.2, 0.16], [0.14, -0.03, 0.26, -0.1]].forEach(function (v) {
-          var len = Math.hypot(v[2] - v[0], v[3] - v[1]), ang = Math.atan2(v[3] - v[1], v[2] - v[0]);
-          wingPart(gg, new THREE.BoxGeometry(len, 0.007, 0.004), '--ivy-2', m.clone().multiply(at((v[0] + v[2]) / 2, (v[1] + v[3]) / 2, 0.004, 0, 0, ang)), 1);
-        });
-      });
-    },
-    ember: function (g, sw, sd, y) {
-      wingPair(g, sw, sd, y, function (gg, m, side) {
-        wingPart(gg, wingShape([[0.06, 0.2], [0.26, 0.36, 0.5, 0.18], [0.42, 0.04, 0.3, -0.1], [0.12, -0.18, 0.02, -0.05]]), '--ember', m, 1);
-        wingPart(gg, wingShape([[0.05, 0.12], [0.2, 0.24, 0.36, 0.12], [0.3, 0.02, 0.2, -0.06], [0.08, -0.1, 0.02, -0.03]]), '--ember-2', m.clone().multiply(at(0.02, 0, 0.005)), 1);
-      });
-    }
+    moth: function (g, sw, sd, y) { wingsOf('moth', g, sw, sd, y); },
+    monarch: function (g, sw, sd, y) { wingsOf('monarch', g, sw, sd, y); },
+    lady: function (g, sw, sd, y) { wingsOf('lady', g, sw, sd, y); },
+    fritillary: function (g, sw, sd, y) { wingsOf('fritillary', g, sw, sd, y); }
   };
+
   function figureOf(who) {
     var A = window.loveAvatar && window.loveAvatar.data, look = who.look;
     if (!A || !look) return null;
@@ -2479,10 +2453,9 @@ function start() {
       figurePart(g, new THREE.BoxGeometry(0.11, armH, 0.11), sleeve, at(ax, torsoY + torsoH - armH / 2, seated ? -0.04 : 0));
       figurePart(g, new THREE.BoxGeometry(0.1, 0.1, 0.1), skin, at(ax, torsoY + torsoH - armH - 0.04, seated ? -0.04 : 0));
     });
-    // A pair of wings borrowed from a room's basket (Helen's yurt), angled
-    // back from the shoulders, in the yurt's own inks by name: moth, dusty and
-    // spotted; dragonfly, clear and veined; two ivy leaves; ember, the fire's
-    // colours. Nothing of them moves.
+    // A pair of wings borrowed from a room's basket (Helen's yurt): a real
+    // moth or butterfly, a photograph across the shoulders, angled back.
+    // Nothing of them moves.
     if (WINGS[who.wings]) WINGS[who.wings](g, sw, sd, torsoY + torsoH * 0.78);
     // Head, face (the eyes and the mouth in ink, so every face reads at a
     // distance), hair, hat, glasses, mask.
