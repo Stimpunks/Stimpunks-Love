@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-11-07T12:16Z",
+  "set": "2026-11-09T12:17Z",
   "springs": [
     {
       "id": "starstuff",
@@ -73,7 +73,7 @@
           ]
         }
       ],
-      "read": "2026-11-07T12:16Z"
+      "read": "2026-11-09T12:17Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-11-07T12:16Z"
+      "read": "2026-11-09T12:17Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-11-07T12:16Z"
+      "read": "2026-11-09T12:17Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-11-07T12:16Z"
+      "read": "2026-11-09T12:17Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-11-07T12:16Z"
+      "read": "2026-11-09T12:17Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-11-07T12:16Z"
+      "read": "2026-11-09T12:17Z"
     },
     {
       "id": "love",
@@ -439,66 +439,67 @@
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
         {
-          "title": "Merge branch 'main' of https://github.com/Stimpunks/Stimpunks-Love",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/1b42cacadf4e73d09093f6b2844b464cd051d7fd",
-          "date": "2026-11-07T08:24:41Z",
-          "sha": "1b42cac",
-          "by": [
-            "AutisticRealms"
-          ]
-        },
-        {
-          "title": "Cel Street: the people in the 3D yurt as figures, and the yurt's chat…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/d0577b8e6950ff710697d5a548044de6fca92449",
-          "date": "2026-11-07T08:20:00Z",
-          "sha": "d0577b8",
+          "title": "Faery Yurt: a contents list, the credits gathered, a phone-sized cale…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/974fae0b4057d0840c277b1c62fc80200111e524",
+          "date": "2026-11-09T08:33:59Z",
+          "sha": "974fae0",
           "by": [
             "AutisticRealms",
             "Claude Fable 5.1"
           ]
         },
         {
-          "title": "CB: Join the call and Open in Chat on one line under Where you are",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/fed0bdb8fddce23dd8bc4218a2f656008308ca9e",
-          "date": "2026-11-07T08:00:41Z",
-          "sha": "fed0bdb",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5.5"
-          ]
-        },
-        {
-          "title": "CB: Comfort, a part of its own for the bodymind break and the Glitter…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/c201e1931f056b80da4bbb4795009005744f3e5e",
-          "date": "2026-11-07T07:41:53Z",
-          "sha": "c201e19",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5.5"
-          ]
-        },
-        {
-          "title": "Cel Street: the Faery Yurt in a VR headset, a trial",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/7eb8fe43f18ba0937ffb703a0193c26085c9ca83",
-          "date": "2026-11-07T07:14:54Z",
-          "sha": "7eb8fe4",
+          "title": "Faery Yurt: real wings, a swinging bell, stirred milk, mist in the gl…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/03f4b340c62315b915641291c8f4f3937c79e331",
+          "date": "2026-11-09T07:17:08Z",
+          "sha": "03f4b34",
           "by": [
             "AutisticRealms",
+            "Claude Fable 5.1"
+          ]
+        },
+        {
+          "title": "Faery Yurt: real skies behind the doors, a moon calendar, the Stim Ti…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/9f21af44ed43571b6de2ada7a028231203f7005e",
+          "date": "2026-11-09T06:30:30Z",
+          "sha": "9f21af4",
+          "by": [
+            "AutisticRealms",
+            "Claude Fable 5.1"
+          ]
+        },
+        {
+          "title": "More room for the chat: Follow beside Join the call, a Dismiss, and t…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/e6866074674a5960695e272bcb23478e37b86905",
+          "date": "2026-11-08T18:59:08Z",
+          "sha": "e686607",
+          "by": [
+            "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "CB: the message box's words never sit under its buttons",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/6da2996777b928a771f27a14268d6a93996e45ab",
-          "date": "2026-11-07T06:08:24Z",
-          "sha": "6da2996",
+          "title": "The forums offer the tags already in use as a tag is typed",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/8aa49b98facbe575d27e5e076bd98a99931874a3",
+          "date": "2026-11-08T18:41:37Z",
+          "sha": "8aa49b9",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "Every stylesheet a script loads asks for its own version, and Transmi…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/7f866324889964814b4d63802475459ce24a778b",
+          "date": "2026-11-08T17:41:57Z",
+          "sha": "7f86632",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         }
       ],
-      "read": "2026-11-07T12:16Z"
+      "read": "2026-11-09T12:17Z"
     },
     {
       "id": "garden",
@@ -567,7 +568,7 @@
           "anon": true
         }
       ],
-      "read": "2026-11-07T12:16Z"
+      "read": "2026-11-09T12:17Z"
     }
   ]
 }
