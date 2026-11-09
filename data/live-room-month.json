@@ -23,16 +23,6 @@
  ],
  "log": [
   {
-   "id": "LCLxvYAmUcE",
-   "source": "acl",
-   "form": "long",
-   "title": "Olivia Rodrigo - Full Episode | Live on Austin City Limits TV",
-   "published": "2026-10-10T01:00:09Z",
-   "state": "screen",
-   "runs": 3200,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "RV_Xs3NbPiY",
    "source": "acl",
    "form": "long",
@@ -163,23 +153,13 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "l7jmNGKSlTo",
+   "id": "5poLXxo1Tt8",
    "source": "acl",
-   "form": "short",
-   "title": "Watch BLEACHERS on ACL TV | LIVE STREAM",
-   "published": "2026-10-09T22:17:29Z",
+   "form": "long",
+   "title": "Black Pumas - Ice Cream (Pay Phone) clip | Live on Austin City Limits TV",
+   "published": "2026-11-08T21:27:25Z",
    "state": "screen",
-   "runs": 30,
-   "channel": "Austin City Limits"
-  },
-  {
-   "id": "Lo1kulvDnzw",
-   "source": "acl",
-   "form": "short",
-   "title": "Olivia Rodrigo talks about being green, moving on up, ACL TV & Austin PBS",
-   "published": "2026-10-10T01:30:24Z",
-   "state": "screen",
-   "runs": 53,
+   "runs": 60,
    "channel": "Austin City Limits"
   },
   {
@@ -316,7 +296,7 @@
    "id": "MCB7w3rwtpM",
    "source": "acl",
    "form": "short",
-   "title": "Gary Clark Jr. - What About The Children clip | Live From Austin City Limits TV",
+   "title": "Gary Clark Jr. - What About The Children clip | Live on Austin City Limits TV",
    "published": "2026-11-06T17:08:28Z",
    "state": "screen",
    "runs": 60,
@@ -326,31 +306,11 @@
    "id": "YcgB4zTUuME",
    "source": "acl",
    "form": "short",
-   "title": "Gary Clark Jr. & Black Pumas - Season 50 Episode Promo | Live From Austin City Limits TV",
+   "title": "Gary Clark Jr. & Black Pumas - Season 50 Episode Promo | Live on Austin City Limits TV",
    "published": "2026-11-07T21:08:27Z",
    "state": "screen",
    "runs": 23,
    "channel": "Austin City Limits"
-  },
-  {
-   "id": "AQqQbsFLDd8",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Womack Sisters - If I Let You (Live on KEXP)",
-   "published": "2026-10-09T13:00:18Z",
-   "state": "screen",
-   "runs": 257,
-   "channel": "KEXP"
-  },
-  {
-   "id": "04dsB6w-DBI",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Womack Sisters - Full Performance (Live on KEXP)",
-   "published": "2026-10-09T15:00:05Z",
-   "state": "screen",
-   "runs": 1760,
-   "channel": "KEXP"
   },
   {
    "id": "-hF-wyqfqis",
@@ -1453,13 +1413,43 @@
    "channel": "KEXP"
   },
   {
-   "id": "H0D3KQPmgVI",
+   "id": "o06k79idM9E",
    "source": "kexp",
-   "form": "short",
-   "title": "The Womack Sisters performs \"If I Let You\" & more Live on KEXP",
-   "published": "2026-10-09T17:22:23Z",
+   "form": "long",
+   "title": "anaiis - Sunshine (Live on KEXP)",
+   "published": "2026-11-09T12:00:04Z",
    "state": "screen",
-   "runs": 60,
+   "runs": 295,
+   "channel": "KEXP"
+  },
+  {
+   "id": "Eym4VYd6OsM",
+   "source": "kexp",
+   "form": "long",
+   "title": "anaiis - In Real Time (Live on KEXP)",
+   "published": "2026-11-09T12:00:12Z",
+   "state": "screen",
+   "runs": 196,
+   "channel": "KEXP"
+  },
+  {
+   "id": "rbgBXm-GnJo",
+   "source": "kexp",
+   "form": "long",
+   "title": "anaiis - My World (Beyond) (Live on KEXP)",
+   "published": "2026-11-09T12:00:15Z",
+   "state": "screen",
+   "runs": 296,
+   "channel": "KEXP"
+  },
+  {
+   "id": "rlJ7aOPueXI",
+   "source": "kexp",
+   "form": "long",
+   "title": "anaiis - Dreamer Too (Live on KEXP)",
+   "published": "2026-11-09T12:00:37Z",
+   "state": "screen",
+   "runs": 279,
    "channel": "KEXP"
   },
   {
@@ -1828,13 +1818,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-08T12:28:19Z"
+     "2026-11-09T12:28:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-08T12:28:19Z"
+     "2026-11-09T12:28:09Z"
     ]
    ]
   },
@@ -1842,13 +1832,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-08T12:28:19Z"
+     "2026-11-09T12:28:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-08T12:28:19Z"
+     "2026-11-09T12:28:09Z"
     ]
    ]
   },
@@ -1856,16 +1846,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-08T12:28:19Z"
+     "2026-11-09T12:28:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-08T12:28:19Z"
+     "2026-11-09T12:28:09Z"
     ]
    ]
   }
  },
- "set": "2026-11-08T12:28Z"
+ "set": "2026-11-09T12:28Z"
 }
