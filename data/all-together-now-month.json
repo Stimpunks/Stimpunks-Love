@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-08T12:24Z",
+ "set": "2026-11-09T12:24Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-08T12:24:49Z"
+     "2026-11-09T12:24:43Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-08T12:24:49Z"
+     "2026-11-09T12:24:43Z"
     ]
    ]
   }
@@ -135,16 +135,6 @@
    "published": "2026-11-07T01:57:36Z",
    "state": "screen",
    "runs": 538,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "YPTZXs8Feww",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "What “not defending huyite women” means",
-   "published": "2026-10-09T13:17:10Z",
-   "state": "screen",
-   "runs": 115,
    "channel": "Farming While Beige"
   },
   {
