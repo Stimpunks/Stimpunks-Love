@@ -200,11 +200,28 @@
           <path d="M0 96 H160 V110 H0 Z" fill="#3A2A20"/>
           <path d="M0 96 C40 84 120 84 160 96" fill="#4A372B"/>
           <ellipse cx="80" cy="78" rx="46" ry="12" fill="#C2AC91" stroke="#A4907B" stroke-width="2"/>
-          <ellipse cx="80" cy="76" rx="36" ry="8" fill="#F2E6D4"/>
-          <g class="yurt-saucer__rings" clip-path="url(#yurt-saucer-milk)" fill="none" stroke="#C2AC91" stroke-width="1.2">
-            <ellipse class="yurt-saucer__ring" cx="80" cy="76" rx="6" ry="1.4" opacity="0"/>
-            <ellipse class="yurt-saucer__ring" cx="80" cy="76" rx="6" ry="1.4" opacity="0"/>
-            <ellipse class="yurt-saucer__ring" cx="80" cy="76" rx="6" ry="1.4" opacity="0"/>
+          <ellipse class="yurt-saucer__milk" cx="80" cy="76" rx="36" ry="8" fill="#F2E6D4"/>
+          <g class="yurt-saucer__rings" clip-path="url(#yurt-saucer-milk)" fill="none">
+            <ellipse class="yurt-saucer__ring" cx="80" cy="76" rx="6" ry="1.4" stroke="#A4907B" stroke-width="2" opacity="0"/>
+            <ellipse class="yurt-saucer__ring" cx="80" cy="76" rx="6" ry="1.4" stroke="#C2AC91" stroke-width="1.6" opacity="0"/>
+            <ellipse class="yurt-saucer__ring" cx="80" cy="76" rx="6" ry="1.4" stroke="#A4907B" stroke-width="2" opacity="0"/>
+            <ellipse class="yurt-saucer__ring" cx="80" cy="76" rx="6" ry="1.4" stroke="#C2AC91" stroke-width="1.6" opacity="0"/>
+          </g>
+          <!-- The spoon (Helen's ask, 2026-11-09): a wooden spoon standing in the milk, its bowl on the
+               surface and its handle leaning out. Stir the milk takes the bowl twice round the saucer,
+               the handle swinging with it, and the drops fly up off it and fall back. -->
+          <g class="yurt-saucer__spoon">
+            <path d="M94 76 L126 34" stroke="#3A2A20" stroke-width="6" stroke-linecap="round"/>
+            <path d="M94 76 L126 34" stroke="#C2AC91" stroke-width="3.6" stroke-linecap="round"/>
+            <ellipse cx="94" cy="76" rx="6.5" ry="3.4" fill="#C2AC91" stroke="#3A2A20" stroke-width="1.6"/>
+          </g>
+          <g class="yurt-saucer__drops" fill="#F2E6D4" stroke="#A4907B" stroke-width=".6">
+            <circle class="yurt-saucer__drop" cx="88" cy="72" r="2.2" opacity="0" style="--sx:-18px;--sy:-22px"/>
+            <circle class="yurt-saucer__drop" cx="96" cy="72" r="1.7" opacity="0" style="--sx:16px;--sy:-26px"/>
+            <circle class="yurt-saucer__drop" cx="80" cy="72" r="2" opacity="0" style="--sx:-4px;--sy:-30px"/>
+            <circle class="yurt-saucer__drop" cx="100" cy="74" r="1.5" opacity="0" style="--sx:24px;--sy:-16px"/>
+            <circle class="yurt-saucer__drop" cx="70" cy="74" r="1.8" opacity="0" style="--sx:-26px;--sy:-14px"/>
+            <circle class="yurt-saucer__drop" cx="84" cy="70" r="1.4" opacity="0" style="--sx:8px;--sy:-34px"/>
           </g>
           <path d="M34 78 C34 86 126 86 126 78" fill="none" stroke="#A4907B" stroke-width="2"/>
           <path d="M120 40 l3 8 8 1 -6 5 2 8 -7 -4 -7 4 2 -8 -6 -5 8 -1 z" fill="#E9C874" opacity=".8"/>
@@ -1502,7 +1519,7 @@
          a looking glass instead of woodern doors". A tall glass in a gilt
          frame, opened the oak doors' way, with a checkbox and no script: in
          the glass is this yurt, given back the other way round; pressed, the
-         reflection goes and a swirl of mist shows through (the chessboard country until 2026-11-09). Drawn in
+         reflection goes and a swirl of rainbow fog shows through (the chessboard country until 2026-11-09). Drawn in
          §148's colours and the yurt's own; nothing on it is a word. -->
     <div class="yurt-glass">
       <div class="yurt-glass__door">
@@ -1512,19 +1529,34 @@
         <svg viewBox="0 0 300 400" aria-hidden="true" focusable="false">
           <defs>
             <clipPath id="yg-oval"><ellipse cx="150" cy="210" rx="106" ry="156"/></clipPath>
-            <filter id="yg-soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="14"/></filter>
+            <filter id="yg-fog" x="-40%" y="-40%" width="180%" height="180%"><feTurbulence type="fractalNoise" baseFrequency=".018" numOctaves="3" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="42" xChannelSelector="R" yChannelSelector="G"/><feGaussianBlur stdDeviation="7"/></filter>
             <linearGradient id="yg-sheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--lgh-mist)" stop-opacity=".6"/><stop offset=".45" stop-color="var(--lgh-mist)" stop-opacity="0"/><stop offset=".72" stop-color="var(--lgh-mist)" stop-opacity=".22"/><stop offset="1" stop-color="var(--lgh-mist)" stop-opacity="0"/></linearGradient>
           </defs>
           <g clip-path="url(#yg-oval)">
-            <!-- Behind the glass, once it is pressed: a swirl of mist (Helen's ask,
-                 2026-11-09, in place of the chessboard country). Soft blurred shapes in the
-                 glass's own mist and silver, turning slowly about the oval at Regular and MAX
-                 once the glass is open, still at Gentle. -->
+            <!-- Behind the glass, once it is pressed: a swirl of rainbow fog (Helen's asks,
+                 2026-11-09, in place of the chessboard country, then "a swirl of moving fog,
+                 maybe rainbow coloured"). Six pale washes in --yurt-fog-* and two in the glass's
+                 own mist and silver, each blurred and pulled into wisps by #yg-fog, turning
+                 about the oval and drifting on their own time at Regular and MAX once the glass
+                 is open, still at Gentle. -->
             <rect x="40" y="50" width="220" height="330" fill="var(--lgh-meadow)"/>
-            <g class="yurt-glass__mist" filter="url(#yg-soft)">
-              <g class="yurt-glass__swirl yurt-glass__swirl--1"><ellipse cx="150" cy="210" rx="92" ry="34" fill="var(--lgh-mist)" opacity=".55" transform="rotate(-28 150 210)"/><ellipse cx="118" cy="168" rx="46" ry="22" fill="var(--lgh-silver)" opacity=".35"/></g>
-              <g class="yurt-glass__swirl yurt-glass__swirl--2"><ellipse cx="150" cy="210" rx="76" ry="28" fill="var(--lgh-silver)" opacity=".4" transform="rotate(34 150 210)"/><ellipse cx="190" cy="258" rx="40" ry="18" fill="var(--lgh-mist)" opacity=".5"/></g>
-              <g class="yurt-glass__swirl yurt-glass__swirl--3"><ellipse cx="150" cy="210" rx="58" ry="20" fill="var(--lgh-mist)" opacity=".6" transform="rotate(-70 150 210)"/><ellipse cx="150" cy="210" rx="26" ry="14" fill="var(--lgh-silver)" opacity=".5"/></g>
+            <g class="yurt-glass__mist" filter="url(#yg-fog)">
+              <g class="yurt-glass__swirl yurt-glass__swirl--1">
+                <ellipse cx="150" cy="210" rx="118" ry="46" fill="var(--yurt-fog-rose)" opacity=".9" transform="rotate(-28 150 210)"/>
+                <g class="yurt-glass__wisp yurt-glass__wisp--1"><ellipse cx="112" cy="160" rx="54" ry="26" fill="var(--yurt-fog-peach)" opacity=".85"/></g>
+              </g>
+              <g class="yurt-glass__swirl yurt-glass__swirl--2">
+                <ellipse cx="150" cy="210" rx="104" ry="40" fill="var(--yurt-fog-sky)" opacity=".85" transform="rotate(34 150 210)"/>
+                <g class="yurt-glass__wisp yurt-glass__wisp--2"><ellipse cx="196" cy="262" rx="50" ry="22" fill="var(--yurt-fog-lilac)" opacity=".85"/></g>
+              </g>
+              <g class="yurt-glass__swirl yurt-glass__swirl--3">
+                <ellipse cx="150" cy="210" rx="84" ry="34" fill="var(--yurt-fog-mint)" opacity=".85" transform="rotate(-70 150 210)"/>
+                <g class="yurt-glass__wisp yurt-glass__wisp--3"><ellipse cx="150" cy="210" rx="34" ry="18" fill="var(--lgh-mist)" opacity=".7"/></g>
+              </g>
+              <g class="yurt-glass__swirl yurt-glass__swirl--4">
+                <ellipse cx="150" cy="210" rx="96" ry="32" fill="var(--yurt-fog-lemon)" opacity=".85" transform="rotate(8 150 210)"/>
+                <g class="yurt-glass__wisp yurt-glass__wisp--4"><ellipse cx="128" cy="290" rx="58" ry="24" fill="var(--lgh-silver)" opacity=".45"/><ellipse cx="190" cy="140" rx="44" ry="20" fill="var(--yurt-fog-rose)" opacity=".7"/></g>
+              </g>
             </g>
             <!-- In front of it, until it is pressed: this yurt, back to front, under the glass's silver. -->
             <g class="yurt-glass__reflect">

@@ -69,9 +69,10 @@
   window.loveYurtBell = { ring: ring };
 })();
 
-/* THE SAUCER OF MILK: Stir the milk sends three rings out across it, over
-   about two seconds, at Regular and MAX, with the words saying so at every
-   setting; at Gentle only the words. Nothing stirs it by itself, nothing is
+/* THE SAUCER OF MILK: Stir the milk takes the spoon twice round the saucer,
+   sloshes the milk, sends rings out across it and throws a few drops up, over
+   about two and a half seconds, at Regular and MAX, with the words saying so
+   at every setting; at Gentle only the words (love.css §14 has the drawing). Nothing stirs it by itself, nothing is
    kept or sent, and it makes no sound. The button ships hidden, because with
    no script it would do nothing. */
 (function () {
@@ -86,13 +87,13 @@
   function gentle() { return document.documentElement.getAttribute('data-intensity') === 'gentle'; }
   btn.hidden = false;
   btn.addEventListener('click', function () {
-    said.textContent = 'Stirred. The milk goes round once and settles, and the brownie pretends not to notice.';
+    said.textContent = 'Stirred. The spoon goes twice round, the milk ripples and splashes a little and settles, and the brownie pretends not to notice.';
     if (art && !gentle()) {
       art.classList.remove('is-stirred');
       void art.getBoundingClientRect();
       art.classList.add('is-stirred');
       clearTimeout(timer);
-      timer = setTimeout(function () { art.classList.remove('is-stirred'); }, 2300);
+      timer = setTimeout(function () { art.classList.remove('is-stirred'); }, 3000);
     }
   });
 })();

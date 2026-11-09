@@ -1935,6 +1935,12 @@
   --timber: #3A2A20;  --tallow: #F2E6D4;  --tallow-2: #C2AC91;  --tallow-3: #A4907B;
   --ember: #E0904A;   --ember-2: #F2B673;  --ivy: #6D8A56;  --ivy-2: #38491F;
   --candle: #E9C874;
+  /* --yurt-fog-*, Helen's ask of 2026-11-09: the rainbow in the fog behind the
+     looking-glass once it is pressed, six pale washes blurred over the meadow
+     (--lgh-meadow) and over each other. Drawing only, 1.17 to 2.05 on the
+     meadow; nothing in that fog is a word. See check-contrast.py. */
+  --yurt-fog-rose: #E89AB0;  --yurt-fog-peach: #F2B98A;  --yurt-fog-lemon: #EEDC7A;
+  --yurt-fog-mint: #8FD0A6;  --yurt-fog-sky: #8DBBE3;    --yurt-fog-lilac: #B49BD9;
   /* --toadstool, Helen's ask of 2026-10-16: the red of the fly agarics round her
      stove and her hollow stump, spotted in --tallow. Drawing only, 3.99 on the
      canvas; it carries no word. */
@@ -8420,15 +8426,28 @@ html[data-intensity="max"] .yurt-pod__glow { animation: ppd-breathe 6s ease-in-o
 .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__reflect { opacity: 0; }
 .yurt-glass__check:focus-visible + .yurt-glass__frame { outline: 4px solid var(--candle); outline-offset: 4px; }
 html[data-intensity="max"] .yurt-glass__glint { animation: lgh-glint 4s ease-in-out infinite alternate; }
-/* The mist behind the glass (Helen, 2026-11-09) turns slowly about the oval
-   once the glass is pressed, at Regular and MAX; at Gentle it hangs still.
-   A rotation inside the glass's own <svg>, where a transform is part of the
-   picture, and only while the glass is open. */
+/* The fog behind the glass (Helen, 2026-11-09, and the same evening "a swirl
+   of moving fog, maybe rainbow coloured"): six washes in --yurt-fog-* and two
+   in the glass's own mist and silver, blurred and pulled into wisps by a fixed
+   turbulence field (#yg-fog, in the page), each turning about the oval and
+   drifting on its own time once the glass is pressed, at Regular and MAX; at
+   Gentle every one hangs where it is. Rotation and drift inside the glass's
+   own <svg>, where a transform is part of the picture, and only while the
+   glass is open. A wash's breathing is a slow fade over seconds, never a
+   flash: opacity moves between .35 and .75 of itself over 7s or more. */
 .yurt-glass__swirl { transform-box: view-box; transform-origin: 150px 210px; }
-html:not([data-intensity="gentle"]) .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__swirl--1 { animation: yurt-glass-swirl 28s linear infinite; }
-html:not([data-intensity="gentle"]) .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__swirl--2 { animation: yurt-glass-swirl 40s linear infinite reverse; }
-html:not([data-intensity="gentle"]) .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__swirl--3 { animation: yurt-glass-swirl 19s linear infinite; }
+.yurt-glass__wisp { transform-box: view-box; transform-origin: 150px 210px; }
+html:not([data-intensity="gentle"]) .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__swirl--1 { animation: yurt-glass-swirl 14s linear infinite; }
+html:not([data-intensity="gentle"]) .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__swirl--2 { animation: yurt-glass-swirl 22s linear infinite reverse; }
+html:not([data-intensity="gentle"]) .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__swirl--3 { animation: yurt-glass-swirl 9s linear infinite; }
+html:not([data-intensity="gentle"]) .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__swirl--4 { animation: yurt-glass-swirl 17s linear infinite reverse; }
+html:not([data-intensity="gentle"]) .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__wisp--1 { animation: yurt-glass-drift 11s ease-in-out infinite alternate, yurt-glass-breathe 9s ease-in-out infinite alternate; }
+html:not([data-intensity="gentle"]) .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__wisp--2 { animation: yurt-glass-drift 15s ease-in-out infinite alternate-reverse, yurt-glass-breathe 7s ease-in-out infinite alternate-reverse; }
+html:not([data-intensity="gentle"]) .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__wisp--3 { animation: yurt-glass-drift 13s ease-in-out infinite alternate, yurt-glass-breathe 12s ease-in-out infinite alternate; }
+html:not([data-intensity="gentle"]) .yurt-glass__check:checked + .yurt-glass__frame .yurt-glass__wisp--4 { animation: yurt-glass-drift 19s ease-in-out infinite alternate-reverse, yurt-glass-breathe 8s ease-in-out infinite alternate; }
 @keyframes yurt-glass-swirl { to { transform: rotate(360deg); } }
+@keyframes yurt-glass-drift { from { transform: translate(-22px, 14px) rotate(-12deg); } to { transform: translate(24px, -16px) rotate(14deg); } }
+@keyframes yurt-glass-breathe { from { opacity: .75; } to { opacity: .35; } }
 .room-yurt .yurt-glass__step {
   position: absolute; left: 50%; bottom: 46%; transform: translateX(-50%); visibility: hidden; white-space: nowrap;
   padding: 10px 18px; border-radius: 6px; background: var(--tent); color: var(--tallow); border: 1px solid var(--candle);
@@ -9054,11 +9073,51 @@ html:not([data-intensity="gentle"]) .yurt-bell__art.is-rung .yurt-bell__ring2 { 
 /* Stir the milk (Helen, 2026-11-09): three rings widen across the milk and
    fade, one after another, over about two seconds, only after a press and
    never at Gentle; the milk is clipped to the saucer so nothing spills. */
+/* Stir the milk (Helen, 2026-11-09, and later "it needs a spoon to stir and to
+   see it stirring and rippling and maybe some splashes"): for about two and a
+   half seconds after the press, at Regular and MAX, the spoon's bowl goes twice
+   round the milk with the handle swinging, the milk sloshes, rings spread out
+   across it one after another, and six drops fly up off the stir and fall
+   back, each on its own moment. At Gentle the spoon stands where it is and only
+   the words answer. Every transform is inside the saucer's own <svg>, where it
+   is part of the picture, and nothing here moves without the press. */
+.yurt-saucer__art { width: 230px; } /* wider than the other things by the door, so the drops and rings can be seen. */
 .yurt-saucer__ring { transform-box: fill-box; transform-origin: center; }
-html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__ring { animation: yurt-saucer-ring 1.6s ease-out; }
+.yurt-saucer__milk { transform-box: fill-box; transform-origin: center; }
+.yurt-saucer__spoon { transform-box: view-box; transform-origin: 94px 76px; }
+.yurt-saucer__drop { transform-box: fill-box; transform-origin: center; }
+html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__ring { animation: yurt-saucer-ring 1.3s ease-out 2; }
 html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__ring:nth-child(2) { animation-delay: .3s; }
 html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__ring:nth-child(3) { animation-delay: .6s; }
-@keyframes yurt-saucer-ring { 0% { opacity: 0; transform: scale(.4); } 15% { opacity: .9; } 100% { opacity: 0; transform: scale(6); } }
+html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__ring:nth-child(4) { animation-delay: .9s; }
+html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__milk { animation: yurt-saucer-slosh .4s ease-in-out 6 alternate; }
+html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__spoon { animation: yurt-saucer-stir 1.2s linear 2; }
+html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__drop { animation: yurt-saucer-splash .9s ease-out; }
+html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__drop:nth-child(1) { animation-delay: .25s; }
+html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__drop:nth-child(2) { animation-delay: .55s; }
+html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__drop:nth-child(3) { animation-delay: .85s; }
+html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__drop:nth-child(4) { animation-delay: 1.15s; }
+html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__drop:nth-child(5) { animation-delay: 1.45s; }
+html:not([data-intensity="gentle"]) .yurt-saucer__art.is-stirred .yurt-saucer__drop:nth-child(6) { animation-delay: 1.75s; }
+@keyframes yurt-saucer-ring { 0% { opacity: 0; transform: scale(.3); } 15% { opacity: 1; } 100% { opacity: 0; transform: scale(6.5); } }
+@keyframes yurt-saucer-slosh { from { transform: scale(1, .9); } to { transform: scale(1, 1.08); } }
+@keyframes yurt-saucer-stir {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  12.5% { transform: translate(-4.1px, 2.5px) rotate(5deg); }
+  25% { transform: translate(-14px, 3.5px) rotate(8deg); }
+  37.5% { transform: translate(-23.9px, 2.5px) rotate(5deg); }
+  50% { transform: translate(-28px, 0) rotate(0deg); }
+  62.5% { transform: translate(-23.9px, -2.5px) rotate(-5deg); }
+  75% { transform: translate(-14px, -3.5px) rotate(-8deg); }
+  87.5% { transform: translate(-4.1px, -2.5px) rotate(-5deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes yurt-saucer-splash {
+  0% { opacity: 0; transform: translate(0, 0); }
+  15% { opacity: 1; }
+  55% { opacity: 1; transform: translate(var(--sx), var(--sy)); }
+  100% { opacity: 0; transform: translate(calc(var(--sx) * 1.25), 6px); }
+}
 .yurt-faedoor__open { list-style: none; cursor: pointer; border-radius: 4px; }
 .yurt-faedoor__open::-webkit-details-marker { display: none; }
 .yurt-faedoor__open:focus-visible { outline: 3px solid var(--candle); outline-offset: 6px; }

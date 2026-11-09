@@ -1768,8 +1768,8 @@ flip south of the equator. **Gibbles' wheel and the moth move at MAX only, the r
 the yurt names them**; `make-yurt-yarn.py` still holds that line to "lights the fairy lights and turns the record". The
 wish bottle keeps nothing (its words are emptied on the cork and never leave the function), the bell is a chime under
 `MAX_GAIN`, the faery door is a `<details>`, and the words beside each of them are in the yurt's voice and Helen's to
-change. **The same day: the bell swings on its cord and jingles four strikes, the saucer of milk stirs on a press (three rings
-across it), the looking-glass shows a slow swirl of mist once pressed where it showed the chessboard country, and Glow
+change. **The same day: the bell swings on its cord and jingles four strikes, the saucer of milk stirs on a press (a spoon twice round it, the milk sloshing,
+rings across it and drops thrown up, Helen's ask the same evening after a stir she could not see), the looking-glass shows a moving swirl of rainbow fog once pressed where it showed the chessboard country (six `--yurt-fog-*` washes, Helen's ask the same evening, each breathing over seconds and never flashing), and Glow
 Wild Hollow's picture is three of the room's own photographs** (its glowing mushrooms, fireflies and sea sparkle, clipped
 to the slopes and the cove, credited under it); each movement is a press's, rotation only inside its own `<svg>`, still at
 Gentle, and never by itself. The friendly edits are **a drawn star or sparkle laid back over a photograph "so MAX has
