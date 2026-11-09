@@ -532,16 +532,6 @@
    "channel": "Epicurious"
   },
   {
-   "id": "Xz-uwGDjrjI",
-   "source": "epicurious",
-   "form": "short",
-   "title": "Meal Prep These Egg Bites for Breakfast All Week",
-   "published": "2026-10-09T16:00:07Z",
-   "state": "screen",
-   "runs": 51,
-   "channel": "Epicurious"
-  },
-  {
    "id": "jIswM6aNaNQ",
    "source": "epicurious",
    "form": "short",
@@ -892,6 +882,16 @@
    "channel": "Iron Chef Dad"
   },
   {
+   "id": "5YDJzFUlfY4",
+   "source": "iron-chef-dad",
+   "form": "short",
+   "title": "Trying Rare Hawaii Fruit",
+   "published": "2026-11-08T18:00:39Z",
+   "state": "screen",
+   "runs": 82,
+   "channel": "Iron Chef Dad"
+  },
+  {
    "id": "gXuBILZnECQ",
    "source": "andy-cooks",
    "form": "long",
@@ -929,16 +929,6 @@
    "published": "2026-11-05T06:57:07Z",
    "state": "screen",
    "runs": 1669,
-   "channel": "Andy Cooks"
-  },
-  {
-   "id": "aC9aaFv5NlE",
-   "source": "andy-cooks",
-   "form": "short",
-   "title": "Arnold Palmer Rice Bubble Slice ⛳️",
-   "published": "2026-10-09T23:00:17Z",
-   "state": "screen",
-   "runs": 60,
    "channel": "Andy Cooks"
   },
   {
@@ -1139,6 +1129,16 @@
    "published": "2026-11-08T09:56:19Z",
    "state": "screen",
    "runs": 45,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "-XEXd04ywtM",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Salt and steak - match made in heaven 🧂🥩",
+   "published": "2026-11-09T10:00:12Z",
+   "state": "screen",
+   "runs": 52,
    "channel": "Andy Cooks"
   },
   {
@@ -1362,14 +1362,14 @@
    "channel": "The Pasta Queen"
   },
   {
-   "id": "ceMr0X8XtVg",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "Why This 22-Year-Old College Student Works at a Kyoto Chinese Diner at 2 AM",
-   "published": "2026-10-09T22:00:26Z",
+   "id": "bP3aEQP2fwE",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "Cooking White Chocolate Tiramisu with my Daughter 🤍",
+   "published": "2026-11-08T20:07:19Z",
    "state": "screen",
-   "runs": 872,
-   "channel": "Japanese Food Noodles"
+   "runs": 90,
+   "channel": "The Pasta Queen"
   },
   {
    "id": "pxfREM277YE",
@@ -1882,6 +1882,26 @@
    "channel": "Japanese Food Noodles"
   },
   {
+   "id": "7wA15gn3qzg",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "This Chinese Diner in Japan Uses 1,650 Pounds of Garlic a Year",
+   "published": "2026-11-08T22:00:15Z",
+   "state": "screen",
+   "runs": 3389,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "_d3MybZ84M4",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "An 83-Year-Old Grandma Sells Bento in a Japanese Business District",
+   "published": "2026-11-09T00:00:35Z",
+   "state": "screen",
+   "runs": 1922,
+   "channel": "Japanese Food Noodles"
+  },
+  {
    "id": "MStMw9Bfb1A",
    "source": "japanese-cooking-101",
    "form": "short",
@@ -2132,6 +2152,16 @@
    "channel": "Japanese Food Craftsman"
   },
   {
+   "id": "X4OvDkQytF4",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "ここ本当にカラオケ店？本格料理がすごすぎる！",
+   "published": "2026-11-09T09:15:19Z",
+   "state": "screen",
+   "runs": 24,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
    "id": "QJcFxRAQ5_k",
    "source": "bon-appetit",
    "form": "long",
@@ -2219,16 +2249,6 @@
    "published": "2026-11-05T17:00:07Z",
    "state": "screen",
    "runs": 1097,
-   "channel": "Bon Appétit"
-  },
-  {
-   "id": "giEcZhP5PcQ",
-   "source": "bon-appetit",
-   "form": "short",
-   "title": "Making 24 Roast Pork Buns in Just 60 Seconds",
-   "published": "2026-10-09T16:00:03Z",
-   "state": "screen",
-   "runs": 48,
    "channel": "Bon Appétit"
   },
   {
@@ -2602,14 +2622,14 @@
    "channel": "Fallow"
   },
   {
-   "id": "zeuPkJrxMzo",
-   "source": "guga",
-   "form": "long",
-   "title": "This Chef Puts MY Steak to SHAME!",
-   "published": "2026-10-09T15:15:31Z",
+   "id": "hvEtiqSMHf4",
+   "source": "fallow",
+   "form": "short",
+   "title": "Most Photographed Dish In The World",
+   "published": "2026-11-08T18:52:26Z",
    "state": "screen",
-   "runs": 1136,
-   "channel": "Guga"
+   "runs": 66,
+   "channel": "Fallow"
   },
   {
    "id": "yVAptV1Oncs",
@@ -2645,7 +2665,7 @@
    "id": "enAoDICHmDc",
    "source": "guga",
    "form": "long",
-   "title": "Now I Understand Why This Is Japan’s BEST Steakhouse!",
+   "title": "I Finally Learned How to Cook Wagyu RIGHT!",
    "published": "2026-11-06T16:15:19Z",
    "state": "screen",
    "runs": 1997,
@@ -3052,16 +3072,6 @@
    "channel": "Strictly Dumpling"
   },
   {
-   "id": "7DqZpwJXsRY",
-   "source": "jolly",
-   "form": "long",
-   "title": "US Thanksgiving Dinner vs UK Pub Roast! (ft. John Cena)",
-   "published": "2026-10-10T11:01:07Z",
-   "state": "screen",
-   "runs": 1023,
-   "channel": "JOLLY"
-  },
-  {
    "id": "wi7T7pJsnC0",
    "source": "jolly",
    "form": "long",
@@ -3109,16 +3119,6 @@
    "published": "2026-11-07T12:00:25Z",
    "state": "screen",
    "runs": 977,
-   "channel": "JOLLY"
-  },
-  {
-   "id": "rpr92Je8Fhw",
-   "source": "jolly",
-   "form": "short",
-   "title": "British Grandparents can't handle American Sweet Tea!",
-   "published": "2026-10-09T19:40:35Z",
-   "state": "screen",
-   "runs": 61,
    "channel": "JOLLY"
   },
   {
@@ -3250,6 +3250,16 @@
    "state": "screen",
    "runs": 71,
    "channel": "JOLLY"
+  },
+  {
+   "id": "F0DUutravbA",
+   "source": "jolly",
+   "form": "short",
+   "title": "British Grandparents try Puppy Chow for the first time!",
+   "published": "2026-11-08T23:30:10Z",
+   "state": "screen",
+   "runs": 38,
+   "channel": "JOLLY"
   }
  ],
  "covered": {
@@ -3257,13 +3267,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3271,13 +3281,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3285,13 +3295,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3299,13 +3309,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3313,13 +3323,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3327,13 +3337,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3341,13 +3351,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3355,13 +3365,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3369,13 +3379,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3383,13 +3393,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3397,13 +3407,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3411,13 +3421,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3425,13 +3435,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3439,13 +3449,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3453,13 +3463,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3467,13 +3477,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3481,13 +3491,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3495,13 +3505,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3509,13 +3519,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3523,13 +3533,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3537,13 +3547,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3551,13 +3561,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3565,13 +3575,13 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   },
@@ -3579,16 +3589,16 @@
    "long": [
     [
      "2026-07-25T11:00:12Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-10-05T22:56:49Z",
-     "2026-11-08T12:21:04Z"
+     "2026-11-09T12:21:44Z"
     ]
    ]
   }
  },
- "set": "2026-11-08T12:21Z"
+ "set": "2026-11-09T12:21Z"
 }
