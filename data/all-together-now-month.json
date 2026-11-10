@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-09T12:24Z",
+ "set": "2026-11-10T12:26Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-09T12:24:43Z"
+     "2026-11-10T12:26:37Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-09T12:24:43Z"
+     "2026-11-10T12:26:37Z"
     ]
    ]
   }
@@ -135,16 +135,6 @@
    "published": "2026-11-07T01:57:36Z",
    "state": "screen",
    "runs": 538,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "w9IASxtcNlk",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "The best way to profit from a half acre",
-   "published": "2026-10-10T13:42:41Z",
-   "state": "screen",
-   "runs": 112,
    "channel": "Farming While Beige"
   },
   {
@@ -605,6 +595,26 @@
    "published": "2026-11-07T18:11:16Z",
    "state": "screen",
    "runs": 76,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "qq8llh8V54g",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Why our politics and values matter now in business, and why neutrality is no longer neutral.",
+   "published": "2026-11-09T14:02:00Z",
+   "state": "screen",
+   "runs": 173,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "_jhAI2EUOh8",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "This is the most shameless 💩I’ve ever seen.",
+   "published": "2026-11-09T22:09:57Z",
+   "state": "screen",
+   "runs": 93,
    "channel": "Farming While Beige"
   }
  ]
