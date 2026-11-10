@@ -1786,7 +1786,7 @@ has not, and `figureOf` puts it across the shoulders. **The four pairs are real 
 butterfly and moth wings"): photographs with their backgrounds cut away (a moth, a monarch, an American lady, a
 fritillary, the files in `faery-yurt/`, the same ones the page's basket shows and credits), each on one flat plane with
 its picture as a `MeshBasicMaterial` map, never painted or inked, loaded through three.js's own image loader when a
-figure first wears it. **It travels only with a place**: no storage, no record of its own, and it is gone with the place when you leave. The cat, the dog and the
+figure first wears it. **In the basket on her page they flutter** (Helen's ask the same evening): a scale and a lift about each pair's middle, by themselves at MAX, on hover or after Let the wings flutter at Regular, still at Gentle; the friendly edit is fluttering by themselves at Regular "since she asked for Regular", which is the dial's definition and Ryan's call. **It travels only with a place**: no storage, no record of its own, and it is gone with the place when you leave. The cat, the dog and the
 hamster are drawn asleep in the nook as generic figures of their kind in her declared colours, never from her
 photographs, because the scene had left them out as her real pets and that was hers to decide. The bell at the door is
 her page's own bell, lifted (`kit.lift`) and wired (`kit.wire`) to `yurt-bell.js`, so there is one bell. **The friendly

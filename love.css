@@ -9081,6 +9081,22 @@ html:not([data-intensity="gentle"]) .yurt-bell__art.is-rung .yurt-bell__ring2 { 
    back, each on its own moment. At Gentle the spoon stands where it is and only
    the words answer. Every transform is inside the saucer's own <svg>, where it
    is part of the picture, and nothing here moves without the press. */
+/* The wings in the basket flutter (Helen, 2026-11-09: "can the wings flutter on
+   regular and max"). Each pair closes and opens a little about its own middle,
+   on its own time, no two alike, and lifts a hair as it does: a scale and a
+   translate, never a rotation, and nothing faster than a beat and a half a
+   second. By themselves at MAX, which is the dial's own rule; at Regular when
+   the basket is hovered or after Let the wings flutter under it, because
+   Regular moving by itself unasked would change what Regular means, which is
+   Ryan's call; at Gentle they lie still and only the words answer. */
+.yurt-wings__art image { transform-box: fill-box; transform-origin: center; }
+html[data-intensity="max"] .yurt-wings__art:not(.is-resting) image,
+html[data-intensity="regular"] .yurt-wings:hover .yurt-wings__art:not(.is-resting) image,
+html:not([data-intensity="gentle"]) .yurt-wings__art.is-fluttering image { animation: yurt-wings-flutter 1.7s ease-in-out infinite; }
+.yurt-wings__art image[data-wings="monarch"] { animation-duration: 2.2s; animation-delay: .4s; }
+.yurt-wings__art image[data-wings="lady"] { animation-duration: 1.9s; animation-delay: .9s; }
+.yurt-wings__art image[data-wings="fritillary"] { animation-duration: 2.5s; animation-delay: .2s; }
+@keyframes yurt-wings-flutter { 0%, 100% { transform: scaleX(1) translateY(0); } 50% { transform: scaleX(.74) translateY(-2px); } }
 .yurt-saucer__art { width: 230px; } /* wider than the other things by the door, so the drops and rings can be seen. */
 .yurt-saucer__ring { transform-box: fill-box; transform-origin: center; }
 .yurt-saucer__milk { transform-box: fill-box; transform-origin: center; }

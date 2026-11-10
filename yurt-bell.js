@@ -97,3 +97,45 @@
     }
   });
 })();
+
+/* THE BASKET OF WINGS: Let the wings flutter (Helen, 2026-11-09) switches the
+   flutter on at Regular, where otherwise they move only while the basket is
+   hovered, and lets them rest at MAX, where they flutter by themselves. The
+   class is all it does: love.css §14 holds the motion to the dial, so at
+   Gentle the press changes nothing a visitor can see and the words say so.
+   Nothing is kept, nothing is sent, and it makes no sound. The button ships
+   hidden, because with no script it would do nothing. */
+(function () {
+  'use strict';
+  var box = document.querySelector('[data-yurt-wings]');
+  if (!box) return;
+  var btn = box.querySelector('[data-yurt-wings-let]');
+  var said = box.querySelector('[data-yurt-wings-said]');
+  var art = box.querySelector('.yurt-wings__art');
+  if (!btn || !said || !art) return;
+  function level() { return document.documentElement.getAttribute('data-intensity') || 'regular'; }
+  function fluttering() {
+    if (art.classList.contains('is-fluttering')) return true;
+    return level() === 'max' && !art.classList.contains('is-resting');
+  }
+  function wordsFor() {
+    btn.textContent = fluttering() ? 'Let the wings rest' : 'Let the wings flutter';
+  }
+  btn.hidden = false;
+  wordsFor();
+  btn.addEventListener('click', function () {
+    if (fluttering()) {
+      art.classList.remove('is-fluttering');
+      art.classList.add('is-resting');
+      said.textContent = 'Resting. The wings lie still in the basket.';
+    } else {
+      art.classList.remove('is-resting');
+      art.classList.add('is-fluttering');
+      said.textContent = level() === 'gentle'
+        ? 'The wings would flutter, but the dial is at Gentle, where nothing in the yurt moves; turn it up and they will.'
+        : 'Fluttering. Each pair opens and closes on its own time, the moth slowest of all.';
+    }
+    wordsFor();
+  });
+  document.addEventListener('love-intensity', wordsFor);
+})();
