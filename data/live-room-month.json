@@ -1413,6 +1413,16 @@
    "channel": "KEXP"
   },
   {
+   "id": "fJjg0QykS5Q",
+   "source": "kexp",
+   "form": "long",
+   "title": "anaiis - Full Performance (Live on KEXP)",
+   "published": "2026-11-09T03:31:38Z",
+   "state": "screen",
+   "runs": 2027,
+   "channel": "KEXP"
+  },
+  {
    "id": "o06k79idM9E",
    "source": "kexp",
    "form": "long",
@@ -1450,6 +1460,56 @@
    "published": "2026-11-09T12:00:37Z",
    "state": "screen",
    "runs": 279,
+   "channel": "KEXP"
+  },
+  {
+   "id": "xdr2Wm_byXk",
+   "source": "kexp",
+   "form": "long",
+   "title": "anaiis - Green Juice (Live on KEXP)",
+   "published": "2026-11-09T14:00:30Z",
+   "state": "screen",
+   "runs": 337,
+   "channel": "KEXP"
+  },
+  {
+   "id": "3BAJorSN7Y8",
+   "source": "kexp",
+   "form": "long",
+   "title": "Slowwves - Labyrinth (Live on KEXP)",
+   "published": "2026-11-10T12:00:30Z",
+   "state": "screen",
+   "runs": 211,
+   "channel": "KEXP"
+  },
+  {
+   "id": "EeI8OkqYbbQ",
+   "source": "kexp",
+   "form": "long",
+   "title": "Slowwves - Anywhere Else (Live on KEXP)",
+   "published": "2026-11-10T12:00:31Z",
+   "state": "screen",
+   "runs": 247,
+   "channel": "KEXP"
+  },
+  {
+   "id": "OGBXbNoFWEw",
+   "source": "kexp",
+   "form": "long",
+   "title": "Slowwves - Evangeline (Live on KEXP)",
+   "published": "2026-11-10T12:00:33Z",
+   "state": "screen",
+   "runs": 392,
+   "channel": "KEXP"
+  },
+  {
+   "id": "UNE8a-AGo3Q",
+   "source": "kexp",
+   "form": "long",
+   "title": "Slowwves - Vortex (Live on KEXP)",
+   "published": "2026-11-10T12:00:39Z",
+   "state": "screen",
+   "runs": 221,
    "channel": "KEXP"
   },
   {
@@ -1643,6 +1703,16 @@
    "channel": "KEXP"
   },
   {
+   "id": "2tyQWtK8wbQ",
+   "source": "kexp",
+   "form": "short",
+   "title": "anaiis performs \"Dreamer Too\" & more Live on KEXP",
+   "published": "2026-11-09T18:21:37Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
    "id": "TRNXBfToBzk",
    "source": "kcrw",
    "form": "long",
@@ -1753,6 +1823,26 @@
    "channel": "KCRW"
   },
   {
+   "id": "3-MGhXw0laU",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Joy Oladokun on radical hope, the acoustic guitar, and love | KCRW Interview",
+   "published": "2026-11-09T15:00:23Z",
+   "state": "screen",
+   "runs": 1562,
+   "channel": "KCRW"
+  },
+  {
+   "id": "MQi0WJcps9w",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Music in Nature | 8 Hour Ambient Mix",
+   "published": "2026-11-09T16:00:20Z",
+   "state": "screen",
+   "runs": 28909,
+   "channel": "KCRW"
+  },
+  {
    "id": "GqcyWTBXj54",
    "source": "kcrw",
    "form": "short",
@@ -1818,13 +1908,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-09T12:28:09Z"
+     "2026-11-10T12:30:12Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-09T12:28:09Z"
+     "2026-11-10T12:30:12Z"
     ]
    ]
   },
@@ -1832,13 +1922,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-09T12:28:09Z"
+     "2026-11-10T12:30:12Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-09T12:28:09Z"
+     "2026-11-10T12:30:12Z"
     ]
    ]
   },
@@ -1846,16 +1936,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-09T12:28:09Z"
+     "2026-11-10T12:30:12Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-09T12:28:09Z"
+     "2026-11-10T12:30:12Z"
     ]
    ]
   }
  },
- "set": "2026-11-09T12:28Z"
+ "set": "2026-11-10T12:30Z"
 }
