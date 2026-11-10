@@ -90,7 +90,7 @@
    "channel_id": "UCgscS8mBsQZ5sFRkJIFWD7Q"
   }
  ],
- "set": "2026-11-09T12:20Z",
+ "set": "2026-11-10T12:21Z",
  "log": [
   {
    "id": "mn0agTT8lG8",
@@ -223,6 +223,16 @@
    "channel": "AI LABS"
   },
   {
+   "id": "6gT2sGrYgHk",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "This Finally Cut Claude Code's Token Usage In Half",
+   "published": "2026-11-09T15:00:32Z",
+   "state": "screen",
+   "runs": 786,
+   "channel": "AI LABS"
+  },
+  {
    "id": "eBszYxzE2dk",
    "source": "matt-wolfe",
    "form": "long",
@@ -300,6 +310,16 @@
    "published": "2026-11-06T18:20:31Z",
    "state": "screen",
    "runs": 1483,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "2TM8W66NI_8",
+   "source": "matt-wolfe",
+   "form": "long",
+   "title": "Anthropic's Fable 5.2 is the World’s Best AI Model",
+   "published": "2026-11-09T23:16:34Z",
+   "state": "screen",
+   "runs": 1247,
    "channel": "Matt Wolfe"
   },
   {
@@ -540,6 +560,16 @@
    "published": "2026-11-08T18:30:51Z",
    "state": "screen",
    "runs": 74,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "GcFRheDNh5U",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "This Airtaxi is Ready For Primetime!",
+   "published": "2026-11-10T04:29:38Z",
+   "state": "screen",
+   "runs": 83,
    "channel": "Matt Wolfe"
   },
   {
@@ -1243,6 +1273,26 @@
    "channel": "Paul J Lipsky"
   },
   {
+   "id": "FAhzpiTmwqw",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Meta Muse Just Got Insanely Powerful (3 Free Updates)",
+   "published": "2026-11-09T14:00:21Z",
+   "state": "screen",
+   "runs": 1064,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "5oHVBWzSBT8",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Fable 5.2 Just Dropped (Full Breakdown)",
+   "published": "2026-11-09T20:08:53Z",
+   "state": "screen",
+   "runs": 517,
+   "channel": "Paul J Lipsky"
+  },
+  {
    "id": "DMlBzXvG22g",
    "source": "austin-marchese",
    "form": "long",
@@ -1301,16 +1351,6 @@
    "state": "screen",
    "runs": 1050,
    "channel": "Austin Marchese"
-  },
-  {
-   "id": "UFa8pXW9A3k",
-   "source": "riley-brown",
-   "form": "long",
-   "title": "All of Claude and Grok Bot's New Features (Insane)",
-   "published": "2026-10-10T20:03:25Z",
-   "state": "screen",
-   "runs": 1250,
-   "channel": "Riley Brown"
   },
   {
    "id": "fDE5R4fSq2w",
@@ -1430,6 +1470,16 @@
    "published": "2026-10-19T21:17:38Z",
    "state": "screen",
    "runs": 104,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "TGqnAY2KWe8",
+   "source": "riley-brown",
+   "form": "short",
+   "title": "Claude Fable 5.2 is distubingly good with Blender",
+   "published": "2026-11-10T02:02:42Z",
+   "state": "screen",
+   "runs": 121,
    "channel": "Riley Brown"
   },
   {
@@ -1943,23 +1993,23 @@
    "channel": "Chase AI"
   },
   {
-   "id": "WVfAFTSS1lk",
+   "id": "NzVuLc_mc5Y",
    "source": "chase-ai",
-   "form": "short",
-   "title": "This Claude OS combines Jev, Opus, Obsidian, + a local voice system",
-   "published": "2026-10-11T01:00:18Z",
+   "form": "long",
+   "title": "Claude Fable 5.2 is LIVE: Cheaper, Faster, Stronger",
+   "published": "2026-11-09T19:36:37Z",
    "state": "screen",
-   "runs": 45,
+   "runs": 336,
    "channel": "Chase AI"
   },
   {
-   "id": "uJJjBXuj8Iw",
+   "id": "c_McosB62a4",
    "source": "chase-ai",
-   "form": "short",
-   "title": "Someone Just Cloned Every Adobe Product In Rust (& Open Sourced It)",
-   "published": "2026-10-11T04:00:37Z",
+   "form": "long",
+   "title": "Anthropic's Ten NEW Rules for Prompting Fable 5.2 (Full Guide)",
+   "published": "2026-11-10T05:29:39Z",
    "state": "screen",
-   "runs": 43,
+   "runs": 641,
    "channel": "Chase AI"
   },
   {
@@ -2083,6 +2133,16 @@
    "channel": "Chase AI"
   },
   {
+   "id": "1NUcb_XpxA0",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "Dots Is The Most Underrated AI Tool In The World Today",
+   "published": "2026-11-09T17:02:44Z",
+   "state": "screen",
+   "runs": 45,
+   "channel": "Chase AI"
+  },
+  {
    "id": "jEOUUAPC1sc",
    "source": "greg-isenberg",
    "form": "long",
@@ -2163,6 +2223,16 @@
    "channel": "Greg Isenberg"
   },
   {
+   "id": "uJuxenfe-NU",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "AI Agents are too good at marketing now",
+   "published": "2026-11-09T18:15:17Z",
+   "state": "screen",
+   "runs": 3120,
+   "channel": "Greg Isenberg"
+  },
+  {
    "id": "35sh2FkQn-k",
    "source": "greg-isenberg",
    "form": "short",
@@ -2240,6 +2310,16 @@
    "published": "2026-11-07T16:24:47Z",
    "state": "screen",
    "runs": 348,
+   "channel": "Two Minute Papers"
+  },
+  {
+   "id": "vug73goPJaM",
+   "source": "two-minute-papers",
+   "form": "long",
+   "title": "Is Software Over?",
+   "published": "2026-11-10T10:15:57Z",
+   "state": "screen",
+   "runs": 385,
    "channel": "Two Minute Papers"
   },
   {
@@ -2548,13 +2628,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ]
   },
@@ -2562,13 +2642,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ]
   },
@@ -2576,13 +2656,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ]
   },
@@ -2590,13 +2670,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ]
   },
@@ -2604,13 +2684,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ]
   },
@@ -2618,13 +2698,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ]
   },
@@ -2632,13 +2712,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ]
   },
@@ -2646,13 +2726,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ]
   },
@@ -2660,13 +2740,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ]
   },
@@ -2674,13 +2754,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ]
   },
@@ -2688,13 +2768,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ]
   },
@@ -2702,13 +2782,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ]
   },
@@ -2716,13 +2796,13 @@
    "long": [
     [
      "2026-08-28T09:44:44Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:12:16Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ]
   },
@@ -2730,13 +2810,13 @@
    "long": [
     [
      "2026-09-23T01:33:56Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ],
    "short": [
     [
      "2026-09-25T03:00:26Z",
-     "2026-11-09T12:20:53Z"
+     "2026-11-10T12:21:10Z"
     ]
    ]
   }
