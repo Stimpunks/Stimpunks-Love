@@ -152,16 +152,6 @@
  ],
  "log": [
   {
-   "id": "qcX-uGi7v7w",
-   "source": "americas-test-kitchen",
-   "form": "long",
-   "title": "The One Rice Rule You Should Never Break | Techniquely with Lan Lam",
-   "published": "2026-10-10T12:59:55Z",
-   "state": "screen",
-   "runs": 596,
-   "channel": "America's Test Kitchen"
-  },
-  {
    "id": "ZVTvc_8HSmI",
    "source": "americas-test-kitchen",
    "form": "long",
@@ -245,7 +235,7 @@
    "id": "tJ1YdMtYDGU",
    "source": "americas-test-kitchen",
    "form": "long",
-   "title": "The Only Pie Dough Recipe You'll Ever Need | Techniquely with Lan Lam",
+   "title": "The Only Pie Crust Recipe You'll Ever Need | Techniquely with Lan Lam",
    "published": "2026-11-01T16:59:57Z",
    "state": "screen",
    "runs": 1088,
@@ -289,26 +279,6 @@
    "published": "2026-11-07T17:00:01Z",
    "state": "screen",
    "runs": 3066,
-   "channel": "America's Test Kitchen"
-  },
-  {
-   "id": "l6-TLc5BW7E",
-   "source": "americas-test-kitchen",
-   "form": "short",
-   "title": "Rinsed vs Unrinsed Rice: Can You Taste the Difference?",
-   "published": "2026-10-10T14:59:58Z",
-   "state": "screen",
-   "runs": 58,
-   "channel": "America's Test Kitchen"
-  },
-  {
-   "id": "JB8E6XbQioc",
-   "source": "americas-test-kitchen",
-   "form": "short",
-   "title": "For Perfect White Rice, Let it Rest",
-   "published": "2026-10-11T11:59:47Z",
-   "state": "screen",
-   "runs": 58,
    "channel": "America's Test Kitchen"
   },
   {
@@ -452,26 +422,6 @@
    "channel": "America's Test Kitchen"
   },
   {
-   "id": "5vk8ANhjoHQ",
-   "source": "alton-brown",
-   "form": "long",
-   "title": "Alton Brown Cooks Food | Episode 44: Eggnog Emergency",
-   "published": "2026-10-10T13:00:39Z",
-   "state": "screen",
-   "runs": 1301,
-   "channel": "Alton Brown"
-  },
-  {
-   "id": "HGWICoR6n2s",
-   "source": "binging-with-babish",
-   "form": "long",
-   "title": "I Tried the Best (and WORST) Instant Pot Recipes",
-   "published": "2026-10-10T13:41:08Z",
-   "state": "screen",
-   "runs": 2057,
-   "channel": "Binging with Babish"
-  },
-  {
    "id": "COvngm7VbZs",
    "source": "binging-with-babish",
    "form": "long",
@@ -582,16 +532,6 @@
    "channel": "Epicurious"
   },
   {
-   "id": "XzSrZKXUDwE",
-   "source": "nyt-cooking",
-   "form": "long",
-   "title": "I Coated Chicken Cutlets With Frozen Hash Browns | Carolina Gelen | NYT Cooking",
-   "published": "2026-10-10T16:00:10Z",
-   "state": "screen",
-   "runs": 627,
-   "channel": "NYT Cooking"
-  },
-  {
    "id": "zoxUnQOIzf8",
    "source": "nyt-cooking",
    "form": "long",
@@ -699,6 +639,16 @@
    "published": "2026-11-06T21:00:19Z",
    "state": "screen",
    "runs": 1523,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "wccIrNzRd10",
+   "source": "nyt-cooking",
+   "form": "long",
+   "title": "Eric Kim Cooks His Ideal Thanksgiving, From Start to Finish | NYT Cooking",
+   "published": "2026-11-09T19:36:17Z",
+   "state": "screen",
+   "runs": 2355,
    "channel": "NYT Cooking"
   },
   {
@@ -862,14 +812,24 @@
    "channel": "NYT Cooking"
   },
   {
-   "id": "N501Q3bAiC4",
-   "source": "iron-chef-dad",
-   "form": "long",
-   "title": "Panda Express vs. Iron Chef",
-   "published": "2026-10-10T16:24:02Z",
+   "id": "CS16SacXjP4",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "Eric Kim’s Southern and Korean Thanksgiving menu — with 10 brand-new recipes — has it all!",
+   "published": "2026-11-09T21:00:13Z",
    "state": "screen",
-   "runs": 615,
-   "channel": "Iron Chef Dad"
+   "runs": 28,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "hUIwhkeatbg",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "Acorn squash + 4 cheeses = the ultimate Thanksgiving mac and cheese from Eric Kim #thanksgiving",
+   "published": "2026-11-10T00:00:33Z",
+   "state": "screen",
+   "runs": 31,
+   "channel": "NYT Cooking"
   },
   {
    "id": "F4QFSnAaTRI",
@@ -1142,14 +1102,14 @@
    "channel": "Andy Cooks"
   },
   {
-   "id": "pYCcccb_i7E",
-   "source": "back-of-house",
-   "form": "long",
-   "title": "How To Make Lamb Mince Curry",
-   "published": "2026-10-11T06:00:29Z",
+   "id": "Ugcr4eRiAEQ",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "3 chefs and 3 ways to cook Ebony Angus beef @KilcoyGlobalFoods",
+   "published": "2026-11-10T10:15:17Z",
    "state": "screen",
-   "runs": 729,
-   "channel": "Back of House"
+   "runs": 102,
+   "channel": "Andy Cooks"
   },
   {
    "id": "AFIzmed8iO4",
@@ -1372,14 +1332,14 @@
    "channel": "The Pasta Queen"
   },
   {
-   "id": "pxfREM277YE",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "How Japanese Moms Serve Katsudon and Noodles to 300 Factory Workers at Lightning Speed",
-   "published": "2026-10-10T22:00:38Z",
+   "id": "ylCK3vIqpHY",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "The AUTHENTIC Sicilian Arancini",
+   "published": "2026-11-09T21:10:23Z",
    "state": "screen",
-   "runs": 2975,
-   "channel": "Japanese Food Noodles"
+   "runs": 89,
+   "channel": "The Pasta Queen"
   },
   {
    "id": "D5r4LapwbNQ",
@@ -1902,6 +1862,16 @@
    "channel": "Japanese Food Noodles"
   },
   {
+   "id": "6KSZy5b1P-c",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Workers Dig Into Fried Chicken Curry at a Family-Run Japanese Diner",
+   "published": "2026-11-09T22:00:37Z",
+   "state": "screen",
+   "runs": 2488,
+   "channel": "Japanese Food Noodles"
+  },
+  {
    "id": "MStMw9Bfb1A",
    "source": "japanese-cooking-101",
    "form": "short",
@@ -1950,16 +1920,6 @@
    "state": "screen",
    "runs": 1310,
    "channel": "Japanese Kitchen Tour"
-  },
-  {
-   "id": "_kETpB5Mzco",
-   "source": "food-star",
-   "form": "long",
-   "title": "小麦から育てる孤高のパン屋！夜11時からはじまる有機古代小麦の薪窯パン作り",
-   "published": "2026-10-11T09:00:31Z",
-   "state": "screen",
-   "runs": 3705,
-   "channel": "FOOD☆STAR フードスター"
   },
   {
    "id": "lSdQbZMxzNY",
@@ -2162,6 +2122,16 @@
    "channel": "Japanese Food Craftsman"
   },
   {
+   "id": "Jcf6qomQSDM",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "ここ本当にカラオケ店？本格料理がすごすぎる！",
+   "published": "2026-11-10T09:15:20Z",
+   "state": "screen",
+   "runs": 35,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
    "id": "QJcFxRAQ5_k",
    "source": "bon-appetit",
    "form": "long",
@@ -2235,7 +2205,7 @@
    "id": "4D4pAvxy9lo",
    "source": "bon-appetit",
    "form": "long",
-   "title": "How a Master French Chef Makes Coq au Vin | French Fundamentals | Bon Appétit",
+   "title": "How a French Chef Makes France’s Most Famous Chicken Dish | French Fundamentals | Bon Appétit",
    "published": "2026-11-03T17:00:04Z",
    "state": "screen",
    "runs": 791,
@@ -2249,6 +2219,16 @@
    "published": "2026-11-05T17:00:07Z",
    "state": "screen",
    "runs": 1097,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "Nx2V2yC-ei4",
+   "source": "bon-appetit",
+   "form": "long",
+   "title": "The Test Kitchen Makes Their Perfect Thanksgiving Recipes | Bon Appétit",
+   "published": "2026-11-09T17:01:26Z",
+   "state": "screen",
+   "runs": 15561,
    "channel": "Bon Appétit"
   },
   {
@@ -2442,6 +2422,16 @@
    "channel": "Bon Appétit"
   },
   {
+   "id": "Fb_fZxOm-0Y",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "This Viral Restaurant Only Opens 3 Days a Week",
+   "published": "2026-11-09T16:30:02Z",
+   "state": "screen",
+   "runs": 70,
+   "channel": "Bon Appétit"
+  },
+  {
    "id": "4K5o2RRxvcQ",
    "source": "insider-food",
    "form": "short",
@@ -2489,16 +2479,6 @@
    "published": "2026-11-04T18:00:33Z",
    "state": "screen",
    "runs": 1999,
-   "channel": "Fallow"
-  },
-  {
-   "id": "5LB0l6vTWZo",
-   "source": "fallow",
-   "form": "short",
-   "title": "Make Your Herbs Last Longer",
-   "published": "2026-10-10T20:49:47Z",
-   "state": "screen",
-   "runs": 57,
    "channel": "Fallow"
   },
   {
@@ -2629,6 +2609,16 @@
    "published": "2026-11-08T18:52:26Z",
    "state": "screen",
    "runs": 66,
+   "channel": "Fallow"
+  },
+  {
+   "id": "8fyw8YQ320k",
+   "source": "fallow",
+   "form": "short",
+   "title": "40 Clove Garlic Chicken",
+   "published": "2026-11-09T16:04:53Z",
+   "state": "screen",
+   "runs": 172,
    "channel": "Fallow"
   },
   {
@@ -2802,13 +2792,13 @@
    "channel": "Eater"
   },
   {
-   "id": "0mcUrodl0tM",
+   "id": "thCq1oJ7whQ",
    "source": "eater",
-   "form": "short",
-   "title": "Ben Affleck and Kerry Washington share hot takes on their favorite LA restaurants #food #losangeles",
-   "published": "2026-10-10T13:00:18Z",
+   "form": "long",
+   "title": "The Indian Restaurant Reinventing Butter Chicken — Mise En Place",
+   "published": "2026-11-09T15:00:30Z",
    "state": "screen",
-   "runs": 168,
+   "runs": 1108,
    "channel": "Eater"
   },
   {
@@ -3260,6 +3250,16 @@
    "state": "screen",
    "runs": 38,
    "channel": "JOLLY"
+  },
+  {
+   "id": "j7i2dzJQ1rc",
+   "source": "jolly",
+   "form": "short",
+   "title": "British Grandparents can’t comprehend Meat Loaf!",
+   "published": "2026-11-09T20:42:28Z",
+   "state": "screen",
+   "runs": 68,
+   "channel": "JOLLY"
   }
  ],
  "covered": {
@@ -3267,13 +3267,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3281,13 +3281,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3295,13 +3295,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3309,13 +3309,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3323,13 +3323,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3337,13 +3337,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3351,13 +3351,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3365,13 +3365,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3379,13 +3379,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3393,13 +3393,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3407,13 +3407,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3421,13 +3421,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3435,13 +3435,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3449,13 +3449,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3463,13 +3463,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3477,13 +3477,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3491,13 +3491,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3505,13 +3505,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3519,13 +3519,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3533,13 +3533,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3547,13 +3547,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3561,13 +3561,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3575,13 +3575,13 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   },
@@ -3589,16 +3589,16 @@
    "long": [
     [
      "2026-07-25T11:00:12Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ],
    "short": [
     [
      "2026-10-05T22:56:49Z",
-     "2026-11-09T12:21:44Z"
+     "2026-11-10T12:22:13Z"
     ]
    ]
   }
  },
- "set": "2026-11-09T12:21Z"
+ "set": "2026-11-10T12:22Z"
 }
