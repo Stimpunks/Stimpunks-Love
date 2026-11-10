@@ -1641,7 +1641,22 @@ function start() {
       scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = 'none'; });
       scene = new THREE.Scene(); far = []; hits = []; buckets = {};
       var name = room.name || (door ? door.room || door.name : page);
-      var made = room.build(kit(page, name));
+      var k = kit(page, name);
+      var made = room.build(k);
+      // A room with a basket of wings (Helen Edgar's yurt, 2026-11-09) lends a
+      // pair while you are in it: a row under the room's own switches, None
+      // first. The pair goes with your place to the radio (spotTell), and back
+      // in the basket when you leave (leave); it is kept in no storage.
+      wornWings = null;
+      if (Array.isArray(made.wings) && made.wings.length) {
+        var pairs = made.wings.filter(function (w) { return typeof w === 'string'; });
+        k.choose({ label: 'Borrow a pair of wings', choices: ['None'].concat(pairs.map(function (w) { return wingName(w) + ' wings'; })), start: 0,
+          pick: function (i) {
+            wornWings = i > 0 ? pairs[i - 1] : null;
+            spotTell();
+            return wornWings ? 'You are wearing ' + wingName(wornWings).toLowerCase() + ' wings, for anybody in the room who sees your figure; they go back in the basket when you leave.' : 'The wings are back in the basket.';
+          } });
+      }
       bake();
       inside = { page: page, name: name, vr: !!made.vr };
       stops = made.stops; bounds = made.bounds;
@@ -1691,7 +1706,7 @@ function start() {
     });
     var was = behind.pop();
     scene = was.scene; far = was.far; stops = was.stops; bounds = was.bounds; hits = was.hits; me = was.me;
-    inside = was.inside; glide = null; held = {};
+    inside = was.inside; glide = null; held = {}; wornWings = null;
     // The room you came back into shows its own page again.
     scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = ''; });
     wayOut(); places(); roomCtl(); vrOffer(); radioRoom();
@@ -2314,7 +2329,7 @@ function start() {
   // and its clothes as blocks of their own colours, every colour read by name
   // out of avatar.js's own tables. Nothing here is fetched or kept: the list
   // is the radio's, and it goes when you leave the room.
-  var folkGroup = null, folkList = null, spotSaid = '';
+  var folkGroup = null, folkList = null, spotSaid = '', wornWings = null;
   // The place you are at: the nearest by distance alone, so a headset's free
   // walking still counts, and none when you are far from any.
   function spotOf() {
@@ -2324,10 +2339,10 @@ function start() {
   }
   function spotTell() {
     var i = inside ? spotOf() : -1;
-    var key = inside ? inside.page + ':' + i : '';
+    var key = inside ? inside.page + ':' + i + ':' + (wornWings || '') : '';
     if (key === spotSaid) return;
     spotSaid = key;
-    window.dispatchEvent(new CustomEvent('love-cel-spot', { detail: inside && i >= 0 ? { room: inside.page.replace(/\.html$/, ''), spot: i } : null }));
+    window.dispatchEvent(new CustomEvent('love-cel-spot', { detail: inside && i >= 0 ? { room: inside.page.replace(/\.html$/, ''), spot: i, wings: wornWings } : null }));
   }
   function folkClear() {
     if (!folkGroup) return;
@@ -2353,6 +2368,40 @@ function start() {
   var WIDTH = { narrow: 0.34, middling: 0.4, broad: 0.46 };
   var DEPTH = { flat: 0.18, soft: 0.22, round: 0.26, big: 0.32 };
   var HIPS = { narrow: 0.3, middling: 0.36, wide: 0.42 };
+  // The four pairs are real wings (Helen's ask, 2026-11-09: "real butterfly
+  // and moth wings"): photographs with their backgrounds cut away, the same
+  // files the yurt's basket shows and credits (faery-yurt/), each on one flat
+  // plane across the shoulders, angled back a little, drawn as the picture it
+  // is and never painted or inked (a material with a map is never painted).
+  // Loaded once each through three.js's own image loader, only when a figure
+  // first wears the pair.
+  var WING_NAMES = { moth: 'Moth', monarch: 'Monarch', lady: 'American lady', fritillary: 'Fritillary' };
+  function wingName(w) { return WING_NAMES[w] || (w.charAt(0).toUpperCase() + w.slice(1)); }
+  var WING_FILES = { moth: 'faery-yurt/moth.png', monarch: 'faery-yurt/wings-monarch.png', lady: 'faery-yurt/wings-lady.png', fritillary: 'faery-yurt/wings-fritillary.png' };
+  var wingTex = {};
+  function wingPicture(pair) {
+    if (!wingTex[pair]) {
+      var t = new THREE.TextureLoader().load(WING_FILES[pair], function () { draw(); });
+      t.colorSpace = THREE.SRGBColorSpace;
+      wingTex[pair] = t;
+    }
+    return wingTex[pair];
+  }
+  function wingsOf(pair, g, sw, sd, y) {
+    var w = 0.9, h = 0.62;
+    var mat = new THREE.MeshBasicMaterial({ map: wingPicture(pair), transparent: true, alphaTest: 0.2, side: THREE.DoubleSide, depthWrite: false });
+    var mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
+    mesh.matrixAutoUpdate = false;
+    mesh.matrix.copy(at(0, y + 0.12, sd / 2 + 0.05, -0.18, 0, 0));
+    g.add(mesh);
+  }
+  var WINGS = {
+    moth: function (g, sw, sd, y) { wingsOf('moth', g, sw, sd, y); },
+    monarch: function (g, sw, sd, y) { wingsOf('monarch', g, sw, sd, y); },
+    lady: function (g, sw, sd, y) { wingsOf('lady', g, sw, sd, y); },
+    fritillary: function (g, sw, sd, y) { wingsOf('fritillary', g, sw, sd, y); }
+  };
+
   function figureOf(who) {
     var A = window.loveAvatar && window.loveAvatar.data, look = who.look;
     if (!A || !look) return null;
@@ -2404,6 +2453,10 @@ function start() {
       figurePart(g, new THREE.BoxGeometry(0.11, armH, 0.11), sleeve, at(ax, torsoY + torsoH - armH / 2, seated ? -0.04 : 0));
       figurePart(g, new THREE.BoxGeometry(0.1, 0.1, 0.1), skin, at(ax, torsoY + torsoH - armH - 0.04, seated ? -0.04 : 0));
     });
+    // A pair of wings borrowed from a room's basket (Helen's yurt): a real
+    // moth or butterfly, a photograph across the shoulders, angled back.
+    // Nothing of them moves.
+    if (WINGS[who.wings]) WINGS[who.wings](g, sw, sd, torsoY + torsoH * 0.78);
     // Head, face (the eyes and the mouth in ink, so every face reads at a
     // distance), hair, hat, glasses, mask.
     var headY = torsoY + torsoH + 0.18, faceZ = -0.13;

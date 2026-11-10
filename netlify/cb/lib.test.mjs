@@ -53,7 +53,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   setAvatarsShown, avatarsShown, shownAvatars,
   CHIMERA, CHIMERA_KEEP, cleanChimera, readChimeras, keepChimera, editChimera, removeChimera, forgetChimeras, setChimerasShown, chimerasShown, shownChimeras, chimeraSticker, shapeChimeraSticker, shape as shapeMessages,
   CHIMERA_SAYINGS, CHIMERA_SAYING_MAX, cleanChimeraSayings, cleanFamiliar, showFamiliar, familiarOut, withFamiliars, shapeChimera,
-  cleanCelSpot, showCelFolk, withCelFolk, CEL_SPOTS,
+  cleanCelSpot, showCelFolk, withCelFolk, CEL_SPOTS, CEL_WINGS,
   QUEST_IDS, questIds, readJobs, keepJobs, forgetJobs, setJobsShown, jobsShown, shownJobs,
   CRYSTAL_IDS, crystalId, readCrystals, pouchCrystal, forgetCrystals, setCrystalsShown, crystalsShown, shownCrystals,
   HERB_IDS, herbId, readHerbs, basketHerb, forgetHerbs, setHerbsShown, herbsShown, shownHerbs,
@@ -2748,6 +2748,9 @@ test('a 3D figure is seen only in its own room, beside a claimed name wearing an
   assert.equal(cleanCelSpot({ room: 'faery-yurt', spot: 1.5 }), null, 'a position, not a place');
   assert.equal(cleanCelSpot({ room: 'not a room!', spot: 1 }), null);
   assert.deepEqual(Object.keys(cleanCelSpot({ room: 'faery-yurt', spot: 2, x: 3, when: 9 })).sort(), ['room', 'spot'], 'kept something more');
+  assert.deepEqual(cleanCelSpot({ room: 'faery-yurt', spot: 2, wings: 'moth' }), { room: 'faery-yurt', spot: 2, wings: 'moth' }, 'borrowed wings dropped');
+  assert.deepEqual(cleanCelSpot({ room: 'faery-yurt', spot: 2, wings: 'bat' }), { room: 'faery-yurt', spot: 2 }, 'a pair the basket has not');
+  assert.ok(CEL_WINGS.every((w) => /^[a-z]+$/.test(w)));
   await claimAccount('Ada', 'a long enough phrase', s, 9, null);
   const pk = petKey('Ada');
   const people = [{ handle: 'Ada', claimed: true }, { handle: 'Bex', claimed: false }];
@@ -2761,6 +2764,11 @@ test('a 3D figure is seen only in its own room, beside a claimed name wearing an
   assert.equal((await withCelFolk(people, 'the-den', s))[0].cel, undefined, 'seen in another room');
   assert.equal((await withCelFolk([{ handle: 'Ada', claimed: false }], 'faery-yurt', s))[0].cel, undefined, 'beside an unclaimed name');
   assert.deepEqual(Object.keys((await s.get('cel-folk', { type: 'json' })).out[pk]).sort(), ['room', 'spot'], 'the record kept something more');
+  await showCelFolk(pk, { room: 'faery-yurt', spot: 3, wings: 'lady' }, s);
+  assert.deepEqual((await withCelFolk(people, 'faery-yurt', s))[0].cel, { spot: 3, wings: 'lady', look: a.look }, 'wings do not reach the room');
+  assert.deepEqual(Object.keys((await s.get('cel-folk', { type: 'json' })).out[pk]).sort(), ['room', 'spot', 'wings'], 'the record kept something beside the wings');
+  await showCelFolk(pk, { room: 'faery-yurt', spot: 3 }, s);
+  assert.deepEqual((await withCelFolk(people, 'faery-yurt', s))[0].cel, { spot: 3, look: a.look }, 'wings given back are still worn');
   await showCelFolk(pk, null, s);
   assert.equal((await withCelFolk(people, 'faery-yurt', s))[0].cel, undefined, 'gone and still seen');
   await showCelFolk(pk, { room: 'faery-yurt', spot: 1 }, s);

@@ -71,8 +71,21 @@
         <circle class="crown-light" cx="124" cy="80" r="2.2" fill="#E9C874" style="animation-delay:2.1s"/>
       </svg>
     </div>
+    <!-- Over the crown, and outside it, because the share card lifts the crown's
+         own drawing: tonight's moon in its lit ring (yurt-moon.js draws the dark
+         part) and one real moth at the lantern, a photograph by Fir0002 (CC BY-SA
+         3.0, via Wikimedia Commons, cut from its background by its uploader,
+         resized here with no metadata), credited under the name below. The moth
+         flutters at MAX only, by a translate, and rests on the ring otherwise. -->
+    <div class="crown-sky" aria-hidden="true">
+      <svg viewBox="0 0 200 110" fill="none">
+        <g data-crown-moon><path class="crown-moon__shade" d="" fill="#3A2A20" opacity="0"/></g>
+        <g class="crown-moth"><image href="faery-yurt/moth.png" x="-16" y="-12" width="32" height="25" preserveAspectRatio="xMidYMid meet"/></g>
+      </svg>
+    </div>
     <p class="eyebrow">a yurt in <a href="campgrounds.html">the campgrounds</a></p>
     <h1>Faery Yurt</h1>
+    <p class="yurt-moon" data-yurt-moon hidden></p>
     <p class="yurt-tagline">Helen&rsquo;s candlelit yurt on Stimpunks.World, pitched at the edge of the woods. Lots of books, music, Faeries, candle light and weird thoughts and happenings.....</p>
   </header>
 
@@ -96,7 +109,7 @@
         <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
       </div>
       <p class="dial__note" aria-live="polite"></p>
-      <p class="dial__fine">Starts wherever your device says. In here MAX lights the fairy lights and turns the record, and makes the stars sparkle behind any portal door you open and the amber and amethyst glow in the Alchemist&rsquo;s Arch; nothing else in the yurt moves unless you ask it to, below.</p>
+      <p class="dial__fine">Starts wherever your device says. In here MAX lights the fairy lights and turns the record, turns Gibbles&rsquo; wheel, brings one moth to the lantern under the crown, flutters the wings in the basket by the door, silvers the lights on the night of a full moon, and makes the amber and amethyst glow in the Alchemist&rsquo;s Arch; nothing else in the yurt moves unless you ask it to, below.</p>
     </div>
     <!-- Join the Faeries and Grow a garden, Helen's ask, 2026-10-14: two switches,
          off until pressed and then at every setting, written by yurt-garden.js.
@@ -108,6 +121,119 @@
       </div>
       <p class="yurt-magic__note">Faeries drifting across the page, and ivy and mushrooms growing very slowly round its edges. Each stays still until you press it, whatever the dial says, and pressing again clears it. Nothing flashes, and nothing is remembered: next time both are off.</p>
       <p class="sr" role="status" aria-live="polite" data-yurt-magic-says></p>
+    </div>
+  </section>
+
+  <!-- IN THE YURT: a contents list (Helen's review, 2026-11-09), one line per
+       section below, in page order. A new section needs a line here too. -->
+  <nav class="yurt-contents" aria-labelledby="yurt-contents-h">
+    <h2 id="yurt-contents-h">In the yurt</h2>
+    <ul class="yurt-contents__list">
+      <li><a href="#by-the-door">By the door</a></li>
+      <li><a href="#myths">Myths &amp; Legends</a></li>
+      <li><a href="#bookshelf">The Bookshelf</a></li>
+      <li><a href="#soundtrack">The Soundtrack</a></li>
+      <li><a href="#cinema">The Cinema</a></li>
+      <li><a href="#art-gallery">The Art Gallery</a></li>
+      <li><a href="#glimmer-window">The Glimmer Window</a></li>
+      <li><a href="#glow-wild">Glow Wild Hollow</a></li>
+      <li><a href="#play-pod">The Play Pod</a></li>
+      <li><a href="#looking-glass">The Looking-Glass</a></li>
+      <li><a href="#regulation-nook">The Regulation Nook</a></li>
+      <li><a href="#who-lives-here">Who Else Lives Here</a></li>
+      <li><a href="#small-odd-things">Small odd things</a></li>
+      <li><a href="#moon-calendar">The Moon Calendar</a></li>
+      <li><a href="#yurt-pictures">The pictures in this yurt</a></li>
+      <li><a href="#pebbles-h">Pebbles by the door</a></li>
+      <li><a href="#moon-spoon-h">The Moon Spoon Pebbling Pot</a></li>
+      <li><a href="#where-to-find-me">Where To Find Me</a></li>
+    </ul>
+  </nav>
+
+  <!-- BY THE DOOR. Helen Edgar's asks, 2026-11-09, out of a list of faery
+       things: a bell string on the door, a basket of wings to borrow, and a
+       saucer of milk on the step. The bell is yurt-bell.js (a chime made of
+       arithmetic under its ceiling, rung only by a press, at every setting);
+       the wings (real ones, photographs) are borrowed at the door of the yurt on Cel
+       Street and come off when you leave, kept nowhere; the saucer is drawn and never moves. The
+       brownie's house rule is written in the yurt's voice and is Helen's to
+       change. -->
+  <section class="hearth-card yurt-door" aria-labelledby="by-the-door">
+    <h2 id="by-the-door">By the door</h2>
+    <div class="yurt-door__row">
+      <div class="yurt-door__thing yurt-bell" data-yurt-bell>
+        <svg class="yurt-bell__art" viewBox="0 0 120 180" aria-hidden="true" focusable="false">
+          <line x1="60" y1="0" x2="60" y2="14" stroke="#A4907B" stroke-width="2.5" stroke-dasharray="3 4"/>
+          <g class="yurt-bell__swing">
+            <line x1="60" y1="14" x2="60" y2="52" stroke="#A4907B" stroke-width="2.5" stroke-dasharray="3 4"/>
+            <path d="M44 52 C44 40 76 40 76 52 L80 96 C80 102 40 102 40 96 Z" fill="#E0904A" stroke="#4A372B" stroke-width="2"/>
+            <path d="M50 56 C52 48 68 48 70 56" fill="none" stroke="#F2B673" stroke-width="2" opacity=".8"/>
+            <ellipse cx="60" cy="100" rx="22" ry="5" fill="#4A372B"/>
+            <circle class="yurt-bell__clapper" cx="60" cy="108" r="6" fill="#E9C874" stroke="#4A372B" stroke-width="1.5"/>
+            <line x1="60" y1="102" x2="60" y2="140" stroke="#A4907B" stroke-width="2"/>
+            <path d="M52 140 C52 150 68 150 68 140 L66 168 C66 172 54 172 54 168 Z" fill="#6D8A56" stroke="#38491F" stroke-width="1.5"/>
+          </g>
+          <path class="yurt-bell__ring1" d="M28 70 C20 78 20 90 28 98" fill="none" stroke="#E9C874" stroke-width="2" stroke-linecap="round" opacity="0"/>
+          <path class="yurt-bell__ring2" d="M92 70 C100 78 100 90 92 98" fill="none" stroke="#E9C874" stroke-width="2" stroke-linecap="round" opacity="0"/>
+        </svg>
+        <h3 id="a-bell-string">A bell string</h3>
+        <p>A little brass bell on a cord by the door flap. Ring it and the yurt knows you are here. It never rings by itself, and the chime is made of arithmetic, quiet under the same ceiling as everything else that sounds in here.</p>
+        <button type="button" class="yurt-magic__btn yurt-bell__ring" data-yurt-bell-ring hidden>Ring the bell</button>
+        <p class="yurt-bell__said" data-yurt-bell-said aria-live="polite"></p>
+      </div>
+      <div class="yurt-door__thing yurt-wings" data-yurt-wings>
+        <svg class="yurt-wings__art" viewBox="0 0 160 150" aria-hidden="true" focusable="false">
+          <path d="M20 90 C24 130 136 130 140 90 L130 140 L30 140 Z" fill="#5A4433" stroke="#3A2A20" stroke-width="2"/>
+          <path d="M22 92 h116" stroke="#A4907B" stroke-width="2" stroke-dasharray="4 3"/>
+          <path d="M34 120 h92 M30 132 h100" stroke="#3A2A20" stroke-width="1.5" opacity=".6"/>
+          <image data-wings="moth" href="faery-yurt/moth.png" x="30" y="48" width="58" height="45" preserveAspectRatio="xMidYMid meet"/>
+          <image data-wings="monarch" href="faery-yurt/wings-monarch.png" x="86" y="40" width="60" height="40" preserveAspectRatio="xMidYMid meet"/>
+          <image data-wings="lady" href="faery-yurt/wings-lady.png" x="24" y="84" width="56" height="37" preserveAspectRatio="xMidYMid meet"/>
+          <image data-wings="fritillary" href="faery-yurt/wings-fritillary.png" x="92" y="78" width="56" height="38" preserveAspectRatio="xMidYMid meet"/>
+        </svg>
+        <h3 id="a-basket-of-wings">A basket of wings</h3>
+        <p>Borrow a pair while you are in the yurt, real ones: a moth&rsquo;s, tawny with an eye on each wing; a monarch&rsquo;s, orange and black; an American lady&rsquo;s, with her eyespots underneath; or a fritillary&rsquo;s, chequered brown and gold. They are borrowed at the door of the yurt on <a href="cel-street.html#in=faery-yurt">Cel Street</a>, where your figure wears them for anybody in the room, and they go back in the basket when you leave. Nothing is written down about who borrowed which.</p>
+        <button type="button" class="yurt-magic__btn yurt-wings__let" data-yurt-wings-let hidden>Let the wings flutter</button>
+        <p class="yurt-bell__said" data-yurt-wings-said aria-live="polite"></p>
+        </div>
+      <div class="yurt-door__thing yurt-saucer" data-yurt-saucer>
+        <svg class="yurt-saucer__art" viewBox="0 0 160 110" aria-hidden="true" focusable="false">
+          <defs><clipPath id="yurt-saucer-milk"><ellipse cx="80" cy="76" rx="36" ry="8"/></clipPath></defs>
+          <path d="M0 96 H160 V110 H0 Z" fill="#3A2A20"/>
+          <path d="M0 96 C40 84 120 84 160 96" fill="#4A372B"/>
+          <ellipse cx="80" cy="78" rx="46" ry="12" fill="#C2AC91" stroke="#A4907B" stroke-width="2"/>
+          <ellipse class="yurt-saucer__milk" cx="80" cy="76" rx="36" ry="8" fill="#F2E6D4"/>
+          <g class="yurt-saucer__rings" clip-path="url(#yurt-saucer-milk)" fill="none">
+            <ellipse class="yurt-saucer__ring" cx="80" cy="76" rx="6" ry="1.4" stroke="#A4907B" stroke-width="2" opacity="0"/>
+            <ellipse class="yurt-saucer__ring" cx="80" cy="76" rx="6" ry="1.4" stroke="#C2AC91" stroke-width="1.6" opacity="0"/>
+            <ellipse class="yurt-saucer__ring" cx="80" cy="76" rx="6" ry="1.4" stroke="#A4907B" stroke-width="2" opacity="0"/>
+            <ellipse class="yurt-saucer__ring" cx="80" cy="76" rx="6" ry="1.4" stroke="#C2AC91" stroke-width="1.6" opacity="0"/>
+          </g>
+          <!-- The spoon (Helen's ask, 2026-11-09): a wooden spoon standing in the milk, its bowl on the
+               surface and its handle leaning out. Stir the milk takes the bowl twice round the saucer,
+               the handle swinging with it, and the drops fly up off it and fall back. -->
+          <g class="yurt-saucer__spoon">
+            <path d="M94 76 L126 34" stroke="#3A2A20" stroke-width="6" stroke-linecap="round"/>
+            <path d="M94 76 L126 34" stroke="#C2AC91" stroke-width="3.6" stroke-linecap="round"/>
+            <ellipse cx="94" cy="76" rx="6.5" ry="3.4" fill="#C2AC91" stroke="#3A2A20" stroke-width="1.6"/>
+          </g>
+          <g class="yurt-saucer__drops" fill="#F2E6D4" stroke="#A4907B" stroke-width=".6">
+            <circle class="yurt-saucer__drop" cx="88" cy="72" r="2.2" opacity="0" style="--sx:-18px;--sy:-22px"/>
+            <circle class="yurt-saucer__drop" cx="96" cy="72" r="1.7" opacity="0" style="--sx:16px;--sy:-26px"/>
+            <circle class="yurt-saucer__drop" cx="80" cy="72" r="2" opacity="0" style="--sx:-4px;--sy:-30px"/>
+            <circle class="yurt-saucer__drop" cx="100" cy="74" r="1.5" opacity="0" style="--sx:24px;--sy:-16px"/>
+            <circle class="yurt-saucer__drop" cx="70" cy="74" r="1.8" opacity="0" style="--sx:-26px;--sy:-14px"/>
+            <circle class="yurt-saucer__drop" cx="84" cy="70" r="1.4" opacity="0" style="--sx:8px;--sy:-34px"/>
+          </g>
+          <path d="M34 78 C34 86 126 86 126 78" fill="none" stroke="#A4907B" stroke-width="2"/>
+          <path d="M120 40 l3 8 8 1 -6 5 2 8 -7 -4 -7 4 2 -8 -6 -5 8 -1 z" fill="#E9C874" opacity=".8"/>
+          <path d="M28 30 l2 5 5 1 -4 3 1 5 -4 -3 -4 3 1 -5 -4 -3 5 -1 z" fill="#E9C874" opacity=".6"/>
+        </svg>
+        <h3 id="a-saucer-of-milk-on-the-step">A saucer of milk on the step</h3>
+        <p>For the brownie, who does the sweeping while nobody is looking. The house rule: a saucer of milk or a bit of bread and honey goes on the step at night, and that is all. Nobody thanks them out loud, nobody leaves them new clothes, and nobody watches for them, because every one of those is how a brownie leaves. If the saucer is empty in the morning, that is the cats, and the brownie had some too.</p>
+        <button type="button" class="yurt-magic__btn yurt-saucer__stir" data-yurt-saucer-stir hidden>Stir the milk</button>
+        <p class="yurt-bell__said" data-yurt-saucer-said aria-live="polite"></p>
+      </div>
     </div>
   </section>
 
@@ -129,15 +255,7 @@
           <clipPath id="ya-way"><path d="M70 330 V150 Q70 64 150 60 Q230 64 230 150 V330 Z"/></clipPath>
         </defs>
         <g clip-path="url(#ya-way)">
-          <rect x="60" y="50" width="180" height="280" fill="url(#ya-dawn)"/>
-          <circle class="yurt-arch__glow" cx="190" cy="236" r="44" fill="var(--myth-amber-2)" opacity=".4"/>
-          <circle cx="190" cy="238" r="12" fill="var(--myth-amber-2)"/>
-          <path d="M60 248 Q120 234 170 240 Q210 244 240 238 V330 H60 Z" fill="var(--rdr-timber)"/>
-          <g fill="var(--rdr-stone)">
-            <rect x="96" y="214" width="9" height="28"/><rect x="109" y="212" width="9" height="30"/><rect x="94" y="208" width="26" height="6"/>
-            <rect x="130" y="208" width="10" height="34"/><rect x="146" y="208" width="10" height="34"/><rect x="128" y="201" width="30" height="8"/>
-            <rect x="166" y="216" width="8" height="26"/><path d="M200 246 L203 226 L210 224 L212 246 Z"/>
-          </g>
+          <image href="faery-yurt/stonehenge-sunset.jpg" x="60" y="50" width="180" height="280" preserveAspectRatio="xMidYMid slice"/>
         </g>
         <path d="M40 330 V146 Q40 34 150 30 Q260 34 260 146 V330 H230 V150 Q230 64 150 60 Q70 64 70 150 V330 Z" fill="var(--myth-chalk)" opacity=".34"/>
         <path d="M40 330 V146 Q40 34 150 30 Q260 34 260 146 V330" fill="none" stroke="var(--candle)" stroke-width="1.8" opacity=".5"/>
@@ -251,10 +369,13 @@
     <div class="yurt-portal yurt-portal--reading">
       <div class="yurt-portal__door">
       <input type="checkbox" id="portal-reading" class="yurt-portal__check">
+      <!-- The space behind these doors is a photograph of Orion since 2026-11-09, Helen's ask ("use real
+           night sky photo with stars"): by Igor da Bari, CC BY 4.0, via Wikimedia Commons, resized here with
+           no metadata and nothing drawn over it. Credited below the doors. -->
       <label for="portal-reading" class="yurt-portal__frame">
         <span class="sr">Open the doors to the Reading Room</span>
         <span class="yurt-portal__sash">
-          <svg class="yurt-portal__space" viewBox="0 0 300 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><defs><linearGradient id="yp-reading-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#151233"/><stop offset=".6" stop-color="#241A3C"/><stop offset="1" stop-color="#2E2140"/></linearGradient></defs><rect width="300" height="340" fill="url(#yp-reading-sky)"/><circle cx="274.1" cy="265.8" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="176.9" cy="121.0" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="42.0" cy="57.0" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="68.5" cy="129.6" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="29.0" cy="200.0" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="153.7" cy="206.6" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="64.0" cy="13.7" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="185.3" cy="271.9" r="1.0" fill="#F2E6D4" opacity="0.85"/><circle cx="286.8" cy="81.6" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="241.8" cy="53.0" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="201.3" cy="49.1" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="200.6" cy="147.5" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="28.0" cy="121.6" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="278.5" cy="81.4" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="35.8" cy="252.4" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="265.2" cy="129.5" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="47.7" cy="175.0" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="73.5" cy="154.6" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="280.1" cy="50.2" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="188.2" cy="112.6" r="0.8" fill="#F2E6D4" opacity="0.7"/><circle cx="204.7" cy="272.8" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="222.7" cy="99.5" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="60.4" cy="24.9" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="224.4" cy="130.7" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="30.8" cy="157.5" r="0.8" fill="#F2E6D4" opacity="0.7"/><circle cx="77.9" cy="120.4" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="226.5" cy="185.2" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="265.4" cy="193.8" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="206.4" cy="233.0" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="128.1" cy="86.5" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="245.3" cy="33.9" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="285.8" cy="205.1" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="52.3" cy="186.3" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="72.6" cy="158.8" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="292.6" cy="79.1" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="10.9" cy="268.0" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="235.7" cy="12.3" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="282.8" cy="119.9" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="178.4" cy="277.8" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="157.6" cy="86.2" r="0.6" fill="#F2E6D4" opacity="0.7"/><circle cx="260.0" cy="242.3" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="230.9" cy="189.8" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="89.2" cy="92.2" r="1.0" fill="#F2E6D4" opacity="0.85"/><circle cx="83.9" cy="260.7" r="0.8" fill="#F2E6D4" opacity="1"/><circle cx="16.5" cy="248.8" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="161.3" cy="194.7" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="264.8" cy="276.7" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="36.2" cy="131.7" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="169.3" cy="126.0" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="232.6" cy="34.7" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="16.5" cy="226.8" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="109.8" cy="44.5" r="0.6" fill="#F2E6D4" opacity="0.7"/><circle cx="219.6" cy="113.2" r="1.0" fill="#F2E6D4" opacity="0.85"/><circle cx="291.9" cy="176.4" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="16.0" cy="37.2" r="0.8" fill="#F2E6D4" opacity="0.55"/><circle cx="43.7" cy="192.5" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="265.8" cy="85.4" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="180.0" cy="167.2" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="43.2" cy="29.5" r="0.8" fill="#F2E6D4" opacity="0.7"/><circle cx="286.4" cy="277.8" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="159.7" cy="241.1" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="159.2" cy="64.6" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="137.3" cy="186.1" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="115.0" cy="217.6" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="119.4" cy="203.9" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="65.5" cy="116.3" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="96.2" cy="122.0" r="0.8" fill="#F2E6D4" opacity="1"/><circle cx="111.0" cy="267.6" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="134.1" cy="51.8" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="286.5" cy="152.0" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="241.6" cy="54.1" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="197.0" cy="122.7" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="249.3" cy="112.0" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="20.7" cy="13.4" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="288.6" cy="208.4" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="45.9" cy="275.6" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="162.4" cy="37.5" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="142.2" cy="44.2" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="185.2" cy="211.1" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="159.2" cy="58.5" r="1.0" fill="#F2E6D4" opacity="0.85"/><path d="M236 52 A30 30 0 1 0 236 112 A23 23 0 1 1 236 52 Z" fill="#FDF3D8"/><g stroke="#E9C874" stroke-width=".9" opacity=".75" fill="none"><path d="M54 150 L98 128 L140 146 L176 120 L214 160 M140 146 L132 196 L176 214"/></g><g fill="#FDF3D8"><circle cx="54" cy="150" r="2.4"/><circle cx="98" cy="128" r="2"/><circle cx="140" cy="146" r="2.6"/><circle cx="176" cy="120" r="2"/><circle cx="214" cy="160" r="2.2"/><circle cx="132" cy="196" r="2"/><circle cx="176" cy="214" r="2.4"/></g><g class="yurt-portal__sparks"><g transform="translate(104 53) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(39 138) scale(1)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(172 220) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(30 115) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(83 141) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(235 47) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(184 148) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(170 107) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(32 209) scale(1)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g></g></svg>
+          <svg class="yurt-portal__space" viewBox="0 0 300 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><image href="faery-yurt/orion.jpg" x="0" y="0" width="300" height="340" preserveAspectRatio="xMidYMid slice"/></svg>
         </span>
         <span class="yurt-portal__shutter yurt-portal__shutter--l" aria-hidden="true" data-low-cover></span>
         <span class="yurt-portal__shutter yurt-portal__shutter--r" aria-hidden="true" data-low-cover></span>
@@ -633,10 +754,13 @@
     <div class="yurt-portal yurt-portal--music">
       <div class="yurt-portal__door">
       <input type="checkbox" id="portal-music" class="yurt-portal__check">
+      <!-- The space behind these doors is a photograph of the Milky Way since 2026-11-09, Helen's ask
+           ("photo of real galaxy and milky way here"): by Steve Jurvetson, CC BY 2.0, via Wikimedia
+           Commons, resized here with no metadata and nothing drawn over it. Credited below the doors. -->
       <label for="portal-music" class="yurt-portal__frame">
         <span class="sr">Open the doors to the Music Room</span>
         <span class="yurt-portal__sash">
-          <svg class="yurt-portal__space" viewBox="0 0 300 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><defs><radialGradient id="yp-music-neb" cx="62%" cy="38%" r="60%"><stop offset="0" stop-color="#8A6088" stop-opacity=".9"/><stop offset=".45" stop-color="#5A3D63" stop-opacity=".6"/><stop offset="1" stop-color="#151233" stop-opacity="0"/></radialGradient><radialGradient id="yp-music-planet" cx="35%" cy="35%" r="70%"><stop offset="0" stop-color="#C9A7E0"/><stop offset="1" stop-color="#5A3D63"/></radialGradient></defs><rect width="300" height="340" fill="#151233"/><rect width="300" height="340" fill="url(#yp-music-neb)"/><circle cx="136.1" cy="158.5" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="152.3" cy="166.1" r="0.8" fill="#F2E6D4" opacity="1"/><circle cx="187.9" cy="222.9" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="92.6" cy="29.0" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="285.7" cy="184.5" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="186.0" cy="233.5" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="14.4" cy="246.8" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="231.2" cy="94.1" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="155.6" cy="180.7" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="197.4" cy="130.2" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="295.3" cy="278.8" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="96.1" cy="67.4" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="24.5" cy="215.5" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="251.2" cy="110.7" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="66.3" cy="259.9" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="113.6" cy="199.7" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="169.3" cy="58.8" r="1.0" fill="#F2E6D4" opacity="0.85"/><circle cx="29.4" cy="95.8" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="43.3" cy="199.1" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="139.8" cy="138.4" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="134.6" cy="56.6" r="0.8" fill="#F2E6D4" opacity="1"/><circle cx="192.0" cy="36.2" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="4.1" cy="242.6" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="295.4" cy="9.4" r="0.8" fill="#F2E6D4" opacity="1"/><circle cx="294.8" cy="170.2" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="16.3" cy="44.4" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="6.8" cy="172.5" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="25.4" cy="28.9" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="8.5" cy="105.8" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="41.1" cy="166.1" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="257.0" cy="54.5" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="269.3" cy="229.7" r="0.8" fill="#F2E6D4" opacity="0.7"/><circle cx="50.3" cy="177.6" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="204.6" cy="111.1" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="127.1" cy="32.7" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="73.6" cy="198.5" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="244.5" cy="168.6" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="275.3" cy="273.7" r="0.8" fill="#F2E6D4" opacity="0.7"/><circle cx="144.0" cy="184.4" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="85.8" cy="257.2" r="0.8" fill="#F2E6D4" opacity="0.55"/><circle cx="24.2" cy="117.6" r="0.8" fill="#F2E6D4" opacity="0.55"/><circle cx="17.6" cy="81.8" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="30.9" cy="42.2" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="195.8" cy="194.8" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="176.2" cy="258.9" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="208.7" cy="269.7" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="144.8" cy="205.6" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="295.8" cy="24.8" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="219.2" cy="252.5" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="106.7" cy="193.1" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="279.7" cy="12.4" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="186.5" cy="109.5" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="181.8" cy="26.1" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="260.9" cy="205.0" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="132.6" cy="235.4" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="94.6" cy="28.2" r="0.6" fill="#F2E6D4" opacity="0.7"/><circle cx="283.6" cy="35.2" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="78.7" cy="7.1" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="202.0" cy="59.9" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="196.7" cy="126.0" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="122.2" cy="73.2" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="261.0" cy="110.1" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="65.3" cy="41.1" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="211.7" cy="266.2" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="36.9" cy="134.1" r="0.8" fill="#F2E6D4" opacity="1"/><circle cx="115.7" cy="147.5" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="97.5" cy="232.7" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="202.1" cy="81.6" r="1.0" fill="#F2E6D4" opacity="0.85"/><circle cx="193.6" cy="159.7" r="0.8" fill="#F2E6D4" opacity="1"/><circle cx="136.8" cy="10.8" r="1.0" fill="#F2E6D4" opacity="0.7"/><ellipse cx="86" cy="236" rx="58" ry="12" fill="none" stroke="#E9C874" stroke-width="2" opacity=".8" transform="rotate(-14 86 236)"/><circle cx="86" cy="236" r="30" fill="url(#yp-music-planet)"/><path d="M28 236 A58 12 0 0 0 144 236" fill="none" stroke="#E9C874" stroke-width="2" opacity=".8" transform="rotate(-14 86 236)"/><g class="yurt-portal__sparks"><g transform="translate(182 183) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(238 191) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(189 218) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(117 211) scale(1.2)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(161 146) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(210 110) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(258 188) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(218 36) scale(1.2)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(53 20) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g></g></svg>
+          <svg class="yurt-portal__space" viewBox="0 0 300 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><image href="faery-yurt/milky-way.jpg" x="0" y="0" width="300" height="340" preserveAspectRatio="xMidYMid slice"/></svg>
         </span>
         <span class="yurt-portal__shutter yurt-portal__shutter--l" aria-hidden="true" data-low-cover></span>
         <span class="yurt-portal__shutter yurt-portal__shutter--r" aria-hidden="true" data-low-cover></span>
@@ -922,10 +1046,13 @@
     <div class="yurt-portal yurt-portal--cinema">
       <div class="yurt-portal__door">
       <input type="checkbox" id="portal-cinema" class="yurt-portal__check">
+      <!-- The space behind these doors is the Whirlpool Galaxy since 2026-11-09, Helen's ask: NASA and
+           ESA's Hubble image, public domain, via Wikimedia Commons, resized here with no metadata and
+           nothing drawn over it. Credited below the doors. -->
       <label for="portal-cinema" class="yurt-portal__frame">
         <span class="sr">Open the doors to the Cinema</span>
         <span class="yurt-portal__sash">
-          <svg class="yurt-portal__space" viewBox="0 0 300 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><defs><radialGradient id="yp-cinema-core" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FDF3D8"/><stop offset=".25" stop-color="#E9C874" stop-opacity=".9"/><stop offset=".6" stop-color="#8A6088" stop-opacity=".45"/><stop offset="1" stop-color="#151233" stop-opacity="0"/></radialGradient></defs><rect width="300" height="340" fill="#0C0E14"/><circle cx="203.1" cy="29.3" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="188.3" cy="105.9" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="290.9" cy="130.1" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="288.1" cy="120.8" r="0.8" fill="#F2E6D4" opacity="0.55"/><circle cx="30.6" cy="24.7" r="1.0" fill="#F2E6D4" opacity="0.85"/><circle cx="193.3" cy="123.3" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="190.6" cy="162.2" r="0.6" fill="#F2E6D4" opacity="0.7"/><circle cx="151.5" cy="21.4" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="24.0" cy="164.1" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="106.7" cy="48.0" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="265.8" cy="64.2" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="153.1" cy="256.9" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="86.6" cy="201.9" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="66.2" cy="174.5" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="135.1" cy="157.7" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="193.4" cy="28.3" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="106.4" cy="31.0" r="0.8" fill="#F2E6D4" opacity="0.55"/><circle cx="172.7" cy="177.4" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="142.4" cy="163.1" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="43.8" cy="34.9" r="0.8" fill="#F2E6D4" opacity="1"/><circle cx="173.3" cy="153.2" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="85.0" cy="159.5" r="0.6" fill="#F2E6D4" opacity="0.7"/><circle cx="224.2" cy="114.8" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="60.8" cy="270.8" r="0.6" fill="#F2E6D4" opacity="0.7"/><circle cx="243.9" cy="198.5" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="105.3" cy="155.8" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="251.0" cy="154.0" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="190.8" cy="266.6" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="80.0" cy="270.4" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="293.4" cy="232.3" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="258.0" cy="241.4" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="146.1" cy="22.9" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="195.0" cy="162.5" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="193.9" cy="14.2" r="0.8" fill="#F2E6D4" opacity="0.55"/><circle cx="218.4" cy="90.7" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="146.7" cy="263.0" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="201.5" cy="264.8" r="0.8" fill="#F2E6D4" opacity="0.7"/><circle cx="72.1" cy="92.1" r="0.6" fill="#F2E6D4" opacity="0.7"/><circle cx="280.1" cy="175.8" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="143.6" cy="31.3" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="164.3" cy="265.6" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="259.7" cy="135.8" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="198.6" cy="23.4" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="118.9" cy="165.6" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="126.0" cy="141.1" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="247.3" cy="164.2" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="289.2" cy="46.1" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="135.4" cy="71.8" r="0.8" fill="#F2E6D4" opacity="0.55"/><circle cx="232.8" cy="165.4" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="207.4" cy="96.7" r="0.8" fill="#F2E6D4" opacity="0.7"/><circle cx="267.2" cy="258.7" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="231.8" cy="25.7" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="17.4" cy="178.7" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="214.9" cy="74.0" r="0.8" fill="#F2E6D4" opacity="0.7"/><circle cx="147.1" cy="82.5" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="250.0" cy="168.1" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="168.4" cy="202.4" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="99.1" cy="243.9" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="158.9" cy="23.1" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="256.3" cy="115.9" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="138.1" cy="239.0" r="0.8" fill="#F2E6D4" opacity="1"/><circle cx="195.4" cy="126.7" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="31.9" cy="142.1" r="0.6" fill="#F2E6D4" opacity="0.7"/><circle cx="253.0" cy="28.7" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="15.6" cy="79.9" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="249.4" cy="245.4" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="21.8" cy="156.4" r="0.8" fill="#F2E6D4" opacity="0.55"/><circle cx="122.4" cy="225.6" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="104.6" cy="260.3" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="227.4" cy="59.1" r="1.6" fill="#F2E6D4" opacity="1"/><g transform="translate(150 160) rotate(-24) scale(1 .5)"><ellipse rx="120" ry="120" fill="url(#yp-cinema-core)" opacity=".75"/><path d="M8.0 0.0 L11.7 3.4 L13.9 8.7 L13.7 15.3 L10.8 22.3 L4.9 28.6 L-3.6 33.0 L-14.2 34.6 L-25.8 32.6 L-37.2 26.7 L-47.1 16.7 L-54.1 3.3 L-57.0 -12.7 L-55.0 -29.9 L-47.6 -46.9 L-34.8 -61.9 L-17.3 -73.2 L3.8 -79.3 L26.9 -79.2 L50.1 -72.1 L71.4 -58.1 L88.5 -37.7 L99.6 -12.3 L103.3 16.3" fill="none" stroke="#C9A7E0" stroke-width="3" stroke-linecap="round" opacity="0.55"/><path d="M-8.0 0.0 L-11.7 -3.4 L-13.9 -8.7 L-13.7 -15.3 L-10.8 -22.3 L-4.9 -28.6 L3.6 -33.0 L14.2 -34.6 L25.8 -32.6 L37.2 -26.7 L47.1 -16.7 L54.1 -3.3 L57.0 12.7 L55.0 29.9 L47.6 46.9 L34.8 61.9 L17.3 73.2 L-3.8 79.3 L-26.9 79.2 L-50.1 72.1 L-71.4 58.1 L-88.5 37.7 L-99.6 12.3 L-103.3 -16.3" fill="none" stroke="#C9A7E0" stroke-width="3" stroke-linecap="round" opacity="0.55"/><path d="M7.5 2.7 L9.9 7.2 L10.1 12.9 L7.7 19.1 L2.5 24.7 L-5.2 28.5 L-14.7 29.8 L-25.2 27.6 L-35.4 21.8 L-44.1 12.3 L-50.0 -0.4 L-52.0 -15.4 L-49.2 -31.4 L-41.4 -47.0 L-28.6 -60.4 L-11.5 -70.1 L8.8 -74.7 L30.7 -73.2 L52.4 -65.1 L71.8 -50.5 L86.9 -30.1 L96.1 -5.1 L97.8 22.6 L91.5 50.8" fill="none" stroke="#C9A7E0" stroke-width="1.4" stroke-linecap="round" opacity="0.8"/><path d="M-7.5 -2.7 L-9.9 -7.2 L-10.1 -12.9 L-7.7 -19.1 L-2.5 -24.7 L5.2 -28.5 L14.7 -29.8 L25.2 -27.6 L35.4 -21.8 L44.1 -12.3 L50.0 0.4 L52.0 15.4 L49.2 31.4 L41.4 47.0 L28.6 60.4 L11.5 70.1 L-8.8 74.7 L-30.7 73.2 L-52.4 65.1 L-71.8 50.5 L-86.9 30.1 L-96.1 5.1 L-97.8 -22.6 L-91.5 -50.8" fill="none" stroke="#C9A7E0" stroke-width="1.4" stroke-linecap="round" opacity="0.8"/><circle r="14" fill="#FDF3D8"/></g><g class="yurt-portal__sparks"><g transform="translate(140 102) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(68 169) scale(1)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(151 218) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(107 226) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(209 57) scale(1.2)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(267 113) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(82 44) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(221 104) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(259 65) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g></g></svg>
+          <svg class="yurt-portal__space" viewBox="0 0 300 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><image href="faery-yurt/whirlpool.jpg" x="0" y="0" width="300" height="340" preserveAspectRatio="xMidYMid slice"/></svg>
         </span>
         <span class="yurt-portal__shutter yurt-portal__shutter--l" aria-hidden="true" data-low-cover></span>
         <span class="yurt-portal__shutter yurt-portal__shutter--r" aria-hidden="true" data-low-cover></span>
@@ -960,11 +1087,11 @@
       </li>
       <li class="yurt-art__hang">
         <a class="yurt-art__open" href="gallery/waterhouse-ophelia.jpg" data-art-open>
-          <span class="yurt-art__gilt"><img src="gallery/waterhouse-ophelia.jpg" width="1400" height="2384" alt="A young woman with long red hair and a white dress sits on the trunk of a willow at the edge of a pond covered in lily pads, both hands raised to a red flower in her hair, with daisies in her lap and wild roses at her feet." loading="lazy" decoding="async"></span>
+          <span class="yurt-art__gilt"><img src="gallery/waterhouse-ophelia.jpg" width="1200" height="2043" alt="A young woman with long red hair and a white dress sits on the trunk of a willow at the edge of a pond covered in lily pads, both hands raised to a red flower in her hair, with daisies in her lap and wild roses at her feet." loading="lazy" decoding="async"></span>
           <span class="yurt-art__label"><i>Ophelia</i> &middot; John William Waterhouse, 1894</span>
         </a>
         <dialog class="yurt-art__frame" aria-labelledby="yurt-art-waterhouse-ophelia">
-          <div class="yurt-art__board"><img src="gallery/waterhouse-ophelia.jpg" width="1400" height="2384" alt="A young woman with long red hair and a white dress sits on the trunk of a willow at the edge of a pond covered in lily pads, both hands raised to a red flower in her hair, with daisies in her lap and wild roses at her feet." loading="lazy" decoding="async"></div>
+          <div class="yurt-art__board"><img src="gallery/waterhouse-ophelia.jpg" width="1200" height="2043" alt="A young woman with long red hair and a white dress sits on the trunk of a willow at the edge of a pond covered in lily pads, both hands raised to a red flower in her hair, with daisies in her lap and wild roses at her feet." loading="lazy" decoding="async"></div>
           <div class="yurt-art__plate">
             <h3 class="yurt-art__title" id="yurt-art-waterhouse-ophelia">Ophelia</h3>
             <p class="yurt-art__who">John William Waterhouse, 1894.</p>
@@ -1020,11 +1147,11 @@
       </li>
       <li class="yurt-art__hang">
         <a class="yurt-art__open" href="gallery/hughes-midsummer-eve.jpg" data-art-open>
-          <span class="yurt-art__gilt"><img src="gallery/hughes-midsummer-eve.jpg" width="1400" height="2100" alt="A young woman in a gold dress and a wreath of leaves stoops forward in a dark wood, hands clasped at her knees, looking down at a crowd of tiny winged figures who carry glowing lanterns through the grass round her bare feet." loading="lazy" decoding="async"></span>
+          <span class="yurt-art__gilt"><img src="gallery/hughes-midsummer-eve.jpg" width="1200" height="1800" alt="A young woman in a gold dress and a wreath of leaves stoops forward in a dark wood, hands clasped at her knees, looking down at a crowd of tiny winged figures who carry glowing lanterns through the grass round her bare feet." loading="lazy" decoding="async"></span>
           <span class="yurt-art__label"><i>Midsummer Eve</i> &middot; Edward Robert Hughes, 1908</span>
         </a>
         <dialog class="yurt-art__frame" aria-labelledby="yurt-art-hughes-midsummer-eve">
-          <div class="yurt-art__board"><img src="gallery/hughes-midsummer-eve.jpg" width="1400" height="2100" alt="A young woman in a gold dress and a wreath of leaves stoops forward in a dark wood, hands clasped at her knees, looking down at a crowd of tiny winged figures who carry glowing lanterns through the grass round her bare feet." loading="lazy" decoding="async"></div>
+          <div class="yurt-art__board"><img src="gallery/hughes-midsummer-eve.jpg" width="1200" height="1800" alt="A young woman in a gold dress and a wreath of leaves stoops forward in a dark wood, hands clasped at her knees, looking down at a crowd of tiny winged figures who carry glowing lanterns through the grass round her bare feet." loading="lazy" decoding="async"></div>
           <div class="yurt-art__plate">
             <h3 class="yurt-art__title" id="yurt-art-hughes-midsummer-eve">Midsummer Eve</h3>
             <p class="yurt-art__who">Edward Robert Hughes, 1908.</p>
@@ -1035,11 +1162,11 @@
       </li>
       <li class="yurt-art__hang">
         <a class="yurt-art__open" href="gallery/waterhouse-lady-of-shalott.jpg" data-art-open>
-          <span class="yurt-art__gilt"><img src="gallery/waterhouse-lady-of-shalott.jpg" width="1400" height="1075" alt="A woman with long red hair and a white dress sits in a small boat among reeds on a dark river, one hand on its mooring chain, a tapestry trailing over the side and three candles at the prow, with trees and a far hillside behind." loading="lazy" decoding="async"></span>
+          <span class="yurt-art__gilt"><img src="gallery/waterhouse-lady-of-shalott.jpg" width="1200" height="921" alt="A woman with long red hair and a white dress sits in a small boat among reeds on a dark river, one hand on its mooring chain, a tapestry trailing over the side and three candles at the prow, with trees and a far hillside behind." loading="lazy" decoding="async"></span>
           <span class="yurt-art__label"><i>The Lady of Shalott</i> &middot; John William Waterhouse, 1888</span>
         </a>
         <dialog class="yurt-art__frame" aria-labelledby="yurt-art-waterhouse-lady-of-shalott">
-          <div class="yurt-art__board"><img src="gallery/waterhouse-lady-of-shalott.jpg" width="1400" height="1075" alt="A woman with long red hair and a white dress sits in a small boat among reeds on a dark river, one hand on its mooring chain, a tapestry trailing over the side and three candles at the prow, with trees and a far hillside behind." loading="lazy" decoding="async"></div>
+          <div class="yurt-art__board"><img src="gallery/waterhouse-lady-of-shalott.jpg" width="1200" height="921" alt="A woman with long red hair and a white dress sits in a small boat among reeds on a dark river, one hand on its mooring chain, a tapestry trailing over the side and three candles at the prow, with trees and a far hillside behind." loading="lazy" decoding="async"></div>
           <div class="yurt-art__plate">
             <h3 class="yurt-art__title" id="yurt-art-waterhouse-lady-of-shalott">The Lady of Shalott</h3>
             <p class="yurt-art__who">John William Waterhouse, 1888. Tate, London.</p>
@@ -1050,11 +1177,11 @@
       </li>
       <li class="yurt-art__hang">
         <a class="yurt-art__open" href="gallery/millais-ophelia.jpg" data-art-open>
-          <span class="yurt-art__gilt"><img src="gallery/millais-ophelia.jpg" width="1400" height="952" alt="A young woman floats on her back in a stream, her hands open at the surface, her embroidered dress spreading in the water among scattered flowers, under a bank thick with willow, nettles and wild roses." loading="lazy" decoding="async"></span>
+          <span class="yurt-art__gilt"><img src="gallery/millais-ophelia.jpg" width="1200" height="816" alt="A young woman floats on her back in a stream, her hands open at the surface, her embroidered dress spreading in the water among scattered flowers, under a bank thick with willow, nettles and wild roses." loading="lazy" decoding="async"></span>
           <span class="yurt-art__label"><i>Ophelia</i> &middot; John Everett Millais, about 1851</span>
         </a>
         <dialog class="yurt-art__frame" aria-labelledby="yurt-art-millais-ophelia">
-          <div class="yurt-art__board"><img src="gallery/millais-ophelia.jpg" width="1400" height="952" alt="A young woman floats on her back in a stream, her hands open at the surface, her embroidered dress spreading in the water among scattered flowers, under a bank thick with willow, nettles and wild roses." loading="lazy" decoding="async"></div>
+          <div class="yurt-art__board"><img src="gallery/millais-ophelia.jpg" width="1200" height="816" alt="A young woman floats on her back in a stream, her hands open at the surface, her embroidered dress spreading in the water among scattered flowers, under a bank thick with willow, nettles and wild roses." loading="lazy" decoding="async"></div>
           <div class="yurt-art__plate">
             <h3 class="yurt-art__title" id="yurt-art-millais-ophelia">Ophelia</h3>
             <p class="yurt-art__who">John Everett Millais, about 1851. Tate, London.</p>
@@ -1080,11 +1207,11 @@
       </li>
       <li class="yurt-art__hang">
         <a class="yurt-art__open" href="gallery/burne-jones-beguiling-of-merlin.jpg" data-art-open>
-          <span class="yurt-art__gilt"><img src="gallery/burne-jones-beguiling-of-merlin.jpg" width="1400" height="1848" alt="A woman in a flowing blue-grey gown, a dark cloth wound in her hair, reads aloud from an open book as she steps through flowering hawthorn, looking back at an old man in dark green robes who lies limp and spellbound in the branches beside her, with white irises at her bare feet." loading="lazy" decoding="async"></span>
+          <span class="yurt-art__gilt"><img src="gallery/burne-jones-beguiling-of-merlin.jpg" width="1200" height="1584" alt="A woman in a flowing blue-grey gown, a dark cloth wound in her hair, reads aloud from an open book as she steps through flowering hawthorn, looking back at an old man in dark green robes who lies limp and spellbound in the branches beside her, with white irises at her bare feet." loading="lazy" decoding="async"></span>
           <span class="yurt-art__label"><i>The Beguiling of Merlin</i> &middot; Edward Burne-Jones, 1874</span>
         </a>
         <dialog class="yurt-art__frame" aria-labelledby="yurt-art-burne-jones-beguiling-of-merlin">
-          <div class="yurt-art__board"><img src="gallery/burne-jones-beguiling-of-merlin.jpg" width="1400" height="1848" alt="A woman in a flowing blue-grey gown, a dark cloth wound in her hair, reads aloud from an open book as she steps through flowering hawthorn, looking back at an old man in dark green robes who lies limp and spellbound in the branches beside her, with white irises at her bare feet." loading="lazy" decoding="async"></div>
+          <div class="yurt-art__board"><img src="gallery/burne-jones-beguiling-of-merlin.jpg" width="1200" height="1584" alt="A woman in a flowing blue-grey gown, a dark cloth wound in her hair, reads aloud from an open book as she steps through flowering hawthorn, looking back at an old man in dark green robes who lies limp and spellbound in the branches beside her, with white irises at her bare feet." loading="lazy" decoding="async"></div>
           <div class="yurt-art__plate">
             <h3 class="yurt-art__title" id="yurt-art-burne-jones-beguiling-of-merlin">The Beguiling of Merlin</h3>
             <p class="yurt-art__who">Edward Burne-Jones, 1874. Lady Lever Art Gallery.</p>
@@ -1110,11 +1237,11 @@
       </li>
       <li class="yurt-art__hang">
         <a class="yurt-art__open" href="gallery/waterhouse-hylas.jpg" data-art-open>
-          <span class="yurt-art__gilt"><img src="gallery/waterhouse-hylas.jpg" width="1400" height="868" alt="A young man in a blue tunic and a red sash leans down at the edge of a dark pond with a jug, and seven pale nymphs with long red-brown hair rise bare-shouldered from the water among the lily pads, one taking hold of his arm." loading="lazy" decoding="async"></span>
+          <span class="yurt-art__gilt"><img src="gallery/waterhouse-hylas.jpg" width="1200" height="744" alt="A young man in a blue tunic and a red sash leans down at the edge of a dark pond with a jug, and seven pale nymphs with long red-brown hair rise bare-shouldered from the water among the lily pads, one taking hold of his arm." loading="lazy" decoding="async"></span>
           <span class="yurt-art__label"><i>Hylas and the Nymphs</i> &middot; John William Waterhouse, 1896</span>
         </a>
         <dialog class="yurt-art__frame" aria-labelledby="yurt-art-waterhouse-hylas">
-          <div class="yurt-art__board"><img src="gallery/waterhouse-hylas.jpg" width="1400" height="868" alt="A young man in a blue tunic and a red sash leans down at the edge of a dark pond with a jug, and seven pale nymphs with long red-brown hair rise bare-shouldered from the water among the lily pads, one taking hold of his arm." loading="lazy" decoding="async"></div>
+          <div class="yurt-art__board"><img src="gallery/waterhouse-hylas.jpg" width="1200" height="744" alt="A young man in a blue tunic and a red sash leans down at the edge of a dark pond with a jug, and seven pale nymphs with long red-brown hair rise bare-shouldered from the water among the lily pads, one taking hold of his arm." loading="lazy" decoding="async"></div>
           <div class="yurt-art__plate">
             <h3 class="yurt-art__title" id="yurt-art-waterhouse-hylas">Hylas and the Nymphs</h3>
             <p class="yurt-art__who">John William Waterhouse, 1896. Manchester Art Gallery.</p>
@@ -1125,11 +1252,11 @@
       </li>
       <li class="yurt-art__hang">
         <a class="yurt-art__open" href="gallery/hughes-night-train-of-stars.jpg" data-art-open>
-          <span class="yurt-art__gilt"><img src="gallery/hughes-night-train-of-stars.jpg" width="1400" height="837" alt="Night, a crowned woman with great dark wings and a finger to her lips, sweeps across a cloudy blue sky holding a sleeping baby, trailing a crowd of small children among scattered stars, red flowers and a flight of little golden birds." loading="lazy" decoding="async"></span>
+          <span class="yurt-art__gilt"><img src="gallery/hughes-night-train-of-stars.jpg" width="1200" height="717" alt="Night, a crowned woman with great dark wings and a finger to her lips, sweeps across a cloudy blue sky holding a sleeping baby, trailing a crowd of small children among scattered stars, red flowers and a flight of little golden birds." loading="lazy" decoding="async"></span>
           <span class="yurt-art__label"><i>Night with her Train of Stars</i> &middot; Edward Robert Hughes, 1912</span>
         </a>
         <dialog class="yurt-art__frame" aria-labelledby="yurt-art-hughes-night-train-of-stars">
-          <div class="yurt-art__board"><img src="gallery/hughes-night-train-of-stars.jpg" width="1400" height="837" alt="Night, a crowned woman with great dark wings and a finger to her lips, sweeps across a cloudy blue sky holding a sleeping baby, trailing a crowd of small children among scattered stars, red flowers and a flight of little golden birds." loading="lazy" decoding="async"></div>
+          <div class="yurt-art__board"><img src="gallery/hughes-night-train-of-stars.jpg" width="1200" height="717" alt="Night, a crowned woman with great dark wings and a finger to her lips, sweeps across a cloudy blue sky holding a sleeping baby, trailing a crowd of small children among scattered stars, red flowers and a flight of little golden birds." loading="lazy" decoding="async"></div>
           <div class="yurt-art__plate">
             <h3 class="yurt-art__title" id="yurt-art-hughes-night-train-of-stars">Night with her Train of Stars</h3>
             <p class="yurt-art__who">Edward Robert Hughes, 1912. Birmingham Museum and Art Gallery.</p>
@@ -1140,11 +1267,11 @@
       </li>
       <li class="yurt-art__hang">
         <a class="yurt-art__open" href="gallery/malevich-black-square.jpg" data-art-open>
-          <span class="yurt-art__gilt"><img src="gallery/malevich-black-square.jpg" width="1400" height="1400" alt="A black square painted on a white ground, the black paint cracked all over into a web of fine pale lines." loading="lazy" decoding="async"></span>
+          <span class="yurt-art__gilt"><img src="gallery/malevich-black-square.jpg" width="1200" height="1200" alt="A black square painted on a white ground, the black paint cracked all over into a web of fine pale lines." loading="lazy" decoding="async"></span>
           <span class="yurt-art__label"><i>Black Square</i> &middot; Kazimir Malevich, 1915</span>
         </a>
         <dialog class="yurt-art__frame" aria-labelledby="yurt-art-malevich-black-square">
-          <div class="yurt-art__board"><img src="gallery/malevich-black-square.jpg" width="1400" height="1400" alt="A black square painted on a white ground, the black paint cracked all over into a web of fine pale lines." loading="lazy" decoding="async"></div>
+          <div class="yurt-art__board"><img src="gallery/malevich-black-square.jpg" width="1200" height="1200" alt="A black square painted on a white ground, the black paint cracked all over into a web of fine pale lines." loading="lazy" decoding="async"></div>
           <div class="yurt-art__plate">
             <h3 class="yurt-art__title" id="yurt-art-malevich-black-square">Black Square</h3>
             <p class="yurt-art__who">Kazimir Malevich, 1915. Tretyakov Gallery, Moscow.</p>
@@ -1155,11 +1282,11 @@
       </li>
       <li class="yurt-art__hang">
         <a class="yurt-art__open" href="gallery/malevich-white-on-white.jpg" data-art-open>
-          <span class="yurt-art__gilt"><img src="gallery/malevich-white-on-white.jpg" width="1400" height="1452" alt="A tilted square in a cool off-white, painted on a slightly warmer off-white ground, so the one shape is only just there." loading="lazy" decoding="async"></span>
+          <span class="yurt-art__gilt"><img src="gallery/malevich-white-on-white.jpg" width="1200" height="1245" alt="A tilted square in a cool off-white, painted on a slightly warmer off-white ground, so the one shape is only just there." loading="lazy" decoding="async"></span>
           <span class="yurt-art__label"><i>Suprematist Composition: White on White</i> &middot; Kazimir Malevich, 1918</span>
         </a>
         <dialog class="yurt-art__frame" aria-labelledby="yurt-art-malevich-white-on-white">
-          <div class="yurt-art__board"><img src="gallery/malevich-white-on-white.jpg" width="1400" height="1452" alt="A tilted square in a cool off-white, painted on a slightly warmer off-white ground, so the one shape is only just there." loading="lazy" decoding="async"></div>
+          <div class="yurt-art__board"><img src="gallery/malevich-white-on-white.jpg" width="1200" height="1245" alt="A tilted square in a cool off-white, painted on a slightly warmer off-white ground, so the one shape is only just there." loading="lazy" decoding="async"></div>
           <div class="yurt-art__plate">
             <h3 class="yurt-art__title" id="yurt-art-malevich-white-on-white">Suprematist Composition: White on White</h3>
             <p class="yurt-art__who">Kazimir Malevich, 1918. The Museum of Modern Art, New York.</p>
@@ -1394,7 +1521,7 @@
          a looking glass instead of woodern doors". A tall glass in a gilt
          frame, opened the oak doors' way, with a checkbox and no script: in
          the glass is this yurt, given back the other way round; pressed, the
-         reflection goes and the chessboard country shows through. Drawn in
+         reflection goes and a swirl of rainbow fog shows through (the chessboard country until 2026-11-09). Drawn in
          §148's colours and the yurt's own; nothing on it is a word. -->
     <div class="yurt-glass">
       <div class="yurt-glass__door">
@@ -1404,16 +1531,35 @@
         <svg viewBox="0 0 300 400" aria-hidden="true" focusable="false">
           <defs>
             <clipPath id="yg-oval"><ellipse cx="150" cy="210" rx="106" ry="156"/></clipPath>
+            <filter id="yg-fog" x="-40%" y="-40%" width="180%" height="180%"><feTurbulence type="fractalNoise" baseFrequency=".018" numOctaves="3" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="42" xChannelSelector="R" yChannelSelector="G"/><feGaussianBlur stdDeviation="7"/></filter>
             <linearGradient id="yg-sheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--lgh-mist)" stop-opacity=".6"/><stop offset=".45" stop-color="var(--lgh-mist)" stop-opacity="0"/><stop offset=".72" stop-color="var(--lgh-mist)" stop-opacity=".22"/><stop offset="1" stop-color="var(--lgh-mist)" stop-opacity="0"/></linearGradient>
           </defs>
           <g clip-path="url(#yg-oval)">
-            <!-- Behind the glass: the chessboard country, brooks across it, and a white pawn on the second square. -->
+            <!-- Behind the glass, once it is pressed: a swirl of rainbow fog (Helen's asks,
+                 2026-11-09, in place of the chessboard country, then "a swirl of moving fog,
+                 maybe rainbow coloured"). Six pale washes in --yurt-fog-* and two in the glass's
+                 own mist and silver, each blurred and pulled into wisps by #yg-fog, turning
+                 about the oval and drifting on their own time at Regular and MAX once the glass
+                 is open, still at Gentle. -->
             <rect x="40" y="50" width="220" height="330" fill="var(--lgh-meadow)"/>
-            <g fill="var(--lgh-field)"><rect x="44" y="130" width="42" height="42"/><rect x="128" y="130" width="42" height="42"/><rect x="212" y="130" width="42" height="42"/><rect x="86" y="172" width="42" height="42"/><rect x="170" y="172" width="42" height="42"/><rect x="44" y="214" width="42" height="42"/><rect x="128" y="214" width="42" height="42"/><rect x="212" y="214" width="42" height="42"/><rect x="86" y="256" width="42" height="42"/><rect x="170" y="256" width="42" height="42"/><rect x="44" y="298" width="42" height="42"/><rect x="128" y="298" width="42" height="42"/><rect x="212" y="298" width="42" height="42"/></g>
-            <path d="M40 172 Q90 168 150 172 T260 172 M40 214 Q90 210 150 214 T260 214 M40 256 Q90 252 150 256 T260 256 M40 298 Q90 294 150 298 T260 298 M40 340 Q90 336 150 340 T260 340" fill="none" stroke="var(--lgh-brook)" stroke-width="3"/>
-            <path d="M40 130 H260" stroke="var(--lgh-hedge)" stroke-width="4"/>
-            <path d="M40 130 Q100 96 150 112 Q200 92 260 120 V50 H40 Z" fill="var(--lgh-mist)"/>
-            <g transform="translate(150 320)"><path d="M-11 12 H11 Q11 6 6 4 Q4 -2 5 -6 H-5 Q-4 -2 -6 4 Q-11 6 -11 12 Z" fill="var(--lgh-pawn)" stroke="var(--lgh-ink)" stroke-width="1.8"/><circle cx="0" cy="-11" r="6" fill="var(--lgh-pawn)" stroke="var(--lgh-ink)" stroke-width="1.8"/></g>
+            <g class="yurt-glass__mist" filter="url(#yg-fog)">
+              <g class="yurt-glass__swirl yurt-glass__swirl--1">
+                <ellipse cx="150" cy="210" rx="118" ry="46" fill="var(--yurt-fog-rose)" opacity=".9" transform="rotate(-28 150 210)"/>
+                <g class="yurt-glass__wisp yurt-glass__wisp--1"><ellipse cx="112" cy="160" rx="54" ry="26" fill="var(--yurt-fog-peach)" opacity=".85"/></g>
+              </g>
+              <g class="yurt-glass__swirl yurt-glass__swirl--2">
+                <ellipse cx="150" cy="210" rx="104" ry="40" fill="var(--yurt-fog-sky)" opacity=".85" transform="rotate(34 150 210)"/>
+                <g class="yurt-glass__wisp yurt-glass__wisp--2"><ellipse cx="196" cy="262" rx="50" ry="22" fill="var(--yurt-fog-lilac)" opacity=".85"/></g>
+              </g>
+              <g class="yurt-glass__swirl yurt-glass__swirl--3">
+                <ellipse cx="150" cy="210" rx="84" ry="34" fill="var(--yurt-fog-mint)" opacity=".85" transform="rotate(-70 150 210)"/>
+                <g class="yurt-glass__wisp yurt-glass__wisp--3"><ellipse cx="150" cy="210" rx="34" ry="18" fill="var(--lgh-mist)" opacity=".7"/></g>
+              </g>
+              <g class="yurt-glass__swirl yurt-glass__swirl--4">
+                <ellipse cx="150" cy="210" rx="96" ry="32" fill="var(--yurt-fog-lemon)" opacity=".85" transform="rotate(8 150 210)"/>
+                <g class="yurt-glass__wisp yurt-glass__wisp--4"><ellipse cx="128" cy="290" rx="58" ry="24" fill="var(--lgh-silver)" opacity=".45"/><ellipse cx="190" cy="140" rx="44" ry="20" fill="var(--yurt-fog-rose)" opacity=".7"/></g>
+              </g>
+            </g>
             <!-- In front of it, until it is pressed: this yurt, back to front, under the glass's silver. -->
             <g class="yurt-glass__reflect">
               <rect x="40" y="50" width="220" height="330" fill="var(--canvas)"/>
@@ -1505,18 +1651,19 @@
     <div class="yurt-stim" role="group" aria-labelledby="stim-tin">
       <h3 id="stim-tin">The Stim Tin</h3>
       <p class="section-intro">My stim tin: things to fidget and stim with, and what each one feels like in the hand.</p>
+      <svg class="yurt-stim__defs" width="0" height="0" aria-hidden="true" focusable="false"><defs><filter id="ystim-paper" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" seed="4"/><feColorMatrix values="0 0 0 0 0.93  0 0 0 0 0.89  0 0 0 0 0.80  0 0 0 0.14 0.86"/></filter><filter id="ystim-wash" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation="0.7" result="b"/><feMorphology in="d" operator="erode" radius="2" result="inner"/><feComposite in="d" in2="inner" operator="out" result="rim"/><feColorMatrix in="rim" values="0.75 0 0 0 0  0 0.75 0 0 0  0 0 0.75 0 0  0 0 0 0.3 0" result="rim2"/><feGaussianBlur in="rim2" stdDeviation="1" result="rim3"/><feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="2" seed="3" result="g"/><feColorMatrix in="g" values="0 0 0 0 0.3 0 0 0 0 0.2 0 0 0 0 0.1 0 0 0 0.08 0" result="gr"/><feComposite in="gr" in2="b" operator="in" result="grain"/><feMerge><feMergeNode in="b"/><feMergeNode in="rim3"/><feMergeNode in="grain"/></feMerge></filter><filter id="ystim-bleed" x="-40%" y="-40%" width="180%" height="180%"><feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="3" seed="11" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="10"/><feGaussianBlur stdDeviation="14"/></filter><filter id="ystim-pencil" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.4" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5"/></filter></defs></svg>
       <ul class="yurt-stim__toys">
-        <li class="yurt-stim__toy"><figure class="yurt-stim__photo"><img class="yurt-stim__img" src="stim-tin/fidget-toys.jpg" width="1280" height="960" alt="A pastel striped board laid out with fidget toys: a rubbery stringy ball, a twisty tangle, a wand of liquid glitter, a puzzle cube, a spiky ball and a soft brush." loading="lazy" decoding="async"><figcaption class="yurt-stim__credit">Photograph by MissLunaRose12, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Fidget_Toys_1.jpg">via Wikimedia Commons</a>; resized.</figcaption></figure><h4 class="yurt-stim__name">A bit of everything</h4><p class="yurt-stim__feel">Stringy, twisty, spiky, soft, and something to watch: a whole board to pick from.</p></li>
-        <li class="yurt-stim__toy"><figure class="yurt-stim__photo"><img class="yurt-stim__img" src="stim-tin/fidget-spinner.jpg" width="1280" height="1280" alt="A red fidget spinner with three arms, on a white table." loading="lazy" decoding="async"><figcaption class="yurt-stim__credit">Photograph by Árni Dagur, <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>, <a href="https://commons.wikimedia.org/wiki/File:Fidget_spinner_red,_cropped.jpg">via Wikimedia Commons</a>; resized.</figcaption></figure><h4 class="yurt-stim__name">A fidget spinner</h4><p class="yurt-stim__feel">Spins and spins, with a hum you can feel in your fingers.</p></li>
-        <li class="yurt-stim__toy"><figure class="yurt-stim__photo"><img class="yurt-stim__img" src="stim-tin/fidget-cube.jpg" width="1280" height="950" alt="A white fidget cube with yellow buttons, a switch and a dial." loading="lazy" decoding="async"><figcaption class="yurt-stim__credit">Photograph by Tetizeraz, <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>, <a href="https://commons.wikimedia.org/wiki/File:Fidget_cube_yellow_and_white.jpg">via Wikimedia Commons</a>; resized.</figcaption></figure><h4 class="yurt-stim__name">A fidget cube</h4><p class="yurt-stim__feel">A click, a switch, a dial: something different on every side.</p></li>
-        <li class="yurt-stim__toy"><figure class="yurt-stim__photo"><img class="yurt-stim__img" src="stim-tin/pop-it-whale.jpg" width="1280" height="722" alt="A rainbow pop-it shaped like a whale, lying on a tiled floor." loading="lazy" decoding="async"><figcaption class="yurt-stim__credit">Photograph by Ric Aries, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Pop_it_(peixe).jpg">via Wikimedia Commons</a>; resized.</figcaption></figure><h4 class="yurt-stim__name">A pop-it</h4><p class="yurt-stim__feel">Rows of bubbles to press with a soft pop, then turn it over and pop them all again.</p></li>
-        <li class="yurt-stim__toy"><figure class="yurt-stim__photo"><img class="yurt-stim__img" src="stim-tin/stress-balls.jpg" width="1280" height="853" alt="Three squeezy foam toys on a dark table: a blue cube, a yellow star and a green ball." loading="lazy" decoding="async"><figcaption class="yurt-stim__credit">Photograph by Stephen Edmonds, <a href="https://creativecommons.org/licenses/by-sa/2.0">CC BY-SA 2.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Stress_ball_shapes_-1_(3693412091).jpg">via Wikimedia Commons</a>; resized.</figcaption></figure><h4 class="yurt-stim__name">Squishes</h4><p class="yurt-stim__feel">Squeeze, and let go slowly, and squeeze again.</p></li>
-        <li class="yurt-stim__toy"><figure class="yurt-stim__photo"><img class="yurt-stim__img" src="stim-tin/slinky.jpg" width="1280" height="960" alt="A rainbow slinky standing in an arch on a stone floor." loading="lazy" decoding="async"><figcaption class="yurt-stim__credit">Photograph by Fitrah 9131, <a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Slinky_toy.jpg">via Wikimedia Commons</a>; resized.</figcaption></figure><h4 class="yurt-stim__name">A slinky</h4><p class="yurt-stim__feel">Pours from one hand to the other with a soft shush.</p></li>
-        <li class="yurt-stim__toy"><figure class="yurt-stim__photo"><img class="yurt-stim__img" src="stim-tin/crochet-sensory-toy.jpg" width="1280" height="1222" alt="A soft pale yellow crochet square with blue stitches, made with a ball inside it to push about." loading="lazy" decoding="async"><figcaption class="yurt-stim__credit">Photograph by Valki77, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Szyde%C5%82kowa_zabawka_sensoryczna_3.jpg">via Wikimedia Commons</a>; resized.</figcaption></figure><h4 class="yurt-stim__name">A crochet square</h4><p class="yurt-stim__feel">Soft wool, with a ball inside to chase about with your thumb.</p></li>
-        <li class="yurt-stim__toy"><figure class="yurt-stim__photo"><img class="yurt-stim__img" src="stim-tin/sensory-bag.jpg" width="1280" height="960" alt="A sensory bag laid out on a dark counter: ear defenders, a lanyard, a card of picture symbols and a pink and yellow fidget chain." loading="lazy" decoding="async"><figcaption class="yurt-stim__credit">Photograph by Bruxton, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Sensory_inclusive_bag_contents.jpg">via Wikimedia Commons</a>; resized.</figcaption></figure><h4 class="yurt-stim__name">A going-out bag</h4><p class="yurt-stim__feel">Quiet for the ears, words on a card, and something for the hands.</p></li>
+        <li class="yurt-stim__toy"><div class="yurt-stim__draw"><svg class="yurt-stim__img" viewBox="0 0 300 220" role="img" aria-label="A board of fidget toys painted in soft colours: a purple stringy ball, a teal spiky ball, a pink-orange wand, a yellow puzzle cube, a blue-green brush and a blue ball."><rect width="300" height="220" rx="8" fill="#F3ECDC"/><rect width="300" height="220" rx="8" filter="url(#ystim-paper)"/><g transform="translate(150 118) scale(.72)"><g opacity=".3" filter="url(#ystim-bleed)"><ellipse cx="0" cy="20" rx="135" ry="100" fill="#e6c3d9"/></g><g filter="url(#ystim-wash)" opacity=".92"><path d="M-90 -30 C -80 -80, -20 -70, -30 -30 S -90 10, -90 -30" fill="#8d5fa6"/><g fill="#6aa4a0"><circle cx="30" cy="-45" r="26"/><path d="M30 -71 l5 -12 M52 -58 l12 -6 M58 -40 l13 2 M50 -22 l10 8 M30 -19 l0 13 M8 -22 l-10 8 M4 -40 l-13 2 M8 -58 l-12 -6" stroke="#6aa4a0" stroke-width="5" stroke-linecap="round"/></g><rect x="-100" y="10" width="26" height="90" rx="12" fill="#d98b6b"/><rect x="-50" y="30" width="60" height="60" rx="10" fill="#e3b23c"/><path d="M40 20 h60 v30 h-60 z" fill="#9ec5c9"/><g fill="#6f93c9"><circle cx="70" cy="80" r="26"/></g></g></g></svg></div><h4 class="yurt-stim__name">A bit of everything</h4><p class="yurt-stim__feel">Stringy, twisty, spiky, soft, and something to watch: a whole board to pick from.</p></li>
+        <li class="yurt-stim__toy"><div class="yurt-stim__draw"><svg class="yurt-stim__img" viewBox="0 0 300 220" role="img" aria-label="A red fidget spinner with three rounded arms, painted in watercolour on cream paper."><rect width="300" height="220" rx="8" fill="#F3ECDC"/><rect width="300" height="220" rx="8" filter="url(#ystim-paper)"/><g transform="translate(150 118) scale(.72)"><g opacity=".3" filter="url(#ystim-bleed)"><circle cx="0" cy="40" r="110" fill="#e8a3a0"/></g><g filter="url(#ystim-wash)" opacity=".92" fill="#d9534f"><circle cx="0" cy="-60" r="38"/><circle cx="-56" cy="55" r="38"/><circle cx="56" cy="55" r="38"/><path d="M0 -60 C 40 -60, 70 20, 56 55 C 30 80, -30 80, -56 55 C -70 20, -40 -60, 0 -60 Z"/></g><g filter="url(#ystim-wash)" opacity=".95" fill="#f3ecdc"><circle cx="0" cy="-60" r="14"/><circle cx="-56" cy="55" r="14"/><circle cx="56" cy="55" r="14"/><circle cx="0" cy="15" r="18"/></g><g filter="url(#ystim-pencil)" fill="none" stroke="#5A4636" stroke-width="1.2" opacity=".5"><path d="M-30 120 q 40 10 70 -4"/><path d="M-70 -20 q -10 40 10 70"/></g></g></svg></div><h4 class="yurt-stim__name">A fidget spinner</h4><p class="yurt-stim__feel">Spins and spins, with a hum you can feel in your fingers.</p></li>
+        <li class="yurt-stim__toy"><div class="yurt-stim__draw"><svg class="yurt-stim__img" viewBox="0 0 300 220" role="img" aria-label="A cream fidget cube with yellow buttons, a switch and a dial, painted in watercolour."><rect width="300" height="220" rx="8" fill="#F3ECDC"/><rect width="300" height="220" rx="8" filter="url(#ystim-paper)"/><g transform="translate(150 118) scale(.72)"><g opacity=".3" filter="url(#ystim-bleed)"><circle cx="0" cy="30" r="105" fill="#f0d88a"/></g><g filter="url(#ystim-wash)" opacity=".92"><path d="M-70 -14 Q-70 -24 -60 -28 L-8 -58 Q0 -62 8 -58 L60 -28 Q70 -24 70 -14 L70 54 Q70 64 60 68 L8 98 Q0 102 -8 98 L-60 68 Q-70 64 -70 54 Z" fill="#efe6cf"/><path d="M-70 -20 L0 20 L70 -20 L0 -60 Z" fill="#faf5e6"/><path d="M0 20 L0 100 L70 60 L70 -20 Z" fill="#d8ccb0"/></g><g filter="url(#ystim-wash)" opacity=".95" fill="#e9b53a"><circle cx="-20" cy="-14" r="8"/><circle cx="14" cy="-30" r="8"/><circle cx="-6" cy="-40" r="8"/><circle cx="28" cy="-6" r="8"/><circle cx="-40" cy="40" r="12"/><rect x="26" y="20" width="12" height="34" rx="6"/><circle cx="40" cy="26" r="7"/></g></g></svg></div><h4 class="yurt-stim__name">A fidget cube</h4><p class="yurt-stim__feel">A click, a switch, a dial: something different on every side.</p></li>
+        <li class="yurt-stim__toy"><div class="yurt-stim__draw"><svg class="yurt-stim__img" viewBox="0 0 300 220" role="img" aria-label="A sea-green pop-it with three rows of bubbles, pink, yellow and lilac, painted in watercolour."><rect width="300" height="220" rx="8" fill="#F3ECDC"/><rect width="300" height="220" rx="8" filter="url(#ystim-paper)"/><g transform="translate(150 118) scale(.72)"><g opacity=".3" filter="url(#ystim-bleed)"><ellipse cx="0" cy="25" rx="130" ry="100" fill="#9ec5c9"/></g><g filter="url(#ystim-wash)" opacity=".92"><rect x="-110" y="-50" width="220" height="150" rx="50" fill="#8fbfc4"/></g><g filter="url(#ystim-wash)" opacity=".95"><g fill="#e78fa3"><circle cx="-70" cy="-12" r="15"/><circle cx="-23" cy="-12" r="15"/><circle cx="23" cy="-12" r="15"/><circle cx="70" cy="-12" r="15"/></g><g fill="#f0c957"><circle cx="-70" cy="28" r="15"/><circle cx="-23" cy="28" r="15"/><circle cx="23" cy="28" r="15"/><circle cx="70" cy="28" r="15"/></g><g fill="#a98cd1"><circle cx="-70" cy="68" r="15"/><circle cx="-23" cy="68" r="15"/><circle cx="23" cy="68" r="15"/><circle cx="70" cy="68" r="15"/></g></g></g></svg></div><h4 class="yurt-stim__name">A pop-it</h4><p class="yurt-stim__feel">Rows of bubbles to press with a soft pop, then turn it over and pop them all again.</p></li>
+        <li class="yurt-stim__toy"><div class="yurt-stim__draw"><svg class="yurt-stim__img" viewBox="0 0 300 220" role="img" aria-label="Three squeezy toys painted in watercolour: a blue cube, a yellow star and a green ball."><rect width="300" height="220" rx="8" fill="#F3ECDC"/><rect width="300" height="220" rx="8" filter="url(#ystim-paper)"/><g transform="translate(150 118) scale(.72)"><g opacity=".3" filter="url(#ystim-bleed)"><ellipse cx="0" cy="30" rx="120" ry="95" fill="#b9d7a6"/></g><g filter="url(#ystim-wash)" opacity=".92"><rect x="-100" y="-10" width="70" height="70" rx="14" fill="#7fa9d6"/><path d="M10 -60 C 16 -40, 20 -24, 22 -20 C 40 -20, 56 -20, 62 -18 C 50 -8, 38 0, 30 6 C 36 22, 40 36, 42 46 C 30 38, 18 30, 10 24 C 0 30, -12 38, -22 46 C -18 36, -14 22, -10 6 C -20 0, -32 -8, -42 -18 C -28 -20, -12 -20, -2 -20 C 0 -24, 4 -40, 10 -60 Z" fill="#f2cf4b"/><circle cx="70" cy="70" r="36" fill="#8fc27a"/></g><g filter="url(#ystim-pencil)" fill="none" stroke="#5A4636" stroke-width="1.2" opacity=".5"><path d="M-95 20 q 10 -8 20 4"/><path d="M50 60 q 15 -10 30 2"/></g></g></svg></div><h4 class="yurt-stim__name">Squishes</h4><p class="yurt-stim__feel">Squeeze, and let go slowly, and squeeze again.</p></li>
+        <li class="yurt-stim__toy"><div class="yurt-stim__draw"><svg class="yurt-stim__img" viewBox="0 0 300 220" role="img" aria-label="A rainbow slinky standing in an arch, painted in watercolour."><rect width="300" height="220" rx="8" fill="#F3ECDC"/><rect width="300" height="220" rx="8" filter="url(#ystim-paper)"/><g transform="translate(150 118) scale(.72)"><g opacity=".3" filter="url(#ystim-bleed)"><ellipse cx="0" cy="20" rx="130" ry="90" fill="#cdb8e0"/></g><g fill="none" stroke-width="7" stroke-linecap="round" filter="url(#ystim-wash)" opacity=".92"><path d="M-100 60 C -100 -40, -60 -90, 0 -80 S 100 -20, 100 60" stroke="#d9534f"/><path d="M-88 60 C -88 -30, -52 -78, 0 -68 S 88 -10, 88 60" stroke="#f0a030"/><path d="M-76 60 C -76 -20, -44 -66, 0 -56 S 76 0, 76 60" stroke="#f2cf4b"/><path d="M-64 60 C -64 -10, -36 -54, 0 -44 S 64 10, 64 60" stroke="#8fc27a"/><path d="M-52 60 C -52 0, -28 -42, 0 -32 S 52 20, 52 60" stroke="#7fa9d6"/><path d="M-40 60 C -40 10, -20 -30, 0 -20 S 40 30, 40 60" stroke="#a98cd1"/></g></g></svg></div><h4 class="yurt-stim__name">A slinky</h4><p class="yurt-stim__feel">Pours from one hand to the other with a soft shush.</p></li>
+        <li class="yurt-stim__toy"><div class="yurt-stim__draw"><svg class="yurt-stim__img" viewBox="0 0 300 220" role="img" aria-label="A pale yellow crochet square with blue stitches and the shape of a ball inside it, painted in watercolour."><rect width="300" height="220" rx="8" fill="#F3ECDC"/><rect width="300" height="220" rx="8" filter="url(#ystim-paper)"/><g transform="translate(150 118) scale(.72)"><g opacity=".3" filter="url(#ystim-bleed)"><circle cx="0" cy="20" r="100" fill="#f3e3a0"/></g><g filter="url(#ystim-wash)" opacity=".92"><rect x="-80" y="-60" width="160" height="160" rx="26" fill="#f1e2a3"/></g><g filter="url(#ystim-pencil)" fill="none" stroke="#6f93c9" stroke-width="2.2" opacity=".7"><path d="M-62 -42 h124 M-62 -22 h124 M-62 -2 h124 M-62 18 h124 M-62 38 h124 M-62 58 h124 M-62 78 h124"/><path d="M-62 -42 v120 M-42 -42 v120 M-22 -42 v120 M-2 -42 v120 M18 -42 v120 M38 -42 v120 M58 -42 v120"/></g><g filter="url(#ystim-wash)" opacity=".5"><circle cx="18" cy="22" r="22" fill="#c9a84a"/></g></g></svg></div><h4 class="yurt-stim__name">A crochet square</h4><p class="yurt-stim__feel">Soft wool, with a ball inside to chase about with your thumb.</p></li>
+        <li class="yurt-stim__toy"><div class="yurt-stim__draw"><svg class="yurt-stim__img" viewBox="0 0 300 220" role="img" aria-label="A going-out bag&#x27;s things painted in watercolour: teal ear defenders, a yellow lanyard and a white card."><rect width="300" height="220" rx="8" fill="#F3ECDC"/><rect width="300" height="220" rx="8" filter="url(#ystim-paper)"/><g transform="translate(150 118) scale(.72)"><g opacity=".3" filter="url(#ystim-bleed)"><ellipse cx="0" cy="20" rx="130" ry="95" fill="#a9c7b5"/></g><g filter="url(#ystim-wash)" opacity=".92" fill="none" stroke="#4e8a8e" stroke-width="12" stroke-linecap="round"><path d="M-60 20 C -60 -70, 60 -70, 60 20"/></g><g filter="url(#ystim-wash)" opacity=".95" fill="#4e8a8e"><rect x="-86" y="0" width="44" height="64" rx="18"/><rect x="42" y="0" width="44" height="64" rx="18"/></g><g filter="url(#ystim-wash)" opacity=".92"><path d="M-10 -40 q 40 90 40 130" fill="none" stroke="#f0c957" stroke-width="10" stroke-linecap="round"/><rect x="2" y="84" width="56" height="40" rx="6" fill="#faf5e6"/></g><g filter="url(#ystim-pencil)" fill="none" stroke="#5A4636" stroke-width="1.2" opacity=".5"><path d="M10 96 h40 M10 106 h30 M10 116 h36"/></g></g></svg></div><h4 class="yurt-stim__name">A going-out bag</h4><p class="yurt-stim__feel">Quiet for the ears, words on a card, and something for the hands.</p></li>
       </ul>
       <div class="yurt-stim__film"><p class="yurt-stim__filmby"><b>In Motion - Subtitled</b>, <a href="https://www.youtube.com/channel/UCppWF7WmC-cPvOItY872P1w">Sophie Broadgate</a> &middot; 11 July 2023 &middot; 2:22. In Motion, a short film by Sophie Broadgate, with subtitles.</p><button type="button" class="facade" data-embed-id="4z0WGSsUpXc" data-embed-title="Sophie Broadgate — In Motion - Subtitled">Watch it here &mdash; 2 min <span class="facade__play">&#9654; PRESS PLAY</span></button></div>
-      <p class="yurt-gallery__note">The photographs are their photographers&rsquo;, each credited under it, and the film is its maker&rsquo;s, on her own channel; nothing of hers is hosted here and nothing reaches YouTube until you press.</p>
+      <p class="yurt-gallery__note">The toys are drawings, painted in code for this tin in a soft watercolour look, and the film is its maker&rsquo;s, on her own channel; nothing of hers is hosted here and nothing reaches YouTube until you press.</p>
     </div>
     <!-- yurt-stim:end -->
     <figure class="yurt-gallery__item yurt-nook-corner"><img class="photo" src="photos/yurt-nook-corner.webp" width="758" height="1090" alt="A corner of a sage green room: a dark floral wreath strung with lights, Alice in Wonderland signs on the wall, a hanging blue jellyfish lamp and ivy, and a soft red toadstool, a frog and a green dragon among blankets below." loading="lazy"></figure>
@@ -1630,6 +1777,23 @@
         <div class="resident__photos" aria-labelledby="yurt-hamster-h">
           <h4 id="yurt-hamster-h">Hamster Haven</h4>
           <p class="resident__intro">Gibbles, on the night shift in his bowl and in the shavings.</p>
+          <!-- Gibbles' wheel, Helen's ask, 2026-11-09: the night shift drawn as a
+               wheel. It turns at MAX GLITTER and nowhere else, the record's rule,
+               and the dial's line at the top of the page says so. -->
+          <div class="yurt-wheel">
+            <svg class="yurt-wheel__art" viewBox="0 0 160 120" aria-hidden="true" focusable="false">
+              <path d="M30 112 H130" stroke="#3A2A20" stroke-width="4" stroke-linecap="round"/>
+              <path d="M80 112 V64" stroke="#3A2A20" stroke-width="5"/>
+              <g class="yurt-wheel__spokes">
+                <circle cx="80" cy="60" r="44" fill="none" stroke="#A4907B" stroke-width="5"/>
+                <circle cx="80" cy="60" r="36" fill="none" stroke="#5A4433" stroke-width="2"/>
+                <path d="M80 16 V104 M36 60 H124 M49 29 L111 91 M111 29 L49 91" stroke="#5A4433" stroke-width="2"/>
+                <circle cx="80" cy="60" r="5" fill="#A4907B"/>
+              </g>
+              <g class="yurt-wheel__gibbles"><ellipse cx="80" cy="86" rx="14" ry="9" fill="#E9C874"/><circle cx="92" cy="82" r="6" fill="#E9C874"/><circle cx="96" cy="78" r="2" fill="#E9C874"/><circle cx="90" cy="76" r="2" fill="#E9C874"/><path d="M77 80 q4 -3 8 0" fill="none" stroke="#F2E6D4" stroke-width="2"/><circle cx="94" cy="81" r="1" fill="#241A16"/></g>
+            </svg>
+            <p class="yurt-wheel__line">His wheel. It goes round at MAX GLITTER, on the night shift, and stands still at every other setting; Gibbles is on it either way.</p>
+          </div>
           <div class="yurt-gallery__grid">
             <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-13.webp" width="900" height="1200" alt="Gibbles, a golden hamster with a white stripe, snuffles through shavings scattered with dried flowers." loading="lazy"></figure>
             <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-22.webp" width="900" height="1200" alt="Gibbles, a golden hamster, peeks over the rim of a pink bowl in his cage." loading="lazy"></figure>
@@ -1637,6 +1801,107 @@
         </div>
       </details>
     </div>
+  </section>
+
+  <!-- SMALL ODD THINGS. Helen Edgar's asks, 2026-11-09: a faery door in the
+       skirting, which opens to a drawer of small odd things (a <details>, so it
+       opens with no script; the drawer slides at Regular and MAX and simply
+       opens at Gentle), and a wish bottle (yurt-wish.js), which keeps nothing
+       and sends nothing: the words go nowhere, which is the wish. The things
+       in the drawer and where they were found are written in the yurt's voice
+       and are Helen's to change. -->
+  <section class="hearth-card yurt-odd" aria-labelledby="small-odd-things">
+    <h2 id="small-odd-things">Small odd things</h2>
+    <div class="yurt-odd__row">
+      <details class="yurt-faedoor">
+        <summary class="yurt-faedoor__open">
+          <svg class="yurt-faedoor__art" viewBox="0 0 160 120" aria-hidden="true" focusable="false">
+            <path d="M0 100 H160 V120 H0 Z" fill="#3A2A20"/>
+            <path d="M0 96 H160 V102 H0 Z" fill="#4A372B"/>
+            <path d="M56 100 V58 A24 24 0 0 1 104 58 V100 Z" fill="#241A16" stroke="#4A372B" stroke-width="3"/>
+            <path class="yurt-faedoor__leaf" d="M60 100 V60 A20 20 0 0 1 100 60 V100 Z" fill="#6D8A56" stroke="#38491F" stroke-width="2"/>
+            <path d="M68 100 V64 M80 100 V58 M92 100 V64" stroke="#38491F" stroke-width="1.2" opacity=".7"/>
+            <circle cx="93" cy="82" r="2.5" fill="#E9C874"/>
+            <path d="M74 44 l2 5 5 1 -4 3 1 5 -4 -3 -4 3 1 -5 -4 -3 5 -1 z" fill="#E9C874" opacity=".7"/>
+            <path d="M20 96 q6 -14 12 0 M126 96 q6 -16 12 0" fill="none" stroke="#6D8A56" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <h3>A faery door in the skirting</h3>
+          <p>A door the height of a thumb, low on the wall behind the sofa. Press it and a drawer slides out.</p>
+          <span class="yurt-faedoor__hint"><span class="is-shut">open the drawer</span><span class="is-open">slide it shut</span></span>
+        </summary>
+        <ul class="yurt-faedoor__drawer">
+          <li><b>A thimble</b>, brass, found in the lining of a coat that came from a charity shop in a town I have never been to.</li>
+          <li><b>A button</b> with an anchor on it, off nothing I own, found on the step one morning after a storm.</li>
+          <li><b>A key to nothing</b>, small and black, found inside a second-hand book between two pages about the moon.</li>
+          <li><b>An acorn cup</b>, which is what the small folk drink out of, found under the hazel at the edge of the woods with a drop still in it.</li>
+          <li><b>A blue glass bead</b>, found in the hamster&rsquo;s shavings, and nobody here owns up to it.</li>
+        </ul>
+      </details>
+      <div class="yurt-wish" data-yurt-wish>
+        <svg class="yurt-wish__art" viewBox="0 0 120 160" aria-hidden="true" focusable="false">
+          <path d="M46 40 V18 H74 V40 C92 48 98 64 98 84 V140 C98 150 90 156 80 156 H40 C30 156 22 150 22 140 V84 C22 64 28 48 46 40 Z" fill="#9ec5c9" fill-opacity=".35" stroke="#C2AC91" stroke-width="2.5"/>
+          <path d="M30 86 V136" stroke="#F2E6D4" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+          <rect class="yurt-wish__cork" x="44" y="6" width="32" height="20" rx="4" fill="#A4907B" stroke="#4A372B" stroke-width="2" opacity="0"/>
+          <path class="yurt-wish__paper" d="M44 92 l32 -10 v40 l-32 10 z" fill="#F2E6D4" stroke="#C2AC91" stroke-width="1.5" opacity="0"/>
+          <path class="yurt-wish__paper" d="M50 100 l20 -6 M50 108 l20 -6 M50 116 l14 -4" stroke="#A4907B" stroke-width="1.5" opacity="0"/>
+          <circle cx="60" cy="130" r="3" fill="#E9C874" opacity=".6"/><circle cx="72" cy="118" r="2" fill="#E9C874" opacity=".5"/><circle cx="50" cy="122" r="1.5" fill="#E9C874" opacity=".5"/>
+        </svg>
+        <h3 id="a-wish-bottle">A wish bottle</h3>
+        <p>Write a wish, cork it, and it goes nowhere: not to us, not to the small folk, not into your browser. The bottle keeps nothing, which is the point of a wish bottle. Nobody reads it but you, and you only once.</p>
+        <div class="yurt-wish__make" data-yurt-wish-make hidden>
+          <label class="yurt-wish__label" for="yurt-wish-words">Your wish</label>
+          <textarea id="yurt-wish-words" class="yurt-wish__words" rows="3" maxlength="280" autocomplete="off" spellcheck="false"></textarea>
+          <button type="button" class="yurt-magic__btn" data-yurt-wish-cork>Cork it</button>
+          <p class="yurt-wish__said" data-yurt-wish-said aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE MOON CALENDAR. Helen Edgar's ask, 2026-11-09: "a moon calender showing moon in
+       UK birmingham with options to change settings for where people are". yurt-moon.js
+       works it out here, by arithmetic, and keeps your place under love-yurt-moon in your
+       own browser; see its header and the privacy page. The chooser and the month's
+       buttons ship hidden, because with no script they would do nothing. -->
+  <section class="hearth-card yurt-mooncal" aria-labelledby="moon-calendar" data-yurt-mooncal>
+    <h2 id="moon-calendar">The Moon Calendar</h2>
+    <p class="section-intro">The moon over the yurt this month, as seen from Birmingham unless you say where you are: its phase each day, the four quarters to the minute, and when it rises and sets where you are. The phase is the same everywhere on Earth; what changes with the place is the date it falls on, the hours it is up, and which side of a crescent is lit, which is the other way round south of the equator.</p>
+    <div class="yurt-mooncal__place" data-mooncal-place hidden>
+      <label class="yurt-mooncal__label" for="mooncal-where">Where you are</label>
+      <select id="mooncal-where" class="yurt-mooncal__select" data-mooncal-select></select>
+      <div class="yurt-mooncal__custom" data-mooncal-custom hidden>
+        <label class="yurt-mooncal__label">Latitude <input type="number" class="yurt-mooncal__in" step="0.0001" min="-90" max="90" inputmode="decimal" data-mooncal-lat></label>
+        <label class="yurt-mooncal__label">Longitude <input type="number" class="yurt-mooncal__in" step="0.0001" min="-180" max="180" inputmode="decimal" data-mooncal-lon></label>
+        <label class="yurt-mooncal__label">Time zone <select class="yurt-mooncal__select" data-mooncal-tz></select></label>
+      </div>
+      <button type="button" class="yurt-magic__btn" data-mooncal-forget hidden>Back to Birmingham</button>
+      <p class="yurt-mooncal__said" data-mooncal-said aria-live="polite"></p>
+    </div>
+    <div class="yurt-mooncal__nav" data-mooncal-nav hidden>
+      <button type="button" class="yurt-magic__btn" data-mooncal-prev>Last month</button>
+      <h3 id="section" class="yurt-mooncal__month" data-mooncal-month aria-live="polite"></h3>
+      <button type="button" class="yurt-magic__btn" data-mooncal-next>Next month</button>
+    </div>
+    <div class="yurt-mooncal__grid" data-mooncal-grid></div>
+    <p class="yurt-mooncal__quarters" data-mooncal-quarters></p>
+    <p class="yurt-gallery__note">Worked out on this page from the device&rsquo;s own clock, with nothing fetched: the moon&rsquo;s place in the sky from the low-precision formulae in the Astronomical Almanac, so the phase is right, a quarter&rsquo;s day is right except within an hour or so of midnight, and moonrise and moonset are within a few minutes of an almanac&rsquo;s. Where you are is a choice from the list, or a latitude, a longitude and a time zone you type, kept only in your own browser and never sent anywhere; the page never asks the browser where you are. With no script, the calendar cannot be drawn.</p>
+  </section>
+
+  <!-- THE PICTURES IN THIS YURT: every borrowed photograph's credit, gathered here
+       (Helen's review, 2026-11-09) rather than under each picture, each line saying
+       where its picture hangs. The Art Gallery, the Crystal Wheel and the Stim Tin
+       keep their own credits where they are. -->
+  <section class="hearth-card yurt-credits" aria-labelledby="yurt-pictures">
+    <h2 id="yurt-pictures">The pictures in this yurt</h2>
+    <p class="section-intro">The photographs borrowed for this page, each a real one from Wikimedia Commons, resized here with no camera data and nothing drawn over it.</p>
+    <ul class="yurt-credits__list">
+      <li><b>The moth at the lantern under the crown</b>: a photograph by Fir0002, <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Polyphemus_moth_transparent_bkgrnd.png">via Wikimedia Commons</a>, cut from its background by its uploader.</li>
+      <li><b>Through the Alchemist&rsquo;s Arch</b>: Stonehenge at sunset, a photograph by Bkamprath, public domain, <a href="https://commons.wikimedia.org/wiki/File:Stonehenge_sunset.jpg">via Wikimedia Commons</a>.</li>
+      <li><b>Behind the Reading Room&rsquo;s doors</b>: Orion, a photograph by Igor da Bari, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, <a href="https://commons.wikimedia.org/wiki/File:The_Orion_Constellation.jpg">via Wikimedia Commons</a>.</li>
+      <li><b>Behind the Music Room&rsquo;s doors</b>: the Milky Way over the Black Rock Desert, a photograph by Steve Jurvetson, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Milky_Way_Night_Sky_Black_Rock_Desert_Nevada.jpg">via Wikimedia Commons</a>.</li>
+      <li><b>Behind the Cinema&rsquo;s doors</b>: the Whirlpool Galaxy, Messier 51, from the Hubble Space Telescope, by NASA and ESA, public domain, <a href="https://commons.wikimedia.org/wiki/File:Messier51_sRGB.jpg">via Wikimedia Commons</a>.</li>
+      <li><b>The wings in the basket by the door</b>: the moth is Fir0002&rsquo;s, above; the <a href="https://commons.wikimedia.org/wiki/File:Danaus_plexippus-transparent.png">monarch</a>, the <a href="https://commons.wikimedia.org/wiki/File:Vanessa_virginiensis-transparent.png">American lady</a> and the <a href="https://commons.wikimedia.org/wiki/File:Speyeria_aphrodite_alcestis-transparent.png">fritillary</a> are coloured photographs of real butterflies from the Nature Study Publishing Company of Chicago, about 1900, public domain, via Wikimedia Commons, each cut from its background by its uploader.</li>
+    </ul>
   </section>
 
   <!-- The pebble bowl by the door. Written by tools/make-pebbles.py out of
@@ -1778,6 +2043,9 @@
 <script src="yurt-notebook.js" defer></script>
 <script src="yurt-garden.js" defer></script>
 <script src="yurt-stove.js" defer></script>
+<script src="yurt-bell.js" defer></script>
+<script src="yurt-wish.js" defer></script>
+<script src="yurt-moon.js" defer></script>
 <script src="yurt-art.js" defer></script>
 </body>
 </html>

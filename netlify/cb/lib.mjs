@@ -2307,15 +2307,23 @@ export async function withFamiliars(people, s = store()) {
    to the people seen in the asker's room (withCelFolk), and only when the
    entry names that room. Nothing about when is kept, each move replaces the
    last, and switching it off, Forget me and deleting the username delete it
-   (forgetAvatars). privacy.html#cel-folk says so. */
+   (forgetAvatars). privacy.html#cel-folk says so.
+
+   A PAIR OF BORROWED WINGS TRAVELS WITH THE PLACE (Helen Edgar's ask,
+   2026-11-09, her yurt's basket by the door): a room that lends wings names
+   its pairs, the page sends which pair with the place, and it is kept beside
+   the room and the spot, so it goes with them when its person leaves. It is
+   one of CEL_WINGS or nothing, never kept apart from a place. */
 const CEL_FOLK = 'cel-folk';
 export const CEL_SPOTS = 64;
+export const CEL_WINGS = ['moth', 'monarch', 'lady', 'fritillary'];
 
 export function cleanCelSpot(x) {
   if (!x || typeof x !== 'object' || Array.isArray(x)) return null;
   const room = roomTag(x.room);
   const spot = Number.isInteger(x.spot) && x.spot >= 0 && x.spot < CEL_SPOTS ? x.spot : null;
-  return room && spot !== null ? { room, spot } : null;
+  if (!room || spot === null) return null;
+  return CEL_WINGS.includes(x.wings) ? { room, spot, wings: x.wings } : { room, spot };
 }
 
 async function updateCelFolk(change, s) {
@@ -2336,7 +2344,7 @@ export async function showCelFolk(pk, at, s = store()) {
   return updateCelFolk((out) => {
     if (!at) { if (!own(out, pk)) return false; delete out[pk]; return true; }
     const was = own(out, pk) ? JSON.stringify(out[pk]) : '';
-    out[pk] = { room: at.room, spot: at.spot };
+    out[pk] = at.wings ? { room: at.room, spot: at.spot, wings: at.wings } : { room: at.room, spot: at.spot };
     return JSON.stringify(out[pk]) !== was;
   }, s);
 }
@@ -2356,7 +2364,8 @@ export async function withCelFolk(people, room, s = store()) {
     const k = petKey(p.handle);
     const at = own(out, k) ? cleanCelSpot(out[k]) : null;
     const look = own(worn, k) && worn[k] ? cleanLook(worn[k].look) : null;
-    return at && at.room === room && look ? { ...p, cel: { spot: at.spot, look } } : p;
+    if (!at || at.room !== room || !look) return p;
+    return { ...p, cel: at.wings ? { spot: at.spot, wings: at.wings, look } : { spot: at.spot, look } };
   });
 }
 

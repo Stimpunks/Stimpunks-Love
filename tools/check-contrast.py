@@ -4616,6 +4616,18 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#e89ab0": "the faery yurt: the rose wash in the fog behind the looking-glass, 1.82 on the meadow it lies "
+               "over. It carries no word: nothing in that fog is one.",
+    "#f2b98a": "the faery yurt: the peach wash in the fog behind the looking-glass, 1.46 on the meadow. It "
+               "carries no word.",
+    "#eedc7a": "the faery yurt: the lemon wash in the fog behind the looking-glass, 1.17 on the meadow. It "
+               "carries no word.",
+    "#8fd0a6": "the faery yurt: the mint wash in the fog behind the looking-glass, 1.50 on the meadow. It "
+               "carries no word.",
+    "#8dbbe3": "the faery yurt: the sky wash in the fog behind the looking-glass, 1.71 on the meadow. It "
+               "carries no word.",
+    "#b49bd9": "the faery yurt: the lilac wash in the fog behind the looking-glass, 2.05 on the meadow. It "
+               "carries no word.",
     "#d3a27a": "the golem trust: the clay where a thumb pressed harder in every window pane, and the rule under "
                "every heading and beside every quotation, 1.73 on the lit clay. It carries no word.",
     "#1e1a22": "the golem trust: the hall's wall where no window is, 12.99 against the lit clay round the drawing. "

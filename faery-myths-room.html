@@ -121,7 +121,7 @@
 
   <section>
     <h2 id="stonehenge">The Stones</h2>
-    <p class="myth-intro">Stonehenge stands on Salisbury Plain in Wiltshire, and it was built to face the sun. Press a season to turn the drawing to it.</p>
+    <p class="myth-intro">Stonehenge stands on Salisbury Plain in Wiltshire, and it was built to face the sun. Press a season to turn the photograph to it.</p>
     <div class="myth-sun">
       <fieldset class="myth-sun__pick">
         <legend>Turn to the sun</legend>
@@ -129,30 +129,16 @@
         <input type="radio" name="myth-sun" id="myth-sun-winter"><label for="myth-sun-winter">Midwinter sunset</label>
       </fieldset>
       <svg class="myth-circle" viewBox="0 0 400 170" aria-hidden="true" focusable="false">
-        <defs>
-          <linearGradient id="myth-sky-summer" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="var(--rdr-panel)"/><stop offset=".55" stop-color="var(--myth-amethyst)"/><stop offset="1" stop-color="var(--myth-amber-2)"/>
-          </linearGradient>
-          <linearGradient id="myth-sky-winter" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="var(--rdr-wall)"/><stop offset=".6" stop-color="var(--rdr-velvet)"/><stop offset="1" stop-color="var(--myth-amber)"/>
-          </linearGradient>
-        </defs>
-        <rect class="myth-sky--summer" width="400" height="170" fill="url(#myth-sky-summer)"/>
-        <rect class="myth-sky--winter" width="400" height="170" fill="url(#myth-sky-winter)"/>
-        <!-- midsummer: the sun comes up in the north-east, just to the left of the Heel Stone -->
-        <g class="myth-sun--summer"><circle cx="298" cy="118" r="26" fill="var(--myth-amber-2)" opacity=".35"/><circle cx="298" cy="120" r="13" fill="var(--myth-amber-2)"/></g>
-        <!-- midwinter: it goes down in the south-west, through the Great Trilithon -->
-        <g class="myth-sun--winter"><circle cx="150" cy="116" r="26" fill="var(--myth-amber)" opacity=".35"/><circle cx="150" cy="118" r="12" fill="var(--myth-amber-2)"/></g>
-        <path d="M0 128 Q120 118 220 124 Q320 130 400 122 V170 H0 Z" fill="var(--rdr-timber)"/>
-        <g fill="var(--rdr-stone)">
-          <rect x="70" y="104" width="12" height="28"/><rect x="88" y="102" width="12" height="30"/><rect x="67" y="98" width="36" height="7"/>
-          <rect x="138" y="86" width="13" height="44"/><rect x="157" y="86" width="13" height="44"/><rect x="135" y="79" width="38" height="8"/>
-          <rect x="196" y="100" width="12" height="30"/><rect x="214" y="100" width="12" height="30"/><rect x="193" y="94" width="36" height="7"/>
-          <rect x="246" y="106" width="11" height="25"/><rect x="262" y="107" width="10" height="24"/><rect x="243" y="101" width="31" height="6"/>
-          <rect x="114" y="112" width="7" height="18"/><rect x="180" y="114" width="7" height="16"/><rect x="232" y="114" width="7" height="17"/>
-          <path d="M316 132 L319 106 L330 103 L333 132 Z"/>
-        </g>
+        <image class="myth-sky--summer" href="faery-yurt/solstice-sunrise.jpg" x="0" y="0" width="400" height="170" preserveAspectRatio="xMidYMid slice"/>
+        <image class="myth-sky--winter" href="faery-yurt/stonehenge-sunset-2.jpg" x="0" y="0" width="400" height="170" preserveAspectRatio="xMidYMid slice"/>
       </svg>
+      <!-- Since 2026-11-09, Helen's ask ("real photo of solstice at stone henge"), the drawing is two
+           photographs: the midsummer sunrise is the sun behind the Heel Stone on the solstice, by Andrew
+           Dunn, CC BY-SA 2.0, with the solstice crowd in silhouette; the other is a sunset at Stonehenge
+           by Fanfwah, CC BY-SA 4.0, which is a sunset there and not the midwinter one, and the credit says
+           so. Both via Wikimedia Commons, resized here with no metadata and nothing drawn over them. -->
+      <p class="myth-sun__credit myth-sky--summer">The sun behind the Heel Stone, just after sunrise on the summer solstice, a photograph by Andrew Dunn, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Sun_behind_the_Heel_Stone.jpg">via Wikimedia Commons</a>; the solstice crowd is there in silhouette. Resized.</p>
+      <p class="myth-sun__credit myth-sky--winter">A sunset at Stonehenge, a photograph by Fanfwah, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Stonehenge_at_sunset_03.jpg">via Wikimedia Commons</a>; a sunset there, not the midwinter one. Resized.</p>
       <p class="myth-sun__says myth-sun__says--summer"><!-- yurt-myths:summer:begin -->At midsummer, standing in the middle of the circle, you see the sun rise just to the left of the Heel Stone, the big stone outside the circle, along the line of the Avenue. <span class="myth-src">(<a href="https://www.english-heritage.org.uk/visit/places/stonehenge/things-to-do/stone-circle/celestial-stonehenge/">English Heritage, Celestial Stonehenge</a>)</span><!-- yurt-myths:summer:end --></p>
       <p class="myth-sun__says myth-sun__says--winter"><!-- yurt-myths:winter:begin -->At midwinter, looking the other way, the sun would once have set between the two uprights of the tallest trilithon. Half of that trilithon has fallen, so the view is gone, but the line is still the same. <span class="myth-src">(<a href="https://www.english-heritage.org.uk/visit/places/stonehenge/things-to-do/stone-circle/celestial-stonehenge/">English Heritage, Celestial Stonehenge</a>)</span><!-- yurt-myths:winter:end --></p>
     </div>

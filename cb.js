@@ -15868,7 +15868,7 @@
      Whether it is on is kept in love-cb as `cel`, Be seen here's rule. */
   var celSpot = null;
   window.addEventListener('love-cel-spot', function (e) {
-    celSpot = e.detail && Number.isInteger(e.detail.spot) ? { room: e.detail.room, spot: e.detail.spot } : null;
+    celSpot = e.detail && Number.isInteger(e.detail.spot) ? { room: e.detail.room, spot: e.detail.spot, wings: typeof e.detail.wings === 'string' ? e.detail.wings : null } : null;
     if (radio && !radio.state.folded) radio.celShown();
   });
   function celPage() { return !inWindow() && herePath() === '/cel-street.html'; }
@@ -15886,7 +15886,9 @@
     }
     // What the street should hold about you: your place while you are on,
     // seen, in a room on Cel Street, and nothing otherwise.
-    var want = this.state.cel && this.state.seen && show && celSpot && celSpot.room === here ? { room: here, spot: celSpot.spot } : null;
+    // A pair of wings borrowed in the room (Helen's basket by the door) goes
+    // with the place and comes back in the basket with it.
+    var want = this.state.cel && this.state.seen && show && celSpot && celSpot.room === here ? (celSpot.wings ? { room: here, spot: celSpot.spot, wings: celSpot.wings } : { room: here, spot: celSpot.spot }) : null;
     var wantKey = want ? JSON.stringify(want) : '';
     // Sent when it changes. The first time with nothing to send, once, in case
     // a record from an earlier visit is still there.
