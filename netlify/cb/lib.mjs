@@ -2313,8 +2313,15 @@ export async function withFamiliars(people, s = store()) {
    2026-11-09, her yurt's basket by the door): a room that lends wings names
    its pairs, the page sends which pair with the place, and it is kept beside
    the room and the spot, so it goes with them when its person leaves. It is
-   one of CEL_WINGS or nothing, never kept apart from a place. */
+   one of CEL_WINGS or nothing, never kept apart from a place.
+
+   A WAVE TRAVELS WITH THE PLACE TOO (Helen Edgar's ask, 2026-11-11, "see each
+   other's hands waving"): Wave in a room counts one on, round 0 to 9, and the
+   number goes with the place, so a figure whose number changed since a radio
+   last heard of it waves. It says nobody's hands, nothing about when, and goes
+   with the place: no record of waving is kept apart from where you stand. */
 const CEL_FOLK = 'cel-folk';
+export const CEL_WAVES = 10;
 export const CEL_SPOTS = 64;
 export const CEL_WINGS = ['moth', 'monarch', 'lady', 'fritillary'];
 
@@ -2323,7 +2330,9 @@ export function cleanCelSpot(x) {
   const room = roomTag(x.room);
   const spot = Number.isInteger(x.spot) && x.spot >= 0 && x.spot < CEL_SPOTS ? x.spot : null;
   if (!room || spot === null) return null;
-  return CEL_WINGS.includes(x.wings) ? { room, spot, wings: x.wings } : { room, spot };
+  const at = CEL_WINGS.includes(x.wings) ? { room, spot, wings: x.wings } : { room, spot };
+  if (Number.isInteger(x.wave) && x.wave >= 0 && x.wave < CEL_WAVES) at.wave = x.wave;
+  return at;
 }
 
 async function updateCelFolk(change, s) {
@@ -2344,7 +2353,7 @@ export async function showCelFolk(pk, at, s = store()) {
   return updateCelFolk((out) => {
     if (!at) { if (!own(out, pk)) return false; delete out[pk]; return true; }
     const was = own(out, pk) ? JSON.stringify(out[pk]) : '';
-    out[pk] = at.wings ? { room: at.room, spot: at.spot, wings: at.wings } : { room: at.room, spot: at.spot };
+    out[pk] = cleanCelSpot(at);
     return JSON.stringify(out[pk]) !== was;
   }, s);
 }
@@ -2365,7 +2374,11 @@ export async function withCelFolk(people, room, s = store()) {
     const at = own(out, k) ? cleanCelSpot(out[k]) : null;
     const look = own(worn, k) && worn[k] ? cleanLook(worn[k].look) : null;
     if (!at || at.room !== room || !look) return p;
-    return { ...p, cel: at.wings ? { spot: at.spot, wings: at.wings, look } : { spot: at.spot, look } };
+    const cel = { spot: at.spot };
+    if (at.wings) cel.wings = at.wings;
+    if (at.wave !== undefined) cel.wave = at.wave;
+    cel.look = look;
+    return { ...p, cel };
   });
 }
 

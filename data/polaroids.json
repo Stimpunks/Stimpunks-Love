@@ -5,6 +5,7 @@
   "_young": "Young people who are doing the work and have said yes THEMSELVES are published and credited like anybody else — a lot of Stimpunks volunteers and self-advocates are teenagers, and keeping them off the page hands the credit for their own activities to the adults beside them. The consent has to be theirs: a parent can be in the conversation, but an adult’s yes is not a substitute for the young person’s. Withdrawal works for them exactly as it does for everybody — say so once, and it is deletion. Where somebody is too young to give that consent themselves, we do not publish the photograph and a parent cannot give it for them. Superseded the flat no-children rule on 2026-09-21, Ryan’s call; see DECISIONS.md.",
   "_required": "Every photo needs id, alt, subject and consent_on. 'caption' and 'photographer' are optional, but a named photographer must also have given permission — being in a picture is not the same as owning it.",
   "_elsewhere": "A photograph may hang somewhere other than Enid's wall. List every other page it appears on in that entry's 'elsewhere' array; make-polaroids.py walks all the HTML and refuses if a page publishes a photo the record does not mention, or if the record names a page that has dropped it. That is what makes withdrawal mean everywhere: delete the entry and the tool refuses to run until the photo is off every page, instead of leaving one behind.",
+  "_headset": "A photograph may also be drawn on the reading board a VR headset shows in a room on Cel Street, where the room's own page cannot be shown: only where its record says 'headset' with the date of the yes, and only on the board of a page its record already lists. Without it the board says the photograph hangs on the room's own page. tools/make-cel-street.py writes the list into cel-street.js, so deleting the entry or the field takes it off the board too. Helen Edgar gave hers on 2026-11-11 for every photograph she took; the one of her taken by a friend is not included, because that yes is theirs.",
   "photos": [
     {
       "id": "ryan-tankard",
@@ -40,7 +41,8 @@
       "photographer": "Helen Edgar",
       "photographer_agreed": true,
       "consent_on": "2026-09-20",
-      "note": "Sent by Helen for both places at once — Enid's wall and her own room, the Faery Yurt, where it is the portrait beside the welcome. The description, the caption and the naming are hers. Not resized, not cropped, and NOT FILTERED: her mockup put a sepia wash over this photograph and polaroids.html promises in as many words that we will not filter anybody, so the wash is the one other thing about her room this site did not carry over. The wooden frame around it is matting and stays."
+      "note": "Sent by Helen for both places at once — Enid's wall and her own room, the Faery Yurt, where it is the portrait beside the welcome. The description, the caption and the naming are hers. Not resized, not cropped, and NOT FILTERED: her mockup put a sepia wash over this photograph and polaroids.html promises in as many words that we will not filter anybody, so the wash is the one other thing about her room this site did not carry over. The wooden frame around it is matting and stays.",
+      "headset": "2026-11-11"
     },
     {
       "id": "helen-forest",
@@ -54,7 +56,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-15, to replace the portrait beside the welcome in her own room, the Faery Yurt; she is in it, took it, and asked for it there. The description is her earlier one for the portrait it replaces, which still fits it; hers to change. The earlier portrait stays on Enid's wall. Not cropped, not filtered; re-saved with no metadata."
+      "note": "Sent by Helen Edgar, 2026-10-15, to replace the portrait beside the welcome in her own room, the Faery Yurt; she is in it, took it, and asked for it there. The description is her earlier one for the portrait it replaces, which still fits it; hers to change. The earlier portrait stays on Enid's wall. Not cropped, not filtered; re-saved with no metadata.",
+      "headset": "2026-11-11"
     },
     {
       "id": "ryan-pride-banner",
@@ -187,7 +190,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-cats-2",
@@ -200,7 +204,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-cats-3",
@@ -213,7 +218,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-cats-4",
@@ -226,7 +232,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-cats-5",
@@ -239,7 +246,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-cats-6",
@@ -252,7 +260,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-cats-7",
@@ -265,7 +274,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-cats-8",
@@ -278,7 +288,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the cats' gallery in her Faery Yurt; she took it and said it may be used. The cats are shown together at her ask, so no description says which cat is which. The description was drafted by Claude and approved by Helen. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-nature-flowers",
@@ -291,7 +302,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and is of Helen herself, so it was approved in her words before it went up; it names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and is of Helen herself, so it was approved in her words before it went up; it names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-nature-boots",
@@ -304,7 +316,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-nature-tree",
@@ -317,7 +330,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-nature-conkers",
@@ -330,7 +344,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-nature-mushrooms-1",
@@ -343,7 +358,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-nature-mushrooms-2",
@@ -356,7 +372,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-nature-mushrooms-3",
@@ -369,7 +386,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-nature-mushrooms-4",
@@ -382,7 +400,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-nature-mushrooms-5",
@@ -395,7 +414,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-nature-mushrooms-6",
@@ -408,7 +428,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-nature-mushrooms-7",
@@ -421,7 +442,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the nature section of her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen, and names nothing to species: the street never guesses what a mushroom is. No place is given, by choice. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-nook-corner",
@@ -434,7 +456,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the Regulation Nook in her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen. The signs on the wall are somebody else's prints, shown as part of her room and not reproduced on their own. Not resized, not cropped, not filtered; the file carried no location or camera data."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the Regulation Nook in her Faery Yurt; she took it and said it may be used. The description was drafted by Claude and approved by Helen. The signs on the wall are somebody else's prints, shown as part of her room and not reproduced on their own. Not resized, not cropped, not filtered; the file carried no location or camera data.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-01",
@@ -448,7 +471,8 @@
         "faery-yurt.html",
         "play-pod.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-02",
@@ -462,7 +486,8 @@
         "faery-yurt.html",
         "play-pod.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-03",
@@ -476,7 +501,8 @@
         "faery-yurt.html",
         "play-pod.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-04",
@@ -489,7 +515,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-05",
@@ -502,7 +529,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-06",
@@ -515,7 +543,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-07",
@@ -528,7 +557,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-08",
@@ -541,7 +571,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-09",
@@ -554,7 +585,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-10",
@@ -567,7 +599,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-11",
@@ -580,7 +613,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-12",
@@ -593,7 +627,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-13",
@@ -606,7 +641,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-14",
@@ -619,7 +655,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-15",
@@ -632,7 +669,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-16",
@@ -645,7 +683,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-17",
@@ -658,7 +697,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-18",
@@ -671,7 +711,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-19",
@@ -684,7 +725,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-20",
@@ -697,7 +739,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-21",
@@ -710,7 +753,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-22",
@@ -723,7 +767,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-23",
@@ -736,7 +781,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-24",
@@ -749,7 +795,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-25",
@@ -762,7 +809,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-26",
@@ -775,7 +823,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-27",
@@ -788,7 +837,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-28",
@@ -801,7 +851,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-29",
@@ -814,7 +865,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-30",
@@ -827,7 +879,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-31",
@@ -840,7 +893,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-32",
@@ -853,7 +907,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-33",
@@ -866,7 +921,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-34",
@@ -879,7 +935,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-35",
@@ -892,7 +949,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-36",
@@ -905,7 +963,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-37",
@@ -918,7 +977,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-38",
@@ -931,7 +991,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-39",
@@ -944,7 +1005,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-40",
@@ -957,7 +1019,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-41",
@@ -970,7 +1033,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-42",
@@ -983,7 +1047,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-43",
@@ -996,7 +1061,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-44",
@@ -1009,7 +1075,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-45",
@@ -1022,7 +1089,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-46",
@@ -1035,7 +1103,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-47",
@@ -1048,7 +1117,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-48",
@@ -1061,7 +1131,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-49",
@@ -1074,7 +1145,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-50",
@@ -1087,7 +1159,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-51",
@@ -1100,7 +1173,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-52",
@@ -1113,7 +1187,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-53",
@@ -1126,7 +1201,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-54",
@@ -1139,7 +1215,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-55",
@@ -1152,7 +1229,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-56",
@@ -1165,7 +1243,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-57",
@@ -1178,7 +1257,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-58",
@@ -1191,7 +1271,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-59",
@@ -1204,7 +1285,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-60",
@@ -1217,7 +1299,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-61",
@@ -1230,7 +1313,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-62",
@@ -1243,7 +1327,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-63",
@@ -1256,7 +1341,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-64",
@@ -1269,7 +1355,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-65",
@@ -1282,7 +1369,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-66",
@@ -1295,7 +1383,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-67",
@@ -1308,7 +1397,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-68",
@@ -1321,7 +1411,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-69",
@@ -1334,7 +1425,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-70",
@@ -1347,7 +1439,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-71",
@@ -1360,7 +1453,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-72",
@@ -1373,7 +1467,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-73",
@@ -1386,7 +1481,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-74",
@@ -1399,7 +1495,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-75",
@@ -1412,7 +1509,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-76",
@@ -1425,7 +1523,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-77",
@@ -1438,7 +1537,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-78",
@@ -1451,7 +1551,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-glimmer-79",
@@ -1464,7 +1565,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-14, for the rolling carousel in her Faery Yurt's glimmer window; she took it and said it may be used. Received as a WhatsApp copy with no location or camera data, resized to 1200px for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude and approved by Helen; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-moon-spoon",
@@ -1477,7 +1579,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-16, for the moon spoon windowledge in her Faery Yurt; she took it and said it is her own. Received with no location or camera data, resized for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude from looking at the picture and is hers to change; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-16, for the moon spoon windowledge in her Faery Yurt; she took it and said it is her own. Received with no location or camera data, resized for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude from looking at the picture and is hers to change; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-woods-flowers",
@@ -1490,7 +1593,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-16, for the moon spoon windowledge in her Faery Yurt; she took it and said it is her own. Received with no location or camera data, resized for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude from looking at the picture and is hers to change; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-16, for the moon spoon windowledge in her Faery Yurt; she took it and said it is her own. Received with no location or camera data, resized for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude from looking at the picture and is hers to change; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-flower-basket",
@@ -1503,7 +1607,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-16, for the moon spoon windowledge in her Faery Yurt; she took it and said it is her own. Received with no location or camera data, resized for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude from looking at the picture and is hers to change; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-16, for the moon spoon windowledge in her Faery Yurt; she took it and said it is her own. Received with no location or camera data, resized for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude from looking at the picture and is hers to change; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "yurt-faery-garden",
@@ -1516,7 +1621,8 @@
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen Edgar, 2026-10-16, for the moon spoon windowledge in her Faery Yurt; she took it and said it is her own. Received with no location or camera data, resized for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude from looking at the picture and is hers to change; nothing in it names a species or says where it was taken."
+      "note": "Sent by Helen Edgar, 2026-10-16, for the moon spoon windowledge in her Faery Yurt; she took it and said it is her own. Received with no location or camera data, resized for the web with Pillow and saved as WebP with no metadata; not cropped, not filtered. The description was drafted by Claude from looking at the picture and is hers to change; nothing in it names a species or says where it was taken.",
+      "headset": "2026-11-11"
     },
     {
       "id": "david-geneva-rocks-and-ferry",

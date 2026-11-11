@@ -1956,7 +1956,14 @@ let-go. **Tried only in a pretend headset** (a fake `navigator.xr` in the browse
 pausing the room's sounds "since it is a break"** (somebody may have the rain on on purpose), **her photographs on the board "since it is her room"**
 (each record's `elsewhere` is hers to widen), **the picture switching back to full when the frames recover**, which flaps, **a stronger or longer buzz
 "so it can be felt"**, **the page's words typed into a room file "so the board looks better"**, and **seeing each other's hands**, which sends more
-than a place and needs the privacy page first.
+than a place and needs the privacy page first. **Helen's photographs are drawn on the board since the same evening, by her yes** ("they are my photos and i
+consent"): a record in `data/polaroids.json` with `headset` (the date of the yes) is written by `make-cel-street.py` into `HEADSET_PHOTOS` between
+`cel:photos` markers, and the board draws only those (`headsetMay`); the friend's photograph of her on the staircase is not among them, because that yes
+is the friend's. **Wave** (the same evening, "see each other's hands waving") is a press in every room: `myWave`, a count round 0 to 9, travels with the
+place (`cleanCelSpot`, `CEL_WAVES`, privacy.html#cel-folk) and a figure whose count moved since this page last heard of it waves its arm
+(`waveStart`, `waveStep`, inside `moveTick` and the headset's frames), still at Gentle, said in words. **Real hands are never sent**, and the tool
+refuses a hand's pose beside a place. The friendly edits are **live hand tracking sent "so a wave is real"**, which is a stream of somebody's body,
+**a wave that lasts "so nobody misses it"**, and **a figure waving on arrival**.
 
 **THE BASKET OF WINGS BY THE YURT'S DOOR LENDS A PAIR TO YOUR 3D FIGURE, AND HER THREE ANIMALS ARE ASLEEP IN THE SCENE.**
 Helen Edgar's asks, 2026-11-09. A room on Cel Street that lends wings names its pairs (`wings` in `cel-in-faery-yurt.js`,

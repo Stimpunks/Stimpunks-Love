@@ -200,9 +200,9 @@ if "function vrHere() { return inside ? inside.vr : true; }" not in code or "if 
     refuse("cel-street.js can keep a headset in a room that does not say vr: true.")
 # The headset round of 2026-11-12 (Helen Edgar: "All of them"). A buzz in the
 # hand is small and short, and follows the dial; the board that reads a room's
-# page in the headset never draws a photograph with a consent record (class
-# "photo", the polaroid wall's: its record names the pages it may hang on, and
-# Cel Street is not one), and is written from the page as loaded, never from a
+# page in the headset draws a photograph with a consent record (class "photo",
+# the polaroid wall's) only where that record says yes to it ('headset', Helen
+# Edgar's for every photograph she took, 2026-11-11), and is written from the page as loaded, never from a
 # copy; the bodymind break stops nothing by itself and nothing in it moves;
 # the dial is on the panel, so nobody has to take a headset off to turn a room
 # down; the lighter picture never flaps back by itself; and a thing taken by
@@ -213,9 +213,21 @@ if not _buzz or float(_buzz.group(1)) > 0.5 or float(_buzz.group(2)) > 60:
            "a press is a small, short buzz, and none at Gentle.")
 if "d.getAttribute('data-intensity') !== 'gentle' && !d.hasAttribute('data-low')" not in code:
     refuse("cel-street.js no longer holds the controller's buzz to the dial: none at Gentle or in a low-stimulation mode, unless the panel's switch says so.")
-if "if (el.classList.contains('photo')) { add('held', READ_HELD); return; }" not in code:
-    refuse("cel-street.js's board in the headset can draw a photograph with a consent record (class \"photo\"). Its record "
-           "names the pages it may hang on, so the board says it hangs on the room's own page and only there.")
+if "if (el.classList.contains('photo') && !headsetMay(el)) { add('held', READ_HELD); return; }" not in code \
+        or "return /^photos\\/[^\\/]+$/.test(src) && HEADSET_PHOTOS.indexOf(src.slice(7)) !== -1;" not in code:
+    refuse("cel-street.js's board in the headset can draw a photograph with a consent record (class \"photo\") that has not said yes "
+           "to it. Only a photograph whose record in data/polaroids.json carries 'headset' (HEADSET_PHOTOS) is drawn; every other "
+           "one, the board says hangs on the room's own page and only there.")
+# A wave (Helen Edgar's ask, 2026-11-11, "see each other's hands waving") goes
+# to the radio only as a count round 0 to 9 beside the place, never as hands:
+# nothing of a hand's pose or position is ever sent, and a figure seen for the
+# first time does not wave.
+if "myWave = myWave === null ? 0 : (myWave + 1) % 10;" not in code \
+        or "wings: wornWings, wave: myWave }" not in code \
+        or "Object.prototype.hasOwnProperty.call(waveSeen, wk) && waveSeen[wk] !== who.wave" not in code:
+    refuse("cel-street.js's wave is no longer a count round 0 to 9 sent beside your place, or a figure waves the first time it is seen.")
+if re.search(r"love-cel-spot[^;]*(joint|palm|hand\b|pose|position)", code):
+    refuse("cel-street.js sends something of your hands with your place. A wave is a count; your hands are never sent.")
 if "where.f.contentDocument" not in code or re.search(r"readerParts\(\s*(?!doc\b)", code.split("function readerParts(doc)")[-1]):
     refuse("cel-street.js's board in the headset is no longer written from the room's own page as it is loaded on its screen.")
 _brk = re.search(r"function breakSet\(on\) \{(.*?)\n  \}\n", code, re.S)
@@ -703,6 +715,26 @@ def room_name(rpage, fname):
     return html.unescape(t.group(1)).split(" \u2014 ")[0].strip() if t else rpage
 line += "\n  var NAMES = " + json.dumps({k: room_name(k, v) for k, v in sorted(rooms.items())}, ensure_ascii=False) + ";"
 js_new = re.sub(r"(// cel:rooms:begin\n).*?(\n\s*// cel:rooms:end)", lambda m: m.group(1) + line + m.group(2), js, flags=re.S)
+# The photographs the headset's reading board may draw: only those whose
+# consent record in data/polaroids.json says 'headset', with the date of the
+# yes, written between cel:photos markers, never by hand, so deleting a record
+# or the field takes the photograph off the board at the next run.
+_pol = json.loads((ROOT / "data" / "polaroids.json").read_text())
+_hs = []
+for _ph in _pol.get("photos", []):
+    if "headset" not in _ph:
+        continue
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(_ph["headset"])):
+        refuse(f"data/polaroids.json: {_ph.get('id')!r} says 'headset' without the date of the yes.")
+        continue
+    _files = sorted(f.name for f in (ROOT / "photos").glob(f"{_ph['id']}.*"))
+    if not _files:
+        refuse(f"data/polaroids.json: {_ph.get('id')!r} says 'headset' and photos/ has no file for it.")
+    _hs += _files
+if "// cel:photos:begin" not in js or "// cel:photos:end" not in js:
+    refuse("cel-street.js has lost its cel:photos markers.")
+js_new = re.sub(r"(// cel:photos:begin\n).*?(\n\s*// cel:photos:end)",
+                lambda m: m.group(1) + "  var HEADSET_PHOTOS = " + json.dumps(sorted(_hs)) + ";" + m.group(2), js_new, flags=re.S)
 if "// cel:rooms:begin" not in js:
     print("REFUSING: cel-street.js has lost its cel:rooms markers.")
     sys.exit(2)

@@ -1367,6 +1367,7 @@ function start() {
   function moveTick(now) {
     moveFrame = 0;
     var any = stepMoves(now);
+    if (waveStep(now)) any = true;
     draw();
     if (any && !xrOn) moveFrame = requestAnimationFrame(moveTick);
   }
@@ -2159,6 +2160,17 @@ function start() {
             return wornWings ? 'You are wearing ' + wingName(wornWings).toLowerCase() + ' wings, for anybody in the room who sees your figure; they go back in the basket when you leave.' : 'The wings are back in the basket.';
           } });
       }
+      // WAVE (Helen Edgar's ask, 2026-11-11, "see each other's hands
+      // waving"): a press that makes your figure wave its hand for the people
+      // seen in this room with you, while Show my avatar in 3D rooms is on. It
+      // goes with your place to the radio as a count round 0 to 9 (spotTell),
+      // never as your real hands, and starts afresh in every room.
+      myWave = null; waveSeen = {};
+      k.press({ say: 'Wave to the people here', press: function () {
+        myWave = myWave === null ? 0 : (myWave + 1) % 10;
+        spotTell();
+        return 'You wave. The people seen in this room with you see your figure wave its hand, while Show my avatar in 3D rooms is on.';
+      } });
       bake();
       xrSeat = 0; seated = null; stature = null; xrTour = 0;
       inside = { page: page, name: name, vr: !!made.vr, from: room.from || null, tunnel: room.tunnel || null };
@@ -2217,7 +2229,7 @@ function start() {
     });
     var was = behind.pop();
     scene = was.scene; far = was.far; stops = was.stops; bounds = was.bounds; hits = was.hits; me = was.me;
-    inside = was.inside; glide = null; held = {}; wornWings = null;
+    inside = was.inside; glide = null; held = {}; wornWings = null; myWave = null; waveSeen = {};
     xrSeat = 0; seated = null; stature = null;
     // The room you came back into shows its own page again.
     scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = ''; });
@@ -2845,7 +2857,7 @@ function start() {
   // and its clothes as blocks of their own colours, every colour read by name
   // out of avatar.js's own tables. Nothing here is fetched or kept: the list
   // is the radio's, and it goes when you leave the room.
-  var folkGroup = null, folkList = null, spotSaid = '', wornWings = null;
+  var folkGroup = null, folkList = null, spotSaid = '', wornWings = null, myWave = null, waveSeen = {}, waving = [];
   // The place you are at: the nearest by distance alone, so a headset's free
   // walking still counts, and none when you are far from any.
   function spotOf() {
@@ -2855,10 +2867,10 @@ function start() {
   }
   function spotTell() {
     var i = inside ? spotOf() : -1;
-    var key = inside ? inside.page + ':' + i + ':' + (wornWings || '') : '';
+    var key = inside ? inside.page + ':' + i + ':' + (wornWings || '') + ':' + (myWave === null ? '' : myWave) : '';
     if (key === spotSaid) return;
     spotSaid = key;
-    window.dispatchEvent(new CustomEvent('love-cel-spot', { detail: inside && i >= 0 ? { room: inside.page.replace(/\.html$/, ''), spot: i, wings: wornWings } : null }));
+    window.dispatchEvent(new CustomEvent('love-cel-spot', { detail: inside && i >= 0 ? { room: inside.page.replace(/\.html$/, ''), spot: i, wings: wornWings, wave: myWave } : null }));
   }
   function folkClear() {
     if (!folkGroup) return;
@@ -2964,10 +2976,21 @@ function start() {
     if (wear.outer) figurePart(g, new THREE.BoxGeometry(sw + 0.08, torsoH * 0.9, sd + 0.08), cloth('outer', layer), at(0, torsoY + torsoH * 0.5, 0));
     var sleeve = wear.outer ? cloth('outer', layer) : top;
     var armH = torsoH * 0.9;
+    // The arm away from any cane hangs from a shoulder of its own, so it can
+    // wave (folkDraw); it is placed exactly where it always was.
     [-1, 1].forEach(function (sd2) {
       var ax = sd2 * (sw / 2 + 0.07 + (wear.outer ? 0.04 : 0));
-      figurePart(g, new THREE.BoxGeometry(0.11, armH, 0.11), sleeve, at(ax, torsoY + torsoH - armH / 2, seated ? -0.04 : 0));
-      figurePart(g, new THREE.BoxGeometry(0.1, 0.1, 0.1), skin, at(ax, torsoY + torsoH - armH - 0.04, seated ? -0.04 : 0));
+      var holder = g, ox = ax, oy = torsoY + torsoH;
+      if (sd2 < 0) {
+        holder = new THREE.Group();
+        holder.position.set(ax, torsoY + torsoH, seated ? -0.04 : 0);
+        g.add(holder);
+        g.userData.arm = holder;
+        ox = 0; oy = 0;
+      }
+      var oz = holder === g && seated ? -0.04 : 0;
+      figurePart(holder, new THREE.BoxGeometry(0.11, armH, 0.11), sleeve, at(ox, oy - armH / 2, oz));
+      figurePart(holder, new THREE.BoxGeometry(0.1, 0.1, 0.1), skin, at(ox, oy - armH - 0.04, oz));
     });
     // A pair of wings borrowed from a room's basket (Helen's yurt): a real
     // moth or butterfly, a photograph across the shoulders, angled back.
@@ -3024,6 +3047,31 @@ function start() {
     g.add(tag);
     return g;
   }
+  // A wave: the arm raised up and out, swinging a little for WAVE_FOR seconds,
+  // then down. At Gentle, in a low-stimulation mode or a hidden tab it is
+  // raised and held still for that time, and the words are the same.
+  var WAVE_FOR = 2.4, WAVE_UP = 2.6, WAVE_SWING = 0.3, WAVE_HZ = 1;
+  function waveStart(arm, handle) {
+    var still = document.documentElement.getAttribute('data-intensity') === 'gentle' || document.documentElement.hasAttribute('data-low') || (document.hidden && !xrOn);
+    waving.push({ arm: arm, t0: 0, still: still });
+    ctlSay(handle + ' waves.');
+    if (!moveFrame && !xrOn) moveFrame = requestAnimationFrame(moveTick);
+  }
+  function waveStep(now) {
+    if (!waving.length) return false;
+    var s = now / 1000;
+    waving = waving.filter(function (w) {
+      if (!w.arm.parent) return false;
+      if (!w.t0) w.t0 = s;
+      var e = s - w.t0;
+      if (e >= WAVE_FOR) { w.arm.rotation.z = 0; return false; }
+      var lift = w.still ? 1 : Math.min(1, e / 0.3, (WAVE_FOR - e) / 0.3);
+      var swing = w.still ? 0 : WAVE_SWING * Math.sin(e * WAVE_HZ * Math.PI * 2) * lift;
+      w.arm.rotation.z = -(WAVE_UP * lift + swing);
+      return true;
+    });
+    return true;
+  }
   function folkDraw() {
     folkClear();
     if (!inside || !folkList || folkList.room !== inside.page.replace(/\.html$/, '') || !folkList.folk.length) { draw(); return; }
@@ -3034,6 +3082,11 @@ function start() {
       if (!s) return;
       var fig = figureOf(who);
       if (!fig) return;
+      // A figure whose wave count moved since this page last heard of it
+      // waves, and says so in words; one seen for the first time does not.
+      var wk = who.handle;
+      if (Number.isInteger(who.wave) && Object.prototype.hasOwnProperty.call(waveSeen, wk) && waveSeen[wk] !== who.wave && fig.userData.arm) waveStart(fig.userData.arm, who.handle);
+      waveSeen[wk] = Number.isInteger(who.wave) ? who.wave : null;
       var n = (bySpot[who.spot] = (bySpot[who.spot] || 0) + 1);
       // Beside the place, never on it: you may be standing there yourself, and
       // from inside a figure all you see is its ink. Several at one place
@@ -3499,15 +3552,25 @@ function start() {
   // pictures drawn whole and their credits under them. Under it, Back, Next,
   // the part before and the part after, each saying where it goes and never
   // a number, and Read it to me, which speaks the board, a picture by its
-  // alt text. A PHOTOGRAPH WITH A CONSENT RECORD IS NEVER DRAWN (class
-  // "photo", the polaroid wall's): its record names the pages it may hang on,
-  // so the board says a photograph hangs on the room's own page and only
-  // there. Controls, the dial, the sign-off, the job marker and anything
+  // alt text. A PHOTOGRAPH WITH A CONSENT RECORD IS DRAWN ONLY WHERE ITS
+  // RECORD SAYS YES TO THIS BOARD (class "photo", the polaroid wall's, and
+  // 'headset' in its record, listed in HEADSET_PHOTOS); every other one, the
+  // board says hangs on the room's own page and only there. Controls, the dial, the sign-off, the job marker and anything
   // hidden are left out. It is drawn only in a headset, and only on a press
   // of its tiles does it change. A room that says reader: false has none.
   var READ_SKIP = { SCRIPT: 1, STYLE: 1, NOSCRIPT: 1, TEMPLATE: 1, SVG: 1, svg: 1, BUTTON: 1, INPUT: 1, SELECT: 1, TEXTAREA: 1, LABEL: 1, IFRAME: 1, VIDEO: 1, AUDIO: 1, CANVAS: 1, NAV: 1, FOOTER: 1, FORM: 1, DIALOG: 1 };
   var READ_OUT = '.dial-dock, .dial, .signoff, .quest, .skip, .hlink, .cozy, [hidden], [aria-hidden="true"], [data-cb-dock], .backlink, .cb-host';
   var READ_HELD = 'A photograph hangs here on the room’s own page, and is shown only there.';
+  // The photographs whose consent records say yes to this board ('headset' in
+  // data/polaroids.json), written here by tools/make-cel-street.py. Do not
+  // hand-edit between the markers.
+  // cel:photos:begin
+  var HEADSET_PHOTOS = ["helen-forest.webp", "helen-woods.webp", "yurt-cats-1.webp", "yurt-cats-2.webp", "yurt-cats-3.webp", "yurt-cats-4.webp", "yurt-cats-5.webp", "yurt-cats-6.webp", "yurt-cats-7.webp", "yurt-cats-8.webp", "yurt-faery-garden.webp", "yurt-flower-basket.webp", "yurt-glimmer-01.webp", "yurt-glimmer-02.webp", "yurt-glimmer-03.webp", "yurt-glimmer-04.webp", "yurt-glimmer-05.webp", "yurt-glimmer-06.webp", "yurt-glimmer-07.webp", "yurt-glimmer-08.webp", "yurt-glimmer-09.webp", "yurt-glimmer-10.webp", "yurt-glimmer-11.webp", "yurt-glimmer-12.webp", "yurt-glimmer-13.webp", "yurt-glimmer-14.webp", "yurt-glimmer-15.webp", "yurt-glimmer-16.webp", "yurt-glimmer-17.webp", "yurt-glimmer-18.webp", "yurt-glimmer-19.webp", "yurt-glimmer-20.webp", "yurt-glimmer-21.webp", "yurt-glimmer-22.webp", "yurt-glimmer-23.webp", "yurt-glimmer-24.webp", "yurt-glimmer-25.webp", "yurt-glimmer-26.webp", "yurt-glimmer-27.webp", "yurt-glimmer-28.webp", "yurt-glimmer-29.webp", "yurt-glimmer-30.webp", "yurt-glimmer-31.webp", "yurt-glimmer-32.webp", "yurt-glimmer-33.webp", "yurt-glimmer-34.webp", "yurt-glimmer-35.webp", "yurt-glimmer-36.webp", "yurt-glimmer-37.webp", "yurt-glimmer-38.webp", "yurt-glimmer-39.webp", "yurt-glimmer-40.webp", "yurt-glimmer-41.webp", "yurt-glimmer-42.webp", "yurt-glimmer-43.webp", "yurt-glimmer-44.webp", "yurt-glimmer-45.webp", "yurt-glimmer-46.webp", "yurt-glimmer-47.webp", "yurt-glimmer-48.webp", "yurt-glimmer-49.webp", "yurt-glimmer-50.webp", "yurt-glimmer-51.webp", "yurt-glimmer-52.webp", "yurt-glimmer-53.webp", "yurt-glimmer-54.webp", "yurt-glimmer-55.webp", "yurt-glimmer-56.webp", "yurt-glimmer-57.webp", "yurt-glimmer-58.webp", "yurt-glimmer-59.webp", "yurt-glimmer-60.webp", "yurt-glimmer-61.webp", "yurt-glimmer-62.webp", "yurt-glimmer-63.webp", "yurt-glimmer-64.webp", "yurt-glimmer-65.webp", "yurt-glimmer-66.webp", "yurt-glimmer-67.webp", "yurt-glimmer-68.webp", "yurt-glimmer-69.webp", "yurt-glimmer-70.webp", "yurt-glimmer-71.webp", "yurt-glimmer-72.webp", "yurt-glimmer-73.webp", "yurt-glimmer-74.webp", "yurt-glimmer-75.webp", "yurt-glimmer-76.webp", "yurt-glimmer-77.webp", "yurt-glimmer-78.webp", "yurt-glimmer-79.webp", "yurt-moon-spoon.webp", "yurt-nature-boots.webp", "yurt-nature-conkers.webp", "yurt-nature-flowers.webp", "yurt-nature-mushrooms-1.webp", "yurt-nature-mushrooms-2.webp", "yurt-nature-mushrooms-3.webp", "yurt-nature-mushrooms-4.webp", "yurt-nature-mushrooms-5.webp", "yurt-nature-mushrooms-6.webp", "yurt-nature-mushrooms-7.webp", "yurt-nature-tree.webp", "yurt-nook-corner.webp", "yurt-woods-flowers.webp"];
+  // cel:photos:end
+  function headsetMay(el) {
+    var src = el.getAttribute('src') || '';
+    return /^photos\/[^\/]+$/.test(src) && HEADSET_PHOTOS.indexOf(src.slice(7)) !== -1;
+  }
   function readerParts(doc) {
     var parts = [], part = null;
     // An element's words: its own label if it has one, otherwise its text
@@ -3530,7 +3593,7 @@ function start() {
       part.blocks.push({ kind: kind, text: text, img: img || null });
     }
     function picture(el) {
-      if (el.classList.contains('photo')) { add('held', READ_HELD); return; }
+      if (el.classList.contains('photo') && !headsetMay(el)) { add('held', READ_HELD); return; }
       var src = el.currentSrc || el.src;
       if (!src || /^data:/.test(src)) return;
       add('img', el.getAttribute('alt') || '', src);
@@ -3944,6 +4007,7 @@ function start() {
     // your hands and the break's own panel, and that is all.
     if (xrBreak) { place(); palmsStep(); xrBeams(); renderer.render(breakScene, camera); return; }
     stepMoves(now);
+    waveStep(now);
     xrSticks(dt);
     tourStep(now);
     vignetteStep(dt);
