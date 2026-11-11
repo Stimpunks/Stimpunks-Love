@@ -148,6 +148,14 @@
   }
 
   window.loveCelRooms = window.loveCelRooms || {};
+  /* MORE SEATING (Helen Edgar's ask, 2026-11-12, "more seating for community
+   eg sofas, bean bags, hammocks, cushions, blankets etc in every room"): four
+   more cushions at the tea table, a daybed with a blanket and a basket of
+   blankets between the Glimmer Window and the stove, two beanbags under the
+   curtain's side, and a hammock slung from the lattice between the arch and
+   the round door, each a seat (kit.sit) in her declared inks and cloth, with
+   a sign over each for the headset and a stop in the walking order. Ours,
+   hers to keep or send back. */
   window.loveCelRooms['faery-yurt.html'] = {
     name: 'The Faery Yurt',
     from: 'campgrounds.html',
@@ -1179,6 +1187,105 @@
         if (st2.name.indexOf('at the low table') === 0) st2.acts = (st2.acts || []).concat([sits[1], sits[2]]);
       });
 
+      // MORE SEATING FOR THE COMMUNITY (Helen Edgar's ask, 2026-11-12: "more
+      // seating for community eg sofas, bean bags, hammocks, cushions,
+      // blankets etc in every room"): four more cushions between the four at
+      // the tea table, a daybed against the canvas between the Glimmer Window
+      // and the stove with a blanket over its foot and a basket of blankets
+      // beside it, two beanbags under the curtain's side of the wall, and a
+      // hammock slung from the lattice between the Alchemist's Arch and the
+      // round door, every seat kit.sit in her own inks and cloth, and a sign
+      // over each for the headset. Nothing moves: the hammock hangs still.
+      // Ours, drawn in her declared colours, hers to keep or send back.
+      var seatAt = [];
+      [[1.1, CL.knitA, 'Sit on the knitted cushion'], [2.65, CL.moon, 'Sit on the pale cushion'], [4.05, CL.ivy, 'Sit on the ivy cushion'], [5.5, CL.amber, 'Sit on the woven cushion']].forEach(function (c) {
+        var cush = new T.SphereGeometry(0.4, 24, 14); cush.scale(1, 0.32, 1);
+        var ca = c[0], cx = 1.28 * Math.sin(ca), cz = 1.28 * Math.cos(ca);
+        var m2 = kit.fabric(cush, at(cx, 0.14, cz, ca), c[1]);
+        kit.piece(new T.TorusGeometry(0.39, 0.012, 5, 28), at(cx, 0.14, cz, 0, Math.PI / 2), '--tallow-3', false);
+        seatAt.push(kit.sit({ x: cx * 1.15, z: cz * 1.15, yaw: Math.atan2(cx, cz), say: c[2], up: 'Get up off the cushion',
+          sat: 'You sit on the cushion, the tea table in front of you and the others round it.', stood: 'You get up off the cushion.',
+          squash: m2, at: [kit.touch(0.85, 0.45, 0.85, at(cx, 0.2, cz))] }));
+      });
+      stops.forEach(function (st2) { if (st2.name.indexOf('at the low table') === 0) st2.acts = (st2.acts || []).concat(seatAt); });
+
+      // The daybed: a timber frame against the canvas, a velvet mattress, a
+      // bolster at each end, a knitted blanket over its foot, and a basket of
+      // rolled blankets at its head.
+      var DB = -55 * DEG, bm = round(DB, R - 1.0, 0);
+      box(1.9, 0.08, 0.84, M(bm, at(0, 0.3, 0)), '--timber');
+      [-1, 1].forEach(function (e) {
+        box(0.08, 0.6, 0.84, M(bm, at(e * 0.95, 0.3, 0)), '--timber');
+        [-1, 1].forEach(function (f) { kit.cyl(0.035, 0.045, 0.3, M(bm, at(e * 0.88, 0.15, f * 0.34)), '--timber', false, 8); });
+        var bolster = new T.CylinderGeometry(0.11, 0.11, 0.7, 14); bolster.rotateX(Math.PI / 2);
+        kit.fabric(bolster, M(bm, at(e * 0.78, 0.54, 0)), e < 0 ? CL.knitB : CL.moon);
+      });
+      box(1.9, 0.5, 0.06, M(bm, at(0, 0.6, -0.39)), '--timber');
+      var mattress = kit.fabric(new T.BoxGeometry(1.84, 0.14, 0.78, 2, 1, 2), M(bm, at(0, 0.41, 0)), CL.velvet);
+      kit.fabric(new T.BoxGeometry(1.84, 0.3, 0.1), M(bm, at(0, 0.65, -0.32)), CL.amber);
+      kit.fabric(new T.BoxGeometry(0.7, 0.03, 0.86), M(bm, at(0.45, 0.5, 0.02)), CL.knitA);
+      kit.fabric(new T.BoxGeometry(0.7, 0.34, 0.03), M(bm, at(0.45, 0.33, 0.43)), CL.knitA);
+      // The basket of rolled blankets at its head, like the one by the door.
+      kit.cyl(0.26, 0.22, 0.42, M(bm, at(-1.3, 0.21, 0.1)), '--tallow-2', true, 14);
+      kit.cyl(0.27, 0.27, 0.03, M(bm, at(-1.3, 0.42, 0.1)), '--tallow-3', false, 14);
+      [[CL.knitB, -0.09, 0.02], [CL.knitC, 0.09, 0.0], [CL.knitA, 0, 0.14]].forEach(function (rl) {
+        var roll = new T.CylinderGeometry(0.085, 0.085, 0.36, 12); roll.rotateX(Math.PI / 2);
+        kit.fabric(roll, M(bm, at(-1.3 + rl[1], 0.36 + rl[2], 0.1, 0.4)), rl[0]);
+      });
+      var dbP = new T.Vector3().setFromMatrixPosition(M(bm, at(0.15, 0, 0.1)));
+      var sitDaybed = kit.sit({ x: dbP.x, z: dbP.z, yaw: Math.atan2(dbP.x, dbP.z), say: 'Sit on the daybed', up: 'Get up off the daybed',
+        sat: 'You sit on the daybed, the blanket over your knees and the whole yurt in front of you.', stood: 'You get up off the daybed.',
+        squash: mattress, at: [kit.touch(1.9, 0.8, 0.86, M(bm, at(0, 0.4, 0)))] });
+      sign(round(DB, R - 0.5, 1.95), ['Somewhere to sit', 'the daybed, and the basket of blankets'], 1.0);
+      stops.push({ name: 'at the daybed, against the canvas between the Glimmer Window and the stove', x: (R - 3.3) * Math.sin(DB), z: -(R - 3.3) * Math.cos(DB), yaw: -DB, pitch: -0.1, acts: [sitDaybed] });
+
+      // Two beanbags under the curtain's side of the wall, facing each other
+      // a little and the middle.
+      var bagSeats = [];
+      [[86 * DEG, CL.fur, 'Sit on the sheepskin beanbag'], [104 * DEG, CL.velvet, 'Sit on the velvet beanbag']].forEach(function (b) {
+        var bx = 4.2 * Math.sin(b[0]), bz = -4.2 * Math.cos(b[0]);
+        var bag = new T.SphereGeometry(0.56, 28, 18); bag.scale(1, 0.58, 1);
+        var bagMesh = kit.fabric(bag, at(bx, 0.3, bz, -b[0]), b[1]);
+        kit.piece(new T.TorusGeometry(0.5, 0.02, 6, 28), at(bx, 0.32, bz, 0, Math.PI / 2), '--tallow-3', false);
+        bagSeats.push(kit.sit({ x: bx, z: bz, yaw: Math.atan2(bx, bz), say: b[2], up: 'Get up off the beanbag',
+          sat: 'You sink into the beanbag, low, the fairy lights overhead.', stood: 'You climb up off the beanbag.',
+          squash: bagMesh, at: [kit.touch(1.1, 0.6, 1.1, at(bx, 0.3, bz))] }));
+      });
+      sign(round(95 * DEG, R - 0.5, 1.95), ['Somewhere to sit', 'two beanbags'], 0.8);
+      stops.push({ name: 'at the beanbags, under the curtain’s side of the wall', x: (R - 3.3) * Math.sin(95 * DEG), z: -(R - 3.3) * Math.cos(95 * DEG), yaw: -95 * DEG, pitch: -0.2, acts: bagSeats });
+
+      // The hammock: a knitted cloth slung between two hooks on the lattice,
+      // sagging in the middle and curling up at its sides, a cord and a ring
+      // at each end. It hangs still at every setting.
+      var H1 = -123 * DEG, H2 = -143 * DEG, HR = R - 0.2, HY = 1.4;
+      var p1 = new T.Vector3(HR * Math.sin(H1), HY, -HR * Math.cos(H1)), p2 = new T.Vector3(HR * Math.sin(H2), HY, -HR * Math.cos(H2));
+      var hd = p2.clone().sub(p1), hl = hd.length(), hmid = p1.clone().add(p2).multiplyScalar(0.5), hphi = Math.atan2(-hd.z, hd.x);
+      var hamGeo = new T.PlaneGeometry(hl, 0.9, 16, 6);
+      var hp = hamGeo.attributes.position;
+      for (var hv = 0; hv < hp.count; hv++) {
+        var u = hp.getX(hv) / hl, v = hp.getY(hv) / 0.9;
+        var along = 1 - Math.pow(2 * u, 2), curl = Math.pow(2 * v, 2) * 0.16 * along;
+        hp.setZ(hv, -0.5 * along + curl);
+        // The cloth gathers in towards each hook.
+        hp.setY(hv, hp.getY(hv) * (0.4 + 0.6 * Math.sqrt(Math.max(0, along))));
+      }
+      hamGeo.computeVertexNormals();
+      var hamM = new T.Matrix4().multiplyMatrices(at(hmid.x, hmid.y, hmid.z, hphi), at(0, 0, 0, 0, -Math.PI / 2));
+      var hammock = kit.fabric(hamGeo, hamM, CL.knitB);
+      hammock.material.side = T.DoubleSide; hammock.material.needsUpdate = true;
+      [p1, p2].forEach(function (pt, pi) {
+        var th = pi ? H2 : H1;
+        kit.piece(new T.TorusGeometry(0.06, 0.012, 6, 16), at(pt.x, pt.y, pt.z, -th), '--tallow-3', false);
+        kit.cyl(0.012, 0.012, 0.3, at(pt.x, pt.y + 0.18, pt.z), '--tallow-3', false, 6);
+        box(0.08, 0.06, 0.05, round(th, R - 0.08, pt.y + 0.34), '--timber', false);
+      });
+      var hmP = hmid.clone();
+      var sitHammock = kit.sit({ x: hmP.x, z: hmP.z, yaw: Math.atan2(hmP.x, hmP.z), say: 'Lie in the hammock', up: 'Climb out of the hammock',
+        sat: 'You lie back in the hammock, the knitted cloth round you and the fairy lights above.', stood: 'You climb out of the hammock.',
+        squash: hammock, at: [kit.touch(hl, 0.8, 1.0, at(hmid.x, hmid.y - 0.2, hmid.z, hphi))] });
+      sign(round(-133 * DEG, R - 0.5, 2.0), ['Somewhere to sit', 'the hammock, slung from the lattice'], 1.0);
+      stops.push({ name: 'at the hammock, slung from the lattice between the arch and the round door', x: (R - 3.3) * Math.sin(-133 * DEG), z: -(R - 3.3) * Math.cos(-133 * DEG), yaw: 133 * DEG, pitch: 0.05, acts: [sitHammock] });
+
       // PLAQUES (the second headset round), for a headset, which shows no
       // page: her own welcome, in her words copied exactly from her page, on
       // the wall inside the door, and a line of ours at the Alchemist's Arch
@@ -1200,9 +1307,9 @@
       // to the door, which is where a controller's bumpers go. Every stop
       // stands in open floor, a stride or more off what it faces.
       var ORDER = ['just inside the door', 'at the low table', 'under the crown', 'at the pebble bowl', 'in the regulation nook',
-                   'at the looking-glass', 'at the curtain', 'at the phonograph', 'at the bookcase', 'at the far wall',
-                   'by the glowing mushroom', 'at the Glimmer Window', 'by the stove', 'at the stove’s door', 'at the shelf of jars',
-                   'at the hollow stump', 'at the Alchemist’s Arch', 'at the round door'];
+                   'at the looking-glass', 'at the curtain', 'at the beanbags', 'at the phonograph', 'at the bookcase', 'at the far wall',
+                   'by the glowing mushroom', 'at the Glimmer Window', 'at the daybed', 'by the stove', 'at the stove’s door', 'at the shelf of jars',
+                   'at the hollow stump', 'at the Alchemist’s Arch', 'at the hammock', 'at the round door'];
       stops.sort(function (a, b) {
         var ia = ORDER.findIndex(function (o) { return a.name.indexOf(o) === 0; }), ib = ORDER.findIndex(function (o) { return b.name.indexOf(o) === 0; });
         return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);

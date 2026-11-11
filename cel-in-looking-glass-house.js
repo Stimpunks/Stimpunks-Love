@@ -137,6 +137,30 @@
    fairy lights twinkle only after their switch, because her page's candles
    are points in the glass and never flicker; the cat changes only on a
    press. No photograph, no film, no flash. Ours, and hers to keep or send back.
+   SEATS FOR EVERYBODY (Helen Edgar's ask, 2026-11-12: "more seating for
+   community eg sofas, bean bags, hammocks, cushions, blankets etc in every
+   room"): a blue velvet sofa under the far wall beside her page, facing the
+   party, blankets folded on its arms and back; two beanbags and two floor
+   cushions in a huddle on the first squares by the glass; a beanbag and a
+   cushion under the cat's tree by the big toadstool; and a hammock slung
+   from the tree's trunk to a post along the wall. Every one is kit.sit and
+   gives under you, each with a stop in the walk and a sign for the headset.
+   In the room's own inks; nothing new moves.
+   MORE REAL (Helen Edgar's ask, 2026-11-12: "alice in wonderland characters
+   to look more real, use disney alice in wonderland film as inspiration"):
+   the six figures are built again with the proportions of a person or an
+   animal, faces with eyes, brows, noses, mouths and cheeks, hair in locks,
+   cloth with a weave or a fur you can see, collars, cuffs, buttons and hems,
+   hands with fingers, shoes, spectacles, a muzzle and whiskers. THE 1951
+   FILM'S DESIGNS ARE DISNEY'S AND IN COPYRIGHT, and this site is CC BY-SA, so
+   nothing of them is copied; what is taken is their spirit: proportion,
+   colour and detail. What is free is Tenniel's engravings and Macmillan's own
+   coloured editions of them (The Nursery Alice of 1890, coloured by Tenniel,
+   and the 1911 colour edition, both public domain), which give Alice her blue
+   dress, white pinafore and black band; the Hatter his green hat; the Rabbit
+   his check jacket and spectacles; and the cat is a tabby in the room's own
+   browns, never any film's pink and purple. The skins are the Crystal Wheel's
+   faeries' own inks.
    ========================================================================== */
 (function () {
   'use strict';
@@ -998,118 +1022,263 @@
         squash: tinyCushion, at: [kit.touch(0.4, 0.5, 0.4, M(tinySeat, at(0, 0.3, 0)))] });
       var sitFoot = kit.sit({ x: TX - TL / 2 - 0.45, z: TZ, yaw: RIGHT, say: 'Sit on the stool at the foot of the table', sat: 'You sit at the foot of the table, the whole party laid out before you and the Hatter at the far end.', stood: 'You get up from the stool.',
         squash: footCushion, at: [kit.touch(0.5, 0.5, 0.5, M(footSeat, at(0, 0.3, 0)))] });
-      // THE PEOPLE AT THE TABLE, each after Tenniel's engravings, built from
-      // blocks and spheres, named by a card at their place. A seated figure's
-      // frame: on the floor under its chair, facing the table (-z).
-      function seated(m, o) {
-        var seatY = o.seatY || 0.47, sc = o.sc || 1;
-        [-1, 1].forEach(function (sd) {
-          box(0.12 * sc, 0.1 * sc, 0.34 * sc, M(m, at(sd * 0.1 * sc, seatY + 0.05 * sc, -0.14 * sc)), o.legs, false);
-          box(0.1 * sc, seatY - 0.02, 0.1 * sc, M(m, at(sd * 0.1 * sc, (seatY - 0.02) / 2, -0.3 * sc)), o.stocking || o.legs, false);
-          box(0.1 * sc, 0.05 * sc, 0.16 * sc, M(m, at(sd * 0.1 * sc, 0.025 * sc, -0.34 * sc)), o.shoe, false);
-        });
-        box(0.36 * sc, 0.5 * sc, 0.22 * sc, M(m, at(0, seatY + 0.35 * sc, 0.02)), o.coat, 0.008);
-        if (o.front) box(0.26 * sc, 0.46 * sc, 0.02, M(m, at(0, seatY + 0.34 * sc, -0.1 * sc)), o.front, false, false);
-        [-1, 1].forEach(function (sd) {
-          box(0.09 * sc, 0.36 * sc, 0.09 * sc, M(m, at(sd * 0.23 * sc, seatY + 0.36 * sc, -0.04 * sc, 0, -0.5)), o.coat, false);
-          kit.piece(new T.SphereGeometry(0.045 * sc, 10, 8), M(m, at(sd * 0.24 * sc, seatY + 0.18 * sc, -0.18 * sc)), o.skin, false);
-        });
-        var neck = seatY + 0.6 * sc;
-        kit.piece(new T.SphereGeometry(0.13 * sc, 16, 12), M(m, at(0, neck + 0.12 * sc, 0)), o.skin, 0.008);
-        return { neck: neck, head: M(m, at(0, neck + 0.12 * sc, 0)), sc: sc };
+      // COMMUNITY SEATING (Helen Edgar's ask, 2026-11-12: more seating for the
+      // community in every room, sofas, beanbags, hammocks, cushions and
+      // blankets): a sofa under the far wall facing the party, beanbags and
+      // floor cushions on the chessboard country by the glass and under the
+      // cat's tree, a hammock slung from the tree to a post, and blankets
+      // folded on the sofa. Every seat is kit.sit and gives under you; all
+      // of it in the room's own inks, and none of it moves.
+      var sofaCloth = kit.cloth('velvet', '--lgh-brook', '--lgh-ink-2', 4), bagCloth = kit.cloth('pile', '--yurt-fog-lilac', '--lgh-silver', 8), bagCloth2 = kit.cloth('pile', '--yurt-fog-mint', '--lgh-hedge', 8);
+      var cushCloth = kit.cloth('weave', '--yurt-fog-peach', '--lgh-red', 5), blanketCloth = kit.cloth('knit', '--yurt-fog-lemon', '--lgh-gilt', 6);
+      function beanbag(x, z, yaw, cloth, say) {
+        var bg = new T.SphereGeometry(0.5, 18, 12); bg.scale(1.05, 0.6, 1.05);
+        var bag = kit.fabric(bg, at(x, 0.29, z), cloth);
+        var top = new T.SphereGeometry(0.32, 14, 8); top.scale(1, 0.4, 1);
+        kit.fabric(top, at(x, 0.48, z), cloth, false);
+        return kit.sit({ x: x, z: z, yaw: yaw, say: say, up: 'Get up out of the beanbag', sat: 'You sink into the beanbag on the chessboard country, and it comes up round you.', stood: 'You get up, and the beanbag fills out again.',
+          squash: bag, at: [kit.touch(1.05, 0.7, 1.05, at(x, 0.35, z))] });
       }
-      function eyes(head, sc, ink) {
-        [-1, 1].forEach(function (sd) { kit.piece(new T.SphereGeometry(0.016 * sc, 6, 5), M(head, at(sd * 0.05 * sc, 0.03 * sc, -0.115 * sc)), ink || '--lgh-ink', false); });
+      function floorCushion(x, z, yaw, say) {
+        var c = kit.fabric(new T.BoxGeometry(0.6, 0.15, 0.6), at(x, 0.075, z, yaw), cushCloth);
+        return kit.sit({ x: x, z: z, yaw: yaw, say: say, up: 'Get up from the cushion', sat: 'You sit on the cushion on a square of the board, the party in view.', stood: 'You get up from the cushion.',
+          squash: c, at: [kit.touch(0.7, 0.3, 0.7, at(x, 0.15, z))] });
       }
-      // ALICE: a blue dress with a white pinafore, long fair hair under a
-      // band, white stockings and black shoes, in the armchair.
-      var al = seated(aliceSeat, { legs: '--lgh-brook', stocking: '--lgh-pawn', shoe: '--lgh-ink', coat: '--lgh-brook', front: '--lgh-pawn', skin: '--yurt-fog-peach', seatY: 0.46 });
-      var hairA = new T.SphereGeometry(0.14, 16, 12); hairA.scale(1, 0.9, 1);
-      kit.piece(hairA, M(al.head, at(0, 0.03, 0.02)), '--lgh-gilt-2', false);
-      box(0.26, 0.3, 0.1, M(al.head, at(0, -0.12, 0.09)), '--lgh-gilt-2', false);
-      kit.piece(new T.TorusGeometry(0.135, 0.012, 6, 20), M(al.head, at(0, 0.06, 0, 0, 0.3)), '--lgh-ink', false);
-      eyes(al.head, 1);
-      kit.piece(new T.TorusGeometry(0.06, 0.016, 6, 10), M(aliceSeat, at(0, 0.46 + 0.1, -0.26, 0, FLAT)), '--lgh-pawn', false);
-      label('Alice', at(TX - 0.7, TOP + 0.04, TZ + 0.46, 0, -0.35), 44);
-      // THE HATTER: a green coat, a gold waistcoat, a great red bow, and the
-      // top hat with its card, In this style 10/6, at the head of the table.
-      var ht = seated(hatterSeat, { legs: '--lgh-ink-2', shoe: '--lgh-ink', coat: '--lgh-hedge', front: '--lgh-gilt', skin: '--yurt-fog-peach', seatY: 0.5 });
-      [-1, 1].forEach(function (sd) { kit.piece(new T.ConeGeometry(0.07, 0.16, 8), M(hatterSeat, at(sd * 0.1, ht.neck - 0.02, -0.12, 0, 0, sd * Math.PI / 2)), '--lgh-red', false); });
-      kit.piece(new T.SphereGeometry(0.035, 8, 6), M(hatterSeat, at(0, ht.neck - 0.02, -0.12)), '--lgh-red', false);
-      box(0.3, 0.06, 0.28, M(ht.head, at(0, 0.1, 0.0)), '--lgh-cork', false);
-      kit.cyl(0.19, 0.19, 0.02, M(ht.head, at(0, 0.12, 0)), '--lgh-ink', false, 20);
-      kit.cyl(0.14, 0.15, 0.34, M(ht.head, at(0, 0.3, 0, 0, 0, 0.1)), '--lgh-ink', 0.008, 20);
-      kit.cyl(0.152, 0.152, 0.05, M(ht.head, at(0, 0.17, 0, 0, 0, 0.1)), '--lgh-gilt-2', false, 20);
-      label('In this style 10/6', M(ht.head, at(-0.08, 0.2, -0.13, 0.2, 0, 0.15)), 30, '--lgh-ink', '--lgh-card');
-      eyes(ht.head, 1);
-      box(0.08, 0.05, 0.06, M(ht.head, at(0, -0.01, -0.13)), '--yurt-fog-peach', false);
-      label('The Hatter', at(TX + 1.45, TOP + 0.04, TZ + 0.42, RIGHT + 0.4, -0.35), 44);
-      // THE MARCH HARE, on the stool: brown, long ears with straw in them, a
-      // red waistcoat, whiskers.
-      var mh = seated(hareSeat, { legs: '--lgh-cork-2', shoe: '--lgh-cork-2', coat: '--lgh-cork-2', front: '--lgh-red', skin: '--lgh-cork', seatY: 0.46, sc: 0.95 });
+      // The sofa under the far wall, right of her page, facing the table.
+      var sofaG = at(3.3, 0, -9.3, Math.PI);
+      box(2.2, 0.38, 0.9, M(sofaG, at(0, 0.19, 0)), '--lgh-cork-2', 0.01);
+      var sofaSeat = kit.fabric(new T.BoxGeometry(2.1, 0.2, 0.82), M(sofaG, at(0, 0.48, 0)), sofaCloth);
+      kit.fabric(new T.BoxGeometry(2.2, 0.7, 0.18), M(sofaG, at(0, 0.78, 0.4)), sofaCloth);
       [-1, 1].forEach(function (sd) {
-        var ear = new T.SphereGeometry(0.05, 10, 8); ear.scale(0.9, 3.2, 0.6);
-        kit.piece(ear, M(mh.head, at(sd * 0.07, 0.24, 0, 0, 0, sd * 0.3)), '--lgh-cork', false);
-        var inner = new T.SphereGeometry(0.03, 8, 6); inner.scale(0.8, 2.6, 0.4);
-        kit.piece(inner, M(mh.head, at(sd * 0.07, 0.24, -0.03, 0, 0, sd * 0.3)), '--yurt-fog-rose', false);
-        for (var st = 0; st < 3; st++) kit.cyl(0.004, 0.004, 0.16, M(mh.head, at(sd * (0.05 + st * 0.02), 0.2 + st * 0.03, -0.04, 0, 0, sd * 0.3 + (st - 1) * 0.5)), '--lgh-gilt-2', false, 3);
-        for (var wk = 0; wk < 3; wk++) kit.cyl(0.002, 0.002, 0.14, M(mh.head, at(sd * 0.1, -0.02 + wk * 0.015, -0.11, 0, 0, sd * (Math.PI / 2 + (wk - 1) * 0.25))), '--lgh-pawn', false, 3);
+        kit.fabric(new T.BoxGeometry(0.2, 0.46, 0.9), M(sofaG, at(sd * 1.1, 0.6, 0)), sofaCloth);
+        kit.fabric(new T.BoxGeometry(0.26, 0.08, 0.5), M(sofaG, at(sd * 1.1, 0.87, -0.04)), blanketCloth, false);
       });
-      kit.piece(new T.SphereGeometry(0.02, 8, 6), M(mh.head, at(0, -0.01, -0.13)), '--lgh-red', false);
-      eyes(mh.head, 0.95);
+      kit.fabric(new T.BoxGeometry(0.7, 0.06, 0.36), M(sofaG, at(0.2, 1.16, 0.4)), blanketCloth, false);
+      var sitSofa = kit.sit({ x: 3.3, z: -9.3, yaw: Math.PI, say: 'Sit on the sofa under the far wall', up: 'Get up from the sofa', sat: 'You sit on the blue velvet sofa, the whole tea party in front of you and a blanket on the arm.', stood: 'You get up from the sofa.',
+        squash: sofaSeat, at: [kit.touch(2.2, 1.2, 0.9, M(sofaG, at(0, 0.6, 0)))] });
+      // A huddle by the glass, on the first squares of the board.
+      var bagGlass1 = beanbag(3.6, -2.0, 0.33, bagCloth, 'Sit in the beanbag by the glass, nearest the wall');
+      var bagGlass2 = beanbag(2.4, -1.4, 0.09, bagCloth2, 'Sit in the other beanbag by the glass');
+      var cushGlass1 = floorCushion(3.9, -3.1, 0.47, 'Sit on the cushion by the mantelpiece end');
+      var cushGlass2 = floorCushion(1.4, -2.2, -0.1, 'Sit on the cushion by the glass');
+      // Under the cat's tree, by the big toadstool: a beanbag, a cushion and
+      // the hammock, slung from the tree's trunk to a post along the wall.
+      var bagTree = beanbag(-1.4, -8.9, -1.27, bagCloth2, 'Sit in the beanbag under the cat’s tree');
+      var cushTree = floorCushion(-0.9, -9.3, -1.4, 'Sit on the cushion by the big toadstool');
+      var hamFrom = new T.Vector3(-3.3, 0, -9.1), hamTo = new T.Vector3(-4.1, 0, -6.9);
+      kit.cyl(0.05, 0.06, 1.45, at(hamTo.x, 0.725, hamTo.z), '--lgh-cork-2', 0.01, 10);
+      kit.piece(new T.SphereGeometry(0.06, 8, 6), at(hamTo.x, 1.47, hamTo.z), '--lgh-gilt-2', false);
+      var hamLen = hamFrom.distanceTo(hamTo), hamYaw = Math.atan2(-(hamTo.z - hamFrom.z), hamTo.x - hamFrom.x);
+      var hamMid = at((hamFrom.x + hamTo.x) / 2, 1.1, (hamFrom.z + hamTo.z) / 2, hamYaw);
+      var hamGeo = new T.PlaneGeometry(hamLen - 0.5, 0.8, 12, 3); hamGeo.rotateX(-Math.PI / 2);
+      var hp = hamGeo.attributes.position;
+      for (var hv = 0; hv < hp.count; hv++) { var hx = hp.getX(hv) / ((hamLen - 0.5) / 2); hp.setY(hv, -0.36 * (1 - hx * hx)); }
+      hamGeo.computeVertexNormals();
+      var hammock = kit.fabric(hamGeo, hamMid, kit.cloth('weave', '--lgh-card', '--lgh-brook', 6));
+      hammock.material.side = T.DoubleSide;
+      [-1, 1].forEach(function (sd) { kit.cyl(0.012, 0.012, 0.3, M(hamMid, at(sd * (hamLen / 2 - 0.12), 0.12, 0, 0, 0, sd * 1.2)), '--lgh-gilt-2', false, 6); });
+      kit.fabric(new T.BoxGeometry(0.36, 0.06, 0.3), M(hamMid, at(0.5, -0.3, 0.04)), blanketCloth, false);
+      var sitHammock = kit.sit({ x: (hamFrom.x + hamTo.x) / 2, z: (hamFrom.z + hamTo.z) / 2, yaw: RIGHT, say: 'Lie in the hammock under the cat’s tree', up: 'Climb out of the hammock', sat: 'You climb into the hammock slung from the cat’s tree; it swings a little and settles, the party across the board from you and the grin above.', stood: 'You climb out, and the hammock swings empty.',
+        squash: hammock, at: [kit.touch(hamLen - 0.4, 0.7, 0.9, M(hamMid, at(0, -0.15, 0)))] });
+      sign('Seats for everybody', at(3.3, 1.95, back + 0.02), { small: true });
+
+      // THE PEOPLE AT THE TABLE (Helen's ask, 2026-11-12: "look more real"):
+      // each a figure with the proportions of a person or an animal, a face
+      // with eyes, brows, a nose, a mouth and cheeks, hair in locks, cloth
+      // with a weave, collars, cuffs, buttons and hems, hands with fingers and
+      // shoes; after Tenniel's engravings and Macmillan's own coloured
+      // editions of them, and nobody's film (the header says why). A seated
+      // figure's frame is on the floor under its chair, facing the table (-z).
+      var SKIN_A = '--cb-fairy-skin-1', SKIN_B = '--cb-fairy-skin-2', LIPS = '--yurt-fog-rose';
+      function visage(head, sc, o) {
+        o = o || {};
+        var skin = o.skin || SKIN_A, ink = o.ink || '--lgh-ink', iris = o.iris || '--lgh-brook';
+        [-1, 1].forEach(function (sd) {
+          var white = new T.SphereGeometry(0.02 * sc, 8, 6); white.scale(1.25, 1, 0.6);
+          kit.piece(white, M(head, at(sd * 0.042 * sc, 0.02 * sc, -0.097 * sc)), '--lgh-pawn', false);
+          kit.piece(new T.SphereGeometry(0.011 * sc, 8, 6), M(head, at(sd * 0.042 * sc, 0.02 * sc, -0.107 * sc)), iris, false);
+          kit.piece(new T.SphereGeometry(0.006 * sc, 6, 5), M(head, at(sd * 0.042 * sc, 0.02 * sc, -0.115 * sc)), ink, false);
+          box(0.046 * sc, 0.008 * sc, 0.01 * sc, M(head, at(sd * 0.042 * sc, 0.052 * sc, -0.1 * sc, 0, 0, sd * (o.brow || 0.15))), o.hair || ink, false, false);
+          see(kit.flat(new T.CircleGeometry(0.022 * sc, 10), M(head, at(sd * 0.062 * sc, -0.022 * sc, -0.09 * sc, Math.PI + sd * 0.55)), LIPS), 0.3);
+          if (o.lined) box(0.03 * sc, 0.004 * sc, 0.004 * sc, M(head, at(sd * 0.045 * sc, -0.008 * sc, -0.106 * sc, 0, 0, sd * 0.2)), '--lgh-ink-2', false, false);
+        });
+        kit.piece(new T.ConeGeometry(0.012 * sc, 0.032 * sc, 6), M(head, at(0, -0.006 * sc, -0.112 * sc, 0, -Math.PI / 2 + 0.3)), skin, false);
+        if (o.grin) kit.piece(new T.TorusGeometry((o.grin === true ? 0.03 : o.grin) * sc, 0.006 * sc, 6, 12, Math.PI), M(head, at(0, -0.032 * sc, -0.1 * sc, 0, 0, Math.PI)), LIPS, false);
+        else box(0.038 * sc, 0.008 * sc, 0.006 * sc, M(head, at(0, -0.042 * sc, -0.104 * sc)), LIPS, false, false);
+      }
+      // Hair in locks round the head, each a rounded strand hanging a
+      // different length, under a cap of the same ink; `front` false leaves
+      // the face clear, `wild` throws the locks out sideways.
+      function locks(head, sc, ink, n, len, seed, o) {
+        o = o || {};
+        for (var i = 0; i < n; i++) {
+          var a = (i / n) * Math.PI * 2 + 0.2, z = Math.cos(a);
+          if (o.front === false && z < -0.25) continue;
+          var l = len * (0.6 + 0.8 * hash(seed, i, 1));
+          var lk = new T.SphereGeometry(0.03 * sc, 8, 6); lk.scale(1, l / 0.03, 0.8);
+          kit.piece(lk, M(head, at(Math.sin(a) * 0.1 * sc, (0.03 - l * 0.45) * sc, z * 0.09 * sc + 0.015 * sc, 0, o.wild ? -0.6 : 0, -Math.sin(a) * (o.wild ? 0.9 : 0.3))), ink, false);
+        }
+        var cap = new T.SphereGeometry(0.11 * sc, 14, 10); cap.scale(1, 0.92, 1);
+        kit.piece(cap, M(head, at(0, 0.03 * sc, 0.012 * sc)), ink, false);
+      }
+      // A seated person: thighs along the seat and shins down in their cloth,
+      // shoes with heels, a torso in cloth with a hem, a collar, buttons and a
+      // front, arms with cuffs, hands with fingers, a neck and a head the
+      // size a head is (about a seventh of the height).
+      function person(m, o) {
+        var sc = o.sc || 1, H0 = o.seatY || 0.47, skin = o.skin || SKIN_A;
+        var cloth = kit.cloth(o.weave || 'velvet', o.coat, o.coat2 || '--lgh-ink-2', 5);
+        [-1, 1].forEach(function (sd) {
+          kit.fabric(new T.BoxGeometry(0.11 * sc, 0.1 * sc, 0.34 * sc), M(m, at(sd * 0.09 * sc, H0 + 0.05 * sc, -0.14 * sc)), o.legCloth || cloth, false);
+          kit.cyl(0.042 * sc, 0.05 * sc, H0 - 0.03, M(m, at(sd * 0.09 * sc, (H0 - 0.03) / 2, -0.3 * sc)), o.stocking || o.legs, false, 10);
+          box(0.09 * sc, 0.045 * sc, 0.17 * sc, M(m, at(sd * 0.09 * sc, 0.022 * sc, -0.35 * sc)), o.shoe, false);
+          box(0.08 * sc, 0.03 * sc, 0.04 * sc, M(m, at(sd * 0.09 * sc, 0.015 * sc, -0.28 * sc)), o.shoe, false, false);
+        });
+        kit.fabric(new T.BoxGeometry(0.3 * sc, 0.44 * sc, 0.2 * sc), M(m, at(0, H0 + 0.3 * sc, 0)), cloth, 0.008);
+        box(0.33 * sc, 0.03 * sc, 0.23 * sc, M(m, at(0, H0 + 0.09 * sc, 0)), o.coat, false, false);
+        if (o.front) kit.fabric(new T.BoxGeometry(0.2 * sc, 0.4 * sc, 0.02), M(m, at(0, H0 + 0.3 * sc, -0.1 * sc)), kit.cloth(o.frontWeave || 'weave', o.front, o.front2 || '--lgh-card', 6), false);
+        for (var bt = 0; bt < 3; bt++) kit.piece(new T.SphereGeometry(0.009 * sc, 6, 5), M(m, at(0, H0 + (0.18 + bt * 0.09) * sc, -0.113 * sc)), o.button || '--lgh-gilt-2', false);
+        box(0.21 * sc, 0.04 * sc, 0.21 * sc, M(m, at(0, H0 + 0.53 * sc, 0)), o.collar || '--lgh-pawn', false, false);
+        [-1, 1].forEach(function (sd) {
+          kit.fabric(new T.BoxGeometry(0.08 * sc, 0.3 * sc, 0.08 * sc), M(m, at(sd * 0.2 * sc, H0 + 0.36 * sc, -0.02 * sc, 0, -0.45)), cloth, false);
+          box(0.09 * sc, 0.03 * sc, 0.09 * sc, M(m, at(sd * 0.21 * sc, H0 + 0.23 * sc, -0.14 * sc)), o.cuff || '--lgh-pawn', false, false);
+          var hand = M(m, at(sd * 0.21 * sc, H0 + 0.18 * sc, -0.19 * sc));
+          box(0.05 * sc, 0.028 * sc, 0.06 * sc, hand, skin, false);
+          for (var fg = 0; fg < 4; fg++) box(0.009 * sc, 0.018 * sc, 0.036 * sc, M(hand, at((fg - 1.5) * 0.012 * sc, -0.004 * sc, -0.046 * sc)), skin, false, false);
+        });
+        var neck = H0 + 0.55 * sc;
+        kit.cyl(0.035 * sc, 0.04 * sc, 0.07 * sc, M(m, at(0, neck + 0.02 * sc, 0)), skin, false, 10);
+        var head = M(m, at(0, neck + 0.14 * sc, 0));
+        var hg = new T.SphereGeometry(0.105 * sc, 18, 14); hg.scale(0.95, 1.06, 1);
+        kit.piece(hg, head, skin, 0.008);
+        [-1, 1].forEach(function (sd) { kit.piece(new T.SphereGeometry(0.02 * sc, 6, 5), M(head, at(sd * 0.1 * sc, 0, 0)), skin, false); });
+        return { neck: neck, head: head, sc: sc };
+      }
+      // ALICE, a girl of seven in the armchair: a blue dress with a full
+      // skirt, a white pinafore with a frilled edge over it, fair hair in
+      // locks under a black band, white stockings and black shoes, a cup in
+      // her hand (the colours of Macmillan's 1911 edition).
+      var al = person(aliceSeat, { coat: '--lgh-brook', coat2: '--lgh-ink-2', front: '--lgh-pawn', front2: '--lgh-card', legs: '--lgh-pawn', stocking: '--lgh-pawn', shoe: '--lgh-ink', skin: SKIN_A, seatY: 0.46, sc: 0.9, collar: '--lgh-pawn', cuff: '--lgh-pawn', button: '--lgh-pawn' });
+      var skirtCloth = kit.cloth('velvet', '--lgh-brook', '--lgh-ink-2', 5), pinny = kit.cloth('weave', '--lgh-pawn', '--lgh-card', 6);
+      kit.fabric(new T.BoxGeometry(0.4, 0.09, 0.42), M(aliceSeat, at(0, 0.46 + 0.1, -0.14)), skirtCloth, false);
+      kit.fabric(new T.BoxGeometry(0.26, 0.07, 0.4), M(aliceSeat, at(0, 0.46 + 0.15, -0.16)), pinny, false);
+      kit.piece(new T.TorusGeometry(0.13, 0.014, 6, 18), M(aliceSeat, at(0, 0.46 + 0.56 * 0.9, 0, 0, FLAT)), '--lgh-pawn', false);
+      locks(al.head, 0.9, '--cb-fairy-hair-5', 14, 0.26, 7, { front: false });
+      kit.piece(new T.TorusGeometry(0.108, 0.012, 6, 22), M(al.head, at(0, 0.05, 0.005, 0, 0.35)), '--lgh-ink', false);
+      visage(al.head, 0.9, { skin: SKIN_A, iris: '--lgh-brook', hair: '--cb-fairy-hair-5', grin: true });
+      kit.cyl(0.035, 0.03, 0.05, M(aliceSeat, at(-0.19, 0.46 + 0.2, -0.2)), '--lgh-pawn', false, 12);
+      kit.piece(new T.TorusGeometry(0.018, 0.006, 6, 10), M(aliceSeat, at(-0.15, 0.46 + 0.2, -0.2)), '--lgh-pawn', false);
+      label('Alice', at(TX - 0.7, TOP + 0.04, TZ + 0.46, 0, -0.35), 44);
+      // THE HATTER at the head: a lined face and a wide grin, wild hair out
+      // from under the great green top hat with its card, In this style 10/6,
+      // a cravat tied in a red bow, a check waistcoat under a long coat.
+      var ht = person(hatterSeat, { coat: '--lgh-hedge', coat2: '--lgh-ink-2', weave: 'weave', front: '--lgh-gilt', front2: '--lgh-cork', frontWeave: 'weave', legs: '--lgh-ink-2', shoe: '--lgh-ink', skin: SKIN_B, seatY: 0.5, collar: '--lgh-card', cuff: '--lgh-card' });
+      kit.fabric(new T.BoxGeometry(0.34, 0.2, 0.24), M(hatterSeat, at(0, 0.5 + 0.02, -0.08)), kit.cloth('weave', '--lgh-hedge', '--lgh-ink-2', 5), false);
+      [-1, 1].forEach(function (sd) { kit.piece(new T.ConeGeometry(0.07, 0.17, 8), M(hatterSeat, at(sd * 0.1, ht.neck - 0.01, -0.11, 0, 0, sd * Math.PI / 2)), '--lgh-red', false); });
+      kit.piece(new T.SphereGeometry(0.035, 8, 6), M(hatterSeat, at(0, ht.neck - 0.01, -0.11)), '--lgh-red', false);
+      locks(ht.head, 1, '--cb-fairy-hair-1', 12, 0.14, 11, { front: false, wild: true });
+      visage(ht.head, 1, { skin: SKIN_B, iris: '--lgh-hedge', hair: '--cb-fairy-hair-1', grin: 0.045, lined: true, brow: -0.3 });
+      box(0.34, 0.05, 0.32, M(ht.head, at(0, 0.09, 0.0)), '--lgh-hedge', false);
+      kit.cyl(0.2, 0.2, 0.02, M(ht.head, at(0, 0.11, 0)), '--lgh-ink-2', false, 20);
+      kit.cyl(0.145, 0.16, 0.36, M(ht.head, at(0, 0.3, 0, 0, 0, 0.1)), '--lgh-hedge', 0.008, 20);
+      kit.cyl(0.158, 0.158, 0.06, M(ht.head, at(0, 0.17, 0, 0, 0, 0.1)), '--lgh-ink', false, 20);
+      label('In this style 10/6', M(ht.head, at(-0.08, 0.21, -0.14, 0.2, 0, 0.15)), 30, '--lgh-ink', '--lgh-card');
+      label('The Hatter', at(TX + 1.45, TOP + 0.04, TZ + 0.42, RIGHT + 0.4, -0.35), 44);
+      // THE MARCH HARE on his stool: brown fur with a weave you can see, long
+      // ears lined pink with straw in them, a muzzle, whiskers, a red
+      // waistcoat over the fur.
+      var fur = kit.cloth('fur', '--lgh-cork', '--lgh-cork-2', 6);
+      var mh = person(hareSeat, { coat: '--lgh-cork', coat2: '--lgh-cork-2', weave: 'fur', front: '--lgh-red', front2: '--lgh-gilt', legs: '--lgh-cork', shoe: '--lgh-cork-2', skin: '--lgh-cork', seatY: 0.46, sc: 0.95, collar: '--lgh-cork', cuff: '--lgh-cork-2', button: '--lgh-gilt-2' });
+      var muzzle = new T.SphereGeometry(0.05, 10, 8); muzzle.scale(1.1, 0.8, 1.2);
+      kit.piece(muzzle, M(mh.head, at(0, -0.03, -0.09)), '--lgh-cork', false);
+      [-1, 1].forEach(function (sd) {
+        var ear = new T.SphereGeometry(0.05, 10, 8); ear.scale(0.9, 3.4, 0.6);
+        kit.piece(ear, M(mh.head, at(sd * 0.07, 0.25, 0, 0, 0, sd * 0.3)), '--lgh-cork', false);
+        var inner = new T.SphereGeometry(0.03, 8, 6); inner.scale(0.8, 2.8, 0.4);
+        kit.piece(inner, M(mh.head, at(sd * 0.07, 0.25, -0.03, 0, 0, sd * 0.3)), '--yurt-fog-rose', false);
+        for (var st = 0; st < 3; st++) kit.cyl(0.004, 0.004, 0.16, M(mh.head, at(sd * (0.05 + st * 0.02), 0.2 + st * 0.03, -0.04, 0, 0, sd * 0.3 + (st - 1) * 0.5)), '--lgh-gilt-2', false, 3);
+        for (var wk = 0; wk < 3; wk++) kit.cyl(0.002, 0.002, 0.16, M(mh.head, at(sd * 0.1, -0.03 + wk * 0.015, -0.12, 0, 0, sd * (Math.PI / 2 + (wk - 1) * 0.25))), '--lgh-pawn', false, 3);
+      });
+      kit.piece(new T.SphereGeometry(0.018, 8, 6), M(mh.head, at(0, -0.02, -0.15)), '--yurt-fog-rose', false);
+      visage(mh.head, 0.95, { skin: '--lgh-cork', iris: '--lgh-gilt-2', hair: '--lgh-cork-2', brow: -0.2 });
       label('The March Hare', at(TX + 0.7, TOP + 0.08, TZ - 0.3, 0, -0.35), 44);
-      // THE DORMOUSE, asleep in a big brown teapot in the middle of the table,
-      // its head and paws over the rim.
+      // THE DORMOUSE, asleep in a big brown teapot in the middle of the table:
+      // a small furry mouse, round ears lined pink, eyes shut, whiskers, a
+      // pink nose and a tail over the rim.
       var dm = at(TX - 0.35, TOP, TZ + 0.05, 0.6);
       kit.piece(new T.CylinderGeometry(0.17, 0.13, 0.22, 20, 1, true), M(dm, at(0, 0.11, 0)), '--lgh-cork-2', 0.01);
       kit.piece(new T.CylinderGeometry(0.13, 0.13, 0.01, 20), M(dm, at(0, 0.005, 0)), '--lgh-cork-2', false);
       kit.piece(new T.TorusGeometry(0.09, 0.02, 8, 16), M(dm, at(0.2, 0.12, 0)), '--lgh-cork-2', false);
       kit.piece(new T.CylinderGeometry(0.025, 0.04, 0.16, 8), M(dm, at(-0.18, 0.16, 0, 0, 0, 1.1)), '--lgh-cork-2', false);
-      var dmHead = new T.SphereGeometry(0.075, 14, 10); dmHead.scale(1.2, 0.9, 1);
-      kit.piece(dmHead, M(dm, at(0.02, 0.24, -0.08, 0, -0.5)), '--lgh-cork', false);
+      var dmFur = kit.cloth('fur', '--lgh-cork-2', '--lgh-cork', 8);
+      var dmBody = new T.SphereGeometry(0.1, 12, 9); dmBody.scale(1, 0.7, 1);
+      kit.fabric(dmBody, M(dm, at(0, 0.2, 0)), dmFur, false);
+      var dmHead = M(dm, at(0.02, 0.26, -0.08, 0, -0.45));
+      var dmH = new T.SphereGeometry(0.07, 14, 10); dmH.scale(1.25, 0.9, 1.05);
+      kit.piece(dmH, dmHead, '--lgh-cork', false);
       [-1, 1].forEach(function (sd) {
-        kit.piece(new T.SphereGeometry(0.03, 8, 6), M(dm, at(sd * 0.07, 0.3, -0.06)), '--lgh-cork', false);
-        kit.piece(new T.SphereGeometry(0.018, 6, 5), M(dm, at(sd * 0.07, 0.3, -0.07)), '--yurt-fog-rose', false);
-        box(0.03, 0.006, 0.01, M(dm, at(sd * 0.04, 0.24, -0.15, 0, 0, sd * 0.4)), '--lgh-ink', false, false);
-        kit.piece(new T.SphereGeometry(0.03, 8, 6), M(dm, at(sd * 0.11, 0.21, -0.1)), '--lgh-cork', false);
+        kit.piece(new T.SphereGeometry(0.03, 8, 6), M(dmHead, at(sd * 0.065, 0.055, 0.01)), '--lgh-cork', false);
+        kit.piece(new T.SphereGeometry(0.019, 6, 5), M(dmHead, at(sd * 0.065, 0.055, -0.004)), '--yurt-fog-rose', false);
+        box(0.028, 0.005, 0.008, M(dmHead, at(sd * 0.038, 0.0, -0.062, 0, 0, sd * 0.35)), '--lgh-ink', false, false);
+        for (var dw = 0; dw < 3; dw++) kit.cyl(0.0015, 0.0015, 0.1, M(dmHead, at(sd * 0.07, -0.02 + dw * 0.01, -0.07, 0, 0, sd * (Math.PI / 2 + (dw - 1) * 0.3))), '--lgh-pawn', false, 3);
+        kit.piece(new T.SphereGeometry(0.028, 8, 6), M(dm, at(sd * 0.11, 0.21, -0.1)), '--lgh-cork', false);
       });
-      kit.piece(new T.SphereGeometry(0.018, 8, 6), M(dm, at(0.02, 0.22, -0.17)), '--lgh-ink', false);
+      kit.piece(new T.SphereGeometry(0.014, 8, 6), M(dmHead, at(0, -0.025, -0.085)), '--yurt-fog-rose', false);
+      kit.piece(new T.TorusGeometry(0.1, 0.012, 6, 14, Math.PI * 0.9), M(dm, at(-0.12, 0.22, 0.1, 0.3, 0, 0.4)), '--lgh-cork', false);
       label('The Dormouse, asleep', at(TX - 0.35, TOP + 0.04, TZ + 0.3, 0.3, -0.35), 40);
-      // THE WHITE RABBIT, standing a little apart, late, in his waistcoat,
-      // the watch out of his pocket on its chain.
+      // THE WHITE RABBIT, standing a little apart, late: white fur, pink inner
+      // ears and eyes, a check jacket over a red waistcoat with a gilt chain,
+      // spectacles on his nose, the watch held up in one paw.
       var rb = at(TX - 1.7, 0, TZ + 1.3, -0.91);
+      var whiteFur = kit.cloth('fur', '--lgh-pawn', '--lgh-silver', 6), check = kit.cloth('weave', '--lgh-cork', '--lgh-cork-2', 7);
       [-1, 1].forEach(function (sd) {
-        box(0.1, 0.45, 0.12, M(rb, at(sd * 0.09, 0.225, 0)), '--lgh-pawn', false);
-        box(0.11, 0.04, 0.2, M(rb, at(sd * 0.09, 0.02, -0.03)), '--lgh-pawn', false);
+        kit.fabric(new T.BoxGeometry(0.1, 0.42, 0.12), M(rb, at(sd * 0.09, 0.21, 0)), whiteFur, false);
+        var foot = new T.SphereGeometry(0.06, 8, 6); foot.scale(1, 0.5, 2);
+        kit.piece(foot, M(rb, at(sd * 0.09, 0.03, -0.06)), '--lgh-pawn', false);
       });
-      box(0.34, 0.42, 0.24, M(rb, at(0, 0.66, 0)), '--lgh-pawn', 0.008);
-      box(0.3, 0.34, 0.02, M(rb, at(0, 0.64, -0.125)), '--lgh-red', false, false);
-      box(0.22, 0.03, 0.03, M(rb, at(0, 0.55, -0.135)), '--lgh-gilt-2', false, false);
+      kit.fabric(new T.BoxGeometry(0.32, 0.4, 0.24), M(rb, at(0, 0.64, 0)), whiteFur, 0.008);
+      kit.fabric(new T.BoxGeometry(0.22, 0.34, 0.02), M(rb, at(0, 0.62, -0.125)), kit.cloth('weave', '--lgh-red', '--lgh-gilt', 6), false);
+      kit.fabric(new T.BoxGeometry(0.36, 0.44, 0.26), M(rb, at(0, 0.66, 0.02)), check, false);
+      kit.fabric(new T.BoxGeometry(0.1, 0.42, 0.28), M(rb, at(0, 0.64, -0.13)), check, false);
+      box(0.2, 0.03, 0.03, M(rb, at(0, 0.55, -0.14)), '--lgh-gilt-2', false, false);
+      for (var rbt = 0; rbt < 3; rbt++) kit.piece(new T.SphereGeometry(0.009, 6, 5), M(rb, at(0, 0.5 + rbt * 0.08, -0.14)), '--lgh-gilt-2', false);
+      box(0.2, 0.04, 0.2, M(rb, at(0, 0.86, 0)), '--lgh-card', false, false);
       [-1, 1].forEach(function (sd) {
-        box(0.08, 0.34, 0.08, M(rb, at(sd * 0.21, 0.66, -0.02, 0, sd < 0 ? -0.9 : -0.2)), '--lgh-pawn', false);
+        kit.fabric(new T.BoxGeometry(0.08, 0.32, 0.08), M(rb, at(sd * 0.21, 0.66, -0.02, 0, sd < 0 ? -0.95 : -0.2)), check, false);
+        box(0.09, 0.03, 0.09, M(rb, at(sd * 0.22, sd < 0 ? 0.76 : 0.5, sd < 0 ? -0.17 : -0.1)), '--lgh-card', false, false);
+        var paw = M(rb, at(sd * 0.22, sd < 0 ? 0.79 : 0.46, sd < 0 ? -0.2 : -0.13));
+        kit.piece(new T.SphereGeometry(0.032, 8, 6), paw, '--lgh-pawn', false);
+        for (var pf = 0; pf < 3; pf++) kit.piece(new T.SphereGeometry(0.012, 6, 5), M(paw, at((pf - 1) * 0.02, 0.0, -0.03)), '--lgh-pawn', false);
       });
-      var rbHead = M(rb, at(0, 1.0, 0));
-      var rh = new T.SphereGeometry(0.13, 16, 12); rh.scale(1, 0.95, 1.15);
+      var rbHead = M(rb, at(0, 0.99, 0));
+      var rh = new T.SphereGeometry(0.115, 16, 12); rh.scale(1, 0.95, 1.2);
       kit.piece(rh, rbHead, '--lgh-pawn', 0.008);
+      var rbMuzzle = new T.SphereGeometry(0.05, 10, 8); rbMuzzle.scale(1.2, 0.75, 1.1);
+      kit.piece(rbMuzzle, M(rbHead, at(0, -0.035, -0.11)), '--lgh-pawn', false);
       [-1, 1].forEach(function (sd) {
         var ear = new T.SphereGeometry(0.045, 10, 8); ear.scale(1, 3.4, 0.6);
         kit.piece(ear, M(rbHead, at(sd * 0.06, 0.24, 0.02, 0, 0, sd * 0.18)), '--lgh-pawn', false);
         var inner = new T.SphereGeometry(0.026, 8, 6); inner.scale(0.9, 2.8, 0.4);
         kit.piece(inner, M(rbHead, at(sd * 0.06, 0.24, -0.015, 0, 0, sd * 0.18)), '--yurt-fog-rose', false);
+        for (var rw = 0; rw < 3; rw++) kit.cyl(0.002, 0.002, 0.16, M(rbHead, at(sd * 0.09, -0.045 + rw * 0.012, -0.13, 0, 0, sd * (Math.PI / 2 + (rw - 1) * 0.25))), '--lgh-silver', false, 3);
+        kit.piece(new T.TorusGeometry(0.03, 0.004, 6, 16), M(rbHead, at(sd * 0.045, 0.02, -0.12)), '--lgh-gilt', false);
       });
-      eyes(rbHead, 1, '--yurt-fog-rose');
-      kit.piece(new T.SphereGeometry(0.02, 8, 6), M(rbHead, at(0, -0.02, -0.15)), '--yurt-fog-rose', false);
-      var watch = M(rb, at(-0.34, 0.78, -0.2));
+      box(0.03, 0.004, 0.004, M(rbHead, at(0, 0.02, -0.12)), '--lgh-gilt', false, false);
+      visage(rbHead, 1, { skin: '--lgh-pawn', iris: '--yurt-fog-rose', hair: '--lgh-silver', brow: 0.3 });
+      kit.piece(new T.SphereGeometry(0.018, 8, 6), M(rbHead, at(0, -0.03, -0.165)), '--yurt-fog-rose', false);
+      var watch = M(rb, at(-0.3, 0.84, -0.3));
       kit.cyl(0.05, 0.05, 0.015, M(watch, at(0, 0, 0, 0, Math.PI / 2)), '--lgh-gilt', false, 16);
       kit.flat(new T.CircleGeometry(0.04, 16), M(watch, at(0, 0, -0.009)), '--lgh-card');
       box(0.005, 0.03, 0.002, M(watch, at(0, 0.012, -0.01)), '--lgh-ink', false, false);
       box(0.005, 0.022, 0.002, M(watch, at(0.008, 0.006, -0.01, 0, 0, -1.0)), '--lgh-ink', false, false);
-      for (var ch = 0; ch < 6; ch++) kit.piece(new T.TorusGeometry(0.012, 0.004, 5, 8), M(rb, at(-0.3 + ch * 0.03, 0.72 - ch * 0.02, -0.17, 0, ch * 0.8)), '--lgh-gilt-2', false);
+      for (var ch = 0; ch < 7; ch++) kit.piece(new T.TorusGeometry(0.012, 0.004, 5, 8), M(rb, at(-0.26 + ch * 0.028, 0.78 - ch * 0.03, -0.2, 0, ch * 0.8)), '--lgh-gilt-2', false);
       label('The White Rabbit, late', at(TX - 2.1, 0.03, TZ + 1.0, -2.5, -0.3), 40);
       // THE CHESHIRE CAT up a tree grown in the far left corner, on a branch
-      // over the party, striped, with his grin. Let the cat vanish fades the
-      // cat and leaves the grin and the eyes, as Carroll has it; pressed
-      // again he is back.
+      // over the party: a fat tabby in fur, darker stripes, pale paws, ears
+      // lined pink, whiskers, big gilt eyes and the grin. Let the cat vanish
+      // hides all of him but the eyes and the grin, as Carroll has it;
+      // pressed again he is back. A tabby in the room's own browns, never
+      // any film's pink and purple.
       var tm = at(-3.3, 0, -9.1);
       kit.cyl(0.12, 0.2, 2.3, M(tm, at(0, 1.15, 0)), '--lgh-cork-2', 0.012, 12);
       box(1.6, 0.14, 0.16, M(tm, at(0.75, 2.15, 0.15, 0, 0, 0.12)), '--lgh-cork-2', 0.01);
@@ -1118,20 +1287,39 @@
         var cs = new T.SphereGeometry(cl[2], 10, 7); cs.scale(1.2, 0.7, 1);
         kit.piece(cs, M(tm, at(cl[0], cl[1], 0.1 + (ci % 2) * 0.2)), ci % 2 ? '--lgh-hedge' : '--lgh-field', false);
       });
-      var catBody = [], cm = M(tm, at(0.9, 2.26, 0.2, -0.35));
-      var cb = new T.SphereGeometry(0.17, 16, 12); cb.scale(1.9, 0.85, 1);
-      catBody.push(kit.facets(cb, M(cm, at(0, 0.1, 0)), '--lgh-cork'));
-      for (var sr = 0; sr < 5; sr++) catBody.push(kit.facets(new T.TorusGeometry(0.12 + (sr % 2) * 0.02, 0.014, 6, 14), M(cm, at(-0.22 + sr * 0.11, 0.12, 0, 0, 0, Math.PI / 2)), '--lgh-ink-2'));
-      var ch0 = M(cm, at(0.36, 0.2, -0.02, 0.5));
-      var cHead = new T.SphereGeometry(0.13, 16, 12); cHead.scale(1.25, 0.95, 1);
-      catBody.push(kit.facets(cHead, ch0, '--lgh-cork'));
-      [-1, 1].forEach(function (sd) { catBody.push(kit.facets(new T.ConeGeometry(0.045, 0.1, 6), M(ch0, at(sd * 0.09, 0.14, 0, 0, 0, sd * 0.25)), '--lgh-cork')); });
-      var tail = new T.TorusGeometry(0.2, 0.03, 8, 18, Math.PI * 1.1);
-      catBody.push(kit.facets(tail, M(cm, at(-0.38, 0.1, 0.05, 0, 0, 0.8)), '--lgh-cork'));
-      [-1, 1].forEach(function (sd) { kit.facets(new T.SphereGeometry(0.028, 8, 6), M(ch0, at(sd * 0.055, 0.03, -0.11)), '--lgh-gilt-2'); });
-      var grin = new T.RingGeometry(0.1, 0.14, 18, 1, Math.PI, Math.PI);
-      kit.flat(grin, M(ch0, at(0, -0.02, -0.125)), '--lgh-pawn');
-      for (var th = 0; th < 7; th++) box(0.004, 0.035, 0.002, M(ch0, at(-0.09 + th * 0.03, -0.09 + Math.abs(th - 3) * 0.012, -0.126)), '--lgh-ink-2', false, false);
+      var catBody = [], cm = M(tm, at(0.9, 2.26, 0.2, -0.35)), catFur = kit.cloth('fur', '--lgh-cork', '--lgh-cork-2', 6);
+      var cb = new T.SphereGeometry(0.18, 18, 14); cb.scale(1.8, 0.9, 1.05);
+      catBody.push(kit.fabric(cb, M(cm, at(0, 0.12, 0)), catFur, 0.008));
+      for (var sr = 0; sr < 6; sr++) catBody.push(kit.facets(new T.TorusGeometry(0.135 + (sr % 2) * 0.02, 0.016, 6, 16, Math.PI), M(cm, at(-0.26 + sr * 0.1, 0.14, 0, 0, 0, Math.PI / 2)), '--lgh-cork-2'));
+      [[-0.2, -1], [-0.2, 1], [0.22, -1], [0.22, 1]].forEach(function (pw) {
+        catBody.push(kit.facets(new T.SphereGeometry(0.05, 8, 6), M(cm, at(pw[0], 0.0, pw[1] * 0.1)), '--lgh-pawn'));
+      });
+      var ch0 = M(cm, at(0.36, 0.22, -0.02, 0.5));
+      var cHead = new T.SphereGeometry(0.135, 18, 14); cHead.scale(1.3, 0.95, 1);
+      catBody.push(kit.fabric(cHead, ch0, catFur, 0.008));
+      var cCheek = new T.SphereGeometry(0.06, 10, 8); cCheek.scale(1.4, 0.8, 0.9);
+      catBody.push(kit.facets(cCheek, M(ch0, at(0, -0.03, -0.1)), '--lgh-pawn'));
+      [-1, 1].forEach(function (sd) {
+        catBody.push(kit.facets(new T.ConeGeometry(0.05, 0.11, 6), M(ch0, at(sd * 0.1, 0.14, 0, 0, 0, sd * 0.25)), '--lgh-cork'));
+        catBody.push(kit.facets(new T.ConeGeometry(0.028, 0.07, 6), M(ch0, at(sd * 0.1, 0.135, -0.012, 0, 0, sd * 0.25)), '--yurt-fog-rose'));
+        for (var cw = 0; cw < 3; cw++) catBody.push(kit.facets(new T.CylinderGeometry(0.002, 0.002, 0.2, 3), M(ch0, at(sd * 0.1, -0.03 + cw * 0.012, -0.12, 0, 0, sd * (Math.PI / 2 + (cw - 1) * 0.25))), '--lgh-pawn'));
+      });
+      catBody.push(kit.facets(new T.SphereGeometry(0.016, 8, 6), M(ch0, at(0, -0.015, -0.145)), '--yurt-fog-rose'));
+      var tail = new T.TorusGeometry(0.22, 0.032, 8, 18, Math.PI * 1.1);
+      catBody.push(kit.facets(tail, M(cm, at(-0.4, 0.12, 0.05, 0, 0, 0.8)), '--lgh-cork'));
+      for (var tr = 0; tr < 3; tr++) catBody.push(kit.facets(new T.TorusGeometry(0.036, 0.012, 6, 10), M(cm, at(-0.4 + Math.cos(0.9 + tr * 0.7) * 0.22, 0.12 + Math.sin(0.9 + tr * 0.7) * 0.22 * 0.7, 0.05, 0.3, 0, 0.9 + tr * 0.7)), '--lgh-cork-2'));
+      // The eyes and the grin stay when he goes: big, with gilt irises and
+      // slit pupils, and a wide grin of teeth.
+      [-1, 1].forEach(function (sd) {
+        var w = new T.SphereGeometry(0.036, 10, 8); w.scale(1.2, 1, 0.6);
+        kit.facets(w, M(ch0, at(sd * 0.065, 0.035, -0.115)), '--lgh-pawn');
+        kit.facets(new T.SphereGeometry(0.024, 10, 8), M(ch0, at(sd * 0.065, 0.035, -0.13)), '--lgh-gilt-2');
+        var pupil = new T.SphereGeometry(0.009, 6, 5); pupil.scale(0.6, 1.6, 0.6);
+        kit.facets(pupil, M(ch0, at(sd * 0.065, 0.035, -0.148)), '--lgh-ink');
+      });
+      var grin = new T.RingGeometry(0.11, 0.15, 20, 1, Math.PI, Math.PI);
+      kit.flat(grin, M(ch0, at(0, -0.02, -0.13)), '--lgh-pawn');
+      for (var th = 0; th < 9; th++) box(0.004, 0.038, 0.002, M(ch0, at(-0.1 + th * 0.025, -0.09 + Math.abs(th - 4) * 0.012, -0.131)), '--lgh-ink-2', false, false);
       var catGone = false;
       var vanish = kit.press({ say: function () { return catGone ? 'Bring the cat back' : 'Let the cat vanish'; },
         at: [kit.touch(0.9, 0.6, 0.6, M(cm, at(0.1, 0.15, 0)))],
@@ -1149,6 +1337,9 @@
       stops.push({ name: 'at the March Hare, on his stool across the table', x: TX + 0.7, z: TZ + 1.4, yaw: 0, pitch: -0.1 });
       stops.push({ name: 'by the White Rabbit, late, with his watch out', x: TX - 2.7, z: TZ + 0.3, yaw: -2.4, pitch: -0.05 });
       stops.push({ name: 'under the Cheshire Cat’s tree in the corner', x: -2.2, z: -7.6, yaw: 0.6, pitch: 0.35, acts: [vanish] });
+      stops.push({ name: 'at the sofa under the far wall, facing the party', x: 3.3, z: -8.2, yaw: Math.PI, pitch: -0.2, acts: [sitSofa] });
+      stops.push({ name: 'at the beanbags by the glass, in a huddle', x: 2.9, z: -3.2, yaw: Math.PI, pitch: -0.35, acts: [bagGlass1, bagGlass2, cushGlass1, cushGlass2] });
+      stops.push({ name: 'on the beanbag under the cat’s tree, by the big toadstool', x: -0.4, z: -8.9, yaw: LEFT, pitch: -0.25, acts: [bagTree, cushTree, sitHammock] });
       // Faeries perched on the table's edge and the toadstools, flying with
       // the glass's two when asked.
       var partyAbout = new T.Vector3(TX, TOP + 0.9, TZ);
@@ -1213,8 +1404,8 @@
       // board and the reading stand on the left, the forest, Tenniel's two
       // cuts on the left, her page on the far wall, the two on the right, the
       // mantelpiece and its three things, and last the glass, the way back.
-      var TOUR = [/just through the glass/, /board, by Alice/, /second square/, /pin board/, /reading stand/, /forest of the seventh/,
-                  /foot of the tea table/, /White Rabbit/, /Alice’s place/, /Dormouse/, /tiny chair/, /March Hare/, /Hatter/, /Cheshire Cat/,
+      var TOUR = [/just through the glass/, /board, by Alice/, /second square/, /beanbags by the glass/, /pin board/, /reading stand/, /forest of the seventh/,
+                  /foot of the tea table/, /White Rabbit/, /Alice’s place/, /Dormouse/, /tiny chair/, /March Hare/, /Hatter/, /sofa under the far wall/, /Cheshire Cat/, /beanbag under the cat/,
                   /left-hand wall/, /far wall/, /right-hand wall/, /mantelpiece: the/, /writing glass/, /un-birthday clock/, /looking back at the glass/];
       function tourOf(st) { for (var i = 0; i < TOUR.length; i++) if (TOUR[i].test(st.name)) return i; return TOUR.length; }
       stops = stops.map(function (st, i) { return { st: st, i: i }; })
@@ -1223,8 +1414,8 @@
           if (ta !== tb) return ta - tb;
           // Two cuts on one wall: the nearer the door first on the left, the
           // farther first on the right, so the walk goes down one side and up the other.
-          if (ta === 14) return b.st.z - a.st.z;
-          if (ta === 16) return a.st.z - b.st.z;
+          if (ta === 17) return b.st.z - a.st.z;
+          if (ta === 19) return a.st.z - b.st.z;
           return a.i - b.i;
         })
         .map(function (x) { return x.st; });

@@ -1254,12 +1254,126 @@
           kit.hide(tableFlame, !light);
           return light ? 'The candle on the little table by the chair is lit.' : 'The candle by the chair is blown out.';
         } });
+      // SEATING FOR THE COMMUNITY (Helen Edgar's ask, 2026-11-12: "more
+      // seating for community eg sofas, bean bags, hammocks, cushions,
+      // blankets etc in every room"): a velvet sofa for two against the
+      // right-hand wall by the door with two beanbags facing it and a basket
+      // of blankets at its end; three floor cushions round a tea tray in the
+      // corner by the door, across from the first shelf; a window seat on the
+      // far wall beside the window, by the harp; and a hammock slung between
+      // two turned posts in front of it. Every seat is a kit.sit with a
+      // squash where it has a cushion, in the room's own cloth and inks, and
+      // nothing in it moves.
+      var seatKnit = kit.cloth('knit', '--rdr-ember', '--rdr-flame', 7), seatWeave = kit.cloth('weave', '--rdr-brass', '--rdr-ember', 12);
+      var seatLeather = kit.cloth('leather', '--rdr-leather', '--rdr-timber', 5);
+      var sofaM = at(4.1, 0, -2.4, RIGHT);
+      kit.fabric(new T.BoxGeometry(2.4, 0.45, 0.9), M(sofaM, at(0, 0.32, 0)), velvet);
+      kit.fabric(new T.BoxGeometry(2.4, 0.8, 0.25), M(sofaM, at(0, 0.75, -0.42)), velvet);
+      [-1, 1].forEach(function (s) { kit.fabric(new T.BoxGeometry(0.22, 0.6, 0.9), M(sofaM, at(s * 1.2, 0.5, 0)), velvet); });
+      var sofaMCushion = kit.fabric(new T.BoxGeometry(2.3, 0.12, 0.72), M(sofaM, at(0, 0.6, 0.04)), velvet);
+      [-0.6, 0.6].forEach(function (cx) { kit.fabric(new T.BoxGeometry(0.44, 0.34, 0.14), M(sofaM, at(cx, 0.85, -0.22, 0, -0.2)), seatWeave); });
+      kit.cyl(0.012, 0.012, 2.4, M(sofaM, at(0, 1.15, -0.42, 0, 0, Math.PI / 2)), '--rdr-brass', false, 5);
+      // A knitted throw over the arm nearest the door, and a basket of
+      // blankets at the other end.
+      kit.fabric(new T.BoxGeometry(0.5, 0.03, 0.9), M(sofaM, at(-1.2, 0.82, 0.05)), seatKnit);
+      kit.fabric(new T.BoxGeometry(0.03, 0.42, 0.9), M(sofaM, at(-1.44, 0.6, 0.05)), seatKnit);
+      kit.fabric(new T.BoxGeometry(0.03, 0.3, 0.9), M(sofaM, at(-0.96, 0.66, 0.05)), seatKnit);
+      var basketM = at(4.3, 0, -3.95);
+      kit.cyl(0.26, 0.2, 0.36, M(basketM, at(0, 0.18, 0)), '--rdr-leather', 0.01, 14);
+      kit.cyl(0.27, 0.27, 0.03, M(basketM, at(0, 0.365, 0)), '--rdr-timber', false, 14);
+      kit.fabric(new T.BoxGeometry(0.4, 0.1, 0.3), M(basketM, at(0, 0.42, 0, 0.3)), seatKnit);
+      kit.fabric(new T.BoxGeometry(0.36, 0.09, 0.28), M(basketM, at(0.02, 0.51, 0.02, -0.4)), seatWeave);
+      kit.fabric(new T.BoxGeometry(0.3, 0.08, 0.24), M(basketM, at(-0.02, 0.59, -0.02, 0.9)), velvet);
+      // Two beanbags facing the sofa, knitted and woven.
+      var beanGeoM = new T.SphereGeometry(0.5, 22, 14); beanGeoM.scale(1, 0.58, 1);
+      var beansM = [[2.1, -1.7], [2.1, -3.1]].map(function (b, i) {
+        kit.cyl(0.42, 0.46, 0.04, at(b[0], 0.02, b[1]), '--rdr-panel', false, 20);
+        return kit.fabric(beanGeoM, at(b[0], 0.3, b[1], i ? 0.6 : -0.3), i ? seatKnit : seatWeave);
+      });
+      // Three floor cushions round a tea tray by the door, across from the
+      // first shelf of records.
+      var cushGeoM = new T.CylinderGeometry(0.34, 0.36, 0.14, 22);
+      var trayM = at(-1.9, 0, -2.0);
+      kit.cyl(0.3, 0.3, 0.025, M(trayM, at(0, 0.013, 0)), '--rdr-timber', 0.01, 20);
+      kit.cyl(0.31, 0.31, 0.008, M(trayM, at(0, 0.03, 0)), '--rdr-brass', false, 20);
+      kit.piece(new T.SphereGeometry(0.1, 12, 8), M(trayM, at(-0.06, 0.12, 0.02)), '--rdr-velvet', 0.01);
+      kit.cyl(0.02, 0.025, 0.14, M(trayM, at(-0.06, 0.2, 0.02)), '--rdr-velvet', false, 8);
+      [[0.12, 0.08], [0.16, -0.08], [0.0, -0.16]].forEach(function (cp) { kit.cyl(0.035, 0.03, 0.05, M(trayM, at(cp[0], 0.055, cp[1])), '--rdr-ink', false, 10); });
+      var floorCushM = [[-1.7, -1.3, 0.3], [-2.75, -1.45, -0.4], [-1.2, -2.3, 0.9]].map(function (c) {
+        var m = kit.fabric(cushGeoM, at(c[0], 0.07, c[1], c[2]), seatWeave);
+        kit.cyl(0.03, 0.03, 0.02, at(c[0], 0.145, c[1]), '--rdr-brass', false, 8);
+        return m;
+      });
+      // THE WINDOW SEAT on the far wall beside the window, by the harp: a
+      // timber bench built against the wall, a velvet cushion along it and a
+      // knitted blanket folded at one end.
+      var wsM = at(1.5, 0, back + 0.3);
+      box(1.4, 0.44, 0.5, M(wsM, at(0, 0.22, 0)), '--rdr-timber', 0.01);
+      box(1.46, 0.04, 0.54, M(wsM, at(0, 0.46, 0)), '--rdr-timber', 0.01, false);
+      var wsCushion = kit.fabric(new T.BoxGeometry(1.36, 0.12, 0.46), M(wsM, at(0, 0.54, 0.0)), velvet);
+      [-0.45, 0.45].forEach(function (cx) { kit.fabric(new T.BoxGeometry(0.34, 0.3, 0.12), M(wsM, at(cx, 0.75, -0.17, 0, -0.15)), seatWeave); });
+      kit.fabric(new T.BoxGeometry(0.34, 0.06, 0.3), M(wsM, at(-0.5, 0.63, 0.06, 0.2)), seatKnit);
+      // THE HAMMOCK: slung between two turned timber posts in front of the
+      // window seat, a woven cloth sagging on a cord at each end.
+      var hamM = [3.25, 1.3, -9.4];
+      [[2.4, -9.4], [4.1, -9.4]].forEach(function (hp) {
+        kit.cyl(0.26, 0.3, 0.06, at(hp[0], 0.03, hp[1]), '--rdr-timber', 0.01, 12);
+        kit.cyl(0.06, 0.07, 2.0, at(hp[0], 1.06, hp[1]), '--rdr-timber', 0.01, 10);
+        kit.piece(new T.SphereGeometry(0.09, 10, 8), at(hp[0], 2.1, hp[1]), '--rdr-brass', false);
+      });
+      var hamGeoM = new T.PlaneGeometry(1.4, 0.8, 18, 3); hamGeoM.rotateX(-Math.PI / 2);
+      (function () {
+        var pos = hamGeoM.attributes.position;
+        for (var i = 0; i < pos.count; i++) {
+          var hx = pos.getX(i), hz = pos.getZ(i), t = hx / 0.7, u = hz / 0.4;
+          pos.setY(i, -0.3 * (1 - t * t) - 0.06 * (1 - u * u) * (1 - t * t));
+        }
+        pos.needsUpdate = true; hamGeoM.computeVertexNormals();
+      })();
+      var hammockM = kit.fabric(hamGeoM, at(hamM[0], hamM[1], hamM[2]), seatWeave);
+      hammockM.material.side = T.DoubleSide; hammockM.material.needsUpdate = true;
+      var seatID = new T.Matrix4();
+      rod(seatID, v(2.4, 1.98, -9.4), v(2.57, 1.3, -9.4), 0.012, '--rdr-brass', 5);
+      rod(seatID, v(4.1, 1.98, -9.4), v(3.93, 1.3, -9.4), 0.012, '--rdr-brass', 5);
+      kit.fabric(new T.BoxGeometry(0.36, 0.05, 0.5), at(2.75, 1.12, -9.4, 0, 0, 0.25), seatKnit);
+      kit.fabric(new T.BoxGeometry(0.4, 0.1, 0.3), at(3.6, 1.06, -9.4, 0, 0, -0.2), velvet);
+      // The seats, each from its own touch and from its group's stop.
+      var sitSofaM = [[-0.6, 'the door'], [0.6, 'the far']].map(function (e) {
+        return kit.sit({ x: 4.0, z: -2.4 + e[0], yaw: LEFT, say: 'Sit on the sofa, ' + e[1] + ' end', up: 'Get up from the sofa', squash: sofaMCushion,
+          sat: 'You sit on the velvet sofa by the door, the beanbags and the whole room before you, somebody beside you if they like.', stood: 'You get up from the sofa.',
+          at: [kit.touch(1.0, 0.5, 0.8, M(sofaM, at(e[0], 0.4, 0.1)))] });
+      });
+      var sitBeansM = beansM.map(function (b, i) {
+        var bz = i ? -3.1 : -1.7;
+        return kit.sit({ x: 2.1, z: bz, yaw: RIGHT, say: 'Sink into the ' + (i ? 'far' : 'near') + ' beanbag', up: 'Climb out of the beanbag', squash: b,
+          sat: 'You sink into the beanbag, low to the boards, facing the sofa.', stood: 'You climb out of the beanbag.',
+          at: [kit.touch(0.9, 0.5, 0.9, at(2.1, 0.3, bz))] });
+      });
+      var sitCushM = floorCushM.map(function (c, i) {
+        var cp = [[-1.7, -1.3], [-2.75, -1.45], [-1.2, -2.3]][i];
+        var yaw = Math.atan2(-(-1.9 - cp[0]), -(-2.0 - cp[1]));
+        return kit.sit({ x: cp[0], z: cp[1], yaw: yaw, say: 'Sit on a floor cushion by the tea tray', up: 'Get up from the cushion', squash: c,
+          sat: 'You sit on the floor cushion by the door, round the tea tray with whoever else is down there.', stood: 'You get up from the cushion.',
+          at: [kit.touch(0.7, 0.2, 0.7, at(cp[0], 0.08, cp[1]))] });
+      });
+      var sitWindowM = kit.sit({ x: 1.5, z: back + 0.3, yaw: Math.PI, say: 'Sit on the window seat', up: 'Get up from the window seat', squash: wsCushion,
+        sat: 'You sit on the window seat, the night at your shoulder and the candlelit room before you.', stood: 'You get up from the window seat.',
+        at: [kit.touch(1.4, 0.5, 0.5, M(wsM, at(0, 0.4, 0)))] });
+      var sitHammockM = kit.sit({ x: hamM[0], z: hamM[2], yaw: Math.PI, say: 'Lie in the hammock', up: 'Climb out of the hammock', squash: hammockM,
+        sat: 'You lie in the hammock by the window, the harp beside you and the candles across the room.', stood: 'You climb out of the hammock.',
+        at: [kit.touch(1.4, 0.6, 0.9, at(hamM[0], 1.05, hamM[2]))] });
+      // Signs for the headset, which reads what it cannot press.
+      sign('Sit with us', 'a sofa, beanbags, cushions by the door, for whoever comes in', 1.4, M(at(W / 2 - 0.02, 0, -2.4, RIGHT), at(0, 2.0, 0.03)));
+      sign('The hammock and the window seat', 'climb in and lie back, or sit by the night', 1.3, at(3.1, 2.2, back + 0.03));
+      stops.push({ name: 'at the sofa against the right-hand wall, the beanbags facing it', x: 2.9, z: -4.3, yaw: Math.PI - 0.2, pitch: -0.2, acts: sitSofaM.concat(sitBeansM) });
+      stops.push({ name: 'at the floor cushions by the door, round the tea tray', x: -0.3, z: -2.2, yaw: 1.76, pitch: -0.35, acts: sitCushM });
+      stops.push({ name: 'at the hammock and the window seat, in the corner by the harp', x: 3.2, z: -8.0, yaw: 0, pitch: -0.1, acts: [sitHammockM, sitWindowM] });
       // THE TOUR (the headset round): the places in a walking order, from
       // the door round the room and back to it, which is the order a
       // controller's bumpers walk them; the way out is the last place.
-      var ORDER = [/^just through the door/, /records stacked/, /^in the chair/, /edge of the rug/, /Faery Yurt’s Yarn/, /Strange things/,
+      var ORDER = [/^just through the door/, /floor cushions by the door/, /records stacked/, /^in the chair/, /edge of the rug/, /Faery Yurt’s Yarn/, /Strange things/,
                    /left-hand candelabrum/, /music stand/, /^beside the cello/, /Symphrenia/, /phonograph’s deck/, /^at the window/,
-                   /^over the phonograph/, /horn, with the moth/, /^beside the harp/, /own page/];
+                   /^over the phonograph/, /horn, with the moth/, /^beside the harp/, /hammock and the window seat/, /own page/, /sofa against the right-hand wall/];
       function rank(st2) { for (var i = 0; i < ORDER.length; i++) if (ORDER[i].test(st2.name)) return i; return ORDER.length; }
       stops.sort(function (a, b) { return rank(a) - rank(b); });
       stops.push({ name: 'at the door back to the yurt, under its sign, ivy and flowers up both sides and the two faeries on it', x: 0, z: -1.7, yaw: Math.PI, pitch: 0.1 });
@@ -1281,7 +1395,9 @@
         // (the headset round).
         bounds: { x: [-W / 2 + 1.0, W / 2 - 1.0], z: [back + 1.4, -0.8],
                   areas: [{ x: [-W / 2 + 1.0, -0.7], z: [back + 1.4, -0.8] }, { x: [0.7, W / 2 - 1.0], z: [back + 1.4, -0.8] },
-                          { x: [-0.7, 0.7], z: [back + 3.2, -0.8] }, { x: [-0.7, 0.7], z: [back + 1.4, back + 2.15] }] },
+                          { x: [-0.7, 0.7], z: [back + 3.2, -0.8] }, { x: [-0.7, 0.7], z: [back + 1.4, back + 2.15] },
+                          // The window seat, so sitting on it keeps the eye where the seat is (2026-11-12).
+                          { x: [0.8, 2.2], z: [back + 0.3, back + 1.4] }] },
         stops: stops,
         // Offered in a VR headset, as the yurt it opens off is (Ryan's ask,
         // 2026-11-07), so you walk in from the yurt without leaving the

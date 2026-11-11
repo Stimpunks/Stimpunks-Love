@@ -148,6 +148,19 @@
    scene glides. Every colour is one her room declares, by name. It keeps
    nothing, sends nothing and fetches nothing; her page arrives through Cel
    Street's screen(). tools/make-cel-street.py holds each of those.
+
+   SEATING FOR THE COMMUNITY (Helen's ask, 2026-11-12, "sofas, bean bags,
+   hammocks, cushions, blankets etc in every room"): a log bench with a folded
+   blanket and a cushion under the mushroom's cap; a ring of two log benches
+   and four floor cushions on the flat ground by the foxfire logs, the walk
+   left clear through the middle, a blanket on one log; two young trees on
+   the left above the shore with a hammock slung between them and two beanbags
+   in the grass facing the sea, a blanket over one; and a second hammock between
+   two trees on the right of the walk in Air, among the fireflies, because the
+   shore's right-hand side is the rhizome's whirlpool and the jellyfish's panel. Every seat is kit.sit, the
+   soft ones squashing under you, each with a touch in the scene and a stop in
+   the walk. Nothing is lit that is not alive, and nothing moves. The cloths
+   are the hollow's own inks (kit.cloth): a weave, a knit and a pile.
    ========================================================================== */
 (function () {
   'use strict';
@@ -200,6 +213,61 @@
       var mossCloth = kit.cloth('fur', '--gwh-hill', '--gwh-fox', 6);
       var barkCloth = kit.cloth('leather', '--gwh-hill', '--gwh-night', 3);
       var sandCloth = kit.cloth('pile', '--gwh-hill', '--gwh-deep', 8);
+      // SEATING FOR THE COMMUNITY (Helen's ask, 2026-11-12: sofas, beanbags,
+      // hammocks, cushions, blankets in every room): cloth for it in the
+      // hollow's own inks, nothing lit that is not alive, nothing moving.
+      var weaveCloth = kit.cloth('weave', '--gwh-hill', '--gwh-ink-2', 5);
+      var knitCloth = kit.cloth('knit', '--gwh-deep', '--gwh-fox', 4);
+      var cushCloth = kit.cloth('pile', '--gwh-wave', '--gwh-sea', 6);
+      // A floor cushion, a beanbag and a log bench, each a seat (kit.sit) that
+      // squashes under you where it is soft; yaw is the way you face sat on it.
+      function cushionAt(x, z, yaw, cloth) {
+        var m = kit.fabric(new T.BoxGeometry(0.56, 0.14, 0.56), at(x, 0.07, z, yaw), cloth || cushCloth);
+        return kit.sit({ x: x, z: z, yaw: yaw, say: 'Sit on the cushion', up: 'Stand up from the cushion', squash: m,
+          sat: 'You sit on the floor cushion.', stood: 'You stand up from the cushion.', at: [kit.touch(0.6, 0.3, 0.6, at(x, 0.15, z, yaw))] });
+      }
+      function beanbagAt(x, z, yaw, cloth) {
+        var bg = new T.SphereGeometry(1, 14, 10); bg.scale(0.46, 0.3, 0.46);
+        var m = kit.fabric(bg, at(x, 0.27, z, yaw), cloth || knitCloth);
+        return kit.sit({ x: x, z: z, yaw: yaw, say: 'Sink into the beanbag', up: 'Get up from the beanbag', squash: m,
+          sat: 'You sink into the beanbag.', stood: 'You get up from the beanbag.', at: [kit.touch(0.9, 0.6, 0.9, at(x, 0.3, z, yaw))] });
+      }
+      function logBenchAt(x, z, yaw) {
+        kit.fabric(new T.CylinderGeometry(0.17, 0.19, 1.5, 16), at(x, 0.17, z, yaw, 0, Math.PI / 2), barkCloth);
+        return kit.sit({ x: x, z: z, yaw: yaw, say: 'Sit on the log', up: 'Stand up from the log',
+          sat: 'You sit on the log bench.', stood: 'You stand up from the log.', at: [kit.touch(1.5, 0.45, 0.5, at(x, 0.22, z, yaw))] });
+      }
+      // A folded blanket: a soft stack in the knit.
+      function blanketAt(x, y, z, yaw, w, d) {
+        kit.fabric(new T.BoxGeometry(w || 0.44, 0.09, d || 0.34), at(x, y, z, yaw), knitCloth);
+      }
+      // A young tree, bark and moss, for a hammock to hang from.
+      function treeAt(x, z, h) {
+        kit.fabric(new T.CylinderGeometry(0.1, 0.14, h, 12), at(x, h / 2, z), barkCloth);
+        var cr = new T.SphereGeometry(1, 12, 8); cr.scale(0.9, 0.7, 0.9);
+        kit.fabric(cr, at(x, h + 0.3, z), mossCloth);
+        var cr2 = new T.SphereGeometry(1, 10, 7); cr2.scale(0.6, 0.5, 0.6);
+        kit.fabric(cr2, at(x + 0.5, h - 0.2, z + 0.3), mossCloth);
+      }
+      // A hammock slung along z between two trees, sagging in the middle, a
+      // cord to each trunk; sat in, you face the sea.
+      function hammockAt(x, z, len, h) {
+        var hg = new T.PlaneGeometry(0.9, len - 0.9, 4, 14), pos = hg.attributes.position;
+        for (var hv = 0; hv < pos.count; hv++) {
+          var py = pos.getY(hv), px = pos.getX(hv), t = py / ((len - 0.9) / 2), u = px / 0.45;
+          pos.setZ(hv, -0.32 * (1 - t * t) * (1 - 0.35 * u * u) - 0.08 * (1 - u * u));
+        }
+        hg.computeVertexNormals();
+        var m = kit.fabric(hg, at(x, h, z, 0, -Math.PI / 2), weaveCloth, false);
+        m.material.side = T.DoubleSide; m.material.needsUpdate = true;
+        [-1, 1].forEach(function (e) {
+          var z0 = z + e * (len - 0.9) / 2, z1 = z + e * len / 2;
+          var cl = Math.hypot(z1 - z0, 0.35);
+          kit.cyl(0.012, 0.012, cl, at(x, h + 0.17, (z0 + z1) / 2, 0, e * Math.atan2(z1 - z0, 0.35)), '--gwh-hill', false, 6);
+        });
+        return kit.sit({ x: x, z: z, yaw: 0, say: 'Lie in the hammock', up: 'Climb out of the hammock', squash: m,
+          sat: 'You lie back in the hammock, the sea ahead of you.', stood: 'You climb out of the hammock.', at: [kit.touch(1.0, 0.5, len - 0.9, at(x, h - 0.1, z))] });
+      }
       // A thin line of light lying on the ground, from one place to the next.
       function thread(list, x0, z0, x1, z1, w) {
         var dx = x1 - x0, dz = z1 - z0, len = Math.sqrt(dx * dx + dz * dz);
@@ -288,6 +356,12 @@
       box(pw + 0.16, ph + 0.16, 0.06, M(pg, at(0, 0.3 + ph / 2, 0)), '--gwh-deep');
       var frame = kit.screen(1180, 800, pw, M(pg, at(0, 0.3 + ph / 2, 0.04)), 'Glow Wild Hollow’s own page, standing by the foot of the mushroom');
       stops.push({ name: 'by the foot of the mushroom, with her room’s own page', x: 0.6, z: -0.7, yaw: -Math.PI / 2 + 0.35, page: kit.page, frame: frame });
+      // A bench under the mushroom's cap on the left, facing the stem, with a
+      // blanket folded at one end and two cushions on the moss beside it.
+      var benchSeat = logBenchAt(-1.9, 0.3, -2.45);
+      blanketAt(-2.4, 0.39, 0.62, -2.45);
+      var benchCush = cushionAt(-1.2, -0.5, -2.2, weaveCloth);
+      stops.push({ name: 'at the bench under the mushroom, somewhere to sit when you arrive', x: -1.2, z: 0.0, yaw: -2.0, acts: [benchSeat, benchCush] });
 
       // THE WAY BACK UP, DRESSED AS A PORTAL (Helen, 2026-11-11; see the
       // header). The way is the dark of the stem at the mushroom's foot; pm
@@ -670,6 +744,14 @@
       stops.push({ name: 'by the fallen logs, with foxfire growing in them', x: 0.4, z: -19.2, yaw: -1.0 });
       stops.push({ name: 'at the cut end of the longest log, its rings and its split, bracket fungi up its side', x: 1.4, z: -17.2, yaw: -1.35, pitch: -0.12 });
       stops.push({ name: 'on the other slope, where glow-worms wait at the tops of the grass stems', x: -0.5, z: -18.6, yaw: 1.05, acts: [glowworms, bankSeat] });
+      // A RING OF LOGS AND CUSHIONS on the flat ground between the slopes, by
+      // the foxfire: two log benches facing each other across the walk and
+      // four floor cushions, the middle left clear for the way through; a
+      // blanket folded on one log.
+      var ringL = logBenchAt(-1.2, -21.2, Math.PI / 2), ringR = logBenchAt(1.2, -21.2, -Math.PI / 2);
+      blanketAt(1.2, 0.39, -20.65, -Math.PI / 2);
+      var ringC = [cushionAt(-0.55, -20.1, 2.3), cushionAt(0.55, -20.1, -2.3), cushionAt(-0.55, -22.3, 0.8), cushionAt(0.55, -22.3, -0.8)];
+      stops.push({ name: 'at the ring of logs and cushions, round the foxfire', x: 0, z: -22.9, yaw: 0, pitch: -0.15, acts: [ringL, ringR].concat(ringC) });
 
       // ── DOWN THROUGH THE RHIZOME ──────────────────────────────────────────
       // The fine threads fungi grow through soil and wood, glowing, wandering
@@ -740,6 +822,23 @@
         fs.computeVertexNormals();
         kit.piece(fs, at(0, 0.03, EDGE - far), fi % 2 ? '--gwh-wave' : '--gwh-deep', false);
       });
+      // HAMMOCKS AND BEANBAGS above the shore: two young trees each side of
+      // the walk with a hammock slung between them, and beanbags in the grass
+      // facing the sea, a blanket thrown over one; nothing here is lit, the
+      // sea and the fire light them.
+      treeAt(-2.3, EDGE + 10.2, 2.4); treeAt(-2.3, EDGE + 7.4, 2.6);
+      var hamL = hammockAt(-2.3, EDGE + 8.8, 2.8, 0.78);
+      // The right-hand side here is the rhizome's whirlpool and the jellyfish's
+      // panel, so the second hammock hangs up in Air instead, on the right
+      // among the fireflies, where nothing of hers stands.
+      // (Past the moths, which circle at MZ, and short of Earth's slopes.)
+      treeAt(2.3, -12.1, 2.5); treeAt(2.3, -14.9, 2.3);
+      var hamR = hammockAt(2.3, -13.5, 2.8, 0.78);
+      stops.push({ name: 'in the hammock among the fireflies, on the right of the walk', x: 1.0, z: -13.5, yaw: -1.3, pitch: -0.1, acts: [hamR] });
+      var bagL = beanbagAt(-1.4, EDGE + 6.4, 0.25), bagR = beanbagAt(1.5, EDGE + 6.6, -0.2, cushCloth);
+      var thrown = new T.BoxGeometry(0.62, 0.04, 0.5);
+      kit.fabric(thrown, at(-1.4, 0.5, EDGE + 6.25, 0.25, 0.5), knitCloth);
+      stops.push({ name: 'in the hammock and the beanbags above the shore, the sea ahead', x: 0, z: EDGE + 8.0, yaw: 0.3, pitch: -0.1, acts: [hamL, bagL, bagR] });
       marker('Water', -1.6, EDGE + 5.2, 0.15);
       stops.push({ name: 'at the water’s edge, looking out over the waves to the plankton far out', x: -1.2, z: EDGE + 0.5, yaw: 0.3, pitch: 0.05 });
       // Far out, a few of the sea's own lights: plankton where the water moves.
@@ -971,9 +1070,9 @@
       // them, which a controller's bumpers follow: under the mushroom and up at
       // its gills, her page, then Air, the whirlpool, Earth, the rhizome, Water,
       // Fire, and back at the way up. Every stop's name says what is in front.
-      var TOUR = ['under the mushroom you', 'under the mushroom’s cap', 'by the foot of the mushroom', 'in the long grass', 'among the moths',
-                  'at the whirlpool of light', 'by the fallen logs', 'at the cut end', 'on the other slope', 'at the watery whirlpool',
-                  'among the rhizome', 'at the edge of the sea', 'on the shore, with the jellyfish', 'at the water’s edge, looking out to the crystal',
+      var TOUR = ['under the mushroom you', 'under the mushroom’s cap', 'by the foot of the mushroom', 'at the bench under', 'in the long grass', 'among the moths',
+                  'in the hammock among', 'at the whirlpool of light', 'by the fallen logs', 'at the cut end', 'on the other slope', 'at the ring of logs', 'at the watery whirlpool',
+                  'among the rhizome', 'in the hammock and', 'at the edge of the sea', 'on the shore, with the jellyfish', 'at the water’s edge, looking out to the crystal',
                   'at the water’s edge, looking out over', 'by the bonfire', 'back at the way up'];
       function rank(st) { for (var i = 0; i < TOUR.length; i++) if (st.name.indexOf(TOUR[i]) === 0) return i; return TOUR.length; }
       stops.sort(function (a, b) { return rank(a) - rank(b); });

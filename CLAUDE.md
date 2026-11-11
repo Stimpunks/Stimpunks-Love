@@ -1891,6 +1891,20 @@ the Hatter, the March Hare, the Dormouse in a teapot, the White Rabbit apart, th
 edits are a Disney-blue Alice "because that is what Alice looks like", the cat fading by itself at MAX (her page moves
 nothing), and the page's silver darkened "to match the room".
 
+**EVERY ROOM OF HERS HAS SEATS FOR A GROUP, THE CAVE GROWS EVERY STONE OF HER WHEEL, AND THE TEA PARTY'S PEOPLE ARE
+REAL BUT NOT DISNEY'S.** Helen Edgar's asks, 2026-11-12. Seating in every `cel-in-*` room of hers (sofas,
+beanbags, hammocks, cushions, blankets, each `kit.sit`, `squash` where it has a cushion, cloth through `kit.cloth`, in
+the room's own inks, a stop per group, nothing moving); the cave's crystals in `cel-in-faery-myths-room.js` in the
+Crystal Wheel's `--crys-*` inks, prisms with terminations, druses, geodes and columns, `shine()` making each glassy in
+the real look (transparent, low roughness, an emissive of its own ink, guarded by `'roughness' in mat` so the cel look
+is untouched) with a `PointLight` in the big clusters; and the six tea-party figures rebuilt lifelike (`person`,
+`visage`, `locks`) **after Tenniel and Macmillan's coloured editions, never Disney's 1951 designs**, which are in
+copyright: Helen asked for the film as inspiration and was told the limit; the file's header says so. **The first
+build of that round named its face helper `face`, which the file already used for the glass's face geometry, and
+the room stopped building ("face is not a function"): grep a name before adding a helper**, the street's `named`
+lesson a third time. The friendly edits are a Disney likeness "since she asked for the film", a count of seats, and
+crystals in a literal colour "because the photographs are brighter".
+
 **THE BASKET OF WINGS BY THE YURT'S DOOR LENDS A PAIR TO YOUR 3D FIGURE, AND HER THREE ANIMALS ARE ASLEEP IN THE SCENE.**
 Helen Edgar's asks, 2026-11-09. A room on Cel Street that lends wings names its pairs (`wings` in `cel-in-faery-yurt.js`,
 exactly `CEL_WINGS` in `lib.mjs`, which `make-cel-street.py` holds both ways and to `cel-street.js`'s `WINGS` drawings);

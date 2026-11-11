@@ -146,6 +146,13 @@
   }
 
   window.loveCelRooms = window.loveCelRooms || {};
+  /* MORE SEATING (Helen Edgar's ask, 2026-11-12, "more seating for community
+   eg sofas, bean bags, hammocks, cushions, blankets etc in every room"): a
+   sofa against the back wall with blankets on its arm and in a basket, two
+   beanbags between the mats and the tray, cushions by the lava lamp and the
+   bubble tube, and a hammock chair hung by the easel, every cloth following
+   the lamp as the room's cloth does, every seat kit.sit, a stop for each in
+   the walking order and a sign over the sofa. Ours, hers to keep or send back. */
   window.loveCelRooms['play-pod.html'] = {
     name: 'The Play Pod',
     from: 'faery-yurt.html',
@@ -985,6 +992,84 @@
         sat: 'You sit on the mats, their colours changing round you.', stood: 'You stand up from the mats.',
         squash: MATS[1].mesh,
         at: [kit.touch(0.5, 0.16, 0.5, at(0, 0.14, -1.35))] });
+      // MORE SEATING FOR THE COMMUNITY (Helen Edgar's ask, 2026-11-12: "more
+      // seating for community eg sofas, bean bags, hammocks, cushions,
+      // blankets etc in every room"): a soft sofa against the back wall with
+      // blankets folded on its arm and in a basket beside it, two beanbags
+      // between the mats and the tray, cushions either side of the lava
+      // lamp's beanbag and one in front of the bubble tube, and a hammock
+      // chair hung from the ceiling by the easel. Every cloth is clothed(),
+      // so the lamp's rule reaches it (glowing under the lamp, pale paint by
+      // day); every seat is kit.sit in the room's inks; nothing moves.
+      var sofaM = at(0.2, 0, back + 0.55);
+      box(1.9, 0.12, 0.8, M(sofaM, at(0, 0.2, 0)), '--ppd-line');
+      box(1.9, 0.5, 0.1, M(sofaM, at(0, 0.5, -0.38)), '--ppd-line');
+      [-1, 1].forEach(function (e) { box(0.14, 0.46, 0.8, M(sofaM, at(e * 0.88, 0.37, 0)), '--ppd-line'); });
+      var sofaSeat = clothed(new T.BoxGeometry(1.6, 0.18, 0.7, 2, 1, 2), M(sofaM, at(0, 0.35, 0.02)), 'velvet', ['--ppd-pink', '--ppd-tray'], ['--ppd-day-pink', '--ppd-day-tray'], 4);
+      clothed(new T.BoxGeometry(1.6, 0.42, 0.14, 2, 2, 1), M(sofaM, at(0, 0.62, -0.28)), 'velvet', ['--ppd-blue', '--ppd-tray'], ['--ppd-day-blue', '--ppd-day-tray'], 4);
+      [[-0.5, '--ppd-green', '--ppd-day-green'], [0.5, '--ppd-yellow', '--ppd-day-yellow']].forEach(function (c) {
+        var sq = new T.BoxGeometry(0.4, 0.36, 0.12, 2, 2, 1);
+        clothed(sq, M(sofaM, at(c[0], 0.6, -0.14, 0, -0.2)), 'knit', [c[1], '--ppd-tray'], [c[2], '--ppd-day-tray'], 3);
+      });
+      // Blankets folded on the arm and rolled in a basket beside the sofa.
+      clothed(new T.BoxGeometry(0.3, 0.1, 0.7), M(sofaM, at(0.88, 0.65, 0)), 'knit', ['--ppd-orange', '--ppd-tray'], ['--ppd-day-yellow', '--ppd-day-tray'], 3);
+      kit.cyl(0.26, 0.22, 0.4, M(sofaM, at(-1.3, 0.2, 0.1)), '--ppd-line', true, 14);
+      [['--ppd-pink', '--ppd-day-pink', -0.1, 0], ['--ppd-blue', '--ppd-day-blue', 0.1, 0], ['--ppd-green', '--ppd-day-green', 0, 0.14]].forEach(function (rl) {
+        var roll = new T.CylinderGeometry(0.085, 0.085, 0.34, 12); roll.rotateX(Math.PI / 2);
+        clothed(roll, M(sofaM, at(-1.3 + rl[2], 0.34 + rl[3], 0.1, 0.4)), 'knit', [rl[0], '--ppd-tray'], [rl[1], '--ppd-day-tray'], 3);
+      });
+      var sitSofa = kit.sit({ x: 0.2, z: back + 0.6, yaw: Math.PI, say: 'Sit on the sofa', up: 'Get up off the sofa',
+        sat: 'You sit on the sofa against the back wall, the whole pod glowing in front of you.', stood: 'You get up off the sofa.',
+        squash: sofaSeat, at: [kit.touch(1.9, 0.9, 0.8, M(sofaM, at(0, 0.45, 0)))] });
+      sign('Somewhere to sit', 'the sofa, the beanbags, the cushions and the hammock chair', 1.1, at(0.2, 2.0, back + 0.1));
+      stops.push({ name: 'at the sofa against the back wall, with the blankets', x: 0.2, z: back + 2.4, yaw: 0, pitch: -0.12, acts: [sitSofa] });
+
+      // Two beanbags between the mats and the tray, facing each other a little.
+      var bagSeats = [];
+      [[-1.5, -2.9, 0.5, '--ppd-green', '--ppd-day-green', 'Sit on the green beanbag'], [0.2, -2.9, -0.5, '--ppd-orange', '--ppd-day-yellow', 'Sit on the orange beanbag']].forEach(function (b) {
+        var bag = new T.SphereGeometry(0.55, 28, 18); bag.scale(1, 0.58, 1);
+        var bm2 = clothed(bag, at(b[0], 0.3, b[1], b[2]), 'velvet', [b[3], '--ppd-tray'], [b[4], '--ppd-day-tray'], 3);
+        bagSeats.push(kit.sit({ x: b[0], z: b[1], yaw: b[2], say: b[5], up: 'Get up off the beanbag',
+          sat: 'You sink into the beanbag, low, the tray glowing beside you.', stood: 'You climb up off the beanbag.',
+          squash: bm2, at: [kit.touch(1.1, 0.6, 1.1, at(b[0], 0.3, b[1]))] }));
+      });
+      stops.push({ name: 'at the beanbags, between the mats and the tray', x: -0.65, z: -2.1, yaw: 0, pitch: -0.3, acts: bagSeats });
+
+      // A cushion either side of the lava lamp's beanbag, and one in front
+      // of the bubble tube, each a seat.
+      var cushSeats = [], tubeSeats = [];
+      [[LX2 + 1.05, LZ - 1.05, Math.PI / 2, '--ppd-blue', '--ppd-day-blue', cushSeats], [LX2 + 1.05, LZ + 1.05, Math.PI / 2, '--ppd-yellow', '--ppd-day-yellow', cushSeats],
+       [BX - 0.1, BZ + 1.05, -0.1, '--ppd-pink', '--ppd-day-pink', tubeSeats]].forEach(function (c) {
+        var cg = new T.SphereGeometry(0.34, 24, 14); cg.scale(1.1, 0.3, 1);
+        var cm = clothed(cg, at(c[0], 0.09, c[1]), 'velvet', [c[3], '--ppd-tray'], [c[4], '--ppd-day-tray'], 3);
+        c[5].push(kit.sit({ x: c[0], z: c[1], yaw: c[2], say: 'Sit on the cushion', up: 'Get up off the cushion',
+          sat: 'You sit on the cushion on the floor, the light in front of you.', stood: 'You get up off the cushion.',
+          squash: cm, at: [kit.touch(0.7, 0.3, 0.7, at(c[0], 0.12, c[1]))] }));
+      });
+      stops.forEach(function (st2) {
+        if (st2.name.indexOf('sitting in front of the big lava lamp') === 0) st2.acts = (st2.acts || []).concat(cushSeats);
+        if (st2.name.indexOf('at the bubble tube') === 0) st2.acts = (st2.acts || []).concat(tubeSeats);
+      });
+
+      // A hammock chair hung from the ceiling by the easel: a rope to a ring,
+      // four cords, and a woven bowl of a seat with a cushion in it.
+      var HX = 2.95, HZ = -6.2;
+      kit.cyl(0.016, 0.016, H - 2.1, at(HX, H - (H - 2.1) / 2, HZ), '--ppd-line', false, 6);
+      kit.piece(new T.TorusGeometry(0.1, 0.014, 6, 18), at(HX, 2.08, HZ, 0, Math.PI / 2), '--ppd-line', false);
+      for (var hc = 0; hc < 4; hc++) {
+        var hca = hc * Math.PI / 2 + Math.PI / 4, cx2 = Math.cos(hca) * 0.42, cz2 = Math.sin(hca) * 0.42;
+        kit.cyl(0.01, 0.01, 1.5, at(HX + cx2 / 2, 1.33, HZ + cz2 / 2, 0, Math.sin(hca) * 0.28, -Math.cos(hca) * 0.28), '--ppd-line', false, 5);
+      }
+      var bowl = new T.SphereGeometry(0.5, 28, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2); bowl.scale(1, 0.8, 1);
+      var bowlMesh = clothed(bowl, at(HX, 0.95, HZ), 'weave', ['--ppd-uv', '--ppd-line'], ['--ppd-day-tube', '--ppd-day-stand'], 5);
+      bowlMesh.material.side = T.DoubleSide; bowlMesh.material.needsUpdate = true;
+      var bowlCush = new T.SphereGeometry(0.4, 24, 14); bowlCush.scale(1, 0.3, 1);
+      var bowlCushMesh = clothed(bowlCush, at(HX, 0.62, HZ), 'velvet', ['--ppd-pink', '--ppd-tray'], ['--ppd-day-pink', '--ppd-day-tray'], 3);
+      var sitHammock = kit.sit({ x: HX, z: HZ, yaw: Math.PI / 2, say: 'Sit in the hammock chair', up: 'Climb out of the hammock chair',
+        sat: 'You curl up in the hammock chair, hung from the ceiling, the pod glowing round you.', stood: 'You climb out of the hammock chair.',
+        squash: bowlCushMesh, at: [kit.touch(1.0, 1.0, 1.0, at(HX, 0.8, HZ))] });
+      stops.push({ name: 'at the hammock chair, hung from the ceiling by the easel', x: HX - 1.5, z: HZ, yaw: -Math.PI / 2, pitch: -0.05, acts: [sitHammock] });
+
       // THINGS TO HOLD (kit.hold: to your hand in a headset, in front of you
       // on a screen, and back where it was on a second press), each a glow
       // through glow(), so the lamp's rule holds in the hand: a glow stick
@@ -1060,7 +1145,7 @@
       // places list go from the door round the pod and back to the door.
       var ORDER = ['just through the round door', 'on the sensory mats', 'at the low table', 'at the drawings', 'sitting in front of the big lava lamp',
                    'at the tuff tray', 'at the stool', 'at the shelf of paints', 'at the big sheet', 'at the tray of rainbow rice', 'under the strings',
-                   'at the bubble tube', 'at the easel', 'at the film', 'at the messy play mat', 'at the wall, with her room', 'back at the round door'];
+                   'at the beanbags', 'at the bubble tube', 'at the hammock chair', 'at the easel', 'at the film', 'at the sofa', 'at the messy play mat', 'at the wall, with her room', 'back at the round door'];
       stops.sort(function (a, b) {
         var ia = ORDER.findIndex(function (o) { return a.name.indexOf(o) === 0; }), ib = ORDER.findIndex(function (o) { return b.name.indexOf(o) === 0; });
         return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);

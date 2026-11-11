@@ -1180,12 +1180,134 @@
       stops.push({ name: 'at the hearth, close to the fire, its kerb and the carved hood', x: -W / 2 + 2.2, z: -6.5, yaw: LEFT, pitch: -0.12, acts: [crackle, fireSw, sparks] });
       stops.push({ name: 'at the mantel, with the raven on it and the candles either side', x: -W / 2 + 2.0, z: -6.1, yaw: LEFT + 0.15, pitch: 0.3 });
       stops.push({ name: 'over the gramophone itself, her record on it', x: -W / 2 + 2.0, z: -10.15, yaw: 1.4, pitch: -0.5, acts: [turning] });
+      // SEATING FOR THE COMMUNITY (Helen Edgar's ask, 2026-11-12: "more
+      // seating for community eg sofas, bean bags, hammocks, cushions,
+      // blankets etc in every room"): across the room from the fire, on the
+      // open boards, a second group to sit in facing each other, round a low
+      // table: a second velvet sofa for two, a leather wing chair, two
+      // beanbags, floor cushions, a basket of knitted blankets and a throw
+      // over the sofa's arm; and a hammock slung between two timber posts
+      // along the far wall, under the Art case's end. Every seat is a kit.sit
+      // with a squash where it has a cushion, in the room's own cloth and
+      // inks, and nothing in it moves.
+      var seatTable = at(2.0, 0, -6.6);
+      kit.cyl(0.52, 0.52, 0.04, M(seatTable, at(0, 0.44, 0)), '--rdr-timber', 0.01, 24);
+      kit.cyl(0.5, 0.5, 0.012, M(seatTable, at(0, 0.465, 0)), '--rdr-brass', false, 24);
+      kit.cyl(0.06, 0.09, 0.42, M(seatTable, at(0, 0.21, 0)), '--rdr-timber', false, 8);
+      kit.cyl(0.3, 0.3, 0.03, M(seatTable, at(0, 0.015, 0)), '--rdr-timber', false, 12);
+      // A few of her books and a candle left on it.
+      box(0.24, 0.05, 0.17, M(seatTable, at(0.12, 0.49, 0.05, 0.3)), '--rdr-velvet', false);
+      box(0.2, 0.04, 0.15, M(seatTable, at(0.12, 0.535, 0.05, 0.1)), '--rdr-leather', false);
+      kit.cyl(0.03, 0.03, 0.12, M(seatTable, at(-0.22, 0.53, -0.1)), '--rdr-ink', false, 8);
+      // The second sofa, facing the fire's sofa across the table.
+      var sofa2 = at(2.0, 0, -8.9, Math.PI);
+      kit.fabric(new T.BoxGeometry(2.4, 0.45, 0.9), M(sofa2, at(0, 0.32, 0)), velvet);
+      kit.fabric(new T.BoxGeometry(2.4, 0.8, 0.25), M(sofa2, at(0, 0.75, -0.42)), velvet);
+      [-1, 1].forEach(function (s) { kit.fabric(new T.BoxGeometry(0.22, 0.6, 0.9), M(sofa2, at(s * 1.2, 0.5, 0)), velvet); });
+      var sofa2Cushion = kit.fabric(new T.BoxGeometry(2.3, 0.12, 0.72), M(sofa2, at(0, 0.6, 0.04)), velvet);
+      [-0.6, 0.6].forEach(function (cx) { kit.fabric(new T.BoxGeometry(0.44, 0.34, 0.14), M(sofa2, at(cx, 0.85, -0.22, 0, -0.2)), weave); });
+      kit.cyl(0.012, 0.012, 2.4, M(sofa2, at(0, 1.15, -0.42, 0, 0, Math.PI / 2)), '--rdr-brass', false, 5);
+      // A knitted throw over its far arm.
+      kit.fabric(new T.BoxGeometry(0.5, 0.03, 0.9), M(sofa2, at(1.2, 0.82, 0.05)), knit);
+      kit.fabric(new T.BoxGeometry(0.03, 0.42, 0.9), M(sofa2, at(1.44, 0.6, 0.05)), knit);
+      kit.fabric(new T.BoxGeometry(0.03, 0.3, 0.9), M(sofa2, at(0.96, 0.66, 0.05)), knit);
+      // A wing chair at the table's far side, facing the fire.
+      var wing = at(3.1, 0, -6.6, RIGHT);
+      kit.fabric(new T.BoxGeometry(0.9, 0.45, 0.85), M(wing, at(0, 0.3, 0)), leather);
+      kit.fabric(new T.BoxGeometry(0.9, 1.0, 0.2), M(wing, at(0, 0.85, -0.35)), leather);
+      [-1, 1].forEach(function (s) {
+        kit.fabric(new T.BoxGeometry(0.16, 0.55, 0.85), M(wing, at(s * 0.45, 0.5, 0)), leather);
+        kit.fabric(new T.BoxGeometry(0.14, 0.6, 0.3), M(wing, at(s * 0.4, 1.05, -0.2, 0, 0, s * 0.12)), leather);
+      });
+      var wingCushion = kit.fabric(new T.BoxGeometry(0.56, 0.1, 0.62), M(wing, at(0, 0.56, 0.06)), leather);
+      kit.cyl(0.06, 0.06, 0.9, M(wing, at(0, 1.37, -0.35, 0, 0, Math.PI / 2)), '--rdr-leather', 0.01, 10);
+      // Two beanbags at the door end of the table, knitted, each pressed
+      // flatter while somebody is in it.
+      var beanGeo = new T.SphereGeometry(0.5, 22, 14); beanGeo.scale(1, 0.58, 1);
+      var beans = [[1.0, -4.5], [3.0, -4.5]].map(function (b, i) {
+        kit.cyl(0.42, 0.46, 0.04, at(b[0], 0.02, b[1]), '--rdr-panel', false, 20);
+        return kit.fabric(beanGeo, at(b[0], 0.3, b[1], i ? 0.7 : -0.4), i ? knit : weave);
+      });
+      // Floor cushions either side of the table, woven, with a button.
+      var cushGeo = new T.CylinderGeometry(0.34, 0.36, 0.14, 22);
+      var floorCush = [[2.0, -5.65, 0.3], [2.0, -7.55, -0.5]].map(function (c) {
+        var m = kit.fabric(cushGeo, at(c[0], 0.07, c[1], c[2]), weave);
+        kit.cyl(0.03, 0.03, 0.02, at(c[0], 0.145, c[1]), '--rdr-brass', false, 8);
+        return m;
+      });
+      // A basket of blankets at the sofa's end, and a folded one on the table.
+      var basket = at(3.45, 0, -9.0);
+      kit.cyl(0.26, 0.2, 0.36, M(basket, at(0, 0.18, 0)), '--rdr-leather', 0.01, 14);
+      kit.cyl(0.27, 0.27, 0.03, M(basket, at(0, 0.365, 0)), '--rdr-timber', false, 14);
+      kit.fabric(new T.BoxGeometry(0.4, 0.1, 0.3), M(basket, at(0, 0.42, 0, 0.3)), knit);
+      kit.fabric(new T.BoxGeometry(0.36, 0.09, 0.28), M(basket, at(0.02, 0.51, 0.02, -0.4)), weave);
+      kit.fabric(new T.BoxGeometry(0.3, 0.08, 0.24), M(basket, at(-0.02, 0.59, -0.02, 0.9)), velvet);
+      kit.fabric(new T.BoxGeometry(0.34, 0.05, 0.26), M(sofa2, at(-0.5, 0.69, 0.08, 0.2)), knit);
+      // THE HAMMOCK: slung between two turned timber posts along the far
+      // wall, a woven cloth sagging between them on a cord at each end.
+      var hamPosts = [[1.0, -10.6], [3.0, -10.6]];
+      hamPosts.forEach(function (hp) {
+        kit.cyl(0.26, 0.3, 0.06, at(hp[0], 0.03, hp[1]), '--rdr-timber', 0.01, 12);
+        kit.cyl(0.06, 0.07, 2.0, at(hp[0], 1.06, hp[1]), '--rdr-timber', 0.01, 10);
+        kit.piece(new T.SphereGeometry(0.09, 10, 8), at(hp[0], 2.1, hp[1]), '--rdr-brass', false);
+      });
+      var hamGeo = new T.PlaneGeometry(1.7, 0.8, 18, 3); hamGeo.rotateX(-Math.PI / 2);
+      (function () {
+        var pos = hamGeo.attributes.position;
+        for (var i = 0; i < pos.count; i++) {
+          var hx = pos.getX(i), hz = pos.getZ(i), t = hx / 0.85, u = hz / 0.4;
+          pos.setY(i, -0.34 * (1 - t * t) - 0.06 * (1 - u * u) * (1 - t * t));
+        }
+        pos.needsUpdate = true; hamGeo.computeVertexNormals();
+      })();
+      var hammock = kit.fabric(hamGeo, at(2.0, 1.3, -10.6), weave);
+      hammock.material.side = T.DoubleSide; hammock.material.needsUpdate = true;
+      function cord(a, b) {
+        var va = new T.Vector3(a[0], a[1], a[2]), vb = new T.Vector3(b[0], b[1], b[2]), d = vb.clone().sub(va), len = d.length();
+        var q = new T.Quaternion().setFromUnitVectors(new T.Vector3(0, 1, 0), d.clone().normalize());
+        var m = new T.Matrix4().compose(va.clone().add(vb).multiplyScalar(0.5), q, new T.Vector3(1, 1, 1));
+        kit.cyl(0.012, 0.012, len, m, '--rdr-brass', false, 5);
+      }
+      cord([1.0, 1.98, -10.6], [1.17, 1.3, -10.6]); cord([3.0, 1.98, -10.6], [2.83, 1.3, -10.6]);
+      // A knitted blanket folded over one end, and a cushion in the dip.
+      kit.fabric(new T.BoxGeometry(0.36, 0.05, 0.5), at(1.45, 1.1, -10.6, 0, 0, 0.25), knit);
+      kit.fabric(new T.BoxGeometry(0.4, 0.1, 0.3), at(2.45, 1.02, -10.6, 0, 0, -0.2), velvet);
+      // The seats, each from its own touch and from the group's stop.
+      var sitSofa2 = [[-0.6, 'the left'], [0.6, 'the right']].map(function (e) {
+        return kit.sit({ x: 2.0 + e[0], z: -8.9, yaw: 0, say: 'Sit on the second sofa, ' + e[1] + ' end', up: 'Get up from the second sofa', squash: sofa2Cushion,
+          sat: 'You sit on the second sofa, across the table from the fire, somebody beside you if they like.', stood: 'You get up from the second sofa.',
+          at: [kit.touch(1.0, 0.5, 0.8, M(sofa2, at(e[0], 0.4, 0.1)))] });
+      });
+      var sitWing = kit.sit({ x: 3.1, z: -6.6, yaw: LEFT, say: 'Sit in the wing chair', up: 'Get up from the wing chair', squash: wingCushion,
+        sat: 'You sit in the wing chair, the room and the fire before you.', stood: 'You get up from the wing chair.',
+        at: [kit.touch(0.8, 0.5, 0.7, M(wing, at(0, 0.4, 0.05)))] });
+      var sitBeans = beans.map(function (b, i) {
+        var bx = i ? 3.0 : 1.0;
+        return kit.sit({ x: bx, z: -4.5, yaw: Math.PI, say: 'Sink into the ' + (i ? 'right' : 'left') + ' beanbag', up: 'Climb out of the beanbag', squash: b,
+          sat: 'You sink into the beanbag, low to the boards, the table and the sofas in front of you.', stood: 'You climb out of the beanbag.',
+          at: [kit.touch(0.9, 0.5, 0.9, at(bx, 0.3, -4.5))] });
+      });
+      var sitCush = floorCush.map(function (c, i) {
+        var cz = i ? -7.55 : -5.65;
+        return kit.sit({ x: 2.0, z: cz, yaw: i ? 0 : Math.PI, say: 'Sit on the ' + (i ? 'far' : 'near') + ' floor cushion', up: 'Get up from the cushion', squash: c,
+          sat: 'You sit on the floor cushion at the low table, among the others.', stood: 'You get up from the cushion.',
+          at: [kit.touch(0.7, 0.2, 0.7, at(2.0, 0.08, cz))] });
+      });
+      var sitHammock = kit.sit({ x: 2.0, z: -10.6, yaw: Math.PI, say: 'Lie in the hammock', up: 'Climb out of the hammock', squash: hammock,
+        sat: 'You lie in the hammock between its posts, the whole room laid out before you.', stood: 'You climb out of the hammock.',
+        at: [kit.touch(1.7, 0.6, 0.9, at(2.0, 1.05, -10.6))] });
+      // Signs for the headset, which reads what it cannot press.
+      sign('Sit with us', 'a second sofa, a wing chair, beanbags and cushions, for whoever comes in', 1.3, M(at(W / 2 - 0.12, 0, -7.1, RIGHT), at(0, 2.3, 0)));
+      sign('The hammock', 'slung between the posts; climb in and lie back', 1.1, at(2.3, 2.0, back + 0.1));
+      stops.push({ name: 'at the beanbags, the low table and the second sofa across the room from the fire', x: 2.0, z: -3.2, yaw: 0, pitch: -0.18,
+                   acts: sitBeans.concat(sitSofa2, [sitWing], sitCush) });
+      stops.push({ name: 'at the hammock slung between its posts by the far wall', x: 0.4, z: -10.1, yaw: RIGHT, pitch: -0.1, acts: [sitHammock] });
       // THE TOUR (round 6): the stops in walking order, from the door round
       // the room and back to the door facing the way out, so a controller's
       // bumpers walk it in order. Each is found by what its name begins with.
       var TOUR = ['just through the bookcase door', 'at the card catalogue', 'at the Earth & Kin case', 'by the hearthrug, under the chandelier',
-                  'at the sofa', 'by the fire', 'at the hearth', 'at the mantel', 'over the gramophone itself', 'at the gramophone, with its switch',
-                  'at the shelf of records', 'at the Helen’s Shelf case', 'at the far wall', 'at the Art case', 'at the Poetry case',
+                  'at the sofa', 'at the beanbags', 'by the fire', 'at the hearth', 'at the mantel', 'over the gramophone itself', 'at the gramophone, with its switch',
+                  'at the shelf of records', 'at the Helen’s Shelf case', 'at the far wall', 'at the hammock', 'at the Art case', 'at the Poetry case',
                   'at the Liberation & Rest case', 'at the Myth & Otherworlds case', 'at the Old Classics case', 'at the Neurodivergence case'];
       var ordered = [];
       TOUR.forEach(function (head) {

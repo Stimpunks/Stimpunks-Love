@@ -36,6 +36,16 @@
    flagstones, a bordered rug and stones set on the cases. You arrive a step
    further back, so the room is in front of you rather than a table.
 
+   EVERY STONE OF HER CRYSTAL WHEEL GROWS HERE, SHINING (Helen's ask, 2026-11-12:
+   "diff coloured crystals in it with more life like structures and shining like
+   in photos"): clusters of six-sided prisms at every angle, geodes split open
+   in the floor, columns as tall as you are, druses of small points on the rock,
+   each part of the cave a stone of its own, in the pouch's own inks; in the real
+   look each crystal is a little see-through, smooth and lit from within, with a
+   point of its own light in the big ones. And SEATING FOR THE COMMUNITY (the
+   same day): a rock bench with velvet cushions and a blanket, two beanbags,
+   three floor cushions and a hammock between two columns, each somewhere to sit.
+
    THREE THINGS ARE HER PAGE'S OWN, lifted off it by Cel Street's kit.lift():
    the Stones turning to the sun at a press, the pouch to fill under the
    Crystal Wheel, and the cauldron. crystal-pouch.js and herb-basket.js, which
@@ -295,8 +305,14 @@
       // has to be in the stone.
       var ROCK = ['--rdr-stone', '--rdr-wall', '--rdr-panel', '--rdr-timber'];
       // Every stone the cave grows, each lit as one mesh at the end.
-      ['--crys-clear-quartz', '--crys-clear-quartz-2', '--crys-moonstone', '--crys-moonstone-2', '--crys-rose-quartz', '--crys-rose-quartz-2',
-       '--crys-smoky-quartz', '--crys-labradorite', '--crys-citrine'].forEach(function (ink) { lit[ink] = []; });
+      // EVERY STONE OF HER CRYSTAL WHEEL grows here (Helen, 2026-11-12: "diff
+      // coloured crystals ... more life like structures and shining like in
+      // photos"), each pair its ink and its highlight, by name in full.
+      var STONES = [['--crys-amethyst', '--crys-amethyst-2'], ['--crys-rose-quartz', '--crys-rose-quartz-2'], ['--crys-citrine', '--crys-citrine-2'],
+        ['--crys-clear-quartz', '--crys-clear-quartz-2'], ['--crys-smoky-quartz', '--crys-smoky-quartz-2'], ['--crys-labradorite', '--crys-labradorite-2'],
+        ['--crys-turquoise', '--crys-turquoise-2'], ['--crys-lapis-lazuli', '--crys-lapis-lazuli-2'], ['--crys-garnet', '--crys-garnet-2'],
+        ['--crys-moonstone', '--crys-moonstone-2'], ['--crys-tigers-eye', '--crys-tigers-eye-2'], ['--crys-obsidian', '--crys-obsidian-2']];
+      STONES.forEach(function (pr) { lit[pr[0]] = []; lit[pr[1]] = []; });
       var boulderGeo = [new T.DodecahedronGeometry(1, 0), new T.IcosahedronGeometry(1, 0), new T.DodecahedronGeometry(1, 1)];
       function boulder(x, y, z, r, seed, inkIx) {
         // A seed below zero (the back of the cave) still picks a shape.
@@ -311,13 +327,22 @@
       // In the real look a crystal's faces catch the light: smooth and a touch
       // metallic on a standard material, which has roughness; the cel's toon
       // material has none and is left as it is. Rock is never shone.
-      function shine(mesh) {
-        if (mesh.material.roughness !== undefined) { mesh.material.roughness = 0.25; mesh.material.metalness = 0.1; }
+      // In the real look a crystal reads as glass (Helen, 2026-11-12, "shining
+      // like in photos"): a little see-through, its faces smooth, and lit from
+      // within by its own ink; the cel's toon material has none of that and is
+      // left as drawn. Rock is never shone.
+      function shine(mesh, ink) {
+        var mat = mesh.material;
+        if ('roughness' in mat) {
+          mat.roughness = 0.15; mat.metalness = 0.1;
+          mat.transparent = true; mat.opacity = 0.82;
+          if (ink && mat.emissive) { mat.emissive = kit.col(ink); mat.emissiveIntensity = 0.25; }
+        }
         return mesh;
       }
       function crystalAt(m, r, h, ink, ink2) {
         var sc = new T.Vector3(r, h, r);
-        shine(kit.facets(prismGeo.clone().scale(sc.x, sc.y, sc.z), m, ink));
+        shine(kit.facets(prismGeo.clone().scale(sc.x, sc.y, sc.z), m, ink), ink);
         lit[ink2] = lit[ink2] || [];
         lit[ink2].push([tipGeo, m.clone().scale(sc)]);
       }
@@ -331,6 +356,11 @@
           var cm = M(m, at((hash(seed, k, 94) - 0.5) * size * 0.9, 0, (hash(seed, k, 95) - 0.5) * size * 0.9,
             hash(seed, k, 96) * 3, (hash(seed, k, 97) - 0.5) * 0.9, (hash(seed, k, 98) - 0.5) * 0.9));
           crystalAt(cm, r, h, ink, ink2);
+          // The light caught on the biggest faces: a sheen in the highlight ink.
+          if (k < 2) {
+            var gl = kit.flat(new T.PlaneGeometry(r * 0.9, h * 0.55), M(cm, at(0, h * 0.5, r * 0.96)), ink2);
+            gl.material.transparent = true; gl.material.opacity = 0.45;
+          }
         }
         for (var q = 0; q < 6; q++) {
           var pr = size * 0.06 * (0.5 + hash(seed, q, 99));
@@ -467,21 +497,85 @@
       bigCluster(at(2.7, 0, -10.9, 0, 0, -0.1), 521, 0.9, '--crys-moonstone', '--crys-moonstone-2', false);
       bigCluster(at(-2.4, 0, -10.6, 0, 0, 0.15), 522, 0.7, '--crys-rose-quartz', '--crys-rose-quartz-2', true);
       bigCluster(at(4.1, 0, -1.3, 0, 0, -0.3), 523, 0.6, '--crys-smoky-quartz', '--crys-labradorite', false);
-      bigCluster(at(-3.3, 0, 0.1, 0, 0, 0.25), 524, 0.6, '--crys-citrine', '--myth-amber-2', true);
+      bigCluster(at(-3.3, 0, 0.1, 0, 0, 0.25), 524, 0.6, '--crys-citrine', '--crys-citrine-2', true);
+      // THE OTHER STONES OF HER WHEEL, each with a colour of its own in a part
+      // of the cave: turquoise by the Wheel of the Year, lapis and garnet at
+      // the foot of the far wall, tiger's eye by the arch, obsidian by the
+      // coat, and a point of its own light inside the big ones, always lit.
+      function glow(ink, x, y, z) {
+        var pt = new T.PointLight(kit.col(ink), 5, 4.5, 1.4);
+        pt.position.set(x, y, z);
+        kit.scene.add(pt);
+      }
+      bigCluster(at(-3.4, 0, -8.4, 0, 0, 0.2), 525, 0.75, '--crys-turquoise', '--crys-turquoise-2', true);
+      bigCluster(at(4.0, 0, -11.3, 0, 0, -0.2), 526, 0.9, '--crys-lapis-lazuli', '--crys-lapis-lazuli-2', false);
+      bigCluster(at(-4.1, 0, -11.3, 0, 0, 0.2), 527, 0.85, '--crys-garnet', '--crys-garnet-2', true);
+      bigCluster(at(-3.9, 0, -1.2, 0, 0, 0.3), 528, 0.55, '--crys-tigers-eye', '--crys-tigers-eye-2', true);
+      bigCluster(at(3.4, 0, -0.4, 0, 0, -0.3), 529, 0.45, '--crys-obsidian', '--crys-obsidian-2', false);
+      glow('--crys-clear-quartz', -1.9, 0.5, -0.7); glow('--crys-moonstone', 2.7, 0.6, -10.9); glow('--crys-rose-quartz', -2.4, 0.5, -10.6);
+      glow('--crys-turquoise', -3.4, 0.5, -8.4); glow('--crys-lapis-lazuli', 4.0, 0.6, -11.3); glow('--crys-garnet', -4.1, 0.6, -11.3);
+      // GEODES split open in the floor: half a boulder of rock, its hollow
+      // lined with small points of one stone, a glint of its highlight in it.
+      function geode(x, z, r, pr, seed) {
+        var shell = new T.SphereGeometry(r, 9, 6, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2); shell.scale(1, 0.55, 0.9);
+        kit.piece(shell, at(x, r * 0.5, z, hash(seed, 1, 97) * 3), ROCK[((seed % 3) + 3) % 3], false);
+        var rim = new T.TorusGeometry(r * 0.92, r * 0.12, 5, 16); rim.rotateX(Math.PI / 2);
+        kit.piece(rim, at(x, r * 0.5, z), ROCK[1], false);
+        var hollow = new T.CircleGeometry(r * 0.82, 16);
+        kit.flat(hollow, at(x, r * 0.5 + 0.004, z, 0, -Math.PI / 2), pr[0]);
+        for (var k = 0; k < 26; k++) {
+          var a = hash(seed, k, 98) * Math.PI * 2, d = Math.sqrt(hash(seed, k, 99)) * r * 0.72, sc = r * (0.05 + hash(seed, k, 100) * 0.07);
+          lit[k % 3 ? pr[0] : pr[1]].push([crystal, at(x + Math.cos(a) * d, r * 0.5 + sc * 0.9, z + Math.sin(a) * d, hash(seed, k, 101) * 3, (hash(seed, k, 102) - 0.5) * 0.6, (hash(seed, k, 103) - 0.5) * 0.6).scale(new T.Vector3(sc, sc, sc))]);
+        }
+        glint(at(x, r * 0.5 + 0.1, z), pr[0] === '--crys-citrine');
+      }
+      geode(-1.0, -7.7, 0.42, STONES[0], 700);
+      geode(1.4, -10.4, 0.5, STONES[2], 701);
+      geode(-1.9, -9.1, 0.36, STONES[5], 702);
+      geode(1.9, -2.3, 0.34, STONES[8], 703);
+      // COLUMNS as tall as you are, two of them, with a hammock slung between
+      // (the seats, below), and a third by the far wall: one great prism each
+      // with smaller ones growing up its foot.
+      function column(x, z, h, pr, seed) {
+        crystalAt(at(x, 0, z, hash(seed, 1, 104) * 3, 0, (hash(seed, 2, 104) - 0.5) * 0.12), h * 0.11, h, pr[0], pr[1]);
+        for (var k = 0; k < 5; k++) {
+          var a = hash(seed, k, 105) * Math.PI * 2, hh = h * (0.18 + hash(seed, k, 106) * 0.22);
+          crystalAt(at(x + Math.cos(a) * h * 0.14, 0, z + Math.sin(a) * h * 0.14, hash(seed, k, 107) * 3, (hash(seed, k, 108) - 0.5) * 0.5, (hash(seed, k, 109) - 0.5) * 0.5), hh * 0.14, hh, pr[0], pr[1]);
+        }
+        glow(pr[0], x, h * 0.5, z);
+      }
+      column(0.6, -8.2, 2.1, STONES[3], 710);
+      column(2.2, -7.7, 2.0, STONES[1], 711);
+      column(-0.6, -11.3, 1.9, STONES[6], 712);
+      // DRUSES: carpets of small points of every stone on the rock faces,
+      // lit as one mesh per ink, each patch one colour.
+      for (var dr = 0; dr < 14; dr++) {
+        var ds = dr * 31 + 60000, side3 = dr % 2 ? 1 : -1, pr3 = STONES[(dr * 5) % STONES.length];
+        var dz = -0.4 - hash(ds, 50, 1) * (D - 1.2), dy = 0.6 + hash(ds, 51, 1) * (H + 0.8);
+        if (deep.some(function (r) { return dz > r[0] && dz < r[1]; }) && dy < 3.2) continue;
+        for (var dk = 0; dk < 22; dk++) {
+          var r4 = 0.025 + hash(ds, dk, 52) * 0.04, ox = (hash(ds, dk, 53) - 0.5) * 0.9, oy = (hash(ds, dk, 54) - 0.5) * 0.7;
+          lit[dk % 3 ? pr3[0] : pr3[1]].push([crystal, at(side3 * (W / 2 - 0.02 - hash(ds, dk, 55) * 0.08), dy + oy, dz + ox, hash(ds, dk, 56) * 3, 0, side3 * (0.7 + (hash(ds, dk, 57) - 0.5) * 1.0)).scale(new T.Vector3(r4, r4, r4))]);
+        }
+      }
       // Crystals hanging from the vault, pointing down.
       [[-2.5, -3.5, true], [2.6, -5.8, false], [0.3, -8.6, false], [-1.4, -10.8, true], [3.2, -1.6, false], [-3.4, -7.8, true]].forEach(function (h, hi) {
         var hm = at(h[0], H + 1.1, h[1], 0, Math.PI, (hash(hi, 40, 1) - 0.5) * 0.4);
         bigCluster(hm, 540 + hi, 0.7, h[2] ? '--myth-amber' : '--myth-amethyst', h[2] ? '--myth-amber-2' : '--myth-amethyst-2', h[2]);
       });
+      // And more of her stones hanging among them, pointing down.
+      [[-0.9, -5.2, STONES[5]], [1.6, -9.9, STONES[10]], [-2.2, -1.9, STONES[1]], [1.1, -1.0, STONES[6]], [3.0, -10.0, STONES[7]]].forEach(function (h, hi) {
+        var hm = at(h[0], H + 1.0, h[1], 0, Math.PI, (hash(hi, 48, 1) - 0.5) * 0.4);
+        bigCluster(hm, 560 + hi, 0.55, h[2][0], h[2][1], false);
+      });
       // Little crystals and pebbles of every stone across the whole of the
       // rock, in the air's glints too.
-      var SMALL = [['--myth-amber', '--myth-amber-2'], ['--myth-amethyst', '--myth-amethyst-2'], ['--crys-clear-quartz', '--crys-clear-quartz-2'],
-                   ['--crys-moonstone', '--crys-moonstone-2'], ['--crys-rose-quartz', '--crys-rose-quartz-2'], ['--crys-labradorite', '--crys-citrine']];
-      for (var sc2 = 0; sc2 < 90; sc2++) {
+      var SMALL = [['--myth-amber', '--myth-amber-2'], ['--myth-amethyst', '--myth-amethyst-2']].concat(STONES);
+      for (var sc2 = 0; sc2 < 120; sc2++) {
         var ss = sc2 * 13 + 40000, side2 = sc2 % 2 ? 1 : -1;
         var sz2 = 0.8 - hash(ss, 41, 1) * (D - 0.6), sy2 = 0.2 + hash(ss, 42, 1) * (H + 1.0);
         if (deep.some(function (r) { return sz2 > r[0] && sz2 < r[1]; }) && sy2 < 3.2) continue;
-        var pair = SMALL[(side2 < 0 ? [0, 2, 4, 5] : [1, 2, 3, 5])[sc2 % 4]];
+        var pair = SMALL[sc2 % 3 === 0 ? (side2 < 0 ? 0 : 1) : 2 + (sc2 * 7) % STONES.length];
         var r3 = 0.05 + hash(ss, 43, 1) * 0.07;
         lit[pair[0]] = lit[pair[0]] || []; lit[pair[1]] = lit[pair[1]] || [];
         lit[sc2 % 3 ? pair[1] : pair[0]].push([crystal, at(side2 * (W / 2 - 0.02 - hash(ss, 44, 1) * 0.1), sy2, sz2, hash(ss, 45, 1) * 3, 0, side2 * (0.6 + (hash(ss, 46, 1) - 0.5) * 1.2)).scale(new T.Vector3(r3, r3, r3))]);
@@ -960,13 +1054,72 @@
         sat: 'You sit on the rock by the Stones, the model and its sun in front of you.', stood: 'You stand up from the rock.',
         at: [kit.touch(1.1, 0.6, 0.9, at(-1.3, 0.3, -6.2))] });
 
+      // SEATING FOR THE COMMUNITY (Helen's ask, 2026-11-12: "more seating for
+      // community eg sofas, bean bags, hammocks, cushions, blankets etc in
+      // every room"): a rock-cut bench with velvet cushions and a folded
+      // blanket, facing the tall amethyst across the cave; two beanbags that
+      // squash under you; three floor cushions by the cauldron; and a hammock
+      // slung between the two crystal columns. Every one is somewhere to sit,
+      // in the cave's own inks, and nothing in it moves by itself.
+      var velvet = kit.cloth('velvet', '--rdr-velvet', '--myth-amethyst-2', 5), weaveAmber = kit.cloth('weave', '--rdr-leather', '--myth-amber-2', 6);
+      var knit = kit.cloth('knit', '--myth-chalk', '--rdr-velvet', 7), pile = kit.cloth('pile', '--rdr-velvet', '--rdr-ember', 6);
+      var seats = [];
+      // The bench: a slab of rock on two boulders, cushions along it.
+      var bm = at(2.35, 0, -4.4, -Math.PI / 2 + 0.15);
+      var slab2 = boulderGeo[0].clone(); slab2.scale(0.9, 0.18, 0.36);
+      kit.piece(slab2, M(bm, at(0, 0.36, 0, 0.1, 0, 0)), '--rdr-panel', false);
+      boulder(2.35 + 0.62, 0.14, -4.4 - 0.1, 0.2, 640, 1); boulder(2.35 - 0.6, 0.14, -4.4 + 0.1, 0.2, 641, 2);
+      var benchCushions = [-0.42, 0.42].map(function (bx) {
+        var c = kit.fabric(new T.BoxGeometry(0.62, 0.14, 0.58, 4, 2, 4), M(bm, at(bx, 0.6, 0, 0, 0, 0)), velvet, true);
+        return c;
+      });
+      // The blanket folded on the bench's end.
+      kit.fabric(new T.BoxGeometry(0.34, 0.1, 0.5, 3, 2, 3), M(bm, at(0.95, 0.62, 0.02, 0.08)), knit, true);
+      [-0.42, 0.42].forEach(function (bx, bi) {
+        var p = new T.Vector3(bx, 0, 0).applyMatrix4(bm);
+        seats.push(kit.sit({ x: p.x, z: p.z, yaw: -Math.PI / 2 + 0.15, say: 'Sit on the bench, ' + (bi ? 'by the blanket' : 'at its end'), up: 'Stand up from the bench',
+          sat: 'You sit on the rock bench, a velvet cushion under you, the tall amethyst glittering across the cave.', stood: 'You stand up from the bench.',
+          squash: benchCushions[bi], at: [kit.touch(0.62, 0.5, 0.6, M(bm, at(bx, 0.45, 0)))] }));
+      });
+      // Two beanbags, each its own mesh so it squashes.
+      [[1.0, -4.7, -0.9, weaveAmber], [2.9, -5.7, -1.9, pile]].forEach(function (bb, bi) {
+        var bag = kit.fabric(new T.SphereGeometry(0.42, 18, 12).scale(1, 0.62, 1), at(bb[0], 0.26, bb[1], bb[2]), bb[3], true);
+        seats.push(kit.sit({ x: bb[0], z: bb[1], yaw: bb[2], say: 'Sink into the ' + (bi ? 'red' : 'amber') + ' beanbag', up: 'Get up out of the beanbag',
+          sat: 'You sink into the beanbag, which gives under you, the crystals lit all round.', stood: 'You get up out of the beanbag.',
+          squash: bag, at: [kit.touch(0.9, 0.6, 0.9, at(bb[0], 0.3, bb[1]))] }));
+      });
+      // Three floor cushions by the cauldron, each a seat.
+      [[1.9, -6.3, 0.9, velvet], [2.5, -7.1, 0.5, knit], [1.4, -7.1, 1.2, weaveAmber]].forEach(function (fc, fi) {
+        var cu = kit.fabric(new T.BoxGeometry(0.56, 0.13, 0.56, 3, 2, 3), at(fc[0], 0.065, fc[1], fc[2]), fc[3], true);
+        seats.push(kit.sit({ x: fc[0], z: fc[1], yaw: fc[2], say: 'Sit on the floor cushion' + (fi ? fi === 1 ? ' by the cauldron' : ' nearest the path' : ''), up: 'Stand up from the cushion',
+          sat: 'You sit on the floor cushion, low among the crystals, the cauldron beside you.', stood: 'You stand up from the cushion.',
+          squash: cu, at: [kit.touch(0.6, 0.4, 0.6, at(fc[0], 0.15, fc[1]))] }));
+      });
+      // The hammock between the two columns: a sagging strip of woven cloth,
+      // a cord to each column.
+      var hx0 = 0.6, hz0 = -8.2, hx1 = 2.2, hz1 = -7.7, hmid = at((hx0 + hx1) / 2, 0, (hz0 + hz1) / 2, Math.atan2(hx1 - hx0, hz1 - hz0) + Math.PI / 2);
+      var hlen = Math.hypot(hx1 - hx0, hz1 - hz0);
+      var hamGeo = new T.PlaneGeometry(hlen * 0.78, 0.8, 12, 3);
+      var hp = hamGeo.attributes.position;
+      for (var hv = 0; hv < hp.count; hv++) { var hxv = hp.getX(hv); hp.setZ(hv, -0.28 * (1 - Math.pow(hxv / (hlen * 0.39), 2))); }
+      hamGeo.computeVertexNormals();
+      var hammock = kit.fabric(hamGeo, M(hmid, at(0, 0.95, 0, 0, -Math.PI / 2)), weaveAmber, true);
+      hammock.material.side = T.DoubleSide;
+      [[-1, hx0, hz0], [1, hx1, hz1]].forEach(function (hc) {
+        kit.cyl(0.012, 0.012, 0.36, M(hmid, at(hc[0] * hlen * 0.39 + hc[0] * -0.18, 0.86, 0, 0, 0, hc[0] * 1.2)), '--rdr-leather', false, 5);
+      });
+      var hmp = new T.Vector3(0, 0, 0).applyMatrix4(hmid);
+      seats.push(kit.sit({ x: hmp.x, z: hmp.z, yaw: Math.atan2(hx1 - hx0, hz1 - hz0) + Math.PI / 2, say: 'Lie in the hammock between the crystal columns', up: 'Climb out of the hammock',
+        sat: 'You lie back in the hammock, slung between the clear quartz and the rose quartz, the vault glittering over you.', stood: 'You climb out of the hammock.',
+        squash: hammock, at: [kit.touch(hlen * 0.8, 0.5, 0.9, M(hmid, at(0, 0.8, 0)))] }));
+
       // THINGS TO HOLD (the same round): three loose crystals on the cave
       // floor, amethyst, amber and clear quartz, and a small stone from the
       // Stones' bank; pressed, each comes to your hand, and pressed again it
       // goes back where it lay. Each is one mesh, body and tip together.
       function loose(x, z, r, h, ink, say, seed) {
         var g = merged([[prismGeo, new T.Matrix4().makeScale(r, h, r)], [tipGeo, new T.Matrix4().makeScale(r, h, r)]]);
-        var m = shine(kit.facets(g, at(x, 0.02, z, hash(seed, 2, 96) * 3, 0, 0.25), ink));
+        var m = shine(kit.facets(g, at(x, 0.02, z, hash(seed, 2, 96) * 3, 0, 0.25), ink), ink);
         kit.hold(m, { say: say });
       }
       loose(0.9, -2.2, 0.06, 0.2, '--myth-amethyst-2', 'the amethyst crystal', 630);
@@ -1012,6 +1165,8 @@
         { name: 'at the old book on its reading stand, at the end of the shelf', x: -4.05 + Math.sin(BOOK) * 1.55, z: -4.95 + Math.cos(BOOK) * 1.55, yaw: BOOK, pitch: -0.38, acts: [oldBook] },
         { name: 'by the flat rock beside the near pool, somewhere to sit', x: -1.0, z: -2.0, yaw: -1.2, pitch: -0.2, acts: [poolSeat] },
         { name: 'at the Stones on their plinth, with the sun to turn over them', x: sx + 0.3, z: sz + 2.1, yaw: -0.12, frame: sun.el, acts: [amber] },
+        { name: 'at the seats among the crystals: the bench, the beanbags and the floor cushions', x: 1.4, z: -3.9, yaw: -0.8, pitch: -0.18, acts: seats.slice(0, 4) },
+        { name: 'at the hammock slung between the two crystal columns', x: 1.4, z: -6.9, yaw: 0.45, pitch: -0.1, acts: [seats[seats.length - 1]] },
         { name: 'by the rock beside the Stones, somewhere to sit', x: -0.7, z: -5.8, yaw: 1.41, pitch: -0.2, acts: [stonesSeat] },
         { name: 'at the tall amber cluster, growing out of the left-hand rock', x: -W / 2 + 2.3, z: -6.0, yaw: Math.PI / 2, pitch: 0.1, acts: [amberPress, amber] },
         { name: 'at the Green Man, carved in timber on the left-hand wall', x: -W / 2 + 2.4, z: -7.3, yaw: Math.PI / 2, pitch: 0.12 },
