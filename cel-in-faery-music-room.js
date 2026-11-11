@@ -106,6 +106,18 @@
    door's sconce and the moon's wash), already under ten, so none was taken
    away. Ours, in her declared colours, hers to keep or send back.
 
+   HER RECORDS BY NAME (Helen's ask, 2026-11-12, "pick up records to play",
+   "same with records" as the books): every record of her Yarn, read off her
+   page by tools/make-cel-street.py into RECORDS between the cel:records
+   markers (never hand-edited), stands as a sleeve in two timber crates on
+   the floor between the shelves, lettered on its front in her face with its
+   title, its artist and its runtime (kit.paper on a small canvas, in the
+   room's own inks), leaning back a little with its title along the top so
+   a crate is read through, the first of each crate face out. Each is a
+   kit.hold; carried to the phonograph it leans on the cabinet and its own
+   card on the shelf's screen is pressed, so the record plays as on her page,
+   and nothing plays until it is placed. Ours, hers to keep or send back.
+
    THE PHONOGRAPH'S DECK AND HER THREE SHELVES OF RECORDS ARE HER PAGE'S OWN,
    lifted off it by the kit, and rack.js, the page's own script, plays them
    here as it does there; nothing reaches YouTube until a press. Each shelf
@@ -148,6 +160,11 @@
 (function () {
   'use strict';
   window.loveCelRooms = window.loveCelRooms || {};
+  // Her books and records by name, written by tools/make-cel-street.py off
+  // her own page between these markers; never hand-edit them.
+  // cel:records:begin
+  var RECORDS = [{"id": "k9ynZnEBtvw", "title": "The Dark Side of the Moon", "who": "Pink Floyd", "runtime": "42:56"}, {"id": "tNIiXeSPPWU", "title": "Goodbye Small Head", "who": "Ezra Furman", "runtime": "42:27"}, {"id": "3i_Y9F4X1fs", "title": "Texas Moon", "who": "Khruangbin & Leon Bridges", "runtime": "22:40"}, {"id": "rWMHS5IwuZQ", "title": "Under You", "who": "Andrew Sa", "runtime": "3:29"}, {"id": "MsRUnInJ4CQ", "title": "Simply the Best", "who": "Noah Reid", "runtime": "2:44"}, {"id": "WJfF4GQ6X5g", "title": "Dance With Somebody", "who": "Chaparelle", "runtime": "3:33"}, {"id": "2Ng9Pf_p7Fw", "title": "Little Fluffy Clouds", "who": "The Orb", "runtime": "4:01"}, {"id": "06ht9MyJLT4", "title": "Running With The Wolves", "who": "AURORA", "runtime": "3:38"}, {"id": "2p4JaeJR1dM", "title": "The Silent Twins", "who": "AURORA", "runtime": "4:38"}, {"id": "7TF91Zk8L5w", "title": "The Conflict Of The Mind", "who": "AURORA", "runtime": "4:13"}, {"id": "d_HlPboLRL8", "title": "Runaway", "who": "AURORA", "runtime": "4:10"}, {"id": "efKvphRDXUg", "title": "The Weight of Missing", "who": "AURORA", "runtime": "6:48"}, {"id": "adHhJUTZ9Kw", "title": "Dreams", "who": "AURORA", "runtime": "4:26"}, {"id": "vVpUkXB4Ng8", "title": "Hounds of Love", "who": "Kate Bush", "runtime": "1:13:15"}, {"id": "XmENI69srBo", "title": "Greatest Hits Full Album", "who": "Tracy Chapman", "runtime": "1:14:36"}, {"id": "sX99e5QEAEg", "title": "The Rise and Fall of Ziggy Stardust and the Spiders from Mars", "who": "David Bowie", "runtime": "38:37"}, {"id": "WDU1uqDQpeQ", "title": "Space Oddity", "who": "David Bowie", "runtime": "45:59"}, {"id": "0Yek6aantlM", "title": "Heroes", "who": "David Bowie", "runtime": "40:40"}, {"id": "TIbJO74ym2A", "title": "Through the Windowpane", "who": "Guillemots", "runtime": "3:38"}, {"id": "84Tq-eAJIk4", "title": "Wish You Were Here", "who": "Pink Floyd", "runtime": "6:09"}, {"id": "bCXBtxXUJwo", "title": "Best Collection 2026", "who": "Enigma", "runtime": "6:52:03"}, {"id": "DsBJ3Vwgg3Q", "title": "Portishead", "who": "Portishead", "runtime": "0:15"}, {"id": "8B-i1vsA6jw", "title": "Sour Times", "who": "Portishead", "runtime": "4:14"}, {"id": "qj3QPx089g4", "title": "Roads", "who": "Portishead", "runtime": "5:12"}, {"id": "4qQyUi4zfDs", "title": "Glory Box", "who": "Portishead", "runtime": "3:32"}, {"id": "H86JZTaEnHM", "title": "Top Songs Collection", "who": "Lana Del Rey", "runtime": "23:19"}, {"id": "RvnkAtWcKYg", "title": "Decode", "who": "Paramore", "runtime": "4:14"}, {"id": "yBatuRGZAmA", "title": "Last Hope", "who": "Paramore", "runtime": "5:10"}, {"id": "UwbvrnXJ9ZQ", "title": "Greatest Hits Songs Collection", "who": "Nirvana", "runtime": "1:05:30"}, {"id": "Ty__RLk7WYI", "title": "a collection of her songs", "who": "Billie Eilish", "runtime": "25:10"}, {"id": "plMevc9s8So", "title": "when the party’s over", "who": "Billie Eilish", "runtime": "5:32"}, {"id": "3YxaaGgTQYM", "title": "Bring Me To Life", "who": "Evanescence", "runtime": "4:14"}, {"id": "CdhqVtpR2ts", "title": "Going Under", "who": "Evanescence", "runtime": "3:38"}, {"id": "Y5fBdpreJiU", "title": "Somebody Told Me", "who": "The Killers", "runtime": "3:22"}, {"id": "RIZdjT1472Y", "title": "Human", "who": "The Killers", "runtime": "4:19"}, {"id": "zc8hbSM1zVo", "title": "Read My Mind", "who": "The Killers", "runtime": "4:13"}, {"id": "sZTpLvsYYHw", "title": "All These Things That I’ve Done", "who": "The Killers", "runtime": "4:41"}, {"id": "TMbyWSGYUgc", "title": "Runaways", "who": "The Killers", "runtime": "4:04"}, {"id": "IdWZgTvf4t0", "title": "When You Were Young", "who": "The Killers", "runtime": "4:49"}, {"id": "xSUoqHrqXFA", "title": "Mr. Brightside", "who": "The Killers", "runtime": "6:13"}, {"id": "ZAErD8xzjCM", "title": "Smile Like You Mean It", "who": "The Killers", "runtime": "3:56"}, {"id": "NPLwAD60xP8", "title": "Greatest Hits Full Album", "who": "Leonard Cohen", "runtime": "1:52:21"}, {"id": "RF0HhrwIwp0", "title": "Sex on Fire", "who": "Kings of Leon", "runtime": "3:27"}, {"id": "gnhXHvRoUd0", "title": "Use Somebody", "who": "Kings of Leon", "runtime": "3:51"}, {"id": "Bb7YN5wQztk", "title": "My Whole World", "who": "Kings of Leon", "runtime": "4:21"}, {"id": "8agEo6zxeHY", "title": "Closer", "who": "Kings of Leon", "runtime": "4:00"}, {"id": "lVkp0vPZxfU", "title": "Automatic for the People", "who": "R.E.M.", "runtime": "48:52"}, {"id": "RXWIitU8V0A", "title": "Californication", "who": "Red Hot Chili Peppers", "runtime": "55:19"}, {"id": "UpzrxsFCpVA", "title": "Strange Things Will Happen", "who": "The Radio Dept.", "runtime": "4:28"}, {"id": "h6AmlQ53UoU", "title": "The Applicant", "who": "Sylvia Plath & Joy Division", "runtime": "2:17"}, {"id": "GQ4DeDIh5c0", "title": "Cloudbusting", "who": "Kate Bush", "runtime": "5:09"}, {"id": "OJ62RzJkYUo", "title": "Where Is My Mind?", "who": "Pixies", "runtime": "3:50"}, {"id": "wp43OdtAAkM", "title": "Running Up That Hill", "who": "Kate Bush", "runtime": "4:56"}, {"id": "aGSKrC7dGcY", "title": "Enjoy the Silence", "who": "Depeche Mode", "runtime": "4:40"}, {"id": "etSbOs3aUqI", "title": "Mad World", "who": "Gary Jules", "runtime": "3:10"}, {"id": "A92-bzGREOU", "title": "Never Follow Suit", "who": "The Radio Dept.", "runtime": "4:13"}, {"id": "Yam5uK6e-bQ", "title": "Dreams", "who": "The Cranberries", "runtime": "4:13"}, {"id": "VJ6m8T77btU", "title": "Inertia Creeps", "who": "Massive Attack", "runtime": "6:04"}, {"id": "xF4RhDWs2DA", "title": "Wandering Star", "who": "Portishead", "runtime": "4:16"}, {"id": "HZgiAgYXneE", "title": "Six Feet Under", "who": "Billie Eilish", "runtime": "3:08"}, {"id": "yAKX51r7erw", "title": "Glory Box", "who": "Portishead", "runtime": "5:07"}, {"id": "bNqXhfUfwgc", "title": "cellophane", "who": "FKA twigs", "runtime": "3:57"}, {"id": "Sf9jk6qk6TI", "title": "Sea Swallow Me", "who": "Cocteau Twins & Harold Budd", "runtime": "3:17"}, {"id": "hz3ly6nH3Ms", "title": "Velvet Ring", "who": "Big Thief", "runtime": "2:36"}, {"id": "qrcH55Ukjks", "title": "songs like velvet ring by big thief", "who": "betram", "runtime": "26:31"}, {"id": "yon2v5I2BUU", "title": "Nostalgia", "who": "Zbigniew Preisner", "runtime": "2:16"}, {"id": "qNr9DsOL20Y", "title": "When a Man Loves a Woman", "who": "Zbigniew Preisner", "runtime": "7:23"}, {"id": "Jk2akmigU5c", "title": "L’Aurore (Dawn)", "who": "Zbigniew Preisner", "runtime": "4:19"}, {"id": "FP0wQxWifBY", "title": "The best of Zbigniew Preisner", "who": "Zbigniew Preisner", "runtime": "51:53"}, {"id": "Y6qxaTSVIoA", "title": "Lightness: Music for the Marble Palace", "who": "Brian Eno", "runtime": "55:40"}, {"id": "3Uy_Ag7ETA4", "title": "Music With Changing Parts", "who": "Philip Glass", "runtime": "1:01:40"}, {"id": "FS6o3qFimsc", "title": "Gymnopédies 1, 2, 3", "who": "Erik Satie", "runtime": "1:05:29"}];
+  // cel:records:end
   window.loveCelRooms['faery-music-room.html'] = {
     name: 'The Music Room',
     from: 'faery-yurt.html',
@@ -865,6 +882,7 @@
         sign(sh.words, null, 1.3, M(g, at(0, 3.3, 0.06)));
         box(1.6, 0.12, 0.4, M(g, at(0, 0.06, 0.16)), '--rdr-timber');
         var it = kit.lift(frame, '.mus-rack', { n: sh.n, w: 560, h: 700, ww: 1.5, m: M(g, at(0, 0.14, 0.02)) });
+        sh.el = it.el;
         if (sh.n === 0) shelfG = g;
         stops.push({ name: 'at the shelf of records off ' + sh.words, x: -W / 2 + 2.6, z: sh.z, yaw: LEFT, pitch: -0.2, frame: it.el });
       });
@@ -876,6 +894,63 @@
       var shelfDisc = kit.flat(new T.CircleGeometry(0.15, 28), M(shelfG, at(0.62, 0.27, 0.34, 0, -0.18)), '--rdr-ink');
       shelfDisc.material.map = discPaper; shelfDisc.material.side = T.DoubleSide; shelfDisc.material.needsUpdate = true;
       kit.hold(shelfDisc, { say: 'the record from the foot of the first shelf' });
+
+      // HER RECORDS BY NAME (Helen's ask, 2026-11-12: "pick up records to play",
+      // "same with records" as the books): every record of her Yarn, read off
+      // her page by tools/make-cel-street.py into RECORDS, as a sleeve you can
+      // pick up, lettered on its front with its title, its artist and its
+      // runtime in her face, in the two crates on the floor between the
+      // shelves. Each stands in the crate leaning back a little, its title
+      // along the top where a crate is read through; the first of each crate
+      // leans face out against the front. A sleeve carried to the phonograph
+      // plays that record (the platter's kit.place, below), off its own card
+      // on the shelf's screen, and nothing plays until it is placed.
+      var SLEEVE_INKS = ['--rdr-velvet', '--rdr-ember', '--rdr-leather', '--rdr-panel'];
+      function wrapWords(c, words, most) {
+        var out = [], line = '';
+        words.split(' ').forEach(function (w) {
+          var t = line ? line + ' ' + w : w;
+          if (c.measureText(t).width > most && line) { out.push(line); line = w; } else line = t;
+        });
+        if (line) out.push(line);
+        return out;
+      }
+      function sleevePaper(rec, n) {
+        return kit.paper(256, 256, function (c, cw, chh) {
+          c.fillStyle = kit.ink('--rdr-timber'); c.fillRect(0, 0, cw, chh);
+          c.fillStyle = kit.ink(SLEEVE_INKS[n % SLEEVE_INKS.length]); c.fillRect(24, 112, cw - 48, 96);
+          c.strokeStyle = kit.ink('--rdr-brass'); c.lineWidth = 4; c.strokeRect(6, 6, cw - 12, chh - 12);
+          c.fillStyle = kit.ink('--rdr-ink'); c.textAlign = 'center'; c.textBaseline = 'middle';
+          c.font = '600 30px "Cormorant Garamond"';
+          var lines = wrapWords(c, rec.title, cw - 36).slice(0, 2);
+          lines.forEach(function (l, i) { c.fillText(l, cw / 2, 34 + i * 32); });
+          c.font = 'italic 600 22px "Cormorant Garamond"';
+          wrapWords(c, rec.who, cw - 36).slice(0, 1).forEach(function (l) { c.fillText(l, cw / 2, lines.length > 1 ? 100 : 72); });
+          c.fillStyle = kit.ink('--rdr-ink-2'); c.font = '600 20px "Cormorant Garamond"';
+          c.fillText(rec.runtime, cw / 2, 232);
+        });
+      }
+      var CRATES = [{ z: -4.05 }, { z: -6.95 }], EACH = Math.ceil(RECORDS.length / CRATES.length), SL = 0.3;
+      var sleeveGeo = new T.PlaneGeometry(SL, SL);
+      CRATES.forEach(function (cr, ci) {
+        var cg = at(-W / 2 + 0.34, 0, cr.z, LEFT), len = EACH * 0.03 + 0.12;
+        box(len, 0.03, 0.4, M(cg, at(0, 0.015, 0)), '--rdr-timber');
+        box(len, 0.3, 0.02, M(cg, at(0, 0.15, -0.19)), '--rdr-timber');
+        box(len, 0.14, 0.02, M(cg, at(0, 0.07, 0.19)), '--rdr-timber');
+        [-1, 1].forEach(function (e) { box(0.02, 0.3, 0.4, M(cg, at(e * (len / 2 - 0.01), 0.15, 0)), '--rdr-timber'); });
+        for (var k = 0; k < EACH; k++) {
+          var i = ci * EACH + k;
+          if (i >= RECORDS.length) break;
+          var rec = RECORDS[i], m;
+          if (k === 0) m = M(cg, at(-len / 2 + 0.2, 0.17, 0.26, 0, -0.32));
+          else m = M(cg, at(-len / 2 + 0.06 + k * 0.03, 0.03 + SL / 2, -0.12 + (EACH - k) * 0.004, 0, -0.14));
+          var sleeve = kit.flat(sleeveGeo, m, '--rdr-timber');
+          sleeve.material.map = sleevePaper(rec, i); sleeve.material.side = T.DoubleSide; sleeve.material.needsUpdate = true;
+          sleeve.userData.rec = rec;
+          kit.hold(sleeve, { say: '“' + rec.title + '” by ' + rec.who + ', ' + rec.runtime + ', in its sleeve' });
+        }
+        stops.push({ name: 'at the crate of her records between the shelves, every sleeve named', x: -W / 2 + 1.5, z: cr.z, yaw: LEFT, pitch: -0.78 });
+      });
       stops.push({ name: 'beside the cello, leaning in the corner past the records', x: -3.55, z: back + 3.6, yaw: 0.34, pitch: -0.1 });
       stops.push({ name: 'beside the harp, in the corner by the window', x: 3.5, z: back + 4.5, yaw: -0.18, pitch: -0.12 });
       stops.push({ name: 'over the phonograph, looking down at her record on it', x: 0.15, z: back + 3.55, yaw: 0, pitch: -0.62 });
@@ -1123,10 +1198,24 @@
       // page. In a headset the page is not shown, so there the record turns
       // and the words say the music is on the screen.
       kit.place(platter, function (mesh, say) {
-        if (mesh !== loose && mesh !== shelfDisc) return false;
-        mesh.matrix.copy(M(recordAt, at(0, -0.009, 0, 0, -Math.PI / 2))); mesh.matrixWorldNeedsUpdate = true;
+        var rec = mesh.userData.rec || null;
+        if (mesh !== loose && mesh !== shelfDisc && !rec) return false;
         var mv = turning.mv, on = mv.asked === null ? document.documentElement.getAttribute('data-intensity') === 'max' : mv.asked;
         if (!on) turning.go();
+        // A named sleeve from the crates leans against the phonograph's
+        // cabinet, and its own card on the shelf's screen is pressed: Put it
+        // on the phonograph where rack.js has shown that button, else the
+        // card's own play button, which love-embed.js answers as on her page.
+        if (rec) {
+          mesh.matrix.copy(M(ph, at(0.62, 0.17, 0.12, 0.35, -0.12))); mesh.matrixWorldNeedsUpdate = true;
+          var card = null;
+          SHELVES.forEach(function (sh) { if (!card && sh.el) card = sh.el.querySelector('#mus-lp-' + rec.id); });
+          var to = card ? card.querySelector('[data-rack-to]') : null, fac = card ? card.querySelector('button.facade') : null;
+          var pressed = to && !to.hidden ? to : fac;
+          if (pressed) pressed.click();
+          return 'You put \u201c' + rec.title + '\u201d by ' + rec.who + ' on the phonograph; it goes round, and the record (' + rec.runtime + ') ' + (pressed ? 'plays on its shelf\u2019s screen.' : 'plays on its shelf\u2019s screen, which a headset does not show.');
+        }
+        mesh.matrix.copy(M(recordAt, at(0, -0.009, 0, 0, -Math.PI / 2))); mesh.matrixWorldNeedsUpdate = true;
         var played = false, btn = deck && deck.el ? deck.el.querySelector('button.facade') : null;
         if (btn) { btn.click(); played = true; }
         return 'You put ' + say + ' on the phonograph; it goes round' + (played ? ', and her playlist plays on the deck\u2019s screen by the window.' : '. Her playlist plays on the deck\u2019s screen, which a headset does not show.');

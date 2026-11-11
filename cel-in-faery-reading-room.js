@@ -12,10 +12,21 @@
    never along the shelves (the Mopery's are along its shelves), and her
    bookcases standing in tall timber arches drawn up to a point.
 
-   THE BOOKCASES AND THE GRAMOPHONE ARE HER PAGE'S OWN, lifted off it by the
-   kit: five of her cases, every spine a door as on the page, and the
-   gramophone's deck and its shelf of records, which rack.js, the page's own
-   script, plays here as it does there; nothing reaches YouTube until a press.
+   THE BOOKCASES ARE HER PAGE'S BY NAME (Helen's ask, 2026-11-12, "pick the
+   books up and choose off the shelf with title on the spines"): every case is
+   built from BOOKS, which tools/make-cel-street.py reads off her page's own
+   cases, each spine a thin book lettered up its back with its words in her
+   Crimson Pro, in one of six inks after her page's six spine colours, standing
+   on the shelves of its arch, and every one comes off the shelf into your hand
+   on a press and goes back on another; its link is on her page on the far
+   wall. THE RECORDS TOO ("and same with records"): a stand in the back corner
+   holds every record of Library Music as a sleeve lettered with its title, its
+   artist and how long it runs, from RECORDS, read off her page the same way;
+   a sleeve carried to the gramophone goes on the platter, the record turns,
+   and that record plays on her page's own shelf beside it (its card's button
+   pressed for you, nothing reaching YouTube before). THE GRAMOPHONE'S deck and
+   shelf of records are still lifted off her page, which rack.js, the page's
+   own script, plays here as it does there.
    The record shelf holds every record, and scrolls when there are more than
    fit. Her page hangs on the far wall in a timber frame.
 
@@ -153,6 +164,14 @@
     return ((n ^ (n >>> 16)) >>> 0) / 4294967296;
   }
   window.loveCelRooms = window.loveCelRooms || {};
+  // Her books and records by name, written by tools/make-cel-street.py off
+  // her own page between these markers; never hand-edit them.
+  // cel:books:begin
+  var BOOKS = [{"label": "Poetry", "books": [{"t": "Maya Angelou", "c": "c1", "href": "https://en.wikipedia.org/wiki/Maya_Angelou"}, {"t": "Simon Armitage", "c": "c2", "href": "https://en.wikipedia.org/wiki/Simon_Armitage"}, {"t": "Emily Dickinson", "c": "c3", "href": "https://en.wikipedia.org/wiki/Emily_Dickinson"}, {"t": "Carol Ann Duffy", "c": "c4", "href": "https://en.wikipedia.org/wiki/Carol_Ann_Duffy"}, {"t": "T.S. Eliot", "c": "c5", "href": "https://en.wikipedia.org/wiki/T._S._Eliot"}, {"t": "Kate Fox", "c": "c6", "href": "https://katefoxwriter.wordpress.com/"}, {"t": "Joy Harjo", "c": "c1", "href": "https://en.wikipedia.org/wiki/Joy_Harjo"}, {"t": "Seamus Heaney", "c": "c2", "href": "https://en.wikipedia.org/wiki/Seamus_Heaney"}, {"t": "Gerard Manley Hopkins", "c": "c3", "href": "https://en.wikipedia.org/wiki/Gerard_Manley_Hopkins"}, {"t": "John Keats", "c": "c4", "href": "https://en.wikipedia.org/wiki/John_Keats"}, {"t": "Philip Larkin", "c": "c5", "href": "https://en.wikipedia.org/wiki/Philip_Larkin"}, {"t": "Joanne Limburg", "c": "c6", "href": "https://en.wikipedia.org/wiki/Joanne_Limburg"}, {"t": "Pablo Neruda", "c": "c1", "href": "https://en.wikipedia.org/wiki/Pablo_Neruda"}, {"t": "Mary Oliver", "c": "c2", "href": "https://en.wikipedia.org/wiki/Mary_Oliver"}, {"t": "Sylvia Plath", "c": "c3", "href": "https://en.wikipedia.org/wiki/Sylvia_Plath"}, {"t": "Rainer Maria Rilke", "c": "c4", "href": "https://en.wikipedia.org/wiki/Rainer_Maria_Rilke"}, {"t": "Christina Rossetti", "c": "c5", "href": "https://en.wikipedia.org/wiki/Christina_Rossetti"}, {"t": "Rumi", "c": "c6", "href": "https://en.wikipedia.org/wiki/Rumi"}, {"t": "Kae Tempest", "c": "c1", "href": "https://en.wikipedia.org/wiki/Kae_Tempest"}, {"t": "Alfred Tennyson", "c": "c2", "href": "https://en.wikipedia.org/wiki/Alfred,_Lord_Tennyson"}, {"t": "Dylan Thomas", "c": "c3", "href": "https://en.wikipedia.org/wiki/Dylan_Thomas"}, {"t": "Ocean Vuong", "c": "c4", "href": "https://en.wikipedia.org/wiki/Ocean_Vuong"}, {"t": "W.B. Yeats", "c": "c5", "href": "https://en.wikipedia.org/wiki/W._B._Yeats"}]}, {"label": "Novels", "books": [{"t": "Isabel Allende", "c": "c1", "href": "https://en.wikipedia.org/wiki/Isabel_Allende"}, {"t": "Octavia E. Butler", "c": "c2", "href": "https://en.wikipedia.org/wiki/Octavia_E._Butler"}, {"t": "Italo Calvino", "c": "c3", "href": "https://en.wikipedia.org/wiki/Italo_Calvino"}, {"t": "Angela Carter", "c": "c4", "href": "https://en.wikipedia.org/wiki/Angela_Carter"}, {"t": "Jonathan Coe", "c": "c5", "href": "https://en.wikipedia.org/wiki/Jonathan_Coe"}, {"t": "Douglas Coupland", "c": "c6", "href": "https://en.wikipedia.org/wiki/Douglas_Coupland"}, {"t": "Fyodor Dostoevsky", "c": "c1", "href": "https://en.wikipedia.org/wiki/Fyodor_Dostoevsky"}, {"t": "Kazuo Ishiguro", "c": "c2", "href": "https://en.wikipedia.org/wiki/Kazuo_Ishiguro"}, {"t": "Joyce Johnson", "c": "c3", "href": "https://en.wikipedia.org/wiki/Joyce_Johnson_(author)"}, {"t": "Franz Kafka", "c": "c4", "href": "https://en.wikipedia.org/wiki/Franz_Kafka"}, {"t": "Jack Kerouac", "c": "c5", "href": "https://en.wikipedia.org/wiki/Jack_Kerouac"}, {"t": "Milan Kundera", "c": "c6", "href": "https://en.wikipedia.org/wiki/Milan_Kundera"}, {"t": "D.H. Lawrence", "c": "c1", "href": "https://en.wikipedia.org/wiki/D._H._Lawrence"}, {"t": "Doris Lessing", "c": "c2", "href": "https://en.wikipedia.org/wiki/Doris_Lessing"}, {"t": "David Mitchell", "c": "c3", "href": "https://en.wikipedia.org/wiki/David_Mitchell_(author)"}, {"t": "Toni Morrison", "c": "c4", "href": "https://en.wikipedia.org/wiki/Toni_Morrison"}, {"t": "Ottessa Moshfegh", "c": "c5", "href": "https://en.wikipedia.org/wiki/Ottessa_Moshfegh"}, {"t": "Haruki Murakami", "c": "c6", "href": "https://en.wikipedia.org/wiki/Haruki_Murakami"}, {"t": "Anaïs Nin", "c": "c1", "href": "https://en.wikipedia.org/wiki/Ana%C3%AFs_Nin"}, {"t": "Jean Rhys", "c": "c2", "href": "https://en.wikipedia.org/wiki/Jean_Rhys"}, {"t": "J.D. Salinger", "c": "c3", "href": "https://en.wikipedia.org/wiki/J._D._Salinger"}, {"t": "John Steinbeck", "c": "c4", "href": "https://en.wikipedia.org/wiki/John_Steinbeck"}, {"t": "Donna Tartt", "c": "c5", "href": "https://en.wikipedia.org/wiki/Donna_Tartt"}, {"t": "Alice Walker", "c": "c6", "href": "https://en.wikipedia.org/wiki/Alice_Walker"}, {"t": "Jeanette Winterson", "c": "c1", "href": "https://en.wikipedia.org/wiki/Jeanette_Winterson"}, {"t": "Virginia Woolf", "c": "c2", "href": "https://en.wikipedia.org/wiki/Virginia_Woolf"}]}, {"label": "Philosophy", "books": [{"t": "Hannah Arendt", "c": "c1", "href": "https://en.wikipedia.org/wiki/Hannah_Arendt"}, {"t": "Gaston Bachelard", "c": "c2", "href": "https://en.wikipedia.org/wiki/Gaston_Bachelard"}, {"t": "Karen Barad", "c": "c3", "href": "https://en.wikipedia.org/wiki/Karen_Barad"}, {"t": "Simone de Beauvoir", "c": "c4", "href": "https://en.wikipedia.org/wiki/Simone_de_Beauvoir"}, {"t": "Jane Bennett", "c": "c5", "href": "https://en.wikipedia.org/wiki/Jane_Bennett_(political_theorist)"}, {"t": "Henri Bergson", "c": "c6", "href": "https://en.wikipedia.org/wiki/Henri_Bergson"}, {"t": "Rosi Braidotti", "c": "c1", "href": "https://en.wikipedia.org/wiki/Rosi_Braidotti"}, {"t": "Albert Camus", "c": "c2", "href": "https://en.wikipedia.org/wiki/Albert_Camus"}, {"t": "Helen De Cruz", "c": "c3", "href": "https://en.wikipedia.org/wiki/Helen_De_Cruz"}, {"t": "Gilles Deleuze", "c": "c4", "href": "https://en.wikipedia.org/wiki/Gilles_Deleuze"}, {"t": "Divergences", "c": "c5", "href": "https://posthumanpress.com/products/divergences-an-anthology-of-neurodissident-worlds"}, {"t": "Entanglements", "c": "c6", "href": "https://posthumanpress.com/products/entanglements-an-anthology-of-posthuman-tales"}, {"t": "Mark Fisher", "c": "c1", "href": "https://en.wikipedia.org/wiki/Mark_Fisher"}, {"t": "Elizabeth Freeman", "c": "c2", "href": "https://en.wikipedia.org/wiki/Elizabeth_Freeman_(professor)"}, {"t": "Félix Guattari", "c": "c3", "href": "https://en.wikipedia.org/wiki/F%C3%A9lix_Guattari"}, {"t": "Byung-Chul Han", "c": "c4", "href": "https://en.wikipedia.org/wiki/Byung-Chul_Han"}, {"t": "Donna Haraway", "c": "c5", "href": "https://en.wikipedia.org/wiki/Donna_Haraway"}, {"t": "Erin Manning", "c": "c6", "href": "https://en.wikipedia.org/wiki/Erin_Manning"}, {"t": "Maurice Merleau-Ponty", "c": "c1", "href": "https://en.wikipedia.org/wiki/Maurice_Merleau-Ponty"}, {"t": "Timothy Morton", "c": "c2", "href": "https://en.wikipedia.org/wiki/Timothy_Morton"}, {"t": "José Esteban Muñoz", "c": "c3", "href": "https://en.wikipedia.org/wiki/Jos%C3%A9_Esteban_Mu%C3%B1oz"}, {"t": "Iris Murdoch", "c": "c4", "href": "https://en.wikipedia.org/wiki/Iris_Murdoch"}, {"t": "Astrida Neimanis", "c": "c5", "href": ""}, {"t": "Friedrich Nietzsche", "c": "c6", "href": "https://en.wikipedia.org/wiki/Friedrich_Nietzsche"}, {"t": "Spinoza", "c": "c1", "href": "https://en.wikipedia.org/wiki/Baruch_Spinoza"}, {"t": "Simone Weil", "c": "c2", "href": "https://en.wikipedia.org/wiki/Simone_Weil"}]}, {"label": "Old Classics", "books": [{"t": "Jane Austen", "c": "c1", "href": "https://en.wikipedia.org/wiki/Jane_Austen"}, {"t": "Charlotte Brontë", "c": "c2", "href": "https://en.wikipedia.org/wiki/Charlotte_Bront%C3%AB"}, {"t": "Emily Brontë", "c": "c3", "href": "https://en.wikipedia.org/wiki/Emily_Bront%C3%AB"}, {"t": "Chaucer", "c": "c4", "href": "https://en.wikipedia.org/wiki/Geoffrey_Chaucer"}, {"t": "Kate Chopin", "c": "c5", "href": "https://en.wikipedia.org/wiki/Kate_Chopin"}, {"t": "Edgar Allan Poe", "c": "c6", "href": "https://en.wikipedia.org/wiki/Edgar_Allan_Poe"}, {"t": "Shakespeare", "c": "c1", "href": "https://en.wikipedia.org/wiki/William_Shakespeare"}, {"t": "Percy Shelley", "c": "c2", "href": "https://en.wikipedia.org/wiki/Percy_Bysshe_Shelley"}, {"t": "Edmund Spenser", "c": "c3", "href": "https://en.wikipedia.org/wiki/Edmund_Spenser"}]}, {"label": "Earth & Kin", "books": [{"t": "David Abram", "c": "c1", "href": "https://en.wikipedia.org/wiki/David_Abram"}, {"t": "Rachel Carson", "c": "c2", "href": "https://en.wikipedia.org/wiki/Rachel_Carson"}, {"t": "Roger Deakin", "c": "c3", "href": "https://en.wikipedia.org/wiki/Roger_Deakin"}, {"t": "Annie Dillard", "c": "c4", "href": "https://en.wikipedia.org/wiki/Annie_Dillard"}, {"t": "Emergence Magazine", "c": "c5", "href": "https://emergencemagazine.org/"}, {"t": "Tristan Gooley", "c": "c6", "href": "https://en.wikipedia.org/wiki/Tristan_Gooley"}, {"t": "Joe Harkness", "c": "c1", "href": "https://en.wikipedia.org/wiki/Joe_Harkness"}, {"t": "Kathleen Jamie", "c": "c2", "href": "https://en.wikipedia.org/wiki/Kathleen_Jamie"}, {"t": "Robin Wall Kimmerer", "c": "c3", "href": "https://en.wikipedia.org/wiki/Robin_Wall_Kimmerer"}, {"t": "Robert Macfarlane", "c": "c4", "href": "https://en.wikipedia.org/wiki/Robert_Macfarlane_(writer)"}, {"t": "Merlin Sheldrake", "c": "c5", "href": "https://en.wikipedia.org/wiki/Merlin_Sheldrake"}, {"t": "Nan Shepherd", "c": "c6", "href": "https://en.wikipedia.org/wiki/Nan_Shepherd"}, {"t": "Suzanne Simard", "c": "c1", "href": "https://en.wikipedia.org/wiki/Suzanne_Simard"}, {"t": "Leanne Betasamosake Simpson", "c": "c2", "href": "https://en.wikipedia.org/wiki/Leanne_Betasamosake_Simpson"}, {"t": "Nick Totton", "c": "c3", "href": "https://www.nicktotton.net/"}, {"t": "Anna Lowenhaupt Tsing", "c": "c4", "href": "https://en.wikipedia.org/wiki/Anna_Tsing"}, {"t": "Peter Wohlleben", "c": "c5", "href": "https://en.wikipedia.org/wiki/Peter_Wohlleben"}, {"t": "Tyson Yunkaporta", "c": "c6", "href": "https://en.wikipedia.org/wiki/Tyson_Yunkaporta"}]}, {"label": "Myth & Otherworlds", "books": [{"t": "Marion Zimmer Bradley", "c": "c1", "href": "https://en.wikipedia.org/wiki/Marion_Zimmer_Bradley"}, {"t": "Lewis Carroll", "c": "c2", "href": "https://en.wikipedia.org/wiki/Lewis_Carroll"}, {"t": "Carlos Castaneda", "c": "c3", "href": "https://en.wikipedia.org/wiki/Carlos_Castaneda"}, {"t": "Paulo Coelho", "c": "c4", "href": "https://en.wikipedia.org/wiki/Paulo_Coelho"}, {"t": "J.G. Frazer", "c": "c5", "href": "https://en.wikipedia.org/wiki/James_George_Frazer"}, {"t": "Robert Graves", "c": "c6", "href": "https://en.wikipedia.org/wiki/Robert_Graves"}, {"t": "Ursula K. Le Guin", "c": "c1", "href": "https://en.wikipedia.org/wiki/Ursula_K._Le_Guin"}, {"t": "J.R.R. Tolkien", "c": "c2", "href": "https://en.wikipedia.org/wiki/J._R._R._Tolkien"}]}, {"label": "Liberation & Rest", "books": [{"t": "Sara Ahmed", "c": "c1", "href": "https://en.wikipedia.org/wiki/Sara_Ahmed"}, {"t": "adrienne maree brown", "c": "c2", "href": "https://en.wikipedia.org/wiki/Adrienne_maree_brown"}, {"t": "Eli Clare", "c": "c3", "href": "https://en.wikipedia.org/wiki/Eli_Clare"}, {"t": "Angela Davis", "c": "c4", "href": "https://en.wikipedia.org/wiki/Angela_Davis"}, {"t": "Paulo Freire", "c": "c5", "href": "https://en.wikipedia.org/wiki/Paulo_Freire"}, {"t": "Johanna Hedva", "c": "c6", "href": "https://en.wikipedia.org/wiki/Johanna_Hedva"}, {"t": "Tricia Hersey", "c": "c1", "href": "https://en.wikipedia.org/wiki/Tricia_Hersey"}, {"t": "bell hooks", "c": "c2", "href": "https://en.wikipedia.org/wiki/Bell_hooks"}, {"t": "Mariame Kaba", "c": "c3", "href": "https://en.wikipedia.org/wiki/Mariame_Kaba"}, {"t": "Audre Lorde", "c": "c4", "href": "https://en.wikipedia.org/wiki/Audre_Lorde"}, {"t": "Mia Mingus", "c": "c5", "href": "https://en.wikipedia.org/wiki/Mia_Mingus"}, {"t": "Leah Lakshmi Piepzna-Samarasinha", "c": "c6", "href": "https://en.wikipedia.org/wiki/Leah_Lakshmi_Piepzna-Samarasinha"}, {"t": "Rebecca Solnit", "c": "c1", "href": "https://en.wikipedia.org/wiki/Rebecca_Solnit"}, {"t": "Sunaura Taylor", "c": "c2", "href": "https://en.wikipedia.org/wiki/Sunaura_Taylor"}, {"t": "Alice Wong", "c": "c3", "href": "https://en.wikipedia.org/wiki/Alice_Wong_(activist)"}]}, {"label": "Neurodivergence", "books": [{"t": "Luke Beardon", "c": "c1", "href": "https://en.wikipedia.org/wiki/Luke_Beardon"}, {"t": "Fern Brady", "c": "c2", "href": "https://en.wikipedia.org/wiki/Fern_Brady"}, {"t": "Robert Chapman", "c": "c3", "href": "https://en.wikipedia.org/wiki/Robert_Chapman_(philosopher)"}, {"t": "Fernand Deligny", "c": "c4", "href": "https://fr.wikipedia.org/wiki/Fernand_Deligny"}, {"t": "Helen Edgar", "c": "c5", "href": "https://autisticrealms.com/"}, {"t": "Sara Gibbs", "c": "c6", "href": "https://en.wikipedia.org/wiki/Sara_Gibbs"}, {"t": "David Gray-Hammond", "c": "c1", "href": "https://neurohubcommunity.org/book-store/"}, {"t": "Chloé Hayden", "c": "c2", "href": "https://en.wikipedia.org/wiki/Chlo%C3%A9_Hayden"}, {"t": "Katherine May", "c": "c3", "href": "https://en.wikipedia.org/wiki/Katherine_May"}, {"t": "Damian Milton", "c": "c4", "href": "https://en.wikipedia.org/wiki/Damian_Milton"}, {"t": "Dinah Murray", "c": "c5", "href": "https://en.wikipedia.org/wiki/Dinah_Murray"}, {"t": "Devon Price", "c": "c6", "href": "https://en.wikipedia.org/wiki/Devon_Price"}, {"t": "Steve Silberman", "c": "c1", "href": "https://en.wikipedia.org/wiki/Steve_Silberman"}, {"t": "Nick Walker", "c": "c2", "href": "https://en.wikipedia.org/wiki/Nick_Walker_(scholar)"}, {"t": "Pete Wharmby", "c": "c3", "href": "https://petewharmby.com/"}, {"t": "M. Remi Yergeau", "c": "c4", "href": "https://en.wikipedia.org/wiki/M._Remi_Yergeau"}]}, {"label": "Helen’s Shelf", "books": [{"t": "Affirming Early Childhood", "c": "c1", "href": "https://www.routledge.com/Neurodiversity-Affirming-Practices-in-Early-Childhood-An-Empowering-Guide-to-Diverse-Development-and-Play/Murphy/p/book/9781032346526"}, {"t": "Autism Assessment Handbook", "c": "c2", "href": "https://uk.jkp.com/products/the-neurodiversity-affirmative-child-autism-assessment-handbook"}, {"t": "Autistic Burnout Workbook", "c": "c3", "href": "https://www.amazon.co.uk/Supporting-Children-Through-Autistic-Workbook/dp/B0C6P6DZ38"}, {"t": "Balance", "c": "c4", "href": "https://uk.jkp.com/products/balance-how-neurodivergent-adults-can-support-holistic-wellbeing-across-work-life-and-personal-selfcare"}, {"t": "Being, Knowing and Doing", "c": "c5", "href": "https://autismbooksbyautisticauthors.com/ways-of-being-knowing-and-doing/"}, {"t": "Creating Safe Spaces", "c": "c6", "href": "https://www.amazon.co.uk/Creating-Safe-Spaces-Autistic-People/dp/B0CZXW8NGZ"}, {"t": "Embracing Monotropism", "c": "c1", "href": "https://www.amazon.co.uk/Embracing-Monotropism-Supporting-Prevent-Autistic/dp/B0CM1HN4SW"}, {"t": "A Happy Neurodivergent Christmas", "c": "c2", "href": "https://jade-farrington.medium.com/a-community-guide-to-a-happy-neurodivergent-christmas-cd71415df8c5"}, {"t": "I Am Sunshine Me", "c": "c3", "href": "https://www.amazon.co.uk/I-am-sunshine-me/dp/B0CPBH8BPF"}, {"t": "It Takes All Kinds of Minds", "c": "c4", "href": "https://www.routledge.com/It-Takes-All-Kinds-of-Minds-Fostering-Neurodivergent-Thriving-at-School/Davis-ONeill-Fletcher-Watson/p/book/9781032796222"}, {"t": "The Monotropism Reader", "c": "c5", "href": "https://pavpub.com/"}, {"t": "Morven’s First Autistic Pride", "c": "c6", "href": "https://www.amazon.co.uk/Morvens-First-Autistic-Marion-McLaughlin/dp/B0H3FQCK6R"}, {"t": "Neuro-Affirming Glossary", "c": "c1", "href": "https://autisticrealms.com/product/neuro-affirming-glossary-by-helen-edgar-2025-edition/"}, {"t": "Neurofabulous Children", "c": "c2", "href": "https://uk.jkp.com/products/how-to-raise-happy-neurofabulous-children"}, {"t": "A Neuroqueer Pedagogy", "c": "c3", "href": "https://autisticrealms.com/what-would-a-neuroqueer-pedagogy-be/"}, {"t": "Neuroqueer Theory and Practice", "c": "c4", "href": "https://autpress.com/"}, {"t": "Pédagogie neuroqueer", "c": "c5", "href": "https://genre-en-cours.education/b8e876ff-2365-498d-a024-e971e82af0fd/"}, {"t": "Re-Storying Autism", "c": "c6", "href": "https://www.amazon.co.uk/Re-Storying-Autism-Framework-Families-Reimagining/dp/B0GHN97QXM"}, {"t": "The Scale of the Spectrum", "c": "c1", "href": "https://pavpub.com/learning-disability/autism/the-scale-of-the-spectrum-insight-into-autistic-experiences"}, {"t": "Sensory Spaces", "c": "c2", "href": "https://www.routledge.com/Sensory-Spaces-An-A-Z-of-Immersive-and-Creative-Environments-to-Support-Sensory-Integration/Navin/p/book/9781032989112"}, {"t": "A Six-Point Framework", "c": "c3", "href": "https://www.amazon.co.uk/Supporting-Autistic-People-Six-Point-Framework-ebook/dp/B0HKJYWNFG"}, {"t": "Survival to Safety", "c": "c4", "href": "https://www.amazon.co.uk/Survival-Safety-Neurodivergent-Burnout-Recovery/dp/1839979232"}, {"t": "Understanding Autistic Burnout", "c": "c5", "href": "https://www.amazon.co.uk/Understanding-Autistic-Burnout-Viv-Dawes/dp/B0BZFNTZ4Q"}, {"t": "Young Person’s Burnout Guide", "c": "c6", "href": "https://uk.jkp.com/products/the-young-persons-guide-to-autistic-burnout"}, {"t": "A ‘Neurodivergent Turn’", "c": "c1", "href": "https://thepolyphony.org/2026/09/11/review-critical-neurodiversity-studies-divergent-textualities/"}]}, {"label": "Autistic Realms Resources", "books": [{"t": "Autism Is Not a Disorder", "c": "c1", "href": "https://autisticrealms.com/product/is-autism-a-disorder-autistic-wellbeing-series/"}, {"t": "Burnout: A Family Guide", "c": "c2", "href": "https://autisticrealms.com/product/autistic-burnout-a-family-guide/"}, {"t": "Cavendish Space", "c": "c3", "href": "https://autisticrealms.com/product/free-training-cavendish-space-building-neurodivergent-cultures-of-regulation/"}, {"t": "Embodiment and Sensory Systems", "c": "c4", "href": "https://autisticrealms.com/product/embodiment-and-sensory-systems/"}, {"t": "Embodiment During Transitions", "c": "c5", "href": "https://autisticrealms.com/product/embodiment-supporting-family-wellbeing-during-transitions/"}, {"t": "Empowering Advocacy", "c": "c6", "href": "https://autisticrealms.com/product/neuro-affirming-support-for-your-autistic-young-person-at-school/"}, {"t": "Executive Functioning", "c": "c1", "href": "https://autisticrealms.com/product/supporting-our-childrens-executive-functioning-skills/"}, {"t": "Family Sensory Toolkit", "c": "c2", "href": "https://autisticrealms.com/product/building-a-family-sensory-toolkit/"}, {"t": "An Introduction to Monotropism", "c": "c3", "href": "https://autisticrealms.com/product/monotropism/"}, {"t": "The Limbic System Explained", "c": "c4", "href": "https://autisticrealms.com/product/the-limbic-system-explained/"}, {"t": "Map of Monotropic Experiences", "c": "c5", "href": "https://autisticrealms.com/product/training-with-notes-the-map-of-monotropic-experiences/"}, {"t": "Monotropism and Transitions", "c": "c6", "href": "https://autisticrealms.com/product/monotropism-supporting-young-autistic-people-with-transitions/"}, {"t": "My Monotropic Map Workbook", "c": "c1", "href": "https://autisticrealms.com/product/my-monotropic-map-workbook/"}, {"t": "Neurodiversity Affirming?", "c": "c2", "href": "https://autisticrealms.com/product/what-does-it-mean-to-be-neurodiversity-affirming/"}, {"t": "Neurodiversity Starter Pack", "c": "c3", "href": "https://autisticrealms.com/product/autism-and-neurodiversity-starter-pack/"}, {"t": "Neuroqueer Learning Spaces", "c": "c4", "href": "https://autisticrealms.com/product/neuroqueer-learning-spaces-training/"}, {"t": "Reasonable Adjustments in School", "c": "c5", "href": "https://autisticrealms.com/product/reasonable-adjustments-in-school/"}, {"t": "Sensory Processing", "c": "c6", "href": "https://autisticrealms.com/product/an-introduction-to-sensory-processing-difficulties/"}, {"t": "Signposting Ideas", "c": "c1", "href": "https://autisticrealms.com/product/neurodiversity-affirming-signposting-ideas/"}, {"t": "The Theory of Monotropism", "c": "c2", "href": "https://autisticrealms.com/product/an-introduction-to-the-theory-of-monotropism/"}, {"t": "Understanding OCD and Tourettes", "c": "c3", "href": "https://autisticrealms.com/product/understanding-ocd-and-tourettes/"}, {"t": "Words Inspired by Being Monotropic", "c": "c4", "href": "https://autisticrealms.com/product/monotropism-inspired-words/"}, {"t": "Your Authentic Autistic Self", "c": "c5", "href": "https://autisticrealms.com/product/being-your-authentic-autistic-self-top-10-tips/"}]}, {"label": "Art", "books": [{"t": "Dan Flavin", "c": "c1", "href": "https://en.wikipedia.org/wiki/Dan_Flavin"}, {"t": "Lucio Fontana", "c": "c2", "href": "https://en.wikipedia.org/wiki/Lucio_Fontana"}, {"t": "Andy Goldsworthy", "c": "c3", "href": "https://en.wikipedia.org/wiki/Andy_Goldsworthy"}, {"t": "Barbara Hepworth", "c": "c4", "href": "https://en.wikipedia.org/wiki/Barbara_Hepworth"}, {"t": "Donald Judd", "c": "c5", "href": "https://en.wikipedia.org/wiki/Donald_Judd"}, {"t": "Imi Knoebel", "c": "c6", "href": "https://en.wikipedia.org/wiki/Imi_Knoebel"}, {"t": "Kazimir Malevich", "c": "c1", "href": "https://en.wikipedia.org/wiki/Kazimir_Malevich"}, {"t": "Agnes Martin", "c": "c2", "href": "https://en.wikipedia.org/wiki/Agnes_Martin"}, {"t": "François Morellet", "c": "c3", "href": "https://en.wikipedia.org/wiki/Fran%C3%A7ois_Morellet"}, {"t": "Jackson Pollock", "c": "c4", "href": "https://en.wikipedia.org/wiki/Jackson_Pollock"}, {"t": "Ad Reinhardt", "c": "c5", "href": "https://en.wikipedia.org/wiki/Ad_Reinhardt"}, {"t": "Mark Rothko", "c": "c6", "href": "https://en.wikipedia.org/wiki/Mark_Rothko"}, {"t": "Hiroshi Sugimoto", "c": "c1", "href": "https://en.wikipedia.org/wiki/Hiroshi_Sugimoto"}, {"t": "James Turrell", "c": "c2", "href": "https://en.wikipedia.org/wiki/James_Turrell"}]}];
+  // cel:books:end
+  // cel:records:begin
+  var RECORDS = [{"id": "Nj0dbnkk_D4", "title": "The French Library", "who": "Franz Gordon", "runtime": "3:00"}, {"id": "rBA9Gqpk_Po", "title": "Reflections", "who": "Toshifumi Hinata", "runtime": "2:35"}, {"id": "k2B_-LKov7I", "title": "Nocturnal Waltz", "who": "Johannes Bornlöf", "runtime": "2:09"}, {"id": "tALjlw38jas", "title": "By the Border", "who": "Lama House", "runtime": "2:39"}, {"id": "Jr6Nq9r758c", "title": "Where Is My Mind", "who": "your movie soundtrack", "runtime": "2:36"}, {"id": "qH666vIR9_8", "title": "Airy Fairy Heart", "who": "Franz Gordon", "runtime": "3:30"}, {"id": "gBKh6GTVfvA", "title": "Ephemeralist", "who": "Dunja Musarova", "runtime": "2:28"}, {"id": "sR2W2scFS4Y", "title": "Nuvole Bianche", "who": "Ludovico Einaudi", "runtime": "6:02"}, {"id": "VfCxaNbJ0q4", "title": "Ghost Lullaby", "who": "Lucas King", "runtime": "3:44"}, {"id": "9E6b3swbnWg", "title": "Nocturne Op. 9 No. 2", "who": "Chopin", "runtime": "4:29"}, {"id": "p29JUpsOSTE", "title": "Nocturne in E flat major, Op. 9 No. 2", "who": "Chopin", "runtime": "4:56"}, {"id": "MI6dnWbo5Dk", "title": "Eternal Slumber", "who": "Yonder Dale", "runtime": "2:36"}, {"id": "EJwwWPrwwo4", "title": "Experience", "who": "Ludovico Einaudi & Daniel Hope", "runtime": "5:13"}, {"id": "NvryolGa19A", "title": "Comptine d’un autre été : l’après-midi", "who": "Yann Tiersen", "runtime": "2:26"}, {"id": "eoUDchU0NUQ", "title": "Burning", "who": "Ludovico Einaudi", "runtime": "5:00"}, {"id": "toOShA7omUk", "title": "The Heart Asks Pleasure First / The Promise", "who": "Michael Nyman", "runtime": "3:12"}, {"id": "HRrQckINCJ0", "title": "The Promise", "who": "Michael Nyman", "runtime": "4:16"}, {"id": "MgS-Lq_pUGk", "title": "Luminous", "who": "Ludovico Einaudi", "runtime": "4:44"}];
+  // cel:records:end
   window.loveCelRooms['faery-reading-room.html'] = {
     name: 'The Reading Room',
     from: 'faery-yurt.html',
@@ -285,11 +304,14 @@
       // up the case, and on each a row of books in the room's inks with a
       // band or two across their backs and their pages showing at the top.
       var SPINES = ['--rdr-velvet', '--rdr-leather', '--rdr-ember', '--rdr-brass', '--rdr-ink-2', '--rdr-flame', '--rdr-panel', '--rdr-timber'];
-      function shelved(g, w, h, seed) {
-        box(w, h - 0.1, 0.3, M(g, at(0, (h - 0.1) / 2 + 0.16, -0.08)), '--rdr-stone', false, false);
+      function shelved(g, w, h, seed, skip) {
+        // The back board stands behind the books (it stood in front of them,
+        // unseen, while her page's copy of the case hung over everything).
+        box(w, h - 0.1, 0.08, M(g, at(0, (h - 0.1) / 2 + 0.16, -0.2)), '--rdr-stone', false, false);
         for (var y = 0.16, sh = 0; y < h - 0.2; y += 0.34, sh++) {
           box(w, 0.025, 0.3, M(g, at(0, y, -0.08)), '--rdr-timber', false);
-          for (var x = -w / 2 + 0.03, b = 0; x < w / 2 - 0.05; b++) {
+          // The `skip` rows from TITLED_FROM hold her titled books (titled), not filler.
+          for (var x = -w / 2 + 0.03, b = 0; (sh < TITLED_FROM || sh >= TITLED_FROM + (skip || 0)) && x < w / 2 - 0.05; b++) {
             var bw = 0.03 + hash(seed, sh, b) * 0.035, bh = 0.2 + hash(seed, sh, b + 40) * 0.1;
             if (x + bw > w / 2 - 0.02) break;
             var ink = SPINES[(seed * 3 + sh * 5 + b) % SPINES.length];
@@ -307,19 +329,59 @@
         }
       }
 
-      // HER CASES, lifted off her page. A case is 236 pixels wide; at 0.8 of a
-      // metre the shortest stands about two and a half metres tall and her own
-      // shelf five and a half.
+      // HER CASES, built by name off her page (BOOKS). A case is 236 pixels
+      // wide on her page; at 0.8 of a metre the shortest stands about two and a
+      // half metres tall and her own shelf five and a half.
       var CW = 0.8, scale = CW / 236;
       var stops = [{ name: 'just through the bookcase door', x: 0, z: -1.4, yaw: 0 }];
+      // HER SPINES' SIX COLOURS, each an ink of this room's near it: her page's
+      // c1 is a wine red, c2 a bottle green (the room has none, so its panel's
+      // dark plum), c3 a plum, c4 a tan, c5 a slate blue (the room's stone),
+      // c6 a violet. Every spine is lettered in the room's cream, which reads
+      // on all six.
+      var SPINE_INK = { c1: '--rdr-ember', c2: '--rdr-panel', c3: '--rdr-velvet', c4: '--rdr-leather', c5: '--rdr-stone', c6: '--rdr-wall' };
+      var PER_ROW = 16, BOOK_H = 0.26, BOOK_D = 0.22, TITLED_FROM = 3;
+      // A spine lettered up its back on a canvas a pixel to the millimetre
+      // (so a 45 mm spine is 45 px wide), the words shrunk to fit its height.
+      function spinePaper(words, ink, bw) {
+        var pw = Math.max(24, Math.round(bw * 1000)), ph = Math.round(BOOK_H * 1000);
+        return kit.paper(pw, ph, function (c, cw, chh) {
+          c.fillStyle = kit.ink(ink); c.fillRect(0, 0, cw, chh);
+          c.fillStyle = kit.ink('--rdr-brass'); c.fillRect(0, Math.round(chh * 0.1), cw, 2); c.fillRect(0, Math.round(chh * 0.9), cw, 2);
+          c.translate(cw / 2, chh / 2); c.rotate(-Math.PI / 2);
+          c.textAlign = 'center'; c.textBaseline = 'middle';
+          var size = Math.min(26, Math.round(cw * 0.62));
+          for (; size > 9; size--) { c.font = '600 ' + size + 'px "Crimson Pro"'; if (c.measureText(words).width <= chh * 0.72) break; }
+          c.fillStyle = kit.ink('--rdr-ink'); c.fillText(words, 0, 1);
+        });
+      }
+      // The case's books, from BOOKS[n]: rows of PER_ROW at most from the
+      // bottom shelf up, each book its own mesh to hold (kit.hold), its spine
+      // the canvas above (the map on a lit box, its colour the room's cream so
+      // the canvas's inks come through as drawn).
+      function titled(n, g) {
+        var books = (BOOKS[n] || { books: [] }).books, rows = Math.max(1, Math.ceil(books.length / PER_ROW));
+        var per = Math.ceil(books.length / rows), avail = CW - 0.06;
+        var bw = Math.min(0.055, avail / per - 0.004);
+        books.forEach(function (b, i) {
+          var row = Math.floor(i / per), col = i % per, inRow = Math.min(per, books.length - row * per);
+          // Her titled rows start at the fourth shelf, about chest height, so
+          // they are read and reached without stooping; the fillers go above and below.
+          var x0 = -(inRow * (bw + 0.004) - 0.004) / 2, y = 0.16 + (TITLED_FROM + row) * 0.34;
+          var ink = SPINE_INK[b.c] || '--rdr-leather';
+          var bh = BOOK_H - 0.02 + hash(n, row, col) * 0.03;
+          var mesh = kit.facets(new T.BoxGeometry(bw, bh, BOOK_D), M(g, at(x0 + col * (bw + 0.004) + bw / 2, y + 0.0125 + bh / 2, -0.06)), ink);
+          mesh.material.map = spinePaper(b.t, ink, bw); mesh.material.color.copy(kit.col('--rdr-ink')); mesh.material.needsUpdate = true;
+          kit.hold(mesh, { say: b.t + ', from the ' + (BOOKS[n].label || 'case') + ' case (its link is on her page on the far wall)' });
+        });
+        return rows;
+      }
       function caseAt(n, label, g, h) {
         arch(g, CW, h);
-        shelved(g, CW, h, n);
+        shelved(g, CW, h, n, titled(n, g));
         // A brass-edged plate beside the arch at eye height, naming the case
         // as her page does, for the headset, which never sees the lift.
         sign(label, null, 0.8, M(g, at(CW / 2 + 0.16 + 0.5, 1.6, 0.2)));
-        var it = kit.lift(frame, '.yurt-case', { n: n, w: 236, ww: CW, m: M(g, at(0, 0.16, 0.06)) });
-        return it;
       }
       var frame = null;
       // The page goes up first, so the lifts have a frame to copy from.
@@ -338,8 +400,8 @@
         { n: 6, label: 'Liberation & Rest', g: at(W / 2 - 0.15, 0, -8.8, RIGHT), h: 1032 * scale, yaw: RIGHT, sx: W / 2 - 2.6, sz: -8.8 }
       ];
       CASES.forEach(function (c) {
-        var it = caseAt(c.n, c.label, c.g, c.h);
-        stops.push({ name: 'at the ' + c.label + ' case', x: c.sx, z: c.sz, yaw: c.yaw, frame: it.el });
+        caseAt(c.n, c.label, c.g, c.h);
+        stops.push({ name: 'at the ' + c.label + ' case', x: c.sx, z: c.sz, yaw: c.yaw });
       });
 
       // THE FIREPLACE in the left wall: a pointed stone surround, the logs and
@@ -555,6 +617,54 @@
       // A record in its sleeve, leaning on the table, to pick up (round 7).
       var sleeve = kit.facets(new T.BoxGeometry(0.31, 0.31, 0.012), M(gm, at(0.56, 0.17, 0.3, 0.35, 0, -0.12)), '--rdr-ember');
       kit.hold(sleeve, { say: 'a record in its sleeve' });
+      // THE RECORD STAND (Helen's ask, 2026-11-12, "same with records"): every
+      // record of Library Music as a sleeve, from RECORDS off her page, in a
+      // timber display stand in the back corner by the gramophone, three
+      // stepped rows leaning back, each sleeve lettered on its front with its
+      // title, its artist and how long it runs, and each one to pick up.
+      var SLEEVE = 0.25, SLEEVE_INK = ['--rdr-panel', '--rdr-velvet', '--rdr-leather', '--rdr-ember'];
+      function sleevePaper(rec, ink) {
+        return kit.paper(260, 260, function (c, cw, chh) {
+          c.fillStyle = kit.ink(ink); c.fillRect(0, 0, cw, chh);
+          c.strokeStyle = kit.ink('--rdr-brass'); c.lineWidth = 4; c.strokeRect(10, 10, cw - 20, chh - 20);
+          c.textAlign = 'center'; c.textBaseline = 'middle';
+          // The title on one line or two, shrunk to fit.
+          var size = 30, words = rec.title, lines = [words];
+          for (; size > 14; size--) {
+            c.font = '600 ' + size + 'px "Cormorant Garamond"';
+            if (c.measureText(words).width <= cw - 40) { lines = [words]; break; }
+            var cut = words.lastIndexOf(' ', Math.floor(words.length / 2) + 6);
+            if (cut > 0) { lines = [words.slice(0, cut), words.slice(cut + 1)]; if (c.measureText(lines[0]).width <= cw - 40 && c.measureText(lines[1]).width <= cw - 40) break; }
+          }
+          c.fillStyle = kit.ink('--rdr-ink');
+          lines.forEach(function (l, i) { c.fillText(l, cw / 2, chh / 2 - 26 + (i - (lines.length - 1) / 2) * (size + 6)); });
+          c.font = 'italic 22px "Cormorant Garamond"'; c.fillStyle = kit.ink('--rdr-ink-2');
+          var who = rec.who; for (var w = 22; w > 12 && c.measureText(who).width > cw - 40; w--) c.font = 'italic ' + w + 'px "Cormorant Garamond"';
+          c.fillText(who, cw / 2, chh / 2 + 34);
+          c.font = '18px "Crimson Pro"'; c.fillStyle = kit.ink('--rdr-brass'); c.fillText(rec.runtime, cw / 2, chh - 34);
+        });
+      }
+      // It stands clear of Helen's Shelf's arch (its post at x = -4.16) and of
+      // the wall's panelling.
+      var stand = at(-W / 2 + 0.92, 0, back + 0.36);
+      var STAND_ROWS = 3, STAND_PER = Math.ceil(RECORDS.length / STAND_ROWS), standW = STAND_PER * (SLEEVE + 0.015) + 0.08;
+      box(standW, 0.06, 0.5, M(stand, at(0, 0.03, 0)), '--rdr-timber');
+      for (var sr = 0; sr < STAND_ROWS; sr++) box(standW, 0.05, 0.08, M(stand, at(0, 0.09 + sr * 0.3, -0.2 + sr * 0.17 - 0.06)), '--rdr-timber', false);
+      [-1, 1].forEach(function (s) { box(0.05, 0.95, 0.5, M(stand, at(s * (standW / 2 - 0.025), 0.475, 0, 0, 0, 0)), '--rdr-timber'); });
+      var sleeves = [];
+      RECORDS.forEach(function (rec, i) {
+        var row = Math.floor(i / STAND_PER), col = i % STAND_PER;
+        var x = -(STAND_PER * (SLEEVE + 0.015) - 0.015) / 2 + col * (SLEEVE + 0.015) + SLEEVE / 2;
+        var ink = SLEEVE_INK[(i * 7 + row) % SLEEVE_INK.length];
+        var m = M(stand, at(x, 0.12 + row * 0.3 + SLEEVE / 2, -0.2 + row * 0.17 + 0.03, -0.2));
+        var sl = kit.facets(new T.BoxGeometry(SLEEVE, SLEEVE, 0.012), m, ink);
+        sl.material.map = sleevePaper(rec, ink); sl.material.color.copy(kit.col('--rdr-ink')); sl.material.needsUpdate = true;
+        sl.userData.record = rec;
+        kit.hold(sl, { say: rec.title + ', by ' + rec.who + ', in its sleeve; ' + rec.runtime + ' long' });
+        sleeves.push(sl);
+      });
+      sign('Library Music', 'every record on her shelf, to pick up and put on', 1.1, M(stand, at(0, 1.35, -0.3)));
+      stops.push({ name: 'at the record stand in the corner, every record of Library Music in its sleeve', x: -W / 2 + 1.0, z: back + 1.9, yaw: 0, pitch: -0.2 });
       stops.push({ name: 'at the gramophone, with its switch', x: -W / 2 + 2.4, z: -9.3, yaw: LEFT, frame: deck.el });
       stops.push({ name: 'at the shelf of records by the gramophone', x: -W / 2 + 2.6, z: -11.6, yaw: LEFT, pitch: -0.2, frame: lps.el });
 
@@ -712,8 +822,8 @@
         { n: 7, label: 'Neurodivergence', g: at(3.4, 0, -0.15, Math.PI), h: 1032 * scale, yaw: Math.PI, sx: 3.4, sz: -3.8, pitch: 0.06 },
         { n: 0, label: 'Poetry', g: at(W / 2 - 0.15, 0, -11.6, RIGHT), h: 1612 * scale, yaw: RIGHT, sx: 0.2, sz: -11.4, pitch: 0.14 }
       ].forEach(function (c) {
-        var it = caseAt(c.n, c.label, c.g, c.h);
-        stops.push({ name: 'at the ' + c.label + ' case', x: c.sx, z: c.sz, yaw: c.yaw, pitch: c.pitch, frame: it.el });
+        caseAt(c.n, c.label, c.g, c.h);
+        stops.push({ name: 'at the ' + c.label + ' case', x: c.sx, z: c.sz, yaw: c.yaw, pitch: c.pitch });
       });
       // Ravens on two of the arches.
       raven(at(-3.6, 1612 * scale + 0.78, back + 0.3, -Math.PI / 2), 1.3);
@@ -939,6 +1049,20 @@
       // screen; a headset shows no deck, so there the record turns without its
       // music. Anything else in your hand is refused.
       kit.place(platter, function (mesh) {
+        // A record off the stand (RECORDS) goes on the platter, the record
+        // turns, and its own card on her page's shelf beside the gramophone is
+        // pressed for you: onto the deck's screen where rack.js has put that
+        // button up, else in its card. The card says how long before the press.
+        if (mesh.userData.record) {
+          var rec = mesh.userData.record;
+          mesh.matrix.copy(M(recordAt, at(0, 0.035, 0, 0.3, Math.PI / 2)));
+          var mv2 = turning.mv, going2 = mv2.asked === null ? document.documentElement.getAttribute('data-intensity') === 'max' : mv2.asked;
+          if (!going2) turning.go();
+          var card = lps.el.querySelector('#rdr-lp-' + rec.id);
+          var btn = card && (card.querySelector('[data-rack-to]:not([hidden])') || card.querySelector('button.facade'));
+          if (btn) btn.click();
+          return rec.title + ', by ' + rec.who + ', goes on the gramophone and turns' + (btn ? ', and plays on her shelf beside it, ' + rec.runtime + ' long.' : '; its music plays on her shelf, which a headset does not show.');
+        }
         if (mesh !== sleeve) return false;
         mesh.matrix.copy(M(recordAt, at(0, 0.035, 0, 0.3, Math.PI / 2)));
         var mv = turning.mv, going = mv.asked === null ? document.documentElement.getAttribute('data-intensity') === 'max' : mv.asked;

@@ -1859,6 +1859,22 @@ room of hers starts at MAX GLITTER**, her standing call, with the dial to turn i
 tunnel on every room's door "so the street is consistent" (a room says `tunnel` or has none), a cut in place of the fade,
 a quicker swirl "so it feels like warp", and a drawn star or a lens flare laid over the photographs.
 
+**HER BOOKS AND RECORDS ON CEL STREET ARE NAMED OFF HER PAGES, AND THE TOOL WRITES THE NAMES.** Helen Edgar's asks,
+2026-11-12 ("pick the books up and choose off the shelf with title on the spines", "same with records"):
+`make-cel-street.py` reads the Reading Room's `.yurt-case` sections (label, every spine's words and link) and the
+`rdr-lp__slot` records, and the Music Room's `mus-lp__slot` records, off her pages, and writes `BOOKS` and `RECORDS`
+between `cel:books` and `cel:records` markers in `cel-in-faery-reading-room.js` and `cel-in-faery-music-room.js`, never
+by hand. Each book is its own `kit.facets` box with a canvas spine lettered up its back (`spinePaper`), in one of six
+inks after her page's six spine classes, `kit.hold` with its words, standing in rows from `TITLED_FROM` (the fourth
+shelf, chest height: the bottom row was out of a standing eye's view) with the drawn fillers above and below; **the
+case's stone back board stands behind the books** (it stood in front of them for a day, unseen while her page's copy
+hung over everything, which is `[hidden]`'s lesson in three dimensions: a thing nobody could see passed every check).
+Each record is a lettered square sleeve, `kit.hold`, and the phonograph's `kit.place` plays a placed sleeve's record
+by pressing its own card's button inside the lifted rack (`#mus-lp-<id>`, `#rdr-lp-<id>`), saying the runtime first,
+so `love-embed.js` still builds the frame and nothing plays until the record is placed. The friendly edits are
+typing a title into a room file, a book that opens to its link in 3D (its link is on her page, on the wall), and a
+record that plays as it is picked up.
+
 **THE BASKET OF WINGS BY THE YURT'S DOOR LENDS A PAIR TO YOUR 3D FIGURE, AND HER THREE ANIMALS ARE ASLEEP IN THE SCENE.**
 Helen Edgar's asks, 2026-11-09. A room on Cel Street that lends wings names its pairs (`wings` in `cel-in-faery-yurt.js`,
 exactly `CEL_WINGS` in `lib.mjs`, which `make-cel-street.py` holds both ways and to `cel-street.js`'s `WINGS` drawings);

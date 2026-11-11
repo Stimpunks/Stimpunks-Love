@@ -443,6 +443,61 @@ else:
         if new != src:
             f.write_text(new)
 
+# HELEN'S BOOKS AND RECORDS, BY NAME (her asks, 2026-11-12: "pick the books up
+# and choose off the shelf with title on the spines", "and same with records").
+# The Reading Room's bookcases and its Library Music records, and the Music
+# Room's records, are read off her own pages, each case's label and every
+# spine's words and link, each record's id, title, artist and runtime, and
+# written into the rooms' files between cel:books and cel:records markers,
+# never by hand, so a book or a record she adds to a page is on its shelf in
+# 3D at the next run. A room with the markers gone is refused.
+def _plain(t):
+    return html.unescape(re.sub(r"<[^>]+>", "", t)).strip()
+def _books(page):
+    cases = []
+    for m in re.finditer(r'<section class="yurt-case"[^>]*>(.*?)</section>', page, re.S):
+        seg = m.group(1)
+        lab = re.search(r'yurt-case__label[^>]*>(.*?)</h3>', seg, re.S)
+        books = []
+        for b in re.finditer(r'<li class="spine ([a-z0-9]+)"[^>]*>(.*?)</li>', seg, re.S):
+            href = re.search(r'href="([^"]*)"', b.group(2))
+            books.append({"t": _plain(b.group(2)), "c": b.group(1), "href": html.unescape(href.group(1)) if href else ""})
+        cases.append({"label": _plain(lab.group(1)) if lab else "", "books": books})
+    return cases
+def _records(page, cls):
+    recs = []
+    for m in re.finditer(r'<li class="' + cls + r'__slot" id="[^"]*" data-rack-card>(.*?)</li>', page, re.S):
+        seg = m.group(1)
+        vid = re.search(r'data-embed-id="([A-Za-z0-9_-]{11})"', seg)
+        title = re.search(cls + r'__title">(.*?)</span>', seg, re.S)
+        who = re.search(cls + r'__who">(.*?)</span>', seg, re.S)
+        run = re.search(r'data-rack-runtime="([^"]*)"', seg)
+        if vid and title and who:
+            recs.append({"id": vid.group(1), "title": _plain(title.group(1)), "who": _plain(who.group(1)), "runtime": run.group(1) if run else ""})
+    return recs
+def _write_between(fname, mark, name, value):
+    f = ROOT / fname
+    src = f.read_text()
+    if f"// {mark}:begin" not in src or f"// {mark}:end" not in src:
+        refuse(f"{fname} has lost its {mark} markers.")
+        return
+    line = "  var " + name + " = " + json.dumps(value, ensure_ascii=False) + ";"
+    new = re.sub(r"(// " + mark + r":begin\n).*?(\s*// " + mark + r":end)", lambda m: m.group(1) + line + "\n" + m.group(2).lstrip("\n"), src, flags=re.S)
+    if new != src:
+        f.write_text(new)
+_rdr = (ROOT / "faery-reading-room.html").read_text()
+_mus = (ROOT / "faery-music-room.html").read_text()
+_rdr_books = _books(_rdr)
+_rdr_recs = _records(_rdr, "rdr-lp")
+_mus_recs = _records(_mus, "mus-lp")
+if len(_rdr_books) < 2 or any(not c["books"] for c in _rdr_books):
+    refuse("faery-reading-room.html's bookcases could not be read for the Reading Room's shelves on Cel Street.")
+if len(_rdr_recs) < 2 or len(_mus_recs) < 2:
+    refuse("the records on faery-reading-room.html or faery-music-room.html could not be read for their shelves on Cel Street.")
+_write_between("cel-in-faery-reading-room.js", "cel:books", "BOOKS", _rdr_books)
+_write_between("cel-in-faery-reading-room.js", "cel:records", "RECORDS", _rdr_recs)
+_write_between("cel-in-faery-music-room.js", "cel:records", "RECORDS", _mus_recs)
+
 # The World room hangs a garden for every part of the Map its directory has,
 # with that part's heading; written between cel:parts markers, never by hand.
 # Its gardens stand in pairs down both sides in three rows before the web, so a
