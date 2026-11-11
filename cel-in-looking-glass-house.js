@@ -1085,7 +1085,7 @@
       kit.cyl(0.012, 0.012, 0.03, M(KM, at(0, 0.48, 0)), '--lgh-ink', false, 8);
       kit.cyl(0.012, 0.03, 0.17, M(KM, at(0.19, 0.4, 0, 0, 0, -1.1)), '--lgh-gilt', false, 8);
       kit.piece(new T.TorusGeometry(0.11, 0.012, 6, 20, Math.PI), M(KM, at(0, 0.44, 0)), '--lgh-ink', false);
-      var kettle = kit.sound({ kind: 'kettle', pos: new T.Vector3().setFromMatrixPosition(M(KM, at(0, 0.35, 0))), say: 'Put the kettle on', stop: 'Take the kettle off',
+      var kettle = kit.sound({ kind: 'kettle', caption: 'the kettle hissing and its lid rattling', pos: new T.Vector3().setFromMatrixPosition(M(KM, at(0, 0.35, 0))), say: 'Put the kettle on', stop: 'Take the kettle off',
         at: [kit.touch(0.45, 0.6, 0.45, M(KM, at(0, 0.3, 0)))],
         said: function (on) { return on ? 'The kettle hisses on the spirit stove and its lid rattles; every so often it comes up to the whistle and sinks back, because it is always six o’clock here and it is never quite ready.' : 'The kettle comes off the flame and goes quiet.'; } });
       // The side table by the Hatter: a two-tier stand of scones and biscuits,

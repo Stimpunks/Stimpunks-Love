@@ -826,7 +826,7 @@
       // note as a bubble is, cel-sounds.js's bubbles (arithmetic, nothing
       // recorded), heard from the tube through kit.sound, pressed at its foot:
       // off until pressed, on until pressed again, off when you leave the pod.
-      var bubbling = kit.sound({ kind: 'bubbles', pos: [BX, 1.2, BZ], say: 'Switch the bubble tube’s pump on', stop: 'Switch the pump off',
+      var bubbling = kit.sound({ kind: 'bubbles', caption: 'the bubble tube’s pump humming and its bubbles rising', pos: [BX, 1.2, BZ], say: 'Switch the bubble tube’s pump on', stop: 'Switch the pump off',
         at: [kit.touch(0.5, 0.3, 0.3, at(BX, 0.15, BZ + 0.45))],
         said: function (on) { return on ? 'The pump under the tube hums and the bubbles come up through the water, each with a small note of its own.' : 'The pump stops, and the last bubbles reach the top.'; } });
 

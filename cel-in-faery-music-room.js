@@ -1374,7 +1374,7 @@
       // (arithmetic, nothing recorded), heard from the harp in the corner
       // through kit.sound: off until pressed, on until pressed again, off when
       // you leave the room.
-      var harpStir = kit.sound({ kind: 'harp', pos: new T.Vector3().setFromMatrixPosition(M(hp, at(0, 1.1, 0))), say: 'Let the harp stir', stop: 'Still the harp',
+      var harpStir = kit.sound({ kind: 'harp', caption: 'the harp, a string plucked now and then', pos: new T.Vector3().setFromMatrixPosition(M(hp, at(0, 1.1, 0))), say: 'Let the harp stir', stop: 'Still the harp',
         at: [kit.touch(0.9, 1.9, 0.8, M(hp, at(0, 0.95, 0)))],
         said: function (on) { return on ? 'A draught comes in at the window and the harp’s strings stir in it, a note here and there and now and then a run up them.' : 'The strings fall still.'; } });
       // THE TOUR (the headset round): the places in a walking order, from

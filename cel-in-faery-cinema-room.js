@@ -876,7 +876,7 @@
       // nothing recorded), heard from the box at the back through kit.sound:
       // off until pressed, on until pressed again, off when you leave. It
       // never flickers, whatever the sound says.
-      var whirr = kit.sound({ kind: 'projector', pos: [0, 6.1, -1.1], say: 'Switch the projector’s motor on', stop: 'Switch the projector’s motor off',
+      var whirr = kit.sound({ kind: 'projector', caption: 'the projector’s motor whirring and its shutter ticking', pos: [0, 6.1, -1.1], say: 'Switch the projector’s motor on', stop: 'Switch the projector’s motor off',
         at: [kit.touch(0.12, 0.26, 0.1, at(0, 6.1, -1.64))],
         said: function (on) { return on ? 'The projector hums to itself in the box, its shutter ticking twenty-four times a second, with the slow flutter of a reel that is not quite true. Its light never flickers.' : 'The motor winds down and the box is quiet.'; } });
       stops.forEach(function (st) { if (/under the projection box/.test(st.name)) st.acts = (st.acts || []).concat([whirr]); });

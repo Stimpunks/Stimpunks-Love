@@ -708,7 +708,7 @@
       kit.cyl(0.004, 0.004, 0.34, M(chM, at(0, -0.17, 0)), '--tallow-2', false, 5);
       kit.cyl(0.035, 0.035, 0.012, M(chM, at(0, -0.2, 0)), '--ember-2', false, 12);
       kit.flat(new T.PlaneGeometry(0.09, 0.12), M(chM, at(0, -0.42, 0)), '--tallow-3');
-      var chimes = kit.sound({ kind: 'chimes', pos: new T.Vector3().setFromMatrixPosition(chM), say: 'Let the wind chimes ring', stop: 'Hush the wind chimes',
+      var chimes = kit.sound({ kind: 'chimes', caption: 'wind chimes and a breeze, by the door', pos: new T.Vector3().setFromMatrixPosition(chM), say: 'Let the wind chimes ring', stop: 'Hush the wind chimes',
         at: [kit.touch(0.3, 0.7, 0.3, M(chM, at(0, -0.15, 0)))],
         said: function (on) { return on ? 'A breeze comes through the canvas, and the chimes by the door ring in it now and then, each tube its own note.' : 'The breeze drops and the chimes hang still.'; } });
       stops.push({ name: 'at the far wall, with her room’s own page on it', x: 0, z: -(R - 2.3), yaw: 0, page: kit.page, frame: frame });

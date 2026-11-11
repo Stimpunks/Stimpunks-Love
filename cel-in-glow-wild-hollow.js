@@ -796,7 +796,7 @@
       // over the sand, cel-sounds.js's sea (arithmetic, nothing recorded),
       // heard from the water past the shore through kit.sound: off until
       // pressed, on until pressed again, off when you leave the hollow.
-      var seaSound = kit.sound({ kind: 'sea', pos: [0, 0.2, EDGE - 3], say: 'Listen to the sea', stop: 'Let the sea fall quiet',
+      var seaSound = kit.sound({ kind: 'sea', caption: 'the sea coming in over the sand', pos: [0, 0.2, EDGE - 3], say: 'Listen to the sea', stop: 'Let the sea fall quiet',
         at: [kit.touch(14, 0.6, 3, at(0, 0.3, EDGE - 7))],
         said: function (on) { return on ? 'The sea comes in over the sand, wave after wave on two slow tides, each one hissing out as it breaks.' : 'The sea falls quiet.'; } });
       // Each wave a low dark ridge coming in, lit along its crest where it

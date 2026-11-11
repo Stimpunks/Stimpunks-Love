@@ -198,6 +198,38 @@ if "if (xrGlide && f && dt)" not in code or "if (xrGlide && r && dt)" not in cod
     refuse("cel-street.js no longer glides a headset only while a stick is pushed, or the panel has lost the switch to steps.")
 if "function vrHere() { return inside ? inside.vr : true; }" not in code or "if (vrHere()) { vrPanel(); return; }" not in code or "if (xrSession) xrSession.end();\n  }" not in code:
     refuse("cel-street.js can keep a headset in a room that does not say vr: true.")
+# The headset round of 2026-11-12 (Helen Edgar: "All of them"). A buzz in the
+# hand is small and short, and follows the dial; the board that reads a room's
+# page in the headset never draws a photograph with a consent record (class
+# "photo", the polaroid wall's: its record names the pages it may hang on, and
+# Cel Street is not one), and is written from the page as loaded, never from a
+# copy; the bodymind break stops nothing by itself and nothing in it moves;
+# the dial is on the panel, so nobody has to take a headset off to turn a room
+# down; the lighter picture never flaps back by itself; and a thing taken by
+# a squeeze goes home when it is let go anywhere but onto what takes it.
+_buzz = re.search(r"\bBUZZ = ([0-9.]+), BUZZ_MS = ([0-9.]+)", code)
+if not _buzz or float(_buzz.group(1)) > 0.5 or float(_buzz.group(2)) > 60:
+    refuse("cel-street.js buzzes a controller harder than half strength or longer than sixty thousandths of a second; "
+           "a press is a small, short buzz, and none at Gentle.")
+if "d.getAttribute('data-intensity') !== 'gentle' && !d.hasAttribute('data-low')" not in code:
+    refuse("cel-street.js no longer holds the controller's buzz to the dial: none at Gentle or in a low-stimulation mode, unless the panel's switch says so.")
+if "if (el.classList.contains('photo')) { add('held', READ_HELD); return; }" not in code:
+    refuse("cel-street.js's board in the headset can draw a photograph with a consent record (class \"photo\"). Its record "
+           "names the pages it may hang on, so the board says it hangs on the room's own page and only there.")
+if "where.f.contentDocument" not in code or re.search(r"readerParts\(\s*(?!doc\b)", code.split("function readerParts(doc)")[-1]):
+    refuse("cel-street.js's board in the headset is no longer written from the room's own page as it is loaded on its screen.")
+_brk = re.search(r"function breakSet\(on\) \{(.*?)\n  \}\n", code, re.S)
+if not _brk or "'I need a bodymind break" not in code or "Come back to the room" not in code:
+    refuse("cel-street.js has lost the bodymind break on the headset's panel, or its way back.")
+elif re.search(r"soundsOff\(|\.off\(|\.pause\(", _brk.group(1)):
+    refuse("cel-street.js's bodymind break in the headset stops a sound by itself; it offers to (Quiet the room's sounds), and stops nothing unasked.")
+if "lv.levels.forEach(function (key) {" not in code or "lv.set(key)" not in code:
+    refuse("cel-street.js has lost the Glitter dial on the headset's panel; a room that starts at MAX has to be turned down without taking the headset off.")
+_slow = re.search(r"function slowStep\(dt, now\) \{(.*?)\n  \}\n", code, re.S)
+if not _slow or "lighterSet(true)" not in _slow.group(1) or "lighterSet(false)" in _slow.group(1) or "!xrLightAsked" not in _slow.group(1):
+    refuse("cel-street.js's lighter picture no longer comes on once when the frames run slow, or it switches back by itself, or it overrides the panel's switch.")
+if "if (!(spot && putOn(spot, hand))) holdToggle(got, hand);" not in code:
+    refuse("cel-street.js can leave a thing floating where a squeeze let it go; it goes onto what takes it, or home.")
 if not re.search(r"'Climb up over the roofs \(high up, ' \+ ROOF \+ ' metres", code):
     refuse("cel-street.js offers the roofs in a headset without saying how high they are before the press.")
 if not re.search(r'data-cel-vr hidden', PAGE.read_text()):
