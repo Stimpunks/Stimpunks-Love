@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-11-10T12:17Z",
+  "set": "2026-11-11T12:16Z",
   "springs": [
     {
       "id": "starstuff",
@@ -73,7 +73,7 @@
           ]
         }
       ],
-      "read": "2026-11-10T12:17Z"
+      "read": "2026-11-11T12:16Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-11-10T12:17Z"
+      "read": "2026-11-11T12:16Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-11-10T12:17Z"
+      "read": "2026-11-11T12:16Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-11-10T12:17Z"
+      "read": "2026-11-11T12:16Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-11-10T12:17Z"
+      "read": "2026-11-11T12:16Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-11-10T12:17Z"
+      "read": "2026-11-11T12:16Z"
     },
     {
       "id": "love",
@@ -439,67 +439,67 @@
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
         {
-          "title": "Faery Yurt: the wings in the basket flutter",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/c4c2b0d58fc4168575b079322bc783871976c2e3",
-          "date": "2026-11-10T00:05:43Z",
-          "sha": "c4c2b0d",
+          "title": "The classroom: when the room is small",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/f1a1e2324c12de2da005b679004f4195d93aded1",
+          "date": "2026-11-11T12:09:38Z",
+          "sha": "f1a1e23",
           "by": [
             "AutisticRealms",
-            "Claude Fable 5.1"
+            "Claude Fable 5.2"
           ]
         },
         {
-          "title": "The Aerial Arbour: fluffy blankets, more cushions and beanbags",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/ddbb574bb2fddd2b134e09df6a5a98381fe1c45f",
-          "date": "2026-11-09T22:28:34Z",
-          "sha": "ddbb574",
+          "title": "The classroom for sensory avoiders and seekers, in a whole school wit…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/2e8a48b133e47e2e797fa21117127f0f031c2f82",
+          "date": "2026-11-11T12:00:23Z",
+          "sha": "2e8a48b",
+          "by": [
+            "AutisticRealms",
+            "Claude Fable 5.2"
+          ]
+        },
+        {
+          "title": "Cavendish Primary Classroom: an example for trainee teachers, on the …",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/64f49ce5ac23e031a4926844f0490d39d7b5dcba",
+          "date": "2026-11-11T11:35:23Z",
+          "sha": "64f49ce",
           "by": [
             "AutisticRealms",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Faery Yurt: rainbow fog in the looking-glass, and a spoon that stirs …",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/2c8a794fcf73cbce7107f052366112d2ff20a718",
-          "date": "2026-11-09T21:22:52Z",
-          "sha": "2c8a794",
+          "title": "A sound in every room of Helen's on Cel Street, made of arithmetic",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/c9788fa731ec41ce93b5b620cf643f67899a29a8",
+          "date": "2026-11-11T11:35:10Z",
+          "sha": "c9788fa",
+          "by": [
+            "AutisticRealms",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "The tea party's spread, and EAT ME and DRINK ME that make you tall an…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/1e418f83d0b5840bff5d2d63aa91f0ad00c95129",
+          "date": "2026-11-11T07:05:22Z",
+          "sha": "1e418f8",
           "by": [
             "AutisticRealms",
             "Claude Fable 5.1"
           ]
         },
         {
-          "title": "Faery Yurt: a contents list, the credits gathered, a phone-sized cale…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/974fae0b4057d0840c277b1c62fc80200111e524",
-          "date": "2026-11-09T08:33:59Z",
-          "sha": "974fae0",
-          "by": [
-            "AutisticRealms",
-            "Claude Fable 5.1"
-          ]
-        },
-        {
-          "title": "Faery Yurt: real wings, a swinging bell, stirred milk, mist in the gl…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/03f4b340c62315b915641291c8f4f3937c79e331",
-          "date": "2026-11-09T07:17:08Z",
-          "sha": "03f4b34",
-          "by": [
-            "AutisticRealms",
-            "Claude Fable 5.1"
-          ]
-        },
-        {
-          "title": "Faery Yurt: real skies behind the doors, a moon calendar, the Stim Ti…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/9f21af44ed43571b6de2ada7a028231203f7005e",
-          "date": "2026-11-09T06:30:30Z",
-          "sha": "9f21af4",
+          "title": "Seats for a group in every room of Helen's, every stone of her wheel …",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/cb2fa7ee1a020baffb45259cd60d113c259bd582",
+          "date": "2026-11-11T06:52:56Z",
+          "sha": "cb2fa7e",
           "by": [
             "AutisticRealms",
             "Claude Fable 5.1"
           ]
         }
       ],
-      "read": "2026-11-10T12:17Z"
+      "read": "2026-11-11T12:16Z"
     },
     {
       "id": "garden",
@@ -568,7 +568,7 @@
           "anon": true
         }
       ],
-      "read": "2026-11-10T12:17Z"
+      "read": "2026-11-11T12:16Z"
     }
   ]
 }
