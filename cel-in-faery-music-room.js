@@ -87,6 +87,25 @@
    shimmer in a headset; and the bounds keep you out of the phonograph's
    cabinet. Ours, hers to keep or send back.
 
+   HEADSET ROUND 2 (Helen Edgar, 2026-11-11, after her first real headset:
+   "do all of above"). Somewhere to sit: the chair in the dark is a seat now
+   (kit.sit), pressed in the scene or from its place, which stands you in it
+   facing the phonograph and the window with your eyes at a sitting height,
+   in a headset and on a screen, and stands you up again. Things to hold
+   (kit.hold): the record off the top of the stack by the chair, drawn as one
+   flat disc with its label on it; the cello's bow, which is one stick now,
+   its hair and frog gone with it so it goes as one thing; and the top sheet
+   of music by the chair, its staves drawn on it. Each comes to your hand in
+   a headset or in front of you on a screen, and goes back where it was on
+   a second press. Two plaques a headset can read where it shows no page:
+   by the door, her own welcome, four sentences copied exactly from the top
+   of faery-music-room.html in her Crimson Pro on her timber with a brass
+   edge; and on the phonograph's cabinet, a line of ours naming her three
+   playlists. The room's lights were counted for a standalone headset: seven
+   point lights (the chandelier, two candelabra, the portal, the sconce, the
+   door's sconce and the moon's wash), already under ten, so none was taken
+   away. Ours, in her declared colours, hers to keep or send back.
+
    THE PHONOGRAPH'S DECK AND HER THREE SHELVES OF RECORDS ARE HER PAGE'S OWN,
    lifted off it by the kit, and rack.js, the page's own script, plays them
    here as it does there; nothing reaches YouTube until a press. Each shelf
@@ -118,7 +137,7 @@
     name: 'The Music Room',
     from: 'faery-yurt.html',
     // The signs (the headset round) are lettered in her heading face.
-    faces: ['"Cormorant Garamond"'],
+    faces: ['"Cormorant Garamond"', '"Crimson Pro"'],
     build: function (kit) {
       var T = kit.THREE, at = kit.at, box = kit.box, W = 10, D = 11, H = 7.2, back = -D;
       var M = function (a, b) { return new T.Matrix4().multiplyMatrices(a, b); };
@@ -549,6 +568,14 @@
         [-0.38, 0.38].forEach(function (lz) { kit.cyl(0.035, 0.025, 0.21, M(ch, at(s * 0.42, 0.105, lz)), '--rdr-timber', false, 6); });
       });
 
+      // SIT IN THE CHAIR (headset round 2): pressed on the chair or from its
+      // place, you are in it, facing the phonograph and the window, your eyes
+      // at a sitting height; pressed again, you stand.
+      var sitChair = kit.sit({ x: 0, z: back + 6.3, yaw: 0, say: 'Sit in the chair in the dark', up: 'Stand up from the chair',
+        sat: 'You sit in the chair in the dark, facing the phonograph and the window, your eyes at a sitting height.',
+        stood: 'You stand up from the chair.',
+        at: [kit.touch(1.0, 0.7, 0.95, M(ch, at(0, 0.5, 0.02)))] });
+
       // Buttons deep in the velvet of its back, a row of brass studs along
       // the top of it, and a cushion squashed into the seat.
       for (var bt = 0; bt < 12; bt++) {
@@ -572,8 +599,20 @@
       ['--rdr-velvet', '--rdr-leather', '--rdr-ember', '--rdr-panel', '--rdr-ink-2'].forEach(function (sl, n) {
         box(0.32, 0.011, 0.32, M(stk, at((hash(n, 4, 1) - 0.5) * 0.04, 0.006 + n * 0.012, (hash(n, 4, 2) - 0.5) * 0.04, (hash(n, 4, 3) - 0.5) * 0.4)), sl, 0.003);
       });
-      kit.cyl(0.15, 0.15, 0.006, M(stk, at(0.06, 0.066, 0.04)), '--rdr-stone', false, 22);
-      kit.cyl(0.05, 0.05, 0.007, M(stk, at(0.06, 0.067, 0.04)), '--rdr-ember', false, 14);
+      // The record off the top of the stack can be picked up (headset round
+      // 2): one flat disc with its grooves and its red label drawn on it, so
+      // it goes as one thing and comes back as one.
+      var discPaper = kit.paper(256, 256, function (c, cw, chh) {
+        c.fillStyle = kit.ink('--rdr-stone'); c.beginPath(); c.arc(cw / 2, chh / 2, 126, 0, Math.PI * 2); c.fill();
+        c.strokeStyle = kit.ink('--rdr-panel'); c.lineWidth = 1;
+        for (var rg = 44; rg < 124; rg += 6) { c.beginPath(); c.arc(cw / 2, chh / 2, rg, 0, Math.PI * 2); c.stroke(); }
+        c.fillStyle = kit.ink('--rdr-ember'); c.beginPath(); c.arc(cw / 2, chh / 2, 38, 0, Math.PI * 2); c.fill();
+        c.strokeStyle = kit.ink('--rdr-brass'); c.lineWidth = 3; c.beginPath(); c.arc(cw / 2, chh / 2, 38, 0, Math.PI * 2); c.stroke();
+        c.fillStyle = kit.ink('--rdr-stone'); c.beginPath(); c.arc(cw / 2, chh / 2, 5, 0, Math.PI * 2); c.fill();
+      });
+      var loose = kit.flat(new T.CircleGeometry(0.15, 28), M(stk, at(0.06, 0.068, 0.04, 0, -Math.PI / 2)), '--rdr-ink');
+      loose.material.map = discPaper; loose.material.side = T.DoubleSide; loose.material.needsUpdate = true;
+      kit.hold(loose, { say: 'the record off the top of the stack' });
 
       // CANDELABRA standing either side, brass with three candles each, and
       // the only lights in the room besides the chandelier.
@@ -607,10 +646,14 @@
       [-0.03, -0.01, 0.01, 0.03].forEach(function (sx) { box(0.004, 1.05, 0.004, M(ce, at(sx, 1.08, 0.125)), '--rdr-brass', false); });
       [-1, 1].forEach(function (s) { box(0.012, 0.16, 0.01, M(ce, at(s * 0.13, 0.58, 0.105, 0, 0, s * 0.15)), '--rdr-stone', false); });
       // Its bow, leaning beside it: the stick, the hair, the frog.
+      // One stick (headset round 2), so it can be picked up and put back as
+      // one thing; its hair and frog went with that.
       var bow0 = v(-4.22, 0.03, back + 1.5), bow1 = v(-4.58, 1.32, back + 1.3);
-      rod(at(0, 0, 0), bow0, bow1, 0.007, '--rdr-timber', 5);
-      rod(at(0, 0, 0), bow0.clone().add(v(0.03, 0.06, 0)), bow1.clone().add(v(0.025, -0.05, 0)), 0.003, '--rdr-ink-2', 3);
-      box(0.04, 0.07, 0.03, at(-4.245, 0.12, back + 1.49, 0, 0, 0.27), '--rdr-stone', false);
+      var bowD = new T.Vector3().subVectors(bow1, bow0), bowMid = bow0.clone().add(bow1).multiplyScalar(0.5);
+      var bowG = new T.CylinderGeometry(0.006, 0.01, bowD.length(), 6);
+      bowG.applyQuaternion(new T.Quaternion().setFromUnitVectors(UP, bowD.clone().normalize()));
+      var bowMesh = kit.facets(bowG, at(bowMid.x, bowMid.y, bowMid.z), '--rdr-timber');
+      kit.hold(bowMesh, { say: 'the cello\u2019s bow' });
       var hp = at(4.05, 0, back + 1.15, -0.64);
       box(0.6, 0.1, 0.3, M(hp, at(0.02, 0.05, 0)), '--rdr-timber');
       kit.cyl(0.04, 0.045, 1.75, M(hp, at(-0.35, 0.93, 0)), '--rdr-timber', false, 8);
@@ -725,10 +768,26 @@
         var ny = 1.6 - hash(nt, 95, 1) * 0.27, nx = -0.1 + nt * 0.028;
         kit.piece(new T.SphereGeometry(0.006, 5, 4), M(ms2, at(nx, ny, 0.042 + (ny - 1.44) * 0.365)), '--rdr-stone', false);
       }
-      [[0.6, -0.3, 0.3], [0.75, -0.05, -0.2], [-0.55, 0.4, 0.8]].forEach(function (sh2, shi) {
+      [[0.75, -0.05, -0.2], [-0.55, 0.4, 0.8]].forEach(function (sh2, shi) {
         box(0.24, 0.004, 0.32, M(ch, at(sh2[0], 0.002 + shi * 0.004, sh2[1], sh2[2])), '--rdr-ink', false, false);
         for (var sl2 = 0; sl2 < 5; sl2++) box(0.18, 0.002, 0.003, M(ch, at(sh2[0], 0.005 + shi * 0.004, sh2[1] - 0.08 + sl2 * 0.04, sh2[2])), '--rdr-stone', false, false);
       });
+      // The top sheet can be picked up (headset round 2): one sheet with its
+      // staves and a few notes drawn on it.
+      var sheetPaper = kit.paper(240, 320, function (c, cw, chh) {
+        c.fillStyle = kit.ink('--rdr-ink'); c.fillRect(0, 0, cw, chh);
+        c.strokeStyle = kit.ink('--rdr-stone'); c.lineWidth = 2;
+        for (var st = 0; st < 10; st++) { var yy = 44 + st * 22 + Math.floor(st / 5) * 36; c.beginPath(); c.moveTo(28, yy); c.lineTo(cw - 28, yy); c.stroke(); }
+        c.fillStyle = kit.ink('--rdr-stone');
+        for (var nt2 = 0; nt2 < 12; nt2++) {
+          var row = nt2 < 6 ? 0 : 1, yy2 = 44 + row * (22 * 5 + 36) + Math.floor(hash(nt2, 96, 1) * 5) * 22;
+          c.beginPath(); c.ellipse(44 + (nt2 % 6) * 30, yy2, 7, 5, -0.4, 0, Math.PI * 2); c.fill();
+          c.fillRect(49 + (nt2 % 6) * 30, yy2 - 34, 2, 34);
+        }
+      });
+      var sheet = kit.flat(new T.PlaneGeometry(0.24, 0.32), M(ch, at(0.6, 0.016, -0.3, 0.3, -Math.PI / 2)), '--rdr-ink');
+      sheet.material.map = sheetPaper; sheet.material.side = T.DoubleSide; sheet.material.needsUpdate = true;
+      kit.hold(sheet, { say: 'a sheet of music' });
 
       // HER PAGE on the right-hand wall, and the deck and the three shelves of
       // records off it: the deck by the phonograph on the far wall's left, the
@@ -741,6 +800,20 @@
       sign('The Music Room', 'Helen Edgar\u2019s room: her own page hangs here', 1.6, M(pg, at(0, py + phh / 2 + 0.42, 0.03)));
       sign('The phonograph', 'her playlists play on its deck, on the shelf by the window', 0.9, M(ph, at(0, 0.5, 0.372)));
       sign('Her playlists', 'the deck under this sign plays them, on a screen', 1.2, at(-3.3, 1.75, back + 0.03));
+      // PLAQUES (headset round 2), which a headset can read where it shows no
+      // page: by the door, her own welcome, four sentences copied exactly from
+      // the top of her page, in her Crimson Pro on her timber with a brass
+      // edge; on the phonograph's cabinet, a line of ours naming her playlists.
+      kit.plaque({ lines: [
+        'If you came for the songs and not for the rest of the yurt, this is the room.',
+        'The phonograph is in here with both my playlists on it, and every song on them stands on a shelf as a record you can take out and put on.',
+        'The window is open on the night, the candles never flicker, and the raven on the sill does not mind what you play.',
+        'Nothing starts until you press it.'],
+        face: '"Crimson Pro"', ink: '--rdr-ink', ground: '--rdr-timber', edge: '--rdr-brass', w: 0.9, size: 40,
+        m: at(2.0, 1.5, -0.05, Math.PI) });
+      kit.plaque({ lines: ['Her playlists: Faery Yurt\u2019s Yarn, Strange things will happen and Symphrenia Chill, on the deck under its sign by the window, every song on its shelf as a record.'],
+        face: '"Crimson Pro"', ink: '--rdr-ink', ground: '--rdr-timber', edge: '--rdr-brass', w: 0.8, size: 40,
+        m: M(ph, at(0, 0.2, 0.372)) });
       // The deck stands on a timber shelf on the far wall, on brass brackets.
       box(1.62, 0.06, 0.3, at(-3.3, 0.57, back + 0.15), '--rdr-timber');
       [-0.62, 0.62].forEach(function (bk) { rod(at(-3.3 + bk, 0, back), v(0, 0.3, 0.02), v(0, 0.54, 0.26), 0.014, '--rdr-brass', 4); });
@@ -1050,7 +1123,7 @@
       stops.sort(function (a, b) { return rank(a) - rank(b); });
       stops.push({ name: 'at the door back to the yurt, under its sign, ivy and flowers up both sides and the two faeries on it', x: 0, z: -1.7, yaw: Math.PI, pitch: 0.1 });
       stops.forEach(function (st2) {
-        if (/^in the chair/.test(st2.name)) st2.acts = [tableCandle, turning];
+        if (/^in the chair/.test(st2.name)) st2.acts = [sitChair, tableCandle, turning];
         if (/records stacked/.test(st2.name)) st2.acts = [tableCandle];
         if (/phonograph’s deck|^over the phonograph|horn, with the moth/.test(st2.name)) st2.acts = [turning];
         if (/chandelier/.test(st2.name)) st2.acts = [candles, joinFaeries, sparkle];

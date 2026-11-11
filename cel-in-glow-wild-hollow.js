@@ -100,6 +100,24 @@
    lights the walk beside it, and the bounds are three areas, so the eye never
    goes into the slopes or the sea. Ours and hers to keep or send back.
 
+   THE SECOND HEADSET ROUND (Helen Edgar, 2026-11-11, after her first real
+   headset: "do all of above"). Somewhere to sit: the log by the bonfire,
+   facing the fire and the sea, and a flat stone on the bank among the
+   glow-worms, each a seat of the kit's (kit.sit) that puts your eyes at a
+   sitting height, in a headset and on a screen, pressable where it stands
+   and from its place. Things to pick up (kit.hold): a glowing toadstool
+   from the slope, its light going with it, a pebble from the shore and a
+   piece of foxfire wood, each coming to your hand and going back where it
+   was on a second press. Two plaques in WebGL, which a headset can read:
+   under the mushroom, the hollow's own welcome in her words, four sentences
+   copied exactly from her page's lede, lit by the foxfire wash beside it
+   and by nothing new; and at Fire, a line of ours saying the bonfire is the
+   one light not alive, her call. The hollow's lights were counted for a
+   standalone headset: eight points, the portal's fungi, the four markers'
+   foxfire, the rhizome's threads, the fire and its embers, and none was
+   added. No moon, no star, no lamp and no new flame. Ours and hers to keep
+   or send back.
+
    WHAT MOVES IS WHAT HER PAGE MOVES, AND WHAT YOU ASK FOR. Her dial says MAX
    lets the lights in the drawing breathe and the jellyfish pulse by itself,
    and nothing ever flashes. So at MAX the fireflies and the glow-worms
@@ -382,6 +400,19 @@
       }
       // The board over the way back up, and the one over her page's frame.
       board('The Faery Yurt', 'the way back up', 1.1, M(pm, at(0, PH + 0.62, 0.08)));
+      // SECOND HEADSET ROUND: her welcome, in her words, on a plaque a headset
+      // can read, standing on a post to the left of the way up, inside the
+      // reach of the fungi's wash; four sentences copied exactly from her
+      // page's lede, in the room's own face, pale on the deep water's dark
+      // with a foxfire edge.
+      var wm0 = at(-2.1, 0, 1.0, 0.6);
+      kit.cyl(0.035, 0.045, 0.9, M(wm0, at(0, 0.45, 0)), '--gwh-hill', 0.01, 7);
+      var wh0 = kit.plaque({ title: 'Glow Wild Hollow', face: '"Cormorant Garamond"', ink: '--gwh-ink', ground: '--gwh-deep', edge: '--gwh-fox', w: 0.9, size: 40,
+        m: M(wm0, at(0, 1.22, 0.03)),
+        lines: ['Down and into the rhizome, under the glowing mushroom in Helen\u2019s yurt, is a hollow at night that runs down to the sea.',
+                'There is no moon here and no lamp, and nothing is lit for you: every light belongs to something living, making it for its own reasons, all the way down through the air, the earth and the water, until the bonfire on the shore at the end.',
+                'Most of the hollow is dark, and the dark is part of it.'] });
+      box(0.96, wh0 + 0.06, 0.05, M(wm0, at(0, 1.22, -0.0)), '--gwh-hill', 0.01);
       board('Glow Wild Hollow', 'Helen Edgar\u2019s hollow: her page stands here', 1.9, M(pg, at(0, 0.3 + ph + 0.36, 0.0)));
 
       // A thing off her page, standing on the ground beside the way down,
@@ -584,9 +615,31 @@
         strings: [kit.bulbs(worms, 0.032, ['--gwh-worm'])],
         sets: [{ say: 'Yellow-green', inks: ['--gwh-worm'] }] });
       marker('Earth', 1.6, EZ0 + 0.55, -0.15);
+      // SECOND HEADSET ROUND: a flat stone on the bank among the glow-worms to
+      // sit on, facing up the slope at their lights, and things to pick up on
+      // the logs' side: a glowing toadstool, one mesh so its light goes with
+      // it, and a piece of foxfire wood, a short branch grown over with the
+      // fungus and glowing with it.
+      var bankStone = new T.DodecahedronGeometry(1, 0); bankStone.scale(0.5, 0.18, 0.4);
+      kit.piece(bankStone, at(-1.4, 0.1, -19.4, 0.4), '--gwh-hill', 0.02);
+      var bankSeat = kit.sit({ x: -1.4, z: -19.4, yaw: Math.PI / 2, say: 'Sit on the stone among the glow-worms', up: 'Stand up from the stone',
+        sat: 'You sit on the flat stone on the bank, among the glow-worms waiting at the tops of the grass.', stood: 'You stand up from the stone.',
+        at: [kit.touch(1.0, 0.5, 0.9, at(-1.4, 0.2, -19.4))] });
+      var heldStool = [];
+      heldStool.push([new T.CylinderGeometry(0.035, 0.05, 1, 6), at(0, 0.15, 0).scale(V3(0.3, 0.3, 0.3))]);
+      var heldCap = new T.SphereGeometry(0.16, 10, 5, 0, Math.PI * 2, 0, Math.PI / 2); heldCap.scale(1, 0.55, 1);
+      heldStool.push([heldCap, at(0, 0.294, 0).scale(V3(0.3, 0.3, 0.3))]);
+      kit.hold(kit.flat(merged(heldStool), at(2.3, slopeTop(2.3), -18.4), '--gwh-fox'), { say: 'a glowing toadstool' });
+      var heldWood = [];
+      heldWood.push([new T.CylinderGeometry(0.035, 0.045, 0.42, 7), at(0, 0.04, 0, 0, 0, Math.PI / 2)]);
+      for (var hw0 = 0; hw0 < 8; hw0++) {
+        var hwShelf = new T.SphereGeometry(1, 8, 4, 0, Math.PI * 2, 0, Math.PI / 2);
+        heldWood.push([hwShelf, at(-0.16 + hw0 * 0.045, 0.07, (hw0 % 2 ? 1 : -1) * 0.02).scale(V3(0.03, 0.016, 0.024))]);
+      }
+      kit.hold(kit.flat(merged(heldWood), at(2.9, slopeTop(2.9) + 0.04, -20.9, 0.5), '--gwh-fox'), { say: 'a piece of foxfire wood' });
       stops.push({ name: 'by the fallen logs, with foxfire growing in them', x: 0.4, z: -19.2, yaw: -1.0 });
       stops.push({ name: 'at the cut end of the longest log, its rings and its split, bracket fungi up its side', x: 1.4, z: -17.2, yaw: -1.35, pitch: -0.12 });
-      stops.push({ name: 'on the other slope, where glow-worms wait at the tops of the grass stems', x: -0.5, z: -18.6, yaw: 1.05, acts: [glowworms] });
+      stops.push({ name: 'on the other slope, where glow-worms wait at the tops of the grass stems', x: -0.5, z: -18.6, yaw: 1.05, acts: [glowworms, bankSeat] });
 
       // ── DOWN THROUGH THE RHIZOME ──────────────────────────────────────────
       // The fine threads fungi grow through soil and wood, glowing, wandering
@@ -849,8 +902,22 @@
       }
       solid(weed, '--gwh-deep', false);
       marker('Fire', 2.5, EDGE + 2.8, -0.35);
+      // SECOND HEADSET ROUND: the log to sit on is a seat, facing the fire and
+      // the sea past it; a pebble by the fire to pick up; and a plaque at Fire,
+      // in our words, lit by the fire, saying what this one light is.
+      var logSeat = kit.sit({ x: fx - 1.6, z: fz + 0.9, yaw: -1.06, say: 'Sit on the log by the fire', up: 'Stand up from the log',
+        sat: 'You sit on the log by the bonfire, facing the fire and the sea past it.', stood: 'You stand up from the log.',
+        at: [kit.touch(1.9, 0.5, 0.5, at(fx - 1.6, 0.2, fz + 0.9, 0.9))] });
+      var pebbleG = new T.DodecahedronGeometry(1, 0); pebbleG.scale(0.07, 0.035, 0.055);
+      kit.hold(kit.facets(pebbleG, at(fx + 0.9, 0.035, fz + 1.7, 0.7), '--gwh-hill'), { say: 'a pebble from the shore' });
+      var fm0 = at(3.4, 0, EDGE + 3.7, -0.55);
+      kit.cyl(0.035, 0.045, 0.9, M(fm0, at(0, 0.45, 0)), '--gwh-hill', 0.01, 7);
+      var fh0 = kit.plaque({ title: 'Fire', face: '"Cormorant Garamond"', ink: '--gwh-ink', ground: '--gwh-deep', edge: '--gwh-fox', w: 0.7, size: 40,
+        m: M(fm0, at(0, 1.16, 0.03)),
+        lines: ['The bonfire on the shore is the one light down here that is not alive, and the only one that lights anything round it: Helen\u2019s call.'] });
+      box(0.76, fh0 + 0.06, 0.05, M(fm0, at(0, 1.16, 0)), '--gwh-hill', 0.01);
       var firePanel = kit.lift(frame, '.hollow-panel.hollow-fire', { w: 760, ww: 2.2, m: at(-1.5, 0.12, EDGE + 0.05, 0.12) });
-      stops.push({ name: 'by the bonfire on the shore, under Fire', x: -0.6, z: EDGE + 3.2, yaw: -0.28, pitch: -0.2, frame: firePanel.el, acts: [bonfire, burn] });
+      stops.push({ name: 'by the bonfire on the shore, under Fire', x: -0.6, z: EDGE + 3.2, yaw: -0.28, pitch: -0.2, frame: firePanel.el, acts: [bonfire, burn, logSeat] });
 
       // The faeries, who fly only when asked, as her page's drift only when asked.
       var faeries = kit.drift(flyers, { say: 'Let the faeries fly', at: faerieTouch,

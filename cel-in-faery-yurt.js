@@ -97,6 +97,21 @@
    the wires of the lights are thick enough not to shimmer in a
    headset. All of it ours, in her inks, hers to keep or send back.
 
+   THE SECOND HEADSET ROUND (Helen Edgar, 2026-11-11, after her first real
+   headset: "do all of above"): the egg chair and two of the table's cushions
+   are seats (kit.sit: pressed, you sit there with your eyes at a sitting
+   height, pressed again you stand); a teacup, her moon stone, a pebble from
+   the bowl and the top book of the pile can be picked up (kit.hold: to your
+   hand in a headset, in front of you on a screen, and back where it was on a
+   second press); the bell's chime is heard from the door (kit.spatial, the
+   kit's panner on yurt-bell.js's output); her own welcome, three sentences
+   copied exactly from her page, is a plaque on the wall inside the door, and
+   a line of ours at the Alchemist's Arch says what is through it (kit.plaque,
+   lettered in her Crimson Pro), because a headset shows no page; and the
+   yurt keeps under ten point lights (four wall washes for nine, and no light
+   of a portal's own but the looking-glass's), because a standalone headset
+   pays for every light. All of it ours, in her inks, hers to keep or send back.
+
    THE BASKET OF WINGS BY HER DOOR LENDS A PAIR HERE (the same day): the room
    names its pairs (wings, below), Cel Street puts Borrow a pair of wings under
    the room's switches, the pair goes with your place to the radio and is
@@ -116,7 +131,7 @@
     name: 'The Faery Yurt',
     from: 'campgrounds.html',
     // The signs are lettered in her face, so it is loaded before building.
-    faces: ['"Cormorant Garamond"'],
+    faces: ['"Cormorant Garamond"', '"Crimson Pro"'],
     build: function (kit) {
       var T = kit.THREE, at = kit.at, box = kit.box, R = 6, H = 2.1, CROWN = 3.9, N = 28;
       var M = function (a, b) { return new T.Matrix4().multiplyMatrices(a, b); };
@@ -165,9 +180,12 @@
       // lattice catch the light rather than going to the dark of the night
       // outside: a soft wash between the things round the wall, never on
       // them, in her candle colour.
+      // Four of them since the second headset round (nine until then), each
+      // reaching further, because a standalone headset pays for every light:
+      // the yurt keeps under ten point lights now and looks the same.
       var washes = [];
-      [-160, -128, -84, -52, 8, 52, 88, 126, 160].forEach(function (deg) {
-        var wash = new T.PointLight(kit.col('--candle'), 5.5, 4.2, 1.3);
+      [-140, -50, 40, 130].forEach(function (deg) {
+        var wash = new T.PointLight(kit.col('--candle'), 7.5, 7.2, 1.3);
         washes.push(wash);
         var wa = deg * Math.PI / 180;
         wash.position.set((R - 1.3) * Math.sin(wa), 1.25, -(R - 1.3) * Math.cos(wa));
@@ -342,8 +360,9 @@
         [[-side - 0.3, 0.6, 0.8], [side + 0.3, 0.52, 1], [-side + 0.05, 0.5, 0.6], [side - 0.02, 0.62, 0.7]].forEach(function (g, gi) {
           glowcap(M(pm, at(g[0] + (hash(gi, n, 70) - 0.5) * 0.1, 0, g[1])), g[2]);
         });
-        // A candle's warmth on it.
-        if (o.lit !== false) {
+        // A light of its own only where asked (the looking-glass's moonstone):
+        // the wall washes light the rest, and a headset pays for every light.
+        if (o.lit === true) {
           var pl = new T.PointLight(kit.col(o.ink || '--candle'), 2.6, 3.4, 1.3);
           pl.position.setFromMatrixPosition(M(pm, at(0, h * 0.72, 0.7)));
           kit.scene.add(pl);
@@ -363,15 +382,20 @@
       }
       // The cups, empty until somebody pours, and the tea in them.
       var tea = [];
+      var cupHeld = null;
       [[0.22, 0.25], [0.3, -0.15], [-0.32, -0.28]].forEach(function (c, n) {
-        kit.cyl(0.05, 0.04, 0.08, at(c[0], 0.43, c[1]), ['--ember-2', '--moonstone-2', '--ivy'][n], 0.008, 10);
+        // The first cup is a mesh of its own, so it can be picked up (the
+        // second headset round); the other two are merged with the room.
+        if (n === 0) cupHeld = kit.facets(new T.CylinderGeometry(0.05, 0.04, 0.08, 12), at(c[0], 0.43, c[1]), '--ember-2');
+        else kit.cyl(0.05, 0.04, 0.08, at(c[0], 0.43, c[1]), ['--ember-2', '--moonstone-2', '--ivy'][n], 0.008, 10);
         kit.cyl(0.042, 0.042, 0.004, at(c[0], 0.468, c[1]), '--hearth', false, 10);
         var t = kit.flat(new T.CircleGeometry(0.04, 12), at(c[0], 0.462, c[1], 0, -Math.PI / 2), '--ember');
         kit.hide(t, true);
         tea.push(t);
         // Each cup's handle, turned out to the room.
-        kit.piece(new T.TorusGeometry(0.028, 0.007, 5, 10, Math.PI), at(c[0] + 0.05, 0.44, c[1], 0, 0, -Math.PI / 2), ['--ember-2', '--moonstone-2', '--ivy'][n], false);
+        if (n) kit.piece(new T.TorusGeometry(0.028, 0.007, 5, 10, Math.PI), at(c[0] + 0.05, 0.44, c[1], 0, 0, -Math.PI / 2), ['--ember-2', '--moonstone-2', '--ivy'][n], false);
       });
+      kit.hold(cupHeld, { say: 'a teacup' });
       // Her notebook, open on the table, and a quill laid across it.
       box(0.24, 0.012, 0.17, at(0.02, 0.4, 0.3, -0.3), '--tallow', false, false);
       box(0.004, 0.014, 0.17, at(0.02, 0.402, 0.3, -0.3), '--tallow-3', false, false);
@@ -575,6 +599,10 @@
       // here rings her chime under its own ceiling, and nothing rings by itself.
       kit.lift(frame, '.yurt-bell', { w: 240, ww: 0.5, m: M(round(Math.PI, R - 0.14, 0), at(-1.45, 1.05, 0)), drop: 'h3, :scope > p:not([data-yurt-bell-said])' });
       kit.wire(frame, 'yurt-bell.js');
+      // And heard from the door (the second headset round): the bell's own
+      // sound, placed where the bell hangs, through the kit's panner.
+      var bellAt = new T.Vector3().setFromMatrixPosition(M(round(Math.PI, R - 0.14, 0), at(-1.45, 1.1, 0.1)));
+      kit.spatial(function () { return window.loveYurtBell && window.loveYurtBell.output ? window.loveYurtBell.output() : null; }, bellAt);
       stops.push({ name: 'at the far wall, with her room’s own page on it', x: 0, z: -(R - 2.3), yaw: 0, page: kit.page, frame: frame });
 
       // THE BOOKCASE, to the Reading Room: a timber case and her spines.
@@ -595,7 +623,11 @@
       // Books that did not fit, stacked on the floor beside it.
       [[0.95, 0], [1.25, 0.35]].forEach(function (pile, pn) {
         for (var bb = 0; bb < 4 + pn; bb++) {
-          box(0.32 - bb * 0.02, 0.06, 0.24, M(bc, at(pile[0], 0.03 + bb * 0.062, 0.2 + pile[1], (hash(bb, pn, 5) - 0.5) * 0.5)), SPINES[(bb * 3 + pn) % SPINES.length], 0.006);
+          var bm = M(bc, at(pile[0], 0.03 + bb * 0.062, 0.2 + pile[1], (hash(bb, pn, 5) - 0.5) * 0.5)), bink = SPINES[(bb * 3 + pn) % SPINES.length];
+          // The top book of the first pile can be picked up (the second
+          // headset round): a mesh of its own.
+          if (pn === 0 && bb === 3) kit.hold(kit.facets(new T.BoxGeometry(0.32 - bb * 0.02, 0.06, 0.24), bm, bink), { say: 'the top book of the pile' });
+          else box(0.32 - bb * 0.02, 0.06, 0.24, bm, bink, 0.006);
         }
       });
       // Candles lit along the top of the case, as her page has them along
@@ -760,7 +792,11 @@
       kit.cyl(0.22, 0.22, 0.5, M(pb, at(0, 0.25, 0)), '--timber', 0.02, 12);
       var bowl = new T.SphereGeometry(0.22, 14, 8, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
       kit.piece(bowl, M(pb, at(0, 0.62, 0)), '--canvas-2', 0.02);
-      for (var q = 0; q < 5; q++) kit.piece(new T.SphereGeometry(0.05, 6, 4), M(pb, at((hash(q, 9, 1) - 0.5) * 0.2, 0.6, (hash(q, 9, 2) - 0.5) * 0.2)), q % 2 ? '--tallow-3' : '--tallow-2', false);
+      for (var q = 0; q < 5; q++) {
+        var pm2 = M(pb, at((hash(q, 9, 1) - 0.5) * 0.2, 0.6, (hash(q, 9, 2) - 0.5) * 0.2)), pink = q % 2 ? '--tallow-3' : '--tallow-2';
+        if (q === 0) kit.hold(kit.facets(new T.SphereGeometry(0.05, 8, 6), pm2, pink), { say: 'a pebble from the bowl' });
+        else kit.piece(new T.SphereGeometry(0.05, 6, 4), pm2, pink, false);
+      }
 
       // THE STOVE, with its flue up through the canvas and the fly agarics
       // round its feet, red, spotted in tallow.
@@ -847,10 +883,6 @@
         var leaf = new T.SphereGeometry(0.07, 6, 4); leaf.scale(1, 0.5, 0.3);
         kit.piece(leaf, M(ar, at(lx, ly, 0.16, 0, 0, hash(q, 3, 4) * 3)), '--ivy', false);
       }
-      // A candle's warmth just in front of the arch, so its ivy is seen.
-      var archLight = new T.PointLight(kit.col('--candle'), 3.4, 3.4, 1.3);
-      archLight.position.set((R - 1.3) * Math.sin(ARCH), 1.4, -(R - 1.3) * Math.cos(ARCH));
-      kit.scene.add(archLight);
       // Stood back from it, turned a touch away from the round door beside
       // it, so the arch is what is in front of you.
       stops.push({ name: 'at the Alchemist’s Arch, the way through to Myths and Legends', room: 'Myths & Legends', page: 'faery-myths-room.html',
@@ -882,7 +914,7 @@
         kit.piece(cr, M(gw, at(c[0], 0.75, 0.13, c[0] * 3, 0, (c[0] - 0.3) * 0.5)), c[2], 0.004);
       });
       var stone = new T.DodecahedronGeometry(0.1, 0); stone.scale(1.3, 0.8, 1);
-      kit.piece(stone, M(gw, at(0.35, 0.82, 0.14, 0.4)), '--moonstone-2', 0.015);
+      kit.hold(kit.facets(stone, M(gw, at(0.35, 0.82, 0.14, 0.4)), '--moonstone-2'), { say: 'her moon stone' });
       // The moon through her window lies on its sill and her stone.
       var glim = new T.PointLight(kit.col('--moonstone-2'), 3.2, 3.2, 1.3);
       glim.position.set((R - 1.0) * Math.sin(-38 * DEG), 1.35, -(R - 1.0) * Math.cos(-38 * DEG));
@@ -921,9 +953,9 @@
       portal(35 * DEG, 1.5, 2.0, { opening: false });
       portal(70 * DEG, 1.1, 1.6, { opening: false });
       portal(108 * DEG, 1.3, 1.95, { opening: true });
-      portal(GLASS, 1.0, 1.95, { opening: false, ink: '--moonstone-2' });
-      portal(ARCH, 1.3, 1.9, { opening: true, lit: false });
-      portal(DOOR, 1.5, 1.65, { opening: true, ink: '--ember-2' });
+      portal(GLASS, 1.0, 1.95, { opening: false, ink: '--moonstone-2', lit: true });
+      portal(ARCH, 1.3, 1.9, { opening: true });
+      portal(DOOR, 1.5, 1.65, { opening: true });
       portal(-22 * DEG, 1.1, 1.0, { opening: false });
       // And flowers and little mushrooms grown along the foot of the wall
       // between the ways, so the garden runs right round the yurt.
@@ -1017,6 +1049,43 @@
       kit.cyl(0.015, 0.015, 0.5, M(ms, at(0.62, 0.25, 0.15)), '--timber', false, 5);
       sign(M(ms, at(0.62, 0.56, 0.15, -0.25)), ['Glow Wild Hollow'], 0.7);
       sign(round(0, R - 0.5, 2.06), ['The Faery Yurt', 'Helen Edgar’s yurt: her own page hangs here'], 1.9);
+
+      // SEATS (the second headset round): the egg chair in the nook, facing
+      // the room, and two of the cushions at the low table, facing the table;
+      // pressed, you sit with your eyes at a sitting height, in a headset and
+      // on a screen, and pressed again you stand.
+      var egP = new T.Vector3().setFromMatrixPosition(eg);
+      var sitEgg = kit.sit({ x: egP.x * 0.96, z: egP.z * 0.96, yaw: Math.atan2(egP.x, egP.z), say: 'Sit in the egg chair', up: 'Get up out of the egg chair',
+        sat: 'You sink into the egg chair, the cat beside you, looking out over the yurt.', stood: 'You climb out of the egg chair.',
+        at: [kit.touch(1.3, 1.5, 1.3, M(eg, at(0, 0.95, 0)))] });
+      var sits = [sitEgg];
+      [0.3, 3.4].forEach(function (ca, n) {
+        var cx = 1.15 * Math.sin(ca), cz = 1.15 * Math.cos(ca);
+        var st = kit.sit({ x: cx * 1.15, z: cz * 1.15, yaw: Math.atan2(cx, cz), say: n ? 'Sit on the moonstone cushion' : 'Sit on the amber cushion', up: 'Get up off the cushion',
+          sat: 'You sit on the cushion at the low table, the teapot in front of you.', stood: 'You get up off the cushion.',
+          at: [kit.touch(0.9, 0.5, 0.9, at(cx, 0.2, cz))] });
+        sits.push(st);
+      });
+      stops.forEach(function (st2) {
+        if (st2.name.indexOf('in the regulation nook') === 0) st2.acts = (st2.acts || []).concat([sitEgg]);
+        if (st2.name.indexOf('at the low table') === 0) st2.acts = (st2.acts || []).concat([sits[1], sits[2]]);
+      });
+
+      // PLAQUES (the second headset round), for a headset, which shows no
+      // page: her own welcome, in her words copied exactly from her page, on
+      // the wall inside the door, and a line of ours at the Alchemist's Arch
+      // saying what is through it. Lettered in her Crimson Pro.
+      function plaqueAt(m, o) {
+        var h = kit.plaque({ title: o.title, lines: o.lines, face: '"Crimson Pro"', ink: '--candle', ground: '--tent', edge: '--timber', w: o.w, m: m, size: o.size || 40 });
+        box(o.w + 0.05, h + 0.05, 0.03, M(m, at(0, 0, -0.016)), '--timber', false);
+      }
+      plaqueAt(round(Math.PI + 24 * DEG, R - 0.2, 1.35), { title: 'The Faery Yurt', w: 0.9, lines: [
+        'This is my yurt, pitched at the edge of the woods in the campgrounds of Stimpunks.World, with a stream tracing the trees; follow the fairy lights from the treeline and you will find it.',
+        'It is always night here, the good kind of night, candles lit along the shelves and fairy lights strung low across the canvas so the whole room glows amber instead of going properly dark.',
+        'The flap of the door is always open. Come in, take your shoes off, and stay as long as you need to.',
+        'Helen'] });
+      plaqueAt(round(ARCH + 13 * DEG, R - 0.2, 1.15), { w: 0.5, size: 44, lines: [
+        'Through the arch: Myths and Legends, her room of the Stones and their sun, old books, the Crystal Wheel and the cauldron. On Cel Street it is a crystal cave.'] });
 
       // THE WALKING ORDER (the headset round): from the door, the table and
       // the crown in the middle, then round the wall to the right and back

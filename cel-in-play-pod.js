@@ -108,6 +108,17 @@
    name. It keeps nothing, sends nothing and fetches nothing; her page arrives
    through Cel Street's screen(). tools/make-cel-street.py holds each of
    those.
+
+   HEADSET ROUND 2 (Helen's ask, 2026-11-11, after her first real headset: "do
+   all of above"): three seats on kit.sit, the beanbag before the lava lamp,
+   the stool by the tray and the mats, each pressable on the seat and on its
+   place's line; three things to hold on kit.hold, a glow stick, a galaxy jar
+   and the UV torch, each a glow so it is pale in the hand with the lamp off;
+   two plaques for a headset, which shows no page, the pod's own welcome in
+   Helen's words by the door and a line of ours at the tray, each one plane
+   with a night paper and a day paper swapped by the lamp; and the lights
+   counted, five, already under a standalone headset's budget. Ours, and hers
+   to keep or send back.
    ========================================================================== */
 (function () {
   'use strict';
@@ -134,7 +145,7 @@
       var DAY = { '--ppd-pink': '--ppd-day-pink', '--ppd-green': '--ppd-day-green', '--ppd-yellow': '--ppd-day-yellow',
                   '--ppd-blue': '--ppd-day-blue', '--ppd-orange': '--ppd-day-yellow', '--ppd-uv': '--ppd-day-tube',
                   '--ppd-ink': '--ppd-day', '--ppd-line': '--ppd-day-stand', '--ppd-night': '--ppd-day-tray' };
-      var glows = [], hazes = [];
+      var glows = [], hazes = [], papers = [];
       function glow(geo, m, ink) { var mesh = kit.flat(geo, m, ink); glows.push([mesh, ink]); return mesh; }
       // A glow seen through water, or poured thinner: the same ink, fainter.
       function faint(mesh, a) {
@@ -476,10 +487,11 @@
         faint(glow(new T.CylinderGeometry(0.048, 0.044, 0.15, 14), at(gx, SY + 0.075, sz), '--ppd-blue'), a);
         faint(glow(new T.CylinderGeometry(0.052, 0.052, 0.17, 14, 1, true), at(gx, SY + 0.085, sz), '--ppd-line'), 0.35);
       });
+      var sticks = [];
       [[0.18, 1], [0.34, 0.42]].forEach(function (w, i) {
         var gx = sx + w[0];
         faint(glow(new T.CylinderGeometry(0.06, 0.055, 0.15, 14), at(gx, SY + 0.075, sz + 0.02), '--ppd-line'), 0.4);
-        faint(glow(new T.CylinderGeometry(0.012, 0.012, 0.19, 8), at(gx + 0.01, SY + 0.1, sz + 0.02, 0, 0, i ? -0.25 : 0.25), '--ppd-green'), w[1]);
+        sticks.push(faint(glow(new T.CylinderGeometry(0.012, 0.012, 0.19, 8), at(gx + 0.01, SY + 0.1, sz + 0.02, 0, 0, i ? -0.25 : 0.25), '--ppd-green'), w[1]));
       });
       stops.push({ name: 'at the stool by the tray: tonic water fading jar by jar, and glow sticks in warm water and in cold', x: sx - 0.1, z: sz + 1.9, yaw: 0.05, pitch: -0.45 });
 
@@ -501,9 +513,11 @@
         glow(new T.CylinderGeometry(0.024, 0.026, 0.06, 10), on(-0.18 + nv * 0.11, 1.06), INKS[(nv + 2) % 5]);
         kit.cyl(0.011, 0.011, 0.05, on(-0.18 + nv * 0.11, 1.115), '--ppd-line', false, 8);
       }
-      // A UV torch, the kind marked 365 nm, lying on its side, its lens lit.
-      kit.piece(new T.CylinderGeometry(0.032, 0.03, 0.24, 12), on(0.78, 1.065, 0.04).multiply(at(0, 0, 0, 0, 0, Math.PI / 2)), '--ppd-line', 0.008);
-      glow(new T.CircleGeometry(0.026, 14), on(0.9, 1.065, 0.04).multiply(at(0, 0, 0, Math.PI / 2)), '--ppd-uv');
+      // A UV torch, the kind marked 365 nm, lying on its side: one mesh, body
+      // and lens, so it can be picked up (kit.hold, below), pale with the lamp off.
+      var torch = glow(merged([[new T.CylinderGeometry(0.032, 0.03, 0.24, 12), at(0, 0, 0, 0, 0, Math.PI / 2)],
+                                [new T.CylinderGeometry(0.034, 0.034, 0.02, 12), at(0.125, 0, 0, 0, 0, Math.PI / 2)]]),
+                       on(0.78, 1.065, 0.04), '--ppd-line');
       // Galaxy jars, cotton wool and water and glowing paint in layers.
       [-1.02, -0.72].forEach(function (x, j) {
         [['--ppd-blue', 0.07], ['--ppd-uv', 0.07], ['--ppd-pink', 0.06]].forEach(function (l, k) {
@@ -850,6 +864,7 @@
         glows.forEach(function (g) { g[0].material.color.copy(kit.col(day ? DAY[g[1]] : g[1])); });
         // (By its material: the street sets every mesh's own visible by distance.)
         hazes.forEach(function (h) { h.material.visible = !day; });
+        papers.forEach(function (pp) { pp.mesh.material.map = day ? pp.day : pp.night; pp.mesh.material.needsUpdate = true; });
         nightOnly.forEach(function (m) { kit.hide(m, day); });
         dayOnly.forEach(function (m) { kit.hide(m, !day); });
         if (lampPress) lampPress.sync();
@@ -919,6 +934,77 @@
       stops.push({ name: 'at the bubble tube, its bubbles and its changing light', x: BX - 0.2, z: BZ + 1.7, yaw: -0.1, pitch: 0.2, acts: [bubblesUp, tubeLights] });
       stops.push({ name: 'on the sensory mats, their colours changing underfoot', x: 0, z: -1.35, yaw: 0, pitch: -0.75, acts: [matLights, matPick] });
       stops.push({ name: 'back at the round door, the way out to the yurt', x: 0, z: -0.9, yaw: Math.PI, pitch: 0.05, acts: [faeries] });
+      // HELEN'S HEADSET ROUND 2 (2026-11-11, after her first real headset: "do
+      // all of above"): SEATS (kit.sit, sitting eye height, in a headset and on
+      // a screen): the beanbag in front of the lava lamp, the stool by the
+      // tray, and the sensory mats, each pressable on the seat itself.
+      var sitBag = kit.sit({ x: LX2 + 1.05, z: LZ, yaw: Math.PI / 2, say: 'Sit on the beanbag', up: 'Get up off the beanbag',
+        sat: 'You sink into the beanbag, low, with the lava lamp in front of you.', stood: 'You get up off the beanbag.',
+        at: [kit.touch(1.1, 0.5, 1.0, at(LX2 + 1.05, 0.25, LZ))] });
+      var sitStool = kit.sit({ x: sx - 0.1, z: sz + 0.75, yaw: 0.05, say: 'Sit at the stool', up: 'Stand up from the stool',
+        sat: 'You sit by the stool, the tonic water and the glow sticks at eye level.', stood: 'You stand up from the stool.',
+        at: [kit.touch(0.95, 0.5, 0.46, at(sx, SY - 0.2, sz))] });
+      var sitMats = kit.sit({ x: 0, z: -1.35, yaw: 0, say: 'Sit on the mats', up: 'Stand up from the mats',
+        sat: 'You sit on the mats, their colours changing round you.', stood: 'You stand up from the mats.',
+        at: [kit.touch(0.5, 0.16, 0.5, at(0, 0.14, -1.35))] });
+      // THINGS TO HOLD (kit.hold: to your hand in a headset, in front of you
+      // on a screen, and back where it was on a second press), each a glow
+      // through glow(), so the lamp's rule holds in the hand: a glow stick
+      // from the stool, a galaxy jar from the shelf and the UV torch.
+      kit.hold(sticks[0], { say: 'a glow stick' });
+      var jar = faint(glow(merged([[new T.CylinderGeometry(0.07, 0.07, 0.2, 14), at(0, 0.1, 0)],
+                                   [new T.CylinderGeometry(0.075, 0.075, 0.03, 14), at(0, 0.215, 0)]]),
+                           on(-0.42, 1.66, 0.02), '--ppd-blue'), 0.8);
+      for (var js = 0; js < 5; js++) glow(new T.SphereGeometry(0.007, 4, 3), on(-0.42 + (hash(js, 9, 7) - 0.5) * 0.09, 1.68 + hash(js, 9, 8) * 0.15, 0.095), '--ppd-yellow');
+      kit.hold(jar, { say: 'a galaxy jar' });
+      kit.hold(torch, { say: 'the UV torch' });
+      // PLAQUES, for a headset, which shows no page: by the round door, the
+      // pod's own welcome in Helen's words, three sentences copied from her
+      // page, and at the tray a line of ours. Each is one plane with two
+      // papers, the night's (dark, glowing words, the lamp's edge) and the
+      // day's (the tray's black with pale words), swapped by the lamp's
+      // follow, so a plaque keeps the lamp's rule like everything else.
+      function paperOf(title, lines, small, ground, ink, edge, pw2) {
+        var size = 40, pad = 56, rows = [];
+        var probe = kit.paper(8, 8, function () {});
+        var g0 = probe.image.getContext('2d'); g0.font = size + 'px "Andika"';
+        lines.forEach(function (line) {
+          var cur = '';
+          line.split(/\s+/).forEach(function (wd) {
+            var t = cur ? cur + ' ' + wd : wd;
+            if (g0.measureText(t).width > pw2 - pad * 2 && cur) { rows.push(cur); cur = wd; } else cur = t;
+          });
+          rows.push(cur);
+        });
+        var th = title ? 100 : 0, ph2 = pad * 2 + th + rows.length * 52 + (small ? 50 : 0);
+        return { h: ph2, map: kit.paper(pw2, ph2, function (c) {
+          c.fillStyle = kit.ink(ground); c.fillRect(0, 0, pw2, ph2);
+          c.strokeStyle = kit.ink(edge); c.lineWidth = 10; c.strokeRect(8, 8, pw2 - 16, ph2 - 16);
+          c.fillStyle = kit.ink(ink); c.textAlign = 'left'; c.textBaseline = 'top';
+          var y = pad;
+          if (title) { c.font = 'bold 72px "Grandstander"'; c.fillText(title, pad, y); y += th; }
+          c.font = size + 'px "Andika"';
+          rows.forEach(function (r) { c.fillText(r, pad, y); y += 52; });
+          if (small) { c.font = '30px "Andika"'; c.fillText(small, pad, y + 10); }
+        }) };
+      }
+      function plaque(title, lines, small, w, m) {
+        var night = paperOf(title, lines, small, '--ppd-tray', '--ppd-ink', '--ppd-uv', 1100);
+        var day = paperOf(title, lines, small, '--ppd-day-tray', '--ppd-day', '--ppd-day-stand', 1100);
+        var h = w * night.h / 1100;
+        var mesh = kit.flat(new T.PlaneGeometry(w, h), m, '--ppd-ink');
+        mesh.material.color.setScalar(1);
+        mesh.material.map = night.map; mesh.material.needsUpdate = true;
+        papers.push({ mesh: mesh, night: night.map, day: day.map });
+        box(w + 0.06, h + 0.06, 0.03, M(m, at(0, 0, -0.02)), '--ppd-line', 0.006);
+        return h;
+      }
+      plaque('The Play Pod',
+        ['This is my sensory play pod. I have gathered ideas here for families, for glow play under a UV lamp, messy play, mark making and tuff trays, and every idea says who shared it. The photographs are real ones: mine from my own yurt, and the rest from people who have shared theirs for anybody to use.'],
+        'Helen Edgar\u2019s words, from her page.', 0.9, M(pm, at(1.45, 1.35, 0.1)));
+      plaque(null, ['Everything in the tray glows only while the UV lamp is on. Switch it off and it is a black tray of pale paint.'],
+        null, 0.7, at(-(TR + 0.5), 0.74, tz + 0.5, -0.3));
+
       // THE WALKING ORDER (the same ask): the controller's bumpers and the
       // places list go from the door round the pod and back to the door.
       var ORDER = ['just through the round door', 'on the sensory mats', 'at the low table', 'at the drawings', 'sitting in front of the big lava lamp',
@@ -935,6 +1021,9 @@
         if (/shelf of paints/.test(st.name)) st.acts = [stir];
         if (/low table/.test(st.name)) st.acts = [bags];
         if (/messy play mat/.test(st.name)) st.acts = [squeeze];
+        if (/big lava lamp/.test(st.name)) st.acts = (st.acts || []).concat([sitBag]);
+        if (/at the stool/.test(st.name)) st.acts = (st.acts || []).concat([sitStool]);
+        if (/sensory mats/.test(st.name)) st.acts = (st.acts || []).concat([sitMats]);
       });
 
       return {

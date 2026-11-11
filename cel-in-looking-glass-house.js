@@ -72,6 +72,20 @@
    than a hair, because a hairline shimmers in a headset. Ours, and hers to
    keep or send back.
 
+   THE HEADSET'S SECOND ROUND (Helen Edgar, 2026-11-11, after her first real
+   headset, "do all of above"): two chairs, one by the reading stand facing
+   the squares and one by the mantelpiece, that seat you (kit.sit: your eyes
+   at a sitting height, pressed on the chair or at its stop, pressed again to
+   stand); three things to pick up and put back (kit.hold): a spare White
+   Pawn at the board's foot, a gilt circlet on the mantelshelf, and one of the
+   pinned cards on the cork; and two plaques for a headset, which shows no
+   page: her own first lines by the glass, copied exactly from her page, dark
+   on her paper, and a line of ours under the book on the mantelpiece saying
+   the Jabberwocky verse is drawn reversed and reads the right way to a screen
+   reader. The room already had one point light and two wide ones, under the
+   ten a standalone headset keeps up with, so none was cut. Ours, and hers to
+   keep or send back.
+
    WHAT MOVES IS WHAT HER PAGE MOVES, AND WHAT YOU ASK FOR. Her page says MAX
    lets the candles in the glass glint, slowly, so here the candle points
    glint by themselves at MAX and when asked; the faeries fly round the glass
@@ -505,6 +519,23 @@
       });
       kit.wire(frame, 'looking-glass-house.js');
 
+      // A CHAIR to sit in (Helen's headset round): a plain cork-wood chair
+      // with a cushion of her paper, its seat at knee height.
+      function chair(m) {
+        box(0.5, 0.05, 0.5, M(m, at(0, 0.45, 0)), '--lgh-cork-2', 0.01);
+        box(0.46, 0.05, 0.46, M(m, at(0, 0.5, 0)), '--lgh-card', false, false);
+        box(0.5, 0.55, 0.05, M(m, at(0, 0.75, -0.225)), '--lgh-cork-2', 0.01);
+        box(0.5, 0.04, 0.05, M(m, at(0, 1.0, -0.225)), '--lgh-gilt-2', false, false);
+        [[-0.21, -0.21], [0.21, -0.21], [-0.21, 0.21], [0.21, 0.21]].forEach(function (lg) { kit.cyl(0.025, 0.03, 0.45, M(m, at(lg[0], 0.225, lg[1])), '--lgh-cork-2', false, 8); });
+      }
+      // By the reading stand, facing the squares; by the mantelpiece, facing the hearth.
+      var ch1 = at(-1.95, 0, -4.55, 0.95), ch2 = at(2.75, 0, -5.5, RIGHT);
+      chair(ch1); chair(ch2);
+      var sitStand = kit.sit({ x: -1.95, z: -4.55, yaw: 0.95, say: 'Sit in the chair by the reading stand', sat: 'You sit by the reading stand, the eight squares in front of you.',
+        at: [kit.touch(0.55, 0.6, 0.55, M(ch1, at(0, 0.5, 0)))] });
+      var sitHearth = kit.sit({ x: 2.75, z: -5.5, yaw: RIGHT, say: 'Sit by the mantelpiece', sat: 'You sit by the cold hearth, the three things on the shelf above you.',
+        at: [kit.touch(0.55, 0.6, 0.55, M(ch2, at(0, 0.5, 0)))] });
+
       // THE MANTELPIECE on the right-hand wall: a cold hearth with nothing
       // burning in it, and on its shelf the three things Alice finds on the
       // other side of the glass, lifted off her page.
@@ -541,6 +572,25 @@
       kit.piece(ash, M(fm, at(0, 0.05, 0.3)), '--lgh-ink-2', false);
       box(2.4, 0.08, 0.04, M(fm, at(0, 0.04, 0.5)), '--lgh-gilt', false, false);
       sign('The mantelpiece: book, glass and clock', M(fm, at(0, 2.3, 0.03)), { small: true });
+      // THINGS TO PICK UP (Helen's headset round), each one mesh so it comes
+      // whole to the hand: a spare White Pawn at the board's foot, turned on a
+      // lathe; a gilt circlet, a crown without its points, on the shelf by
+      // the clock; and one more card pinned to the cork, below the rest.
+      var profile = [];
+      [[0.11, 0], [0.11, 0.03], [0.05, 0.05], [0.04, 0.14], [0.065, 0.17], [0.03, 0.19], [0.06, 0.24], [0.045, 0.28], [0, 0.29]].forEach(function (pt) { profile.push(new T.Vector2(pt[0], pt[1])); });
+      kit.hold(kit.facets(new T.LatheGeometry(profile, 18), at(fileX + 0.62, 0, BZ + 0.32), '--lgh-pawn'), { say: 'the spare White Pawn' });
+      kit.hold(kit.facets(new T.CylinderGeometry(0.075, 0.07, 0.06, 8, 1, true), M(fm, at(0.78, 1.5, 0.18)), '--lgh-gilt-2'), { say: 'the gilt circlet' });
+      var card = kit.facets(new T.BoxGeometry(0.5, 0.38, 0.008), M(bm, at(1.2, 0.95, 0.09, 0, 0, 0.08)), '--lgh-card');
+      kit.hold(card, { say: 'a pinned card' });
+      kit.piece(new T.SphereGeometry(0.018, 8, 6), M(bm, at(1.2, 1.12, 0.1)), '--lgh-red', false);
+      // PLAQUES for a headset, which shows no page: her own first lines by the
+      // glass, copied exactly from her page; and under the book, a line of ours.
+      kit.plaque({ face: '"Source Serif 4"', ink: '--lgh-ink', ground: '--lgh-card', edge: '--lgh-gilt', w: 0.9, size: 40,
+        m: M(gm, at(-2.55, 1.15, 0.03)),
+        lines: ['There is a looking-glass hanging in my yurt where the other rooms have wooden doors, and this is the other side of it. Everything you could see from the yurt is in here, back to front: the lattice, the lights, the candle. My yurt reads pale on dark; in here the glass gives it back dark on pale.'] });
+      kit.plaque({ face: '"Source Serif 4"', ink: '--lgh-ink-2', ground: '--lgh-card', edge: '--lgh-gilt-2', w: 0.7, size: 38,
+        m: M(fm, at(-1.25, 0.95, 0.27)),
+        lines: ['The Jabberwocky verse in the book above is drawn the wrong way round, as Alice first saw it. The words are the real ones, only reversed, so a screen reader hears them the right way.'] });
       var toyBook = kit.lift(frame, '.lgh-toy.lgh-toy--book', { w: 420, ww: 1.05, m: M(fm, at(-1.25, 1.45, 0.3)) });
       var toyPane = kit.lift(frame, '.lgh-toy.lgh-toy--pane', { w: 420, ww: 1.05, m: M(fm, at(0, 1.45, 0.3)) });
       var toyClock = kit.lift(frame, '.lgh-toy.lgh-toy--clock', { w: 380, ww: 0.95, m: M(fm, at(1.25, 1.45, 0.3)) });
@@ -605,6 +655,8 @@
         if (/looking back at the glass/.test(st.name)) st.acts = [faeries, glinting];
         if (/just through the glass/.test(st.name)) st.acts = [faeries, glinting];
         if (/game|board, by Alice/.test(st.name)) st.acts = [moveAlice, backAgain];
+        if (/reading stand/.test(st.name)) st.acts = [sitStand];
+        if (/mantelpiece: the/.test(st.name)) st.acts = [sitHearth];
       });
       // THE STOPS IN A WALKING ORDER (Helen's ask, 2026-11-11, for a headset
       // and a controller, whose bumpers walk them): in through the glass, the

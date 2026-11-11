@@ -24,7 +24,7 @@
   var said = box.querySelector('[data-yurt-bell-said]');
   var art = box.querySelector('.yurt-bell__art');
   if (!btn || !said) return;
-  var ctx = null, timer = 0;
+  var master = null, ctx = null, timer = 0;
   function gentle() { return document.documentElement.getAttribute('data-intensity') === 'gentle'; }
   // Four quick strikes, a jingle, each a small bell of three sine partials
   // (Helen, 2026-11-09: "sway and jingle more"), ringing out over about two
@@ -52,7 +52,10 @@
       out.gain.setValueAtTime(MAX_GAIN, t);
       out.gain.setValueAtTime(MAX_GAIN, t + 2.0);
       out.gain.exponentialRampToValueAtTime(0.001, t + 3.2);
-      out.connect(ctx.destination);
+      // Through one master, so the room on Cel Street can place the bell at
+      // the door (window.loveYurtBell.output(), the kit's panner).
+      if (!master) { master = ctx.createGain(); master.connect(ctx.destination); }
+      out.connect(master);
       STRIKES.forEach(function (st) { strike(ctx, out, t + st[0], st[1], st[2]); });
     } catch (e) { /* no audio here; the words still say it rang */ }
     said.textContent = 'Ting-a-ling. The bell rang, and the yurt knows you are here.';
@@ -66,7 +69,8 @@
   }
   btn.hidden = false;
   btn.addEventListener('click', ring);
-  window.loveYurtBell = { ring: ring };
+  function output() { return ctx && master ? { ctx: ctx, node: master } : null; }
+  window.loveYurtBell = { ring: ring, output: output };
 })();
 
 /* THE SAUCER OF MILK: Stir the milk takes the spoon twice round the saucer,

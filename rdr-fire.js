@@ -14,7 +14,7 @@
    MIT, like every top-level script here. */
 (function () {
   'use strict';
-  var MAX_GAIN = 0.2, SECONDS = 12, ctx = null, src = null, gain = null, buffer = null;
+  var MAX_GAIN = 0.2, SECONDS = 12, ctx = null, src = null, gain = null, buffer = null, master = null;
   function hash(i, j) {
     var n = Math.imul(i + 17, 374761393) ^ Math.imul(j + 29, 668265263);
     n = Math.imul(n ^ (n >>> 13), 1274126177);
@@ -56,9 +56,10 @@
       if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
       if (ctx.state === 'suspended') ctx.resume();
       if (!buffer) { buffer = ctx.createBuffer(1, Math.floor(ctx.sampleRate * SECONDS), ctx.sampleRate); buffer.copyToChannel(draw(ctx.sampleRate), 0); }
+      if (!master) { master = ctx.createGain(); master.connect(ctx.destination); }
       gain = ctx.createGain(); gain.gain.value = MAX_GAIN * 0.85;
       src = ctx.createBufferSource(); src.buffer = buffer; src.loop = true;
-      src.connect(gain); gain.connect(ctx.destination);
+      src.connect(gain); gain.connect(master);
       src.start();
       return true;
     } catch (e) { src = null; return false; }
@@ -70,7 +71,10 @@
   }
   function playing() { return !!src; }
   function toggle() { if (src) { off(); return false; } return on(); }
-  window.loveFire = { on: on, off: off, toggle: toggle, playing: playing };
+  // The room on Cel Street places this sound in the hearth: its output, once
+  // the fire has been lit, for the kit's panner.
+  function output() { return ctx && master ? { ctx: ctx, node: master } : null; }
+  window.loveFire = { on: on, off: off, toggle: toggle, playing: playing, output: output };
   window.addEventListener('pagehide', off);
 
   // THE FILM OF THE FIRE (Helen's ask, 2026-11-11, "i need a real fire video"):

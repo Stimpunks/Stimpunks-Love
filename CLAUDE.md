@@ -1817,7 +1817,18 @@ rise, with `back` for wax, scaling to nothing at the ends for a bubble, period f
 for suggestions, then "commit all your suggested edits"): every way through and every page's frame carries a lettered
 WebGL sign (`kit.paper` and `kit.sheet`, the room naming its `faces`), the stops are a walking order the controller's
 bumpers follow, every switch has a `kit.touch`, thin things are thickened, bounds keep the eye out of walls. The
-friendly edits are a sign copying a sentence of her page, and a tour that skips the way back. The
+friendly edits are a sign copying a sentence of her page, and a tour that skips the way back. **Then, after her first real headset ("do all of above")**: the vignette while a stick glides (`vignette` on the camera),
+`xrSeat` (Sit down and a little lower or higher on the panel, and a room's `kit.sit`), `xrStep` (the snap turn's size),
+Put me back at the way in, `xrVoice` (places read aloud in the headset only, `voice()` from `tell()`), the guided walk
+(`xrTour`, `tourStep` in the headset's frames, a moment of dark between places, never a glide, ended by any press or
+stick), the floor's sagging rope and ring, passthrough (`openXR('immersive-ar')`, the sky and background put away and
+`setClearAlpha(0)`, restored on end; `[data-cel-ar]` ships hidden like Enter VR), foveation, and four kit calls: `hold`
+(a facets/flat mesh carried by `carry()` from the hand or the camera, home on a second press), `sit`, `spatial` (a panner
+between a page script's `output()` and the speakers, `ears()` moving the listener every frame; `rdr-fire.js` and
+`yurt-bell.js` route through one master gain and expose `output()`), and `plaque` (wrapped words on a sheet). Leaving a
+room or the headset stands you up and stops the walk and the voice. The friendly edits are **a glide to a place "since
+the vignette makes it safe"** (the tool still refuses it), **the voice on outside the headset**, **a held thing dropped
+where it is** (left floating), and **a wave sent over the radio** without the privacy page saying so first. The
 friendly edits are **faeries flying by themselves at MAX "because the fairy lights twinkle at MAX"** (her page's faeries
 never do), **a faerie drawn from a photograph**, and **one portal drawing for every room**, which is the subroom excuse
 with ivy on it.

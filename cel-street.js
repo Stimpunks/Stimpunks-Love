@@ -1090,16 +1090,82 @@ function start() {
   function place() {
     // In a headset you stand on the floor and the headset says where your
     // head is: what moves is where your feet stand and which way they face.
-    if (xrOn) { dolly.position.set(me.x, up ? ROOF - EYE : 0, me.z); dolly.rotation.set(0, me.yaw, 0); dolly.updateMatrixWorld(true); }
+    if (xrOn) { dolly.position.set(me.x, (up ? ROOF - EYE : 0) - xrSeat, me.z); dolly.rotation.set(0, me.yaw, 0); dolly.updateMatrixWorld(true); }
     else {
-      camera.position.set(me.x, up ? ROOF : EYE, me.z);
+      camera.position.set(me.x, (up ? ROOF : EYE) - xrSeat, me.z);
       camera.rotation.set(me.pitch, me.yaw, 0, 'YXZ');
+      camera.updateMatrixWorld(true);
     }
+    carry(); ears();
     skyGroup.position.set(me.x, 0, me.z - 6);
     sun.position.set(me.x + SUN.x, SUN.y, me.z + SUN.z);
     sun.target.position.set(me.x, 0, me.z - 12);
     sun.target.updateMatrixWorld();
     for (var i = 0; i < far.length; i++) far[i].o.visible = !far[i].o.userData.hidden && Math.abs(far[i].z - me.z) < VIEW + CHUNK / 2;
+  }
+  // A THING YOU CAN PICK UP (kit.hold, Helen's headset round): pressed, it
+  // comes to your hand in a headset, or to just in front of you on a screen,
+  // and pressed again it goes back where it came from, so nothing is ever
+  // left floating. Carried every frame from where your hand or your eyes are.
+  var HOLD = new THREE.Matrix4().makeTranslation(0, -0.12, -0.45), HOLD_VR = new THREE.Matrix4().makeTranslation(0, 0, -0.12);
+  function carry() {
+    var hs = scene.userData.holds || [];
+    for (var i = 0; i < hs.length; i++) {
+      var h = hs[i].userData.hold;
+      if (!h || !h.by) continue;
+      if (h.by === 'screen') hs[i].matrix.copy(camera.matrixWorld).multiply(HOLD);
+      else hs[i].matrix.copy(h.by.matrixWorld).multiply(HOLD_VR);
+      hs[i].matrixWorldNeedsUpdate = true;
+    }
+  }
+  function holdToggle(mesh, by) {
+    var h = mesh.userData.hold;
+    if (h.by) { h.by = null; mesh.matrix.copy(h.home); mesh.matrixWorldNeedsUpdate = true; ctlSay((h.say || 'It') + ' goes back where it was.'); }
+    else { h.by = by; ctlSay('You pick up ' + (h.say || 'it') + '; press it again to put it back.'); }
+    draw();
+  }
+  // A SOUND WITH A PLACE (kit.spatial): a room's own sound, made by its page's
+  // script (the Reading Room's crackle, the yurt's bell), is heard from where
+  // its thing stands, through a panner between the script's output and the
+  // speakers, with your ears where your head is, every frame. The script
+  // hands over its output only once it has made its sound, so each is asked
+  // for until it answers. Nothing is fetched; it is the same arithmetic.
+  var EAR = new THREE.Vector3(), EAR_F = new THREE.Vector3(), EAR_Q = new THREE.Quaternion();
+  function ears() {
+    var ss = scene.userData.spatials || [];
+    if (!ss.length) return;
+    if (xrOn) { camera.getWorldPosition(EAR); camera.getWorldQuaternion(EAR_Q); EAR_F.set(0, 0, -1).applyQuaternion(EAR_Q); }
+    else { EAR.set(me.x, EYE - xrSeat, me.z); EAR_F.set(-Math.sin(me.yaw) * Math.cos(me.pitch), Math.sin(me.pitch), -Math.cos(me.yaw) * Math.cos(me.pitch)); }
+    for (var i = 0; i < ss.length; i++) {
+      var sp = ss[i];
+      if (!sp.panner) {
+        var o = null;
+        try { o = sp.get(); } catch (e) { o = null; }
+        if (!o || !o.ctx || !o.node) continue;
+        try {
+          var pn = o.ctx.createPanner();
+          pn.panningModel = 'HRTF'; pn.distanceModel = 'inverse'; pn.refDistance = 1; pn.maxDistance = 30; pn.rolloffFactor = 1;
+          if (pn.positionX) { pn.positionX.value = sp.pos.x; pn.positionY.value = sp.pos.y; pn.positionZ.value = sp.pos.z; }
+          else pn.setPosition(sp.pos.x, sp.pos.y, sp.pos.z);
+          o.node.disconnect(); o.node.connect(pn); pn.connect(o.ctx.destination);
+          sp.panner = pn; sp.ctx = o.ctx;
+        } catch (e) { continue; }
+      }
+      var l = sp.ctx.listener;
+      try {
+        if (l.positionX) {
+          l.positionX.value = EAR.x; l.positionY.value = EAR.y; l.positionZ.value = EAR.z;
+          l.forwardX.value = EAR_F.x; l.forwardY.value = EAR_F.y; l.forwardZ.value = EAR_F.z;
+          l.upX.value = 0; l.upY.value = 1; l.upZ.value = 0;
+        } else { l.setPosition(EAR.x, EAR.y, EAR.z); l.setOrientation(EAR_F.x, EAR_F.y, EAR_F.z, 0, 1, 0); }
+      } catch (e) { /* an old browser */ }
+    }
+  }
+  // Each place read aloud as you arrive, in a headset only, where the words
+  // under the stage cannot be read; the panel switches it off.
+  function voice(words) {
+    if (!xrOn || !xrVoice || !('speechSynthesis' in window)) return;
+    try { window.speechSynthesis.cancel(); window.speechSynthesis.speak(new SpeechSynthesisUtterance(words)); } catch (e) { /* no voice here */ }
   }
   // A page or a thing lifted off one is laid over the picture, so no wall
   // can hide it: one that belongs to a part of a room (inside a cabin, behind
@@ -1243,6 +1309,7 @@ function start() {
       : up ? 'Up over the roofs, looking down on the solar panels.' : s ? 'In front of ' + s.name + '.' : 'Out on Cel Street, in the sun.';
     if (words === said) return;
     said = words;
+    voice(s ? (s.where || s.name) : words);
     if (xrOn) vrPanel();
     hereEl.textContent = words + ' ';
     if (s && ROOMS[s.page] && !(inside && s.page === inside.page)) {
@@ -1511,6 +1578,67 @@ function start() {
         (o.at || []).forEach(function (hb) { hb.userData.act = sw; });
         return sw;
       },
+      // hold(mesh, { say }): a thing you can pick up (Helen's headset round):
+      // a kit.facets or kit.flat mesh, drawn where it lives; pressed, it comes
+      // to your hand in a headset or to just in front of you on a screen, and
+      // pressed again it goes back where it was.
+      hold: function (mesh, o) {
+        mesh.userData.hold = { home: mesh.matrix.clone(), say: o && o.say, by: null };
+        hits.push(mesh);
+        (home.userData.holds = home.userData.holds || []).push(mesh);
+        return mesh;
+      },
+      // sit({ x, z, yaw, say, up, at }): somewhere to sit: pressed, you are
+      // stood there facing that way with your eyes at a sitting height, in a
+      // headset and on a screen, and pressed again you stand. One seat at a
+      // time; leaving the room stands you up.
+      sit: function (o) {
+        var self = this;
+        return self.press({ say: function () { return seated === o ? (o.up || 'Stand up') : (o.say || 'Sit down'); }, at: o.at,
+          press: function () {
+            if (seated === o) { seated = null; xrSeat = 0; place(); vrPanelPlace(); return o.stood || 'You stand up.'; }
+            seated = o; xrSeat = SEAT;
+            if (xrOn) footFor(o.x, o.z, o.yaw - headLocal().yaw); else { me.x = o.x; me.z = o.z; me.yaw = o.yaw; }
+            place(); vrPanelPlace();
+            return o.sat || 'You sit down.';
+          } });
+      },
+      // spatial(get, pos): a sound heard from pos ([x, y, z] or a Vector3): get()
+      // returns { ctx, node } once the page's script has its output (window.loveFire.output(),
+      // window.loveYurtBell.output()), or nothing yet.
+      spatial: function (get, pos) {
+        var v = pos && pos.isVector3 ? pos.clone() : new THREE.Vector3(pos[0], pos[1], pos[2]);
+        (home.userData.spatials = home.userData.spatials || []).push({ get: get, pos: v, panner: null, ctx: null });
+      },
+      // plaque({ title, lines, face, ink, ground, edge, w, m, size }): a board of
+      // words in WebGL, wrapped to its width, for a headset, which shows no
+      // page; returns its height in the world.
+      plaque: function (o) {
+        var pw = 1024, size = o.size || 42, face = o.face || 'sans-serif', pad = 48, rows = [];
+        var probe = document.createElement('canvas').getContext('2d');
+        probe.font = size + 'px ' + face;
+        (o.lines || []).forEach(function (line) {
+          var cur = '';
+          String(line).split(/\s+/).forEach(function (wd) {
+            var t = cur ? cur + ' ' + wd : wd;
+            if (probe.measureText(t).width > pw - pad * 2 && cur) { rows.push(cur); cur = wd; } else cur = t;
+          });
+          rows.push(cur);
+        });
+        var th = o.title ? Math.round(size * 1.5) + 18 : 0, ph = pad * 2 + th + rows.length * Math.round(size * 1.3);
+        var map = tex(pw, ph, function (g) {
+          g.fillStyle = css(o.ground); g.fillRect(0, 0, pw, ph);
+          if (o.edge) { g.strokeStyle = css(o.edge); g.lineWidth = 10; g.strokeRect(5, 5, pw - 10, ph - 10); }
+          g.fillStyle = css(o.ink); g.textBaseline = 'top'; g.textAlign = 'left';
+          var y = pad;
+          if (o.title) { g.font = '700 ' + Math.round(size * 1.5) + 'px ' + face; g.fillText(o.title, pad, y); y += th; }
+          g.font = size + 'px ' + face;
+          rows.forEach(function (r) { g.fillText(r, pad, y); y += Math.round(size * 1.3); });
+        });
+        var h = o.w * ph / pw;
+        this.sheet(map, o.w, h, o.m);
+        return h;
+      },
       // bulbs(points, r, inks): a string of little glass bulbs at points
       // ([x, y, z]), coloured in turn from inks, one mesh however many.
       bulbs: function (points, r, inks) {
@@ -1750,6 +1878,7 @@ function start() {
           } });
       }
       bake();
+      xrSeat = 0; seated = null; xrTour = 0;
       inside = { page: page, name: name, vr: !!made.vr };
       // A room that starts at a level of its own (Helen's yurt at MAX GLITTER,
       // 2026-11-11): love.js decides, honouring a dial the visitor has set and
@@ -2407,6 +2536,7 @@ function start() {
     ray.setFromCamera(ndc, camera);
     var hit = ray.intersectObjects(hits, false)[0];
     // A thing a room lets you press is pressed; anything else stands you there.
+    if (hit && hit.object.userData.hold) { holdToggle(hit.object, 'screen'); return; }
     if (hit && hit.object.userData.act) hit.object.userData.act.go();
     else if (hit) standAt(stops[hit.object.userData.stop]);
     stage.focus({ preventScroll: true });
@@ -2688,6 +2818,19 @@ function start() {
   // over, about a fifth of a turn: slow, because turning is the most
   // sickening way to be moved. With gliding off, a stick steps you round.
   var VR_WALK = 1.4, VR_TURN = 1.2, xrGlide = true, xrGoing = false, xrPrev = 0, xrWhy = '';
+  // HELEN EDGAR'S HEADSET ROUND (2026-11-11, after her first real headset:
+  // "do all of above"): xrStep is the snap turn, a twelfth, an eighth or a
+  // quarter of the way round; xrSeat how far below standing eye height you
+  // sit (the panel's Sit down, or a room's kit.sit); xrVoice whether each
+  // place is read aloud as you arrive, in the headset only; xrTour the guided
+  // walk's next place, 0 when not walking; xrDim a moment of dark the walk
+  // puts between places; vignette the ring that darkens the edges of the view
+  // while a stick glides you, which is what keeps a glide from turning a
+  // stomach; xrMode VR or passthrough. SEAT is a sitting eye height below
+  // standing, TOUR_EVERY the walk's pace.
+  var xrStep = STEP_TURN, xrSeat = 0, xrVoice = true, xrTour = 0, xrTourAt = 0, xrDim = 0, vignette = null, xrMode = 'immersive-vr', arCan = false, xrSky = null;
+  var SEAT = 0.55, TOUR_EVERY = 7000, seated = null;
+  var arBtn = document.querySelector('[data-cel-ar]');
   // Whether where you are now can be shown in a headset: the street can, and
   // a room only when its file says vr: true.
   function vrHere() { return inside ? inside.vr : true; }
@@ -2703,6 +2846,7 @@ function start() {
   }
   function vrOffer() {
     if (vrBtn) vrBtn.hidden = !(xrCan && vrHere()) && !xrOn;
+    if (arBtn) arBtn.hidden = !(arCan && vrHere()) || xrOn;
     if (!xrOn) return;
     panelWords = '';
     if (vrHere()) { vrPanel(); return; }
@@ -2790,6 +2934,16 @@ function start() {
         go: function () { act('climb'); place(); vrPanelPlace(); tell(); vrTell(up ? 'Up over the roofs, looking down on the solar panels. One press brings you back down.' : 'Back down on the street.'); } });
       items.push({ words: xrGlide ? 'Gliding with the sticks: switch to steps' : 'Steps: switch to gliding with the sticks', pressed: !xrGlide,
         go: function () { xrGlide = !xrGlide; vrTell(xrGlide ? 'Gliding: push a stick forward or back to walk, or sideways to turn.' : 'Steps: a stick turns you a twelfth of the way round at a time; point and press to move.'); } });
+      items.push({ words: xrSeat ? 'Stand up' : 'Sit down where you are (eyes at a sitting height)', pressed: !!xrSeat,
+        go: function () { xrSeat = xrSeat ? 0 : SEAT; seated = null; place(); vrPanelPlace(); vrTell(xrSeat ? 'Sitting: your eyes are at a sitting height. Stand up puts them back.' : 'Standing again.'); } });
+      items.push({ words: 'A little lower', go: function () { xrSeat = Math.min(1.0, xrSeat + 0.08); place(); vrPanelPlace(); vrTell('A little lower.'); } });
+      items.push({ words: 'A little higher', go: function () { xrSeat = Math.max(-0.4, xrSeat - 0.08); place(); vrPanelPlace(); vrTell('A little higher.'); } });
+      items.push({ words: 'Snap turn ' + Math.round(xrStep * 180 / Math.PI) + ' degrees (press to change)',
+        go: function () { xrStep = xrStep === Math.PI / 6 ? Math.PI / 4 : xrStep === Math.PI / 4 ? Math.PI / 2 : Math.PI / 6; vrPanel(); vrTell('Snap turns of ' + Math.round(xrStep * 180 / Math.PI) + ' degrees, in steps.'); } });
+      items.push({ words: 'Put me back at the way in', go: function () { if (stops[0]) vrStand(stops[0]); vrTell('Back at the way in.'); } });
+      items.push({ words: xrVoice ? 'Places read aloud: on' : 'Places read aloud: off', pressed: xrVoice,
+        go: function () { xrVoice = !xrVoice; if (!xrVoice && window.speechSynthesis) window.speechSynthesis.cancel(); vrPanel(); vrTell(xrVoice ? 'Each place is read aloud as you arrive.' : 'Places are not read aloud.'); } });
+      if (inside) items.push({ words: xrTour ? 'Stop the walk round' : 'Walk me round the room, place by place (any press stops it)', pressed: !!xrTour, go: function () { tourToggle(); } });
       items.push({ words: 'Put the switches away', go: function () { panelOpen = false; vrPanel(); } });
       items.push({ words: 'Take the headset out of the room', go: function () { if (xrSession) xrSession.end(); } });
     } else {
@@ -2839,8 +2993,10 @@ function start() {
   }
   function pressWith(hand) {
     var a = aimOf(hand);
+    if (xrTour) { xrTour = 0; vrTell('The walk round stops here.'); }
     if (!a) return;
     if (a.tile) { if (a.tile.btn) a.tile.btn.click(); else a.tile.go(); vrPanel(); return; }
+    if (a.hit && a.hit.userData.hold) { holdToggle(a.hit, hand); vrPanel(); return; }
     if (a.hit && a.hit.userData.act) { a.hit.userData.act.go(); vrPanel(); return; }
     if (a.hit) {
       var st = stops[a.hit.userData.stop];
@@ -2861,7 +3017,7 @@ function start() {
       hand.addEventListener('connected', function (e) { this.userData.src = e.data; });
       hand.addEventListener('disconnected', function () { this.userData.src = null; this.userData.beam.visible = false; this.userData.dot.visible = false; });
       hand.addEventListener('select', function () { pressWith(this); });
-      hand.addEventListener('squeeze', function () { panelOpen = !panelOpen; vrPanel(); vrPanelPlace(); });
+      hand.addEventListener('squeeze', function () { xrTour = 0; panelOpen = !panelOpen; vrPanel(); vrPanelPlace(); });
       dolly.add(hand); hands.push(hand);
     }
   }
@@ -2881,7 +3037,7 @@ function start() {
       if (xrGlide) { if (Math.abs(x) > Math.abs(spin)) spin = x; return; }
       if (Math.abs(x) > 0.6 && !hand.userData.turned) {
         hand.userData.turned = true;
-        var hw = headWorld(), yaw = me.yaw - Math.sign(x) * STEP_TURN, h = headLocal(), c = Math.cos(yaw), s = Math.sin(yaw);
+        var hw = headWorld(), yaw = me.yaw - Math.sign(x) * xrStep, h = headLocal(), c = Math.cos(yaw), s = Math.sin(yaw);
         me.yaw = yaw; me.x = hw.x - (c * h.x + s * h.z); me.z = hw.z - (-s * h.x + c * h.z);
         vrPanelPlace();
       } else if (Math.abs(x) < 0.3) hand.userData.turned = false;
@@ -2892,6 +3048,7 @@ function start() {
       me.yaw = yaw; me.x = hw0.x - (c * h.x + s * h.z); me.z = hw0.z - (-s * h.x + c * h.z);
     }
     var f = Math.abs(push) > 0.2 ? Math.sign(push) * (Math.abs(push) - 0.2) / 0.8 : 0;
+    if (f || r) xrTour = 0;
     if (xrGlide && (f || r)) xrGoing = true;
     if (xrGlide && f && dt) {
       var hw = headWorld(), d = f * VR_WALK * dt;
@@ -2900,18 +3057,71 @@ function start() {
     }
     if (!(xrGlide && (f || r)) && xrGoing) { xrGoing = false; vrPanelPlace(); tell(); }
   }
+  // THE GUIDED WALK (Helen's headset round): one press, and you are stood at
+  // each of the room's places in turn, a few seconds at each, with a moment
+  // of dark between (the vignette closing and opening), never carried; any
+  // press, squeeze or stick stops it. For anybody who finds the sticks hard.
+  function tourToggle() {
+    if (xrTour) { xrTour = 0; vrTell('The walk round stops here.'); return; }
+    xrTour = 1; xrTourAt = 0;
+    vrTell('Walking you round the room, place by place, with a moment of dark between; any press stops it.');
+  }
+  function tourStep(now) {
+    if (!xrTour || !inside) return;
+    if (xrTourAt && now - xrTourAt < TOUR_EVERY) return;
+    var i = xrTour - 1;
+    if (i >= stops.length) { xrTour = 0; vrTell('That was the whole room.'); return; }
+    xrTourAt = now; xrTour++; xrDim = 1;
+    vrStand(stops[i]);
+  }
+  // The vignette: a ring at the edge of the view, dark while a stick glides
+  // you and for the walk's moment between places, clear otherwise; it is on
+  // the camera, so it goes where the head goes, and it hides nothing when
+  // you stand still.
+  function vignetteUp() {
+    if (vignette) return;
+    vignette = new THREE.Mesh(new THREE.RingGeometry(0.24, 2.0, 32), new THREE.MeshBasicMaterial({ color: col('--cel-ink'), transparent: true, opacity: 0, depthTest: false, depthWrite: false, side: THREE.DoubleSide }));
+    vignette.position.set(0, 0, -0.5); vignette.renderOrder = 999;
+    camera.add(vignette);
+  }
+  function vignetteStep(dt) {
+    if (!vignette) return;
+    var want = xrGoing ? 0.82 : 0;
+    if (xrDim > 0) { want = Math.max(want, Math.min(1, xrDim)); xrDim = Math.max(0, xrDim - dt * 1.6); }
+    var o = vignette.material.opacity;
+    vignette.material.opacity = o + (want - o) * Math.min(1, dt * 9);
+  }
+  var ARC = [];
+  for (var ai = 0; ai <= 12; ai++) ARC.push(new THREE.Vector3());
+  var arcP = new THREE.Vector3();
   function xrBeams() {
     hands.forEach(function (hand) {
       var u = hand.userData, src = u.src;
       var shown = !!src && src.targetRayMode === 'tracked-pointer';
       var a = shown ? aimOf(hand) : null;
       u.beam.visible = shown;
-      u.beam.scale.z = a ? a.d : 3;
+      if (a && a.floor) {
+        // Pointing at the floor, the beam sags to where you would stand, as a
+        // thrown rope would, so the spot reads as a spot and not a wall.
+        var d = a.d;
+        for (var k = 0; k <= 12; k++) {
+          var t = k / 12;
+          arcP.copy(xrRay.ray.origin).addScaledVector(xrRay.ray.direction, d * t);
+          arcP.y += Math.sin(t * Math.PI) * Math.min(0.6, d * 0.12);
+          hand.worldToLocal(arcP);
+          ARC[k].copy(arcP);
+        }
+        u.beam.geometry.setFromPoints(ARC); u.beam.scale.z = 1;
+      } else {
+        u.beam.geometry.setFromPoints([new THREE.Vector3(), new THREE.Vector3(0, 0, -1)]);
+        u.beam.scale.z = a ? a.d : 3;
+      }
       if (u.dot.parent !== scene) scene.add(u.dot);
       u.dot.visible = !!a && !a.tile;
       if (u.dot.visible) {
         u.dot.position.copy(xrRay.ray.origin).addScaledVector(xrRay.ray.direction, a.d - 0.01);
-        u.dot.lookAt(xrRay.ray.origin);
+        if (a.floor) { u.dot.position.y = 0.01; u.dot.rotation.set(-Math.PI / 2, 0, 0); u.dot.scale.setScalar(4); }
+        else { u.dot.lookAt(xrRay.ray.origin); u.dot.scale.setScalar(1); }
       }
       panelTiles.forEach(function (t) { if (t.userData.tile) t.scale.setScalar(a && a.tile === t.userData.tile ? 1.06 : 1); });
     });
@@ -2919,8 +3129,11 @@ function start() {
   function xrFrame(now) {
     if (dolly.parent !== scene) scene.add(dolly);
     stepMoves(now);
-    xrSticks(xrPrev ? Math.min((now - xrPrev) / 1000, 0.1) : 0);
+    var dt = xrPrev ? Math.min((now - xrPrev) / 1000, 0.1) : 0;
+    xrSticks(dt);
     xrPrev = now;
+    tourStep(now);
+    vignetteStep(dt);
     place();
     xrBeams();
     renderer.render(scene, camera);
@@ -2933,6 +3146,11 @@ function start() {
     hands.forEach(function (hand) { if (hand.userData.dot.parent) hand.userData.dot.parent.remove(hand.userData.dot); dolly.remove(hand); });
     hands = [];
     if (panel) { dolly.remove(panel); panel = null; panelTiles = []; }
+    if (vignette) { camera.remove(vignette); vignette = null; }
+    xrSeat = 0; seated = null; xrTour = 0; xrDim = 0;
+    if (window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) {} }
+    if (xrMode === 'immersive-ar') { scene.background = xrSky; skyGroup.visible = true; renderer.setClearAlpha(1); }
+    xrMode = 'immersive-vr';
     dolly.remove(camera);
     if (dolly.parent) dolly.parent.remove(dolly);
     camera.position.set(0, 0, 0); camera.quaternion.identity();
@@ -2945,15 +3163,29 @@ function start() {
   // After three.js has put its own size back, or the picture is drawn at the
   // headset's size and then cleared.
   renderer.xr.addEventListener('sessionend', xrEnd);
-  if (vrBtn) vrBtn.addEventListener('click', function () {
+  if (vrBtn) vrBtn.addEventListener('click', function () { openXR('immersive-vr'); });
+  // PASSTHROUGH (Helen's headset round): on a headset with cameras (a Quest 3),
+  // the same room drawn over your own room, with no sky and no ground of its
+  // own; the yurt's canvas still stands round you, because it is the room.
+  if (arBtn) arBtn.addEventListener('click', function () { openXR('immersive-ar'); });
+  if (navigator.xr && navigator.xr.isSessionSupported) {
+    navigator.xr.isSessionSupported('immersive-ar').then(function (ok) { arCan = !!ok; vrOffer(); }).catch(function () {});
+  }
+  function openXR(mode) {
     if (xrSession) { xrSession.end(); return; }
-    navigator.xr.requestSession('immersive-vr', { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] }).then(function (session) {
+    xrMode = mode;
+    navigator.xr.requestSession(mode, { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] }).then(function (session) {
       xrSession = session;
       renderer.xr.enabled = true;
       renderer.xr.setReferenceSpaceType('local-floor');
+      // Sharpest in the middle of the view, where you look, lighter at the
+      // edges: what a standalone headset needs to keep its frames.
+      try { renderer.xr.setFoveation(1); } catch (e) { /* not every browser */ }
       return renderer.xr.setSession(session).then(function () {
         xrOn = true; glide = null; held = {};
         dolly.add(camera); scene.add(dolly);
+        vignetteUp();
+        if (mode === 'immersive-ar') { xrSky = scene.background; scene.background = null; skyGroup.visible = false; renderer.setClearAlpha(0); }
         handsUp(); panelOpen = true; panelWords = ''; vrPanel();
         renderer.setAnimationLoop(xrFrame);
         vrBtn.textContent = 'Leave VR';
@@ -2963,7 +3195,7 @@ function start() {
       xrSession = null; renderer.xr.enabled = false;
       if (vrNote) vrNote.textContent = 'The headset could not open the room just now.';
     });
-  });
+  }
 
   /* ── Read the street, then build ───────────────────────────────────────── */
   fetch('index.html', { credentials: 'same-origin', cache: 'no-cache' })

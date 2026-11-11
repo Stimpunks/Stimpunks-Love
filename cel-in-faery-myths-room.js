@@ -88,6 +88,21 @@
    the eye out of the tall clusters; and the clear quartz by the old books
    moved out from under that stop. Ours, and hers to keep or send back.
 
+   HEADSET ROUND 2 (Helen Edgar, 2026-11-11, after her first real headset:
+   "do all of above"): two seats, a flat rock by the near pool facing the
+   tall amethyst across the cave and a rock by the Stones, each pressed to
+   sit there with your eyes at a sitting height and pressed again to stand
+   (kit.sit); four things to hold, three loose crystals on the cave floor and
+   a small stone from the Stones' bank, each coming to your hand on a press
+   and going back where it lay on the next (kit.hold); two plaques in WebGL
+   for a headset, which shows no page: her own welcome, three sentences
+   copied exactly from her page's opening, on the rock beside the arch, and
+   a line of ours by the Crystal Wheel (kit.plaque); and the cave's lights
+   brought from twelve to eight for a standalone headset, one wash a side
+   reaching the whole wall and a point of light only in the four deep
+   clusters, the two by the arch sharing its own. Ours, and hers to keep or
+   send back.
+
    WHAT MOVES IS WHAT MOVES ON HER PAGE. Her page says MAX makes the amber
    glow and the amethyst glint and nothing else moves. So the light through
    the stones has switches of its own, one for the amber in the left-hand wall
@@ -241,8 +256,10 @@
       [[-W / 2 + 0.5, '--myth-amber'], [W / 2 - 0.5, '--myth-amethyst']].forEach(function (l) {
         // On the left the light is set clear of the case of old books, which it
         // used to sit inside, washing every spine one colour.
-        (l[0] < 0 ? [[-0.8, 3.1], [-6.6, 3.1]] : [[-3, 2.5], [-8, 2.5]]).forEach(function (q) {
-          var p = new T.PointLight(kit.col(l[1]), 14, 11, 1.2);
+        // One wash a side since the headset round (eight lights in the cave
+        // in all, for a standalone headset), reaching the whole wall.
+        (l[0] < 0 ? [[-3.6, 3.1]] : [[-5.4, 2.5]]).forEach(function (q) {
+          var p = new T.PointLight(kit.col(l[1]), 18, 17, 1.1);
           p.position.set(l[0], q[1], q[0]);
           kit.scene.add(p);
           (l[0] < 0 ? washAmber : washAmethyst).push(p);
@@ -411,10 +428,14 @@
        [W / 2 - 0.5, -4.8, 1.6, false, -0.1], [W / 2 - 0.5, -7.7, 1.1, false, 0.15], [W / 2 - 0.7, 0.4, 1.1, false, -0.2]].forEach(function (c, ci) {
         var m = at(c[0], 0, c[1], 0, 0, (c[0] < 0 ? 1 : -1) * 0.55 + c[4]);
         bigCluster(m, 500 + ci, c[2], c[3] ? '--myth-amber' : '--myth-amethyst', c[3] ? '--myth-amber-2' : '--myth-amethyst-2', c[3]);
-        var inner = new T.PointLight(kit.col(c[3] ? '--myth-amber' : '--myth-amethyst'), 9, 6, 1.3);
-        inner.position.set(c[0] * 0.9, c[2] * 0.6, c[1]);
-        kit.scene.add(inner);
-        (c[3] ? washAmber : washAmethyst).push(inner);
+        // The two by the arch share its lights; the four deeper in the cave
+        // keep a point of their own.
+        if (Math.abs(c[1]) > 2) {
+          var inner = new T.PointLight(kit.col(c[3] ? '--myth-amber' : '--myth-amethyst'), 10, 7, 1.3);
+          inner.position.set(c[0] * 0.9, c[2] * 0.6, c[1]);
+          kit.scene.add(inner);
+          (c[3] ? washAmber : washAmethyst).push(inner);
+        }
       });
       // Clear quartz, moonstone and rose quartz growing where the two lights
       // meet: on the floor by the pools and the middle of the back wall.
@@ -866,6 +887,40 @@
       var amberPress = glowPress(amber, 'Press the amber: let it glow', kit.touch(1.6, 2.6, 1.6, at(-W / 2 + 0.55, 1.3, -6.0)));
       var amethystPress = glowPress(amethyst, 'Press the amethyst: let it glint', kit.touch(1.6, 2.6, 1.6, at(W / 2 - 0.5, 1.3, -4.8)));
 
+      // SEATS (Helen's headset round, 2026-11-11): a flat rock by the near pool,
+      // facing the tall amethyst cluster across the cave, and a rock by the
+      // Stones; pressed, you sit there with your eyes at a sitting height, in
+      // a headset and on a screen, and pressed again you stand.
+      function seatRock(x, z, yaw, seed) {
+        var slab = boulderGeo[1].clone(); slab.scale(0.5, 0.2, 0.42);
+        kit.piece(slab, at(x, 0.2, z, hash(seed, 1, 95) * 3, 0, 0), '--rdr-panel', false);
+        boulder(x + 0.42, 0.06, z + 0.3, 0.11, seed + 1, 1);
+        boulder(x - 0.38, 0.05, z - 0.26, 0.09, seed + 2, 2);
+      }
+      seatRock(-1.6, -2.4, -1.2, 610);
+      var poolSeat = kit.sit({ x: -1.6, z: -2.4, yaw: -1.2, say: 'Sit on the flat rock by the pool', up: 'Stand up from the rock',
+        sat: 'You sit on the flat rock by the pool, the tall amethyst across the cave in front of you.', stood: 'You stand up from the rock.',
+        at: [kit.touch(1.1, 0.6, 0.9, at(-1.6, 0.3, -2.4))] });
+      seatRock(-1.3, -6.2, 1.41, 620);
+      var stonesSeat = kit.sit({ x: -1.3, z: -6.2, yaw: 1.41, say: 'Sit on the rock by the Stones', up: 'Stand up from the rock',
+        sat: 'You sit on the rock by the Stones, the model and its sun in front of you.', stood: 'You stand up from the rock.',
+        at: [kit.touch(1.1, 0.6, 0.9, at(-1.3, 0.3, -6.2))] });
+
+      // THINGS TO HOLD (the same round): three loose crystals on the cave
+      // floor, amethyst, amber and clear quartz, and a small stone from the
+      // Stones' bank; pressed, each comes to your hand, and pressed again it
+      // goes back where it lay. Each is one mesh, body and tip together.
+      function loose(x, z, r, h, ink, say, seed) {
+        var g = merged([[prismGeo, new T.Matrix4().makeScale(r, h, r)], [tipGeo, new T.Matrix4().makeScale(r, h, r)]]);
+        var m = kit.facets(g, at(x, 0.02, z, hash(seed, 2, 96) * 3, 0, 0.25), ink);
+        kit.hold(m, { say: say });
+      }
+      loose(0.9, -2.2, 0.06, 0.2, '--myth-amethyst-2', 'the amethyst crystal', 630);
+      loose(-0.8, -5.6, 0.07, 0.18, '--myth-amber-2', 'the amber crystal', 631);
+      loose(1.2, -7.9, 0.05, 0.22, '--crys-clear-quartz-2', 'the clear quartz crystal', 632);
+      var bankStone = boulderGeo[0].clone(); bankStone.scale(0.05, 0.035, 0.045);
+      kit.hold(kit.facets(bankStone, at(mx + 0.86, 0.87, sz + 0.5, 0.7, 0, 0), '--myth-chalk'), { say: 'a small stone from the Stones\u2019 bank' });
+
       // THE SIGNS (Helen's ask, 2026-11-11): the way back named on the rock
       // beside the arch, her page named over its frame, and a museum's small
       // plates by the Stones, the cauldron, the Crystal Wheel, the old books
@@ -877,6 +932,18 @@
       plate(M(wg, at(-1.2, 2.35, 0.05)), 0.8, 'The Crystal Wheel');
       plate(M(lb, at(0, 2.86, 0.1)), 0.9, 'The Old Books');
       plate(M(yw, at(1.3, 2.95, 0.05)), 0.9, 'The Wheel of the Year');
+      // PLAQUES (the headset round): her own welcome, three sentences copied
+      // exactly from her page's opening, on the rock beside the arch, where a
+      // headset, which shows no page, can read it; and a line of ours by the
+      // Crystal Wheel saying what it is. Chalk words on the cave's darkest
+      // rock, a brass edge, her Crimson Pro.
+      kit.plaque({ title: 'Myths & Legends', face: '"Crimson Pro"', ink: '--myth-chalk', ground: '--rdr-stone', edge: '--rdr-brass', w: 0.9, size: 40,
+        m: at(3.25, 1.5, 0.93, Math.PI),
+        lines: ['Come through the arch. The amethyst and the amber set in it light this room, and nothing in here is a flame.',
+                'It is where I keep the stories this island has told itself for a very long time: the stones on Salisbury Plain, Arthur and Merlin, the boggarts and hobs and the black dog in the lane, and the old books that wrote them down.'] });
+      kit.plaque({ face: '"Crimson Pro"', ink: '--myth-chalk', ground: '--rdr-stone', edge: '--rdr-brass', w: 0.7, size: 40,
+        m: M(wg, at(-1.25, 1.7, 0.05)),
+        lines: ['Her Crystal Wheel: a stone for every turn of the year, each with its story on her page, and the pouch under it keeps the ones you take with you.'] });
 
       // THE STOPS IN A WALKING ORDER (Helen's ask, 2026-11-11, for the bumpers
       // of a controller, which go to the place before and after): in through
@@ -889,7 +956,9 @@
         { name: 'at the coat on its peg by the arch', x: 2.0, z: -1.5, yaw: Math.PI + 0.12, pitch: 0.02, acts: [turnCoat] },
         { name: 'at the old books along the left-hand wall, amber growing on the case', x: -W / 2 + 2.6, z: -2.0, yaw: Math.PI / 2, acts: [amber, amberPress] },
         { name: 'at the old book on its reading stand, at the end of the shelf', x: -4.05 + Math.sin(BOOK) * 1.55, z: -4.95 + Math.cos(BOOK) * 1.55, yaw: BOOK, pitch: -0.38, acts: [oldBook] },
+        { name: 'by the flat rock beside the near pool, somewhere to sit', x: -1.0, z: -2.0, yaw: -1.2, pitch: -0.2, acts: [poolSeat] },
         { name: 'at the Stones on their plinth, with the sun to turn over them', x: sx + 0.3, z: sz + 2.1, yaw: -0.12, frame: sun.el, acts: [amber] },
+        { name: 'by the rock beside the Stones, somewhere to sit', x: -0.7, z: -5.8, yaw: 1.41, pitch: -0.2, acts: [stonesSeat] },
         { name: 'at the tall amber cluster, growing out of the left-hand rock', x: -W / 2 + 2.3, z: -6.0, yaw: Math.PI / 2, pitch: 0.1, acts: [amberPress, amber] },
         { name: 'at the Green Man, carved in timber on the left-hand wall', x: -W / 2 + 2.4, z: -7.3, yaw: Math.PI / 2, pitch: 0.12 },
         { name: 'at the Wheel of the Year, carved on the left-hand wall, with her festivals under it', x: -2.1, z: -9.4, yaw: Math.PI / 2, frame: year.el, acts: [amber] },

@@ -109,6 +109,21 @@
    never dark; and the rails' row numbers lettered on brass plates. Nothing
    near-white fills the view: the beam and the screen stay dim and dark.
 
+   ROUND 7 (Helen Edgar, 2026-11-11, after her first real headset: "do all
+   of above"). Three seats to sit in, in the middle of the house, at the
+   front and at the back, each pressed on the seat or from its place, with
+   your eyes at a sitting height and the screen in front of you, in a headset
+   and on a screen, until pressed again; a film can off the first rail, a
+   spare reel on the stack beside it and the ticket stub under the seat can
+   be picked up, and go back where they were on a second press; her own
+   welcome, copied exactly from her page's first paragraph, on a plaque by
+   the door for a headset, which sees no page, and a programme card by the
+   stage in a line of ours; and the house keeps its frames on a standalone
+   headset: every other sconce carries the light for the pair, wider, and the
+   step lights keep their discs and lose their lamps, so under ten point
+   lights stand in the room where twenty-three did, without the house going
+   darker than it was.
+
    This is ours, hers to keep or send back, and a change to how it looks is
    hers to ask for. Every colour is one of hers, by name. It keeps nothing,
    sends nothing and fetches nothing; her page arrives through Cel Street's
@@ -369,9 +384,15 @@
           var pool = new T.CylinderGeometry(0.07, 0.075, 0.008, 10); pool.scale(1, 1, 0.8);
           kit.piece(pool, M(w0, at(0.02, 3.772, 0.27)), '--rdr-ink', false);
           kit.cyl(0.003, 0.003, 0.03, M(w0, at(0, top + 0.012, 0.25)), '--rdr-stone', false, 3);
-          var l = new T.PointLight(kit.col('--rdr-flame-2'), 3.0, 4.6, 1.5);
-          l.position.set(s * (W / 2 - 0.5), top + 0.06, cz);
-          kit.scene.add(l);
+          // Every other sconce carries the light for the pair (round 7: a
+          // standalone headset keeps its frames with under ten point lights),
+          // wider and a little brighter, so the walls read as they did.
+          var l = null;
+          if (n % 2 === 0) {
+            l = new T.PointLight(kit.col('--rdr-flame-2'), 4.4, 7.2, 1.5);
+            l.position.set(s * (W / 2 - 0.5), top + 0.06, cz + 1.6);
+            kit.scene.add(l);
+          }
           var flame = new T.ConeGeometry(0.03, 0.1, 8); flame.translate(0, 0.05, 0);
           flames.push({ mesh: kit.flat(flame, M(w0, at(0, top + 0.004, 0.25)), '--rdr-flame-2'), light: l });
           candleTouch.push(kit.touch(0.4, 0.7, 0.5, M(w0, at(0, 3.8, 0.25))));
@@ -465,10 +486,9 @@
       // Step lights low along the aisles, so the floor can be found.
       [-1, 1].forEach(function (s) {
         for (var k = 0; k < 4; k++) {
+          // The discs stay lit in their own ink; their eight little lights
+          // went in round 7, to keep a headset's frames.
           kit.flat(new T.CircleGeometry(0.05, 10), at(s * 3.3, 0.12, -6.3 - k * 2.7, s < 0 ? LEFT : RIGHT), '--rdr-flame-2');
-          var l = new T.PointLight(kit.col('--rdr-flame-2'), 0.6, 3, 1.6);
-          l.position.set(s * 3.3, 0.25, -6.3 - k * 2.7);
-          kit.scene.add(l);
         }
       });
 
@@ -799,8 +819,8 @@
         hazeM.material.transparent = true; hazeM.material.opacity = hz[1]; hazeM.material.depthWrite = false; hazeM.material.side = T.DoubleSide;
       });
       // The ticket stub her job marker drops under a seat, in the third row.
-      box(0.09, 0.004, 0.04, at(-1.05, 0.016, -8.9, 0.6), '--rdr-ink-2', false, false);
-      box(0.012, 0.005, 0.04, at(-1.08, 0.017, -8.9, 0.6), '--rdr-stone', false, false);
+      // One mesh of its own, so it can be picked up (round 7).
+      var stub = kit.hold(kit.facets(new T.BoxGeometry(0.09, 0.004, 0.04), at(-1.05, 0.016, -8.9, 0.6), '--rdr-ink-2'), { say: 'the ticket stub' });
       // Four more places to stand.
       stops.push({ name: 'under a seat in the third row, where a ticket stub has been dropped', x: -1.0, z: -8.2, yaw: 0.1, pitch: -1.05 });
       stops.push({ name: 'at the curtain’s tie-back, beside the stage', x: half + 0.3, z: back + 3.2, yaw: -0.3, pitch: 0.1 });
@@ -831,6 +851,40 @@
           garden.forEach(function (g) { kit.hide(g, !growNow); });
           return growNow ? 'Ivy has grown along the foot of the walls and up the gilt posts beside the screen, with toadstools in the corners and on the stage.' : 'The ivy and the toadstools are cleared away.';
         } });
+      // ROUND 7 (Helen Edgar, 2026-11-11, after her first real headset: "do
+      // all of above"). SEATS: sitting is what a cinema is for, so three
+      // seats can be sat in, in the middle of the house, at the front and at
+      // the back, each facing the screen with your eyes at a sitting height,
+      // in a headset and on a screen, pressed on the seat itself or from its
+      // place; pressed again, you stand.
+      function seatAt(row, c, say) {
+        var sx2 = -2.45 + c * 0.7, sz2 = -6 - row * 1.35;
+        return kit.sit({ x: sx2, z: sz2, yaw: 0, say: say, up: 'Stand up from the seat',
+          sat: 'You sit, in the velvet, facing the screen.', stood: 'You stand up out of the seat.',
+          at: [kit.touch(0.6, 0.9, 0.5, at(sx2, 0.7, sz2))] });
+      }
+      var sitMid = seatAt(3, 3, 'Sit down in the middle of the house');
+      var sitFront = seatAt(0, 4, 'Sit down in the front row');
+      var sitBack = seatAt(6, 3, 'Sit down in the back row');
+      // THINGS TO HOLD: a film can off the end of the first left-hand rail,
+      // a spare reel on the stack of cans by it, and the ticket stub under
+      // the seat (above); each comes to your hand, and goes back on a second press.
+      var holdG = at(-(W / 2 - 0.06), 0, RAIL[0], LEFT);
+      kit.hold(kit.facets(new T.CylinderGeometry(0.19, 0.19, 0.05, 22), M(holdG, at(1.55, 0.94, 0.2)), '--rdr-brass'), { say: 'a film can' });
+      var spareReel = new T.CylinderGeometry(0.2, 0.2, 0.025, 24);
+      kit.hold(kit.facets(spareReel, M(holdG, at(-0.85, 0.07, 0.25, 0.4)), '--rdr-ink-2'), { say: 'a spare reel' });
+      kit.cyl(0.03, 0.03, 0.03, M(holdG, at(-0.85, 0.098, 0.25)), '--rdr-brass', false, 10);
+      // PLAQUES, for a headset, which sees no page: by the door, her own
+      // welcome in her words, copied exactly from her page's first paragraph;
+      // and a programme card by the stage in a line of ours.
+      kit.plaque({ title: 'The Cinema', face: '"Cormorant Garamond"', ink: '--rdr-ink', ground: '--rdr-timber', edge: '--rdr-brass', w: 0.95, size: 40,
+        lines: ['Come in out of the yurt and sit anywhere you like. There is no programme and no time it starts: the films are on reels along the rails on the wall, in rows, and whichever one you take down goes up on the screen. The projector in the box at the back hums to itself and never flickers, the candles stand still, and nothing plays until you press it.'],
+        m: at(-2.3, 1.55, -0.08, Math.PI) });
+      kit.cyl(0.02, 0.02, 0.5, at(2.9, 0.25, back + 4.4), '--rdr-brass', false, 8);
+      kit.plaque({ title: 'Programme', face: '"Cormorant Garamond"', ink: '--rdr-ink', ground: '--rdr-timber', edge: '--rdr-brass', w: 0.6, size: 40,
+        lines: ['Whichever reel is taken down off a rail goes up on this screen and plays; nothing plays until it is pressed.'],
+        m: at(2.9, 0.72, back + 4.4, Math.PI) });
+
       // THE TOUR (round 6): the stops in a walking order, which the
       // controller's bumpers follow. In at the door; her page and the box by
       // the door; down the left-hand rails to the screen, the stage and its
@@ -847,6 +901,7 @@
         pick(/left-hand rail, the reels in row 3/), pick(/left-hand rail, the reels in row 4/), pick(/left-hand rail, the reels in row 5/),
         pick(/^at the front, under the screen/), pick(/^at the rope/), pick(/^at the curtain’s tie-back/), pick(/^on the stage’s step/),
         pick(/^under the ceiling’s rose/), seatStop, pick(/^under a seat in the third row/),
+        { name: 'at the back row of seats, the whole house in front of you', x: 0, z: -15.2, yaw: 0, pitch: -0.05 },
         pick(/right-hand rail, the reels in row 5/), pick(/right-hand rail, the reels in row 4/), pick(/right-hand rail, the reels in row 3/),
         pick(/right-hand rail, the reels in row 2/), pick(/right-hand rail, the reels in row 1/)
       ];
@@ -855,12 +910,13 @@
       stops.forEach(function (st2) {
         if (/^on the stage’s step/.test(st2.name)) st2.acts = [feed, takeUp, joinFaeries];
         if (/^under the projection box/.test(st2.name)) st2.acts = [feed, takeUp, joinFaeries];
-        if (/^between the third and fourth rows/.test(st2.name)) st2.acts = [joinFaeries, candles];
+        if (/^between the third and fourth rows/.test(st2.name)) st2.acts = [sitMid, joinFaeries, candles];
+        if (/^at the back row of seats/.test(st2.name)) st2.acts = [sitBack, candles];
         if (/^in the side aisle/.test(st2.name)) st2.acts = [candles, grow];
         if (/^just inside the door/.test(st2.name)) st2.acts = [grow, flyOff, sparkle];
         if (/^looking back at the door/.test(st2.name)) st2.acts = [flyOff, sparkle, grow];
         if (/^by the door at the back/.test(st2.name)) st2.acts = [flyOff, sparkle];
-        if (/^at the front, under the screen/.test(st2.name)) st2.acts = [grow, joinFaeries];
+        if (/^at the front, under the screen/.test(st2.name)) st2.acts = [sitFront, grow, joinFaeries];
         if (/^under the ceiling’s rose/.test(st2.name)) st2.acts = [joinFaeries, sparkle];
         if (/hand rail, the reels in row/.test(st2.name)) st2.acts = [candles];
         if (/^at the curtain’s tie-back/.test(st2.name)) st2.acts = [grow];

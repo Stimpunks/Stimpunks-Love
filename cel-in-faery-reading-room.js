@@ -100,6 +100,23 @@
    bounds keep the eye out of the sofa. All of it ours, in colours her rooms
    declare, and hers to keep or send back.
 
+   ROUND 7 (Helen Edgar, 2026-11-11, after her first real headset: "do all
+   of above"). Somewhere to sit: the sofa, each armchair and the hearthrug
+   are seats (kit.sit), pressed where they are or from their stops, which
+   put your eyes at a sitting height, in the headset and on the screen, and
+   stand you up again. Things to pick up (kit.hold): a shut book on the arm
+   of the sofa, a record in its sleeve leaning on the gramophone's table and
+   the poker by the hearth, each coming to your hand in the headset or to
+   just in front of you on the screen, and going back where it was on a
+   second press. The crackle is heard from the hearth (kit.spatial on
+   rdr-fire.js's output), so it is behind you when the fire is behind you.
+   Two plaques in WebGL for the headset, which shows no page: by the door,
+   her own words from the top of her page, copied exactly, and at the
+   gramophone a line of ours saying what plays there. And the five small
+   sconce lights became three wider ones, for a standalone headset's sake.
+   All of it ours, in colours her rooms declare, and hers to keep or send
+   back.
+
    WHAT MOVES IS WHAT MOVES ON HER PAGE. Her dial says MAX turns the record on
    the gramophone, nothing else moves unless you ask, and the candles stand
    still. So here the record goes round once in six seconds at MAX, as hers
@@ -124,7 +141,7 @@
     name: 'The Reading Room',
     from: 'faery-yurt.html',
     // The face the signs are lettered in, loaded before the room is built.
-    faces: ['"Cormorant Garamond"'],
+    faces: ['"Cormorant Garamond"', '"Crimson Pro"'],
     build: function (kit) {
       var T = kit.THREE, at = kit.at, box = kit.box, W = 12, D = 13, H = 6.8, back = -D;
       var M = function (a, b) { return new T.Matrix4().multiplyMatrices(a, b); };
@@ -220,6 +237,12 @@
       for (var r = 0; r < 4; r++) box(1.4, 0.04, 0.1, at(0, 0.4 + r * 0.6, -0.12), '--rdr-leather', false);
       // Its sign, over the portal's ivy, facing into the room.
       sign('The Faery Yurt', 'the way back, through the bookcase', 1.5, at(0, 3.3, -0.04, Math.PI));
+      // A PLAQUE BY THE DOOR (round 7), for the headset, which shows no page:
+      // the top of her page in her own words, copied exactly, in her Crimson
+      // Pro on a board of the room's timber with a brass edge.
+      kit.plaque({ title: 'The Reading Room',
+        lines: ['The yurt got too full of books, so they have a room of their own now, through the bookcase door. It is lit by the fire and by candles that never flicker, the walls are claret and the arches go up to points, and there is a sofa and two chairs turned to the hearth. Take any book off a shelf and it opens its author\u2019s page. Nobody will ask what you are reading, or how far you have got.'],
+        face: '"Crimson Pro"', ink: '--rdr-ink', ground: '--rdr-timber', edge: '--rdr-brass', w: 0.9, size: 40, m: at(1.75, 1.5, -0.04, Math.PI) });
 
       // A POINTED TIMBER ARCH round a case, w wide and h tall, drawn up to a
       // point the way her arches are.
@@ -380,6 +403,13 @@
         puff.material.transparent = true; puff.material.opacity = 0.05 + (6 - sm) * 0.012; puff.material.side = T.DoubleSide;
       }
       kit.flat(new T.PlaneGeometry(1.2, 0.08), M(fp, at(0, 0.3, 0.52)), '--rdr-ember');
+      // The poker, leaning by the hearth, to pick up (round 7): one brass rod
+      // with a knob, its foot on the hearthstone.
+      var poker = new T.CylinderGeometry(0.012, 0.012, 0.9, 8); poker.translate(0, 0.45, 0);
+      var pokerMesh = kit.facets(poker, M(fp, at(1.42, 0.1, 0.9, 0, 0.12, -0.22)), '--rdr-brass');
+      kit.hold(pokerMesh, { say: 'the poker' });
+      // The crackle is heard from the hearth (round 7), once the fire is lit.
+      kit.spatial(function () { return window.loveFire && window.loveFire.output(); }, [-W / 2 + 0.55, 0.6, -6.5]);
       [-0.9, 0.9].forEach(function (x) {
         kit.cyl(0.05, 0.05, 0.32, M(fp, at(x, 2.28, 0.4)), '--rdr-ink-2', false, 8);
         kit.flat(new T.ConeGeometry(0.035, 0.1, 6), M(fp, at(x, 2.5, 0.4)), '--rdr-flame-2');
@@ -481,6 +511,12 @@
       var lps = kit.lift(frame, '.rdr-rack', { w: 600, h: 700, ww: 1.4, m: at(-W / 2 + 0.08, 0.2, -11.7, LEFT) });
       kit.wire(frame, 'rack.js');
       sign('The gramophone', 'her records play on it', 1.3, at(-W / 2 + 0.06, 2.95, -10.6, LEFT));
+      // A plaque over the deck, a line of ours, for the headset (round 7).
+      kit.plaque({ lines: ['Her playlist, Library Music, and every record on the shelf play here on the gramophone. Each sleeve says how long it runs before you press it, and nothing plays until you do.'],
+        face: '"Crimson Pro"', ink: '--rdr-ink', ground: '--rdr-timber', edge: '--rdr-brass', w: 1.3, size: 40, m: at(-W / 2 + 0.06, 2.25, -9.0, LEFT) });
+      // A record in its sleeve, leaning on the table, to pick up (round 7).
+      var sleeve = kit.facets(new T.BoxGeometry(0.31, 0.31, 0.012), M(gm, at(0.56, 0.17, 0.3, 0.35, 0, -0.12)), '--rdr-ember');
+      kit.hold(sleeve, { say: 'a record in its sleeve' });
       stops.push({ name: 'at the gramophone, with its switch', x: -W / 2 + 2.4, z: -9.3, yaw: LEFT, frame: deck.el });
       stops.push({ name: 'at the shelf of records by the gramophone', x: -W / 2 + 2.6, z: -11.6, yaw: LEFT, pitch: -0.2, frame: lps.el });
 
@@ -501,8 +537,11 @@
       }
       [at(-1.9, 2.4, back + 0.02), at(1.9, 2.4, back + 0.02), at(W / 2 - 0.02, 2.4, -4.0, RIGHT), at(W / 2 - 0.02, 2.4, -7.1, RIGHT),
        at(-W / 2 + 0.02, 2.4, -3.0, LEFT), at(-W / 2 + 0.02, 2.4, -12.2, LEFT)].forEach(sconce);
-      [[-1.9, back + 0.4], [W / 2 - 0.4, -4.0], [-W / 2 + 0.4, -3.0]].forEach(function (c) {
-        var l = new T.PointLight(kit.col('--rdr-flame-2'), 2.2, 5, 1.6);
+      // Three lights stand for the nine sconces (round 7: fewer lights for a
+      // standalone headset): one at the far wall, one down each side wall,
+      // each reaching further than the sconce light it replaces.
+      [[0, back + 0.6], [W / 2 - 0.5, -7.0], [-W / 2 + 0.5, -2.2]].forEach(function (c) {
+        var l = new T.PointLight(kit.col('--rdr-flame-2'), 3.0, 8, 1.4);
         l.position.set(c[0], 2.6, c[1]);
         kit.scene.add(l);
       });
@@ -591,6 +630,12 @@
       bookShut.push(kit.facets(new T.BoxGeometry(0.012, 0.044, 0.28), M(bk, at(0.06, 0.022, 0, 0.35)).multiply(at(-0.1, 0, 0)), '--rdr-leather'));
       bookShut.push(kit.flat(new T.PlaneGeometry(0.014, 0.09), M(bk, at(0.06, 0.03, 0, 0.35)).multiply(at(0.02, 0, 0.18, 0, -Math.PI / 2)), '--rdr-ember'));
       bookShut.forEach(function (m) { kit.hide(m, true); });
+      // A shut book on the arm of the sofa, one mesh, to pick up (round 7):
+      // its covers and spine in one leather block, drawn as one so the kit
+      // can carry it whole.
+      var held = new T.BoxGeometry(0.2, 0.045, 0.28);
+      var heldBook = kit.facets(held, M(sofa, at(1.2, 0.83, 0.1, 0.2)), '--rdr-leather');
+      kit.hold(heldBook, { say: 'the book from the arm of the sofa' });
 
       // THE CHANDELIER over the hearthrug, as on her page: a brass ring hung
       // from the dark, seven candles, one at the heart of it; nothing flickers.
@@ -637,11 +682,6 @@
       raven(at(W / 2 - 0.3, 1032 * scale + 0.66, -8.8, Math.PI), 1.3);
       // A sconce either side of the door between it and the cases.
       [at(-1.7, 2.4, -0.02, Math.PI), at(1.7, 2.4, -0.02, Math.PI), at(W / 2 - 0.02, 2.4, -10.2, RIGHT)].forEach(sconce);
-      [[-1.7, -0.4], [W / 2 - 0.4, -10.2]].forEach(function (c) {
-        var l = new T.PointLight(kit.col('--rdr-flame-2'), 2.2, 5, 1.6);
-        l.position.set(c[0], 2.6, c[1]);
-        kit.scene.add(l);
-      });
 
       // THE CARD CATALOGUE by the door: a timber cabinet of drawers, each with
       // a brass pull and a card in its brass holder, and her page's own drawers
@@ -881,6 +921,22 @@
           drawerIn.forEach(function (m) { kit.hide(m, pull); });
           return pull ? 'A drawer of the card catalogue is pulled out, its cards standing up in it.' : 'The drawer is pushed back into the catalogue.';
         } });
+      // SEATS (round 7): the sofa, the two armchairs and the hearthrug, each
+      // pressed where it is or from its stop; sitting puts your eyes at a
+      // sitting height, in the headset and on the screen, facing what the
+      // seat faces, and pressing again stands you up.
+      var sitSofa = kit.sit({ x: -W / 2 + 4.6, z: -6.5, yaw: RIGHT, say: 'Sit on the sofa', up: 'Get up from the sofa',
+        sat: 'You sit on the sofa, among its cushions, the fire to one side of you.', stood: 'You get up from the sofa.',
+        at: [kit.touch(2.2, 0.5, 0.8, M(sofa, at(0, 0.4, 0.1)))] });
+      var sitChairs = [[-W / 2 + 3.0, -4.3, 2.4], [-W / 2 + 3.0, -8.7, 0.7]].map(function (c, i) {
+        var g = at(c[0], 0, c[1], c[2]);
+        return kit.sit({ x: c[0], z: c[1], yaw: c[2] + Math.PI, say: i ? 'Sit in the far armchair' : 'Sit in the near armchair', up: 'Get up from the armchair',
+          sat: 'You sit in the leather armchair, the fire warm at your side.', stood: 'You get up from the armchair.',
+          at: [kit.touch(0.8, 0.5, 0.7, M(g, at(0, 0.4, 0.05)))] });
+      });
+      var sitRug = kit.sit({ x: -W / 2 + 2.6, z: -6.5, yaw: LEFT, say: 'Sit on the hearthrug', up: 'Get up from the hearthrug',
+        sat: 'You sit on the hearthrug, close to the fire.', stood: 'You get up from the hearthrug.',
+        at: [kit.touch(1.6, 0.12, 1.2, at(-W / 2 + 2.6, 0.05, -6.5))] });
       // The portal's faeries, which fly only when asked; the fire, which
       // flickers only when asked; and the sparks, which twinkle only when asked.
       var flyFaeries = kit.drift(flyers, { say: 'Let the faeries fly', at: perches,
@@ -938,10 +994,11 @@
       stops[0].acts = [joinFaeries, growGarden, flyFaeries];
       stops.forEach(function (st) {
         if (/gramophone/.test(st.name)) st.acts = [turning];
-        if (/^by the fire/.test(st.name)) st.acts = [fireSw, sparks];
+        if (/^by the fire/.test(st.name)) st.acts = [sitRug, fireSw, sparks];
+        if (/^by the hearthrug, under the chandelier/.test(st.name)) st.acts = [sitChairs[0], sitChairs[1]];
         if (/card catalogue/.test(st.name)) st.acts = [theDrawer];
       });
-      stops.push({ name: 'at the sofa, with the book left on it', x: 0.7, z: -6.5, yaw: LEFT, pitch: -0.32, acts: [theBook] });
+      stops.push({ name: 'at the sofa, with the book left on it', x: 0.7, z: -6.5, yaw: LEFT, pitch: -0.32, acts: [sitSofa, theBook] });
       stops.push({ name: 'at the hearth, close to the fire, its kerb and the carved hood', x: -W / 2 + 2.2, z: -6.5, yaw: LEFT, pitch: -0.12, acts: [crackle, fireSw, sparks] });
       stops.push({ name: 'at the mantel, with the raven on it and the candles either side', x: -W / 2 + 2.0, z: -6.1, yaw: LEFT + 0.15, pitch: 0.3 });
       stops.push({ name: 'over the gramophone itself, her record on it', x: -W / 2 + 2.0, z: -10.15, yaw: 1.4, pitch: -0.5, acts: [turning] });
