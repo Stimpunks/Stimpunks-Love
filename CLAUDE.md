@@ -3922,7 +3922,13 @@ classroom is one example of a whole school, what a small classroom keeps and wha
 outdoors (Helen: not every classroom has space for big sensory areas), an example flexible, interest-led day as a table, what the room cannot do
 without the rest of the school, and how to read the research. The
 friendly edits are a behaviour chart "as an example of what not to do" drawn on the wall, bunting and primary colours "because
-it is for children", a child drawn in the cave, and a quotation from the unpublished chapter before the book is out.
+it is for children", a child drawn in the cave, and a quotation from the unpublished chapter before the book is out. **The whiteboard has an essay on it** (Helen's ask, the same day): *From the Height of a Child*, by Helen Edgar and Ryan
+Boren, is the `<article class="cpc-essay">` in the page's `.cpc-board`, the only copy of its words, real text that scrolls on the board;
+`tools/make-classroom-pdf.py` prints `pdf/from-the-height-of-a-child.pdf` from it, **by hand and never in `check-all.sh`** (it needs Chrome,
+and a PDF's bytes carry the minute it was made), and `--check` says whether the PDF is older than the essay (`data/classroom-pdf.json`).
+Cel Street lifts `.cpc-essay` onto the 3D panel, so the essay's rules hang off `.cpc-essay` alone, never off the board round it. The
+friendly edits are the essay's words typed a second time into the PDF tool, the PDF in a frame in place of the words (one page on a
+phone and nothing to a screen reader), and a line of the unpublished chapter quoted in it.
 
 **CHAMPURU (§136) IS RYAN'S OWN TABLE, AND NOTHING ON IT SAYS WHAT FOOD DOES FOR A BODY.** Ryan's brief, 2026-11-03:
 a restaurant to sit in when he eats, next door to Vital Plant Living, with Mediterranean and Okinawan dishes and the

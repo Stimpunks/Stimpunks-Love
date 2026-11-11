@@ -309,6 +309,14 @@
       kit.plaque({ title: 'Cavendish Primary Classroom', lines: ['An example classroom for a class of thirty, set up the Cavendish Space way: the room changes, never the child.', 'cavendish.space'],
         face: '"Andika"', ink: '--cpc-ink', ground: '--cpc-card', edge: '--cpc-teal', w: 2.2, m: at(XR - 0.04, 2.55, -2.4, RIGHT) });
 
+      // THE ESSAY ON THE PANEL (Helen's ask, 2026-11-11): the page's own essay,
+      // From the Height of a Child, lifted onto the interactive panel's screen,
+      // where it scrolls as it does on the page. A lift is not in a headset, so
+      // a sign beside the panel says what is on it and where all of it is.
+      kit.lift(page, '.cpc-essay', { w: 1100, h: 600, ww: 1.72, m: at(0.1, 1.15, BACK + 0.42) });
+      kit.plaque({ title: 'On the whiteboard', lines: ['From the Height of a Child, an essay by Helen Edgar and Ryan Boren, November 2026.', 'All of it is on this classroom’s page, and there as a PDF.'],
+        face: '"Andika"', ink: '--cpc-ink', ground: '--cpc-card', edge: '--cpc-teal', w: 1.1, m: at(-1.52, 1.45, BACK + 0.03) });
+
       // THE SWITCHES, the class's own: lamps, blinds, fan, the cave's lights,
       // and seeing the room from a child's height.
       var LEVELS = [0, 0.7, 1.4, 2.4];
@@ -379,7 +387,7 @@
         { name: 'at the den under the round table, the second cave', where: 'at the den', x: DEN[0] + 1.4, z: DEN[1] + 0.6, yaw: LEFT + 0.4, pitch: -0.3, acts: [sitDen] },
         { name: 'in the garden at the tent under the tree, a cave outside', where: 'at the tent in the garden', x: XL - 4.6, z: -1.8, yaw: Math.PI - 0.5, pitch: -0.2 },
         { name: 'at the library shelf and the pinboard', where: 'at the library', x: -3.2, z: BACK + 2.0, yaw: 0, pitch: 0 },
-        { name: 'at the interactive panel and the timetable', where: 'at the panel', x: 0.1, z: BACK + 2.4, yaw: 0, pitch: 0.05, acts: [lamps] },
+        { name: 'at the interactive panel, with an essay on it to scroll and read, and the timetable', where: 'at the panel', x: 0.1, z: BACK + 2.4, yaw: 0, pitch: 0.05, acts: [lamps] },
         { name: 'at the rail of headphones, by the cave', where: 'at the headphones', x: 2.9, z: BACK + 1.6, yaw: 0, pitch: -0.05 },
         { name: 'at the sensory cave', where: 'at the cave', x: CX, z: CZ + CD / 2 + 1.0, yaw: 0, pitch: -0.12, acts: [caveLights, sitCave] },
         { name: 'under the fan', where: 'under the fan', x: -0.2, z: 1.6, yaw: 0, pitch: 0.5, acts: [fan] },

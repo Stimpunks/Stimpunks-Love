@@ -34416,6 +34416,38 @@ html[data-intensity="max"] .sfb-glint { animation: sfb-glint 6s ease-in-out infi
 }
 .cpc-refs { margin: 0; padding: 0 0 0 1.2em; }
 .cavendish-classroom .cpc-refs li { font-size: 16px; line-height: 1.5; margin: 0 0 8px; }
+/* THE INTERACTIVE WHITEBOARD, with an essay on it (Helen's ask, 2026-11-11):
+   the panel's dark bezel on the wall, a sheet of the room's own card inside it
+   that scrolls, and the stand under it. The bezel and the stand carry no word.
+   The essay's rules hang off .cpc-essay alone, because Cel Street lifts the
+   essay by itself onto the 3D panel, without the bezel round it. The scroll
+   region's ring is drawn inside it, on the sheet, where it is measured. */
+.cpc-board { max-width: 880px; margin: 34px auto 0; }
+.cavendish-classroom .cpc-board > h2 { font-family: 'Sniglet', var(--sans), sans-serif; font-weight: 400; color: var(--cpc-teal); font-size: clamp(24px, 3.4vw, 30px); line-height: 1.2; margin: 0 0 10px; }
+.cpc-board__panel { margin: 16px 0 0; padding: 14px; border-radius: 16px; background: var(--cpc-screen); }
+.cpc-board__screen { max-height: min(76vh, 780px); overflow-y: auto; border-radius: 6px; background: var(--cpc-card); padding: 22px 26px 26px; }
+.cavendish-classroom .cpc-board__screen:focus-visible { outline: 4px solid var(--cpc-link-2); outline-offset: -6px; }
+.cpc-board__stand { width: 34%; height: 46px; margin: 0 auto; border: solid var(--cpc-steel); border-width: 0 16px 10px; }
+.cavendish-classroom .cpc-essay h3 { font-family: 'Sniglet', var(--sans), sans-serif; font-weight: 800; color: var(--cpc-teal); font-size: clamp(24px, 3.6vw, 32px); line-height: 1.2; margin: 0 0 8px; }
+.cavendish-classroom .cpc-essay h4 { font-family: 'Sniglet', var(--sans), sans-serif; font-weight: 400; color: var(--cpc-teal); font-size: 22px; line-height: 1.25; margin: 26px 0 8px; }
+.cavendish-classroom .cpc-essay p { margin: 0 0 14px; }
+.cavendish-classroom .cpc-essay__by { font-weight: 700; margin: 0 0 6px; }
+.cavendish-classroom .cpc-essay__from { color: var(--cpc-ink-2); font-size: 16px; }
+.cavendish-classroom .cpc-essay a { color: var(--cpc-link); }
+.cavendish-classroom .cpc-essay a:hover { color: var(--cpc-link-2); }
+.cpc-essay__refs { list-style: none; margin: 0; padding: 0; }
+.cavendish-classroom .cpc-essay__refs li { font-size: 15px; line-height: 1.5; margin: 0 0 10px; padding-left: 1.6em; text-indent: -1.6em; overflow-wrap: anywhere; }
+/* On paper the board lets go of its scroll, so the whole essay prints. */
+@media print {
+  .cpc-board__screen { max-height: none; overflow: visible; }
+}
+@media (max-width: 560px) {
+  .cpc-board__panel { padding: 8px; border-radius: 12px; }
+  .cpc-board__screen { padding: 16px 14px 20px; }
+}
+.cavendish-classroom .cpc-walk { max-width: 880px; margin: 18px auto 0; }
+.cavendish-classroom .cpc-walk .cpc-go { margin: 0 10px 6px 0; background: var(--cpc-card); }
+.cavendish-classroom .cpc-walk__note { font-size: 16px; color: var(--cpc-ink-2); }
 .cpc-go { display: inline-block; margin: 6px 0 0; padding: 10px 18px; border: 2px solid var(--cpc-teal); border-radius: 999px; font-weight: 700; text-decoration: none; }
 
 /* THE CAVE IS THE ONE DARK PLACE, and its sheet is dark too. */
