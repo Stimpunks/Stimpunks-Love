@@ -156,14 +156,30 @@ function start() {
     mat.customProgramCacheKey = function () { return 'painted'; };
     return mat;
   }
+  // THE LOOK (Helen Edgar's call for her rooms, 2026-11-11: "more like Second
+  // Life and not anime cel style, that is my choice", then "an option for anime
+  // cel or photo real"): the street is drawn in cel, Ryan's look, and a room may
+  // say look: 'real' on its object, which draws it with smooth lit materials,
+  // soft colour in the light and no inked hulls, in exactly the same colours.
+  // Look under the stage lets anybody flip the room they are in between the
+  // two for this visit; it is kept nowhere. lookChoice is theirs, lookNow the
+  // look everything is built in while a room is built.
+  var lookChoice = null, lookNow = 'cel';
+  function real() { return lookNow === 'real'; }
+  function solid(c) {
+    return real()
+      ? painted(new THREE.MeshStandardMaterial({ color: c, roughness: 0.78, metalness: 0.0 }))
+      : painted(new THREE.MeshToonMaterial({ color: c, gradientMap: gradient }));
+  }
   var mats = {};
   function toon(name) {
-    if (!mats[name]) mats[name] = painted(new THREE.MeshToonMaterial({ color: col(name), gradientMap: gradient }));
-    return mats[name];
+    var k = lookNow + '|' + name;
+    if (!mats[k]) mats[k] = solid(col(name));
+    return mats[k];
   }
   function toonColor(c) {
-    var key = 'c' + c.getHexString();
-    if (!mats[key]) mats[key] = painted(new THREE.MeshToonMaterial({ color: c, gradientMap: gradient }));
+    var key = lookNow + '|c' + c.getHexString();
+    if (!mats[key]) mats[key] = solid(c);
     return mats[key];
   }
   var inkMat = new THREE.MeshBasicMaterial({ color: col('--cel-ink'), side: THREE.BackSide });
@@ -207,7 +223,7 @@ function start() {
     g.applyMatrix4(m);
     var c = chunkOf(g);
     bucket(key + '|' + c, mat, shadow).geos.push(g);
-    if (ink !== false) {
+    if (ink !== false && !real()) {
       var h = geo.index ? geo.toNonIndexed() : geo.clone();
       h.computeBoundingBox();
       tmpBox.copy(h.boundingBox); tmpBox.getSize(tmpSize); tmpBox.getCenter(tmpMid);
@@ -1121,8 +1137,34 @@ function start() {
   function holdToggle(mesh, by) {
     var h = mesh.userData.hold;
     if (h.by) { h.by = null; mesh.matrix.copy(h.home); mesh.matrixWorldNeedsUpdate = true; ctlSay((h.say || 'It') + ' goes back where it was.'); }
-    else { h.by = by; ctlSay('You pick up ' + (h.say || 'it') + '; press it again to put it back.'); }
+    else {
+      // One thing in a hand at a time: whatever that hand held goes home.
+      (scene.userData.holds || []).forEach(function (o) { var oh = o.userData.hold; if (oh.by === by) { oh.by = null; o.matrix.copy(oh.home); o.matrixWorldNeedsUpdate = true; } });
+      h.by = by; ctlSay('You pick up ' + (h.say || 'it') + '; press it again to put it back, or press something to use it on.');
+    }
     draw();
+  }
+  function heldBy(by) {
+    var hs = scene.userData.holds || [];
+    for (var i = 0; i < hs.length; i++) if (hs[i].userData.hold.by === by) return hs[i];
+    return null;
+  }
+  function heldNow() {
+    var hs = scene.userData.holds || [];
+    for (var i = 0; i < hs.length; i++) if (hs[i].userData.hold.by) return hs[i];
+    return null;
+  }
+  // A held thing put somewhere (kit.place): take() says what happened and
+  // stands the thing where it now is, or refuses with false.
+  function putOn(target, by) {
+    var held = heldBy(by);
+    if (!held || !target.userData.take) return false;
+    var words = target.userData.take(held, held.userData.hold.say);
+    if (words === false) return false;
+    held.userData.hold.by = null; held.matrixWorldNeedsUpdate = true;
+    ctlSay(typeof words === 'string' ? words : 'Done.');
+    draw();
+    return true;
   }
   // A SOUND WITH A PLACE (kit.spatial): a room's own sound, made by its page's
   // script (the Reading Room's crackle, the yurt's bell), is heard from where
@@ -1182,8 +1224,115 @@ function start() {
   function zoned(el, zone) { if (zone) (scene.userData.zoned = scene.userData.zoned || []).push({ el: el, zone: zone }); }
   // In a headset the headset asks for every picture itself (xrFrame), so a
   // change only moves you; the next picture it asks for shows it.
-  function draw() { place(); if (xrOn) return; zones(); renderer.render(scene, camera); css3d.render(scene, camera); }
+  function draw() { place(); if (xrOn) return; if (travel) { travelDraw(); return; } zones(); renderer.render(scene, camera); css3d.render(scene, camera); }
   function soon() { if (!frame) frame = requestAnimationFrame(tick); }
+
+  /* ── Through a portal: a swirl of the Milky Way ──────────────────────── */
+  // Helen Edgar's ask, 2026-11-12: going through any portal of her yurt is a
+  // travel down a spiral tunnel of space, real pictures and a slow swirl. A
+  // room says `tunnel: { walls, end }`, two photographs off its own page (the
+  // yurt's are the Milky Way behind her Music Room's doors and the Whirlpool
+  // Galaxy behind her Cinema's, credited there and on this page): the walls
+  // are wrapped round a tube you look down, twice over at two depths so the
+  // stars part as you go, and the galaxy turns at the far end and comes to
+  // meet you. Nothing is drawn over either picture. It plays only on a press
+  // (Walk into, Back out, a place in the headset) between that room and a room
+  // off it, for TRAVEL seconds; the tube swirls at SWIRL and the galaxy turns
+  // at TURN_GALAXY, both radians a second and both far slower than TURN_MIN
+  // allows; at Gentle the picture stands still for TRAVEL_STILL seconds and
+  // nothing swirls; in a low-stimulation mode, or a hidden tab, there is no
+  // travel at all, you are simply there. It comes up and goes over FADE
+  // seconds each way, so nothing flashes. tools/make-cel-street.py holds the
+  // turns and the fade.
+  var TRAVEL = 3.4, TRAVEL_STILL = 1.2, SWIRL = 0.11, TURN_GALAXY = 0.09, FADE = 0.5, TRAVEL_MOST = 12;
+  var travel = null, tunnelScene = null, tunnel = null;
+  function tunnelMake(spec) {
+    var key = spec.walls + '|' + spec.end;
+    if (tunnel && tunnel.key === key) return tunnel;
+    var loader = new THREE.TextureLoader();
+    // The walls are the sky alone: a room says how much of its photograph is
+    // sky (`sky`, a fraction from the top), and the ground below the horizon
+    // is left off the tube, because a tunnel of space has no desert in it.
+    // That is a crop and nothing else; no pixel of the sky is changed.
+    function pic(file, rx, ry, sky) {
+      var t = loader.load(file, function (tex) {
+        if (sky && sky < 1 && tex.image) {
+          var im = tex.image, c = document.createElement('canvas');
+          c.width = im.width; c.height = Math.round(im.height * sky);
+          c.getContext('2d').drawImage(im, 0, 0, im.width, c.height, 0, 0, c.width, c.height);
+          tex.image = c;
+        }
+        tex.needsUpdate = true;
+        if (travel) soon();
+      });
+      t.colorSpace = THREE.SRGBColorSpace;
+      if (rx) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rx, ry); }
+      return t;
+    }
+    tunnelScene = new THREE.Scene();
+    tunnelScene.background = col('--cel-ink');
+    var rig = new THREE.Group();
+    var tube = new THREE.CylinderGeometry(1, 1, 90, 48, 1, true);
+    tube.rotateX(Math.PI / 2);
+    var outer = new THREE.Mesh(tube, new THREE.MeshBasicMaterial({ map: pic(spec.walls, 5, 10, spec.sky), side: THREE.BackSide, transparent: true, opacity: 0 }));
+    outer.scale.set(2.6, 2.6, 1); outer.position.z = -34;
+    var inner = new THREE.Mesh(tube, new THREE.MeshBasicMaterial({ map: pic(spec.walls, 3, 7, spec.sky), side: THREE.BackSide, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+    inner.scale.set(1.7, 1.7, 1); inner.position.z = -34; inner.rotation.z = 1.3;
+    // The far end is closed with the same sky, so there is no hole of black
+    // past the galaxy, and the galaxy stands in front of it, big enough to
+    // fill the tube by the time it reaches you.
+    var sky = new THREE.Mesh(new THREE.CircleGeometry(2.7, 64), new THREE.MeshBasicMaterial({ map: pic(spec.walls, 1.4, 1.4, spec.sky), transparent: true, opacity: 0 }));
+    sky.position.z = -78;
+    var galaxy = new THREE.Mesh(new THREE.CircleGeometry(4.8, 64), new THREE.MeshBasicMaterial({ map: pic(spec.end), transparent: true, opacity: 0 }));
+    galaxy.position.z = -44;
+    rig.add(outer, inner, sky, galaxy);
+    tunnelScene.add(rig);
+    tunnel = { key: key, rig: rig, outer: outer, inner: inner, sky: sky, galaxy: galaxy };
+    return tunnel;
+  }
+  function travelStart(spec) {
+    if (!spec || document.documentElement.hasAttribute('data-low') || (document.hidden && !xrOn)) return;
+    if (travel) { travel.arrived = false; return; }
+    var gentle = document.documentElement.getAttribute('data-intensity') === 'gentle';
+    travel = { t: 0, began: performance.now(), len: gentle ? TRAVEL_STILL : TRAVEL, swirl: !gentle, arrived: false };
+    var t = tunnelMake(spec), v = new THREE.Vector3();
+    if (xrOn) dolly.updateMatrixWorld(true); else camera.updateMatrixWorld(true);
+    camera.getWorldDirection(v);
+    t.rig.rotation.set(0, Math.atan2(-v.x, -v.z), 0);
+    t.galaxy.position.z = -44; t.galaxy.scale.set(1, 1, 1);
+    css3d.domElement.style.visibility = 'hidden';
+    soon();
+  }
+  function travelStep(dt, now) {
+    var t = tunnel, tr = travel;
+    // Its length is the clock's, so a slow frame never draws it out.
+    tr.t = (now - tr.began) / 1000;
+    var fade = Math.max(0, Math.min(1, tr.t / FADE, (tr.len - tr.t) / FADE));
+    t.outer.material.opacity = fade; t.inner.material.opacity = fade * 0.55; t.galaxy.material.opacity = fade; t.sky.material.opacity = fade;
+    if (tr.swirl) {
+      var on = Math.min(1, tr.t / tr.len);
+      t.outer.material.map.offset.y -= dt * 0.22;
+      t.inner.material.map.offset.y -= dt * 0.34;
+      t.outer.rotation.z += SWIRL * dt;
+      t.inner.rotation.z -= SWIRL * 0.6 * dt;
+      t.galaxy.rotation.z += TURN_GALAXY * dt;
+      t.galaxy.position.z = -44 + 30 * on;
+      t.galaxy.scale.setScalar(1 + 0.5 * on);
+      t.sky.rotation.z -= SWIRL * 0.3 * dt;
+    }
+    if (tr.t >= tr.len && (tr.arrived || tr.t > TRAVEL_MOST)) {
+      travel = null;
+      css3d.domElement.style.visibility = '';
+      draw();
+    }
+  }
+  function travelDraw() {
+    var v = new THREE.Vector3();
+    if (xrOn) dolly.updateMatrixWorld(true); else camera.updateMatrixWorld(true);
+    camera.getWorldPosition(v);
+    tunnel.rig.position.copy(v);
+    renderer.render(tunnelScene, camera);
+  }
 
   /* ── What a room lets move, and only when somebody asks ──────────────── */
   // Ryan, 2026-11-04, for the Faery Yurt and the rooms off it: candles that
@@ -1372,11 +1521,70 @@ function start() {
       tint: function (name, to) { toon(name).color.copy(col(to)); },
       piece: function (geo, m, ink, ink2, shadow) { piece(geo, m, toon(ink), ink, ink2, shadow); },
       facets: function (geo, m, ink) {
-        var mat = painted(new THREE.MeshToonMaterial({ color: col(ink), gradientMap: gradient }));
-        var mesh = put(new THREE.Mesh(geo, mat), m);
+        var mesh = put(new THREE.Mesh(geo, solid(col(ink))), m);
         mesh.castShadow = true;
         return mesh;
       },
+      // cloth(kind, inkA, inkB, repeat): a woven, knitted, velvet, fur, pile,
+      // canvas or leather texture drawn on a canvas in two of the room's
+      // inks (Helen's ask, 2026-11-11: cushions, rugs and blankets with a
+      // texture you can see), tiled `repeat` times across a metre, for
+      // kit.fabric. Drawn, never fetched; the colours are the room's own.
+      cloth: function (kind, inkA, inkB, repeat) {
+        var a = css(inkA), b = css(inkB), N = 256;
+        var map = tex(N, N, function (g) {
+          g.fillStyle = a; g.fillRect(0, 0, N, N);
+          g.fillStyle = b; g.strokeStyle = b;
+          var i, j, k;
+          if (kind === 'weave' || kind === 'canvas') {
+            var step = kind === 'canvas' ? 8 : 16;
+            for (i = 0; i < N; i += step) for (j = 0; j < N; j += step) {
+              if (((i + j) / step) % 2 === 0) { g.globalAlpha = 0.55; g.fillRect(i, j, step - 1, step / 2 - 1); g.globalAlpha = 0.3; g.fillRect(i, j + step / 2, step / 2 - 1, step / 2 - 1); }
+            }
+          } else if (kind === 'knit') {
+            g.lineWidth = 5; g.lineCap = 'round';
+            for (j = 0; j < N + 16; j += 16) for (i = 0; i < N + 16; i += 16) {
+              g.globalAlpha = 0.6; g.beginPath(); g.moveTo(i, j); g.lineTo(i + 8, j + 10); g.lineTo(i + 16, j); g.stroke();
+              g.globalAlpha = 0.25; g.beginPath(); g.moveTo(i + 2, j + 4); g.lineTo(i + 8, j + 12); g.lineTo(i + 14, j + 4); g.stroke();
+            }
+          } else if (kind === 'velvet') {
+            for (k = 0; k < 9000; k++) { g.globalAlpha = 0.08 + Math.random() * 0.12; g.fillRect(Math.random() * N, Math.random() * N, 2, 3 + Math.random() * 4); }
+          } else if (kind === 'fur') {
+            g.lineWidth = 2; g.lineCap = 'round';
+            for (k = 0; k < 1400; k++) {
+              var x = Math.random() * N, y = Math.random() * N, r = 4 + Math.random() * 6;
+              g.globalAlpha = 0.25 + Math.random() * 0.35; g.beginPath(); g.arc(x, y, r, Math.random() * Math.PI, Math.random() * Math.PI + 3); g.stroke();
+            }
+          } else if (kind === 'pile') {
+            for (i = 0; i < N; i += 6) for (j = 0; j < N; j += 6) { g.globalAlpha = 0.15 + ((i * 7 + j * 13) % 10) / 25; g.beginPath(); g.arc(i + 3, j + 3, 2.2, 0, Math.PI * 2); g.fill(); }
+          } else if (kind === 'leather') {
+            for (k = 0; k < 2200; k++) { g.globalAlpha = 0.06 + Math.random() * 0.1; g.beginPath(); g.arc(Math.random() * N, Math.random() * N, 3 + Math.random() * 5, 0, Math.PI * 2); g.fill(); }
+            g.globalAlpha = 0.35; g.lineWidth = 1;
+            for (k = 0; k < 60; k++) { g.beginPath(); g.moveTo(Math.random() * N, Math.random() * N); g.lineTo(Math.random() * N, Math.random() * N); g.stroke(); }
+          }
+          g.globalAlpha = 1;
+        });
+        map.wrapS = map.wrapT = THREE.RepeatWrapping;
+        map.repeat.set(repeat || 4, repeat || 4);
+        return map;
+      },
+      // fabric(geo, m, cloth, shadow): a thing made of cloth, its own mesh,
+      // the weave as its surface and, in the real look, as its relief too.
+      fabric: function (geo, m, cloth, shadow) {
+        var mat = real()
+          ? new THREE.MeshStandardMaterial({ map: cloth, bumpMap: cloth, bumpScale: 0.012, roughness: 0.96, metalness: 0 })
+          : new THREE.MeshToonMaterial({ map: cloth, gradientMap: gradient });
+        var mesh = put(new THREE.Mesh(geo, mat), m);
+        mesh.castShadow = shadow !== false; mesh.receiveShadow = true;
+        return mesh;
+      },
+      // place(touch, take): somewhere a held thing can be put: pressed while
+      // you hold something, take(mesh, say) is called with it and says what
+      // happened (and sets the mesh's matrix where it now stands), or returns
+      // false to refuse; the thing is let go of if it was taken.
+      place: function (hb, take) { hb.userData.take = take; return hb; },
+      // held(): the thing in your hand just now, or null.
+      held: function () { return heldNow(); },
       flat: function (geo, m, ink) { return put(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: col(ink) })), m); },
       // A colour by name as the canvas wants it, a sheet of paper drawn on a
       // canvas in those inks, and that sheet hung somewhere, lit like
@@ -1385,7 +1593,10 @@ function start() {
       paper: function (pw, ph, draw) { return tex(pw, ph, draw); },
       // Sheets of one paper are merged into one mesh, however many there are.
       sheet: function (map, w, h, m) {
-        if (!map.userData.mat) map.userData.mat = new THREE.MeshToonMaterial({ map: map, gradientMap: gradient });
+        if (!map.userData.mat || map.userData.look !== lookNow) {
+          map.userData.look = lookNow;
+          map.userData.mat = real() ? new THREE.MeshStandardMaterial({ map: map, roughness: 0.9, metalness: 0 }) : new THREE.MeshToonMaterial({ map: map, gradientMap: gradient });
+        }
         var g = PLANE.clone(); g.scale(w, h, 1);
         piece(g, m, map.userData.mat, 'sheet' + map.uuid, false, false);
       },
@@ -1593,11 +1804,22 @@ function start() {
       // headset and on a screen, and pressed again you stand. One seat at a
       // time; leaving the room stands you up.
       sit: function (o) {
-        var self = this;
+        var self = this, SQ = new THREE.Matrix4();
+        // o.squash: the cushion's mesh (kit.facets or kit.fabric), pressed a
+        // little flatter while you sit on it, and back when you stand.
+        function squash(down) {
+          if (!o.squash) return;
+          var m = o.squash;
+          if (!m.userData.unsquashed) m.userData.unsquashed = m.matrix.clone();
+          m.matrix.copy(m.userData.unsquashed);
+          if (down) { var p = new THREE.Vector3().setFromMatrixPosition(m.matrix); m.matrix.premultiply(SQ.makeTranslation(-p.x, -p.y, -p.z)).premultiply(SQ.makeScale(1.06, 0.78, 1.06)).premultiply(SQ.makeTranslation(p.x, p.y, p.z)); }
+          m.matrixWorldNeedsUpdate = true;
+        }
         return self.press({ say: function () { return seated === o ? (o.up || 'Stand up') : (o.say || 'Sit down'); }, at: o.at,
           press: function () {
-            if (seated === o) { seated = null; xrSeat = 0; place(); vrPanelPlace(); return o.stood || 'You stand up.'; }
-            seated = o; xrSeat = SEAT;
+            if (seated === o) { seated = null; xrSeat = 0; squash(false); place(); vrPanelPlace(); return o.stood || 'You stand up.'; }
+            if (seated && seated.unsquash) seated.unsquash();
+            seated = o; o.unsquash = function () { squash(false); }; squash(true); xrSeat = SEAT;
             if (xrOn) footFor(o.x, o.z, o.yaw - headLocal().yaw); else { me.x = o.x; me.z = o.z; me.yaw = o.yaw; }
             place(); vrPanelPlace();
             return o.sat || 'You sit down.';
@@ -1846,6 +2068,7 @@ function start() {
   function enter(page, push, then) {
     if (!ROOMS[page] || (inside && inside.page === page)) return;
     var from = inside;
+    if (inside && inside.tunnel && push !== false && stops.some(function (t) { return t.page === page; })) travelStart(inside.tunnel);
     roomFile(page, function (room) {
       if (inside !== from) return;
       // Arriving straight at a room that opens off another (by its address),
@@ -1861,8 +2084,13 @@ function start() {
       scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = 'none'; });
       scene = new THREE.Scene(); far = []; hits = []; buckets = {};
       var name = room.name || (door ? door.room || door.name : page);
+      lookNow = lookChoice || room.look || 'cel';
+      // In the real look nothing is lifted to a bright step by the cel's
+      // gradient, so the room gets a little even light of its own to stand on.
+      if (real()) scene.add(new THREE.AmbientLight(col('--cel-page'), 0.55));
       var k = kit(page, name);
       var made = room.build(k);
+      lookNow = 'cel';
       // A room with a basket of wings (Helen Edgar's yurt, 2026-11-09) lends a
       // pair while you are in it: a row under the room's own switches, None
       // first. The pair goes with your place to the radio (spotTell), and back
@@ -1879,7 +2107,8 @@ function start() {
       }
       bake();
       xrSeat = 0; seated = null; xrTour = 0;
-      inside = { page: page, name: name, vr: !!made.vr };
+      inside = { page: page, name: name, vr: !!made.vr, from: room.from || null, tunnel: room.tunnel || null };
+      if (travel) travel.arrived = true;
       // A room that starts at a level of its own (Helen's yurt at MAX GLITTER,
       // 2026-11-11): love.js decides, honouring a dial the visitor has set and
       // a device that asks for less, and stores nothing.
@@ -1888,7 +2117,7 @@ function start() {
       me = { x: made.start.x, z: made.start.z, yaw: made.start.yaw || 0, pitch: 0.05 };
       up = false; glide = null; held = {};
       if (push !== false) history.pushState({ celIn: page }, '', '#in=' + page.replace(/\.html$/, ''));
-      wayOut(); places(); roomCtl(); vrOffer(); radioRoom();
+      wayOut(); places(); roomCtl(); vrOffer(); radioRoom(); lookShow();
       said = '';
       draw(); tell(); plateUp(); moves();
       if (xrOn && inside.vr) vrStand({ x: me.x, z: me.z, yaw: me.yaw });
@@ -1925,6 +2154,8 @@ function start() {
   }
   function leave() {
     if (!inside) return;
+    var into = behind.length ? behind[behind.length - 1].inside : null;
+    if (into && into.tunnel && inside.from === into.page) travelStart(into.tunnel);
     scene.traverse(function (o) {
       if (o.geometry) o.geometry.dispose();
       if (o.isCSS3DObject && o.element.parentNode) o.element.parentNode.removeChild(o.element);
@@ -1934,6 +2165,7 @@ function start() {
     inside = was.inside; glide = null; held = {}; wornWings = null;
     // The room you came back into shows its own page again.
     scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = ''; });
+    if (travel) travel.arrived = true;
     wayOut(); places(); roomCtl(); vrOffer(); radioRoom();
     if (!inside && list) list.querySelectorAll('a').forEach(function (a) { a.removeAttribute('tabindex'); });
     said = '';
@@ -2174,6 +2406,7 @@ function start() {
     var dt = last ? Math.min((now - last) / 1000, 0.1) : 0;
     last = now;
     var any = false;
+    if (travel) { travelStep(dt, now); any = !!travel; }
     Object.keys(held).forEach(function (w) { if (held[w]) { any = true; act(w, { m: WALK * dt, t: TURN * dt }); } });
     if (glide) {
       glide.t = Math.min(1, glide.t + dt / glide.len);
@@ -2536,6 +2769,7 @@ function start() {
     ray.setFromCamera(ndc, camera);
     var hit = ray.intersectObjects(hits, false)[0];
     // A thing a room lets you press is pressed; anything else stands you there.
+    if (hit && hit.object.userData.take && heldBy('screen') && putOn(hit.object, 'screen')) return;
     if (hit && hit.object.userData.hold) { holdToggle(hit.object, 'screen'); return; }
     if (hit && hit.object.userData.act) hit.object.userData.act.go();
     else if (hit) standAt(stops[hit.object.userData.stop]);
@@ -2944,6 +3178,7 @@ function start() {
       items.push({ words: xrVoice ? 'Places read aloud: on' : 'Places read aloud: off', pressed: xrVoice,
         go: function () { xrVoice = !xrVoice; if (!xrVoice && window.speechSynthesis) window.speechSynthesis.cancel(); vrPanel(); vrTell(xrVoice ? 'Each place is read aloud as you arrive.' : 'Places are not read aloud.'); } });
       if (inside) items.push({ words: xrTour ? 'Stop the walk round' : 'Walk me round the room, place by place (any press stops it)', pressed: !!xrTour, go: function () { tourToggle(); } });
+      if (inside) items.push({ words: lookOf() === 'real' ? 'Look: real (press for cel)' : 'Look: cel (press for real)', go: function () { relook(); } });
       items.push({ words: 'Put the switches away', go: function () { panelOpen = false; vrPanel(); } });
       items.push({ words: 'Take the headset out of the room', go: function () { if (xrSession) xrSession.end(); } });
     } else {
@@ -2996,6 +3231,7 @@ function start() {
     if (xrTour) { xrTour = 0; vrTell('The walk round stops here.'); }
     if (!a) return;
     if (a.tile) { if (a.tile.btn) a.tile.btn.click(); else a.tile.go(); vrPanel(); return; }
+    if (a.hit && a.hit.userData.take && heldBy(hand) && putOn(a.hit, hand)) { vrPanel(); return; }
     if (a.hit && a.hit.userData.hold) { holdToggle(a.hit, hand); vrPanel(); return; }
     if (a.hit && a.hit.userData.act) { a.hit.userData.act.go(); vrPanel(); return; }
     if (a.hit) {
@@ -3135,6 +3371,7 @@ function start() {
     tourStep(now);
     vignetteStep(dt);
     place();
+    if (travel) { travelStep(dt, now); if (travel) { travelDraw(); return; } }
     xrBeams();
     renderer.render(scene, camera);
     if (!xrLast) { xrLast = now; vrPanelPlace(); }
@@ -3196,6 +3433,31 @@ function start() {
       if (vrNote) vrNote.textContent = 'The headset could not open the room just now.';
     });
   }
+
+  /* ── The look, flipped for this visit ──────────────────────────────────── */
+  // Under the stage, in a room only (the street stays in its cel): the room
+  // you are in drawn again in the other look, where you stand, kept nowhere.
+  var lookBtn = document.querySelector('[data-cel-look]');
+  function lookOf() { return inside ? (lookChoice || (window.loveCelRooms[inside.page] || {}).look || 'cel') : 'cel'; }
+  function lookShow() {
+    if (!lookBtn) return;
+    lookBtn.hidden = !inside;
+    lookBtn.textContent = lookOf() === 'real' ? 'Look: real (press for cel)' : 'Look: cel (press for real)';
+  }
+  function relook() {
+    if (!inside) return;
+    lookChoice = lookOf() === 'real' ? 'cel' : 'real';
+    var pg = inside.page, was = { x: me.x, z: me.z, yaw: me.yaw, pitch: me.pitch };
+    outOfRoom();
+    enter(pg, false, function () {
+      me.x = was.x; me.z = was.z; me.yaw = was.yaw; me.pitch = was.pitch;
+      // Back out pushed the parent's address; the room is still the room.
+      history.replaceState({ celIn: pg }, '', '#in=' + pg.replace(/\.html$/, ''));
+      place(); draw(); tell(); lookShow(); vrPanelPlace();
+    });
+    ctlSay(lookChoice === 'real' ? 'The room is drawn in the real look: smooth and lit, no inked edges, the same colours.' : 'The room is drawn in the cel look: flat colour and inked edges.');
+  }
+  if (lookBtn) lookBtn.addEventListener('click', relook);
 
   /* ── Read the street, then build ───────────────────────────────────────── */
   fetch('index.html', { credentials: 'same-origin', cache: 'no-cache' })

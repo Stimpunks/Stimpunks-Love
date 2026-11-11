@@ -124,6 +124,21 @@
    lights stand in the room where twenty-three did, without the house going
    darker than it was.
 
+   ROUND 8 (Helen Edgar's calls, 2026-11-11: her rooms open in a real look,
+   "more like Second Life and not anime cel style, that is my choice",
+   keeping every colour as it is, with cloth you can see the weave of). The
+   room says look: 'real', so the kit builds it with smooth lit materials and
+   no inked hulls, in the same inks; Look under the stage flips it back to
+   cel for a visit. The seats' cushions and backs are velvet drawn as cloth
+   (kit.cloth, kit.fabric), the pelmet, its valance and every curtain fold
+   velvet too, the aisle runners pile, and the velvet of the rope; the three
+   seats you can sit in press their cushion flatter while you sit (kit.sit's
+   squash) and let it back up when you stand; and the film can or the spare
+   reel in your hand can be put in the projection box (kit.place), where it
+   stands beside the projector until pressed again, the reels turning at MAX
+   or on their switch as before. Round things got more segments for the
+   smooth look. Nothing new moves.
+
    This is ours, hers to keep or send back, and a change to how it looks is
    hers to ask for. Every colour is one of hers, by name. It keeps nothing,
    sends nothing and fetches nothing; her page arrives through Cel Street's
@@ -135,12 +150,20 @@
   window.loveCelRooms['faery-cinema-room.html'] = {
     name: 'The Cinema',
     from: 'faery-yurt.html',
+    // Helen's call, 2026-11-11: her rooms open in the real look, smooth and
+    // lit, the same colours; Look under the stage flips it for a visit.
+    look: 'real',
     // The face the signs are lettered in, loaded before the room is built.
     faces: ['"Cormorant Garamond"'],
     build: function (kit) {
       var T = kit.THREE, at = kit.at, box = kit.box, W = 13, D = 21, H = 7.5, back = -D;
       var M = function (a, b) { return new T.Matrix4().multiplyMatrices(a, b); };
       var LEFT = Math.PI / 2, RIGHT = -Math.PI / 2, UP = new T.Vector3(0, 1, 0);
+      // THE CLOTH (round 8): velvet in the room's velvet and panel, pile for
+      // the aisle runners in ember and velvet, each drawn once and tiled.
+      var velvetC = kit.cloth('velvet', '--rdr-velvet', '--rdr-panel', 6);
+      var pileC = kit.cloth('pile', '--rdr-ember', '--rdr-velvet', 12);
+      var cushions = {};
       function v(x, y, z) { return new T.Vector3(x, y, z); }
       function hash(i, j, k) {
         var n = Math.imul(i + 11, 374761393) ^ Math.imul(j + 37, 668265263) ^ Math.imul(k + 41, 2147483647);
@@ -307,13 +330,13 @@
       box(sx + 0.3, 4.1, 0.05, at(0, sy, back + 0.08), '--rdr-stone', false);
       // The pelmet, with its fringe of brass along the foot.
       var pel = 2 * half + 1.6, pelY = post + 1.5;
-      box(pel, 0.6, 0.3, at(0, pelY, back + 0.62), '--rdr-velvet');
+      kit.fabric(new T.BoxGeometry(pel, 0.6, 0.3), at(0, pelY, back + 0.62), velvetC);
       for (var fr = -pel / 2 + 0.06; fr < pel / 2; fr += 0.11) kit.cyl(0.018, 0.03, 0.14, at(fr, pelY - 0.37, back + 0.78), '--rdr-brass', false, 6);
       [-1, 1].forEach(function (s) {
-        for (var f = 0; f < 6; f++) kit.cyl(0.11, 0.17, pelY, at(s * (half + 0.45 + f * 0.17), pelY / 2, back + 0.55 + (f % 2) * 0.08), '--rdr-velvet', false, 10);
+        for (var f = 0; f < 6; f++) kit.fabric(new T.CylinderGeometry(0.11, 0.17, pelY, 18), at(s * (half + 0.45 + f * 0.17), pelY / 2, back + 0.55 + (f % 2) * 0.08), velvetC);
         var tx = s * (half + 0.88), ty = 2.4, tz = back + 0.82;
-        kit.piece(new T.TorusGeometry(0.55, 0.045, 6, 16), at(tx, ty, tz, 0, Math.PI / 2), '--rdr-brass', false);
-        kit.piece(new T.SphereGeometry(0.09, 10, 8), at(tx + s * 0.5, ty, tz + 0.2), '--rdr-brass', false);
+        kit.piece(new T.TorusGeometry(0.55, 0.045, 10, 30), at(tx, ty, tz, 0, Math.PI / 2), '--rdr-brass', false);
+        kit.piece(new T.SphereGeometry(0.09, 18, 14), at(tx + s * 0.5, ty, tz + 0.2), '--rdr-brass', false);
         kit.cyl(0.02, 0.1, 0.36, at(tx + s * 0.5, ty - 0.27, tz + 0.2), '--rdr-brass', false, 10);
       });
 
@@ -410,12 +433,13 @@
           var cx = -2.45 + c * 0.7, sg = at(cx, 0, rz);
           // The seat: a cushion with a welt round it, on a timber frame.
           box(0.58, 0.14, 0.5, M(sg, at(0, 0.46, 0)), '--rdr-velvet');
-          var cushion = new T.BoxGeometry(0.52, 0.06, 0.44); cushion.translate(0, 0, 0);
-          kit.piece(cushion, M(sg, at(0, 0.56, 0.01)), '--rdr-velvet', 0.012);
+          // The cushion and the back are cloth, each its own mesh, so the
+          // velvet's nap is there in the light and a sat-on cushion can give.
+          cushions[row + ',' + c] = kit.fabric(new T.BoxGeometry(0.52, 0.06, 0.44), M(sg, at(0, 0.56, 0.01)), velvetC);
           box(0.54, 0.014, 0.46, M(sg, at(0, 0.535, 0.01)), '--rdr-ember', false, false);
           box(0.58, 0.04, 0.5, M(sg, at(0, 0.37, 0)), '--rdr-timber', false);
           // The back, with a top rail of brass and a pleat or two in the velvet.
-          box(0.58, 0.68, 0.12, M(sg, at(0, 0.84, 0.26, 0, -0.12)), '--rdr-velvet');
+          kit.fabric(new T.BoxGeometry(0.58, 0.68, 0.12), M(sg, at(0, 0.84, 0.26, 0, -0.12)), velvetC);
           [-0.15, 0, 0.15].forEach(function (px) { box(0.014, 0.58, 0.012, M(sg, M(at(0, 0.84, 0.26, 0, -0.12), at(px, -0.02, 0.064))), '--rdr-stone', false, false); });
           box(0.52, 0.03, 0.05, M(sg, at(0, 1.18, 0.31, 0, -0.12)), '--rdr-brass', false);
           box(0.1, 0.05, 0.015, M(sg, at(0, 1.02, 0.34, 0, -0.12)), '--rdr-brass', false, false);
@@ -438,7 +462,7 @@
       box(2.64, 0.08, 1.34, at(0, 5.56, -0.75), '--rdr-timber', false);
       kit.flat(new T.PlaneGeometry(0.9, 0.55), at(0, 6.1, -1.41, Math.PI), '--rdr-panel');
       box(0.5, 0.26, 0.4, at(0, 6.0, -1.25), '--rdr-timber', false);
-      kit.cyl(0.11, 0.13, 0.22, at(0, 6.1, -1.45, 0, Math.PI / 2), '--rdr-brass', false, 14);
+      kit.cyl(0.11, 0.13, 0.22, at(0, 6.1, -1.45, 0, Math.PI / 2), '--rdr-brass', false, 26);
       kit.flat(new T.CircleGeometry(0.09, 14), at(0, 6.1, -1.565, Math.PI), '--rdr-flame-2');
       // The projector's two reels, the feed and the take-up, above the lens
       // on the face of the box, facing the house as in her drawing, each on a
@@ -712,16 +736,16 @@
       // glow at the lens, a soft disc of flame over the glass, still.
       [-1, 1].forEach(function (sd) {
         kit.cyl(0.03, 0.03, 0.9, at(sd * 2.6, 0.45 + 0.4, back + 2.55), '--rdr-brass', false, 10);
-        kit.piece(new T.SphereGeometry(0.06, 10, 8), at(sd * 2.6, 1.32, back + 2.55), '--rdr-brass', false);
-        kit.cyl(0.12, 0.12, 0.03, at(sd * 2.6, 0.415, back + 2.55), '--rdr-brass', false, 14);
+        kit.piece(new T.SphereGeometry(0.06, 18, 14), at(sd * 2.6, 1.32, back + 2.55), '--rdr-brass', false);
+        kit.cyl(0.12, 0.12, 0.03, at(sd * 2.6, 0.415, back + 2.55), '--rdr-brass', false, 26);
       });
       var rp = v(-2.6, 1.28, back + 2.55), rq = v(2.6, 1.28, back + 2.55), rprev = rp;
       for (var rk = 1; rk <= 16; rk++) {
         var rv = rk / 16, rpt = rp.clone().lerp(rq, rv); rpt.y -= Math.sin(rv * Math.PI) * 0.32;
-        kit.piece(rodGeo(rprev, rpt, 0.025, 6), new T.Matrix4(), '--rdr-velvet', false);
+        kit.fabric(rodGeo(rprev, rpt, 0.025, 10), new T.Matrix4(), velvetC, false);
         rprev = rpt;
       }
-      [-1, 1].forEach(function (sd) { box(0.9, 0.012, D - 4.6, at(sd * 3.3, 0.028, -D / 2 - 1.0), '--rdr-ember', false, false); });
+      [-1, 1].forEach(function (sd) { kit.fabric(new T.BoxGeometry(0.9, 0.012, D - 4.6), at(sd * 3.3, 0.028, -D / 2 - 1.0), pileC, false); });
       var lensGlow = kit.flat(new T.CircleGeometry(0.2, 18), at(0, 6.1, -1.575, Math.PI), '--rdr-flame-2');
       lensGlow.material.transparent = true; lensGlow.material.opacity = 0.35;
 
@@ -758,9 +782,12 @@
       // The pelmet's fringe hung thicker, a valance of folds over the
       // curtains, and more folds in the curtains themselves.
       for (var fr2 = -pel / 2 + 0.03; fr2 < pel / 2; fr2 += 0.11) kit.cyl(0.014, 0.024, 0.11, at(fr2 + 0.055, pelY - 0.4, back + 0.84), '--rdr-brass', false, 5);
-      for (var vf = -pel / 2 + 0.2; vf < pel / 2; vf += 0.36) kit.cyl(0.14, 0.17, 0.5, at(vf, pelY + 0.06, back + 0.7), '--rdr-velvet', false, 10);
+      for (var vf = -pel / 2 + 0.2; vf < pel / 2; vf += 0.36) kit.fabric(new T.CylinderGeometry(0.14, 0.17, 0.5, 18), at(vf, pelY + 0.06, back + 0.7), velvetC);
       [-1, 1].forEach(function (s) {
-        for (var f2 = 0; f2 < 5; f2++) kit.cyl(0.08, 0.13, pelY - 0.3, at(s * (half + 0.52 + f2 * 0.19), (pelY - 0.3) / 2, back + 0.74 + (f2 % 2) * 0.09), f2 % 2 ? '--rdr-ember' : '--rdr-velvet', false, 10);
+        for (var f2 = 0; f2 < 5; f2++) {
+          if (f2 % 2) kit.cyl(0.08, 0.13, pelY - 0.3, at(s * (half + 0.52 + f2 * 0.19), (pelY - 0.3) / 2, back + 0.74 + (f2 % 2) * 0.09), '--rdr-ember', false, 18);
+          else kit.fabric(new T.CylinderGeometry(0.08, 0.13, pelY - 0.3, 18), at(s * (half + 0.52 + f2 * 0.19), (pelY - 0.3) / 2, back + 0.74 + (f2 % 2) * 0.09), velvetC);
+        }
       });
       // The projection box: a lamp house behind it with a vent, a hood on
       // the lens, a second port, and a brass plate under the window.
@@ -860,7 +887,8 @@
       function seatAt(row, c, say) {
         var sx2 = -2.45 + c * 0.7, sz2 = -6 - row * 1.35;
         return kit.sit({ x: sx2, z: sz2, yaw: 0, say: say, up: 'Stand up from the seat',
-          sat: 'You sit, in the velvet, facing the screen.', stood: 'You stand up out of the seat.',
+          sat: 'You sit, in the velvet, facing the screen; the cushion gives under you.', stood: 'You stand up out of the seat, and the cushion fills out again.',
+          squash: cushions[row + ',' + c],
           at: [kit.touch(0.6, 0.9, 0.5, at(sx2, 0.7, sz2))] });
       }
       var sitMid = seatAt(3, 3, 'Sit down in the middle of the house');
@@ -874,6 +902,15 @@
       var spareReel = new T.CylinderGeometry(0.2, 0.2, 0.025, 24);
       kit.hold(kit.facets(spareReel, M(holdG, at(-0.85, 0.07, 0.25, 0.4)), '--rdr-ink-2'), { say: 'a spare reel' });
       kit.cyl(0.03, 0.03, 0.03, M(holdG, at(-0.85, 0.098, 0.25)), '--rdr-brass', false, 10);
+      // A film can or a spare reel in your hand can be put in the projection
+      // box (round 8, kit.place): it stands beside the projector, on the
+      // box's ledge, until pressed again, which puts it back where it came
+      // from; anything else in your hand is refused.
+      kit.place(kit.touch(2.6, 1.4, 1.4, at(0, 6.2, -0.75)), function (mesh, say) {
+        if (!/film can|spare reel/.test(say || '')) return false;
+        mesh.matrix.copy(at(say === 'a film can' ? 0.9 : -0.9, 5.63, -1.25, 0.3));
+        return 'You put ' + say + ' in the projection box, beside the projector; the reels turn at MAX, or on their switch, and a second press puts it back.';
+      });
       // PLAQUES, for a headset, which sees no page: by the door, her own
       // welcome in her words, copied exactly from her page's first paragraph;
       // and a programme card by the stage in a line of ours.

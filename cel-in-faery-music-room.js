@@ -125,6 +125,21 @@
    The garden is drawn in her yurt's ivy, toadstool and tallow, because it is
    her yurt's garden, as on her page; everything else in her room's colours.
 
+   THE REAL LOOK (Helen Edgar's call, 2026-11-11: "more like Second Life and
+   not anime cel style, that is my choice", then an option for either): the
+   room says look: 'real', so it opens smooth and lit with no inked edges, in
+   exactly the colours it had, and Look under the stage draws it the other
+   way for a visit. With it, cloth you can see (her ask the same day): the
+   chair's velvet drawn as a nap on its seat, back and wings, its cushion
+   leather with a grain, which sitting presses flatter and standing fills out
+   again, the rug a pile with a woven border, each in two of the room's inks
+   and never fetched. And a record to play: a second record leans at the
+   foot of the first shelf, and the phonograph takes the record in your hand,
+   which goes onto the turntable, sets it turning, and presses her playlist's
+   deck to play on the screen, as her page plays it; in a headset the record
+   turns and the words say where the music is. Round things got more segments
+   for the smooth look.
+
    This is ours, hers to keep or send back, and a change to how it looks is
    hers to ask for. Every colour is one of hers, by name. It keeps
    nothing, sends nothing and fetches nothing; her page arrives through Cel
@@ -136,6 +151,9 @@
   window.loveCelRooms['faery-music-room.html'] = {
     name: 'The Music Room',
     from: 'faery-yurt.html',
+    // Helen's call, 2026-11-11: her rooms open in the real look, smooth and
+    // lit, no inked edges, every colour as it was; Look under the stage flips it.
+    look: 'real',
     // The signs (the headset round) are lettered in her heading face.
     faces: ['"Cormorant Garamond"', '"Crimson Pro"'],
     build: function (kit) {
@@ -512,8 +530,8 @@
 
       // THE RUG between the chair and the phonograph, velvet with her brass
       // ring woven into it, and the chandelier of seven candles over it.
-      var rug = new T.CylinderGeometry(1, 1, 0.02, 40); rug.scale(1.7, 1, 2.3);
-      kit.piece(rug, at(0, 0.012, -6.1), '--rdr-velvet', false, false);
+      var rug = new T.CylinderGeometry(1, 1, 0.02, 48); rug.scale(1.7, 1, 2.3);
+      kit.fabric(rug, at(0, 0.012, -6.1), kit.cloth('pile', '--rdr-velvet', '--rdr-ember', 12), false);
       var ring = new T.TorusGeometry(1, 0.018, 4, 48); ring.rotateX(Math.PI / 2); ring.scale(1.35, 1, 1.85);
       kit.piece(ring, at(0, 0.026, -6.1), '--rdr-brass', false, false);
       // Woven into it: a band of little lozenges inside the brass ring, a
@@ -558,12 +576,16 @@
       // A CHAIR IN THE DARK, facing it: winged, velvet, brass studs along its
       // arms, on four short legs.
       var ch = at(0, 0, back + 6.4, Math.PI);
+      // Cloth with a texture you can see (Helen's ask, 2026-11-11): the
+      // chair's velvet, drawn as a nap in her velvet and her stone, on its
+      // seat, its back and its wings, each its own mesh.
+      var velvet = kit.cloth('velvet', '--rdr-velvet', '--rdr-stone', 6);
       box(1.0, 0.3, 0.95, M(ch, at(0, 0.36, 0)), '--rdr-velvet');
-      box(0.86, 0.12, 0.84, M(ch, at(0, 0.56, 0.04)), '--rdr-velvet', 0.01);
-      box(1.0, 1.1, 0.24, M(ch, at(0, 0.98, -0.38)), '--rdr-velvet');
+      kit.fabric(new T.BoxGeometry(0.86, 0.12, 0.84), M(ch, at(0, 0.56, 0.04)), velvet);
+      kit.fabric(new T.BoxGeometry(1.0, 1.1, 0.24), M(ch, at(0, 0.98, -0.38)), velvet);
       [-1, 1].forEach(function (s) {
-        box(0.18, 0.5, 0.95, M(ch, at(s * 0.5, 0.58, 0)), '--rdr-velvet');
-        box(0.22, 0.6, 0.3, M(ch, at(s * 0.46, 1.28, -0.28, s * 0.35)), '--rdr-velvet');
+        kit.fabric(new T.BoxGeometry(0.18, 0.5, 0.95), M(ch, at(s * 0.5, 0.58, 0)), velvet);
+        kit.fabric(new T.BoxGeometry(0.22, 0.6, 0.3), M(ch, at(s * 0.46, 1.28, -0.28, s * 0.35)), velvet);
         for (var st = 0; st < 5; st++) kit.piece(new T.SphereGeometry(0.014, 5, 4), M(ch, at(s * 0.6, 0.6, -0.36 + st * 0.18)), '--rdr-brass', false);
         [-0.38, 0.38].forEach(function (lz) { kit.cyl(0.035, 0.025, 0.21, M(ch, at(s * 0.42, 0.105, lz)), '--rdr-timber', false, 6); });
       });
@@ -571,10 +593,7 @@
       // SIT IN THE CHAIR (headset round 2): pressed on the chair or from its
       // place, you are in it, facing the phonograph and the window, your eyes
       // at a sitting height; pressed again, you stand.
-      var sitChair = kit.sit({ x: 0, z: back + 6.3, yaw: 0, say: 'Sit in the chair in the dark', up: 'Stand up from the chair',
-        sat: 'You sit in the chair in the dark, facing the phonograph and the window, your eyes at a sitting height.',
-        stood: 'You stand up from the chair.',
-        at: [kit.touch(1.0, 0.7, 0.95, M(ch, at(0, 0.5, 0.02)))] });
+      var sitChair;
 
       // Buttons deep in the velvet of its back, a row of brass studs along
       // the top of it, and a cushion squashed into the seat.
@@ -582,8 +601,15 @@
         kit.piece(new T.SphereGeometry(0.016, 6, 4), M(ch, at(-0.33 + (bt % 4) * 0.22 + (Math.floor(bt / 4) % 2) * 0.11, 0.72 + Math.floor(bt / 4) * 0.22, -0.255)), '--rdr-stone', false);
       }
       for (var tp = 0; tp < 11; tp++) kit.piece(new T.SphereGeometry(0.014, 5, 4), M(ch, at(-0.45 + tp * 0.09, 1.53, -0.38)), '--rdr-brass', false);
-      var cush = new T.SphereGeometry(0.3, 12, 8); cush.scale(1.1, 0.32, 0.9);
-      kit.piece(cush, M(ch, at(0.05, 0.66, 0.02, 0.2)), '--rdr-leather', 0.01);
+      // The cushion is leather with its grain, its own mesh, so sitting
+      // presses it flatter (the seat's squash, below).
+      var cush = new T.SphereGeometry(0.3, 24, 16); cush.scale(1.1, 0.32, 0.9);
+      var cushion = kit.fabric(cush, M(ch, at(0.05, 0.66, 0.02, 0.2)), kit.cloth('leather', '--rdr-leather', '--rdr-stone', 5));
+      sitChair = kit.sit({ x: 0, z: back + 6.3, yaw: 0, say: 'Sit in the chair in the dark', up: 'Stand up from the chair',
+        sat: 'You sit in the chair in the dark, facing the phonograph and the window, your eyes at a sitting height, the cushion giving under you.',
+        stood: 'You stand up from the chair, and the cushion fills out again.',
+        squash: cushion,
+        at: [kit.touch(1.0, 0.7, 0.95, M(ch, at(0, 0.5, 0.02)))] });
       // A little round table at its side, with a candle on it, which is lit
       // when somebody asks, and a stack of her records on the floor at the
       // other side, the top one out of its sleeve.
@@ -823,6 +849,7 @@
         { n: 1, z: -5.5, words: 'Strange things will happen' },
         { n: 2, z: -8.4, words: 'Symphrenia Chill' }
       ];
+      var shelfG = null;
       var stops = [{ name: 'just through the door, in the candlelight', x: 0, z: -1.2, yaw: 0 }];
       stops.push({ name: 'in the chair in the dark, facing the phonograph and the window', x: 0, z: back + 6.4, yaw: 0 });
       stops.push({ name: 'at the edge of the rug beside the chair, looking up at the chandelier', x: 1.25, z: -3.9, yaw: 0.2, pitch: 0.6 });
@@ -838,9 +865,17 @@
         sign(sh.words, null, 1.3, M(g, at(0, 3.3, 0.06)));
         box(1.6, 0.12, 0.4, M(g, at(0, 0.06, 0.16)), '--rdr-timber');
         var it = kit.lift(frame, '.mus-rack', { n: sh.n, w: 560, h: 700, ww: 1.5, m: M(g, at(0, 0.14, 0.02)) });
+        if (sh.n === 0) shelfG = g;
         stops.push({ name: 'at the shelf of records off ' + sh.words, x: -W / 2 + 2.6, z: sh.z, yaw: LEFT, pitch: -0.2, frame: it.el });
       });
       kit.wire(frame, 'rack.js');
+      // A second record out of its sleeve, leaning at the foot of the first
+      // shelf's arch (Helen's ask, 2026-11-11, "pick up records to play"),
+      // the same disc as the one by the chair; either can be carried to the
+      // phonograph.
+      var shelfDisc = kit.flat(new T.CircleGeometry(0.15, 28), M(shelfG, at(0.62, 0.27, 0.34, 0, -0.18)), '--rdr-ink');
+      shelfDisc.material.map = discPaper; shelfDisc.material.side = T.DoubleSide; shelfDisc.material.needsUpdate = true;
+      kit.hold(shelfDisc, { say: 'the record from the foot of the first shelf' });
       stops.push({ name: 'beside the cello, leaning in the corner past the records', x: -3.55, z: back + 3.6, yaw: 0.34, pitch: -0.1 });
       stops.push({ name: 'beside the harp, in the corner by the window', x: 3.5, z: back + 4.5, yaw: -0.18, pitch: -0.12 });
       stops.push({ name: 'over the phonograph, looking down at her record on it', x: 0.15, z: back + 3.55, yaw: 0, pitch: -0.62 });
@@ -946,8 +981,8 @@
       });
       // The rug's border band inside the brass ring, and its pile along the
       // edge, a second lip a shade off.
-      var band = new T.TorusGeometry(1, 0.045, 4, 48); band.rotateX(Math.PI / 2); band.scale(1.5, 1, 2.05);
-      kit.piece(band, at(0, 0.024, -6.1), '--rdr-ember', false, false);
+      var band = new T.TorusGeometry(1, 0.045, 6, 64); band.rotateX(Math.PI / 2); band.scale(1.5, 1, 2.05);
+      kit.fabric(band, at(0, 0.024, -6.1), kit.cloth('weave', '--rdr-ember', '--rdr-brass', 16), false);
       var pile = new T.CylinderGeometry(1, 1, 0.012, 40); pile.scale(1.74, 1, 2.34);
       kit.piece(pile, at(0, 0.006, -6.1), '--rdr-panel', false, false);
       // The ravens' feathers, a few laid over each body, and a glint in each
@@ -1076,9 +1111,26 @@
 
       // THE ROOM'S SWITCHES. The record goes round at MAX as hers does, or
       // when asked; the candles flicker only when asked.
+      var platter = kit.touch(0.7, 0.4, 0.7, M(ph, at(0, 1.15, 0)));
       var turning = kit.turn(record, recordAt, { say: 'Turn the record', max: true, period: 6,
-        at: [kit.touch(0.7, 0.4, 0.7, M(ph, at(0, 1.15, 0)))],
+        at: [platter],
         said: function (on) { return on ? 'Her record goes round on the phonograph, once in six seconds.' : 'The record stops where it is.'; } });
+      // PICK UP A RECORD TO PLAY (Helen's ask, 2026-11-11): the phonograph
+      // takes the record in your hand: it goes onto the turntable under her
+      // record, which is the one drawn turning, the turning is switched on if
+      // it is not already (by MAX, or by a press), and her playlist's deck on
+      // the screen is pressed to play, which love-embed.js answers as on her
+      // page. In a headset the page is not shown, so there the record turns
+      // and the words say the music is on the screen.
+      kit.place(platter, function (mesh, say) {
+        if (mesh !== loose && mesh !== shelfDisc) return false;
+        mesh.matrix.copy(M(recordAt, at(0, -0.009, 0, 0, -Math.PI / 2))); mesh.matrixWorldNeedsUpdate = true;
+        var mv = turning.mv, on = mv.asked === null ? document.documentElement.getAttribute('data-intensity') === 'max' : mv.asked;
+        if (!on) turning.go();
+        var played = false, btn = deck && deck.el ? deck.el.querySelector('button.facade') : null;
+        if (btn) { btn.click(); played = true; }
+        return 'You put ' + say + ' on the phonograph; it goes round' + (played ? ', and her playlist plays on the deck\u2019s screen by the window.' : '. Her playlist plays on the deck\u2019s screen, which a headset does not show.');
+      });
       var candles = kit.flames(flames, { say: 'Let the candles flicker',
         at: [kit.touch(1.0, 0.7, 0.5, at(-2.3, 1.75, back + 2.9)), kit.touch(1.0, 0.7, 0.5, at(2.3, 1.75, back + 2.9))],
         said: function (on) { return on ? 'Every candle in the room flickers, each in its own time.' : 'The candles stand still again, as on her page.'; } });

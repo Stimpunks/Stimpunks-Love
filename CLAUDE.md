@@ -1828,10 +1828,36 @@ between a page script's `output()` and the speakers, `ears()` moving the listene
 `yurt-bell.js` route through one master gain and expose `output()`), and `plaque` (wrapped words on a sheet). Leaving a
 room or the headset stands you up and stops the walk and the voice. The friendly edits are **a glide to a place "since
 the vignette makes it safe"** (the tool still refuses it), **the voice on outside the headset**, **a held thing dropped
-where it is** (left floating), and **a wave sent over the radio** without the privacy page saying so first. The
+where it is** (left floating), and **a wave sent over the radio** without the privacy page saying so first. **HELEN'S ROOMS ARE DRAWN IN A REAL LOOK, AND A ROOM CHOOSES ITS LOOK** (Helen, 2026-11-11: "more like Second Life and not
+anime cel style, that is my choice", then "an option for anime cel or photo real"): `look: 'real'` on a room's object has
+`solid()` in cel-street.js make `MeshStandardMaterial`s in place of the cel's toon ones (same colours by name, `painted()`
+still), `piece()` draws no inked hull, a little `AmbientLight` stands in for the cel gradient's bright step, `facets`,
+`sheet` and `fabric` follow, and `lookNow` is set only while a room is built; the street stays Ryan's cel. **Look** under
+the stage and on the headset's panel (`relook()`) rebuilds the room you are in by leaving and entering it, keeps your
+place and the address, and stores nothing. `kit.cloth(kind, inkA, inkB, repeat)` draws weave, canvas, knit, velvet, fur,
+pile or leather in two declared inks, `kit.fabric(geo, m, cloth)` wears it (a bump map in the real look), `kit.sit`'s
+`squash` flattens a cushion while sat on, and `kit.place(touch, take)` lets a held thing be put somewhere (`putOn`: take()
+sets the thing's matrix and says what happened, or refuses). The friendly edits are **a photograph as a texture** (a colour
+nobody measured; every cloth is drawn in declared inks), **the street drawn real "to match her rooms"** (Ryan's look),
+**a look remembered in storage**, and **a held thing used on anything** (only a `kit.place` takes one). The
 friendly edits are **faeries flying by themselves at MAX "because the fairy lights twinkle at MAX"** (her page's faeries
 never do), **a faerie drawn from a photograph**, and **one portal drawing for every room**, which is the subroom excuse
 with ivy on it.
+
+**GOING THROUGH ANY PORTAL OF HER YURT IS A TRAVEL THROUGH THE MILKY WAY, AND THE PICTURES ARE HER PAGE'S OWN.** Helen
+Edgar's ask, 2026-11-12 ("a swirling galaxy milky way for each door as you enter ... a spiral space tunnel ... real
+life images ... a slow swirl"): a room says `tunnel: { walls, end, sky }` (`cel-in-faery-yurt.js`: the Milky Way behind
+her Music Room's doors and the Whirlpool Galaxy behind her Cinema's, credited there, on cel-street.html and in the liner
+notes), and `travelStart` in `cel-street.js` plays it on a press between that room and a room off it (`enter` through
+one of its portals, `leave` back through one, never on arriving by address): a tube wrapped in the sky at two depths, the
+galaxy turning at the end and coming closer, `TRAVEL` seconds, fading over `FADE` each way, drawn in place of the room
+while it lasts (the CSS3D pages hidden) and in a headset's frames too; `sky` is how much of the photograph is sky, and
+the ground below it is cropped off the walls, which is the one thing done to the picture. **At Gentle it stands still
+for `TRAVEL_STILL` seconds; in a low-stimulation mode or a hidden tab there is no travel.** `make-cel-street.py` holds
+`SWIRL` and `TURN_GALAXY` under what `TURN_MIN` lets turn and `FADE` to at least four tenths. **Her every page and every
+room of hers starts at MAX GLITTER**, her standing call, with the dial to turn it down. The friendly edits are a
+tunnel on every room's door "so the street is consistent" (a room says `tunnel` or has none), a cut in place of the fade,
+a quicker swirl "so it feels like warp", and a drawn star or a lens flare laid over the photographs.
 
 **THE BASKET OF WINGS BY THE YURT'S DOOR LENDS A PAIR TO YOUR 3D FIGURE, AND HER THREE ANIMALS ARE ASLEEP IN THE SCENE.**
 Helen Edgar's asks, 2026-11-09. A room on Cel Street that lends wings names its pairs (`wings` in `cel-in-faery-yurt.js`,

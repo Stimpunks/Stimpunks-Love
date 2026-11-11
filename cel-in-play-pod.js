@@ -119,6 +119,23 @@
    with a night paper and a day paper swapped by the lamp; and the lights
    counted, five, already under a standalone headset's budget. Ours, and hers
    to keep or send back.
+
+   THE REAL LOOK (Helen Edgar's call, 2026-11-11: her rooms "more like Second
+   Life and not anime cel style, that is my choice", with every colour kept as
+   it is): the room says look: 'real', so Cel Street builds it with smooth lit
+   materials and no inked hulls, in the same inks; the glowing things stay
+   kit.flat, unlit, as glow paint is. Cloth you can see the weave of, drawn in
+   two of the pod's own inks (kit.cloth, kit.fabric): velvet on the beanbag
+   and on a cushion by the stool, a weave on the six sensory mats (still tinted
+   by their press) and a pile on the messy play mat; the beanbag, the cushion
+   and the mat take a daylight cloth when the lamp goes off, the way the
+   plaques swap their papers, so the lamp's rule holds in the cloth too. The
+   beanbag, the stool's cushion and a mat are pressed flatter while somebody
+   sits on them (kit.sit's squash). Two places for a held thing (kit.place): a
+   glow stick put in the tonic water jar on the tray stands in it and the
+   water glows round it, and the galaxy jar goes back onto the upper shelf
+   wherever it is put down. Round things have more sides. Ours, and hers to
+   keep or send back.
    ========================================================================== */
 (function () {
   'use strict';
@@ -132,6 +149,8 @@
   window.loveCelRooms['play-pod.html'] = {
     name: 'The Play Pod',
     from: 'faery-yurt.html',
+    // Helen's call, 2026-11-11: her rooms open in the real look.
+    look: 'real',
     faces: ['"Grandstander"', '"Andika"'],
     build: function (kit) {
       var T = kit.THREE, at = kit.at, box = kit.box, W = 8, D = 9, H = 3.0, back = -D;
@@ -145,7 +164,14 @@
       var DAY = { '--ppd-pink': '--ppd-day-pink', '--ppd-green': '--ppd-day-green', '--ppd-yellow': '--ppd-day-yellow',
                   '--ppd-blue': '--ppd-day-blue', '--ppd-orange': '--ppd-day-yellow', '--ppd-uv': '--ppd-day-tube',
                   '--ppd-ink': '--ppd-day', '--ppd-line': '--ppd-day-stand', '--ppd-night': '--ppd-day-tray' };
-      var glows = [], hazes = [], papers = [];
+      var glows = [], hazes = [], papers = [], cloths = [];
+      // A thing made of cloth, with a night cloth and a day cloth swapped by the lamp.
+      function clothed(geo, m, kind, nightInks, dayInks, repeat) {
+        var night = kit.cloth(kind, nightInks[0], nightInks[1], repeat), day = kit.cloth(kind, dayInks[0], dayInks[1], repeat);
+        var mesh = kit.fabric(geo, m, night);
+        cloths.push({ mesh: mesh, night: night, day: day });
+        return mesh;
+      }
       function glow(geo, m, ink) { var mesh = kit.flat(geo, m, ink); glows.push([mesh, ink]); return mesh; }
       // A glow seen through water, or poured thinner: the same ink, fainter.
       function faint(mesh, a) {
@@ -629,7 +655,7 @@
       // of water, a basket of pom-poms with pegs on its rim, and cups of oats.
       var mm = at(-2.55, 0, back + 1.25, 0.15);
       var onMat = function (x, y, z) { return M(mm, at(x, y, z)); };
-      box(2.2, 0.012, 1.4, onMat(0, 0.006, 0), '--ppd-tray', false, false);
+      var playMat = clothed(new T.BoxGeometry(2.2, 0.012, 1.4), onMat(0, 0.006, 0), 'pile', ['--ppd-tray', '--ppd-line'], ['--ppd-day-tray', '--ppd-day-stand'], 5);
       // Its raised rim, which keeps the mess on the mat.
       [[0, 0.7, 2.24, 0.04], [0, -0.7, 2.24, 0.04], [1.1, 0, 0.04, 1.44], [-1.1, 0, 0.04, 1.44]].forEach(function (r) {
         box(r[2], 0.03, r[3], onMat(r[0], 0.02, r[1]), '--ppd-line', 0.004);
@@ -745,9 +771,9 @@
           return 'The wax is ' + LAVA_INKS[i][0].toLowerCase() + '.';
         } });
       // The beanbag in front of it, sunk in the middle where somebody sits.
-      var bag = new T.SphereGeometry(0.5, 18, 12); bag.scale(1.1, 0.42, 1.0);
-      kit.piece(bag, at(LX2 + 1.05, 0.2, LZ), '--ppd-uv', 0.02);
-      var dent = new T.SphereGeometry(0.3, 14, 8); dent.scale(1, 0.3, 1);
+      var bag = new T.SphereGeometry(0.5, 32, 20); bag.scale(1.1, 0.42, 1.0);
+      var bagMesh = clothed(bag, at(LX2 + 1.05, 0.2, LZ), 'velvet', ['--ppd-uv', '--ppd-line'], ['--ppd-day-tube', '--ppd-day-stand'], 3);
+      var dent = new T.SphereGeometry(0.3, 24, 12); dent.scale(1, 0.3, 1);
       kit.piece(dent, at(LX2 + 1.0, 0.34, LZ), '--ppd-tray', false);
 
       // A BUBBLE TUBE in the back right-hand corner (Helen's ask, the same
@@ -798,7 +824,8 @@
       var matInks = {}, matPts = [], matPress = [], MATS = [];
       [[-0.7, -1.0], [0, -1.0], [0.7, -1.0], [-0.7, -1.7], [0, -1.7], [0.7, -1.7]].forEach(function (m, mi) {
         var pad = new T.BoxGeometry(0.62, 0.06, 0.62, 2, 1, 2);
-        var mat = kit.facets(pad, at(m[0], 0.03, m[1]), '--ppd-tray');
+        // A weave in the mat's dark and its line, tinted by the press below.
+        var mat = kit.fabric(pad, at(m[0], 0.03, m[1]), kit.cloth('weave', '--ppd-tray', '--ppd-line', 3));
         mat.material.transparent = false;
         var ring = kit.facets(new T.BoxGeometry(0.64, 0.02, 0.64), at(m[0], 0.065, m[1]), '--ppd-line');
         kit.hide(ring, false);
@@ -865,6 +892,11 @@
         // (By its material: the street sets every mesh's own visible by distance.)
         hazes.forEach(function (h) { h.material.visible = !day; });
         papers.forEach(function (pp) { pp.mesh.material.map = day ? pp.day : pp.night; pp.mesh.material.needsUpdate = true; });
+        cloths.forEach(function (cl) {
+          cl.mesh.material.map = day ? cl.day : cl.night;
+          if (cl.mesh.material.bumpMap) cl.mesh.material.bumpMap = day ? cl.day : cl.night;
+          cl.mesh.material.needsUpdate = true;
+        });
         nightOnly.forEach(function (m) { kit.hide(m, day); });
         dayOnly.forEach(function (m) { kit.hide(m, !day); });
         if (lampPress) lampPress.sync();
@@ -940,12 +972,18 @@
       // tray, and the sensory mats, each pressable on the seat itself.
       var sitBag = kit.sit({ x: LX2 + 1.05, z: LZ, yaw: Math.PI / 2, say: 'Sit on the beanbag', up: 'Get up off the beanbag',
         sat: 'You sink into the beanbag, low, with the lava lamp in front of you.', stood: 'You get up off the beanbag.',
+        squash: bagMesh,
         at: [kit.touch(1.1, 0.5, 1.0, at(LX2 + 1.05, 0.25, LZ))] });
+      // A velvet cushion on the floor by the stool, where you sit.
+      var stoolCushGeo = new T.SphereGeometry(0.3, 28, 16); stoolCushGeo.scale(1.1, 0.3, 1.0);
+      var stoolCush = clothed(stoolCushGeo, at(sx - 0.1, 0.08, sz + 0.75), 'velvet', ['--ppd-pink', '--ppd-tray'], ['--ppd-day-pink', '--ppd-day-tray'], 3);
       var sitStool = kit.sit({ x: sx - 0.1, z: sz + 0.75, yaw: 0.05, say: 'Sit at the stool', up: 'Stand up from the stool',
-        sat: 'You sit by the stool, the tonic water and the glow sticks at eye level.', stood: 'You stand up from the stool.',
-        at: [kit.touch(0.95, 0.5, 0.46, at(sx, SY - 0.2, sz))] });
+        sat: 'You sit on the cushion by the stool, the tonic water and the glow sticks at eye level.', stood: 'You stand up from the stool.',
+        squash: stoolCush,
+        at: [kit.touch(0.95, 0.5, 0.46, at(sx, SY - 0.2, sz)), kit.touch(0.6, 0.2, 0.6, at(sx - 0.1, 0.1, sz + 0.75))] });
       var sitMats = kit.sit({ x: 0, z: -1.35, yaw: 0, say: 'Sit on the mats', up: 'Stand up from the mats',
         sat: 'You sit on the mats, their colours changing round you.', stood: 'You stand up from the mats.',
+        squash: MATS[1].mesh,
         at: [kit.touch(0.5, 0.16, 0.5, at(0, 0.14, -1.35))] });
       // THINGS TO HOLD (kit.hold: to your hand in a headset, in front of you
       // on a screen, and back where it was on a second press), each a glow
@@ -958,6 +996,19 @@
       for (var js = 0; js < 5; js++) glow(new T.SphereGeometry(0.007, 4, 3), on(-0.42 + (hash(js, 9, 7) - 0.5) * 0.09, 1.68 + hash(js, 9, 8) * 0.15, 0.095), '--ppd-yellow');
       kit.hold(jar, { say: 'a galaxy jar' });
       kit.hold(torch, { say: 'the UV torch' });
+      // PLACES FOR A HELD THING (kit.place, the same day): the glow stick in
+      // your hand goes into the tonic water jar on the tray, where the water
+      // glows round it; the galaxy jar goes back onto the upper shelf.
+      kit.place(kit.touch(0.26, 0.36, 0.26, at(0.55, y0 + 0.16, tz - 0.05)), function (mesh) {
+        if (mesh !== sticks[0]) return false;
+        mesh.matrix.copy(at(0.55, y0 + 0.21, tz - 0.05, 0, 0, 0.12));
+        return 'The glow stick stands in the tonic water, and the water glows green round it under the lamp.';
+      });
+      kit.place(kit.touch(2.6, 0.32, 0.36, on(0, 1.78, 0.02)), function (mesh) {
+        if (mesh !== jar) return false;
+        mesh.matrix.copy(on(0.35, 1.66, 0.02));
+        return 'The galaxy jar goes down on the upper shelf, its stars glowing.';
+      });
       // PLAQUES, for a headset, which shows no page: by the round door, the
       // pod's own welcome in Helen's words, three sentences copied from her
       // page, and at the tray a line of ours. Each is one plane with two

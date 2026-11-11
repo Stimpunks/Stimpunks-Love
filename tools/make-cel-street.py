@@ -155,6 +155,11 @@ if not _hz:
 if _num("DIM") > 0.1 or max(float(x) for x in _hz.group(1).split(",")) > 2.5:
     refuse("cel-street.js lets a flame dim by more than a tenth of itself or wobble faster than two and a half "
            "times a second, which is past the line candles.js holds.")
+# The travel through a portal (Helen, 2026-11-12) swirls and turns slower than
+# TURN_MIN lets anything turn, and fades over FADE seconds each way, never cuts.
+if max(_num("SWIRL"), _num("TURN_GALAXY")) > 6.2832 / 1.8 or _num("FADE") < 0.4:
+    refuse("cel-street.js swirls the tunnel through a portal, or turns the galaxy at its end, quicker than TURN_MIN "
+           "lets anything turn, or fades it in under four tenths of a second, which is a cut.")
 if _num("TWINKLE") < 3 or _num("TURN_MIN") < 1.8:
     refuse("cel-street.js lets a bulb twinkle quicker than once in three seconds or a thing turn quicker than once "
            "in 1.8: the yurt's own lights take 3.4 and her record six.")

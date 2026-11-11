@@ -118,6 +118,19 @@
    added. No moon, no star, no lamp and no new flame. Ours and hers to keep
    or send back.
 
+   THE REAL LOOK (Helen Edgar's call, 2026-11-11: "more like Second Life and
+   not anime cel style, that is my choice", with every colour kept). The room
+   says look: 'real', so Cel Street draws it with smooth lit materials and no
+   inked hulls, in the same inks; Look under the stage flips it back to the
+   cel for a visit. With it, cloth the kit draws in two of the hollow's own
+   inks: the fallen logs and the log you sit on are bark (leather, hill and
+   night), low mounds of moss at the foot of both slopes are fur (hill and
+   foxfire) under the luminous drifts, and the shore's sand is pile (hill and
+   deep). Rounder logs for the look. And a pebble in your hand can be put into
+   the sea: pressed on the water, it drops just under the surface where it
+   fell, lit by the sea's own sparkle and nothing new. The log and the stone
+   you sit on do not squash. Ours and hers to keep or send back.
+
    WHAT MOVES IS WHAT HER PAGE MOVES, AND WHAT YOU ASK FOR. Her dial says MAX
    lets the lights in the drawing breathe and the jellyfish pulse by itself,
    and nothing ever flashes. So at MAX the fireflies and the glow-worms
@@ -149,6 +162,9 @@
   window.loveCelRooms['glow-wild-hollow.html'] = {
     name: 'Glow Wild Hollow',
     from: 'faery-yurt.html',
+    // Helen's call, 2026-11-11: her rooms open in the real look, smooth and
+    // lit, no inked edges, the same colours; Look under the stage flips it.
+    look: 'real',
     // The signs are lettered in the room's own heading face.
     faces: ['"Cormorant Garamond"'],
     build: function (kit) {
@@ -178,6 +194,12 @@
       }
       // A dot of living light at a place, of a size.
       function spot(list, x, y, z, s, sy) { list.push([dot, at(x, y, z).scale(V3(s, sy || s, s))]); }
+      // CLOTH (Helen's ask, 2026-11-11, the real look): the hollow's own
+      // surfaces drawn as textures in two of its inks, moss as fur in its two
+      // greens, bark as leather in its two darks, the shore's sand as pile.
+      var mossCloth = kit.cloth('fur', '--gwh-hill', '--gwh-fox', 6);
+      var barkCloth = kit.cloth('leather', '--gwh-hill', '--gwh-night', 3);
+      var sandCloth = kit.cloth('pile', '--gwh-hill', '--gwh-deep', 8);
       // A thin line of light lying on the ground, from one place to the next.
       function thread(list, x0, z0, x1, z1, w) {
         var dx = x1 - x0, dz = z1 - z0, len = Math.sqrt(dx * dx + dz * dz);
@@ -530,7 +552,9 @@
       var fox = [];
       [[3.3, -16.8, 3.0, 0.32], [4.6, -19.2, 3.6, 0.38], [3.0, -21.9, 2.6, 0.28]].forEach(function (lg, li) {
         var lx = lg[0], ly = slopeTop(lx) + lg[3] * 0.8, lz = lg[1], len = lg[2], rad = lg[3];
-        kit.cyl(rad, rad * 1.08, len, at(lx, ly, lz, 0.12 * (li - 1), Math.PI / 2), '--gwh-hill', 0.04, 12);
+        // The log itself in bark cloth, rounder for the real look; the
+        // foxfire still grows through it as before.
+        kit.fabric(new T.CylinderGeometry(rad, rad * 1.08, len, 20), at(lx, ly, lz, 0.12 * (li - 1), Math.PI / 2), barkCloth);
         kit.flat(new T.CircleGeometry(rad * 0.8, 12), at(lx, ly, lz + len / 2 + 0.02), '--gwh-deep');
         // Its cut end: the rings of the years it grew, and a split from the
         // middle where it dried; ridges of bark along it, and the stubs of
@@ -588,6 +612,12 @@
         var sdt = td % 2 ? 1 : -1, tx2 = sdt * (S0 + 0.3 + hash(td, 22, 1) * 3.2), tz2 = EZ0 - 0.6 - hash(td, 22, 2) * (EL - 1.2);
         toadstool(tx2, tz2, 0.14 + hash(td, 22, 3) * 0.2, slopeTop(tx2));
       }
+      // Low mounds of moss at the foot of both slopes, in the moss cloth, so
+      // the fur of it reads close up; the luminous drifts lie over them.
+      [[-3.4, -14.6, 0.9], [3.6, -15.4, 0.8], [-3.9, -20.3, 1.1], [4.2, -23.2, 0.9], [-3.2, -24.8, 0.7], [3.3, -12.4, 0.6]].forEach(function (mm, mi) {
+        var mound = new T.SphereGeometry(mm[2], 20, 12, 0, Math.PI * 2, 0, Math.PI / 2); mound.scale(1, 0.22, 0.8);
+        kit.fabric(mound, at(mm[0], slopeTop(mm[0]) - 0.02, mm[1], hash(mi, 44, 1) * 3), mossCloth);
+      });
       points(moss, '--gwh-fox');
       points(fox, '--gwh-fox');
       points(stool, '--gwh-fox');
@@ -675,6 +705,8 @@
 
       // ── WATER: the shore, waves sparkling where they break, the dark sea ──
       var EDGE = -35;
+      // The sand between the slopes and the water, in the sand cloth.
+      kit.fabric(new T.PlaneGeometry(14, 6.2), at(0, 0.018, EDGE + 3.1, 0, -Math.PI / 2), sandCloth, false);
       kit.flat(new T.PlaneGeometry(100, 40), at(0, 0.03, EDGE - 20, 0, -Math.PI / 2), '--gwh-wave');
       kit.flat(new T.PlaneGeometry(100, 40), at(0, 0.035, EDGE - 44, 0, -Math.PI / 2), '--gwh-deep');
       // Each wave a low dark ridge coming in, lit along its crest where it
@@ -788,8 +820,18 @@
         ripples.push(points(dots, '--gwh-sea'));
       });
       ripples.forEach(function (r) { kit.hide(r, true); });
+      // A held pebble put into the sea (kit.place on the water's own touch):
+      // it goes just under the surface where it fell, and the sea's own
+      // sparkle is what lights the place; nothing new is lit.
+      var waterTouch = kit.touch(3.6, 0.5, 2.8, at(2.2, 0.1, EDGE - 2.9));
+      kit.place(waterTouch, function (mesh, say) {
+        if (!/pebble/.test(say || '')) return false;
+        var fell = new T.Vector3().setFromMatrixPosition(mesh.matrix);
+        mesh.matrix.copy(at(Math.max(-4, Math.min(4, fell.x)), -0.01, EDGE - 0.8, 0.4));
+        return 'The pebble drops into the sea with a small splash, and the water sparkles where it fell, as her sea does where anything touches it. Press it again to have it back.';
+      });
       var touchWater = kit.press({ say: function () { return kit.hidden(ripples[0]) ? 'Touch the water' : 'Let the water settle'; },
-        at: [kit.touch(3.6, 0.5, 2.8, at(2.2, 0.1, EDGE - 2.9))],
+        at: [waterTouch],
         press: function () {
           var show = kit.hidden(ripples[0]);
           ripples.forEach(function (r) { kit.hide(r, !show); });
@@ -879,7 +921,7 @@
       // Round it on the sand: a log to sit on, a pile of logs for later,
       // driftwood, pebbles, and weed left by the tide, all seen only by the
       // fire's light.
-      kit.cyl(0.2, 0.22, 1.9, at(fx - 1.6, 0.2, fz + 0.9, 0.9, 0, Math.PI / 2), '--gwh-fire-log', 0.03, 10);
+      kit.fabric(new T.CylinderGeometry(0.2, 0.22, 1.9, 18), at(fx - 1.6, 0.2, fz + 0.9, 0.9, 0, Math.PI / 2), barkCloth);
       kit.flat(new T.CircleGeometry(0.17, 10), at(fx - 1.6 - Math.cos(0.9) * 0.96, 0.2, fz + 0.9 + Math.sin(0.9) * 0.96, -Math.PI / 2 + 0.9), '--gwh-hill');
       [[0, 0], [0.22, 0.02], [0.11, 0.18], [-0.1, 0.02]].forEach(function (lp, li2) {
         kit.cyl(0.09, 0.1, 0.9, at(fx + 1.55 + lp[0], 0.1 + lp[1], fz - 0.6 + li2 * 0.02, -0.2, 0, Math.PI / 2), '--gwh-fire-log', 0.015, 8);

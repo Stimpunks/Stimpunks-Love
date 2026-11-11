@@ -112,6 +112,27 @@
    of a portal's own but the looking-glass's), because a standalone headset
    pays for every light. All of it ours, in her inks, hers to keep or send back.
 
+   THE REAL LOOK, CLOTH, AND THINGS THAT DO SOMETHING (Helen Edgar's calls,
+   2026-11-11: "more like Second Life and not anime cel style, that is my
+   choice", keeping every colour; cushions, rugs and blankets "with a texture
+   you can see"; and "pick up the tea pot and pour and drink from cups and
+   take books off the shelves and pick up crystals and pick up records to
+   play"): the room says look: 'real', so it opens with smooth lit materials
+   and no inked hulls, in exactly the same inks, and the Look switch under the
+   stage draws it in the cel look instead for a visit. The floor cushions are
+   woven cloth in two of her inks each, the rug's middle and ember edge are
+   pile, the blankets in the basket and over the egg's lip are knitted, the
+   sheepskin is fur, the egg's cushion is velvet and every canvas panel of the
+   wall is canvas, each drawn on a canvas in her inks (kit.cloth, kit.fabric),
+   with its weave in relief in the real look; the cushion you sit on and the
+   egg's cushion squash a little under you. The teapot can be picked up and
+   put to a cup, which pours that cup (kit.place); a full cup is drunk with a
+   press on it; three books can be taken off the shelf and put back; a spare
+   record by the phonograph can be picked up and put on it, where the platter
+   turns under it (her music itself plays in the Music Room next door). Round
+   things have more segments, so they are smooth in the real look. All of it
+   ours, in her inks, hers to keep or send back.
+
    THE BASKET OF WINGS BY HER DOOR LENDS A PAIR HERE (the same day): the room
    names its pairs (wings, below), Cel Street puts Borrow a pair of wings under
    the room's switches, the pair goes with your place to the radio and is
@@ -130,6 +151,17 @@
   window.loveCelRooms['faery-yurt.html'] = {
     name: 'The Faery Yurt',
     from: 'campgrounds.html',
+    // Helen's call, 2026-11-11: her yurt opens in the real look (smooth, lit,
+    // no inked hulls, the same colours); Look under the stage flips it.
+    look: 'real',
+    // Helen's ask, 2026-11-12: every portal of hers is a travel through a
+    // swirl of the Milky Way, the two real photographs her page keeps behind
+    // the Music Room's and the Cinema's doors (credited there), wrapped round
+    // a tube and turning at its end; the kit plays it on a press and keeps
+    // still at Gentle. Nothing is drawn over them.
+    // The photograph's lowest seventh is the Black Rock Desert under the sky,
+    // which the kit leaves off the tube (sky: how much of it is sky).
+    tunnel: { walls: 'faery-yurt/milky-way.jpg', end: 'faery-yurt/whirlpool.jpg', sky: 0.85 },
     // The signs are lettered in her face, so it is loaded before building.
     faces: ['"Cormorant Garamond"', '"Crimson Pro"'],
     build: function (kit) {
@@ -139,6 +171,33 @@
       // A place round the wall, turned to face the middle: θ = 0 is the far
       // wall, facing the door, and θ grows to the right.
       function round(theta, r, y) { return at(r * Math.sin(theta), y || 0, -r * Math.cos(theta), -theta); }
+      // Several geometries, each stood by its own matrix, joined as one, so a
+      // thing of several parts (the teapot, a record with its label) can be
+      // one mesh and so be picked up whole.
+      function merged(parts) {
+        var n = 0, gs = parts.map(function (pt) { var g = pt[0].index ? pt[0].toNonIndexed() : pt[0].clone(); g.applyMatrix4(pt[1]); n += g.attributes.position.count; return g; });
+        var pos = new Float32Array(n * 3), nor = new Float32Array(n * 3), uv = new Float32Array(n * 2), k = 0;
+        gs.forEach(function (g) {
+          pos.set(g.attributes.position.array, k * 3);
+          if (g.attributes.normal) nor.set(g.attributes.normal.array, k * 3);
+          if (g.attributes.uv) uv.set(g.attributes.uv.array, k * 2);
+          k += g.attributes.position.count;
+        });
+        var out = new T.BufferGeometry();
+        out.setAttribute('position', new T.BufferAttribute(pos, 3));
+        out.setAttribute('normal', new T.BufferAttribute(nor, 3));
+        out.setAttribute('uv', new T.BufferAttribute(uv, 2));
+        return out;
+      }
+      // The cloths of the yurt, drawn once each in her inks.
+      var CL = {
+        amber: kit.cloth('weave', '--ember-2', '--ember', 5), ivy: kit.cloth('weave', '--ivy', '--ivy-2', 5),
+        moon: kit.cloth('weave', '--moonstone-2', '--moonstone', 5), ember: kit.cloth('weave', '--ember', '--toadstool', 5),
+        pile: kit.cloth('pile', '--canvas-2', '--tallow-3', 8), edge: kit.cloth('pile', '--ember', '--ember-2', 10),
+        knitA: kit.cloth('knit', '--ember-2', '--tallow', 4), knitB: kit.cloth('knit', '--ivy', '--tallow', 4), knitC: kit.cloth('knit', '--moonstone-2', '--moonstone', 4),
+        fur: kit.cloth('fur', '--tallow-2', '--tallow', 3), velvet: kit.cloth('velvet', '--ember-2', '--ember', 4),
+        canvasA: kit.cloth('canvas', '--canvas', '--canvas-2', 6), canvasB: kit.cloth('canvas', '--canvas-2', '--canvas', 6)
+      };
       // A SIGN IN WEBGL (the headset round, 2026-11-11): words lettered on a
       // canvas in her Cormorant Garamond, candle gold on the tent's dark, on
       // a board of her timber with a candle-gold edge, stood as m (its middle
@@ -206,7 +265,7 @@
         var knot = new T.CircleGeometry(0.03 + hash(kn, 15, 3) * 0.025, 8); knot.scale(1.6, 1, 1);
         kit.flat(knot, at(kx, 0.006, kz, 0, -Math.PI / 2, hash(kn, 15, 4) * 3), '--hearth');
       }
-      kit.cyl(3.2, 3.2, 0.03, at(0, 0.02, 0), '--ember', false, 36);
+      kit.fabric(new T.CylinderGeometry(3.2, 3.2, 0.03, 36), at(0, 0.02, 0), CL.edge, false);
       kit.cyl(2.95, 2.95, 0.03, at(0, 0.035, 0), '--canvas-2', false, 36);
       kit.cyl(2.7, 2.7, 0.03, at(0, 0.04, 0), '--ember-2', false, 36);
       kit.cyl(2.6, 2.6, 0.03, at(0, 0.045, 0), '--canvas-2', false, 36);
@@ -219,7 +278,7 @@
       kit.cyl(1.75, 1.75, 0.03, at(0, 0.055, 0), '--tent', false, 36);
       // The rug's pile, a second thin layer of its middle a shade lighter, and
       // a fringe of tassels right round its ember edge.
-      kit.cyl(1.6, 1.6, 0.012, at(0, 0.07, 0), '--canvas-2', false, 36);
+      kit.fabric(new T.CylinderGeometry(1.6, 1.6, 0.012, 36), at(0, 0.07, 0), CL.pile, false);
       for (var tz = 0; tz < 72; tz++) {
         var ta = tz / 72 * Math.PI * 2;
         box(0.03, 0.012, 0.16, at(3.3 * Math.sin(ta), 0.006, -3.3 * Math.cos(ta), -ta + (hash(tz, 16, 1) - 0.5) * 0.3), '--tallow-2', false, false);
@@ -229,11 +288,19 @@
       // cups, a little stack of books and three candles, lit and still.
       kit.cyl(0.62, 0.62, 0.06, at(0, 0.36, 0), '--timber', 0.02, 24);
       [0, 1, 2].forEach(function (l) { var la = l / 3 * Math.PI * 2 + 0.4; kit.cyl(0.04, 0.05, 0.34, at(0.42 * Math.sin(la), 0.17, 0.42 * Math.cos(la)), '--timber', false, 6); });
-      var pot = new T.SphereGeometry(0.14, 14, 10); pot.scale(1, 0.85, 1);
-      kit.piece(pot, at(-0.18, 0.5, 0.05), '--tallow-2', 0.012);
-      kit.piece(new T.TorusGeometry(0.08, 0.018, 6, 12, Math.PI), at(-0.33, 0.52, 0.05, 0, 0, Math.PI / 2), '--tallow-2', false);
-      kit.cyl(0.02, 0.03, 0.14, at(-0.02, 0.53, 0.05, 0, 0, -0.9), '--tallow-2', false, 6);
-      kit.cyl(0.07, 0.07, 0.03, at(-0.18, 0.62, 0.05), '--tallow-2', false, 12);
+      // The teapot is one mesh (body, spout, handle and lid joined), so it can
+      // be picked up whole and put to a cup; its knob and the band round its
+      // lid stay on the table's merged drawing, in her ember, and go with the
+      // eye rather than the hand.
+      var pot = new T.SphereGeometry(0.14, 20, 14); pot.scale(1, 0.85, 1);
+      var potAt = at(-0.18, 0.5, 0.05);
+      var teapot = kit.facets(merged([
+        [pot, at(0, 0, 0)],
+        [new T.TorusGeometry(0.08, 0.018, 8, 16, Math.PI), at(-0.15, 0.02, 0, 0, 0, Math.PI / 2)],
+        [new T.CylinderGeometry(0.02, 0.03, 0.14, 8), at(0.16, 0.03, 0, 0, 0, -0.9)],
+        [new T.CylinderGeometry(0.07, 0.07, 0.03, 16), at(0, 0.12, 0)]
+      ]), potAt, '--tallow-2');
+      kit.hold(teapot, { say: 'the teapot' });
       kit.piece(new T.SphereGeometry(0.022, 8, 6), at(-0.18, 0.648, 0.05), '--ember', false);
       kit.piece(new T.TorusGeometry(0.07, 0.006, 5, 16), at(-0.18, 0.6, 0.05, 0, Math.PI / 2), '--ember', false);
       [['--ember', 0.05], ['--ivy', 0.09], ['--moonstone', 0.13]].forEach(function (bk, n) {
@@ -386,12 +453,23 @@
       [[0.22, 0.25], [0.3, -0.15], [-0.32, -0.28]].forEach(function (c, n) {
         // The first cup is a mesh of its own, so it can be picked up (the
         // second headset round); the other two are merged with the room.
-        if (n === 0) cupHeld = kit.facets(new T.CylinderGeometry(0.05, 0.04, 0.08, 12), at(c[0], 0.43, c[1]), '--ember-2');
-        else kit.cyl(0.05, 0.04, 0.08, at(c[0], 0.43, c[1]), ['--ember-2', '--moonstone-2', '--ivy'][n], 0.008, 10);
-        kit.cyl(0.042, 0.042, 0.004, at(c[0], 0.468, c[1]), '--hearth', false, 10);
-        var t = kit.flat(new T.CircleGeometry(0.04, 12), at(c[0], 0.462, c[1], 0, -Math.PI / 2), '--ember');
+        if (n === 0) cupHeld = kit.facets(new T.CylinderGeometry(0.05, 0.04, 0.08, 16), at(c[0], 0.43, c[1]), '--ember-2');
+        else kit.cyl(0.05, 0.04, 0.08, at(c[0], 0.43, c[1]), ['--ember-2', '--moonstone-2', '--ivy'][n], 0.008, 16);
+        kit.cyl(0.042, 0.042, 0.004, at(c[0], 0.468, c[1]), '--hearth', false, 16);
+        var t = kit.flat(new T.CircleGeometry(0.04, 16), at(c[0], 0.462, c[1], 0, -Math.PI / 2), '--ember');
         kit.hide(t, true);
         tea.push(t);
+        // Each cup takes the teapot (kit.place: held, the pot pours this cup
+        // and goes back to the table) and is drunk from with a press.
+        var cupTouch = kit.touch(0.16, 0.14, 0.16, at(c[0], 0.47, c[1]));
+        kit.place(cupTouch, function (mesh) {
+          if (mesh !== teapot) return false;
+          kit.hide(t, false);
+          teapot.matrix.copy(teapot.userData.hold.home);
+          return 'You pour from the teapot into this cup, and set the pot back on the table.';
+        });
+        kit.press({ say: 'Drink from this cup', at: [cupTouch],
+          press: function () { if (kit.hidden(t)) return 'This cup is empty; the teapot is on the table.'; kit.hide(t, true); return 'You drink the tea, warm and a little smoky, and set the cup down empty.'; } });
         // Each cup's handle, turned out to the room.
         if (n) kit.piece(new T.TorusGeometry(0.028, 0.007, 5, 10, Math.PI), at(c[0] + 0.05, 0.44, c[1], 0, 0, -Math.PI / 2), ['--ember-2', '--moonstone-2', '--ivy'][n], false);
       });
@@ -404,10 +482,12 @@
       var plume = new T.SphereGeometry(0.03, 6, 4); plume.scale(0.5, 2.2, 0.2);
       kit.piece(plume, at(0.12, 0.42, 0.37, 0.9, 0.3), '--moonstone-2', false);
       // Floor cushions round it, plump and a little squashed.
-      [['--ember-2', 0.3], ['--ivy', 1.9], ['--moonstone-2', 3.4], ['--ember', 4.7]].forEach(function (c, n) {
-        var cush = new T.SphereGeometry(0.42, 16, 10); cush.scale(1, 0.32, 1);
+      var cushions = [];
+      [['--ember-2', 0.3, CL.amber], ['--ivy', 1.9, CL.ivy], ['--moonstone-2', 3.4, CL.moon], ['--ember', 4.7, CL.ember]].forEach(function (c, n) {
+        var cush = new T.SphereGeometry(0.42, 24, 14); cush.scale(1, 0.32, 1);
         var ca = c[1];
-        kit.piece(cush, at(1.15 * Math.sin(ca), 0.15, 1.15 * Math.cos(ca), ca), c[0], 0.02);
+        // Woven cloth in two of her inks, its own mesh, so the seat can squash it.
+        cushions.push(kit.fabric(cush, at(1.15 * Math.sin(ca), 0.15, 1.15 * Math.cos(ca), ca), c[2]));
         kit.piece(new T.SphereGeometry(0.045, 6, 4), at(1.15 * Math.sin(ca), 0.29, 1.15 * Math.cos(ca)), '--tallow-3', false);
         // Piping round its seam.
         kit.piece(new T.TorusGeometry(0.41, 0.012, 5, 28), at(1.15 * Math.sin(ca), 0.15, 1.15 * Math.cos(ca), 0, Math.PI / 2), '--tallow-3', false);
@@ -419,7 +499,7 @@
       for (var i = 0; i < N; i++) {
         var th = i / N * Math.PI * 2;
         if (Math.abs(th - Math.PI) < 9 * DEG) continue;
-        box(pw, H, 0.1, round(th, R, H / 2), i % 2 ? '--canvas' : '--canvas-2', false);
+        kit.fabric(new T.BoxGeometry(pw, H, 0.1), round(th, R, H / 2), i % 2 ? CL.canvasA : CL.canvasB);
         // The seam where one panel is stitched to the next, and a band of
         // her ember worked along the canvas at knee height.
         box(0.025, H, 0.02, M(round(th, R - 0.06, H / 2), at(pw / 2, 0, 0)), '--tent', false, false);
@@ -461,8 +541,8 @@
       var bk2 = M(dg, at(1.5, 0, -0.55));
       kit.cyl(0.3, 0.26, 0.4, M(bk2, at(0, 0.2, 0)), '--tallow-3', 0.015, 14);
       [['--ember-2', 0.44], ['--ivy', 0.52], ['--moonstone-2', 0.58]].forEach(function (b, n) {
-        var roll = new T.CylinderGeometry(0.11, 0.11, 0.48, 10); roll.rotateZ(Math.PI / 2);
-        kit.piece(roll, M(bk2, at(0, b[1], -0.08 + n * 0.08, (n - 1) * 0.4)), b[0], 0.01);
+        var roll = new T.CylinderGeometry(0.11, 0.11, 0.48, 16); roll.rotateZ(Math.PI / 2);
+        kit.fabric(roll, M(bk2, at(0, b[1], -0.08 + n * 0.08, (n - 1) * 0.4)), [CL.knitA, CL.knitB, CL.knitC][n]);
       });
       // Ivy, grown up the lattice and along its top in places.
       [[-30, 10], [-130, -100], [45, 60], [150, 170]].forEach(function (run, rn) {
@@ -613,10 +693,17 @@
         box(1.3, 0.04, 0.34, M(bc, at(0, y - 0.24, 0.0)), '--canvas-2', false);
         for (var b = 0, x = -0.58; b < 9 && x < 0.55; b++) {
           var bw = 0.07 + hash(row, b, 1) * 0.06, bh = 0.3 + hash(row, b, 2) * 0.14;
-          box(bw, bh, 0.26, M(bc, at(x + bw / 2, y - 0.22 + bh / 2, 0.04)), SPINES[(row * 4 + b) % SPINES.length], 0.01);
-          // Its pages showing at the top, and a band of gold round its title.
-          box(bw - 0.014, 0.01, 0.22, M(bc, at(x + bw / 2, y - 0.22 + bh - 0.004, 0.02)), '--tallow', false, false);
-          box(bw - 0.01, 0.02, 0.006, M(bc, at(x + bw / 2, y - 0.22 + bh * 0.72, 0.173)), '--candle', false, false);
+          // The third book on each shelf comes off it (kit.hold), one mesh
+          // with its pages, and goes back on a second press.
+          if (b === 2) {
+            var bookGeo = merged([[new T.BoxGeometry(bw, bh, 0.26), at(0, 0, 0)], [new T.BoxGeometry(bw - 0.014, 0.01, 0.22), at(0, bh / 2 - 0.004, -0.02)]]);
+            kit.hold(kit.facets(bookGeo, M(bc, at(x + bw / 2, y - 0.22 + bh / 2, 0.04)), SPINES[(row * 4 + b) % SPINES.length]), { say: 'a book off the shelf' });
+          } else {
+            box(bw, bh, 0.26, M(bc, at(x + bw / 2, y - 0.22 + bh / 2, 0.04)), SPINES[(row * 4 + b) % SPINES.length], 0.01);
+            // Its pages showing at the top, and a band of gold round its title.
+            box(bw - 0.014, 0.01, 0.22, M(bc, at(x + bw / 2, y - 0.22 + bh - 0.004, 0.02)), '--tallow', false, false);
+            box(bw - 0.01, 0.02, 0.006, M(bc, at(x + bw / 2, y - 0.22 + bh * 0.72, 0.173)), '--candle', false, false);
+          }
           x += bw + 0.012;
         }
       });
@@ -658,6 +745,15 @@
       kit.cyl(0.006, 0.004, 0.2, M(recordAt, at(0.13, 0.03, -0.02, 0, 0, Math.PI / 2 - 0.08)), '--tallow-2', false, 5);
       box(0.03, 0.02, 0.04, M(recordAt, at(0.035, 0.02, -0.02)), '--tallow-2', false, false);
       kit.cyl(0.02, 0.02, 0.04, M(recordAt, at(0.23, 0.02, -0.02)), '--timber', false, 8);
+      // A SPARE RECORD leaning on the phonograph's table, one mesh with its
+      // label, to pick up and put on the phonograph (kit.place on the record's
+      // own touch, below): the platter turns under it; the music itself is
+      // her playlist in the Music Room next door.
+      var spare = kit.facets(merged([
+        [new T.CylinderGeometry(0.15, 0.15, 0.01, 32), at(0, 0, 0)],
+        [new T.CylinderGeometry(0.052, 0.052, 0.012, 20), at(0, 0, 0)]
+      ]), M(ph, at(0.33, 0.52, 0.34, 0.3, 0, Math.PI / 2 - 0.2)), '--hearth');
+      kit.hold(spare, { say: 'a record' });
       // The horn: a real flared bell, turned out to the room and a little
       // up, as a phonograph's is, its narrow throat down to the box on a
       // short arm. Drawn twice, outside and in, so the inside of the bell is
@@ -723,12 +819,12 @@
       kit.cyl(0.03, 0.03, 0.5, M(eg, at(0, 0.2, -0.1)), '--timber', false, 6);
       // A cushion in the egg, a blanket over its lip, and a little table at
       // its side with a candle and a mug.
-      var inner = new T.SphereGeometry(0.42, 14, 10); inner.scale(1, 0.35, 0.9);
-      kit.piece(inner, M(eg, at(0, 0.72, 0.12)), '--ember-2', 0.015);
+      var inner = new T.SphereGeometry(0.42, 24, 14); inner.scale(1, 0.35, 0.9);
+      var eggCushion = kit.fabric(inner, M(eg, at(0, 0.72, 0.12)), CL.velvet);
       // The blanket hangs over the egg's lip and down its front in folds.
       for (var fo = 0; fo < 5; fo++) {
-        var fold = new T.CylinderGeometry(0.05, 0.07, 0.3, 8); fold.scale(1, 1, 0.45);
-        kit.piece(fold, M(eg, at(-0.2 + fo * 0.1, 0.56, 0.68 - Math.abs(fo - 2) * 0.03, 0, 0.35)), '--moonstone-2', fo === 2 ? 0.01 : false);
+        var fold = new T.CylinderGeometry(0.05, 0.07, 0.3, 12); fold.scale(1, 1, 0.45);
+        kit.fabric(fold, M(eg, at(-0.2 + fo * 0.1, 0.56, 0.68 - Math.abs(fo - 2) * 0.03, 0, 0.35)), CL.knitC);
       }
       [-0.2, -0.1, 0, 0.1, 0.2].forEach(function (x) { kit.cyl(0.007, 0.007, 0.08, M(eg, at(x, 0.38, 0.75)), '--tallow-3', false, 3); });
       var sdt = M(eg, at(0.95, 0, 0.25));
@@ -747,8 +843,8 @@
         }
       });
       // A sheepskin on the floor in front of it.
-      var fleece = new T.CircleGeometry(0.55, 14); fleece.scale(1, 0.7, 1);
-      kit.flat(fleece, M(eg, at(0, 0.03, 1.0, 0, -Math.PI / 2)), '--tallow-2');
+      var fleece = new T.CircleGeometry(0.55, 24); fleece.scale(1, 0.7, 1);
+      kit.fabric(fleece, M(eg, at(0, 0.03, 1.0, 0, -Math.PI / 2)), CL.fur, false);
       for (var fl = 0; fl < 18; fl++) kit.piece(new T.SphereGeometry(0.05, 5, 3), M(eg, at((hash(fl, 12, 1) - 0.5) * 0.85, 0.04, 1.0 + (hash(fl, 12, 2) - 0.5) * 0.6)), '--tallow', false);
 
       // HER THREE ANIMALS, ASLEEP (Helen's ask, 2026-11-09; see the header).
@@ -987,8 +1083,18 @@
       var candles = kit.flames(flames, { say: 'Let the candles flicker', at: [kit.touch(0.4, 0.4, 0.4, at(0.32, 0.5, 0.15)), kit.touch(0.5, 0.4, 0.3, M(gw, at(-0.32, 0.85, 0.14)))],
         said: function (on) { return on ? 'Every candle in the yurt flickers, each in its own time.' : 'The candles burn still again.'; } });
       // The record, which goes round at MAX as hers does, or when asked.
-      var turning = kit.turn(record, recordAt, { say: 'Turn the record', max: true, period: 6, at: [kit.touch(0.5, 0.3, 0.5, M(ph, at(0, 0.95, 0.05)))],
+      var phTouch = kit.touch(0.5, 0.3, 0.5, M(ph, at(0, 0.95, 0.05)));
+      var turning = kit.turn(record, recordAt, { say: 'Turn the record', max: true, period: 6, at: [phTouch],
         said: function (on) { return on ? 'Her record goes round, once in six seconds.' : 'The record stops where it is.'; } });
+      // The spare record put on the phonograph: it lies on the platter, and
+      // the platter is set turning if it is not already.
+      kit.place(phTouch, function (mesh) {
+        if (mesh !== spare) return false;
+        mesh.matrix.copy(M(recordAt, at(0, 0.016, 0)));
+        var mv = turning.mv, on = mv.asked === null ? document.documentElement.getAttribute('data-intensity') === 'max' : mv.asked;
+        if (!on) turning.go();
+        return 'You put the record on the phonograph, and the platter turns under it; the music is her playlist, next door in the Music Room.';
+      });
       var pour = kit.press({ say: function () { return kit.hidden(tea[0]) ? 'Pour the tea' : 'Drink up'; },
         at: [kit.touch(0.4, 0.35, 0.4, at(-0.18, 0.55, 0.05))],
         press: function () {
@@ -1057,12 +1163,14 @@
       var egP = new T.Vector3().setFromMatrixPosition(eg);
       var sitEgg = kit.sit({ x: egP.x * 0.96, z: egP.z * 0.96, yaw: Math.atan2(egP.x, egP.z), say: 'Sit in the egg chair', up: 'Get up out of the egg chair',
         sat: 'You sink into the egg chair, the cat beside you, looking out over the yurt.', stood: 'You climb out of the egg chair.',
+        squash: eggCushion,
         at: [kit.touch(1.3, 1.5, 1.3, M(eg, at(0, 0.95, 0)))] });
       var sits = [sitEgg];
       [0.3, 3.4].forEach(function (ca, n) {
         var cx = 1.15 * Math.sin(ca), cz = 1.15 * Math.cos(ca);
         var st = kit.sit({ x: cx * 1.15, z: cz * 1.15, yaw: Math.atan2(cx, cz), say: n ? 'Sit on the moonstone cushion' : 'Sit on the amber cushion', up: 'Get up off the cushion',
           sat: 'You sit on the cushion at the low table, the teapot in front of you.', stood: 'You get up off the cushion.',
+          squash: cushions[n ? 2 : 0],
           at: [kit.touch(0.9, 0.5, 0.9, at(cx, 0.2, cz))] });
         sits.push(st);
       });

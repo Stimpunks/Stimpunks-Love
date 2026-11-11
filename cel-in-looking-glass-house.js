@@ -93,6 +93,20 @@
    when asked; nothing else moves at any setting, and nothing flashes. It
    keeps nothing, sends nothing and fetches nothing; her page arrives through
    Cel Street's screen(). tools/make-cel-street.py holds each of those.
+
+   THE REAL LOOK (Helen Edgar's call, 2026-11-11: her rooms "more like Second
+   Life and not anime cel style, that is my choice", with an option for either):
+   the room says look: 'real', so it opens drawn with smooth lit surfaces and
+   no inked edges, in exactly the colours it had, and Look under the stage
+   flips it back to cel for a visit. With it, cloth you can see the weave of
+   (kit.cloth, kit.fabric, drawn in two of the room's inks, never fetched): the
+   chairs' cushions woven, the hedges of the chessboard country a soft fur in
+   the hedge greens, and a pile rug before the cold hearth; the cushions
+   press flatter while you sit on them (kit.sit's squash). Two places to put
+   a held thing (kit.place): the eighth square takes the circlet or the spare
+   pawn, and the pin board takes the pinned card back anywhere on the cork,
+   each saying so in words of ours. Round things got more segments for the
+   look. Ours, and hers to keep or send back.
    ========================================================================== */
 (function () {
   'use strict';
@@ -106,6 +120,8 @@
   window.loveCelRooms['looking-glass-house.html'] = {
     name: 'Looking-Glass House',
     from: 'faery-yurt.html',
+    // Helen's call, 2026-11-11: her rooms open in the real look.
+    look: 'real',
     // The faces the signs are lettered in, loaded before the room is built.
     faces: ['"Old Standard TT"', '"Source Serif 4"'],
     build: function (kit) {
@@ -211,20 +227,19 @@
         }
       }
       // Hedges between the files, in short lengths as her page dashes them,
-      // each a low row of leaves rather than a line.
-      for (var h = 1; h < 8; h++) for (var d = 0; d < 32; d++) {
-        if (d % 4 === 3) continue;
-        for (var hl = 0; hl < 3; hl++) {
-          var hleaf = new T.SphereGeometry(0.045 + hash(h, d, hl) * 0.02, 6, 4); hleaf.scale(1, 0.8, 1.3);
-          kit.piece(hleaf, at(BX + h * SQ + (hash(h, d, hl + 7) - 0.5) * 0.04, 0.05, BZ - (d + 0.2 + hl * 0.3) * SQ / 4), hl % 2 ? '--lgh-hedge' : '--lgh-field', false);
-        }
+      // each a low block of soft fur in the hedge greens (kit.fabric, the
+      // real look's cloth), one mesh a dash, rounded at its ends.
+      var hedgeCloth = kit.cloth('fur', '--lgh-hedge', '--lgh-field', 6);
+      for (var h = 1; h < 8; h++) for (var d = 0; d < 8; d++) {
+        var hg = new T.SphereGeometry(0.5, 14, 8); hg.scale(0.11, 0.1, 0.36 + hash(h, d, 1) * 0.08);
+        kit.fabric(hg, at(BX + h * SQ + (hash(h, d, 7) - 0.5) * 0.03, 0.06, BZ - (d + 0.5) * SQ - (hash(h, d, 2) - 0.5) * 0.1, 0, 0, (hash(h, d, 3) - 0.5) * 0.08), hedgeCloth);
       }
       // WHAT HER PAGE SAYS IS ON EACH SQUARE OF ALICE'S FILE, drawn as the
       // place and never as anybody in it: a hill on the second, a railway
       // across the third, a tree on the fourth, a little dark shop by a
       // river on the fifth, a wall on the sixth, the forest of the seventh.
       function tree(m, sc) {
-        kit.cyl(0.04 * sc, 0.06 * sc, 0.5 * sc, M(m, at(0, 0.25 * sc, 0)), '--lgh-cork-2', false, 7);
+        kit.cyl(0.04 * sc, 0.06 * sc, 0.5 * sc, M(m, at(0, 0.25 * sc, 0)), '--lgh-cork-2', false, 12);
         [[0, 0.62, 0.26], [0.12, 0.52, 0.18], [-0.13, 0.55, 0.17], [0.03, 0.78, 0.17]].forEach(function (cl, ci) {
           kit.piece(new T.SphereGeometry(cl[2] * sc, 8, 6), M(m, at(cl[0] * sc, cl[1] * sc, (ci % 2 ? 0.08 : -0.06) * sc)), ci % 2 ? '--lgh-hedge' : '--lgh-field', false);
         });
@@ -252,10 +267,10 @@
       var pawns = {}, crown = null;
       for (var s = 2; s <= 8; s++) {
         var pm = at(fileX, 0, zOf(s)), ps = [];
-        ps.push(kit.facets(new T.CylinderGeometry(0.16, 0.2, 0.06, 20), M(pm, at(0, 0.03, 0)), '--lgh-pawn'));
-        ps.push(kit.facets(new T.CylinderGeometry(0.07, 0.14, 0.22, 16), M(pm, at(0, 0.17, 0)), '--lgh-pawn'));
-        ps.push(kit.facets(new T.TorusGeometry(0.09, 0.025, 8, 18), M(pm, at(0, 0.3, 0, 0, FLAT)), '--lgh-pawn'));
-        ps.push(kit.facets(new T.SphereGeometry(0.1, 16, 12), M(pm, at(0, 0.42, 0)), '--lgh-pawn'));
+        ps.push(kit.facets(new T.CylinderGeometry(0.16, 0.2, 0.06, 28), M(pm, at(0, 0.03, 0)), '--lgh-pawn'));
+        ps.push(kit.facets(new T.CylinderGeometry(0.07, 0.14, 0.22, 24), M(pm, at(0, 0.17, 0)), '--lgh-pawn'));
+        ps.push(kit.facets(new T.TorusGeometry(0.09, 0.025, 10, 28), M(pm, at(0, 0.3, 0, 0, FLAT)), '--lgh-pawn'));
+        ps.push(kit.facets(new T.SphereGeometry(0.1, 24, 16), M(pm, at(0, 0.42, 0)), '--lgh-pawn'));
         ps.push(kit.facets(new T.TorusGeometry(0.19, 0.012, 6, 24), M(pm, at(0, 0.005, 0, 0, FLAT)), '--lgh-ink'));
         if (s === 8) {
           crown = [];
@@ -521,20 +536,25 @@
 
       // A CHAIR to sit in (Helen's headset round): a plain cork-wood chair
       // with a cushion of her paper, its seat at knee height.
+      // Its cushion is woven cloth in her paper and silver (kit.fabric), its
+      // own mesh, pressed flatter while somebody sits on it.
+      var seatCloth = kit.cloth('weave', '--lgh-card', '--lgh-silver', 5);
       function chair(m) {
         box(0.5, 0.05, 0.5, M(m, at(0, 0.45, 0)), '--lgh-cork-2', 0.01);
-        box(0.46, 0.05, 0.46, M(m, at(0, 0.5, 0)), '--lgh-card', false, false);
+        var cg = new T.SphereGeometry(0.5, 20, 12); cg.scale(0.48, 0.07, 0.48);
+        var cushion = kit.fabric(cg, M(m, at(0, 0.5, 0)), seatCloth);
         box(0.5, 0.55, 0.05, M(m, at(0, 0.75, -0.225)), '--lgh-cork-2', 0.01);
         box(0.5, 0.04, 0.05, M(m, at(0, 1.0, -0.225)), '--lgh-gilt-2', false, false);
-        [[-0.21, -0.21], [0.21, -0.21], [-0.21, 0.21], [0.21, 0.21]].forEach(function (lg) { kit.cyl(0.025, 0.03, 0.45, M(m, at(lg[0], 0.225, lg[1])), '--lgh-cork-2', false, 8); });
+        [[-0.21, -0.21], [0.21, -0.21], [-0.21, 0.21], [0.21, 0.21]].forEach(function (lg) { kit.cyl(0.025, 0.03, 0.45, M(m, at(lg[0], 0.225, lg[1])), '--lgh-cork-2', false, 12); });
+        return cushion;
       }
       // By the reading stand, facing the squares; by the mantelpiece, facing the hearth.
       var ch1 = at(-1.95, 0, -4.55, 0.95), ch2 = at(2.75, 0, -5.5, RIGHT);
-      chair(ch1); chair(ch2);
+      var cushion1 = chair(ch1), cushion2 = chair(ch2);
       var sitStand = kit.sit({ x: -1.95, z: -4.55, yaw: 0.95, say: 'Sit in the chair by the reading stand', sat: 'You sit by the reading stand, the eight squares in front of you.',
-        at: [kit.touch(0.55, 0.6, 0.55, M(ch1, at(0, 0.5, 0)))] });
+        squash: cushion1, at: [kit.touch(0.55, 0.6, 0.55, M(ch1, at(0, 0.5, 0)))] });
       var sitHearth = kit.sit({ x: 2.75, z: -5.5, yaw: RIGHT, say: 'Sit by the mantelpiece', sat: 'You sit by the cold hearth, the three things on the shelf above you.',
-        at: [kit.touch(0.55, 0.6, 0.55, M(ch2, at(0, 0.5, 0)))] });
+        squash: cushion2, at: [kit.touch(0.55, 0.6, 0.55, M(ch2, at(0, 0.5, 0)))] });
 
       // THE MANTELPIECE on the right-hand wall: a cold hearth with nothing
       // burning in it, and on its shelf the three things Alice finds on the
@@ -571,6 +591,9 @@
       var ash = new T.SphereGeometry(0.16, 10, 6); ash.scale(2.2, 0.3, 1);
       kit.piece(ash, M(fm, at(0, 0.05, 0.3)), '--lgh-ink-2', false);
       box(2.4, 0.08, 0.04, M(fm, at(0, 0.04, 0.5)), '--lgh-gilt', false, false);
+      // A rug of pile before the fender, in her paper and the pane's silver
+      // (kit.fabric), flat on the floor.
+      kit.fabric(new T.PlaneGeometry(1.6, 1.0, 1, 1), M(fm, at(0, 0.012, 1.05, 0, FLAT)), kit.cloth('pile', '--lgh-pane', '--lgh-card', 8), false);
       sign('The mantelpiece: book, glass and clock', M(fm, at(0, 2.3, 0.03)), { small: true });
       // THINGS TO PICK UP (Helen's headset round), each one mesh so it comes
       // whole to the hand: a spare White Pawn at the board's foot, turned on a
@@ -578,11 +601,32 @@
       // the clock; and one more card pinned to the cork, below the rest.
       var profile = [];
       [[0.11, 0], [0.11, 0.03], [0.05, 0.05], [0.04, 0.14], [0.065, 0.17], [0.03, 0.19], [0.06, 0.24], [0.045, 0.28], [0, 0.29]].forEach(function (pt) { profile.push(new T.Vector2(pt[0], pt[1])); });
-      kit.hold(kit.facets(new T.LatheGeometry(profile, 18), at(fileX + 0.62, 0, BZ + 0.32), '--lgh-pawn'), { say: 'the spare White Pawn' });
-      kit.hold(kit.facets(new T.CylinderGeometry(0.075, 0.07, 0.06, 8, 1, true), M(fm, at(0.78, 1.5, 0.18)), '--lgh-gilt-2'), { say: 'the gilt circlet' });
+      kit.hold(kit.facets(new T.LatheGeometry(profile, 28), at(fileX + 0.62, 0, BZ + 0.32), '--lgh-pawn'), { say: 'the spare White Pawn' });
+      kit.hold(kit.facets(new T.CylinderGeometry(0.075, 0.07, 0.06, 24, 1, true), M(fm, at(0.78, 1.5, 0.18)), '--lgh-gilt-2'), { say: 'the gilt circlet' });
       var card = kit.facets(new T.BoxGeometry(0.5, 0.38, 0.008), M(bm, at(1.2, 0.95, 0.09, 0, 0, 0.08)), '--lgh-card');
       kit.hold(card, { say: 'a pinned card' });
       kit.piece(new T.SphereGeometry(0.018, 8, 6), M(bm, at(1.2, 1.12, 0.1)), '--lgh-red', false);
+      // WHERE A HELD THING CAN BE PUT (kit.place, Helen's ask, 2026-11-11).
+      // The eighth square takes the circlet or the spare pawn, set down on
+      // it beside the crown's place; anything else is refused.
+      kit.place(kit.touch(SQ, 0.7, SQ, at(fileX, 0.35, zOf(8))), function (mesh, say) {
+        var circlet = /circlet/.test(say || ''), pawn = /Pawn/.test(say || '');
+        if (!circlet && !pawn) return false;
+        mesh.matrix.copy(at(fileX + 0.32, circlet ? 0.03 : 0, zOf(8) + 0.3));
+        return circlet
+          ? 'You set the circlet down on the eighth square, the last of the file: in our words, the square where a pawn that has crossed the whole board is a queen.'
+          : 'You stand the spare pawn on the eighth square, the last of the file: in our words, the square where a pawn that has crossed the whole board is a queen.';
+      });
+      // The pin board takes the pinned card back, somewhere new on the cork
+      // each time.
+      var pinned = 0;
+      kit.place(kit.touch(3.5, 2.5, 0.3, M(bm, at(0, 1.6, 0.15))), function (mesh, say) {
+        if (!/card/.test(say || '')) return false;
+        pinned++;
+        var cx = -1.3 + ((pinned * 0.9) % 2.6), cy = 0.85 + ((pinned * 0.37) % 0.5);
+        mesh.matrix.copy(M(bm, at(cx, cy, 0.09, 0, 0, (hash(pinned, 9, 1) - 0.5) * 0.2)));
+        return 'You pin the card back on the cork, somewhere new.';
+      });
       // PLAQUES for a headset, which shows no page: her own first lines by the
       // glass, copied exactly from her page; and under the book, a line of ours.
       kit.plaque({ face: '"Source Serif 4"', ink: '--lgh-ink', ground: '--lgh-card', edge: '--lgh-gilt', w: 0.9, size: 40,

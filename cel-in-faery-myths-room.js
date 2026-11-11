@@ -113,6 +113,20 @@
    flickers. Every colour is one her rooms declare, by name. It keeps nothing,
    sends nothing and fetches nothing; her page arrives through Cel Street's
    screen(). tools/make-cel-street.py holds each of those.
+
+   THE REAL LOOK (Helen Edgar's call, 2026-11-11: "more like Second Life and
+   not anime cel style, that is my choice", then an option for either): the
+   room says look: 'real', so it opens drawn with smooth lit materials and no
+   inked hulls, in exactly the colours it had, and Look under the stage flips
+   it to the cel for a visit. In that look every crystal's faces are left
+   smooth and a little metallic so they catch the stones' light, and the rock
+   stays rough; in the cel look the same meshes keep their toon shading. A
+   woven runner lies on every shelf of the old books and the coat on its peg
+   is woven cloth outside and velvet in, kit.cloth drawn in two of the room's
+   inks. And the crystals you can pick up have two places to go (kit.place):
+   the ledge under her Crystal Wheel, where they line up among the year's
+   stones, and the cauldron, which takes one in and gives back a story, never
+   an effect, the Herbery's rule. Ours, and hers to keep or send back.
    ========================================================================== */
 (function () {
   'use strict';
@@ -126,6 +140,9 @@
   window.loveCelRooms['faery-myths-room.html'] = {
     name: 'Myths & Legends',
     from: 'faery-yurt.html',
+    // Helen's call, 2026-11-11: her rooms open in the real look; Look under
+    // the stage flips it for a visit.
+    look: 'real',
     // The faces the signs are lettered in, loaded before the cave is built.
     faces: ['"Cormorant Garamond"', '"Crimson Pro"'],
     build: function (kit) {
@@ -291,9 +308,16 @@
       // origin. The body is shaded; the tip is lit from within.
       var prismGeo = new T.CylinderGeometry(0.8, 1, 1, 6), tipGeo = new T.ConeGeometry(0.8, 0.9, 6);
       prismGeo.translate(0, 0.5, 0); tipGeo.translate(0, 1.45, 0);
+      // In the real look a crystal's faces catch the light: smooth and a touch
+      // metallic on a standard material, which has roughness; the cel's toon
+      // material has none and is left as it is. Rock is never shone.
+      function shine(mesh) {
+        if (mesh.material.roughness !== undefined) { mesh.material.roughness = 0.25; mesh.material.metalness = 0.1; }
+        return mesh;
+      }
       function crystalAt(m, r, h, ink, ink2) {
         var sc = new T.Vector3(r, h, r);
-        kit.facets(prismGeo.clone().scale(sc.x, sc.y, sc.z), m, ink);
+        shine(kit.facets(prismGeo.clone().scale(sc.x, sc.y, sc.z), m, ink));
         lit[ink2] = lit[ink2] || [];
         lit[ink2].push([tipGeo, m.clone().scale(sc)]);
       }
@@ -633,9 +657,9 @@
       // her Herbery's herbs drying over it from a rail: lavender, rosemary,
       // rose, bay, elder and thyme, tied in brass.
       var cx2 = 2.7, cz2 = -6.6, px = cx2 + 1.1; // the pot beside the lectern
-      var pot = new T.SphereGeometry(0.55, 18, 12, 0, Math.PI * 2, Math.PI * 0.32, Math.PI * 0.68);
+      var pot = new T.SphereGeometry(0.55, 28, 18, 0, Math.PI * 2, Math.PI * 0.32, Math.PI * 0.68);
       kit.piece(pot, at(px, 0.72, cz2), '--rdr-stone', 0.03);
-      kit.piece(new T.TorusGeometry(0.47, 0.05, 6, 20), at(px, 1.14, cz2, 0, Math.PI / 2), '--rdr-stone', 0.015);
+      kit.piece(new T.TorusGeometry(0.47, 0.05, 8, 28), at(px, 1.14, cz2, 0, Math.PI / 2), '--rdr-stone', 0.015);
       for (var lg = 0; lg < 3; lg++) {
         var la = lg / 3 * Math.PI * 2;
         box(0.06, 0.4, 0.06, at(px + Math.cos(la) * 0.35, 0.2, cz2 + Math.sin(la) * 0.35), '--rdr-stone', 0.01);
@@ -715,8 +739,13 @@
       box(3.12, 0.1, 0.52, M(lb, at(0, 2.65, 0.02)), '--rdr-timber', 0.015);
       cluster(M(lb, at(-0.9, 2.7, 0.02)), true, 70, 0.08);
       cluster(M(lb, at(1.0, 2.7, 0.02)), true, 71, 0.06);
+      // A woven runner under the books on every shelf (Helen's ask for cloth
+      // with a texture you can see), the room's leather and brass as its two
+      // threads, its own mesh so the weave shows in the real look's relief.
+      var runnerCloth = kit.cloth('weave', '--rdr-leather', '--rdr-brass', 6);
       [0.5, 1.15, 1.8, 2.4].forEach(function (y, row) {
         box(2.84, 0.04, 0.38, M(lb, at(0, y - 0.28, 0.06)), '--rdr-panel', false);
+        kit.fabric(new T.BoxGeometry(2.8, 0.012, 0.34), M(lb, at(0, y - 0.254, 0.07)), runnerCloth, false);
         for (var bk = 0, x = -1.32; bk < 22 && x < 1.3; bk++) {
           var bw = 0.07 + hash(row, bk, 21) * 0.07, bh = 0.3 + hash(row, bk, 23) * 0.18;
           // Now and then a few lie flat, as old books do on a full shelf.
@@ -819,8 +848,11 @@
       box(1.4, 0.08, 0.05, at(2.4, 1.92, 0.93), '--rdr-timber', 0.01);
       [1.9, 2.4, 2.9].forEach(function (x) { kit.cyl(0.018, 0.022, 0.12, at(x, 1.9, 0.86, 0, Math.PI / 2), '--rdr-brass', false, 6); });
       var coatAt = at(2.4, 0, 0.82, Math.PI), coatOut = [], coatIn = [];
+      var coatWeave = kit.cloth('weave', '--rdr-leather', '--rdr-timber', 8), coatVelvet = kit.cloth('velvet', '--rdr-velvet', '--rdr-ember', 5);
       function coat(ink, list, inside) {
-        list.push(kit.facets(new T.CylinderGeometry(0.17, 0.33, 1.1, 14).scale(1, 1, 0.42), M(coatAt, at(0, 1.3, 0)), ink));
+        // The coat's body is cloth: woven outside, velvet in, in the room's
+        // own inks, so turning it inside out shows a different weave.
+        list.push(kit.fabric(new T.CylinderGeometry(0.17, 0.33, 1.1, 22).scale(1, 1, 0.42), M(coatAt, at(0, 1.3, 0)), inside ? coatVelvet : coatWeave));
         [-1, 1].forEach(function (s) { list.push(kit.facets(new T.CylinderGeometry(0.06, 0.075, 0.7, 8), M(coatAt, at(s * 0.21, 1.38, 0.01, 0, 0, s * 0.12)), ink)); });
         list.push(kit.facets(new T.SphereGeometry(0.16, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.6).scale(1, 1.1, 0.8), M(coatAt, at(0, 1.78, -0.05, 0, 0.5)), ink));
         if (inside) {
@@ -852,8 +884,11 @@
       var amethyst = kit.lights({ label: 'The amethyst stones', max: true, twinkle: 'Let the amethyst glint', washes: washAmethyst,
         strings: [kit.bulbs(glintAmethyst, 0.026, ['--myth-amethyst-2', '--myth-amethyst'])],
         sets: [{ say: 'Amethyst', inks: ['--myth-amethyst', '--myth-amethyst-2'] }] });
+      // One touch on the cauldron: the lid for an empty hand, a place for a
+      // held crystal (kit.place on it, below).
+      var cauldronTouch = kit.touch(1.2, 1.3, 1.2, at(px, 0.65, cz2));
       var lid = kit.press({ say: function () { return kit.hidden(lidOn[0]) ? 'Put the lid on the cauldron' : 'Lift the lid off the cauldron'; },
-        at: [kit.touch(1.2, 1.3, 1.2, at(px, 0.65, cz2))],
+        at: [cauldronTouch],
         press: function () {
           var on = kit.hidden(lidOn[0]);
           lidOn.forEach(function (m) { kit.hide(m, !on); });
@@ -884,6 +919,25 @@
 
       // The stones pressable in the scene: the tall amber cluster on the left
       // and the tall amethyst one on the right.
+      // SOMEWHERE TO PUT A CRYSTAL YOU HOLD (Helen's ask, 2026-11-11): a brass
+      // ledge under her Crystal Wheel, where held stones line up among the
+      // year's, and the cauldron, which takes one in. Each is a kit.place on a
+      // pressable touch, so pressed with nothing in hand it says what to do.
+      box(1.1, 0.03, 0.14, M(wg, at(0, 1.85, 0.12)), '--rdr-brass', 0.008);
+      var onLedge = 0;
+      var wheelTouch = kit.touch(1.9, 2.0, 0.5, M(wg, at(0, 2.3, 0.15)));
+      kit.press({ say: 'Put a crystal on the Crystal Wheel\u2019s ledge', at: [wheelTouch],
+        press: function () { return kit.held() ? 'Press the wheel itself with the crystal in your hand, and it goes on the ledge.' : 'Pick up a crystal from the floor first; pressed with it in your hand, the wheel takes it onto its ledge.'; } });
+      kit.place(wheelTouch, function (mesh, say) {
+        var slot = ((onLedge % 7) + 7) % 7; onLedge++;
+        mesh.matrix.copy(M(wg, at(-0.42 + slot * 0.14, 1.865, 0.12, 0, 0, 0)));
+        return 'You set ' + (say || 'it') + ' on the ledge under her Crystal Wheel, among the stones of the year. Press it again to take it back where it lay.';
+      });
+      kit.place(cauldronTouch, function (mesh, say) {
+        var drop = ((onLedge % 5) + 5) % 5; onLedge++;
+        mesh.matrix.copy(at(px + (drop - 2) * 0.09, 0.78, cz2 + (drop % 2 ? 0.08 : -0.08), drop * 1.1, 0, 0.9));
+        return 'You drop ' + (say || 'it') + ' into the cauldron. It sinks under the rim and waits: on her page a stone in the pot is the start of a story, never a spell, and this one has not told its tale yet. Press it again to take it out.';
+      });
       var amberPress = glowPress(amber, 'Press the amber: let it glow', kit.touch(1.6, 2.6, 1.6, at(-W / 2 + 0.55, 1.3, -6.0)));
       var amethystPress = glowPress(amethyst, 'Press the amethyst: let it glint', kit.touch(1.6, 2.6, 1.6, at(W / 2 - 0.5, 1.3, -4.8)));
 
@@ -912,7 +966,7 @@
       // goes back where it lay. Each is one mesh, body and tip together.
       function loose(x, z, r, h, ink, say, seed) {
         var g = merged([[prismGeo, new T.Matrix4().makeScale(r, h, r)], [tipGeo, new T.Matrix4().makeScale(r, h, r)]]);
-        var m = kit.facets(g, at(x, 0.02, z, hash(seed, 2, 96) * 3, 0, 0.25), ink);
+        var m = shine(kit.facets(g, at(x, 0.02, z, hash(seed, 2, 96) * 3, 0, 0.25), ink));
         kit.hold(m, { say: say });
       }
       loose(0.9, -2.2, 0.06, 0.2, '--myth-amethyst-2', 'the amethyst crystal', 630);
