@@ -161,6 +161,21 @@
    his check jacket and spectacles; and the cat is a tabby in the room's own
    browns, never any film's pink and purple. The skins are the Crystal Wheel's
    faeries' own inks.
+
+   THE SPREAD (Helen Edgar's ask, 2026-11-12: "cake stands and eat me drink me
+   bottles and food etc"): the Queen of Hearts' jam tarts, sandwiches cut in
+   triangles, a bowl of strawberries, a trifle in a glass bowl and sugar lumps
+   on the table; a trolley at its foot with a three-tier stand of fairy cakes
+   and biscuits, a Victoria sponge with a slice cut, four jellies that stand
+   still, a rack of scones, jam and cream with their spoons, a jug of
+   lemonade and a plate of mushroom slices (the Caterpillar's, slices of
+   mushroom and nothing more); a side table by the Hatter with a two-tier
+   stand and his pot of jam. Every small thing is picked up (kit.hold). Four
+   EAT ME cakes and three DRINK ME bottles, Carroll's words on their tags, and
+   a press on a tag does what they did to Alice: the cake makes you tall and
+   the bottle small (kit.stature, your eyes raised or lowered on a screen and
+   in a headset), pressed again puts you back, and leaving the room does too.
+   Nothing moves by itself; every ink is the room's own or the yurt's fog.
    ========================================================================== */
 (function () {
   'use strict';
@@ -867,6 +882,218 @@
       box(0.008, 0.08, 0.002, M(ck, at(0, 0.18, 0.029)), '--lgh-ink', false, false);
       box(0.08, 0.03, 0.08, M(ck, at(0, 0.015, 0)), '--lgh-gilt', false, false);
       kit.piece(new T.SphereGeometry(0.014, 8, 6), M(ck, at(0, 0.27, 0)), '--lgh-gilt-2', false);
+      // THE SPREAD (Helen's ask, 2026-11-12: "cake stands and eat me drink me
+      // bottles and food etc"): more on the table, a trolley at its foot and a
+      // side table by the Hatter, every small thing to pick up, and the EAT ME
+      // cakes and DRINK ME bottles doing what Carroll's did: a press on a
+      // cake's tag makes you tall and on a bottle's label small (kit.stature),
+      // pressed again puts you back, and leaving the room resets you. The
+      // Caterpillar's mushroom slices are only slices of mushroom on a plate.
+      // Every ink is the room's own or the yurt's fog for the icing.
+      function plateAt(m, r, ink) { kit.piece(new T.CylinderGeometry(r, r * 0.9, 0.01, 22), M(m, at(0, 0.005, 0)), ink || '--lgh-pawn', false); }
+      function tiers(m, list, fill) {
+        var top = list[list.length - 1][1] + 0.1;
+        kit.cyl(0.018, 0.028, top, M(m, at(0, top / 2, 0)), '--lgh-gilt', false, 10);
+        list.forEach(function (tier, ti) {
+          kit.piece(new T.CylinderGeometry(tier[0], tier[0], 0.008, 24), M(m, at(0, tier[1] + 0.004, 0)), '--lgh-silver', false);
+          kit.piece(new T.TorusGeometry(tier[0], 0.005, 6, 28), M(m, at(0, tier[1] + 0.008, 0, 0, Math.PI / 2)), '--lgh-gilt-2', false);
+          fill(tier, ti);
+        });
+        kit.piece(new T.SphereGeometry(0.028, 10, 8), M(m, at(0, top + 0.02, 0)), '--lgh-gilt-2', false);
+      }
+      function fairyCake(m, ink, top) {
+        var cake = kit.facets(merged([
+          [new T.CylinderGeometry(0.03, 0.024, 0.032, 12), at(0, 0.016, 0)],
+          [new T.SphereGeometry(0.03, 10, 8, 0, Math.PI * 2, 0, Math.PI / 2), at(0, 0.03, 0)],
+          [new T.SphereGeometry(0.01, 8, 6), at(0, 0.056, 0)]
+        ]), m, ink);
+        kit.hold(cake, { say: 'a fairy cake with ' + (top || 'a cherry') + ' on it' });
+        return cake;
+      }
+      function scone(m) {
+        var sc = kit.facets(merged([
+          [new T.CylinderGeometry(0.034, 0.03, 0.03, 12), at(0, 0.015, 0)],
+          [new T.CylinderGeometry(0.03, 0.03, 0.006, 12), at(0, 0.033, 0)],
+          [new T.SphereGeometry(0.012, 8, 6), at(0, 0.04, 0)]
+        ]), m, '--lgh-cork');
+        kit.hold(sc, { say: 'a scone, split, with jam and cream on it' });
+        return sc;
+      }
+      function tart(m) {
+        var t = kit.facets(merged([
+          [new T.CylinderGeometry(0.036, 0.028, 0.016, 12), at(0, 0.008, 0)],
+          [new T.CylinderGeometry(0.028, 0.028, 0.006, 12), at(0, 0.019, 0)]
+        ]), m, '--lgh-cork');
+        var jam = kit.flat(new T.CircleGeometry(0.024, 12), M(m, at(0, 0.023, 0, 0, FLAT)), '--lgh-red');
+        kit.hold(t, { say: 'one of the Queen of Hearts’ jam tarts' });
+        return t;
+      }
+      function sandwich(m) {
+        var tri = new T.CylinderGeometry(0.05, 0.05, 0.028, 3);
+        var sw = kit.facets(merged([[tri, at(0, 0.014, 0)]]), m, '--lgh-card');
+        kit.hold(sw, { say: 'a sandwich, cut in a triangle' });
+        return sw;
+      }
+      function biscuit(m) {
+        var b = kit.facets(merged([[new T.CylinderGeometry(0.028, 0.028, 0.008, 14), at(0, 0.004, 0)]]), m, '--lgh-cork-2');
+        kit.hold(b, { say: 'a biscuit' });
+        return b;
+      }
+      function strawberry(m) {
+        var st = kit.facets(merged([
+          [new T.ConeGeometry(0.014, 0.03, 8), at(0, 0.015, 0, 0, Math.PI)],
+          [new T.ConeGeometry(0.012, 0.008, 6), at(0, 0.032, 0)]
+        ]), m, '--lgh-red');
+        kit.hold(st, { say: 'a strawberry' });
+        return st;
+      }
+      // EAT ME and DRINK ME: a cake or a bottle to pick up, its tag beside it
+      // to press (the tag, so the cake can still be picked up), and what
+      // Carroll's did to Alice done to you.
+      var eatMes = [], drinkMes = [];
+      function eatMe(m, ink, tagTurn) {
+        var cake = kit.facets(merged([
+          [new T.CylinderGeometry(0.05, 0.055, 0.045, 14), at(0, 0.0225, 0)],
+          [new T.SphereGeometry(0.018, 8, 6), at(0, 0.052, 0)]
+        ]), m, ink);
+        kit.hold(cake, { say: 'a cake with EAT ME on its tag' });
+        var tm = M(m, at(0.08, 0.03, 0.02, tagTurn || -0.6, -0.25));
+        label('EAT ME', tm, 44, '--lgh-ink', '--lgh-card');
+        var touch = kit.touch(0.11, 0.07, 0.02, tm);
+        var press = kit.stature({ tall: 1.1, say: 'Eat the cake', back: 'Back to your own size', at: [touch],
+          done: 'You eat the cake, and shoot up like a telescope; press it again to come down.', undone: 'You are your own size again.' });
+        eatMes.push(press);
+        return press;
+      }
+      function drinkMe(m, ink) {
+        var b = kit.facets(merged([
+          [new T.CylinderGeometry(0.035, 0.04, 0.14, 14), at(0, 0.07, 0)],
+          [new T.CylinderGeometry(0.012, 0.03, 0.06, 10), at(0, 0.17, 0)],
+          [new T.CylinderGeometry(0.014, 0.014, 0.03, 8), at(0, 0.21, 0)]
+        ]), m, ink);
+        b.material.transparent = true; b.material.opacity = 0.85;
+        kit.piece(new T.CylinderGeometry(0.012, 0.012, 0.02, 8), M(m, at(0, 0.235, 0)), '--lgh-cork-2', false);
+        kit.hold(b, { say: 'a bottle with DRINK ME on its label' });
+        var lm = M(m, at(0, 0.1, 0.05, 0.3, 0.1));
+        label('DRINK ME', lm, 42, '--lgh-ink', '--lgh-card');
+        var touch = kit.touch(0.11, 0.07, 0.02, lm);
+        var press = kit.stature({ small: 0.95, say: 'Drink from the bottle', back: 'Back to your own size', at: [touch],
+          done: 'You drink, and shut up like a telescope; press it again to grow back.', undone: 'You are your own size again.' });
+        drinkMes.push(press);
+        return press;
+      }
+      // On the table: the Queen's tarts, sandwiches, strawberries, a trifle,
+      // sugar lumps, and two more EAT ME cakes.
+      plateAt(at(TX - 1.4, TOP, TZ + 0.3), 0.11, '--lgh-pawn');
+      [[-0.05, -0.04], [0.05, -0.04], [0, 0.04], [-0.055, 0.045], [0.055, 0.045]].forEach(function (tp) { tart(at(TX - 1.4 + tp[0], TOP + 0.01, TZ + 0.3 + tp[1])); });
+      plateAt(at(TX - 0.8, TOP, TZ - 0.33), 0.1, '--lgh-pawn');
+      [[-0.04, 0, 0.3], [0.04, 0, 1.3], [0, 0.03, -0.6], [0, -0.035, 2.2]].forEach(function (sp, si) { sandwich(at(TX - 0.8 + sp[0], TOP + 0.01 + si * 0.004, TZ - 0.33 + sp[1], sp[2])); });
+      kit.piece(new T.SphereGeometry(0.07, 14, 10, 0, Math.PI * 2, 0, Math.PI / 2), at(TX + 0.45, TOP, TZ - 0.3, 0, 0, Math.PI), '--yurt-fog-mint', false);
+      kit.piece(new T.CylinderGeometry(0.07, 0.07, 0.006, 16), at(TX + 0.45, TOP + 0.073, TZ - 0.3), '--yurt-fog-mint', false);
+      [[0, 0], [0.03, 0.02], [-0.03, 0.02], [0.01, -0.03], [-0.02, -0.025]].forEach(function (bp) { strawberry(at(TX + 0.45 + bp[0], TOP + 0.075, TZ - 0.3 + bp[1])); });
+      // The trifle: a glass bowl with its layers showing through.
+      var trifle = at(TX + 1.25, TOP, TZ + 0.32);
+      [['--lgh-red', 0.0, 0.03], ['--yurt-fog-lemon', 0.03, 0.03], ['--lgh-card', 0.06, 0.025], ['--lgh-pawn', 0.085, 0.02]].forEach(function (ly) {
+        kit.piece(new T.CylinderGeometry(0.068, 0.06, ly[2], 16), M(trifle, at(0, ly[1] + ly[2] / 2, 0)), ly[0], false);
+      });
+      var bowlGlass = kit.facets(new T.CylinderGeometry(0.075, 0.062, 0.11, 18, 1, true), M(trifle, at(0, 0.055, 0)), '--lgh-glass');
+      bowlGlass.material.transparent = true; bowlGlass.material.opacity = 0.35; bowlGlass.material.side = T.DoubleSide;
+      [[0.02, 0.02], [-0.025, 0.01], [0, -0.03]].forEach(function (ch) { kit.piece(new T.SphereGeometry(0.009, 8, 6), M(trifle, at(ch[0], 0.11, ch[1])), '--lgh-red', false); });
+      // Sugar lumps in the sugar bowl.
+      for (var sl = 0; sl < 7; sl++) box(0.014, 0.012, 0.014, at(TX + 0.2 + Math.cos(sl * 1.7) * 0.025, TOP + 0.045 + (sl % 3) * 0.011, TZ - 0.3 + Math.sin(sl * 1.7) * 0.025, sl * 0.7), '--lgh-pawn', false, false);
+      eatMe(at(TX - 1.4, TOP, TZ - 0.33), '--yurt-fog-lilac', -0.9);
+      // The trolley at the foot of the table, two shelves on wheels: a
+      // three-tier stand of fairy cakes and biscuits, the Victoria sponge
+      // with a slice cut, the jellies, and below, the scones on their rack,
+      // the jam and cream pots, the lemonade and the mushroom slices.
+      var TR = at(-0.2, 0, -8.0, 0.25);
+      [[-0.36, -0.22], [0.36, -0.22], [-0.36, 0.22], [0.36, 0.22]].forEach(function (lg) {
+        kit.cyl(0.012, 0.012, 0.74, M(TR, at(lg[0], 0.4, lg[1])), '--lgh-gilt', false, 8);
+        kit.piece(new T.SphereGeometry(0.03, 8, 6), M(TR, at(lg[0], 0.03, lg[1])), '--lgh-ink-2', false);
+      });
+      [0.74, 0.36].forEach(function (sh) {
+        box(0.8, 0.02, 0.5, M(TR, at(0, sh, 0)), '--lgh-cork-2', 0.004);
+        box(0.8, 0.03, 0.012, M(TR, at(0, sh + 0.02, 0.25)), '--lgh-gilt', false, false);
+        box(0.8, 0.03, 0.012, M(TR, at(0, sh + 0.02, -0.25)), '--lgh-gilt', false, false);
+      });
+      var TRT = 0.75;
+      tiers(M(TR, at(-0.2, TRT, 0)), [[0.17, 0], [0.13, 0.11], [0.09, 0.22]], function (tier, ti) {
+        var n = 6 - ti * 2;
+        for (var k = 0; k < n; k++) {
+          var a = k / n * Math.PI * 2 + ti, r = tier[0] - 0.045;
+          var fm = M(TR, at(-0.2 + Math.cos(a) * r, TRT + tier[1] + 0.008, Math.sin(a) * r));
+          if (k % 3 === 2) biscuit(fm); else fairyCake(fm, ['--yurt-fog-rose', '--yurt-fog-lemon', '--yurt-fog-sky', '--yurt-fog-peach'][(k + ti) % 4]);
+        }
+      });
+      // The Victoria sponge, a slice cut and laid beside it.
+      var vs = M(TR, at(0.17, TRT, -0.12));
+      plateAt(vs, 0.13, '--lgh-pawn');
+      var sponge = new T.CylinderGeometry(0.1, 0.1, 0.03, 20, 1, false, 0.5, Math.PI * 2 - 0.5);
+      [['--lgh-cork', 0.01], ['--lgh-red', 0.04], ['--lgh-pawn', 0.055], ['--lgh-cork', 0.085]].forEach(function (ly, li) {
+        var g = sponge.clone(); if (li === 1 || li === 2) g.scale(1, 0.5, 1);
+        kit.piece(g, M(vs, at(0, ly[1], 0)), ly[0], false);
+      });
+      kit.piece(new T.CylinderGeometry(0.1, 0.1, 0.004, 20, 1, false, 0.5, Math.PI * 2 - 0.5), M(vs, at(0, 0.102, 0)), '--lgh-card', false);
+      var slice = kit.facets(merged([[new T.CylinderGeometry(0.1, 0.1, 0.1, 20, 1, false, 0, 0.5), at(0, 0.05, 0)]]), M(TR, at(0.3, TRT, 0.16, 1.2)), '--lgh-cork');
+      kit.hold(slice, { say: 'a slice of the Victoria sponge, jam and cream in the middle' });
+      // The jellies, four on a dish, in the fog's colours, standing still.
+      plateAt(M(TR, at(0.12, TRT, 0.17)), 0.1, '--lgh-silver');
+      [['--yurt-fog-rose', -0.04, -0.03], ['--yurt-fog-lemon', 0.04, -0.03], ['--yurt-fog-mint', -0.04, 0.035], ['--yurt-fog-lilac', 0.04, 0.035]].forEach(function (jl) {
+        var jelly = kit.facets(new T.CylinderGeometry(0.02, 0.034, 0.04, 12), M(TR, at(0.12 + jl[1], TRT + 0.03, 0.17 + jl[2])), jl[0]);
+        if ('roughness' in jelly.material) { jelly.material.transparent = true; jelly.material.opacity = 0.8; jelly.material.roughness = 0.2; }
+        kit.hold(jelly, { say: 'a jelly, which does not wobble' });
+      });
+      // The lower shelf: a scone rack, the jam and cream with spoons, the
+      // lemonade, the mushroom slices, a DRINK ME bottle and an EAT ME cake.
+      var TRL = 0.37;
+      box(0.26, 0.012, 0.12, M(TR, at(-0.22, TRL + 0.03, -0.1)), '--lgh-gilt', false, false);
+      [-0.09, -0.03, 0.03, 0.09].forEach(function (sx) { scone(M(TR, at(-0.22 + sx, TRL + 0.036, -0.1))); });
+      [['--lgh-red', -0.26, 0.12, 'jam'], ['--lgh-card', -0.14, 0.12, 'cream']].forEach(function (pt) {
+        kit.piece(new T.CylinderGeometry(0.035, 0.03, 0.06, 12), M(TR, at(pt[1], TRL + 0.03, pt[2])), pt[0], false);
+        kit.piece(new T.CylinderGeometry(0.037, 0.037, 0.008, 12), M(TR, at(pt[1], TRL + 0.064, pt[2])), '--lgh-pawn', false);
+        kit.cyl(0.004, 0.004, 0.09, M(TR, at(pt[1] + 0.025, TRL + 0.085, pt[2] - 0.01, 0, 0, 0.6)), '--lgh-silver', false, 6);
+      });
+      var jug = kit.facets(merged([
+        [new T.CylinderGeometry(0.04, 0.05, 0.16, 14), at(0, 0.08, 0)],
+        [new T.TorusGeometry(0.035, 0.008, 6, 14), at(-0.05, 0.09, 0)]
+      ]), M(TR, at(0.05, TRL, 0.12)), '--yurt-fog-lemon');
+      if ('roughness' in jug.material) { jug.material.transparent = true; jug.material.opacity = 0.75; }
+      kit.hold(jug, { say: 'the jug of lemonade' });
+      plateAt(M(TR, at(0.25, TRL, -0.1)), 0.09, '--lgh-pawn');
+      [[-0.03, -0.02], [0.03, -0.02], [0, 0.03]].forEach(function (ms) {
+        kit.piece(new T.CylinderGeometry(0.03, 0.03, 0.008, 12), M(TR, at(0.25 + ms[0], TRL + 0.012, -0.1 + ms[1])), '--lgh-card', false);
+        kit.piece(new T.TorusGeometry(0.03, 0.004, 6, 14), M(TR, at(0.25 + ms[0], TRL + 0.012, -0.1 + ms[1], 0, Math.PI / 2)), '--lgh-red', false);
+      });
+      drinkMe(M(TR, at(0.26, TRL, 0.14)), '--lgh-hedge');
+      eatMe(M(TR, at(-0.05, TRT, 0.18)), '--yurt-fog-peach', 0.4);
+      // The side table by the Hatter: a two-tier stand of scones and biscuits,
+      // an EAT ME cake and a DRINK ME bottle, and his own pot of jam.
+      var ST = at(TX + TL / 2 + 0.45, 0, TZ - 0.95, 0);
+      kit.cyl(0.04, 0.09, 0.62, M(ST, at(0, 0.31, 0)), '--lgh-cork-2', false, 12);
+      kit.piece(new T.CylinderGeometry(0.3, 0.3, 0.03, 24), M(ST, at(0, 0.635, 0)), '--lgh-cork-2', false);
+      kit.piece(new T.TorusGeometry(0.3, 0.008, 6, 32), M(ST, at(0, 0.65, 0, 0, Math.PI / 2)), '--lgh-gilt', false);
+      var STT = 0.65;
+      tiers(M(ST, at(-0.08, STT, 0.02)), [[0.14, 0], [0.1, 0.11]], function (tier, ti) {
+        var n = 5 - ti * 2;
+        for (var k = 0; k < n; k++) {
+          var a = k / n * Math.PI * 2 + ti * 0.7, r = tier[0] - 0.045;
+          var sm = M(ST, at(-0.08 + Math.cos(a) * r, STT + tier[1] + 0.008, 0.02 + Math.sin(a) * r));
+          if (k % 2) biscuit(sm); else scone(sm);
+        }
+      });
+      eatMe(M(ST, at(0.17, STT, -0.1)), '--yurt-fog-sky', -1.4);
+      drinkMe(M(ST, at(0.16, STT, 0.14)), '--lgh-red');
+      kit.piece(new T.CylinderGeometry(0.03, 0.027, 0.05, 12), M(ST, at(-0.2, STT + 0.025, -0.15)), '--lgh-red', false);
+      kit.piece(new T.CylinderGeometry(0.032, 0.032, 0.008, 12), M(ST, at(-0.2, STT + 0.054, -0.15)), '--lgh-pawn', false);
+      // The two cakes and the bottle the party started with do it too, from
+      // their own tags (touches over the tags they already carry).
+      [[TX + 1.0, TZ + 0.3, -0.6], [TX - 1.2, TZ + 0.32, 0.4]].forEach(function (ek) {
+        var tm = at(ek[0] + 0.08, TOP + 0.03, ek[1] + 0.02, ek[2], -0.25);
+        eatMes.push(kit.stature({ tall: 1.1, say: 'Eat the cake', back: 'Back to your own size', at: [kit.touch(0.11, 0.07, 0.02, tm)],
+          done: 'You eat the cake, and shoot up like a telescope; press it again to come down.', undone: 'You are your own size again.' }));
+      });
+      drinkMes.push(kit.stature({ small: 0.95, say: 'Drink from the bottle', back: 'Back to your own size', at: [kit.touch(0.11, 0.07, 0.02, at(TX - 0.15, TOP + 0.1, TZ + 0.4, 0.3, 0.1))],
+        done: 'You drink, and shut up like a telescope; press it again to grow back.', undone: 'You are your own size again.' }));
       // Playing cards, hearts, scattered on the cloth and the floor; roses
       // round the table's foot, half of their petals painted red.
       function cardPaper(n) {
@@ -1329,11 +1556,12 @@
           return catGone ? 'The cat goes, quite slowly, beginning with the end of the tail, and ending with the grin, which stays some time after the rest of him has gone.' : 'The cat is back on his branch, all of him round the grin.';
         } });
       // Stops for the party, in the walk's order.
-      stops.push({ name: 'at the foot of the tea table, the whole mad party laid out', x: TX - TL / 2 - 1.3, z: TZ + 0.1, yaw: RIGHT, pitch: -0.12, acts: [sitFoot, candles, fairyLights] });
-      stops.push({ name: 'at Alice’s place, in the armchair at the tea table', x: TX - 0.7, z: TZ + 1.9, yaw: 0, pitch: -0.15 });
+      stops.push({ name: 'at the foot of the tea table, the whole mad party laid out', x: TX - TL / 2 - 1.3, z: TZ + 0.1, yaw: RIGHT, pitch: -0.12, acts: [sitFoot, candles, fairyLights, eatMes[0], drinkMes[0]] });
+      stops.push({ name: 'at the cake stands and the EAT ME cakes, on the trolley at the foot of the table', x: -0.2, z: -9.0, yaw: Math.PI, pitch: -0.42, acts: [eatMes[1], drinkMes[0]] });
+      stops.push({ name: 'at Alice’s place, in the armchair at the tea table', x: TX - 0.7, z: TZ + 1.9, yaw: 0, pitch: -0.15, acts: [eatMes[4], drinkMes[2]] });
       stops.push({ name: 'at the Dormouse, asleep in the teapot', x: TX - 0.35, z: TZ + 1.1, yaw: 0, pitch: -0.4 });
       stops.push({ name: 'at the tiny chair, the empty place laid for you', x: TX + 0.75, z: TZ + 1.4, yaw: 0, pitch: -0.3, acts: [sitTiny] });
-      stops.push({ name: 'at the Hatter, in his hat at the head of the table', x: TX + 1.2, z: TZ + 1.6, yaw: -0.6, pitch: -0.05 });
+      stops.push({ name: 'at the Hatter, in his hat at the head of the table', x: TX + 1.2, z: TZ + 1.6, yaw: -0.6, pitch: -0.05, acts: [eatMes[2], drinkMes[1]] });
       stops.push({ name: 'at the March Hare, on his stool across the table', x: TX + 0.7, z: TZ + 1.4, yaw: 0, pitch: -0.1 });
       stops.push({ name: 'by the White Rabbit, late, with his watch out', x: TX - 2.7, z: TZ + 0.3, yaw: -2.4, pitch: -0.05 });
       stops.push({ name: 'under the Cheshire Cat’s tree in the corner', x: -2.2, z: -7.6, yaw: 0.6, pitch: 0.35, acts: [vanish] });
@@ -1405,17 +1633,19 @@
       // cuts on the left, her page on the far wall, the two on the right, the
       // mantelpiece and its three things, and last the glass, the way back.
       var TOUR = [/just through the glass/, /board, by Alice/, /second square/, /beanbags by the glass/, /pin board/, /reading stand/, /forest of the seventh/,
-                  /foot of the tea table/, /White Rabbit/, /Alice’s place/, /Dormouse/, /tiny chair/, /March Hare/, /Hatter/, /sofa under the far wall/, /Cheshire Cat/, /beanbag under the cat/,
+                  /foot of the tea table/, /cake stands and the EAT ME/, /White Rabbit/, /Alice’s place/, /Dormouse/, /tiny chair/, /March Hare/, /Hatter/, /sofa under the far wall/, /Cheshire Cat/, /beanbag under the cat/,
                   /left-hand wall/, /far wall/, /right-hand wall/, /mantelpiece: the/, /writing glass/, /un-birthday clock/, /looking back at the glass/];
       function tourOf(st) { for (var i = 0; i < TOUR.length; i++) if (TOUR[i].test(st.name)) return i; return TOUR.length; }
+      // The cuts' places in the walk, found by name, so a stop added before them moves nothing.
+      var CUT_L = tourOf({ name: 'left-hand wall' }), CUT_R = tourOf({ name: 'right-hand wall' });
       stops = stops.map(function (st, i) { return { st: st, i: i }; })
         .sort(function (a, b) {
           var ta = tourOf(a.st), tb = tourOf(b.st);
           if (ta !== tb) return ta - tb;
           // Two cuts on one wall: the nearer the door first on the left, the
           // farther first on the right, so the walk goes down one side and up the other.
-          if (ta === 17) return b.st.z - a.st.z;
-          if (ta === 19) return a.st.z - b.st.z;
+          if (ta === CUT_L) return b.st.z - a.st.z;
+          if (ta === CUT_R) return a.st.z - b.st.z;
           return a.i - b.i;
         })
         .map(function (x) { return x.st; });

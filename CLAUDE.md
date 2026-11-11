@@ -1905,6 +1905,15 @@ the room stopped building ("face is not a function"): grep a name before adding 
 lesson a third time. The friendly edits are a Disney likeness "since she asked for the film", a count of seats, and
 crystals in a literal colour "because the photographs are brighter".
 
+**EAT ME MAKES YOU TALL AND DRINK ME MAKES YOU SMALL, AND IT IS ONE HEIGHT THE WHOLE ENGINE READS.** Helen Edgar's
+ask, 2026-11-12 ("cake stands and eat me drink me bottles and food"): `kit.stature({ tall | small, say, back, done,
+undone, at })` in `cel-street.js` is a press that sets `xrSeat`, the one number `place()` subtracts from the eye on a
+screen and from the dolly in a headset, so growing works in both without a second mechanism; pressed again, leaving the
+room, or the headset's session ending puts you back, and standing up from a seat goes back to the grown height rather
+than to the floor. The spread itself is `cel-in-looking-glass-house.js`'s (tarts, sandwiches, a trolley of stands, a
+side table, every EAT ME and DRINK ME `kit.hold` with the press on its tag's touch). The friendly edits are a size that
+sticks between rooms, growing by itself at MAX, and a mushroom slice "that does something", which the brief refused.
+
 **THE BASKET OF WINGS BY THE YURT'S DOOR LENDS A PAIR TO YOUR 3D FIGURE, AND HER THREE ANIMALS ARE ASLEEP IN THE SCENE.**
 Helen Edgar's asks, 2026-11-09. A room on Cel Street that lends wings names its pairs (`wings` in `cel-in-faery-yurt.js`,
 exactly `CEL_WINGS` in `lib.mjs`, which `make-cel-street.py` holds both ways and to `cel-street.js`'s `WINGS` drawings);

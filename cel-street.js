@@ -1803,6 +1803,21 @@ function start() {
       // stood there facing that way with your eyes at a sitting height, in a
       // headset and on a screen, and pressed again you stand. One seat at a
       // time; leaving the room stands you up.
+      // stature({ tall | small, say, back, done, undone, at }): EAT ME and DRINK
+      // ME (Looking-Glass House, Helen's ask, 2026-11-12): pressed, your eyes
+      // go up by `tall` or down by `small` metres, on a screen and in a headset
+      // alike (xrSeat is the one height everything reads), and pressed again,
+      // or on leaving the room, you are your own size. Sitting down while
+      // grown puts you at a seat's height; standing up keeps you grown.
+      stature: function (o) {
+        var self = this;
+        return self.press({ say: function () { return stature === o ? (o.back || 'Back to your own size') : o.say; }, at: o.at,
+          press: function () {
+            if (stature === o) { stature = null; if (!seated) xrSeat = 0; place(); vrPanelPlace(); return o.undone || 'You are your own size again.'; }
+            stature = o; xrSeat = (o.small || 0) - (o.tall || 0); place(); vrPanelPlace();
+            return o.done || 'You grow.';
+          } });
+      },
       sit: function (o) {
         var self = this, SQ = new THREE.Matrix4();
         // o.squash: the cushion's mesh (kit.facets or kit.fabric), pressed a
@@ -1817,7 +1832,7 @@ function start() {
         }
         return self.press({ say: function () { return seated === o ? (o.up || 'Stand up') : (o.say || 'Sit down'); }, at: o.at,
           press: function () {
-            if (seated === o) { seated = null; xrSeat = 0; squash(false); place(); vrPanelPlace(); return o.stood || 'You stand up.'; }
+            if (seated === o) { seated = null; xrSeat = stature ? (stature.small || 0) - (stature.tall || 0) : 0; squash(false); place(); vrPanelPlace(); return o.stood || 'You stand up.'; }
             if (seated && seated.unsquash) seated.unsquash();
             seated = o; o.unsquash = function () { squash(false); }; squash(true); xrSeat = SEAT;
             if (xrOn) footFor(o.x, o.z, o.yaw - headLocal().yaw); else { me.x = o.x; me.z = o.z; me.yaw = o.yaw; }
@@ -2109,7 +2124,7 @@ function start() {
           } });
       }
       bake();
-      xrSeat = 0; seated = null; xrTour = 0;
+      xrSeat = 0; seated = null; stature = null; xrTour = 0;
       inside = { page: page, name: name, vr: !!made.vr, from: room.from || null, tunnel: room.tunnel || null };
       if (travel) travel.arrived = true;
       // A room that starts at a level of its own (Helen's yurt at MAX GLITTER,
@@ -2166,6 +2181,7 @@ function start() {
     var was = behind.pop();
     scene = was.scene; far = was.far; stops = was.stops; bounds = was.bounds; hits = was.hits; me = was.me;
     inside = was.inside; glide = null; held = {}; wornWings = null;
+    xrSeat = 0; seated = null; stature = null;
     // The room you came back into shows its own page again.
     scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = ''; });
     if (travel) travel.arrived = true;
@@ -3065,6 +3081,7 @@ function start() {
   // while a stick glides you, which is what keeps a glide from turning a
   // stomach; xrMode VR or passthrough. SEAT is a sitting eye height below
   // standing, TOUR_EVERY the walk's pace.
+  var stature = null;
   var xrStep = STEP_TURN, xrSeat = 0, xrVoice = true, xrTour = 0, xrTourAt = 0, xrDim = 0, vignette = null, xrMode = 'immersive-vr', arCan = false, xrSky = null;
   var SEAT = 0.55, TOUR_EVERY = 7000, seated = null;
   var arBtn = document.querySelector('[data-cel-ar]');
@@ -3387,7 +3404,7 @@ function start() {
     hands = [];
     if (panel) { dolly.remove(panel); panel = null; panelTiles = []; }
     if (vignette) { camera.remove(vignette); vignette = null; }
-    xrSeat = 0; seated = null; xrTour = 0; xrDim = 0;
+    xrSeat = 0; seated = null; stature = null; xrTour = 0; xrDim = 0;
     if (window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) {} }
     if (xrMode === 'immersive-ar') { scene.background = xrSky; skyGroup.visible = true; renderer.setClearAlpha(1); }
     xrMode = 'immersive-vr';
