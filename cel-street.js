@@ -1616,6 +1616,9 @@ function start() {
         o.position.copy(p); o.quaternion.copy(q); o.scale.setScalar(ww / pw);
         scene.add(o);
         zoned(f, zone);
+        // Where the page stands and how big, for the board that reads it in
+        // a headset (readerUp), which shows no page.
+        (home.userData.screens = home.userData.screens || []).push({ f: f, m: m.clone(), ww: ww, wh: ww * ph / pw });
         return f;
       },
       // A THING OFF THE ROOM'S OWN PAGE, copied out of the page on its screen
@@ -1854,10 +1857,16 @@ function start() {
       // thing itself. Off until pressed, on until pressed again, and off when
       // you leave the room (soundsOff, from enter and leave), so no room's
       // sound follows you into another. Helen Edgar's ask, 2026-11-12.
+      // caption(fn): what is sounding now, in words, or nothing: fn() is asked
+      // whenever the headset's panel is drawn, which says it for as long as
+      // it sounds. kit.sound gives its own (o.caption); a room gives one for
+      // a sound its page's script makes (the Reading Room's fire).
+      caption: function (fn) { (home.userData.captions = home.userData.captions || []).push(fn); },
       sound: function (o) {
         var self = this, S = function () { return window.loveCelSounds || null; };
         self.spatial(function () { var s = S(); return s ? s.output(o.kind) : null; }, o.pos);
         (home.userData.sounds = home.userData.sounds || []).push(o.kind);
+        self.caption(function () { var s = S(); return s && s.playing(o.kind) ? (o.caption || o.kind) : ''; });
         return self.press({ say: function () { var s = S(); return s && s.playing(o.kind) ? (o.stop || 'Let it be quiet') : o.say; }, at: o.at,
           press: function () {
             var s = S();
@@ -3093,6 +3102,7 @@ function start() {
   var FLOOR = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
   var xrRay = new THREE.Raycaster(), xrAim = new THREE.Matrix4(), xrAt = new THREE.Vector3(), xrQ = new THREE.Euler();
   var hands = [], panel = null, panelTiles = [], panelOpen = true, panelWords = '', chatLast = null;
+  var PANEL_FAR = 0.85, PANEL_TALL = 0.95, PANEL_LEAN = -0.25;
   // Metres a second with a stick pushed all the way: a walking pace, slower
   // than the screen's, because speed is what makes a glide sickening.
   // Turning with a stick glides too, at VR_TURN radians a second all the way
@@ -3112,6 +3122,24 @@ function start() {
   var stature = null;
   var xrStep = STEP_TURN, xrSeat = 0, xrVoice = true, xrTour = 0, xrTourAt = 0, xrDim = 0, vignette = null, xrMode = 'immersive-vr', arCan = false, xrSky = null;
   var SEAT = 0.55, TOUR_EVERY = 7000, seated = null;
+  // THE HEADSET ROUND OF 2026-11-12 (Helen Edgar, after her rooms' sounds:
+  // "anything else to improve VR experience in my yurt and all subrooms",
+  // then "All of them"). BUZZ and BUZZ_MS are the strength and length of the
+  // small buzz a controller gives on a press or a pick-up (xrBuzz: null
+  // follows the dial, none at Gentle or in a low-stimulation mode; true or
+  // false is the panel's switch for this visit). GRAB is how near a hand has
+  // to be to a thing to take it by reaching. xrBreak is the bodymind break in
+  // the headset: the room put away for a still, dim, empty place. xrLight is
+  // the lighter picture (no cast shadows, only the LAMPS_NEAR lamps that light
+  // where you stand most),
+  // switched on by itself when frames have run slower than SLOW for SLOW_FOR
+  // seconds, and by the panel's switch (xrLightAsked, after which nothing
+  // changes it by itself). reader is the room's own page, read off the page
+  // itself onto a board where the page stands, because a headset shows no
+  // page. palms are the tracked hands, drawn joint by joint.
+  var BUZZ = 0.35, BUZZ_MS = 35, GRAB = 0.14, SLOW = 1 / 45, SLOW_FOR = 2.5, LAMPS_NEAR = 4;
+  var xrBuzz = null, xrBreak = false, breakScene = null, xrLight = false, xrLightAsked = false, xrSlow = 0, xrLampsAt = 0;
+  var reader = null, readerTiles = [], palms = [], knuckle = null;
   var arBtn = document.querySelector('[data-cel-ar]');
   // Whether where you are now can be shown in a headset: the street can, and
   // a room only when its file says vr: true.
@@ -3131,6 +3159,7 @@ function start() {
     if (arBtn) arBtn.hidden = !(arCan && vrHere()) || xrOn;
     if (!xrOn) return;
     panelWords = '';
+    readerUp();
     if (vrHere()) { vrPanel(); return; }
     xrWhy = inside.name + ' is not offered in a headset yet, so you are back on the screen.';
     if (xrSession) xrSession.end();
@@ -3160,8 +3189,8 @@ function start() {
 
   // The panel: a heading saying what was last done, the room's switches, and
   // a last row to put the panel away or leave the headset.
-  function tileTex(words, pressed, wide) {
-    var w = wide ? 1024 : 512, h = wide ? 192 : 128;
+  function tileTex(words, pressed, wide, shape) {
+    var w = wide ? 1024 : 512, h = shape ? Math.max(96, Math.round(w / shape)) : wide ? 192 : 128;
     return tex(w, h, function (g) {
       var face = getComputedStyle(stage).fontFamily;
       g.fillStyle = css(pressed ? '--cel-ink' : '--cel-page'); g.fillRect(0, 0, w, h);
@@ -3185,16 +3214,40 @@ function start() {
   }
   function vrPanel() {
     if (!panel) { panel = new THREE.Group(); dolly.add(panel); }
-    panelTiles.forEach(function (t) { panel.remove(t); t.geometry.dispose(); t.material.map.dispose(); t.material.dispose(); });
+    panelTiles.forEach(function (t) { t.geometry.dispose(); t.material.map.dispose(); t.material.dispose(); });
+    while (panel.children.length) panel.remove(panel.children[0]);
     panelTiles = [];
     var items = [];
-    if (panelOpen) {
+    if (xrBreak) {
+      // The break's own panel: what it is, the way back, and nothing of the
+      // room's. It stops nothing by itself; a sound still going is offered.
+      items.push({ words: panelWords || 'A bodymind break. The room is put away and nothing here moves. Stay as long as you like; the room is as you left it.', wide: true });
+      if (captions().length) items.push({ words: 'Quiet the room’s sounds', wide: true, go: function () { soundsOff(); if (window.loveFire) window.loveFire.off(); vrTell('The room’s sounds are quiet. They start again only when you press them.'); } });
+      items.push({ words: 'Come back to the room', wide: true, go: function () { breakSet(false); } });
+      if (panelOpen) items.push({ words: 'Put the switches away', go: function () { panelOpen = false; vrPanel(); } });
+      else items.push({ words: 'Show the switches', go: function () { panelOpen = true; vrPanel(); } });
+      items.push({ words: 'Take the headset out of the room', go: function () { if (xrSession) xrSession.end(); } });
+    } else if (panelOpen) {
       items.push({ words: panelWords || ((inside ? 'In ' + inside.name : up ? 'Up over the roofs' : 'Out on Cel Street') + '. Push a stick forward or back to walk, or point and press: at the floor to stand there, at a switch to press it.'), wide: true });
       if (chatLast) {
         items.push({ words: 'On the radio, ' + chatLast.channel.toLowerCase() + ':', wide: true, label: true });
         chatLast.lines.forEach(function (l) {
           var words = String(l.handle || '') + ': ' + String(l.text || '').replace(/\s+/g, ' ');
           items.push({ words: words.length > 110 ? words.slice(0, 107) + '\u2026' : words, wide: true });
+        });
+      }
+      // What is sounding, in words, for as long as it sounds: nobody has to
+      // hear the rain to know it is raining.
+      var heard = captions();
+      if (heard.length) items.push({ words: 'Sounding now: ' + heard.join('; ') + '.', wide: true, label: true });
+      // The break and the dial first, where a hand finds them quickest.
+      items.push({ words: 'I need a bodymind break (the room is put away for a still, dim, empty place)', wide: true, go: function () { breakSet(true); } });
+      var lv = window.loveLevel;
+      if (lv) {
+        items.push({ words: lv.ask || 'How loud do you want it?', wide: true, label: true });
+        lv.levels.forEach(function (key) {
+          items.push({ words: lv.names[key], pressed: lv.now() === key,
+            go: function () { lv.set(key); moves(); vrTell(lv.names[key] + '. ' + (key === 'gentle' ? 'Nothing in the room moves by itself, and the controllers do not buzz.' : key === 'max' ? 'What the room lets move at MAX moves.' : 'Things move only when you press their switches.')); } });
         });
       }
       var holder = document.createElement('div');
@@ -3222,7 +3275,13 @@ function start() {
       items.push({ words: 'A little higher', go: function () { xrSeat = Math.max(-0.4, xrSeat - 0.08); place(); vrPanelPlace(); vrTell('A little higher.'); } });
       items.push({ words: 'Snap turn ' + Math.round(xrStep * 180 / Math.PI) + ' degrees (press to change)',
         go: function () { xrStep = xrStep === Math.PI / 6 ? Math.PI / 4 : xrStep === Math.PI / 4 ? Math.PI / 2 : Math.PI / 6; vrPanel(); vrTell('Snap turns of ' + Math.round(xrStep * 180 / Math.PI) + ' degrees, in steps.'); } });
+      items.push({ words: 'Turn left', go: function () { snapTurn(-1); } });
+      items.push({ words: 'Turn right', go: function () { snapTurn(1); } });
       items.push({ words: 'Put me back at the way in', go: function () { if (stops[0]) vrStand(stops[0]); vrTell('Back at the way in.'); } });
+      items.push({ words: buzzOn() ? 'A buzz in the hand on a press: on' : 'A buzz in the hand on a press: off', pressed: buzzOn(),
+        go: function () { xrBuzz = !buzzOn(); vrTell(xrBuzz ? 'The controller gives a small buzz when you press or pick something up.' : 'The controllers do not buzz.'); } });
+      items.push({ words: xrLight ? 'Picture: lighter (press for full)' : 'Picture: full (press for lighter)', pressed: xrLight,
+        go: function () { xrLightAsked = true; lighterSet(!xrLight); vrTell(xrLight ? 'A lighter picture: no cast shadows, and only the lamps that light where you stand, so it runs smoothly.' : 'The full picture again, shadows and every lamp.'); } });
       items.push({ words: xrVoice ? 'Places read aloud: on' : 'Places read aloud: off', pressed: xrVoice,
         go: function () { xrVoice = !xrVoice; if (!xrVoice && window.speechSynthesis) window.speechSynthesis.cancel(); vrPanel(); vrTell(xrVoice ? 'Each place is read aloud as you arrive.' : 'Places are not read aloud.'); } });
       if (inside) items.push({ words: xrTour ? 'Stop the walk round' : 'Walk me round the room, place by place (any press stops it)', pressed: !!xrTour, go: function () { tourToggle(); } });
@@ -3232,62 +3291,519 @@ function start() {
     } else {
       items.push({ words: 'Show the switches', go: function () { panelOpen = true; vrPanel(); } });
     }
-    // Three across, read from a little under an arm's length away.
-    var W = 0.22, H = 0.066, GAP = 0.01, COLS = 3, y = 0, at = 0;
+    // Three across, read from a little under an arm's length away. A room with
+    // many switches would hang one panel taller than a person, its head over
+    // yours and its foot under the floor, so past PANEL_TALL the tiles go on
+    // in leaves side by side, each turned to face you: the first straight
+    // ahead (what was said, the break and the dial are on it), the next to
+    // its right, the next to its left. A leaf starts at a heading where it can.
+    var W = 0.22, H = 0.066, GAP = 0.01, COLS = 3, y = 0, at = 0, leaf = null, leaves = [];
+    function leafNew() { leaf = { tiles: [], h: 0 }; leaves.push(leaf); y = 0; at = 0; }
     function rowDone() { if (at) { y -= H + GAP; at = 0; } }
+    function tall(it) { return it.wide ? (it.label ? H * 0.75 : H * 1.5) : H; }
+    // How tall it would all be in one leaf, so the leaves it takes come out
+    // about the same height and the last is never three tiles on their own.
+    var whole = 0, across = 0;
     items.forEach(function (it) {
-      var wide = it.wide, w = wide ? COLS * W + (COLS - 1) * GAP : W, h = wide ? (it.label ? H * 0.75 : H * 1.5) : H;
+      if (it.wide) { if (across) { whole += H + GAP; across = 0; } whole += tall(it) + GAP; }
+      else if (++across === COLS) { whole += H + GAP; across = 0; }
+    });
+    if (across) whole += H + GAP;
+    var most = whole / Math.ceil(whole / PANEL_TALL) + H * 2.5;
+    leafNew();
+    items.forEach(function (it) {
+      var wide = it.wide, w = wide ? COLS * W + (COLS - 1) * GAP : W, h = tall(it);
       if (wide) rowDone();
+      if (!at && leaf.tiles.length && -y + h > most) {
+        // A heading is never left at the foot of a leaf with its switches on
+        // the next: it goes over with them.
+        var last = leaf.tiles[leaf.tiles.length - 1], head = last.userData.heading && leaf.tiles.length > 1 ? leaf.tiles.pop() : null;
+        leafNew();
+        if (head) { var hh = head.geometry.parameters.height; head.position.y = -hh / 2; leaf.tiles.push(head); y = -(hh + GAP); }
+      }
       var m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tileTex(it.words, it.pressed, wide) }));
       m.position.set(wide ? 0 : (at - (COLS - 1) / 2) * (W + GAP), y - h / 2, 0);
       m.userData.tile = it.btn || it.go ? it : null;
-      panel.add(m); panelTiles.push(m);
+      m.userData.heading = !!it.label;
+      leaf.tiles.push(m); panelTiles.push(m);
       if (wide) y -= h + GAP;
       else if (++at === COLS) rowDone();
     });
-    rowDone();
-    // Its middle where vrPanelPlace stands it.
-    panelTiles.forEach(function (m) { m.position.y -= y / 2; });
+    leaves.forEach(function (l) { l.tiles.forEach(function (m) { l.h = Math.max(l.h, m.geometry.parameters.height / 2 - m.position.y); }); });
+    // The tallest leaf's middle where vrPanelPlace stands the panel, every
+    // leaf's top level with it, and each leaf on an arc about where you
+    // stand, leaning back about its own middle to face you.
+    var tallest = 0, spread = (COLS * W + (COLS - 1) * GAP + 0.05) / PANEL_FAR;
+    leaves.forEach(function (l) { tallest = Math.max(tallest, l.h); });
+    leaves.forEach(function (l, i) {
+      var turn = (i % 2 ? (i + 1) / 2 : -i / 2) * spread, g = new THREE.Group();
+      g.position.set(PANEL_FAR * Math.sin(turn), (tallest - l.h) / 2, PANEL_FAR * (1 - Math.cos(turn)));
+      g.rotation.set(PANEL_LEAN, -turn, 0, 'YXZ');
+      l.tiles.forEach(function (m) { m.position.y += l.h / 2; g.add(m); });
+      panel.add(g);
+    });
   }
   // In front of your head, a little below it, leaning back to face you.
   function vrPanelPlace() {
     if (!panel) return;
     var h = headLocal();
-    panel.position.set(h.x - Math.sin(h.yaw) * 0.85, Math.max(0.8, camera.position.y - 0.35), h.z - Math.cos(h.yaw) * 0.85);
-    panel.rotation.set(-0.25, h.yaw, 0, 'YXZ');
+    // Put away, the one tile that brings the switches back sits lower, out of
+    // the way of whatever is being read or looked at.
+    panel.position.set(h.x - Math.sin(h.yaw) * PANEL_FAR, Math.max(panelOpen ? 0.8 : 0.6, camera.position.y - (panelOpen ? 0.35 : 0.62)), h.z - Math.cos(h.yaw) * PANEL_FAR);
+    panel.rotation.set(0, h.yaw, 0);
   }
 
-  // What a hand is pointing at: a tile on the panel, a thing the room lets
-  // you press, a place, or the floor you could stand on.
+  // A BUZZ IN THE HAND: a press that lands, a thing picked up or put down,
+  // gives the controller one small buzz, so a press has a feel. It follows
+  // the dial (none at Gentle or in a low-stimulation mode) unless the panel's
+  // switch says otherwise for this visit, and it is never stronger than BUZZ
+  // or longer than BUZZ_MS, which tools/make-cel-street.py holds.
+  function buzzOn() {
+    if (xrBuzz !== null) return xrBuzz;
+    var d = document.documentElement;
+    return d.getAttribute('data-intensity') !== 'gentle' && !d.hasAttribute('data-low');
+  }
+  function buzz(hand, much) {
+    var src = hand && hand.userData.src, pad = src && src.gamepad, motor = pad && pad.hapticActuators && pad.hapticActuators[0];
+    if (!motor || !motor.pulse || !buzzOn()) return;
+    try { motor.pulse(BUZZ * Math.min(1, much || 1), BUZZ_MS); } catch (e) { /* no motor in this hand */ }
+  }
+  // WITHIN REACH: the nearest thing of a list a hand is close enough to take
+  // hold of, measured to the thing's own edge and not its middle.
+  var REACH = new THREE.Vector3(), REACH_C = new THREE.Vector3();
+  function within(hand, list, want) {
+    REACH.setFromMatrixPosition(hand.matrixWorld);
+    var best = null, bd = GRAB;
+    for (var i = 0; i < list.length; i++) {
+      var o = list[i];
+      if (!o.geometry || o.userData.hidden || !want(o)) continue;
+      if (!o.geometry.boundingSphere) o.geometry.computeBoundingSphere();
+      REACH_C.copy(o.geometry.boundingSphere.center).applyMatrix4(o.matrixWorld);
+      var d = REACH.distanceTo(REACH_C) - o.geometry.boundingSphere.radius;
+      if (d < bd) { bd = d; best = o; }
+    }
+    return best;
+  }
+  function loose(o) { return !!o.userData.hold && !o.userData.hold.by; }
+  function takes(o) { return !!o.userData.take; }
+  // A turn of one snap, about your own head, for a stick in steps and for the
+  // panel's Turn left and Turn right, which need no stick at all.
+  function snapTurn(sign) {
+    var hw = headWorld(), yaw = me.yaw - sign * xrStep, h = headLocal(), c = Math.cos(yaw), sn = Math.sin(yaw);
+    me.yaw = yaw; me.x = hw.x - (c * h.x + sn * h.z); me.z = hw.z - (-sn * h.x + c * h.z);
+    place(); vrPanelPlace();
+  }
+  // What is sounding in the room now, in words: each room's sound says its
+  // own (kit.sound's caption, kit.caption for a page script's sound).
+  function captions() {
+    return (scene.userData.captions || []).map(function (f) { try { return f(); } catch (e) { return ''; } }).filter(Boolean);
+  }
+  // THE BODYMIND BREAK, IN THE HEADSET: the page's break is a calm screen over
+  // the page, which a headset cannot show, so this is its own: the room put
+  // away for a still, dim, empty place in the break's own colours (the far
+  // band is its treeline in mist), with the floor under your feet where it
+  // was. Nothing in it moves, at any setting; it stops nothing by itself (a
+  // sound still going is offered on its panel); nothing is read aloud while
+  // it is up; and the room is as you left it when you come back. In
+  // passthrough the room is simply put away and your own room is the break.
+  function breakSet(on) {
+    xrBreak = on; xrTour = 0; xrGoing = false; xrSlow = 0;
+    if (on) {
+      if (!breakScene) {
+        breakScene = new THREE.Scene();
+        var ground = new THREE.Mesh(new THREE.CircleGeometry(60, 48), new THREE.MeshBasicMaterial({ color: col('--bbr-dusk-near') }));
+        ground.rotation.x = -Math.PI / 2;
+        var ridge = new THREE.Mesh(new THREE.CylinderGeometry(58, 58, 9, 48, 1, true), new THREE.MeshBasicMaterial({ color: col('--bbr-dusk-far'), side: THREE.BackSide }));
+        breakScene.add(ground, ridge);
+        breakScene.userData.land = [ground, ridge];
+      }
+      var ar = xrMode === 'immersive-ar';
+      breakScene.background = ar ? null : col('--bbr-dusk');
+      breakScene.userData.land.forEach(function (o, i) { o.visible = !ar; o.position.set(me.x, i ? 4.5 - xrSeat : -xrSeat, me.z); });
+      if (vignette) vignette.material.opacity = 0;
+      if (window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) { /* no voice here */ } }
+    }
+    panelOpen = true; panelWords = on ? '' : 'Back in the room, as you left it.';
+    vrPanel(); vrPanelPlace();
+  }
+  // THE LIGHTER PICTURE: dropped frames are what turn a stomach in a headset,
+  // so when the frames have run slower than SLOW for SLOW_FOR seconds the
+  // room is drawn lighter, once, and says so: no cast shadows, and only the
+  // LAMPS_NEAR lamps that light where you stand most (a lamp's strength over
+  // how far off it is, so the one big lamp that lights a whole room is never
+  // the one put out; always that many, so nothing is built again as you walk). It never switches back by itself, which would flap;
+  // the panel's Picture switch does, and once that is pressed nothing changes
+  // it for the visit. Leaving the headset puts everything back.
+  function lighterSet(on) {
+    xrLight = on; xrLampsAt = 0;
+    renderer.shadowMap.enabled = !on;
+    [scene].concat(behind.map(function (b) { return b.scene; })).forEach(function (sc) {
+      sc.traverse(function (o) {
+        if (o.isPointLight && !on) o.visible = !o.userData.hidden;
+        if (o.material) (Array.isArray(o.material) ? o.material : [o.material]).forEach(function (m) { m.needsUpdate = true; });
+      });
+    });
+  }
+  function slowStep(dt, now) {
+    if (!xrLight && !xrLightAsked && dt) {
+      xrSlow = dt > SLOW ? xrSlow + dt : Math.max(0, xrSlow - dt);
+      if (xrSlow > SLOW_FOR) {
+        lighterSet(true);
+        vrTell('The room is drawn lighter to keep it smooth: no cast shadows, and only the lamps that light where you stand. Picture on the switches puts them back.');
+      }
+    }
+    if (!xrLight || now - xrLampsAt < 1000) return;
+    xrLampsAt = now;
+    var lamps = [];
+    camera.getWorldPosition(REACH);
+    scene.traverse(function (o) { if (o.isPointLight && !o.userData.hidden) lamps.push(o); });
+    if (lamps.length <= LAMPS_NEAR) { lamps.forEach(function (l) { l.visible = true; }); return; }
+    lamps.forEach(function (l) {
+      l.getWorldPosition(REACH_C);
+      var far2 = REACH_C.distanceToSquared(REACH);
+      l.userData.lights = l.distance && far2 > l.distance * l.distance ? 0 : l.intensity / Math.max(1, far2);
+    });
+    lamps.sort(function (a, b) { return b.userData.lights - a.userData.lights; });
+    lamps.forEach(function (l, i) { l.visible = i < LAMPS_NEAR; });
+  }
+  // HANDS WITHOUT CONTROLLERS: where the headset tracks bare hands, each
+  // joint is drawn as a small bead, so you see your own hands; a pinch is the
+  // press (the headset sends it as one), pointing is the same beam, and a
+  // pinch on a thing within reach takes it. Sticks there are none, so the
+  // panel's Turn left and Turn right turn you, and pointing moves you.
+  function palmsUp() {
+    for (var i = 0; i < 2; i++) { var palm = renderer.xr.getHand(i); dolly.add(palm); palms.push(palm); }
+  }
+  function palmsStep() {
+    for (var i = 0; i < palms.length; i++) {
+      var joints = palms[i].children;
+      for (var j = 0; j < joints.length; j++) {
+        if (joints[j].userData.bead) continue;
+        if (!knuckle) knuckle = { geo: new THREE.SphereGeometry(0.008, 8, 6), mat: new THREE.MeshBasicMaterial({ color: col('--cel-glint') }) };
+        var bead = new THREE.Mesh(knuckle.geo, knuckle.mat);
+        joints[j].userData.bead = bead; joints[j].add(bead);
+      }
+    }
+  }
+
+  // THE ROOM'S OWN PAGE, READ IN THE HEADSET. A room's page stands in its
+  // scene as a web page laid over the picture, and a headset shows only the
+  // picture, so everything the page says was missing there: its welcome, its
+  // stories, its credits. The reader is a board where the page stands, the
+  // page's own size, written from the page itself as it is loaded on that
+  // screen (nothing more is fetched but the page's own pictures, and nothing
+  // is copied into any file, so it cannot drift from the page): its headings,
+  // paragraphs, lists, quotations and credits, part by part, in the page's
+  // own ink, ground and faces where those are legible together and Cel
+  // Street's page and ink where they are not (measured, 4.5 to 1), with its
+  // pictures drawn whole and their credits under them. Under it, Back, Next,
+  // the part before and the part after, each saying where it goes and never
+  // a number, and Read it to me, which speaks the board, a picture by its
+  // alt text. A PHOTOGRAPH WITH A CONSENT RECORD IS NEVER DRAWN (class
+  // "photo", the polaroid wall's): its record names the pages it may hang on,
+  // so the board says a photograph hangs on the room's own page and only
+  // there. Controls, the dial, the sign-off, the job marker and anything
+  // hidden are left out. It is drawn only in a headset, and only on a press
+  // of its tiles does it change. A room that says reader: false has none.
+  var READ_SKIP = { SCRIPT: 1, STYLE: 1, NOSCRIPT: 1, TEMPLATE: 1, SVG: 1, svg: 1, BUTTON: 1, INPUT: 1, SELECT: 1, TEXTAREA: 1, LABEL: 1, IFRAME: 1, VIDEO: 1, AUDIO: 1, CANVAS: 1, NAV: 1, FOOTER: 1, FORM: 1, DIALOG: 1 };
+  var READ_OUT = '.dial-dock, .dial, .signoff, .quest, .skip, .hlink, .cozy, [hidden], [aria-hidden="true"], [data-cb-dock], .backlink, .cb-host';
+  var READ_HELD = 'A photograph hangs here on the room’s own page, and is shown only there.';
+  function readerParts(doc) {
+    var parts = [], part = null;
+    // An element's words: its own label if it has one, otherwise its text
+    // with its controls, drawings and hidden parts left out, so a button's
+    // label is never read as part of the sentence it sits in.
+    function said(el) {
+      var label = el.getAttribute('aria-label');
+      if (label) return label.replace(/\s+/g, ' ').trim();
+      var copy = el.cloneNode(true);
+      Array.prototype.forEach.call(copy.querySelectorAll('button, select, input, textarea, script, style, svg, [hidden], [aria-hidden="true"], .hlink'), function (x) { x.remove(); });
+      return (copy.textContent || '').replace(/\s+/g, ' ').trim();
+    }
+    function start(title) { part = { title: title, blocks: [], lead: false }; parts.push(part); }
+    function add(kind, text, img) {
+      if (!text && !img) return;
+      // Words above the page's title (a header's over-line) wait for it.
+      if (!part) { start(inside ? inside.name : ''); part.lead = true; }
+      var lastB = part.blocks[part.blocks.length - 1];
+      if (kind === 'held' && lastB && lastB.kind === 'held') return;
+      part.blocks.push({ kind: kind, text: text, img: img || null });
+    }
+    function picture(el) {
+      if (el.classList.contains('photo')) { add('held', READ_HELD); return; }
+      var src = el.currentSrc || el.src;
+      if (!src || /^data:/.test(src)) return;
+      add('img', el.getAttribute('alt') || '', src);
+    }
+    function walk(el) {
+      for (var c = el.firstElementChild; c; c = c.nextElementSibling) {
+        var tag = c.tagName;
+        if (READ_SKIP[tag] || c.matches(READ_OUT)) continue;
+        if (tag === 'H1' && part && part.lead && parts.length === 1) { part.title = said(c); part.lead = false; continue; }
+        if (tag === 'H1' || tag === 'H2') { start(said(c)); continue; }
+        if (tag === 'H3' || tag === 'H4' || tag === 'H5' || tag === 'H6' || tag === 'SUMMARY' || tag === 'DT') { add('h', said(c)); continue; }
+        if (tag === 'IMG') { picture(c); continue; }
+        if (tag === 'BLOCKQUOTE') { add('quote', said(c)); continue; }
+        if (tag === 'FIGCAPTION' || tag === 'CITE') { add('credit', said(c)); continue; }
+        if (tag === 'P' || tag === 'DD' || (tag === 'LI' && !c.querySelector('p, ul, ol, h3, h4, figure, blockquote, details, img'))) {
+          Array.prototype.forEach.call(c.querySelectorAll('img'), picture);
+          add(tag === 'LI' ? 'li' : 'p', said(c));
+          continue;
+        }
+        walk(c);
+      }
+    }
+    walk(doc.body);
+    return parts.filter(function (pt) { return pt.blocks.length; });
+  }
+  // How bright a colour is, WCAG's way, and the ratio of two.
+  function lum(c) {
+    function ch(v) { return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }
+    var k = c.clone().convertLinearToSRGB();
+    return 0.2126 * ch(k.r) + 0.7152 * ch(k.g) + 0.0722 * ch(k.b);
+  }
+  function ratio(a, b) { var la = lum(a), lb = lum(b); return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05); }
+  // The page's own ink and ground, if the page says both plainly and they
+  // read together; otherwise Cel Street's page and ink, which do.
+  function readerInks(doc) {
+    var own = { ink: css('--cel-ink'), ground: css('--cel-page'), face: getComputedStyle(stage).fontFamily, head: getComputedStyle(stage).fontFamily };
+    try {
+      var view = doc.defaultView, cs = view.getComputedStyle(doc.body), h1 = doc.querySelector('h1');
+      own.face = cs.fontFamily || own.face;
+      own.head = h1 ? view.getComputedStyle(h1).fontFamily || own.face : own.face;
+      var alpha = (cs.backgroundColor.match(/[\d.]+/g) || []).map(Number);
+      var clear = alpha.length === 4 && alpha[3] < 1;
+      if (!clear && cs.backgroundImage === 'none' && ratio(new THREE.Color(cs.color), new THREE.Color(cs.backgroundColor)) >= 4.5) { own.ink = cs.color; own.ground = cs.backgroundColor; }
+    } catch (e) { /* the page's styles could not be read; Cel Street's own */ }
+    return own;
+  }
+  // A part's blocks laid out into leaves of one board each: words wrapped to
+  // the board, a picture given a leaf's upper part to itself.
+  function readerLeaves(parts, g, W, H, inks) {
+    var pad = Math.round(W * 0.06), size = Math.round(W / 27), lh = Math.round(size * 1.38), top = pad + Math.round(size * 1.5), leaves = [];
+    function wrap(text, font, width) {
+      g.font = font;
+      var rows = [], cur = '';
+      String(text).split(/\s+/).forEach(function (wd) {
+        var t = cur ? cur + ' ' + wd : wd;
+        if (g.measureText(t).width > width && cur) { rows.push(cur); cur = wd; } else cur = t;
+      });
+      if (cur) rows.push(cur);
+      return rows;
+    }
+    parts.forEach(function (pt, pi) {
+      var leaf = null, y = 0;
+      function fresh() { leaf = { part: pi, title: pt.title, runs: [], said: [] }; leaves.push(leaf); y = top; }
+      fresh();
+      var head = wrap(pt.title, '700 ' + Math.round(size * 1.45) + 'px ' + inks.head, W - pad * 2);
+      head.forEach(function (r) { leaf.runs.push({ text: r, x: pad, y: y, font: '700 ' + Math.round(size * 1.45) + 'px ' + inks.head }); y += Math.round(size * 1.9); });
+      if (pt.title) leaf.said.push(pt.title + '.');
+      y += Math.round(size * 0.4);
+      pt.blocks.forEach(function (b) {
+        if (b.kind === 'img') {
+          var ih = Math.round(H * 0.5);
+          if (y + ih > H - pad) fresh();
+          leaf.runs.push({ img: b.img, x: pad, y: y, w: W - pad * 2, h: ih });
+          leaf.said.push('A picture' + (b.text ? ': ' + b.text : '.'));
+          y += ih + Math.round(size * 0.6);
+          return;
+        }
+        var font = (b.kind === 'h' ? '700 ' + Math.round(size * 1.12) : b.kind === 'credit' || b.kind === 'held' ? 'italic ' + Math.round(size * 0.86) : b.kind === 'quote' ? 'italic ' + size : String(size)) + 'px ' + inks.face;
+        var inset = b.kind === 'li' ? Math.round(size * 1.1) : b.kind === 'quote' ? Math.round(size * 1.4) : 0;
+        var rows = wrap(b.text, font, W - pad * 2 - inset), step = b.kind === 'credit' || b.kind === 'held' ? Math.round(lh * 0.86) : lh;
+        leaf.said.push(b.text);
+        rows.forEach(function (r, ri) {
+          if (y + step > H - pad) fresh();
+          leaf.runs.push({ text: r, x: pad + inset, y: y, font: font, dot: b.kind === 'li' && ri === 0, bar: b.kind === 'quote' });
+          y += step;
+        });
+        y += Math.round(size * 0.55);
+      });
+    });
+    return leaves.filter(function (lf) { return lf.runs.length; });
+  }
+  function readerDown() {
+    if (!reader) return;
+    reader.gone = true;
+    [reader.board].concat(readerTiles).forEach(function (m) { if (m.parent) m.parent.remove(m); m.geometry.dispose(); if (m.material.map) m.material.map.dispose(); m.material.dispose(); });
+    reader = null; readerTiles = [];
+  }
+  function readerUp() {
+    readerDown();
+    if (!xrOn || !inside || !vrHere()) return;
+    var room = window.loveCelRooms && window.loveCelRooms[inside.page];
+    var where = (scene.userData.screens || [])[0];
+    if (!where || (room && room.reader === false)) return;
+    var doc = null;
+    try { doc = where.f.contentDocument; } catch (e) { doc = null; }
+    if (!doc || doc.readyState !== 'complete' || !doc.body || !doc.querySelector('main, h1, p')) {
+      // Not read yet: the board goes up when the page has arrived.
+      if (!where.waiting) { where.waiting = true; where.f.addEventListener('load', function () { where.waiting = false; if (xrOn) { readerUp(); vrPanel(); } }); }
+      return;
+    }
+    var parts = readerParts(doc);
+    if (!parts.length) return;
+    var W = 1024, bar = 0.13, H = Math.max(640, Math.round(W * where.wh * (1 - bar) / where.ww));
+    var inks = readerInks(doc), probe = document.createElement('canvas').getContext('2d');
+    var r = reader = { at: 0, leaves: [], inks: inks, W: W, H: H, where: where, pics: {}, speaking: false, gone: false };
+    r.leaves = readerLeaves(parts, probe, W, H, inks);
+    var bh = where.wh * (1 - bar), th = where.wh * bar;
+    r.board = new THREE.Mesh(new THREE.PlaneGeometry(where.ww, bh), new THREE.MeshBasicMaterial({ color: new THREE.Color(1, 1, 1) }));
+    r.board.matrixAutoUpdate = false;
+    r.board.matrix.copy(where.m).multiply(new THREE.Matrix4().makeTranslation(0, th / 2, 0.03));
+    r.board.matrixWorldNeedsUpdate = true;
+    scene.add(r.board);
+    r.tile = function (k, words, go, pressed) {
+      var tw = where.ww / 5, m = new THREE.Mesh(new THREE.PlaneGeometry(tw * 0.96, th * 0.9), new THREE.MeshBasicMaterial({ map: tileTex(words, pressed, false, (tw * 0.96) / (th * 0.9)) }));
+      m.matrixAutoUpdate = false;
+      m.matrix.copy(where.m).multiply(new THREE.Matrix4().makeTranslation((k - 2) * tw, -where.wh / 2 + th / 2, 0.03));
+      m.matrixWorldNeedsUpdate = true;
+      m.userData.tile = go ? { go: go } : null;
+      scene.add(m); readerTiles.push(m);
+    };
+    // The page's faces are asked for before the first leaf is drawn, and the
+    // leaves laid out again once they are here, because a wrap measured in a
+    // fallback face is the wrong wrap.
+    readerDraw();
+    if (document.fonts && document.fonts.load) {
+      Promise.all([document.fonts.load('700 40px ' + inks.head), document.fonts.load('40px ' + inks.face), document.fonts.load('italic 40px ' + inks.face)].map(function (pr) { return pr.catch(function () {}); })).then(function () {
+        if (r.gone) return;
+        r.leaves = readerLeaves(parts, probe, W, H, inks);
+        r.at = Math.min(r.at, r.leaves.length - 1);
+        readerDraw();
+      });
+    }
+  }
+  function readerDraw() {
+    var r = reader;
+    if (!r || !r.leaves.length) return;
+    var leaf = r.leaves[r.at], W = r.W, H = r.H, pad = Math.round(W * 0.06), size = Math.round(W / 27);
+    var map = tex(W, H, function (g) {
+      g.fillStyle = r.inks.ground; g.fillRect(0, 0, W, H);
+      g.strokeStyle = r.inks.ink; g.lineWidth = 6; g.strokeRect(3, 3, W - 6, H - 6);
+      g.fillStyle = r.inks.ink; g.textBaseline = 'top'; g.textAlign = 'left';
+      g.font = Math.round(size * 0.74) + 'px ' + r.inks.face;
+      g.fillText((inside ? inside.name : '') + (leaf.title && inside && leaf.title !== inside.name ? ' · ' + leaf.title : ''), pad, Math.round(pad * 0.55), W - pad * 2);
+      leaf.runs.forEach(function (run) {
+        if (run.img) {
+          var pic = r.pics[run.img];
+          if (!pic) {
+            pic = r.pics[run.img] = new Image();
+            pic.addEventListener('load', function () { if (!r.gone && r.leaves[r.at] === leaf) readerDraw(); });
+            pic.src = run.img;
+          }
+          if (pic.complete && pic.naturalWidth) {
+            var k = Math.min(run.w / pic.naturalWidth, run.h / pic.naturalHeight), dw = pic.naturalWidth * k, dh = pic.naturalHeight * k;
+            g.drawImage(pic, run.x + (run.w - dw) / 2, run.y + (run.h - dh) / 2, dw, dh);
+          } else g.strokeRect(run.x, run.y, run.w, run.h);
+          return;
+        }
+        g.font = run.font;
+        if (run.dot) g.fillRect(run.x - Math.round(size * 0.7), run.y + Math.round(size * 0.42), Math.round(size * 0.24), Math.round(size * 0.24));
+        if (run.bar) g.fillRect(run.x - Math.round(size * 0.7), run.y, Math.round(size * 0.12), Math.round(size * 1.3));
+        g.fillText(run.text, run.x, run.y);
+      });
+    });
+    if (r.board.material.map) r.board.material.map.dispose();
+    r.board.material.map = map; r.board.material.needsUpdate = true;
+    // The tiles under the board: each says where it goes.
+    readerTiles.forEach(function (m) { if (m.parent) m.parent.remove(m); m.geometry.dispose(); m.material.map.dispose(); m.material.dispose(); });
+    readerTiles = [];
+    var before = null, after = null, i;
+    for (i = r.at - 1; i >= 0; i--) if (r.leaves[i].part !== leaf.part) { before = i; while (before > 0 && r.leaves[before - 1].part === r.leaves[i].part) before--; break; }
+    for (i = r.at + 1; i < r.leaves.length; i++) if (r.leaves[i].part !== leaf.part) { after = i; break; }
+    function to(n) { return function () { readerHush(); r.at = n; readerDraw(); }; }
+    function names(n) { return r.leaves[n].title || 'the next part'; }
+    r.tile(0, before === null ? 'The first part' : 'Back to: ' + names(before), before === null ? null : to(before), before === null);
+    r.tile(1, r.at === 0 ? 'The start of the page' : 'Back a leaf', r.at === 0 ? null : to(r.at - 1), r.at === 0);
+    r.tile(2, r.speaking ? 'Stop reading' : 'Read it to me', function () { if (r.speaking) { readerHush(); readerDraw(); } else readerSpeak(); }, r.speaking);
+    r.tile(3, r.at === r.leaves.length - 1 ? 'The end of the page' : r.leaves[r.at + 1].part === leaf.part ? 'Next leaf: more of this' : 'Next: ' + names(r.at + 1), r.at === r.leaves.length - 1 ? null : to(r.at + 1), r.at === r.leaves.length - 1);
+    r.tile(4, after === null ? 'The last part' : 'On to: ' + names(after), after === null ? null : to(after), after === null);
+  }
+  function readerHush() {
+    if (!reader || !reader.speaking) return;
+    reader.speaking = false;
+    if (window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) { /* no voice here */ } }
+  }
+  function readerSpeak() {
+    var r = reader;
+    if (!r || !('speechSynthesis' in window)) { vrTell('This headset’s browser has no voice to read with.'); return; }
+    try {
+      window.speechSynthesis.cancel();
+      var words = new SpeechSynthesisUtterance(r.leaves[r.at].said.join(' '));
+      words.addEventListener('end', function () { if (!r.gone && r.speaking) { r.speaking = false; readerDraw(); } });
+      r.speaking = true;
+      window.speechSynthesis.speak(words);
+      readerDraw();
+    } catch (e) { r.speaking = false; }
+  }
+
+  // What a hand is pointing at: a tile on the panel or under the page's
+  // board, a thing the room lets you press, a place, the floor you could
+  // stand on, or the floor past the room's edge, where you cannot.
   function aimOf(hand) {
     xrAim.identity().extractRotation(hand.matrixWorld);
     xrRay.ray.origin.setFromMatrixPosition(hand.matrixWorld);
     xrRay.ray.direction.set(0, 0, -1).applyMatrix4(xrAim);
     xrRay.far = 20;
-    var t = xrRay.intersectObjects(panelTiles, false)[0];
-    if (t) return { tile: t.object.userData.tile, d: t.distance };
+    var t = xrRay.intersectObjects(xrBreak ? panelTiles : panelTiles.concat(readerTiles), false)[0];
+    if (t) return { tile: t.object.userData.tile, d: t.distance, on: t.object };
+    if (xrBreak) return null;
     var hit = xrRay.intersectObjects(hits, false)[0];
     if (hit) return { hit: hit.object, d: hit.distance };
-    if (xrRay.ray.intersectPlane(FLOOR, xrAt) && inBounds(xrAt.x, xrAt.z)) {
+    if (xrRay.ray.intersectPlane(FLOOR, xrAt)) {
       var d = xrRay.ray.origin.distanceTo(xrAt);
-      if (d < 15) return { floor: { x: xrAt.x, z: xrAt.z }, d: d };
+      if (d < 15) return inBounds(xrAt.x, xrAt.z) ? { floor: { x: xrAt.x, z: xrAt.z }, d: d } : { off: true, d: d };
     }
     return null;
   }
   function pressWith(hand) {
     var a = aimOf(hand);
     if (xrTour) { xrTour = 0; vrTell('The walk round stops here.'); }
+    if (a && a.tile) { buzz(hand); if (a.tile.btn) a.tile.btn.click(); else a.tile.go(); vrPanel(); return; }
+    if (a && 'tile' in a) return;
+    if (xrBreak) return;
+    // Within reach comes before what is pointed at: a thing in your hand goes
+    // onto what you hold it against, and a thing your empty hand is on is
+    // taken, by a press (or a pinch) as by a squeeze.
+    var mine = heldBy(hand), spot = mine ? within(hand, hits, takes) : null;
+    if (spot && putOn(spot, hand)) { buzz(hand); vrPanel(); return; }
+    var got = mine ? null : within(hand, scene.userData.holds || [], loose);
+    if (got) { holdToggle(got, hand); buzz(hand); vrPanel(); return; }
     if (!a) return;
-    if (a.tile) { if (a.tile.btn) a.tile.btn.click(); else a.tile.go(); vrPanel(); return; }
-    if (a.hit && a.hit.userData.take && heldBy(hand) && putOn(a.hit, hand)) { vrPanel(); return; }
-    if (a.hit && a.hit.userData.hold) { holdToggle(a.hit, hand); vrPanel(); return; }
-    if (a.hit && a.hit.userData.act) { a.hit.userData.act.go(); vrPanel(); return; }
+    if (a.off) { vrTell('That is past the edge of the room. Point at the floor inside it to stand there.'); return; }
+    if (a.hit && a.hit.userData.take && heldBy(hand) && putOn(a.hit, hand)) { buzz(hand); vrPanel(); return; }
+    if (a.hit && a.hit.userData.hold) { holdToggle(a.hit, hand); buzz(hand); vrPanel(); return; }
+    if (a.hit && a.hit.userData.act) { buzz(hand); a.hit.userData.act.go(); vrPanel(); return; }
     if (a.hit) {
       var st = stops[a.hit.userData.stop];
       if (ROOMS[st.page] && !(inside && st.page === inside.page) && nearest() === st) { enter(st.page); return; }
-      vrStand(st); return;
+      buzz(hand, 0.6); vrStand(st); return;
     }
-    if (a.floor) { footFor(a.floor.x, a.floor.z, me.yaw); place(); vrPanelPlace(); tell(); }
+    if (a.floor) { buzz(hand, 0.6); footFor(a.floor.x, a.floor.z, me.yaw); place(); vrPanelPlace(); tell(); }
+  }
+  // REACH, SQUEEZE, CARRY, LET GO: a squeeze with your hand on a thing takes
+  // it, for as long as you squeeze; let go against whatever takes it (a cup
+  // under a teapot, the phonograph under a record) and it is put there, let
+  // go anywhere else and it goes home, so nothing is left floating. A squeeze
+  // on nothing shows the switches or puts them away, as it always did. The
+  // press that takes and the press that puts back are still there for
+  // anybody who cannot keep a grip closed.
+  function gripStart(hand) {
+    hand.userData.gripped = null;
+    if (xrBreak || heldBy(hand)) return;
+    var got = within(hand, scene.userData.holds || [], loose);
+    if (!got) return;
+    holdToggle(got, hand); hand.userData.gripped = got; buzz(hand); vrPanel();
+  }
+  function gripEnd(hand) {
+    var got = hand.userData.gripped;
+    hand.userData.gripped = null;
+    if (!got) { xrTour = 0; panelOpen = !panelOpen; vrPanel(); vrPanelPlace(); return; }
+    if (got.userData.hold.by !== hand) return;
+    var spot = within(hand, hits, takes);
+    if (!(spot && putOn(spot, hand))) holdToggle(got, hand);
+    buzz(hand, 0.6); vrPanel();
   }
   function handsUp() {
     for (var i = 0; i < 2; i++) {
@@ -3297,13 +3813,20 @@ function start() {
       beam.visible = false; hand.add(beam);
       var dot = new THREE.Mesh(new THREE.RingGeometry(0.02, 0.035, 20), new THREE.MeshBasicMaterial({ color: col('--cel-glint'), side: THREE.DoubleSide }));
       dot.visible = false;
-      hand.userData = { beam: beam, dot: dot, src: null, turned: false };
+      // Where you cannot stand: a cross on the floor past the room's edge, a
+      // different shape from the ring and not only a different colour.
+      var cross = new THREE.Group(), crossMat = new THREE.MeshBasicMaterial({ color: col('--cel-glint'), side: THREE.DoubleSide });
+      [Math.PI / 4, -Math.PI / 4].forEach(function (turn) { var arm = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.05), crossMat); arm.rotation.z = turn; cross.add(arm); });
+      cross.rotation.x = -Math.PI / 2; cross.visible = false;
+      hand.userData = { beam: beam, dot: dot, cross: cross, src: null, turned: false, gripped: null };
       hand.addEventListener('connected', function (e) { this.userData.src = e.data; });
-      hand.addEventListener('disconnected', function () { this.userData.src = null; this.userData.beam.visible = false; this.userData.dot.visible = false; });
+      hand.addEventListener('disconnected', function () { this.userData.src = null; this.userData.beam.visible = false; this.userData.dot.visible = false; this.userData.cross.visible = false; });
       hand.addEventListener('select', function () { pressWith(this); });
-      hand.addEventListener('squeeze', function () { xrTour = 0; panelOpen = !panelOpen; vrPanel(); vrPanelPlace(); });
+      hand.addEventListener('squeezestart', function () { gripStart(this); });
+      hand.addEventListener('squeezeend', function () { gripEnd(this); });
       dolly.add(hand); hands.push(hand);
     }
+    palmsUp();
   }
   // A stick pushed sideways turns you about your own head: gliding, for as
   // long as it is pushed; in steps, a twelfth of the way round, once, and it
@@ -3321,9 +3844,7 @@ function start() {
       if (xrGlide) { if (Math.abs(x) > Math.abs(spin)) spin = x; return; }
       if (Math.abs(x) > 0.6 && !hand.userData.turned) {
         hand.userData.turned = true;
-        var hw = headWorld(), yaw = me.yaw - Math.sign(x) * xrStep, h = headLocal(), c = Math.cos(yaw), s = Math.sin(yaw);
-        me.yaw = yaw; me.x = hw.x - (c * h.x + s * h.z); me.z = hw.z - (-s * h.x + c * h.z);
-        vrPanelPlace();
+        snapTurn(Math.sign(x));
       } else if (Math.abs(x) < 0.3) hand.userData.turned = false;
     });
     var r = Math.abs(spin) > 0.2 ? Math.sign(spin) * (Math.abs(spin) - 0.2) / 0.8 : 0;
@@ -3400,26 +3921,36 @@ function start() {
         u.beam.geometry.setFromPoints([new THREE.Vector3(), new THREE.Vector3(0, 0, -1)]);
         u.beam.scale.z = a ? a.d : 3;
       }
-      if (u.dot.parent !== scene) scene.add(u.dot);
-      u.dot.visible = !!a && !a.tile;
+      var here = xrBreak ? breakScene : scene;
+      if (u.dot.parent !== here) here.add(u.dot);
+      if (u.cross.parent !== here) here.add(u.cross);
+      u.cross.visible = !!a && !!a.off;
+      if (u.cross.visible) u.cross.position.copy(xrRay.ray.origin).addScaledVector(xrRay.ray.direction, a.d).setY(0.012);
+      u.dot.visible = !!a && !('tile' in a) && !a.off;
       if (u.dot.visible) {
         u.dot.position.copy(xrRay.ray.origin).addScaledVector(xrRay.ray.direction, a.d - 0.01);
         if (a.floor) { u.dot.position.y = 0.01; u.dot.rotation.set(-Math.PI / 2, 0, 0); u.dot.scale.setScalar(4); }
         else { u.dot.lookAt(xrRay.ray.origin); u.dot.scale.setScalar(1); }
       }
-      panelTiles.forEach(function (t) { if (t.userData.tile) t.scale.setScalar(a && a.tile === t.userData.tile ? 1.06 : 1); });
+      panelTiles.forEach(function (t) { if (t.userData.tile) t.scale.setScalar(a && a.tile && a.tile === t.userData.tile ? 1.06 : 1); });
     });
   }
   function xrFrame(now) {
-    if (dolly.parent !== scene) scene.add(dolly);
-    stepMoves(now);
+    var here = xrBreak ? breakScene : scene;
+    if (dolly.parent !== here) here.add(dolly);
     var dt = xrPrev ? Math.min((now - xrPrev) / 1000, 0.1) : 0;
-    xrSticks(dt);
     xrPrev = now;
+    // On a break nothing of the room is stepped, walked or drawn: your head,
+    // your hands and the break's own panel, and that is all.
+    if (xrBreak) { place(); palmsStep(); xrBeams(); renderer.render(breakScene, camera); return; }
+    stepMoves(now);
+    xrSticks(dt);
     tourStep(now);
     vignetteStep(dt);
     place();
     if (travel) { travelStep(dt, now); if (travel) { travelDraw(); return; } }
+    slowStep(dt, now);
+    palmsStep();
     xrBeams();
     renderer.render(scene, camera);
     if (!xrLast) { xrLast = now; vrPanelPlace(); }
@@ -3428,8 +3959,17 @@ function start() {
     renderer.setAnimationLoop(null);
     xrOn = false; xrSession = null; xrLast = 0; xrPrev = 0; xrGoing = false;
     renderer.xr.enabled = false;
-    hands.forEach(function (hand) { if (hand.userData.dot.parent) hand.userData.dot.parent.remove(hand.userData.dot); dolly.remove(hand); });
+    hands.forEach(function (hand) {
+      if (hand.userData.dot.parent) hand.userData.dot.parent.remove(hand.userData.dot);
+      if (hand.userData.cross.parent) hand.userData.cross.parent.remove(hand.userData.cross);
+      dolly.remove(hand);
+    });
     hands = [];
+    palms.forEach(function (palm) { dolly.remove(palm); });
+    palms = [];
+    readerHush(); readerDown();
+    xrBreak = false; xrBuzz = null; xrSlow = 0; xrLightAsked = false;
+    if (xrLight) lighterSet(false);
     if (panel) { dolly.remove(panel); panel = null; panelTiles = []; }
     if (vignette) { camera.remove(vignette); vignette = null; }
     xrSeat = 0; seated = null; stature = null; xrTour = 0; xrDim = 0;
@@ -3471,7 +4011,7 @@ function start() {
         dolly.add(camera); scene.add(dolly);
         vignetteUp();
         if (mode === 'immersive-ar') { xrSky = scene.background; scene.background = null; skyGroup.visible = false; renderer.setClearAlpha(0); }
-        handsUp(); panelOpen = true; panelWords = ''; vrPanel();
+        handsUp(); readerUp(); panelOpen = true; panelWords = ''; vrPanel();
         renderer.setAnimationLoop(xrFrame);
         vrBtn.textContent = 'Leave VR';
         if (vrNote) vrNote.textContent = 'In the headset. Push a stick forward or back to walk, or point and press to move and to press things; the headset’s own menu takes you out.';

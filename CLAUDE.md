@@ -1933,6 +1933,31 @@ as you walk in "to set the mood", a bed that keeps playing through the tunnel in
 sounds better" (hosting audio here is a decision, the Latibulum's rule), and the YouTube records in the Music Room routed
 through the panner, which a cross-origin frame does not allow.
 
+**IN A HEADSET THE DIAL AND THE BREAK ARE ON THE SWITCHES, THE PAGE IS READ OFF THE PAGE, AND NOTHING IS DONE FOR YOU BUT ONE THING, ONCE.** Helen
+Edgar's ask, 2026-11-11 ("All of them", to a list of eight), all of it in `cel-street.js`, so every `vr: true` room has it. **The dial** on the panel
+is `window.loveLevel` (`lv.levels.forEach`, `lv.set(key)`), never a second dial. **The break** (`breakSet`, `xrBreak`, `breakScene`) draws a dim empty
+place in the break's own `--bbr-dusk*` inks in place of the room, with its own panel, and **stops nothing by itself**: it offers Quiet the room's sounds.
+**The reader** (`readerUp`, `readerParts`, `readerDraw`) is a board where `kit.screen()` stood the page (`scene.userData.screens`), written from
+`where.f.contentDocument`, the page already loaded, so nothing is fetched and no words are a second copy; in the page's own ink, ground and faces when
+they measure 4.5 and the ground is plain, else Cel Street's; **an `<img class="photo">` is never drawn** (`READ_HELD`), because a consent record names
+the pages its photograph is on and the headset's board is not one. **Reach and squeeze** (`within`, `gripStart`, `gripEnd`, `GRAB`): squeezing with a
+hand on a `kit.hold` takes it for as long as the squeeze, letting go on a `kit.place` puts it there and anywhere else sends it home; the press that
+takes and puts back stays, for anybody who cannot keep a grip closed; a squeeze on nothing still shows or puts away the switches. **The buzz**
+(`buzz`, `buzzOn`) is `BUZZ` for `BUZZ_MS`, follows the dial (none at Gentle or in a low-stimulation mode) unless the panel's switch says otherwise for
+the visit. **Tracked hands** are beads at the joints (`palmsUp`, `palmsStep`). **Past a room's edge** `aimOf` answers `off` and a cross is drawn where
+the ring would be. **The lighter picture** (`slowStep`, `lighterSet`) comes on by itself **once**, when frames have run slower than `SLOW` for
+`SLOW_FOR`, says so, never switches back by itself, and is the panel's Picture switch after that (`xrLightAsked`); it keeps the `LAMPS_NEAR` lamps
+that light where you stand most (strength over distance), because keeping the nearest put out the yurt's one big lamp and left it dark. **Captions**
+are `kit.caption(fn)` (and `caption:` on `kit.sound`), read by `captions()` into a Sounding now line. **The panel stands in leaves** past `PANEL_TALL`
+(the yurt's had grown taller than a person): balanced, a heading never left at a leaf's foot, the first straight ahead, each leaning about its own
+middle. `tools/make-cel-street.py` holds the buzz's ceiling and its following the dial, the photograph skip, the reader reading the frame's own
+document, the break pausing nothing and having its way back, the dial on the panel, the lighter picture never switching back, and the squeeze's
+let-go. **Tried only in a pretend headset** (a fake `navigator.xr` in the browser pane), never tracked hands. The friendly edits are **the break
+pausing the room's sounds "since it is a break"** (somebody may have the rain on on purpose), **her photographs on the board "since it is her room"**
+(each record's `elsewhere` is hers to widen), **the picture switching back to full when the frames recover**, which flaps, **a stronger or longer buzz
+"so it can be felt"**, **the page's words typed into a room file "so the board looks better"**, and **seeing each other's hands**, which sends more
+than a place and needs the privacy page first.
+
 **THE BASKET OF WINGS BY THE YURT'S DOOR LENDS A PAIR TO YOUR 3D FIGURE, AND HER THREE ANIMALS ARE ASLEEP IN THE SCENE.**
 Helen Edgar's asks, 2026-11-09. A room on Cel Street that lends wings names its pairs (`wings` in `cel-in-faery-yurt.js`,
 exactly `CEL_WINGS` in `lib.mjs`, which `make-cel-street.py` holds both ways and to `cel-street.js`'s `WINGS` drawings);

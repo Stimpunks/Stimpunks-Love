@@ -388,7 +388,7 @@
       // (arithmetic, nothing recorded), heard from over the pool through
       // kit.sound: off until pressed, on until pressed again, off when you
       // leave the cave.
-      var drip = kit.sound({ kind: 'drip', pos: [3.1, 1.6, -9.2], say: 'Listen to the water dripping', stop: 'Let the cave be silent',
+      var drip = kit.sound({ kind: 'drip', caption: 'water dripping into the far pool', pos: [3.1, 1.6, -9.2], say: 'Listen to the water dripping', stop: 'Let the cave be silent',
         at: [kit.touch(1.6, 0.5, 1.6, at(3.1, 0.25, -9.2))],
         said: function (on) { return on ? 'Somewhere overhead a drop lets go and falls into the far pool, and the cave gives it back twice, fainter each time.' : 'The dripping stops, and the cave is silent again.'; } });
       [[-2.9, -3.3, 0.9], [3.1, -9.2, 0.75]].forEach(function (pl, pi) {
