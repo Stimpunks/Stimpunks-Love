@@ -275,30 +275,10 @@
    "id": "uNiCqbdvWZY",
    "source": "americas-test-kitchen",
    "form": "long",
-   "title": "Cooking Our Highest Rated Thanksgiving Recipes | America’s Test Kitchen",
+   "title": "We Tested Hundreds of Thanksgiving Recipes—These Are the Best | America’s Test Kitchen",
    "published": "2026-11-07T17:00:01Z",
    "state": "screen",
    "runs": 3066,
-   "channel": "America's Test Kitchen"
-  },
-  {
-   "id": "klAx54R7Odk",
-   "source": "americas-test-kitchen",
-   "form": "short",
-   "title": "Does Rinsed Rice Water Need to Run Clear?",
-   "published": "2026-10-11T14:59:48Z",
-   "state": "screen",
-   "runs": 81,
-   "channel": "America's Test Kitchen"
-  },
-  {
-   "id": "opxTubPTgWs",
-   "source": "americas-test-kitchen",
-   "form": "short",
-   "title": "How to Make a Perfect Bowl of White Rice Without a Recipe",
-   "published": "2026-10-11T19:59:55Z",
-   "state": "screen",
-   "runs": 59,
    "channel": "America's Test Kitchen"
   },
   {
@@ -529,6 +509,16 @@
    "published": "2026-11-05T17:00:04Z",
    "state": "screen",
    "runs": 129,
+   "channel": "Epicurious"
+  },
+  {
+   "id": "eZY8Js-eE6k",
+   "source": "epicurious",
+   "form": "short",
+   "title": "The Secret to Perfect Tiramisu Is in the Ladyfingers",
+   "published": "2026-11-10T17:02:02Z",
+   "state": "screen",
+   "runs": 130,
    "channel": "Epicurious"
   },
   {
@@ -832,6 +822,26 @@
    "channel": "NYT Cooking"
   },
   {
+   "id": "SsOCHXKOCa0",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "It's a giant Cranberry Curd Tart Crème Brûlée. Cran Brûlée? #thanksgiving #dessert",
+   "published": "2026-11-10T20:04:34Z",
+   "state": "screen",
+   "runs": 30,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "bqITa08ZcnE",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "Everyone at friendsgiving will love you for these. #thanksgiving #dessert",
+   "published": "2026-11-11T03:30:10Z",
+   "state": "screen",
+   "runs": 24,
+   "channel": "NYT Cooking"
+  },
+  {
    "id": "F4QFSnAaTRI",
    "source": "iron-chef-dad",
    "form": "short",
@@ -889,16 +899,6 @@
    "published": "2026-11-05T06:57:07Z",
    "state": "screen",
    "runs": 1669,
-   "channel": "Andy Cooks"
-  },
-  {
-   "id": "uzUoYgoCkI0",
-   "source": "andy-cooks",
-   "form": "short",
-   "title": "What’s the secret to better cooking? 🧑‍🍳",
-   "published": "2026-10-12T10:00:17Z",
-   "state": "screen",
-   "runs": 61,
    "channel": "Andy Cooks"
   },
   {
@@ -1112,6 +1112,16 @@
    "channel": "Andy Cooks"
   },
   {
+   "id": "Ozct6ywQRPQ",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Black pudding!",
+   "published": "2026-11-11T09:45:35Z",
+   "state": "screen",
+   "runs": 62,
+   "channel": "Andy Cooks"
+  },
+  {
    "id": "AFIzmed8iO4",
    "source": "back-of-house",
    "form": "long",
@@ -1150,16 +1160,6 @@
    "state": "screen",
    "runs": 1353,
    "channel": "Back of House"
-  },
-  {
-   "id": "MQ2FXzwJD-M",
-   "source": "the-pasta-queen",
-   "form": "long",
-   "title": "20-Minute Spaghetti Bolognese",
-   "published": "2026-10-11T17:00:10Z",
-   "state": "screen",
-   "runs": 759,
-   "channel": "The Pasta Queen"
   },
   {
    "id": "KIWBR2i7Y5I",
@@ -1342,24 +1342,14 @@
    "channel": "The Pasta Queen"
   },
   {
-   "id": "D5r4LapwbNQ",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "How a 22-Year-Old College Student Cooks Lunch for 50 at a Japanese BBQ Diner",
-   "published": "2026-10-11T22:00:19Z",
+   "id": "ZSwGaXE8Mas",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "HOLIDAY Creamy Mushroom Meat Sauce",
+   "published": "2026-11-10T20:47:45Z",
    "state": "screen",
-   "runs": 1662,
-   "channel": "Japanese Food Noodles"
-  },
-  {
-   "id": "OigG28vCqzc",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "How an 80-Year-Old Asakusa Shop Turns Sashimi-Grade Fish into Premium Tempura Rice Bowls",
-   "published": "2026-10-12T00:00:06Z",
-   "state": "screen",
-   "runs": 1728,
-   "channel": "Japanese Food Noodles"
+   "runs": 81,
+   "channel": "The Pasta Queen"
   },
   {
    "id": "uOw27qm4SSk",
@@ -1872,6 +1862,16 @@
    "channel": "Japanese Food Noodles"
   },
   {
+   "id": "oHXnlyiWNqk",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "This Japanese Diner Serves Fried Rice for Just 100 Yen",
+   "published": "2026-11-10T22:00:12Z",
+   "state": "screen",
+   "runs": 1454,
+   "channel": "Japanese Food Noodles"
+  },
+  {
    "id": "MStMw9Bfb1A",
    "source": "japanese-cooking-101",
    "form": "short",
@@ -1995,10 +1995,20 @@
    "id": "5IGitnYEP2w",
    "source": "japanese-food-craftsman",
    "form": "long",
-   "title": "Japanese Karaoke With a LEGIT Restaurant Izakaya Built IN!?",
+   "title": "Inside Japan's Most Unexpected Karaoke Izakaya Kitchen",
    "published": "2026-11-08T09:50:25Z",
    "state": "screen",
    "runs": 1326,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "lh8GAk8W6iI",
+   "source": "japanese-food-craftsman",
+   "form": "long",
+   "title": "Japanese Fishmonger Life \"Everyone Pitches In. That's the RULE!\"",
+   "published": "2026-11-11T09:50:11Z",
+   "state": "screen",
+   "runs": 1404,
    "channel": "Japanese Food Craftsman"
   },
   {
@@ -2132,6 +2142,16 @@
    "channel": "Japanese Food Craftsman"
   },
   {
+   "id": "xryd3dSWvro",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "ここ本当にカラオケ店？本格料理がすごすぎる！",
+   "published": "2026-11-11T09:15:34Z",
+   "state": "screen",
+   "runs": 31,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
    "id": "QJcFxRAQ5_k",
    "source": "bon-appetit",
    "form": "long",
@@ -2229,6 +2249,16 @@
    "published": "2026-11-09T17:01:26Z",
    "state": "screen",
    "runs": 15561,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "xS02sPTgWc8",
+   "source": "bon-appetit",
+   "form": "long",
+   "title": "Our 5 Favorite Party Appetizers | Test Kitchen Talks | Bon Appétit",
+   "published": "2026-11-10T17:00:12Z",
+   "state": "screen",
+   "runs": 960,
    "channel": "Bon Appétit"
   },
   {
@@ -2432,6 +2462,16 @@
    "channel": "Bon Appétit"
   },
   {
+   "id": "FNOnylMO7wU",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "The Right Way to Make Fried Rice",
+   "published": "2026-11-10T16:30:02Z",
+   "state": "screen",
+   "runs": 36,
+   "channel": "Bon Appétit"
+  },
+  {
    "id": "4K5o2RRxvcQ",
    "source": "insider-food",
    "form": "short",
@@ -2479,16 +2519,6 @@
    "published": "2026-11-04T18:00:33Z",
    "state": "screen",
    "runs": 1999,
-   "channel": "Fallow"
-  },
-  {
-   "id": "z5ogfh1IAYQ",
-   "source": "fallow",
-   "form": "short",
-   "title": "Fillet Salmon Like a Chef",
-   "published": "2026-10-11T21:37:19Z",
-   "state": "screen",
-   "runs": 32,
    "channel": "Fallow"
   },
   {
@@ -2622,6 +2652,16 @@
    "channel": "Fallow"
   },
   {
+   "id": "GsZN2dcMAQw",
+   "source": "fallow",
+   "form": "short",
+   "title": "How To Finish A Sauce",
+   "published": "2026-11-10T16:37:39Z",
+   "state": "screen",
+   "runs": 29,
+   "channel": "Fallow"
+  },
+  {
    "id": "yVAptV1Oncs",
    "source": "guga",
    "form": "long",
@@ -2692,16 +2732,6 @@
    "channel": "Guga"
   },
   {
-   "id": "Ot3fvPPWSGM",
-   "source": "mrnigelng",
-   "form": "long",
-   "title": "Uncle Roger Review Nick DiGiovanni Korean Fried Chicken",
-   "published": "2026-10-11T14:00:39Z",
-   "state": "screen",
-   "runs": 1108,
-   "channel": "mrnigelng"
-  },
-  {
    "id": "Ba-mwCGmYko",
    "source": "mrnigelng",
    "form": "short",
@@ -2739,6 +2769,16 @@
    "published": "2026-11-05T15:57:28Z",
    "state": "screen",
    "runs": 55,
+   "channel": "mrnigelng"
+  },
+  {
+   "id": "CfGAIg-RieU",
+   "source": "mrnigelng",
+   "form": "short",
+   "title": "Can niece @awkwafina finally learn to cook?",
+   "published": "2026-11-10T16:00:25Z",
+   "state": "screen",
+   "runs": 144,
    "channel": "mrnigelng"
   },
   {
@@ -2892,6 +2932,16 @@
    "channel": "Eater"
   },
   {
+   "id": "nXagreOBEro",
+   "source": "eater",
+   "form": "short",
+   "title": "This chef turned papad into a rangoli masterpiece #foodie #cooking #shorts",
+   "published": "2026-11-10T15:00:11Z",
+   "state": "screen",
+   "runs": 96,
+   "channel": "Eater"
+  },
+  {
    "id": "dlAtyGpqIjU",
    "source": "munchies",
    "form": "long",
@@ -2982,16 +3032,6 @@
    "channel": "Joshua Weissman"
   },
   {
-   "id": "48w_vN6YF-w",
-   "source": "strictly-dumpling",
-   "form": "long",
-   "title": "ALL YOU CAN EAT Brazilian + Italian! My Top 5 FAVORITE Texas Buffets 🍖🍝",
-   "published": "2026-10-12T00:00:08Z",
-   "state": "screen",
-   "runs": 3176,
-   "channel": "Strictly Dumpling"
-  },
-  {
    "id": "HeZICGLLssA",
    "source": "strictly-dumpling",
    "form": "long",
@@ -3059,6 +3099,16 @@
    "published": "2026-11-06T18:00:38Z",
    "state": "screen",
    "runs": 1334,
+   "channel": "Strictly Dumpling"
+  },
+  {
+   "id": "kzx6cFLaFeY",
+   "source": "strictly-dumpling",
+   "form": "short",
+   "title": "My FAVORITE Chinese LUNCH DEAL in Florida! #shorts",
+   "published": "2026-11-10T23:44:14Z",
+   "state": "screen",
+   "runs": 129,
    "channel": "Strictly Dumpling"
   },
   {
@@ -3260,6 +3310,16 @@
    "state": "screen",
    "runs": 68,
    "channel": "JOLLY"
+  },
+  {
+   "id": "UYvsC2FSCbc",
+   "source": "jolly",
+   "form": "short",
+   "title": "British Grandparents try Wisconsin Cheese Curds!",
+   "published": "2026-11-10T17:33:25Z",
+   "state": "screen",
+   "runs": 58,
+   "channel": "JOLLY"
   }
  ],
  "covered": {
@@ -3267,13 +3327,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3281,13 +3341,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3295,13 +3355,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3309,13 +3369,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3323,13 +3383,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3337,13 +3397,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3351,13 +3411,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3365,13 +3425,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3379,13 +3439,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3393,13 +3453,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3407,13 +3467,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3421,13 +3481,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3435,13 +3495,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3449,13 +3509,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3463,13 +3523,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3477,13 +3537,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3491,13 +3551,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3505,13 +3565,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3519,13 +3579,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3533,13 +3593,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3547,13 +3607,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3561,13 +3621,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3575,13 +3635,13 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   },
@@ -3589,16 +3649,16 @@
    "long": [
     [
      "2026-07-25T11:00:12Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ],
    "short": [
     [
      "2026-10-05T22:56:49Z",
-     "2026-11-10T12:22:13Z"
+     "2026-11-11T12:21:44Z"
     ]
    ]
   }
  },
- "set": "2026-11-10T12:22Z"
+ "set": "2026-11-11T12:21Z"
 }
