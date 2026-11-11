@@ -2087,7 +2087,10 @@ function start() {
       lookNow = lookChoice || room.look || 'cel';
       // In the real look nothing is lifted to a bright step by the cel's
       // gradient, so the room gets a little even light of its own to stand on.
-      if (real()) scene.add(new THREE.AmbientLight(col('--cel-page'), 0.55));
+      // A room says `dusk` (0 to 1) to have less of it: Looking-Glass House at
+      // its tea party (Helen, 2026-11-12) is lit by its own candles and fairy
+      // lights, and the even light would wash them out.
+      if (real()) scene.add(new THREE.AmbientLight(col('--cel-page'), 0.55 * (1 - Math.min(1, Math.max(0, room.dusk || 0)))));
       var k = kit(page, name);
       var made = room.build(k);
       lookNow = 'cel';

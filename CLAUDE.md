@@ -1875,6 +1875,22 @@ so `love-embed.js` still builds the frame and nothing plays until the record is 
 typing a title into a room file, a book that opens to its link in 3D (its link is on her page, on the wall), and a
 record that plays as it is picked up.
 
+**LOOKING-GLASS HOUSE ON CEL STREET IS AT DUSK WITH THE MAD TEA PARTY LAID, AND HER PAGE STAYS SILVER.** Helen
+Edgar's asks, 2026-11-12 ("darker as it stands out being all light", "more faiery and alice and wonderland and teaparty
+and very mad and magical", "add all characters around a tea table and have rabbit and cheshire cat"): the 3D room in
+`cel-in-looking-glass-house.js` reverses its own "silver from everywhere" (walls' body `--lgh-ink-2`, silver kept in the
+bevels, `dusk: 0.92`, which `enter()` in `cel-street.js` reads to scale down the real look's even light, hemisphere
+and directional lights low), lit by candles on the tea table and fairy lights over king-size toadstools, each moving
+only after its switch (`max: false`, because her page's candles are points in the glass). **Her page's §135 rule is
+untouched**: the page stays silver, dark words on silver, and the note above about it going dark still holds there.
+**Carroll's characters round the table are drawn from blocks after Tenniel's engravings and never after Disney's or any
+film's designs** (Carroll died 1898, Tenniel 1914, so they are public domain, unlike the Discworld rooms' people): Alice,
+the Hatter, the March Hare, the Dormouse in a teapot, the White Rabbit apart, the Cheshire Cat in a corner tree whose
+"Let the cat vanish" hides the body and leaves the grin, on a press and never by itself. Teapots pour into cups
+(`kit.place`, the yurt's pattern), EAT ME and DRINK ME are Carroll's words, the clock is stopped at six. The friendly
+edits are a Disney-blue Alice "because that is what Alice looks like", the cat fading by itself at MAX (her page moves
+nothing), and the page's silver darkened "to match the room".
+
 **THE BASKET OF WINGS BY THE YURT'S DOOR LENDS A PAIR TO YOUR 3D FIGURE, AND HER THREE ANIMALS ARE ASLEEP IN THE SCENE.**
 Helen Edgar's asks, 2026-11-09. A room on Cel Street that lends wings names its pairs (`wings` in `cel-in-faery-yurt.js`,
 exactly `CEL_WINGS` in `lib.mjs`, which `make-cel-street.py` holds both ways and to `cel-street.js`'s `WINGS` drawings);

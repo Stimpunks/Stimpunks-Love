@@ -107,6 +107,36 @@
    pawn, and the pin board takes the pinned card back anywhere on the cork,
    each saying so in words of ours. Round things got more segments for the
    look. Ours, and hers to keep or send back.
+
+   THE MAD TEA PARTY AT DUSK (Helen Edgar's asks, 2026-11-12: "make the alice in
+   wonderland darker as it stands out being all light", "more faiery and alice
+   and wonderland and teaparty and very mad and magical", "add all characters
+   around a tea table and have rabbit and cheshire cat etc"). THIS REVERSES THE
+   ROOM'S "SILVER FROM EVERYWHERE" AT HER ASK, for the 3D room only: her page
+   is untouched and stays silver, as its own rule has it. The sky past the
+   ceiling is the room's darkest ink, the even light is turned down (dusk on
+   the room object cuts the kit's light to a third), and what lights the room
+   is the party in the middle of the chessboard country: a long table under a
+   woven cloth, candles in gilt sticks down it, each with its own warm light,
+   and strings of fairy lights looped from the cornice over king-size
+   toadstools and back. On the table, mismatched teapots and cups (a held pot
+   poured into any cup, and drunk from), a milk jug, a sugar bowl, bread and
+   butter, a tiered cake stand, two cakes with EAT ME on their tags and a
+   bottle with DRINK ME on its, a clock stopped at six, playing cards of
+   hearts, and roses round its foot half painted red. Carroll's own words on
+   the tags; Carroll's people round the table, PUBLIC DOMAIN (Carroll died in
+   1898, Tenniel in 1914), each built from blocks and spheres after Tenniel's
+   engravings and nobody's film: Alice in the armchair, the Hatter in his hat
+   with its card at the head, the March Hare on a stool with straw in his
+   ears, the Dormouse asleep in a teapot, the White Rabbit a little apart
+   with his watch out, and the Cheshire Cat up a tree in the corner, who
+   vanishes on a press and leaves his grin, and comes back on another. Faeries
+   perch on the table's edge and the toadstools and fly with the glass's two
+   when asked. Two chairs seat you: the tiny chair at the empty place and the
+   stool at the foot. Nothing moves until asked: the candles flicker and the
+   fairy lights twinkle only after their switch, because her page's candles
+   are points in the glass and never flicker; the cat changes only on a
+   press. No photograph, no film, no flash. Ours, and hers to keep or send back.
    ========================================================================== */
 (function () {
   'use strict';
@@ -122,6 +152,9 @@
     from: 'faery-yurt.html',
     // Helen's call, 2026-11-11: her rooms open in the real look.
     look: 'real',
+    // Helen's ask, 2026-11-12: darker. The kit's even light is cut to a third
+    // of itself, and the party's candles and fairy lights light the room.
+    dusk: 0.92,
     // The faces the signs are lettered in, loaded before the room is built.
     faces: ['"Old Standard TT"', '"Source Serif 4"'],
     build: function (kit) {
@@ -154,11 +187,14 @@
         kit.sheet(map, w, h, m);
       }
 
-      // THE LIGHT: silver from everywhere, cool, no flame; and the yurt's
-      // candlelight coming back off the glass behind you, low and warm.
-      kit.scene.background = kit.col('--lgh-glass');
-      kit.scene.add(new T.HemisphereLight(kit.col('--lgh-mist'), kit.col('--lgh-pane'), 1.7));
-      var day = new T.DirectionalLight(kit.col('--lgh-mist'), 0.8);
+      // THE LIGHT, SINCE 2026-11-12: dusk. Helen asked for the room darker, so
+      // the silver from everywhere is turned low, the sky past the ceiling is
+      // the room's darkest ink, and what lights the party is the party: the
+      // candles down the tea table and the fairy lights over it (below), with
+      // the yurt's candlelight still coming back off the glass behind you.
+      kit.scene.background = kit.col('--lgh-ink');
+      kit.scene.add(new T.HemisphereLight(kit.col('--lgh-silver'), kit.col('--lgh-ink'), 0.16));
+      var day = new T.DirectionalLight(kit.col('--lgh-pane'), 0.08);
       day.position.set(2.5, 7, 3);
       kit.scene.add(day);
       var warm = new T.PointLight(kit.col('--ember-2'), 3.2, 5.5, 1.5);
@@ -168,11 +204,13 @@
       // THE ROOM: a floor of meadow, silvered walls panelled in panes with
       // gilt beading, a dado rail, a cornice and a cork skirting.
       box(W, 0.1, D, at(0, -0.05, FRONT - D / 2), '--lgh-meadow', false, false);
-      box(W + 0.6, 0.16, D + 0.6, at(0, H + 0.08, FRONT - D / 2), '--lgh-glass', false, false);
+      box(W + 0.6, 0.16, D + 0.6, at(0, H + 0.08, FRONT - D / 2), '--lgh-ink-2', false, false);
       function wall(len, m, gap) {
         // m: the wall's middle at its foot, facing into the room; gap: an
         // opening left in it (x from, x to), for the glass.
-        box(len, H, 0.24, M(m, at(0, H / 2, -0.12)), '--lgh-pane');
+        // The wall's body is dark now (Helen, 2026-11-12: darker); the silver
+        // stays in the panes' bevels, the sheen and the cornice.
+        box(len, H, 0.24, M(m, at(0, H / 2, -0.12)), '--lgh-ink-2');
         // The skirting, stepped, and the dado rail with a cove under it.
         box(len, 0.16, 0.08, M(m, at(0, 0.08, 0.03)), '--lgh-cork', false, false);
         box(len, 0.04, 0.1, M(m, at(0, 0.18, 0.04)), '--lgh-cork-2', false, false);
@@ -378,7 +416,7 @@
       // A silver haze under the ceiling, the room's own light lying in the air.
       [[-2.2, -3.0], [1.6, -5.5], [-0.5, -8.2]].forEach(function (hz, hi) {
         var haze = new T.CircleGeometry(1.4, 20); haze.scale(1.8, 1, 1);
-        see(kit.flat(haze, at(hz[0], H - 0.3 - hi * 0.08, hz[1], hi * 0.5, FLAT), '--lgh-mist'), 0.14);
+        see(kit.flat(haze, at(hz[0], H - 0.3 - hi * 0.08, hz[1], hi * 0.5, FLAT), '--lgh-mist'), 0.06);
       });
 
       // THE GLASS AS A PORTAL (Helen's ask, 2026-11-11, with the yurt's):
@@ -656,6 +694,473 @@
         stops.push({ name: 'at one of Tenniel’s cuts from 1871, on the ' + (cu[2] === LEFT ? 'left' : 'right') + '-hand wall', x: cu[0] + (cu[2] === LEFT ? 2.4 : -2.4), z: cu[1], yaw: cu[2], pitch: 0.1, frame: cut.el });
       });
 
+      // THE MAD TEA PARTY (Helen Edgar's asks, 2026-11-12: darker, "more
+      // faiery and alice and wonderland and teaparty and very mad and magical",
+      // "add all characters around a tea table and have rabbit and cheshire cat
+      // etc"). A long table on the chessboard country, draped, laid with
+      // mismatched pots and cups, a cake stand, EAT ME cakes and a DRINK ME
+      // bottle (Carroll's own words), a clock stopped at six, cards and roses
+      // half painted; candles down it that light the room now; Carroll's people
+      // round it, public domain, each drawn after Tenniel's engravings and
+      // nobody's film: Alice, the Hatter, the March Hare, the Dormouse in a
+      // teapot, the White Rabbit a little apart with his watch, and the
+      // Cheshire Cat up a tree in the corner, whose grin stays when he goes.
+      var TX = 1.9, TZ = -7.0, TL = 3.2, TW = 0.95, TH = 0.74;
+      function merged(parts) {
+        var n = 0, gs = parts.map(function (pt) { var g = pt[0].index ? pt[0].toNonIndexed() : pt[0].clone(); g.applyMatrix4(pt[1]); n += g.attributes.position.count; return g; });
+        var pos = new Float32Array(n * 3), nor = new Float32Array(n * 3), uv = new Float32Array(n * 2), k = 0;
+        gs.forEach(function (g) {
+          pos.set(g.attributes.position.array, k * 3);
+          if (g.attributes.normal) nor.set(g.attributes.normal.array, k * 3);
+          if (g.attributes.uv) uv.set(g.attributes.uv.array, k * 2);
+          k += g.attributes.position.count;
+        });
+        var out = new T.BufferGeometry();
+        out.setAttribute('position', new T.BufferAttribute(pos, 3));
+        out.setAttribute('normal', new T.BufferAttribute(nor, 3));
+        out.setAttribute('uv', new T.BufferAttribute(uv, 2));
+        return out;
+      }
+      // A small lettered card with no cork behind it (a tag, a name at a place).
+      function label(words, m, px, ink, ground) {
+        px = px || 40;
+        var pw = Math.round(words.length * px * 0.6 + 30), ph = px + 26;
+        var map = kit.paper(pw, ph, function (c, w, h) {
+          c.fillStyle = kit.ink(ground || '--lgh-card'); c.fillRect(0, 0, w, h);
+          c.strokeStyle = kit.ink('--lgh-gilt'); c.lineWidth = 4; c.strokeRect(4, 4, w - 8, h - 8);
+          c.fillStyle = kit.ink(ink || '--lgh-ink'); c.textAlign = 'center'; c.textBaseline = 'middle';
+          c.font = px + 'px "Old Standard TT"';
+          c.fillText(words, w / 2, h / 2);
+        });
+        kit.sheet(map, pw / 1000, ph / 1000, m);
+      }
+      // The table: a top on four turned legs under a woven cloth that hangs
+      // over the edges.
+      var tableCloth = kit.cloth('weave', '--lgh-card', '--yurt-fog-rose', 6);
+      box(TL, 0.05, TW, at(TX, TH - 0.03, TZ), '--lgh-cork-2', 0.01);
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (lg) {
+        kit.cyl(0.035, 0.045, TH - 0.05, at(TX + lg[0] * (TL / 2 - 0.12), (TH - 0.05) / 2, TZ + lg[1] * (TW / 2 - 0.1)), '--lgh-cork-2', 0.006, 12);
+        kit.piece(new T.SphereGeometry(0.05, 10, 8), at(TX + lg[0] * (TL / 2 - 0.12), 0.3, TZ + lg[1] * (TW / 2 - 0.1)), '--lgh-cork-2', false);
+      });
+      kit.fabric(new T.BoxGeometry(TL + 0.14, 0.03, TW + 0.14), at(TX, TH, TZ), tableCloth);
+      [-1, 1].forEach(function (sd) {
+        kit.fabric(new T.BoxGeometry(TL + 0.14, 0.28, 0.02), at(TX, TH - 0.14, TZ + sd * (TW / 2 + 0.06)), tableCloth);
+        kit.fabric(new T.BoxGeometry(0.02, 0.28, TW + 0.14), at(TX + sd * (TL / 2 + 0.06), TH - 0.14, TZ), tableCloth);
+      });
+      var TOP = TH + 0.02;
+      // A teapot in one piece (body, spout, handle, lid and knob), to hold.
+      function teapot(m, ink, sc) {
+        sc = sc || 1;
+        var body = new T.SphereGeometry(0.11 * sc, 18, 12); body.scale(1, 0.85, 1);
+        var spout = new T.CylinderGeometry(0.018 * sc, 0.03 * sc, 0.16 * sc, 8);
+        var pot = kit.facets(merged([
+          [body, at(0, 0.1 * sc, 0)],
+          [spout, at(0.14 * sc, 0.13 * sc, 0, 0, 0, -1.0)],
+          [new T.TorusGeometry(0.06 * sc, 0.014 * sc, 8, 16), at(-0.13 * sc, 0.11 * sc, 0)],
+          [new T.CylinderGeometry(0.06 * sc, 0.075 * sc, 0.03 * sc, 16), at(0, 0.2 * sc, 0)],
+          [new T.SphereGeometry(0.022 * sc, 8, 6), at(0, 0.23 * sc, 0)]
+        ]), m, ink);
+        return pot;
+      }
+      var potA = teapot(at(TX - 1.0, TOP, TZ - 0.1, 0.4), '--lgh-red');
+      kit.hold(potA, { say: 'the red teapot' });
+      var potB = teapot(at(TX + 1.1, TOP, TZ + 0.15, -0.5), '--lgh-brook', 0.85);
+      kit.hold(potB, { say: 'the blue teapot' });
+      // The cups, each on its saucer, with its tea shown once a pot has
+      // poured; a held pot pressed on a cup pours it (kit.place), and Drink
+      // from this cup empties it, the yurt's own tea table's way.
+      var cups = [];
+      function cupAt(x, z, ink, who) {
+        var m = at(x, TOP, z);
+        kit.piece(new T.CylinderGeometry(0.075, 0.075, 0.008, 20), M(m, at(0, 0.004, 0)), '--lgh-pawn', false);
+        var cup = kit.facets(merged([
+          [new T.CylinderGeometry(0.045, 0.034, 0.07, 18, 1, true), at(0, 0.045, 0)],
+          [new T.CylinderGeometry(0.034, 0.034, 0.008, 18), at(0, 0.012, 0)],
+          [new T.TorusGeometry(0.022, 0.007, 6, 12), at(0.055, 0.045, 0)]
+        ]), M(m, at(0, 0, 0)), ink);
+        cup.material.side = T.DoubleSide;
+        kit.hold(cup, { say: who + '’s cup' });
+        var tea = kit.flat(new T.CircleGeometry(0.04, 16), M(m, at(0, 0.07, 0, 0, FLAT)), '--lgh-cork-2');
+        kit.hide(tea, true);
+        var touch = kit.touch(0.18, 0.2, 0.18, M(m, at(0, 0.08, 0)));
+        kit.place(touch, function (mesh) {
+          if (mesh !== potA && mesh !== potB) return false;
+          kit.hide(tea, false);
+          mesh.matrix.copy(mesh.userData.hold.home);
+          return 'You pour from the ' + (mesh === potA ? 'red' : 'blue') + ' pot into ' + who + '’s cup, and set the pot back on the cloth.';
+        });
+        var drink = kit.press({ say: 'Drink from ' + who + '’s cup', at: [touch],
+          press: function () { if (kit.hidden(tea)) return 'That cup is empty; a pot is on the table to pour from.'; kit.hide(tea, true); return 'You drink the tea, which is very good, and the cup is empty again. Clean cup, move down.'; } });
+        cups.push({ tea: tea, drink: drink });
+        return cup;
+      }
+      cupAt(TX - 0.7, TZ + 0.3, '--lgh-pawn', 'Alice');
+      cupAt(TX + 1.35, TZ - 0.05, '--lgh-gilt-2', 'the Hatter');
+      cupAt(TX + 0.7, TZ - 0.32, '--yurt-fog-mint', 'the March Hare');
+      cupAt(TX + 0.75, TZ + 0.33, '--yurt-fog-lilac', 'the empty place');
+      cupAt(TX - 1.45, TZ - 0.1, '--lgh-brook', 'the foot of the table');
+      // The milk jug, the sugar bowl and a plate of bread and butter.
+      kit.piece(new T.CylinderGeometry(0.04, 0.05, 0.1, 14), at(TX - 0.35, TOP + 0.05, TZ - 0.3), '--lgh-pawn', false);
+      kit.piece(new T.TorusGeometry(0.03, 0.008, 6, 10), at(TX - 0.3, TOP + 0.06, TZ - 0.3, 0, 0, 0), '--lgh-pawn', false);
+      kit.piece(new T.SphereGeometry(0.055, 14, 10, 0, Math.PI * 2, 0, Math.PI / 2), at(TX + 0.2, TOP, TZ - 0.3), '--lgh-silver', false);
+      kit.piece(new T.CylinderGeometry(0.13, 0.13, 0.01, 20), at(TX + 0.25, TOP + 0.005, TZ + 0.28), '--lgh-pawn', false);
+      for (var bb = 0; bb < 4; bb++) box(0.1, 0.012, 0.07, at(TX + 0.2 + bb * 0.03, TOP + 0.016 + bb * 0.012, TZ + 0.28, bb * 0.3), bb % 2 ? '--lgh-card' : '--lgh-gilt-2', false, false);
+      // The cake stand, three tiers, with cakes on it; two more cakes at the
+      // table's edge with EAT ME on their tags, to pick up.
+      kit.cyl(0.02, 0.03, 0.34, at(TX + 0.05, TOP + 0.17, TZ), '--lgh-gilt', false, 10);
+      [[0.2, 0.0], [0.15, 0.12], [0.1, 0.24]].forEach(function (tier, ti) {
+        kit.piece(new T.CylinderGeometry(tier[0], tier[0], 0.008, 24), at(TX + 0.05, TOP + tier[1] + 0.004, TZ), '--lgh-silver', false);
+        for (var ck = 0; ck < 5 - ti; ck++) {
+          var ca = ck / (5 - ti) * Math.PI * 2;
+          kit.piece(new T.CylinderGeometry(0.028, 0.03, 0.03, 10), at(TX + 0.05 + Math.cos(ca) * (tier[0] - 0.05), TOP + tier[1] + 0.023, TZ + Math.sin(ca) * (tier[0] - 0.05)), ck % 2 ? '--yurt-fog-peach' : '--lgh-card', false);
+          kit.piece(new T.SphereGeometry(0.012, 8, 6), at(TX + 0.05 + Math.cos(ca) * (tier[0] - 0.05), TOP + tier[1] + 0.045, TZ + Math.sin(ca) * (tier[0] - 0.05)), ck % 2 ? '--lgh-red' : '--yurt-fog-rose', false);
+        }
+      });
+      kit.piece(new T.SphereGeometry(0.03, 10, 8), at(TX + 0.05, TOP + 0.36, TZ), '--lgh-gilt-2', false);
+      [[TX + 1.0, TZ + 0.3, '--yurt-fog-lemon'], [TX - 1.2, TZ + 0.32, '--yurt-fog-rose']].forEach(function (ek, ei) {
+        var cake = kit.facets(merged([
+          [new T.CylinderGeometry(0.05, 0.055, 0.045, 14), at(0, 0.0225, 0)],
+          [new T.SphereGeometry(0.018, 8, 6), at(0, 0.052, 0)]
+        ]), at(ek[0], TOP, ek[1]), ek[2]);
+        kit.hold(cake, { say: 'a cake with EAT ME on its tag' });
+        label('EAT ME', at(ek[0] + 0.08, TOP + 0.03, ek[1] + 0.02, -0.6 + ei, -0.25), 44, '--lgh-ink', '--lgh-card');
+      });
+      // The DRINK ME bottle, its tag tied round its neck, to pick up.
+      var bottle = kit.facets(merged([
+        [new T.CylinderGeometry(0.035, 0.04, 0.14, 14), at(0, 0.07, 0)],
+        [new T.CylinderGeometry(0.012, 0.03, 0.06, 10), at(0, 0.17, 0)],
+        [new T.CylinderGeometry(0.014, 0.014, 0.03, 8), at(0, 0.21, 0)]
+      ]), at(TX - 0.15, TOP, TZ + 0.35), '--lgh-brook');
+      bottle.material.transparent = true; bottle.material.opacity = 0.85;
+      kit.hold(bottle, { say: 'the bottle with DRINK ME on its tag' });
+      label('DRINK ME', at(TX - 0.15, TOP + 0.1, TZ + 0.4, 0.3, 0.1), 42, '--lgh-ink', '--lgh-card');
+      // The clock, stopped at six, tea time, on a stand at the head.
+      var ck = at(TX + 1.5, TOP, TZ + 0.3, -0.5);
+      kit.cyl(0.11, 0.11, 0.05, M(ck, at(0, 0.14, 0, 0, 0, Math.PI / 2)), '--lgh-gilt', 0.008, 20);
+      kit.flat(new T.CircleGeometry(0.09, 20), M(ck, at(0, 0.14, 0.026)), '--lgh-card');
+      for (var tk = 0; tk < 12; tk++) { var ta = tk / 12 * Math.PI * 2; box(0.008, 0.018, 0.002, M(ck, at(Math.sin(ta) * 0.075, 0.14 + Math.cos(ta) * 0.075, 0.028, 0, 0, -ta)), '--lgh-ink', false, false); }
+      box(0.008, 0.07, 0.002, M(ck, at(0, 0.105, 0.029)), '--lgh-ink', false, false);
+      box(0.008, 0.08, 0.002, M(ck, at(0, 0.18, 0.029)), '--lgh-ink', false, false);
+      box(0.08, 0.03, 0.08, M(ck, at(0, 0.015, 0)), '--lgh-gilt', false, false);
+      kit.piece(new T.SphereGeometry(0.014, 8, 6), M(ck, at(0, 0.27, 0)), '--lgh-gilt-2', false);
+      // Playing cards, hearts, scattered on the cloth and the floor; roses
+      // round the table's foot, half of their petals painted red.
+      function cardPaper(n) {
+        return kit.paper(70, 100, function (c, w, h) {
+          c.fillStyle = kit.ink('--lgh-pawn'); c.fillRect(0, 0, w, h);
+          c.strokeStyle = kit.ink('--lgh-ink-2'); c.lineWidth = 2; c.strokeRect(2, 2, w - 4, h - 4);
+          c.fillStyle = kit.ink('--lgh-red');
+          function heart(x, y, s) {
+            c.beginPath(); c.moveTo(x, y + s * 0.9);
+            c.bezierCurveTo(x - s * 1.3, y - s * 0.1, x - s * 0.5, y - s * 1.0, x, y - s * 0.3);
+            c.bezierCurveTo(x + s * 0.5, y - s * 1.0, x + s * 1.3, y - s * 0.1, x, y + s * 0.9);
+            c.fill();
+          }
+          heart(14, 16, 6); heart(w - 14, h - 16, 6);
+          for (var hh = 0; hh < (n % 4) + 2; hh++) heart(w / 2 + ((hh % 2) ? 14 : -14), 30 + hh * 14, 7);
+        });
+      }
+      for (var pc = 0; pc < 7; pc++) {
+        var onTable = pc < 4;
+        var cx = onTable ? TX - 1.3 + pc * 0.45 + hash(pc, 12, 1) * 0.2 : TX - 1.2 + (pc - 4) * 1.2, cz = onTable ? TZ - 0.1 + (hash(pc, 12, 2) - 0.5) * 0.4 : TZ + 0.9 + hash(pc, 12, 3) * 0.5;
+        kit.sheet(cardPaper(pc), 0.07, 0.1, at(cx, onTable ? TOP + 0.004 : 0.004, cz, (hash(pc, 12, 4) - 0.5) * 2, FLAT));
+      }
+      function rose(m, n) {
+        kit.cyl(0.008, 0.01, 0.42, M(m, at(0, 0.21, 0)), '--lgh-hedge', false, 6);
+        leafAt(M(m, at(0.06, 0.2, 0)), n + 200);
+        leafAt(M(m, at(-0.05, 0.3, 0.02)), n + 210);
+        var head = M(m, at(0, 0.44, 0));
+        for (var k = 0; k < 8; k++) {
+          var petal = new T.SphereGeometry(0.03, 8, 6); petal.scale(1, 0.6, 1.3); petal.translate(0, 0, 0.035);
+          petal.rotateY(k / 8 * Math.PI * 2);
+          kit.piece(petal, M(head, at(0, (k % 2) * 0.02, 0)), (k + n) % 2 ? '--lgh-red' : '--lgh-pawn', false);
+        }
+        kit.piece(new T.SphereGeometry(0.024, 8, 6), M(head, at(0, 0.03, 0)), n % 2 ? '--lgh-red' : '--lgh-pawn', false);
+      }
+      [[TX - 1.9, TZ - 0.6], [TX - 2.0, TZ + 0.4], [TX + 1.95, TZ - 0.65], [TX + 2.05, TZ + 0.55], [TX - 0.6, TZ + 0.9], [TX + 0.9, TZ - 0.95]].forEach(function (rp, ri) {
+        for (var rr = 0; rr < 3; rr++) rose(at(rp[0] + (hash(ri, rr, 31) - 0.5) * 0.3, 0, rp[1] + (hash(ri, rr, 32) - 0.5) * 0.3, hash(ri, rr, 33) * 6, 0, (hash(ri, rr, 34) - 0.5) * 0.3), ri * 3 + rr);
+      });
+      // King-size toadstools round the party, red caps with white spots, and
+      // flowers of the fog's colours under them.
+      function shroom(m, sc) {
+        kit.cyl(0.08 * sc, 0.11 * sc, 0.7 * sc, M(m, at(0, 0.35 * sc, 0)), '--lgh-cork', 0.01, 12);
+        var cap = new T.SphereGeometry(0.42 * sc, 18, 10, 0, Math.PI * 2, 0, Math.PI / 2); cap.scale(1, 0.62, 1);
+        kit.piece(cap, M(m, at(0, 0.68 * sc, 0)), '--lgh-red', 0.012);
+        kit.piece(new T.CylinderGeometry(0.42 * sc, 0.3 * sc, 0.03 * sc, 18), M(m, at(0, 0.67 * sc, 0)), '--lgh-card', false);
+        for (var sp = 0; sp < 9; sp++) {
+          var sa = hash(sp, 41, 1) * Math.PI * 2, sr = 0.1 * sc + hash(sp, 41, 2) * 0.26 * sc, sy = 0.68 * sc + Math.sqrt(Math.max(0, 1 - (sr / (0.42 * sc)) * (sr / (0.42 * sc)))) * 0.26 * sc;
+          var spot = new T.SphereGeometry(0.035 * sc + hash(sp, 41, 3) * 0.03 * sc, 8, 6); spot.scale(1, 0.4, 1);
+          kit.piece(spot, M(m, at(Math.cos(sa) * sr, sy, Math.sin(sa) * sr)), '--lgh-pawn', false);
+        }
+        for (var fl = 0; fl < 4; fl++) bloom(M(m, at(Math.cos(fl * 1.6) * 0.3 * sc, 0, Math.sin(fl * 1.6) * 0.3 * sc)), 300 + fl);
+        return new T.Vector3().setFromMatrixPosition(M(m, at(0, 0.95 * sc, 0)));
+      }
+      var caps = [shroom(at(TX - 2.4, 0, TZ - 1.2), 1.4), shroom(at(TX + 2.5, 0, TZ + 1.1), 1.1), shroom(at(TX + 2.35, 0, TZ - 1.3), 0.9), shroom(at(TX - 2.1, 0, TZ + 1.35), 0.8)];
+      // The candles down the table, in gilt sticks, each giving its own warm
+      // light: what lights the room now (dusk) is the party. They flicker
+      // only when asked, because her page's candles are points in the glass
+      // and never flicker.
+      var partyFlames = [], candleLights = [];
+      function candlestick(m) {
+        kit.cyl(0.05, 0.065, 0.02, M(m, at(0, 0.01, 0)), '--lgh-gilt', false, 14);
+        kit.cyl(0.012, 0.02, 0.14, M(m, at(0, 0.09, 0)), '--lgh-gilt', false, 10);
+        kit.piece(new T.SphereGeometry(0.025, 10, 8), M(m, at(0, 0.09, 0)), '--lgh-gilt-2', false);
+        kit.cyl(0.03, 0.022, 0.025, M(m, at(0, 0.17, 0)), '--lgh-gilt', false, 10);
+        kit.cyl(0.02, 0.02, 0.16, M(m, at(0, 0.26, 0)), '--lgh-card', false, 10);
+        kit.cyl(0.003, 0.003, 0.02, M(m, at(0, 0.35, 0)), '--lgh-ink', false, 3);
+        var flame = new T.ConeGeometry(0.02, 0.065, 8); flame.translate(0, 0.0325, 0);
+        var f = kit.flat(flame, M(m, at(0, 0.35, 0)), '--candle');
+        var light = new T.PointLight(kit.col('--lgh-gilt-2'), 1.4, 3.6, 1.6);
+        var p = new T.Vector3().setFromMatrixPosition(M(m, at(0, 0.42, 0)));
+        light.position.copy(p);
+        kit.scene.add(light);
+        candleLights.push(light);
+        partyFlames.push({ mesh: f, light: light });
+      }
+      [-1.25, -0.45, 0.4, 1.2].forEach(function (cx, ci) { candlestick(at(TX + cx, TOP, TZ + (ci % 2 ? -0.22 : 0.18))); });
+      candlestick(at(TX - 2.55, 0.74, TZ + 1.0));
+      var candles = kit.flames(partyFlames, { say: 'Let the candles flicker', max: false, at: [kit.touch(0.5, 0.5, 0.5, at(TX + 0.4, TOP + 0.25, TZ - 0.22))],
+        said: function (on) { return on ? 'The candles down the table flicker, each on its own.' : 'The candles stand still.'; } });
+      // Fairy lights looped from the cornice down to the toadstools' caps and
+      // back, strings of little stars over the party; one wash of their light
+      // over the table. They twinkle only when asked.
+      function loop(a, b, n, sag) {
+        var pts = [];
+        for (var i = 0; i <= n; i++) {
+          var u = i / n;
+          pts.push([a.x + (b.x - a.x) * u, a.y + (b.y - a.y) * u - Math.sin(u * Math.PI) * sag, a.z + (b.z - a.z) * u]);
+        }
+        return pts;
+      }
+      var corn = [new T.Vector3(-W / 2 + 0.2, H - 0.25, TZ - 2.2), new T.Vector3(W / 2 - 0.2, H - 0.25, TZ + 1.8), new T.Vector3(W / 2 - 0.2, H - 0.25, TZ - 2.6), new T.Vector3(-W / 2 + 0.2, H - 0.25, TZ + 2.4)];
+      var starPoints = [];
+      [[corn[0], caps[0]], [caps[0], caps[2]], [caps[2], corn[2]], [corn[1], caps[1]], [caps[1], caps[3]], [caps[3], corn[3]], [caps[0], caps[1]]].forEach(function (seg, si) {
+        starPoints = starPoints.concat(loop(seg[0], seg[1], 14 + si, 0.35));
+      });
+      var starWash = new T.PointLight(kit.col('--cb-fairy-star-1'), 0.9, 6, 1.6);
+      starWash.position.set(TX, 2.4, TZ);
+      kit.scene.add(starWash);
+      var fairyLights = kit.lights({ label: 'The fairy lights over the party', max: false, twinkle: 'Let the fairy lights twinkle',
+        strings: [kit.bulbs(starPoints, 0.022, ['--cb-fairy-star-1', '--cb-fairy-spark-1', '--cb-fairy-spark-2', '--cb-fairy-spark-3', '--cb-fairy-spark-4'])],
+        washes: [starWash],
+        sets: [{ say: 'Star and spark', inks: ['--cb-fairy-star-1', '--cb-fairy-spark-1', '--cb-fairy-spark-2', '--cb-fairy-spark-3', '--cb-fairy-spark-4'] },
+               { say: 'All gold', inks: ['--lgh-gilt-2', '--cb-fairy-star-1'] },
+               { say: 'The fog’s colours', inks: ['--yurt-fog-rose', '--yurt-fog-sky', '--yurt-fog-lemon', '--yurt-fog-lilac', '--yurt-fog-mint', '--yurt-fog-peach'] }] });
+      // MISMATCHED CHAIRS: a throne-ish chair at the head, an armchair, a
+      // stool, a tiny chair, and two for whoever comes in (kit.sit).
+      function throne(m) {
+        box(0.6, 0.06, 0.6, M(m, at(0, 0.44, 0)), '--lgh-cork-2', 0.01);
+        var cg = new T.SphereGeometry(0.5, 16, 10); cg.scale(0.56, 0.08, 0.56);
+        var cushion = kit.fabric(cg, M(m, at(0, 0.5, 0)), kit.cloth('velvet', '--lgh-red', '--lgh-cork-2', 4));
+        box(0.6, 1.1, 0.07, M(m, at(0, 1.0, 0.27)), '--lgh-cork-2', 0.01);
+        [-1, 1].forEach(function (sd) { kit.piece(new T.ConeGeometry(0.05, 0.16, 8), M(m, at(sd * 0.27, 1.63, 0.27)), '--lgh-gilt-2', false); });
+        kit.piece(new T.SphereGeometry(0.06, 10, 8), M(m, at(0, 1.62, 0.27)), '--lgh-gilt-2', false);
+        [[-0.26, -0.26], [0.26, -0.26], [-0.26, 0.26], [0.26, 0.26]].forEach(function (lg) { kit.cyl(0.03, 0.035, 0.44, M(m, at(lg[0], 0.22, lg[1])), '--lgh-cork-2', false, 10); });
+        [-1, 1].forEach(function (sd) { box(0.07, 0.3, 0.5, M(m, at(sd * 0.3, 0.62, 0.02)), '--lgh-cork-2', 0.008); });
+        return cushion;
+      }
+      function armchair(m, clothA, clothB) {
+        var cl = kit.cloth('velvet', clothA, clothB, 4);
+        box(0.56, 0.4, 0.56, M(m, at(0, 0.2, 0)), clothA, 0.01);
+        var cg = new T.SphereGeometry(0.5, 16, 10); cg.scale(0.52, 0.1, 0.52);
+        var cushion = kit.fabric(cg, M(m, at(0, 0.44, 0)), cl);
+        kit.fabric(new T.BoxGeometry(0.56, 0.6, 0.14), M(m, at(0, 0.7, 0.24)), cl);
+        [-1, 1].forEach(function (sd) { kit.fabric(new T.BoxGeometry(0.12, 0.24, 0.5), M(m, at(sd * 0.25, 0.52, -0.02)), cl); });
+        return cushion;
+      }
+      function stool(m, ink) {
+        var cg = new T.SphereGeometry(0.5, 14, 10); cg.scale(0.26, 0.07, 0.26);
+        var cushion = kit.fabric(cg, M(m, at(0, 0.45, 0)), kit.cloth('weave', ink, '--lgh-card', 5));
+        kit.cyl(0.24, 0.24, 0.04, M(m, at(0, 0.41, 0)), '--lgh-cork-2', 0.008, 16);
+        [0, 1, 2].forEach(function (l) { var la = l / 3 * Math.PI * 2 + 0.5; kit.cyl(0.022, 0.028, 0.4, M(m, at(Math.cos(la) * 0.17, 0.2, Math.sin(la) * 0.17, 0, 0, 0.12)), '--lgh-cork-2', false, 8); });
+        return cushion;
+      }
+      function tiny(m) {
+        box(0.32, 0.03, 0.32, M(m, at(0, 0.3, 0)), '--yurt-fog-sky', 0.008);
+        var cg = new T.SphereGeometry(0.5, 14, 10); cg.scale(0.3, 0.05, 0.3);
+        var cushion = kit.fabric(cg, M(m, at(0, 0.33, 0)), kit.cloth('knit', '--yurt-fog-lemon', '--yurt-fog-rose', 4));
+        box(0.32, 0.4, 0.03, M(m, at(0, 0.5, 0.15)), '--yurt-fog-sky', 0.008);
+        [[-0.13, -0.13], [0.13, -0.13], [-0.13, 0.13], [0.13, 0.13]].forEach(function (lg) { kit.cyl(0.018, 0.022, 0.3, M(m, at(lg[0], 0.15, lg[1])), '--yurt-fog-sky', false, 8); });
+        return cushion;
+      }
+      // Each chair stands with its back away from the table, facing it: the
+      // chair's own -z is toward the table.
+      var hatterSeat = at(TX + TL / 2 + 0.45, 0, TZ, LEFT);
+      var aliceSeat = at(TX - 0.7, 0, TZ + TW / 2 + 0.45, 0);
+      var hareSeat = at(TX + 0.7, 0, TZ - TW / 2 - 0.45, Math.PI);
+      var tinySeat = at(TX + 0.75, 0, TZ + TW / 2 + 0.4, 0);
+      var footSeat = at(TX - TL / 2 - 0.45, 0, TZ, RIGHT);
+      throne(hatterSeat);
+      armchair(aliceSeat, '--lgh-brook', '--lgh-card');
+      stool(hareSeat, '--lgh-hedge');
+      var tinyCushion = tiny(tinySeat), footCushion = stool(footSeat, '--yurt-fog-lilac');
+      var sitTiny = kit.sit({ x: TX + 0.75, z: TZ + TW / 2 + 0.4, yaw: 0, say: 'Sit on the tiny chair at the empty place', sat: 'You sit on the tiny chair, the table at your chin, a cup set for you.', stood: 'You get up from the tiny chair.',
+        squash: tinyCushion, at: [kit.touch(0.4, 0.5, 0.4, M(tinySeat, at(0, 0.3, 0)))] });
+      var sitFoot = kit.sit({ x: TX - TL / 2 - 0.45, z: TZ, yaw: RIGHT, say: 'Sit on the stool at the foot of the table', sat: 'You sit at the foot of the table, the whole party laid out before you and the Hatter at the far end.', stood: 'You get up from the stool.',
+        squash: footCushion, at: [kit.touch(0.5, 0.5, 0.5, M(footSeat, at(0, 0.3, 0)))] });
+      // THE PEOPLE AT THE TABLE, each after Tenniel's engravings, built from
+      // blocks and spheres, named by a card at their place. A seated figure's
+      // frame: on the floor under its chair, facing the table (-z).
+      function seated(m, o) {
+        var seatY = o.seatY || 0.47, sc = o.sc || 1;
+        [-1, 1].forEach(function (sd) {
+          box(0.12 * sc, 0.1 * sc, 0.34 * sc, M(m, at(sd * 0.1 * sc, seatY + 0.05 * sc, -0.14 * sc)), o.legs, false);
+          box(0.1 * sc, seatY - 0.02, 0.1 * sc, M(m, at(sd * 0.1 * sc, (seatY - 0.02) / 2, -0.3 * sc)), o.stocking || o.legs, false);
+          box(0.1 * sc, 0.05 * sc, 0.16 * sc, M(m, at(sd * 0.1 * sc, 0.025 * sc, -0.34 * sc)), o.shoe, false);
+        });
+        box(0.36 * sc, 0.5 * sc, 0.22 * sc, M(m, at(0, seatY + 0.35 * sc, 0.02)), o.coat, 0.008);
+        if (o.front) box(0.26 * sc, 0.46 * sc, 0.02, M(m, at(0, seatY + 0.34 * sc, -0.1 * sc)), o.front, false, false);
+        [-1, 1].forEach(function (sd) {
+          box(0.09 * sc, 0.36 * sc, 0.09 * sc, M(m, at(sd * 0.23 * sc, seatY + 0.36 * sc, -0.04 * sc, 0, -0.5)), o.coat, false);
+          kit.piece(new T.SphereGeometry(0.045 * sc, 10, 8), M(m, at(sd * 0.24 * sc, seatY + 0.18 * sc, -0.18 * sc)), o.skin, false);
+        });
+        var neck = seatY + 0.6 * sc;
+        kit.piece(new T.SphereGeometry(0.13 * sc, 16, 12), M(m, at(0, neck + 0.12 * sc, 0)), o.skin, 0.008);
+        return { neck: neck, head: M(m, at(0, neck + 0.12 * sc, 0)), sc: sc };
+      }
+      function eyes(head, sc, ink) {
+        [-1, 1].forEach(function (sd) { kit.piece(new T.SphereGeometry(0.016 * sc, 6, 5), M(head, at(sd * 0.05 * sc, 0.03 * sc, -0.115 * sc)), ink || '--lgh-ink', false); });
+      }
+      // ALICE: a blue dress with a white pinafore, long fair hair under a
+      // band, white stockings and black shoes, in the armchair.
+      var al = seated(aliceSeat, { legs: '--lgh-brook', stocking: '--lgh-pawn', shoe: '--lgh-ink', coat: '--lgh-brook', front: '--lgh-pawn', skin: '--yurt-fog-peach', seatY: 0.46 });
+      var hairA = new T.SphereGeometry(0.14, 16, 12); hairA.scale(1, 0.9, 1);
+      kit.piece(hairA, M(al.head, at(0, 0.03, 0.02)), '--lgh-gilt-2', false);
+      box(0.26, 0.3, 0.1, M(al.head, at(0, -0.12, 0.09)), '--lgh-gilt-2', false);
+      kit.piece(new T.TorusGeometry(0.135, 0.012, 6, 20), M(al.head, at(0, 0.06, 0, 0, 0.3)), '--lgh-ink', false);
+      eyes(al.head, 1);
+      kit.piece(new T.TorusGeometry(0.06, 0.016, 6, 10), M(aliceSeat, at(0, 0.46 + 0.1, -0.26, 0, FLAT)), '--lgh-pawn', false);
+      label('Alice', at(TX - 0.7, TOP + 0.04, TZ + 0.46, 0, -0.35), 44);
+      // THE HATTER: a green coat, a gold waistcoat, a great red bow, and the
+      // top hat with its card, In this style 10/6, at the head of the table.
+      var ht = seated(hatterSeat, { legs: '--lgh-ink-2', shoe: '--lgh-ink', coat: '--lgh-hedge', front: '--lgh-gilt', skin: '--yurt-fog-peach', seatY: 0.5 });
+      [-1, 1].forEach(function (sd) { kit.piece(new T.ConeGeometry(0.07, 0.16, 8), M(hatterSeat, at(sd * 0.1, ht.neck - 0.02, -0.12, 0, 0, sd * Math.PI / 2)), '--lgh-red', false); });
+      kit.piece(new T.SphereGeometry(0.035, 8, 6), M(hatterSeat, at(0, ht.neck - 0.02, -0.12)), '--lgh-red', false);
+      box(0.3, 0.06, 0.28, M(ht.head, at(0, 0.1, 0.0)), '--lgh-cork', false);
+      kit.cyl(0.19, 0.19, 0.02, M(ht.head, at(0, 0.12, 0)), '--lgh-ink', false, 20);
+      kit.cyl(0.14, 0.15, 0.34, M(ht.head, at(0, 0.3, 0, 0, 0, 0.1)), '--lgh-ink', 0.008, 20);
+      kit.cyl(0.152, 0.152, 0.05, M(ht.head, at(0, 0.17, 0, 0, 0, 0.1)), '--lgh-gilt-2', false, 20);
+      label('In this style 10/6', M(ht.head, at(-0.08, 0.2, -0.13, 0.2, 0, 0.15)), 30, '--lgh-ink', '--lgh-card');
+      eyes(ht.head, 1);
+      box(0.08, 0.05, 0.06, M(ht.head, at(0, -0.01, -0.13)), '--yurt-fog-peach', false);
+      label('The Hatter', at(TX + 1.45, TOP + 0.04, TZ + 0.42, RIGHT + 0.4, -0.35), 44);
+      // THE MARCH HARE, on the stool: brown, long ears with straw in them, a
+      // red waistcoat, whiskers.
+      var mh = seated(hareSeat, { legs: '--lgh-cork-2', shoe: '--lgh-cork-2', coat: '--lgh-cork-2', front: '--lgh-red', skin: '--lgh-cork', seatY: 0.46, sc: 0.95 });
+      [-1, 1].forEach(function (sd) {
+        var ear = new T.SphereGeometry(0.05, 10, 8); ear.scale(0.9, 3.2, 0.6);
+        kit.piece(ear, M(mh.head, at(sd * 0.07, 0.24, 0, 0, 0, sd * 0.3)), '--lgh-cork', false);
+        var inner = new T.SphereGeometry(0.03, 8, 6); inner.scale(0.8, 2.6, 0.4);
+        kit.piece(inner, M(mh.head, at(sd * 0.07, 0.24, -0.03, 0, 0, sd * 0.3)), '--yurt-fog-rose', false);
+        for (var st = 0; st < 3; st++) kit.cyl(0.004, 0.004, 0.16, M(mh.head, at(sd * (0.05 + st * 0.02), 0.2 + st * 0.03, -0.04, 0, 0, sd * 0.3 + (st - 1) * 0.5)), '--lgh-gilt-2', false, 3);
+        for (var wk = 0; wk < 3; wk++) kit.cyl(0.002, 0.002, 0.14, M(mh.head, at(sd * 0.1, -0.02 + wk * 0.015, -0.11, 0, 0, sd * (Math.PI / 2 + (wk - 1) * 0.25))), '--lgh-pawn', false, 3);
+      });
+      kit.piece(new T.SphereGeometry(0.02, 8, 6), M(mh.head, at(0, -0.01, -0.13)), '--lgh-red', false);
+      eyes(mh.head, 0.95);
+      label('The March Hare', at(TX + 0.7, TOP + 0.08, TZ - 0.3, 0, -0.35), 44);
+      // THE DORMOUSE, asleep in a big brown teapot in the middle of the table,
+      // its head and paws over the rim.
+      var dm = at(TX - 0.35, TOP, TZ + 0.05, 0.6);
+      kit.piece(new T.CylinderGeometry(0.17, 0.13, 0.22, 20, 1, true), M(dm, at(0, 0.11, 0)), '--lgh-cork-2', 0.01);
+      kit.piece(new T.CylinderGeometry(0.13, 0.13, 0.01, 20), M(dm, at(0, 0.005, 0)), '--lgh-cork-2', false);
+      kit.piece(new T.TorusGeometry(0.09, 0.02, 8, 16), M(dm, at(0.2, 0.12, 0)), '--lgh-cork-2', false);
+      kit.piece(new T.CylinderGeometry(0.025, 0.04, 0.16, 8), M(dm, at(-0.18, 0.16, 0, 0, 0, 1.1)), '--lgh-cork-2', false);
+      var dmHead = new T.SphereGeometry(0.075, 14, 10); dmHead.scale(1.2, 0.9, 1);
+      kit.piece(dmHead, M(dm, at(0.02, 0.24, -0.08, 0, -0.5)), '--lgh-cork', false);
+      [-1, 1].forEach(function (sd) {
+        kit.piece(new T.SphereGeometry(0.03, 8, 6), M(dm, at(sd * 0.07, 0.3, -0.06)), '--lgh-cork', false);
+        kit.piece(new T.SphereGeometry(0.018, 6, 5), M(dm, at(sd * 0.07, 0.3, -0.07)), '--yurt-fog-rose', false);
+        box(0.03, 0.006, 0.01, M(dm, at(sd * 0.04, 0.24, -0.15, 0, 0, sd * 0.4)), '--lgh-ink', false, false);
+        kit.piece(new T.SphereGeometry(0.03, 8, 6), M(dm, at(sd * 0.11, 0.21, -0.1)), '--lgh-cork', false);
+      });
+      kit.piece(new T.SphereGeometry(0.018, 8, 6), M(dm, at(0.02, 0.22, -0.17)), '--lgh-ink', false);
+      label('The Dormouse, asleep', at(TX - 0.35, TOP + 0.04, TZ + 0.3, 0.3, -0.35), 40);
+      // THE WHITE RABBIT, standing a little apart, late, in his waistcoat,
+      // the watch out of his pocket on its chain.
+      var rb = at(TX - 1.7, 0, TZ + 1.3, -0.91);
+      [-1, 1].forEach(function (sd) {
+        box(0.1, 0.45, 0.12, M(rb, at(sd * 0.09, 0.225, 0)), '--lgh-pawn', false);
+        box(0.11, 0.04, 0.2, M(rb, at(sd * 0.09, 0.02, -0.03)), '--lgh-pawn', false);
+      });
+      box(0.34, 0.42, 0.24, M(rb, at(0, 0.66, 0)), '--lgh-pawn', 0.008);
+      box(0.3, 0.34, 0.02, M(rb, at(0, 0.64, -0.125)), '--lgh-red', false, false);
+      box(0.22, 0.03, 0.03, M(rb, at(0, 0.55, -0.135)), '--lgh-gilt-2', false, false);
+      [-1, 1].forEach(function (sd) {
+        box(0.08, 0.34, 0.08, M(rb, at(sd * 0.21, 0.66, -0.02, 0, sd < 0 ? -0.9 : -0.2)), '--lgh-pawn', false);
+      });
+      var rbHead = M(rb, at(0, 1.0, 0));
+      var rh = new T.SphereGeometry(0.13, 16, 12); rh.scale(1, 0.95, 1.15);
+      kit.piece(rh, rbHead, '--lgh-pawn', 0.008);
+      [-1, 1].forEach(function (sd) {
+        var ear = new T.SphereGeometry(0.045, 10, 8); ear.scale(1, 3.4, 0.6);
+        kit.piece(ear, M(rbHead, at(sd * 0.06, 0.24, 0.02, 0, 0, sd * 0.18)), '--lgh-pawn', false);
+        var inner = new T.SphereGeometry(0.026, 8, 6); inner.scale(0.9, 2.8, 0.4);
+        kit.piece(inner, M(rbHead, at(sd * 0.06, 0.24, -0.015, 0, 0, sd * 0.18)), '--yurt-fog-rose', false);
+      });
+      eyes(rbHead, 1, '--yurt-fog-rose');
+      kit.piece(new T.SphereGeometry(0.02, 8, 6), M(rbHead, at(0, -0.02, -0.15)), '--yurt-fog-rose', false);
+      var watch = M(rb, at(-0.34, 0.78, -0.2));
+      kit.cyl(0.05, 0.05, 0.015, M(watch, at(0, 0, 0, 0, Math.PI / 2)), '--lgh-gilt', false, 16);
+      kit.flat(new T.CircleGeometry(0.04, 16), M(watch, at(0, 0, -0.009)), '--lgh-card');
+      box(0.005, 0.03, 0.002, M(watch, at(0, 0.012, -0.01)), '--lgh-ink', false, false);
+      box(0.005, 0.022, 0.002, M(watch, at(0.008, 0.006, -0.01, 0, 0, -1.0)), '--lgh-ink', false, false);
+      for (var ch = 0; ch < 6; ch++) kit.piece(new T.TorusGeometry(0.012, 0.004, 5, 8), M(rb, at(-0.3 + ch * 0.03, 0.72 - ch * 0.02, -0.17, 0, ch * 0.8)), '--lgh-gilt-2', false);
+      label('The White Rabbit, late', at(TX - 2.1, 0.03, TZ + 1.0, -2.5, -0.3), 40);
+      // THE CHESHIRE CAT up a tree grown in the far left corner, on a branch
+      // over the party, striped, with his grin. Let the cat vanish fades the
+      // cat and leaves the grin and the eyes, as Carroll has it; pressed
+      // again he is back.
+      var tm = at(-3.3, 0, -9.1);
+      kit.cyl(0.12, 0.2, 2.3, M(tm, at(0, 1.15, 0)), '--lgh-cork-2', 0.012, 12);
+      box(1.6, 0.14, 0.16, M(tm, at(0.75, 2.15, 0.15, 0, 0, 0.12)), '--lgh-cork-2', 0.01);
+      box(0.9, 0.1, 0.12, M(tm, at(-0.3, 2.3, 0.1, 0.4, 0, 0.5)), '--lgh-cork-2', 0.008);
+      [[0.1, 2.75, 0.5], [0.55, 2.6, 0.38], [-0.35, 2.7, 0.4], [1.0, 2.45, 0.3], [0.3, 2.95, 0.34], [-0.1, 2.5, 0.32]].forEach(function (cl, ci) {
+        var cs = new T.SphereGeometry(cl[2], 10, 7); cs.scale(1.2, 0.7, 1);
+        kit.piece(cs, M(tm, at(cl[0], cl[1], 0.1 + (ci % 2) * 0.2)), ci % 2 ? '--lgh-hedge' : '--lgh-field', false);
+      });
+      var catBody = [], cm = M(tm, at(0.9, 2.26, 0.2, -0.35));
+      var cb = new T.SphereGeometry(0.17, 16, 12); cb.scale(1.9, 0.85, 1);
+      catBody.push(kit.facets(cb, M(cm, at(0, 0.1, 0)), '--lgh-cork'));
+      for (var sr = 0; sr < 5; sr++) catBody.push(kit.facets(new T.TorusGeometry(0.12 + (sr % 2) * 0.02, 0.014, 6, 14), M(cm, at(-0.22 + sr * 0.11, 0.12, 0, 0, 0, Math.PI / 2)), '--lgh-ink-2'));
+      var ch0 = M(cm, at(0.36, 0.2, -0.02, 0.5));
+      var cHead = new T.SphereGeometry(0.13, 16, 12); cHead.scale(1.25, 0.95, 1);
+      catBody.push(kit.facets(cHead, ch0, '--lgh-cork'));
+      [-1, 1].forEach(function (sd) { catBody.push(kit.facets(new T.ConeGeometry(0.045, 0.1, 6), M(ch0, at(sd * 0.09, 0.14, 0, 0, 0, sd * 0.25)), '--lgh-cork')); });
+      var tail = new T.TorusGeometry(0.2, 0.03, 8, 18, Math.PI * 1.1);
+      catBody.push(kit.facets(tail, M(cm, at(-0.38, 0.1, 0.05, 0, 0, 0.8)), '--lgh-cork'));
+      [-1, 1].forEach(function (sd) { kit.facets(new T.SphereGeometry(0.028, 8, 6), M(ch0, at(sd * 0.055, 0.03, -0.11)), '--lgh-gilt-2'); });
+      var grin = new T.RingGeometry(0.1, 0.14, 18, 1, Math.PI, Math.PI);
+      kit.flat(grin, M(ch0, at(0, -0.02, -0.125)), '--lgh-pawn');
+      for (var th = 0; th < 7; th++) box(0.004, 0.035, 0.002, M(ch0, at(-0.09 + th * 0.03, -0.09 + Math.abs(th - 3) * 0.012, -0.126)), '--lgh-ink-2', false, false);
+      var catGone = false;
+      var vanish = kit.press({ say: function () { return catGone ? 'Bring the cat back' : 'Let the cat vanish'; },
+        at: [kit.touch(0.9, 0.6, 0.6, M(cm, at(0.1, 0.15, 0)))],
+        press: function () {
+          catGone = !catGone;
+          catBody.forEach(function (mesh) { kit.hide(mesh, catGone); });
+          return catGone ? 'The cat goes, quite slowly, beginning with the end of the tail, and ending with the grin, which stays some time after the rest of him has gone.' : 'The cat is back on his branch, all of him round the grin.';
+        } });
+      // Stops for the party, in the walk's order.
+      stops.push({ name: 'at the foot of the tea table, the whole mad party laid out', x: TX - TL / 2 - 1.3, z: TZ + 0.1, yaw: RIGHT, pitch: -0.12, acts: [sitFoot, candles, fairyLights] });
+      stops.push({ name: 'at Alice’s place, in the armchair at the tea table', x: TX - 0.7, z: TZ + 1.9, yaw: 0, pitch: -0.15 });
+      stops.push({ name: 'at the Dormouse, asleep in the teapot', x: TX - 0.35, z: TZ + 1.1, yaw: 0, pitch: -0.4 });
+      stops.push({ name: 'at the tiny chair, the empty place laid for you', x: TX + 0.75, z: TZ + 1.4, yaw: 0, pitch: -0.3, acts: [sitTiny] });
+      stops.push({ name: 'at the Hatter, in his hat at the head of the table', x: TX + 1.2, z: TZ + 1.6, yaw: -0.6, pitch: -0.05 });
+      stops.push({ name: 'at the March Hare, on his stool across the table', x: TX + 0.7, z: TZ + 1.4, yaw: 0, pitch: -0.1 });
+      stops.push({ name: 'by the White Rabbit, late, with his watch out', x: TX - 2.7, z: TZ + 0.3, yaw: -2.4, pitch: -0.05 });
+      stops.push({ name: 'under the Cheshire Cat’s tree in the corner', x: -2.2, z: -7.6, yaw: 0.6, pitch: 0.35, acts: [vanish] });
+      // Faeries perched on the table's edge and the toadstools, flying with
+      // the glass's two when asked.
+      var partyAbout = new T.Vector3(TX, TOP + 0.9, TZ);
+      [[TX - 1.4, TOP, TZ - TW / 2, 0.3], [TX + 1.3, TOP, TZ + TW / 2, -2.6]].forEach(function (fp, fi) {
+        var fy = faerie(at(fp[0], fp[1], fp[2], fp[3]), 4 + fi);
+        flyers.push({ meshes: fy.meshes, wings: fy.wings, about: partyAbout, r: 1.3 + fi * 0.4, h: 0.35, period: 8 + fi * 1.5 });
+      });
+      caps.forEach(function (cp, ci) {
+        var fy = faerie(at(cp.x, cp.y - 0.02, cp.z, ci * 1.5), 6 + ci);
+        flyers.push({ meshes: fy.meshes, wings: fy.wings, about: new T.Vector3(cp.x, cp.y + 0.4, cp.z), r: 0.7, h: 0.3, period: 7 + ci });
+      });
+
       // THE CANDLE POINTS IN THE GLASS, and the sparkle round the portal, on
       // one string of lights: they glint by themselves at MAX, as her page's
       // dial line says the candles in the glass do, and when asked.
@@ -709,6 +1214,7 @@
       // cuts on the left, her page on the far wall, the two on the right, the
       // mantelpiece and its three things, and last the glass, the way back.
       var TOUR = [/just through the glass/, /board, by Alice/, /second square/, /pin board/, /reading stand/, /forest of the seventh/,
+                  /foot of the tea table/, /White Rabbit/, /Alice’s place/, /Dormouse/, /tiny chair/, /March Hare/, /Hatter/, /Cheshire Cat/,
                   /left-hand wall/, /far wall/, /right-hand wall/, /mantelpiece: the/, /writing glass/, /un-birthday clock/, /looking back at the glass/];
       function tourOf(st) { for (var i = 0; i < TOUR.length; i++) if (TOUR[i].test(st.name)) return i; return TOUR.length; }
       stops = stops.map(function (st, i) { return { st: st, i: i }; })
@@ -717,8 +1223,8 @@
           if (ta !== tb) return ta - tb;
           // Two cuts on one wall: the nearer the door first on the left, the
           // farther first on the right, so the walk goes down one side and up the other.
-          if (ta === 6) return b.st.z - a.st.z;
-          if (ta === 8) return a.st.z - b.st.z;
+          if (ta === 14) return b.st.z - a.st.z;
+          if (ta === 16) return a.st.z - b.st.z;
           return a.i - b.i;
         })
         .map(function (x) { return x.st; });
