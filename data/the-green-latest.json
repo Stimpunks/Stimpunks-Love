@@ -68,8 +68,48 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-11-10T12:23Z",
+ "set": "2026-11-11T12:23Z",
  "latest": [
+  {
+   "id": "u6rm_XjSVe8",
+   "title": "Integrating urban forestry & national restoration planning | Bridging national policy & local action",
+   "channel": "UNECE Forests Section",
+   "published": "2026-11-11T11:42:40Z",
+   "runs": 7356,
+   "search": "urban-forests"
+  },
+  {
+   "id": "wsvWdP5ISI4",
+   "title": "Green Buildings Have a Climate Blind Spot: Older Buildings Still Waste Energy",
+   "channel": "Tom Raftery: Sustainability & Climate Talks",
+   "published": "2026-11-11T08:35:27Z",
+   "runs": 2094,
+   "search": "green-building"
+  },
+  {
+   "id": "zIPfGi3YZGA",
+   "title": "Alex Jurj SolarPunk is live!",
+   "channel": "Alex Jurj SolarPunk",
+   "published": "2026-11-11T02:31:07Z",
+   "runs": 1855,
+   "search": "solarpunk"
+  },
+  {
+   "id": "-wQsUxjCPKg",
+   "title": "COP31Taiwan in Action: Greening Taiwan for Climate Resilience National Green Cover and Urban Forests",
+   "channel": "環境部直播專區",
+   "published": "2026-11-10T21:35:27Z",
+   "runs": 7990,
+   "search": "urban-forests"
+  },
+  {
+   "id": "tHZYlX4Jp5Q",
+   "title": "Urban Forest Walk: Empty Autumn Grove, Gravel Footsteps & Night Lights | ASMR",
+   "channel": "Silent Scenic POV",
+   "published": "2026-11-10T16:00:33Z",
+   "runs": 1336,
+   "search": "urban-forests"
+  },
   {
    "id": "DzJOd2NbVNg",
    "title": "Why I’m Delaying My Food Forest — But Starting a Nursery Now",
@@ -77,14 +117,6 @@
    "published": "2026-11-10T12:18:23Z",
    "runs": 563,
    "search": "edibles"
-  },
-  {
-   "id": "j8DzxCKzU74",
-   "title": "Voices from the Forest /Episode 2 / Liina Jürisoo: Why do urban forest plans sit on a shelf?",
-   "channel": "Urban Forestry Network",
-   "published": "2026-11-10T09:00:10Z",
-   "runs": 1627,
-   "search": "urban-forests"
   },
   {
    "id": "7XiAts8mbGQ",
@@ -151,22 +183,6 @@
    "search": "renewable-energy"
   },
   {
-   "id": "m0S9dCD80X4",
-   "title": "The Spatial Ecology of Northern Myotis and Big Brown Bats In and Around an Urban Forest – OBN 2026",
-   "channel": "Ontario Bat Network",
-   "published": "2026-11-09T05:00:11Z",
-   "runs": 2208,
-   "search": "urban-forests"
-  },
-  {
-   "id": "q9g7zewgjv0",
-   "title": "BERMAIN DI BUUMI PLAYSCAPE URBAN FOREST CIPETE",
-   "channel": "Malika & Marsya",
-   "published": "2026-11-09T02:03:56Z",
-   "runs": 1913,
-   "search": "urban-forests"
-  },
-  {
    "id": "_-ByHslNibA",
    "title": "Bay One Residencies Signs Green Building Certification Agreement | GBCSL | Green Economy Forum 2026",
    "channel": "Green Building Council of Sri Lanka",
@@ -183,12 +199,12 @@
    "search": "solarpunk"
   },
   {
-   "id": "Kva4tzQm6vI",
-   "title": "Green Building vs Sustainability | LEED Green Associate v5 – Chapter 2",
-   "channel": "LEEDtricks | Green Building | LEED Training",
-   "published": "2026-11-07T14:00:07Z",
-   "runs": 779,
-   "search": "green-building"
+   "id": "bOHpP2EJv2Y",
+   "title": "#3: Enhancing and Transforming Green Spaces in Baltimore",
+   "channel": "David Heath",
+   "published": "2026-11-06T17:53:08Z",
+   "runs": 3522,
+   "search": "green-spaces"
   },
   {
    "id": "jJI_ol9R6XM",
@@ -207,41 +223,16 @@
    "search": "edibles"
   },
   {
-   "id": "v0KedZ9385s",
-   "title": "Dating dugyot ngayon into Green Space Manila Underpass na ! Grabe pagpapaganda ! 2026",
-   "channel": "Tour from Johnny",
-   "published": "2026-11-06T07:26:06Z",
-   "runs": 488,
-   "search": "green-spaces"
-  },
-  {
    "id": "Kr6GOvOX8HM",
    "title": "Food forest update and new project growing trees from seed for sale 2027 (Denver Metro)",
    "channel": "Colorado Permaculture",
    "published": "2026-11-05T22:29:25Z",
    "runs": 239,
    "search": "edibles"
-  },
-  {
-   "id": "o6NhMkJDVtI",
-   "title": "Tiny Home Cabin in SolarPunk Eco-village",
-   "channel": "Alex Jurj SolarPunk",
-   "published": "2026-11-04T18:00:21Z",
-   "runs": 545,
-   "search": "solarpunk"
   }
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
  "seen": [
-  {
-   "id": "iRnDV8TBF4g",
-   "search": "green-spaces",
-   "title": "The Hidden Power of Urban Green Spaces: Why Concrete Cities Need This Now MP4",
-   "channel": "Mekonene Nigussu",
-   "published": "2026-11-04T05:29:14Z",
-   "runs": 7172,
-   "state": "screen"
-  },
   {
    "id": "A_GmkhzCVk0",
    "search": "green-spaces",
@@ -306,6 +297,15 @@
    "state": "screen"
   },
   {
+   "id": "bOHpP2EJv2Y",
+   "search": "green-spaces",
+   "title": "#3: Enhancing and Transforming Green Spaces in Baltimore",
+   "channel": "David Heath",
+   "published": "2026-11-06T17:53:08Z",
+   "runs": 3522,
+   "state": "screen"
+  },
+  {
    "id": "Y9OIhv86S6Y",
    "search": "green-spaces",
    "title": "Pamela Templer: Urban Forests Under Pressure: Can City Greenspace Continue to Mitigate Pollution?",
@@ -333,15 +333,6 @@
    "state": "screen"
   },
   {
-   "id": "DvNVn8ose8I",
-   "search": "green-building",
-   "title": "Surat’s 4 Lakh Plants Shopping Mall! India’s Most Unique Green Building | Aashirwad High Street",
-   "channel": "Golden Info",
-   "published": "2026-11-04T09:53:59Z",
-   "runs": 701,
-   "state": "screen"
-  },
-  {
    "id": "kcjCumuaEac",
    "search": "green-building",
    "title": "Seven Green Building Stories: LEED, IGBC, Floods and Minerals",
@@ -361,12 +352,48 @@
    "state": "screen"
   },
   {
+   "id": "Ssul5a_4gtk",
+   "search": "green-building",
+   "title": "Green Building Forum Italia 2026 Roma | Rachel HODGDON",
+   "channel": "Green Building Council Italia",
+   "published": "2026-11-05T17:50:41Z",
+   "runs": 1126,
+   "state": "screen"
+  },
+  {
+   "id": "-KS_o54evSY",
+   "search": "green-building",
+   "title": "Mayor Jonkie , MCCI discuss Investment Code reforms, green building incentives to attract investors.",
+   "channel": "RAMIL VILLENA AYUMAN",
+   "published": "2026-11-06T01:35:46Z",
+   "runs": 44,
+   "state": "screen"
+  },
+  {
    "id": "b3ZNqAWwvTc",
    "search": "green-building",
    "title": "Green Building Convention 2026: The Green Revolution",
    "channel": "Green Building Council South Africa GBCSA",
    "published": "2026-11-06T06:45:46Z",
    "runs": 408,
+   "state": "screen"
+  },
+  {
+   "id": "Mn7MUuAT0HI",
+   "search": "green-building",
+   "title": "Emirates Green Building Council 15th Annual Congress",
+   "channel": "Emirates Green Building Council",
+   "published": "2026-11-06T10:06:33Z",
+   "runs": 140,
+   "state": "screen"
+  },
+  {
+   "id": "YGcqDn90QqE",
+   "search": "green-building",
+   "title": "MENA GREEN BUILDING AWARDS 2026",
+   "channel": "Emirates Green Building Council",
+   "published": "2026-11-06T14:16:35Z",
+   "runs": 95,
    "state": "screen"
   },
   {
@@ -397,12 +424,12 @@
    "state": "screen"
   },
   {
-   "id": "lefzfrffQ7c",
-   "search": "urban-forests",
-   "title": "How urban forests are cooling one of the most polluted cities in Europe",
-   "channel": "UN Environment Programme",
-   "published": "2026-11-03T13:07:00Z",
-   "runs": 412,
+   "id": "wsvWdP5ISI4",
+   "search": "green-building",
+   "title": "Green Buildings Have a Climate Blind Spot: Older Buildings Still Waste Energy",
+   "channel": "Tom Raftery: Sustainability & Climate Talks",
+   "published": "2026-11-11T08:35:27Z",
+   "runs": 2094,
    "state": "screen"
   },
   {
@@ -496,12 +523,57 @@
    "state": "screen"
   },
   {
+   "id": "4HoKd-NKRX8",
+   "search": "urban-forests",
+   "title": "The Urban Forest Review: Price & Possession Explained",
+   "channel": "BestProp",
+   "published": "2026-11-10T14:36:15Z",
+   "runs": 342,
+   "state": "screen"
+  },
+  {
+   "id": "tHZYlX4Jp5Q",
+   "search": "urban-forests",
+   "title": "Urban Forest Walk: Empty Autumn Grove, Gravel Footsteps & Night Lights | ASMR",
+   "channel": "Silent Scenic POV",
+   "published": "2026-11-10T16:00:33Z",
+   "runs": 1336,
+   "state": "screen"
+  },
+  {
+   "id": "-wQsUxjCPKg",
+   "search": "urban-forests",
+   "title": "COP31Taiwan in Action: Greening Taiwan for Climate Resilience National Green Cover and Urban Forests",
+   "channel": "環境部直播專區",
+   "published": "2026-11-10T21:35:27Z",
+   "runs": 7990,
+   "state": "screen"
+  },
+  {
+   "id": "u6rm_XjSVe8",
+   "search": "urban-forests",
+   "title": "Integrating urban forestry & national restoration planning | Bridging national policy & local action",
+   "channel": "UNECE Forests Section",
+   "published": "2026-11-11T11:42:40Z",
+   "runs": 7356,
+   "state": "screen"
+  },
+  {
    "id": "RQgaeS6YfzE",
    "search": "urban-farms",
    "title": "Urban Agriculture and the Future of Food",
    "channel": "United States Botanic Garden",
    "published": "2026-11-05T15:23:51Z",
    "runs": 3404,
+   "state": "screen"
+  },
+  {
+   "id": "ShrDWTDemLY",
+   "search": "urban-farms",
+   "title": "Reliving MAHA: How Urban Farm Tech Brought Smart Farming to Life!",
+   "channel": "Urban Farm Tech",
+   "published": "2026-11-06T04:26:25Z",
+   "runs": 30,
    "state": "screen"
   },
   {
@@ -550,15 +622,6 @@
    "state": "screen"
   },
   {
-   "id": "_lI6zXoHqNY",
-   "search": "edibles",
-   "title": "Transformed a Suburban Yard into a Subtropical Food Forest",
-   "channel": "Dan's Food Forest",
-   "published": "2026-11-04T12:00:23Z",
-   "runs": 1465,
-   "state": "screen"
-  },
-  {
    "id": "g8_ZQNmYFhk",
    "search": "edibles",
    "title": "Denver Urban Gardens Dig Deeper Initiative -- Martinez Park Food Forest (2025 Demonstration Project)",
@@ -600,44 +663,6 @@
    "title": "Solarpunk Ambient LIVESTREAM",
    "state": "pending",
    "why": "live, or not out yet"
-  },
-  {
-   "id": "XjBEqQWOqFU",
-   "search": "solarpunk",
-   "title": "How to Escape the Matrix Without Fighting It (Solarpunk Step by Step)",
-   "channel": "The Hidden Library",
-   "published": "2026-11-03T14:11:20Z",
-   "runs": 1685,
-   "state": "screen"
-  },
-  {
-   "id": "J-Hio47r9Qc",
-   "search": "solarpunk",
-   "title": "What Does \"Solarpunk\" Mean?",
-   "channel": "All you need to know about words",
-   "published": "2026-11-03T23:32:41Z",
-   "runs": 60,
-   "state": "screen"
-  },
-  {
-   "id": "7JM5xutwypc",
-   "search": "solarpunk",
-   "title": "🔴 first look at LOFTIA | a cozy solarpunk MMO",
-   "channel": "Joy",
-   "published": "2026-11-04T04:55:50Z",
-   "runs": 7874,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "2JVsfAHM4RE",
-   "search": "solarpunk",
-   "title": "SOLARPUNK - [4K 60FPS] - GAMEPLAY PARTE 35",
-   "channel": "[PT]HUN7ER",
-   "published": "2026-11-04T09:00:24Z",
-   "runs": 905,
-   "state": "left",
-   "why": "filed under Gaming"
   },
   {
    "id": "dEKrlPVq7aE",
@@ -759,6 +784,26 @@
    "why": "filed under Gaming"
   },
   {
+   "id": "JEEWZgy5tec",
+   "search": "solarpunk",
+   "title": "📱 SOLARPUNK LIVE | Building my DREAM home in the SKY",
+   "channel": "Liss",
+   "published": "2026-11-06T15:02:58Z",
+   "runs": 11719,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "zUWuXhSyUGE",
+   "search": "solarpunk",
+   "title": "Nothing Like A Bit of Solarpunk!",
+   "channel": "Mimi the Martian",
+   "published": "2026-11-06T16:34:15Z",
+   "runs": 5596,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
    "id": "iJ54oMzPeHs",
    "search": "solarpunk",
    "title": "SolarPunk: Part 7 - 11/06/26",
@@ -767,6 +812,15 @@
    "runs": 2325,
    "state": "left",
    "why": "filed under Gaming"
+  },
+  {
+   "id": "u6u-JOSoWuw",
+   "search": "solarpunk",
+   "title": "Is the solarpunk future what we’ve always dreamed of?",
+   "channel": "long xin",
+   "published": "2026-11-07T05:48:47Z",
+   "runs": 30,
+   "state": "screen"
   },
   {
    "id": "yfQgCnoxsjw",
@@ -857,21 +911,21 @@
    "why": "filed under Music"
   },
   {
-   "id": "VnevhxhgR88",
-   "search": "renewable-energy",
-   "title": "Climate action in motion: Renewable innovation in Armenia and India",
-   "channel": "United Nations Development Programme (UNDP)",
-   "published": "2026-11-03T17:00:08Z",
-   "runs": 370,
+   "id": "WAYequvxmoE",
+   "search": "solarpunk",
+   "title": "Alex Jurj SolarPunk is live! 69",
+   "channel": "Alex Jurj SolarPunk",
+   "published": "2026-11-11T01:38:42Z",
+   "runs": 2130,
    "state": "screen"
   },
   {
-   "id": "33ZcaRJseo8",
-   "search": "renewable-energy",
-   "title": "Renewable Energy Communities: The Big Picture",
-   "channel": "GIZ Bosnia and Herzegovina and Montenegro",
-   "published": "2026-11-04T08:51:08Z",
-   "runs": 244,
+   "id": "zIPfGi3YZGA",
+   "search": "solarpunk",
+   "title": "Alex Jurj SolarPunk is live!",
+   "channel": "Alex Jurj SolarPunk",
+   "published": "2026-11-11T02:31:07Z",
+   "runs": 1855,
    "state": "screen"
   },
   {
