@@ -176,7 +176,30 @@
   // The bodymind break offers the modes too, through this, and the CB's
   // Glitter dial offers the modes and the levels, through this and loveLevel.
   window.loveLow = { modes: LOWS, names: LOW_NAMES, now: lowNow, set: setLow, ask: LOW_ASK };
-  window.loveLevel = { levels: LEVELS, names: LEVEL_NAMES, now: levelNow, set: setLevel, note: noteNow, ask: 'How loud do you want it?' };
+  /* A ROOM'S OWN STARTING LEVEL (Helen Edgar's ask, 2026-11-11: her yurt, and
+     its room on Cel Street, start at MAX GLITTER "with option to change"). A
+     page says data-start="max" on <html>, or a Cel Street room says
+     glitter: 'max', and the page opens there UNLESS the visitor has set the
+     dial themselves (love-intensity is stored) or their device asks for less
+     motion, which still starts Gentle, or a low-stimulation mode is on. It is
+     not stored, so the dial stays theirs and the next page is as it was, and
+     it never plays Bring Your Muchness, which is for a turn up. It comes after
+     the first paint, which is the safe direction: more motion arriving a
+     moment late, never a room flashed at somebody who asked for less. */
+  function startLevel(level) {
+    if (LEVELS.indexOf(level) < 0 || lowNow()) return false;
+    var chosen = null;
+    try { chosen = localStorage.getItem(KEY); } catch (e) { /* private window */ }
+    if (chosen && LEVELS.indexOf(chosen) >= 0) return false;
+    try { if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false; } catch (e) { return false; }
+    if (levelNow() !== level) {
+      document.documentElement.setAttribute('data-intensity', level);
+      try { document.dispatchEvent(new CustomEvent('love-intensity', { detail: { level: level } })); } catch (e) { /* an old browser */ }
+    }
+    return true;
+  }
+  window.loveLevel = { levels: LEVELS, names: LEVEL_NAMES, now: levelNow, set: setLevel, start: startLevel, note: noteNow, ask: 'How loud do you want it?' };
+  if (document.documentElement.getAttribute('data-start')) startLevel(document.documentElement.getAttribute('data-start'));
 
   function lowButtons(box) {
     var wrap = document.createElement('div');

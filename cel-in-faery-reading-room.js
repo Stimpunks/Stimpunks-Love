@@ -44,12 +44,69 @@
    or open again; and a drawer of the card catalogue, pulled out or pushed
    back. The book and the drawer can be pressed where they are, too.
 
+   ROUND 4 (Helen Edgar's ask, 2026-11-11: the rooms off her yurt "really good
+   and 3D", more magical and realistic, with growing ivy, flowers and
+   mushrooms and faeries flying round the portal entrances) dressed the
+   bookcase door you came in by as a PORTAL, the yurt's own pattern: ivy up
+   both sides and over the top with flowers among it in her fog's colours,
+   toadstools and little glowing mushrooms at its feet, a halo of flame gold
+   and brass on the wall and a shimmer of moonstone across the door, a
+   candle's warmth on it, sparks hanging in the air round it and over the
+   fire, and two faeries perched on its ivy who fly round it only once
+   somebody presses Let the faeries fly. The fire's own flames flicker only
+   once somebody presses Let the fire flicker, and by itself at MAX since
+   2026-11-11, when her page's fire began to sway at MAX (and crackles on a
+   press, rdr-fire.js's arithmetic, the same day), under the flash line the kit
+   holds; the sparks twinkle only when asked. A warm light low over the
+   hearthrug, so the firelight reaches the boards, and more books piled on the
+   floor. All of it is ours, drawn in colours her rooms declare, and hers to
+   keep or send back.
+
+   ROUND 5 (Helen Edgar's ask, 2026-11-11: "make everything more magical and
+   more 3d and real for VR"). A headset shows only the WebGL picture, never
+   the pages and spines lifted off her page, so the room has to stand up in
+   WebGL alone: every case now holds drawn books behind its lifted spines,
+   with bands on their backs and pages showing, so the shelves are full in
+   the headset; the walls have a cornice and a moulded skirting, the panels
+   a moulding round each, and the pointed arches an inner moulding; the
+   fireplace has a carved stone hood with a quatrefoil in it, a stone kerb,
+   a bed of ash with more embers, and a faint warm haze standing over the
+   fire; the chandelier hangs on three chains with a drip-pan under every
+   candle; every sconce has a curved brass bracket; the sofa and chairs have
+   piped cushions and a seat split in two, and the rug has a pile; dust
+   sparkles in the firelight over the hearthrug and up to the chandelier, on
+   the sparks' own string; and there are stops at the hearth, the mantel and
+   looking back at the bookcase door. Nothing her page does not have was
+   added (no lamp, no teacup, no globe: her page has none). All of it ours,
+   in colours her rooms declare, and hers to keep or send back.
+
+   ROUND 6 (Helen Edgar's ask, 2026-11-11: improvements for a VR headset that
+   also look fine without one, and with a game controller to look round). A
+   headset shows no page and no lift, so the room is lettered in WebGL: a
+   sign over the bookcase door naming the yurt it goes back to, one over her
+   page's frame with the room's name and a line of ours, a brass-edged plate
+   beside every case naming it as her page does, and one over the gramophone,
+   each lettered on a canvas in her Cormorant Garamond on a timber board, our
+   words only. The stops are a tour in walking order, which a controller's
+   bumpers walk: the door, the catalogue, the Earth & Kin case, the
+   chandelier, the sofa, the hearthrug, the hearth, the mantel, the
+   gramophone, its deck, its records, Helen's Shelf, her page, Art, Poetry,
+   Liberation & Rest, Myth & Otherworlds, Old Classics, Neurodivergence, and
+   last the door again, facing the way out; every switch stands on the stop
+   its thing is at. Everything with a thing to press is pressable in the
+   scene too (the fire's flicker on its ash bed, the record, the book, the
+   drawer, the two faeries). For the headset's sake the chandelier's chains,
+   rod and the sconces' brackets are thick enough not to shimmer, and the
+   bounds keep the eye out of the sofa. All of it ours, in colours her rooms
+   declare, and hers to keep or send back.
+
    WHAT MOVES IS WHAT MOVES ON HER PAGE. Her dial says MAX turns the record on
    the gramophone, nothing else moves unless you ask, and the candles stand
    still. So here the record goes round once in six seconds at MAX, as hers
    does, or at any setting once somebody presses Turn the record, and nothing
-   else moves: the fire is drawn and the candles stand still, and there is no
-   switch to make them flicker, because her page says they never do. Every
+   else moves by itself: the candles stand still, and there is no switch to
+   make them flicker, because her page says they never do; the fire, the
+   sparks and the portal's faeries move only once somebody asks. Every
    colour is one her room declares, or the yurt's for its garden and faeries,
    by name. It keeps nothing, sends nothing and fetches nothing; her page
    arrives through Cel Street's screen(). tools/make-cel-street.py holds each
@@ -66,6 +123,8 @@
   window.loveCelRooms['faery-reading-room.html'] = {
     name: 'The Reading Room',
     from: 'faery-yurt.html',
+    // The face the signs are lettered in, loaded before the room is built.
+    faces: ['"Cormorant Garamond"'],
     build: function (kit) {
       var T = kit.THREE, at = kit.at, box = kit.box, W = 12, D = 13, H = 6.8, back = -D;
       var M = function (a, b) { return new T.Matrix4().multiplyMatrices(a, b); };
@@ -88,6 +147,25 @@
       function drawn(groups, flat) {
         return Object.keys(groups).map(function (ink) { return flat ? kit.flat(merged(groups[ink]), ID, ink) : kit.facets(merged(groups[ink]), ID, ink); });
       }
+      // A SIGN IN WEBGL (round 6): words, and a smaller line under them if
+      // there is one, lettered in her Cormorant Garamond on a canvas a pixel
+      // to the millimetre, so sixty-pixel capitals stand six centimetres in
+      // the world, on a board of her timber with a brass edge, stood facing
+      // +z of m with its middle at m. Our words, never her page's.
+      function sign(words, sub, w, m) {
+        var pw = Math.round(w * 1000), ph = sub ? 170 : 110;
+        var map = kit.paper(pw, ph, function (c, cw, chh) {
+          c.fillStyle = kit.ink('--rdr-timber'); c.fillRect(0, 0, cw, chh);
+          c.fillStyle = kit.ink('--rdr-brass'); c.fillRect(0, 0, cw, 6); c.fillRect(0, chh - 6, cw, 6); c.fillRect(0, 0, 6, chh); c.fillRect(cw - 6, 0, 6, chh);
+          c.fillStyle = kit.ink('--rdr-ink'); c.textAlign = 'center'; c.textBaseline = 'middle';
+          c.font = '600 60px "Cormorant Garamond"';
+          c.fillText(words, cw / 2, sub ? 58 : chh / 2 + 2);
+          if (sub) { c.font = 'italic 38px "Cormorant Garamond"'; c.fillStyle = kit.ink('--rdr-ink-2'); c.fillText(sub, cw / 2, 124); }
+        });
+        var h = w * ph / pw;
+        box(w + 0.04, h + 0.04, 0.03, M(m, at(0, 0, -0.02)), '--rdr-timber', false);
+        kit.sheet(map, w, h, m);
+      }
 
       // FIRELIGHT FROM THE FLOOR AT ONE SIDE, and the dark up under the roof.
       kit.scene.background = kit.col('--rdr-stone');
@@ -106,7 +184,12 @@
       // Skirting and a dado rail in timber all round.
       [[0, back + 0.02, 0, W], [0, -0.02, Math.PI, W], [-W / 2 + 0.02, -D / 2, LEFT, D], [W / 2 - 0.02, -D / 2, RIGHT, D]].forEach(function (w) {
         box(w[3], 0.2, 0.05, at(w[0], 0.1, w[1], w[2]), '--rdr-timber', false);
+        box(w[3], 0.04, 0.08, at(w[0], 0.21, w[1], w[2]), '--rdr-timber', false);
         box(w[3], 0.07, 0.06, at(w[0], 1.0, w[1], w[2]), '--rdr-timber', false);
+        box(w[3], 0.03, 0.09, at(w[0], 1.045, w[1], w[2]), '--rdr-timber', false);
+        // A cornice up under the dark, in two steps.
+        box(w[3], 0.16, 0.1, at(w[0], H - 0.08, w[1], w[2]), '--rdr-timber', false);
+        box(w[3], 0.06, 0.18, at(w[0], H - 0.19, w[1], w[2]), '--rdr-timber', false);
       });
       // The boards run from the door to the far wall, a dark joint between
       // each, and their ends meet here and there across them.
@@ -125,6 +208,8 @@
           box(0.82, 0.03, 0.02, M(w[0], at(px, 0.28, 0.01)), '--rdr-timber', false, false);
           box(0.82, 0.03, 0.02, M(w[0], at(px, 0.92, 0.01)), '--rdr-timber', false, false);
           [-0.4, 0.4].forEach(function (e) { box(0.03, 0.67, 0.02, M(w[0], at(px + e, 0.6, 0.01)), '--rdr-timber', false, false); });
+          // The panel itself raised a little inside its frame, so it has depth.
+          box(0.68, 0.5, 0.012, M(w[0], at(px, 0.6, 0.012)), '--rdr-panel', false, false);
         }
       });
       // Beams across the dark under the roof.
@@ -133,6 +218,8 @@
       // The bookcase door you came in by, behind you.
       box(1.6, 2.6, 0.12, at(0, 1.3, -0.06), '--rdr-timber');
       for (var r = 0; r < 4; r++) box(1.4, 0.04, 0.1, at(0, 0.4 + r * 0.6, -0.12), '--rdr-leather', false);
+      // Its sign, over the portal's ivy, facing into the room.
+      sign('The Faery Yurt', 'the way back, through the bookcase', 1.5, at(0, 3.3, -0.04, Math.PI));
 
       // A POINTED TIMBER ARCH round a case, w wide and h tall, drawn up to a
       // point the way her arches are.
@@ -143,6 +230,34 @@
           box(len + 0.08, 0.16, 0.22, M(g, at(s * half / 2, h + 0.1 + rise / 2, 0.02, 0, 0, -s * Math.atan2(rise, half))), '--rdr-timber');
         });
         box(w + 0.3, 0.14, 0.4, M(g, at(0, 0.07, 0.12)), '--rdr-timber');
+        // An inner moulding, a finer line inside the arch, and a carved boss
+        // at the point.
+        [-1, 1].forEach(function (s) { box(0.05, h + 0.1, 0.06, M(g, at(s * (w / 2 + 0.02), (h + 0.1) / 2, 0.14)), '--rdr-leather', false); });
+        [-1, 1].forEach(function (s) {
+          box(len - 0.1, 0.05, 0.06, M(g, at(s * (half - 0.1) / 2, h + 0.08 + rise / 2, 0.14, 0, 0, -s * Math.atan2(rise, half))), '--rdr-leather', false);
+        });
+        kit.piece(new T.SphereGeometry(0.07, 8, 6), M(g, at(0, h + 0.1 + rise, 0.14)), '--rdr-brass', false);
+      }
+      // DRAWN BOOKS ON EVERY CASE, behind its lifted spines, so the headset
+      // (which shows only the WebGL picture) sees full shelves: timber shelves
+      // up the case, and on each a row of books in the room's inks with a
+      // band or two across their backs and their pages showing at the top.
+      var SPINES = ['--rdr-velvet', '--rdr-leather', '--rdr-ember', '--rdr-brass', '--rdr-ink-2', '--rdr-flame', '--rdr-panel', '--rdr-timber'];
+      function shelved(g, w, h, seed) {
+        box(w, h - 0.1, 0.3, M(g, at(0, (h - 0.1) / 2 + 0.16, -0.08)), '--rdr-stone', false, false);
+        for (var y = 0.16, sh = 0; y < h - 0.2; y += 0.34, sh++) {
+          box(w, 0.025, 0.3, M(g, at(0, y, -0.08)), '--rdr-timber', false);
+          for (var x = -w / 2 + 0.03, b = 0; x < w / 2 - 0.05; b++) {
+            var bw = 0.03 + hash(seed, sh, b) * 0.035, bh = 0.2 + hash(seed, sh, b + 40) * 0.1;
+            if (x + bw > w / 2 - 0.02) break;
+            var ink = SPINES[(seed * 3 + sh * 5 + b) % SPINES.length];
+            box(bw, bh, 0.22, M(g, at(x + bw / 2, y + 0.0125 + bh / 2, -0.06)), ink, false);
+            box(bw + 0.004, 0.01, 0.23, M(g, at(x + bw / 2, y + 0.0125 + bh * 0.22, -0.06)), '--rdr-brass', false, false);
+            box(bw + 0.004, 0.01, 0.23, M(g, at(x + bw / 2, y + 0.0125 + bh * 0.78, -0.06)), '--rdr-brass', false, false);
+            box(bw - 0.008, 0.006, 0.2, M(g, at(x + bw / 2, y + 0.0125 + bh - 0.003, -0.075)), '--rdr-ink', false, false);
+            x += bw + 0.004;
+          }
+        }
       }
 
       // HER CASES, lifted off her page. A case is 236 pixels wide; at 0.8 of a
@@ -152,6 +267,10 @@
       var stops = [{ name: 'just through the bookcase door', x: 0, z: -1.4, yaw: 0 }];
       function caseAt(n, label, g, h) {
         arch(g, CW, h);
+        shelved(g, CW, h, n);
+        // A brass-edged plate beside the arch at eye height, naming the case
+        // as her page does, for the headset, which never sees the lift.
+        sign(label, null, 0.8, M(g, at(CW / 2 + 0.16 + 0.5, 1.6, 0.2)));
         var it = kit.lift(frame, '.yurt-case', { n: n, w: 236, ww: CW, m: M(g, at(0, 0.16, 0.06)) });
         return it;
       }
@@ -161,6 +280,7 @@
       var pg = at(0, 0, back + 0.02);
       box(pw + 0.24, ph + 0.24, 0.08, M(pg, at(0, py, 0)), '--rdr-timber');
       frame = kit.screen(1180, 800, pw, M(pg, at(0, py, 0.06)), 'Helen Edgar’s Reading Room’s own page, on the far wall in a timber frame');
+      sign('The Reading Room', 'Helen Edgar\u2019s room: her own page hangs here', 2.4, M(pg, at(0, py + ph / 2 + 0.36, 0.06)));
       stops.push({ name: 'at the far wall, with her room’s own page on it', x: 0, z: back + 3.4, yaw: 0, page: kit.page, frame: frame });
 
       var CASES = [
@@ -183,10 +303,82 @@
       box(2.9, 0.14, 0.7, M(fp, at(0, 2.05, 0.35)), '--rdr-stone');
       box(1.8, 1.9, 0.1, M(fp, at(0, 0.95, 0.05)), '--rdr-stone', false);
       box(2.6, 0.1, 1.1, M(fp, at(0, 0.05, 0.75)), '--rdr-stone', false);
-      [-0.3, 0.3].forEach(function (x, i) { kit.cyl(0.12, 0.12, 1.1, M(fp, at(x, 0.2, 0.35, 0.3 * (i ? 1 : -1), 0, Math.PI / 2)), '--rdr-leather', 0.02, 10); });
-      [[0, 0.62, 0.32, 0.5], [-0.32, 0.52, 0.22, 0.38], [0.3, 0.5, 0.2, 0.34]].forEach(function (f, i) {
-        kit.flat(new T.ConeGeometry(f[2], f[3], 8), M(fp, at(f[0], f[1], 0.4)), i ? '--rdr-flame' : '--rdr-flame-2');
+      // A stone kerb round the hearth, a carved hood over the opening with a
+      // quatrefoil cut in it, and mouldings down both jambs.
+      box(2.7, 0.08, 0.08, M(fp, at(0, 0.14, 1.3)), '--rdr-panel', false);
+      [-1, 1].forEach(function (s) { box(0.08, 0.08, 1.2, M(fp, at(s * 1.33, 0.14, 0.72)), '--rdr-panel', false); });
+      box(2.0, 0.5, 0.12, M(fp, at(0, 1.75, 0.56)), '--rdr-stone');
+      for (var qf = 0; qf < 4; qf++) kit.piece(new T.TorusGeometry(0.11, 0.025, 6, 14), M(fp, at(Math.cos(qf * Math.PI / 2) * 0.11, 1.75 + Math.sin(qf * Math.PI / 2) * 0.11, 0.63)), '--rdr-panel', false);
+      [-1, 1].forEach(function (s) {
+        box(0.06, 1.7, 0.06, M(fp, at(s * 0.92, 0.85, 0.52)), '--rdr-panel', false);
+        box(0.06, 1.7, 0.06, M(fp, at(s * 1.28, 0.85, 0.52)), '--rdr-panel', false);
+        for (var cv = 0; cv < 5; cv++) kit.piece(new T.SphereGeometry(0.035, 6, 4), M(fp, at(s * 1.1, 0.4 + cv * 0.32, 0.52)), '--rdr-panel', false);
       });
+      // A warm haze standing over the fire, a few faint sheets of flame
+      // colour one behind the other, still.
+      [[0.5, 0.9, 0.07], [0.42, 1.3, 0.05], [0.3, 1.65, 0.035]].forEach(function (hz) {
+        var sheet = kit.flat(new T.PlaneGeometry(1.0, hz[0]), M(fp, at(0, hz[1], 0.45)), '--rdr-flame');
+        sheet.material.transparent = true; sheet.material.opacity = hz[2]; sheet.material.side = T.DoubleSide;
+      });
+      [-0.3, 0.3].forEach(function (x, i) { kit.cyl(0.12, 0.12, 1.1, M(fp, at(x, 0.2, 0.35, 0.3 * (i ? 1 : -1), 0, Math.PI / 2)), '--rdr-leather', 0.02, 10); });
+      // A REAL FIRE (Helen Edgar's ask, 2026-11-11: "real fire in reading
+      // room"): not three cones but a bed of flame, two dozen tongues of three
+      // inks one inside the other, ember at the outside, flame in the middle
+      // and the pale flame-2 at the heart, each leaning its own way and each
+      // on its own wobble when the fire is let flicker (kit.flames gives every
+      // tongue its own phase and speed), the big ones carrying the firelight
+      // and the rugLight so the light on the room breathes with the flames; a
+      // glow lying under the logs; and smoke going up the chimney in soft
+      // see-through rounds, still. Her page says nothing in this room moves
+      // unless asked, and since 2026-11-11 its fire sways at MAX, so the fire
+      // flickers by itself at MAX and on Let the fire flicker otherwise.
+      var fireFlames = [];
+      var rugLight = new T.PointLight(kit.col('--rdr-flame'), 6, 5, 1.6);
+      rugLight.position.set(-W / 2 + 2.4, 0.35, -6.5);
+      kit.scene.add(rugLight);
+      function tongue(x, y, z, r, h, ink, lean, light, alpha) {
+        var cone = new T.ConeGeometry(r, h, 9); cone.translate(0, h / 2, 0);
+        // Pinched a little above the foot, as a flame narrows before it opens.
+        var fm = kit.flat(cone, M(fp, at(x, y, z, 0, lean[0], lean[1])), ink);
+        if (alpha < 1) { fm.material.transparent = true; fm.material.opacity = alpha; }
+        fireFlames.push({ mesh: fm, light: light || null });
+        return fm;
+      }
+      // The outer sheet of the fire, ember, broad and low, the colour of the
+      // flame where the air gets to it.
+      [[0, 0.3, 0.3, 0.72, 0.0, 0.0, fire], [-0.36, 0.3, 0.26, 0.5, 0.1, -0.2], [0.34, 0.3, 0.25, 0.46, -0.1, 0.22],
+       [-0.18, 0.31, 0.2, 0.58, 0.05, -0.1], [0.17, 0.31, 0.19, 0.55, -0.05, 0.12], [-0.5, 0.3, 0.14, 0.3, 0.1, -0.3], [0.5, 0.3, 0.14, 0.28, -0.1, 0.3]].forEach(function (f) {
+        tongue(f[0], f[1], 0.42, f[2], f[3], '--rdr-ember', [f[4], f[5]], f[6], 0.9);
+      });
+      // The middle of the fire, flame orange, taller and narrower.
+      [[0.02, 0.32, 0.2, 0.86, 0.0, 0.04, rugLight], [-0.3, 0.32, 0.16, 0.62, 0.12, -0.14], [0.28, 0.32, 0.15, 0.58, -0.12, 0.16],
+       [-0.14, 0.33, 0.13, 0.7, 0.04, -0.06], [0.14, 0.33, 0.12, 0.66, -0.04, 0.08], [-0.44, 0.31, 0.1, 0.4, 0.1, -0.22], [0.44, 0.31, 0.1, 0.38, -0.1, 0.24],
+       [0.06, 0.3, 0.11, 0.5, 0.0, 0.3], [-0.08, 0.3, 0.11, 0.48, 0.0, -0.3]].forEach(function (f) {
+        tongue(f[0], f[1], 0.4 + (f[5] > 0 ? 0.04 : -0.04), f[2], f[3], '--rdr-flame', [f[4], f[5]], f[6], 1);
+      });
+      // The heart of it, pale, where the wood is hottest, small and bright.
+      [[0.0, 0.34, 0.1, 0.5, 0, 0.02], [-0.24, 0.34, 0.08, 0.38, 0.1, -0.1], [0.22, 0.34, 0.08, 0.36, -0.1, 0.12],
+       [-0.1, 0.35, 0.07, 0.42, 0, -0.05], [0.1, 0.35, 0.07, 0.4, 0, 0.05], [-0.38, 0.33, 0.05, 0.22, 0, -0.2], [0.38, 0.33, 0.05, 0.2, 0, 0.2]].forEach(function (f) {
+        tongue(f[0], f[1], 0.44, f[2], f[3], '--rdr-flame-2', [f[4], f[5]], null, 1);
+      });
+      // Licks of flame curling off the logs' ends and up between them.
+      [[-0.56, 0.42, 0.1, 0.06, 0.2, -0.45], [0.55, 0.4, 0.1, 0.06, 0.18, 0.45], [-0.12, 0.5, 0.36, 0.05, 0.16, 0.15], [0.2, 0.52, 0.32, 0.05, 0.15, -0.12]].forEach(function (f) {
+        tongue(f[0], f[1], f[2], f[3], f[4], '--rdr-flame', [0, f[5]], null, 1);
+      });
+      // The glow lying under the logs and out over the hearthstone, and the
+      // light of the fire thrown up the back of the opening.
+      var bedGlow = kit.flat(new T.CircleGeometry(0.62, 20).scale(1.25, 0.6, 1), M(fp, at(0, 0.085, 0.42, 0, -Math.PI / 2)), '--rdr-flame-2');
+      bedGlow.material.transparent = true; bedGlow.material.opacity = 0.55;
+      fireFlames.push({ mesh: bedGlow, light: null });
+      var backGlow = kit.flat(new T.PlaneGeometry(1.4, 1.0), M(fp, at(0, 0.75, 0.12)), '--rdr-flame');
+      backGlow.material.transparent = true; backGlow.material.opacity = 0.28;
+      // Smoke, going up into the dark of the chimney: soft rounds of the
+      // room's pale ink at next to no opacity, each a little wider than the
+      // last, still.
+      for (var sm = 0; sm < 7; sm++) {
+        var puff = kit.flat(new T.CircleGeometry(0.16 + sm * 0.05, 16), M(fp, at((hash(sm, 41, 1) - 0.5) * 0.3, 1.05 + sm * 0.17, 0.3 + (hash(sm, 41, 2) - 0.5) * 0.1)), '--rdr-ink-2');
+        puff.material.transparent = true; puff.material.opacity = 0.05 + (6 - sm) * 0.012; puff.material.side = T.DoubleSide;
+      }
       kit.flat(new T.PlaneGeometry(1.2, 0.08), M(fp, at(0, 0.3, 0.52)), '--rdr-ember');
       [-0.9, 0.9].forEach(function (x) {
         kit.cyl(0.05, 0.05, 0.32, M(fp, at(x, 2.28, 0.4)), '--rdr-ink-2', false, 8);
@@ -197,6 +389,14 @@
       // THE HEARTHRUG, the sofa facing the fire, and two chairs.
       // An oval rug with a brass ring, as her page draws it.
       kit.piece(new T.CylinderGeometry(1, 1, 0.03, 48).scale(1.75, 1, 1.25), at(-W / 2 + 2.6, 0.015, -6.5), '--rdr-velvet', false, false);
+      // Its pile: tufts of velvet standing proud of the weave, worn flatter
+      // in front of the sofa and the fire where feet go.
+      for (var tf = 0; tf < 160; tf++) {
+        var ta = hash(tf, 8, 1) * Math.PI * 2, td = Math.sqrt(hash(tf, 8, 2));
+        var tx = Math.cos(ta) * td * 1.6, tz = Math.sin(ta) * td * 1.1;
+        if (Math.abs(tx) < 0.5 && Math.abs(tz) < 0.3) continue;
+        box(0.05, 0.012 + hash(tf, 8, 3) * 0.01, 0.05, at(-W / 2 + 2.6 + tx, 0.034, -6.5 + tz, hash(tf, 8, 4)), tf % 4 ? '--rdr-velvet' : '--rdr-panel', false, false);
+      }
       kit.piece(new T.TorusGeometry(1, 0.03, 4, 56).scale(1.45, 1.0, 1), at(-W / 2 + 2.6, 0.035, -6.5, 0, Math.PI / 2), '--rdr-brass', false, false);
       // An ember ring inside the brass one, a lozenge at its heart, and a
       // fringe at either end, worn a little uneven.
@@ -213,11 +413,25 @@
       box(2.4, 0.45, 0.9, M(sofa, at(0, 0.32, 0)), '--rdr-velvet');
       box(2.4, 0.8, 0.25, M(sofa, at(0, 0.75, -0.42)), '--rdr-velvet');
       [-1, 1].forEach(function (s) { box(0.22, 0.6, 0.9, M(sofa, at(s * 1.2, 0.5, 0)), '--rdr-velvet'); });
+      // Two seat cushions, piped round their edges, and piping along the
+      // arms and the back.
+      [-1, 1].forEach(function (s) {
+        box(1.08, 0.12, 0.72, M(sofa, at(s * 0.56, 0.6, 0.04)), '--rdr-velvet');
+        [[0, 0.36], [0, -0.36]].forEach(function (e) { kit.cyl(0.012, 0.012, 1.08, M(sofa, at(s * 0.56, 0.66, 0.04 + e[1], 0, 0, Math.PI / 2)), '--rdr-brass', false, 5); });
+        [[0.54, 0], [-0.54, 0]].forEach(function (e) { kit.cyl(0.012, 0.012, 0.72, M(sofa, at(s * 0.56 + e[0], 0.66, 0.04, 0, Math.PI / 2)), '--rdr-brass', false, 5); });
+        kit.cyl(0.012, 0.012, 0.9, M(sofa, at(s * 1.2, 0.8, 0, 0, Math.PI / 2)), '--rdr-brass', false, 5);
+      });
+      kit.cyl(0.012, 0.012, 2.4, M(sofa, at(0, 1.15, -0.42, 0, 0, Math.PI / 2)), '--rdr-brass', false, 5);
       [[-W / 2 + 3.0, -4.3, 2.4], [-W / 2 + 3.0, -8.7, 0.7]].forEach(function (c) {
         var g = at(c[0], 0, c[1], c[2]);
         box(0.9, 0.45, 0.85, M(g, at(0, 0.3, 0)), '--rdr-leather');
         box(0.9, 0.85, 0.2, M(g, at(0, 0.8, -0.35)), '--rdr-leather');
         [-1, 1].forEach(function (s) { box(0.16, 0.55, 0.85, M(g, at(s * 0.45, 0.5, 0)), '--rdr-leather'); });
+        // A seat cushion with piping, and a rolled top to the back.
+        box(0.56, 0.1, 0.62, M(g, at(0, 0.56, 0.06)), '--rdr-leather');
+        [-0.3, 0.3].forEach(function (e) { kit.cyl(0.01, 0.01, 0.56, M(g, at(0, 0.61, 0.06 + e, 0, 0, Math.PI / 2)), '--rdr-brass', false, 5); });
+        kit.cyl(0.06, 0.06, 0.9, M(g, at(0, 1.22, -0.35, 0, 0, Math.PI / 2)), '--rdr-leather', 0.01, 10);
+        [-1, 1].forEach(function (s) { kit.cyl(0.05, 0.05, 0.85, M(g, at(s * 0.45, 0.77, 0, 0, Math.PI / 2)), '--rdr-leather', 0.01, 10); });
         // Brass nails down the front of each arm and along the seat, and
         // turned feet.
         [-1, 1].forEach(function (s) {
@@ -266,12 +480,16 @@
       var deck = kit.lift(frame, '.rdr-deck', { w: 600, ww: 1.4, m: at(-W / 2 + 0.08, 1.15, -9.0, LEFT) });
       var lps = kit.lift(frame, '.rdr-rack', { w: 600, h: 700, ww: 1.4, m: at(-W / 2 + 0.08, 0.2, -11.7, LEFT) });
       kit.wire(frame, 'rack.js');
+      sign('The gramophone', 'her records play on it', 1.3, at(-W / 2 + 0.06, 2.95, -10.6, LEFT));
       stops.push({ name: 'at the gramophone, with its switch', x: -W / 2 + 2.4, z: -9.3, yaw: LEFT, frame: deck.el });
       stops.push({ name: 'at the shelf of records by the gramophone', x: -W / 2 + 2.6, z: -11.6, yaw: LEFT, pitch: -0.2, frame: lps.el });
 
       // CANDLES IN BRASS SCONCES on the walls, between the cases, still.
       function sconce(g) {
         box(0.08, 0.3, 0.08, M(g, at(0, 0, 0.06)), '--rdr-brass', false);
+        // A curved bracket out from the back plate to the dish.
+        kit.piece(new T.TorusGeometry(0.1, 0.022, 6, 12, Math.PI / 2), M(g, at(0, -0.1, 0.05, 0, 0, Math.PI)), '--rdr-brass', false);
+        kit.piece(new T.SphereGeometry(0.025, 8, 6), M(g, at(0, -0.2, 0.06)), '--rdr-brass', false);
         box(0.2, 0.04, 0.2, M(g, at(0, -0.12, 0.14)), '--rdr-brass', false);
         kit.cyl(0.035, 0.035, 0.22, M(g, at(0, 0.0, 0.14)), '--rdr-ink-2', false, 8);
         kit.flat(new T.ConeGeometry(0.03, 0.09, 6), M(g, at(0, 0.16, 0.14)), '--rdr-flame-2');
@@ -330,7 +548,7 @@
       box(1.2, 0.04, 0.04, M(fp, at(0, 0.4, 0.62)), '--rdr-stone', false);
       box(1.2, 0.04, 0.04, M(fp, at(0, 0.06, 0.62)), '--rdr-stone', false);
       var embers = {};
-      for (var em = 0; em < 26; em++) add(embers, em % 3 ? '--rdr-flame' : '--rdr-flame-2', new T.SphereGeometry(0.02 + hash(em, 7, 1) * 0.02, 5, 4), M(fp, at((hash(em, 7, 2) - 0.5) * 1.1, 0.07, 0.25 + hash(em, 7, 3) * 0.3)));
+      for (var em = 0; em < 44; em++) add(embers, em % 3 ? '--rdr-flame' : '--rdr-flame-2', new T.SphereGeometry(0.02 + hash(em, 7, 1) * 0.02, 5, 4), M(fp, at((hash(em, 7, 2) - 0.5) * 1.1, 0.07, 0.25 + hash(em, 7, 3) * 0.3)));
       drawn(embers, true);
       kit.piece(new T.SphereGeometry(0.5, 12, 6, 0, Math.PI * 2, 0, Math.PI / 2).scale(1.3, 0.08, 0.5), M(fp, at(0, 0.05, 0.35)), '--rdr-ink-2', false, false);
 
@@ -377,15 +595,24 @@
       // THE CHANDELIER over the hearthrug, as on her page: a brass ring hung
       // from the dark, seven candles, one at the heart of it; nothing flickers.
       var ch = at(-W / 2 + 2.8, 4.3, -6.5);
-      kit.cyl(0.018, 0.018, H - 4.3 - 0.4, M(ch, at(0, (H - 4.3 + 0.4) / 2, 0)), '--rdr-brass', false, 6);
+      kit.cyl(0.03, 0.03, H - 4.3 - 0.4, M(ch, at(0, (H - 4.3 + 0.4) / 2, 0)), '--rdr-brass', false, 6);
       kit.piece(new T.TorusGeometry(0.06, 0.012, 6, 16), M(ch, at(0, 0.42, 0)), '--rdr-brass', false);
       kit.flat(new T.SphereGeometry(0.07, 10, 8), M(ch, at(0, 0.3, 0)), '--rdr-brass');
       kit.piece(new T.TorusGeometry(0.85, 0.025, 6, 48), M(ch, at(0, -0.15, 0, 0, Math.PI / 2)), '--rdr-brass', 0.01);
+      // Three chains from the hub down to the ring, each a run of links.
+      [0, 1, 2].forEach(function (cn) {
+        var ca = cn / 3 * Math.PI * 2 + 0.3, ex = Math.cos(ca) * 0.85, ez = Math.sin(ca) * 0.85;
+        for (var lk = 0; lk < 7; lk++) {
+          var u = (lk + 0.5) / 7;
+          kit.piece(new T.TorusGeometry(0.032, 0.012, 5, 8), M(ch, at(ex * u, 0.3 - 0.45 * u, ez * u, -ca, lk % 2 ? Math.PI / 2 : 0, Math.atan2(0.45, 0.85))), '--rdr-brass', false);
+        }
+      });
       for (var a = 0; a < 6; a++) {
         var t = a / 6 * Math.PI * 2, cx = Math.cos(t) * 0.85, cz = Math.sin(t) * 0.85;
         box(0.86, 0.025, 0.025, M(ch, at(cx / 2, 0.08, cz / 2, -t, 0, -0.5)), '--rdr-brass', false);
         var cup = M(ch, at(cx, -0.12, cz));
         kit.cyl(0.05, 0.03, 0.04, cup, '--rdr-brass', false, 8);
+        kit.cyl(0.08, 0.08, 0.008, M(cup, at(0, 0.02, 0)), '--rdr-brass', false, 12);
         candle(cup, 0.22);
         kit.flat(new T.SphereGeometry(0.018, 6, 4), M(ch, at(Math.cos(t + 0.5) * 0.85, -0.22, Math.sin(t + 0.5) * 0.85)), '--rdr-brass');
       }
@@ -506,10 +733,125 @@
       var garden = drawn(gdn);
       garden.forEach(function (m) { kit.hide(m, true); });
 
+      // THE PORTAL BACK TO THE YURT (Helen's ask, 2026-11-11; see the header):
+      // the bookcase door dressed as the yurt dresses its ways through.
+      var PETALS = ['--yurt-fog-rose', '--yurt-fog-peach', '--yurt-fog-lemon', '--yurt-fog-lilac', '--yurt-fog-sky', '--yurt-fog-mint', '--toadstool', '--rdr-flame-2'];
+      function bloom(m, n) {
+        var head = M(m, at(0, 0.085, 0, 0, -1.1 + hash(n, 61, 1) * 0.6, hash(n, 61, 2) * Math.PI * 2));
+        kit.cyl(0.004, 0.006, 0.085, M(m, at(0, 0.042, 0, 0, 0, (hash(n, 61, 3) - 0.5) * 0.5)), '--ivy-2', false, 4);
+        for (var k = 0; k < 5; k++) {
+          var petal = new T.CircleGeometry(0.026 + hash(n, 61, 4) * 0.012, 7); petal.scale(1, 1.5, 1); petal.translate(0, 0.03, 0);
+          petal.rotateZ(k / 5 * Math.PI * 2);
+          kit.piece(petal, head, PETALS[n % PETALS.length], false);
+        }
+        kit.flat(new T.CircleGeometry(0.012, 7), M(head, at(0, 0, 0.002)), '--rdr-flame-2');
+      }
+      function leafAt(m, n) {
+        var lf = new T.SphereGeometry(0.06 + hash(n, 62, 1) * 0.03, 6, 4); lf.scale(1, 0.5, 0.3);
+        kit.piece(lf, M(m, at(0, 0, 0, hash(n, 62, 2) * 1.2 - 0.6, 0, hash(n, 62, 3) * 3)), n % 3 ? '--ivy' : '--ivy-2', false);
+      }
+      function toadstool(m, sz) {
+        kit.cyl(0.04 * sz, 0.05 * sz, 0.18 * sz, M(m, at(0, 0.09 * sz, 0)), '--tallow', false, 8);
+        var cap = new T.SphereGeometry(0.12 * sz, 12, 6, 0, Math.PI * 2, 0, Math.PI / 2);
+        kit.piece(cap, M(m, at(0, 0.17 * sz, 0)), '--toadstool', 0.015);
+        for (var d = 0; d < 5; d++) kit.piece(new T.SphereGeometry(0.017 * sz, 5, 3), M(m, at(Math.cos(d / 5 * Math.PI * 2) * 0.07 * sz, 0.24 * sz, Math.sin(d / 5 * Math.PI * 2) * 0.07 * sz)), '--tallow', false);
+      }
+      function glowcap(m, sz) {
+        kit.cyl(0.012 * sz, 0.016 * sz, 0.07 * sz, M(m, at(0, 0.035 * sz, 0)), '--rdr-ink-2', false, 6);
+        var cap = new T.SphereGeometry(0.045 * sz, 10, 5, 0, Math.PI * 2, 0, Math.PI / 2); cap.scale(1, 0.75, 1);
+        kit.flat(cap, M(m, at(0, 0.07 * sz, 0)), '--rdr-flame-2');
+      }
+      // A faerie drawn where she rests, her own meshes so the kit can move
+      // her: a dress in the room's flame and brass or the yurt's fog, skin and
+      // hair from her page's own faeries' inks, two wings rooted at her
+      // shoulders for the kit to fold.
+      function faerie(m, n) {
+        var SKINS = ['--cb-fairy-skin-1', '--cb-fairy-skin-2', '--cb-fairy-skin-3', '--cb-fairy-skin-4', '--cb-fairy-skin-5'];
+        var HAIRS = ['--cb-fairy-hair-1', '--cb-fairy-hair-2', '--cb-fairy-hair-3', '--cb-fairy-hair-4'];
+        var WINGS = ['--cb-fairy-wing-1', '--cb-fairy-wing-2', '--cb-fairy-wing-3', '--cb-fairy-wing-4', '--cb-fairy-wing-5', '--cb-fairy-wing-6', '--cb-fairy-wing-7'];
+        var dress = ['--rdr-flame-2', '--rdr-brass', '--yurt-fog-rose', '--yurt-fog-lilac'][n % 4];
+        var ms = [], wg = [];
+        var body = new T.ConeGeometry(0.045, 0.14, 8); body.translate(0, 0.07, 0);
+        ms.push(kit.facets(body, m, dress));
+        ms.push(kit.facets(new T.SphereGeometry(0.034, 10, 8), M(m, at(0, 0.165, 0)), SKINS[n % 5]));
+        var hr = new T.SphereGeometry(0.038, 10, 8); hr.scale(1, 0.8, 1);
+        ms.push(kit.facets(hr, M(m, at(0, 0.184, -0.009)), HAIRS[(n * 3 + 1) % 4]));
+        [-1, 1].forEach(function (sd) {
+          var w = new T.CircleGeometry(0.07, 12); w.scale(sd * 1.6, 0.85, 1); w.translate(sd * 0.11, 0.01, 0);
+          var wm = kit.flat(w, M(m, at(sd * 0.01, 0.11, -0.017, sd * 0.5, -0.2)), WINGS[(n * 5) % 7]);
+          wm.material.transparent = true; wm.material.opacity = 0.82; wm.material.side = T.DoubleSide;
+          ms.push(wm); wg.push(wm);
+        });
+        return { meshes: ms, wings: wg };
+      }
+      var flyers = [], sparkPts = [], perches = [];
+      (function () {
+        var w = 1.6, h = 2.6, pm = at(0, 0, -0.14, Math.PI), side = w / 2 + 0.14;
+        var halo = kit.flat(new T.RingGeometry(1.05, 1.3, 36), M(pm, at(0, h * 0.5, 0.012)), '--rdr-flame-2');
+        halo.material.transparent = true; halo.material.opacity = 0.3;
+        var halo2 = kit.flat(new T.RingGeometry(1.3, 1.48, 36), M(pm, at(0, h * 0.5, 0.011)), '--rdr-brass');
+        halo2.material.transparent = true; halo2.material.opacity = 0.16;
+        var veil = kit.flat(new T.PlaneGeometry(w * 0.94, h * 0.97), M(pm, at(0, h / 2, 0.03)), '--moonstone-2');
+        veil.material.transparent = true; veil.material.opacity = 0.14; veil.material.side = T.DoubleSide;
+        [-1, 1].forEach(function (sd) {
+          for (var y = 0.08, k = 0; y < h + 0.05; y += 0.13, k++) {
+            var x = sd * (side + Math.sin(k * 1.3) * 0.04);
+            kit.cyl(0.012, 0.014, 0.14, M(pm, at(x, y + 0.06, 0.1, 0, 0, Math.sin(k * 1.3) * 0.25)), '--ivy-2', false, 4);
+            leafAt(M(pm, at(x + sd * 0.07, y + 0.05, 0.16)), k);
+            if (k % 2) leafAt(M(pm, at(x - sd * 0.06, y + 0.1, 0.14)), k + 20);
+            if (k % 3 === 1) bloom(M(pm, at(x + sd * 0.1, y, 0.2)), k);
+          }
+        });
+        for (var t = 0; t <= 12; t++) {
+          var u = t / 12, ax = side * Math.cos(Math.PI * (1 - u)), ay = h + 0.08 + Math.sin(Math.PI * u) * 0.26;
+          leafAt(M(pm, at(ax, ay, 0.14)), 100 + t);
+          if (t % 3 === 1) bloom(M(pm, at(ax, ay - 0.06, 0.2)), 100 + t);
+        }
+        toadstool(M(pm, at(-side - 0.12, 0, 0.42)), 0.6);
+        toadstool(M(pm, at(side + 0.16, 0, 0.3)), 0.45);
+        [[-side - 0.32, 0.6, 0.8], [side + 0.3, 0.52, 1], [-side + 0.05, 0.5, 0.6], [side - 0.02, 0.62, 0.7]].forEach(function (g, gi) {
+          glowcap(M(pm, at(g[0] + (hash(gi, 1, 70) - 0.5) * 0.1, 0, g[1])), g[2]);
+        });
+        var pl = new T.PointLight(kit.col('--rdr-flame-2'), 2.8, 3.6, 1.3);
+        pl.position.setFromMatrixPosition(M(pm, at(0, h * 0.72, 0.8)));
+        kit.scene.add(pl);
+        for (var mo = 0; mo < 16; mo++) {
+          var ma = hash(mo, 1, 80) * Math.PI * 2, mr = 0.6 + hash(mo, 1, 81) * 0.7;
+          var mp = new T.Vector3().setFromMatrixPosition(M(pm, at(Math.cos(ma) * mr * 1.2, h * 0.55 + Math.sin(ma) * mr, 0.25 + hash(mo, 1, 82) * 0.6)));
+          sparkPts.push([mp.x, mp.y, mp.z]);
+        }
+        var about = new T.Vector3().setFromMatrixPosition(M(pm, at(0, h * 0.6, 0.85)));
+        var fa = faerie(M(pm, at(-side - 0.02, h * 0.52, 0.2, 0.6)), 0);
+        var fb = faerie(M(pm, at(side + 0.02, h * 0.8, 0.2, -0.6)), 1);
+        perches.push(kit.touch(0.3, 0.3, 0.3, M(pm, at(-side - 0.02, h * 0.52 + 0.1, 0.2))));
+        perches.push(kit.touch(0.3, 0.3, 0.3, M(pm, at(side + 0.02, h * 0.8 + 0.1, 0.2))));
+        flyers.push({ meshes: fa.meshes, wings: fa.wings, about: about, r: 0.65, h: 0.26, period: 7 });
+        flyers.push({ meshes: fb.meshes, wings: fb.wings, about: about, r: 0.85, h: 0.34, period: 9.5 });
+      })();
+      // Sparks over the fire, rising into the dark of the chimney.
+      for (var sk = 0; sk < 18; sk++) {
+        var sv = new T.Vector3().setFromMatrixPosition(M(fp, at((hash(sk, 2, 1) - 0.5) * 1.1, 0.75 + hash(sk, 2, 2) * 1.1, 0.25 + hash(sk, 2, 3) * 0.4)));
+        sparkPts.push([sv.x, sv.y, sv.z]);
+      }
+      // Dust sparkling in the firelight, over the hearthrug and up towards
+      // the chandelier, on the sparks' own string.
+      for (var du = 0; du < 28; du++) {
+        sparkPts.push([-W / 2 + 1.4 + hash(du, 4, 1) * 3.4, 0.3 + Math.pow(hash(du, 4, 2), 1.6) * 3.6, -8.4 + hash(du, 4, 3) * 3.8]);
+      }
+      // More of her books, piled on the floor by the sofa's end and under
+      // the chairs' arms, as a reading room keeps them.
+      var PILE = ['--rdr-velvet', '--rdr-leather', '--rdr-brass', '--rdr-ember', '--rdr-ink-2', '--rdr-flame'];
+      [[-W / 2 + 4.6, -5.4, 0.3], [-W / 2 + 3.9, -4.0, -0.4], [-W / 2 + 2.2, -9.2, 0.9]].forEach(function (pl, pn) {
+        for (var bb = 0; bb < 4 + (pn % 2); bb++) {
+          box(0.3 - bb * 0.02, 0.055, 0.22, at(pl[0], 0.028 + bb * 0.057, pl[1], pl[2] + (hash(bb, pn, 5) - 0.5) * 0.5), PILE[(bb * 2 + pn) % PILE.length], 0.006);
+        }
+      });
+
       // THE SWITCHES. The record, which goes round at MAX as hers does, or
       // when asked; the faeries and the garden, her page's own two; the book
       // on the sofa; and the catalogue's drawer.
       var turning = kit.turn(record, recordAt, { say: 'Turn the record', max: true, period: 6,
+        at: [kit.touch(0.5, 0.12, 0.5, M(gm, at(0, 1.02, 0)))],
         said: function (on) { return on ? 'The record on the gramophone goes round, once in six seconds.' : 'The record stops where it is.'; } });
       var joinFaeries = kit.press({ say: function () { return kit.hidden(faeries[0]) ? 'Join the Faeries' : 'Let the faeries go'; },
         press: function () {
@@ -539,17 +881,93 @@
           drawerIn.forEach(function (m) { kit.hide(m, pull); });
           return pull ? 'A drawer of the card catalogue is pulled out, its cards standing up in it.' : 'The drawer is pushed back into the catalogue.';
         } });
-      stops[0].acts = [joinFaeries, growGarden];
+      // The portal's faeries, which fly only when asked; the fire, which
+      // flickers only when asked; and the sparks, which twinkle only when asked.
+      var flyFaeries = kit.drift(flyers, { say: 'Let the faeries fly', at: perches,
+        said: function (on) { return on ? 'The two faeries fly round the bookcase door, each on her own slow loop.' : 'The faeries settle on the ivy where they are.'; } });
+      // The fire flickers by itself at MAX, as her page's fire does since
+      // 2026-11-11, and at any setting once pressed.
+      var fireSw = kit.flames(fireFlames, { say: 'Let the fire flicker', max: true,
+        // Pressed on the ash bed under the logs, below the film's own touch.
+        at: [kit.touch(1.2, 0.22, 0.5, M(fp, at(0, 0.1, 0.4)))],
+        said: function (on) { return on ? 'The fire flickers in the hearth, every tongue of it on its own time, and its light on the room with it.' : 'The fire burns still again.'; } });
+      // THE FIRE'S CRACKLE (Helen's ask, 2026-11-11): her page's rdr-fire.js,
+      // run here, so the room's switch is the page's switch: twelve seconds of
+      // fire drawn out of arithmetic and looped, no recording, nothing
+      // fetched, off until pressed and on until pressed again or you leave.
+      // THE FILM OF THE FIRE (Helen's ask the same day, "i need a real fire
+      // video"): rdr-fire.js hands this room a video of her page's own film (a
+      // log fire by Larvis, CC BY-SA 4.0 via Wikimedia Commons, kept here), and
+      // on Light the fire it goes on the back of the hearth as a texture in
+      // WebGL, so a headset sees it, the drawn tongues step aside, the fire's
+      // flicker is switched on so the picture is drawn every frame, and the
+      // crackle plays. Nothing is fetched until the press.
+      kit.wire(frame, 'rdr-fire.js');
+      var filmMesh = null, filmEl = null, filmLit = false;
+      var crackle = kit.press({ say: function () { return filmLit ? 'Let the fire burn down' : 'Light the fire'; },
+        at: [kit.touch(1.4, 1.1, 0.8, M(fp, at(0, 0.7, 0.5)))],
+        press: function () {
+          if (!window.loveHearth) return 'The fire has not loaded yet; try again in a moment.';
+          if (filmLit) {
+            filmLit = false;
+            if (filmEl) filmEl.pause();
+            if (filmMesh) kit.hide(filmMesh, true);
+            fireFlames.forEach(function (f) { kit.hide(f.mesh, false); });
+            window.loveHearth.off();
+            return 'The fire burns down and falls quiet.';
+          }
+          if (!filmMesh) {
+            filmEl = window.loveHearth.video();
+            var tx = new T.VideoTexture(filmEl); tx.colorSpace = T.SRGBColorSpace;
+            filmMesh = kit.flat(new T.PlaneGeometry(1.56, 0.88), M(fp, at(0, 0.66, 0.3)), '--rdr-ink');
+            filmMesh.material.map = tx; filmMesh.material.side = T.DoubleSide; filmMesh.material.needsUpdate = true;
+          }
+          var pr = filmEl.play(); if (pr && pr.catch) pr.catch(function () {});
+          kit.hide(filmMesh, false);
+          fireFlames.forEach(function (f) { kit.hide(f.mesh, true); });
+          // The flicker's mover is what draws the picture every frame, so it
+          // is switched on if it is not already (by MAX, or by a press).
+          var mv = fireSw.mv, flickering = mv.asked === null ? document.documentElement.getAttribute('data-intensity') === 'max' : mv.asked;
+          if (!flickering) fireSw.go();
+          filmLit = true;
+          window.loveHearth.on();
+          return 'The fire is lit: a real log fire burns in the hearth, filmed, and crackles, until you press again or leave the street.';
+        } });
+      var sparks = kit.lights({ label: 'The sparks', strings: [kit.bulbs(sparkPts, 0.014, ['--rdr-flame-2', '--rdr-flame'])],
+        sets: [{ say: 'Flame', inks: ['--rdr-flame-2', '--rdr-flame'] }], twinkle: 'Let the sparks twinkle' });
+      stops[0].acts = [joinFaeries, growGarden, flyFaeries];
       stops.forEach(function (st) {
         if (/gramophone/.test(st.name)) st.acts = [turning];
+        if (/^by the fire/.test(st.name)) st.acts = [fireSw, sparks];
         if (/card catalogue/.test(st.name)) st.acts = [theDrawer];
       });
       stops.push({ name: 'at the sofa, with the book left on it', x: 0.7, z: -6.5, yaw: LEFT, pitch: -0.32, acts: [theBook] });
+      stops.push({ name: 'at the hearth, close to the fire, its kerb and the carved hood', x: -W / 2 + 2.2, z: -6.5, yaw: LEFT, pitch: -0.12, acts: [crackle, fireSw, sparks] });
+      stops.push({ name: 'at the mantel, with the raven on it and the candles either side', x: -W / 2 + 2.0, z: -6.1, yaw: LEFT + 0.15, pitch: 0.3 });
       stops.push({ name: 'over the gramophone itself, her record on it', x: -W / 2 + 2.0, z: -10.15, yaw: 1.4, pitch: -0.5, acts: [turning] });
+      // THE TOUR (round 6): the stops in walking order, from the door round
+      // the room and back to the door facing the way out, so a controller's
+      // bumpers walk it in order. Each is found by what its name begins with.
+      var TOUR = ['just through the bookcase door', 'at the card catalogue', 'at the Earth & Kin case', 'by the hearthrug, under the chandelier',
+                  'at the sofa', 'by the fire', 'at the hearth', 'at the mantel', 'over the gramophone itself', 'at the gramophone, with its switch',
+                  'at the shelf of records', 'at the Helen’s Shelf case', 'at the far wall', 'at the Art case', 'at the Poetry case',
+                  'at the Liberation & Rest case', 'at the Myth & Otherworlds case', 'at the Old Classics case', 'at the Neurodivergence case'];
+      var ordered = [];
+      TOUR.forEach(function (head) {
+        var st = stops.filter(function (x) { return x.name.indexOf(head) === 0; })[0];
+        if (st && ordered.indexOf(st) < 0) ordered.push(st);
+      });
+      stops.forEach(function (st) { if (ordered.indexOf(st) < 0) ordered.push(st); });
+      ordered.push({ name: 'back at the bookcase door, the way out to the Faery Yurt, its sign over it', x: 0, z: -3.6, yaw: Math.PI, pitch: 0.08, acts: [flyFaeries] });
+      stops = ordered;
 
       return {
         start: { x: 0, z: -1.4, yaw: 0 },
-        bounds: { x: [-W / 2 + 1.0, W / 2 - 1.0], z: [back + 1.2, -0.8] },
+        // Four rectangles, which leave out the sofa, so the eye never goes
+        // into it (round 6).
+        bounds: { x: [-W / 2 + 1.0, W / 2 - 1.0], z: [back + 1.2, -0.8],
+                  areas: [{ x: [-W / 2 + 1.0, -2.05], z: [back + 1.2, -0.8] }, { x: [-0.8, W / 2 - 1.0], z: [back + 1.2, -0.8] },
+                          { x: [-2.05, -0.8], z: [back + 1.2, -7.95] }, { x: [-2.05, -0.8], z: [-5.05, -0.8] }] },
         stops: stops,
         // Offered in a VR headset, as the yurt it opens off is (Ryan's ask,
         // 2026-11-07), so you walk in from the yurt without leaving the

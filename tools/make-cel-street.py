@@ -138,7 +138,8 @@ if re.search(r"XMLHttpRequest|sendBeacon|EventSource|WebSocket", code):
     refuse("cel-street.js sends something some other way than fetch.")
 if re.search(r"\bset(Interval|Timeout)\b", code):
     refuse("cel-street.js waits on a clock. Nothing on the street moves by itself.")
-# WHAT A ROOM LETS MOVE moves only through the kit, and only under the line.
+# WHAT A ROOM LETS MOVE moves only through the kit (flames, turn, lights,
+# drift, rise, and lights' cycle), and only under the line.
 for m in re.finditer(r"requestAnimationFrame\((.{0,40})", code):
     if not re.match(r"\s*(tick|padTick|moveTick|function \(\) \{ ctlSaid)", m.group(1)):
         refuse(f"cel-street.js asks for a frame for {m.group(1).strip()!r}; only walking, a controller, what a room "
@@ -157,6 +158,10 @@ if _num("DIM") > 0.1 or max(float(x) for x in _hz.group(1).split(",")) > 2.5:
 if _num("TWINKLE") < 3 or _num("TURN_MIN") < 1.8:
     refuse("cel-street.js lets a bulb twinkle quicker than once in three seconds or a thing turn quicker than once "
            "in 1.8: the yurt's own lights take 3.4 and her record six.")
+if "rise:" in code and len(re.findall(r"period:\s*Math\.max\(TURN_MIN,", code)) < 2:
+    refuse("cel-street.js lets a thing that rises go up quicker than TURN_MIN; a bubble's climb is held to the record's line.")
+if "drift:" in code and not re.search(r"period:\s*Math\.max\(TURN_MIN,", code):
+    refuse("cel-street.js lets a thing that drifts go round quicker than TURN_MIN; a faerie's loop is held to the record's line.")
 if "hasAttribute('data-low')" not in code or "document.hidden" not in code:
     refuse("cel-street.js lets something move in a low-stimulation mode or a hidden tab.")
 # IN A HEADSET (Helen's ask, 2026-11-07): the headset asks for a picture every

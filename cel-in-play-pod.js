@@ -42,6 +42,58 @@
    moulded handles and its stand braced; a towel over the stool's end. Every
    one of them glows under the lamp and goes to its daylight without it.
 
+   ROUND 4 (Helen Edgar's ask, 2026-11-11: the rooms off her yurt more magical
+   and realistic, with ivy, flowers and mushrooms growing round every portal
+   and faeries flying round its entrance). The round door you came in by is a
+   portal now, IN THIS ROOM'S TERMS: everything round it is glow paint under
+   the UV lamp, ivy and leaves in glow green and blue climbing both sides and
+   over the arch, flowers in her five paints among them, glow-paint toadstools
+   and little glowing mushrooms at its feet, a halo of the lamp's own violet on
+   the wall round the arch and a shimmer of it across the opening, a wash of
+   the lamp's light at the door, sparkle in the air round it and over the
+   tray on the flowers' own strings (so it is let down, recoloured and set
+   breathing with them, and goes out with the lamp), and two faeries perched
+   on the ivy, who fly round the door only once somebody presses Let the
+   faeries fly, as her page's faeries drift only when asked. With the lamp off
+   all of it is pale paint, the halo and shimmer gone, and the faeries are
+   just faeries. A few more splashes and handprints of paint on the floor
+   round the tray, glowing. Ours, and hers to keep or send back.
+
+   ROUND 5 (Helen Edgar's ask, 2026-11-11: "more magical and more 3d and real
+   for VR"). A headset shows only the WebGL picture, so the pod has to convince
+   in that alone: the tube in its fitting with end caps and clips, and its
+   light coming down off it as faint sheets of violet to the floor; the tray
+   with a lip and feet, its foam heaped higher with two trails ploughed
+   through it, its tonic jar with a glass wall round the glow; the paint pots
+   and jars on the shelf with labels; the giant brushes with bristles; splashes
+   up the big sheet; a rim round the messy play mat; more handprints and
+   splashes on the floor; and more places to stand (at the drawings pegged up
+   to dry, at the rainbow rice, under the strings of flowers and the star).
+   Every one of them is glow paint through glow(), so it is pale paint with the
+   lamp off, and the new haze goes out with the lamp. Ours, and hers to keep
+   or send back.
+
+   ROUND 6 (Helen Edgar's asks, 2026-11-11: "a real lava lamp working in my
+   UV play pod, big, so you can sit in front of it, and a bubble tube and
+   sensory mats that change colour", and the headset-and-controller round
+   every room had). A person-high lava lamp against the left-hand wall with a
+   beanbag in front of it, its wax rising and sinking on kit.rise (back and
+   down, each blob its own period, by itself at MAX as her glow breathes, or
+   once Let the lava rise is pressed), its colour chosen on a switch, and the
+   wax glow paint that goes pale with the lamp off. A bubble tube in the back
+   right-hand corner, floor to near the ceiling, bubbles rising on kit.rise
+   (growing from nothing at the foot, gone at the top) and a string of lights
+   up it that drift from one of her paints to the next (kit.lights, cycle),
+   with a wash of their own; it is a lamp of its own, lit with the UV lamp
+   off too, as a bubble tube is. Six sensory mats on the floor between the
+   door and the tray, each a grid of lit points on one cycling string, so the
+   colours change underfoot, and a press that gives each mat the next of her
+   paints. Lettered signs in WebGL over the door and her page, in her room's
+   faces, for a headset, which shows no page; the places in a walking order
+   from the door round the pod and back, with every switch on the stop where
+   its thing is and a touch in the scene on the lamp, the tube and the mats.
+   Ours, and hers to keep or send back.
+
    WHAT MOVES IS WHAT HER PAGE MOVES, AND WHAT YOU ASK FOR. Her dial says MAX
    lets the glow in the drawing breathe, slowly, and nothing ever flashes. So
    at MAX the flowers' glow breathes, each in its own time, and it has its own
@@ -69,6 +121,7 @@
   window.loveCelRooms['play-pod.html'] = {
     name: 'The Play Pod',
     from: 'faery-yurt.html',
+    faces: ['"Grandstander"', '"Andika"'],
     build: function (kit) {
       var T = kit.THREE, at = kit.at, box = kit.box, W = 8, D = 9, H = 3.0, back = -D;
       var M = function (a, b) { return new T.Matrix4().multiplyMatrices(a, b); };
@@ -138,6 +191,136 @@
       box(1.8, H - 1.9, 0.3, at(0, 1.9 + (H - 1.9) / 2, 1.15), '--ppd-tray');
       kit.piece(new T.TorusGeometry(0.9, 0.08, 8, 28, Math.PI), at(0, 1.0, 1.0), '--ppd-line', 0.02);
 
+      // THE ROUND DOOR AS A PORTAL (Helen's ask, 2026-11-11; see the header).
+      // pm is the wall face round the door, its z into the room. Every leaf,
+      // petal and cap is glow paint: glow(), so it goes to its pale paint with
+      // the lamp off, and the halo and shimmer are the lamp's haze, gone with it.
+      var pm = at(0, 0, 1.0, Math.PI), motes = [], flyers = [];
+      var SIDE = 1.02;
+      function gleaf(m, n) {
+        var lf = new T.SphereGeometry(0.055 + hash(n, 62, 1) * 0.03, 6, 4); lf.scale(1, 0.5, 0.3);
+        glow(lf, M(m, at(0, 0, 0, hash(n, 62, 2) * 1.2 - 0.6, 0, hash(n, 62, 3) * 3)), n % 4 ? '--ppd-green' : '--ppd-blue');
+      }
+      function gbloom(m, n) {
+        kit.cyl(0.004, 0.006, 0.08, M(m, at(0, 0.04, 0, 0, 0, (hash(n, 61, 3) - 0.5) * 0.5)), '--ppd-line', false, 4);
+        var head = M(m, at(0, 0.08, 0, 0, -1.1 + hash(n, 61, 1) * 0.6, hash(n, 61, 2) * Math.PI * 2)), petals = [];
+        for (var k = 0; k < 5; k++) {
+          var petal = new T.CircleGeometry(0.024 + hash(n, 61, 4) * 0.012, 7); petal.scale(1, 1.5, 1); petal.translate(0, 0.028, 0); petal.rotateZ(k / 5 * Math.PI * 2);
+          petals.push([petal, new T.Matrix4()]);
+        }
+        glow(merged(petals), head, INKS[n % 5]);
+        glow(new T.CircleGeometry(0.011, 7), M(head, at(0, 0, 0.002)), '--ppd-ink');
+      }
+      function gcap(m, sc, ink) {
+        kit.cyl(0.012 * sc, 0.016 * sc, 0.07 * sc, M(m, at(0, 0.035 * sc, 0)), '--ppd-line', false, 6);
+        var cap = new T.SphereGeometry(0.045 * sc, 10, 5, 0, Math.PI * 2, 0, Math.PI / 2); cap.scale(1, 0.75, 1);
+        glow(cap, M(m, at(0, 0.07 * sc, 0)), ink);
+      }
+      function gtoad(m, sc) {
+        kit.cyl(0.04 * sc, 0.05 * sc, 0.18 * sc, M(m, at(0, 0.09 * sc, 0)), '--ppd-line', false, 8);
+        var cap = new T.SphereGeometry(0.12 * sc, 12, 6, 0, Math.PI * 2, 0, Math.PI / 2);
+        glow(cap, M(m, at(0, 0.17 * sc, 0)), '--ppd-pink');
+        var spots = [];
+        for (var d = 0; d < 5; d++) {
+          var a2 = d / 5 * Math.PI * 2;
+          spots.push([new T.SphereGeometry(0.017 * sc, 5, 3), at(Math.cos(a2) * 0.07 * sc, 0.24 * sc, Math.sin(a2) * 0.07 * sc)]);
+        }
+        glow(merged(spots), m, '--ppd-ink');
+      }
+      // The halo of the lamp's violet on the wall round the arch, and its
+      // shimmer across the opening, with a breath of pink paint in it.
+      haze(new T.RingGeometry(1.08, 1.3, 40, 1, 0, Math.PI), M(pm, at(0, 1.0, 0.012)), 0.3);
+      haze(new T.RingGeometry(1.3, 1.5, 40, 1, 0, Math.PI), M(pm, at(0, 1.0, 0.011)), 0.14);
+      [-1, 1].forEach(function (sd) { haze(new T.PlaneGeometry(0.22, 1.0), M(pm, at(sd * 1.19, 0.5, 0.012)), 0.3); haze(new T.PlaneGeometry(0.2, 1.0), M(pm, at(sd * 1.4, 0.5, 0.011)), 0.14); });
+      var veil = haze(new T.PlaneGeometry(1.7, 1.0), M(pm, at(0, 0.5, 0.03)), 0.08); veil.material.side = T.DoubleSide;
+      var veil2 = haze(new T.CircleGeometry(0.85, 32, 0, Math.PI), M(pm, at(0, 1.0, 0.03)), 0.08); veil2.material.side = T.DoubleSide;
+      var blush = faint(glow(new T.CircleGeometry(0.6, 24), M(pm, at(0, 1.05, 0.045)), '--ppd-pink'), 0.06); blush.material.side = T.DoubleSide; hazes.push(blush);
+      // Ivy up both sides, over the arch, and flowers among it.
+      [-1, 1].forEach(function (sd) {
+        for (var y = 0.08, k = 0; y < 1.05; y += 0.13, k++) {
+          var x = sd * (SIDE + Math.sin(k * 1.3) * 0.04);
+          kit.cyl(0.012, 0.014, 0.14, M(pm, at(x, y + 0.06, 0.08, 0, 0, Math.sin(k * 1.3) * 0.25)), '--ppd-line', false, 4);
+          gleaf(M(pm, at(x + sd * 0.07, y + 0.05, 0.14)), k + (sd + 1) * 20);
+          if (k % 2) gleaf(M(pm, at(x - sd * 0.06, y + 0.1, 0.12)), k + 50 + (sd + 1) * 20);
+          if (k % 3 === 1) gbloom(M(pm, at(x + sd * 0.1, y, 0.18)), k + (sd + 1) * 10);
+          if (k % 3 === 2) gbloom(M(pm, at(x - sd * 0.03, y + 0.04, 0.2)), k + 30 + (sd + 1) * 10);
+        }
+      });
+      for (var t = 0; t <= 14; t++) {
+        var u = t / 14, ax = SIDE * Math.cos(Math.PI * (1 - u)), ay = 1.0 + (SIDE + 0.04) * Math.sin(Math.PI * u);
+        var tang = Math.PI * (1 - u) + Math.PI / 2;
+        kit.cyl(0.012, 0.012, 0.22, M(pm, at(ax, ay, 0.08, 0, 0, tang)), '--ppd-line', false, 4);
+        gleaf(M(pm, at(ax, ay + 0.02, 0.14)), 100 + t);
+        if (t % 3 === 1) gbloom(M(pm, at(ax * 1.02, ay - 0.05, 0.18)), 100 + t);
+        if (t % 2) gleaf(M(pm, at(ax * 1.1, ay + 0.08, 0.16)), 120 + t);
+      }
+      // Toadstools and little glowing mushrooms at its feet.
+      gtoad(M(pm, at(-SIDE - 0.14, 0, 0.42)), 0.55);
+      gtoad(M(pm, at(SIDE + 0.18, 0, 0.3)), 0.45);
+      [[-SIDE - 0.34, 0.6, 0.8, '--ppd-yellow'], [SIDE + 0.34, 0.52, 1, '--ppd-green'], [-SIDE + 0.04, 0.5, 0.6, '--ppd-blue'], [SIDE - 0.02, 0.62, 0.7, '--ppd-orange'], [-SIDE - 0.5, 0.25, 0.5, '--ppd-pink']].forEach(function (g, gi) {
+        gcap(M(pm, at(g[0] + (hash(gi, 7, 70) - 0.5) * 0.1, 0, g[1])), g[2], g[3]);
+      });
+      // The lamp's light at the door, which goes out with the lamp (below).
+      var doorLight = new T.PointLight(kit.col('--ppd-uv'), 4, 3.2, 1.3);
+      doorLight.position.set(0, 1.3, 0.3);
+      kit.scene.add(doorLight);
+      // Sparkle in the air round the arch, and over the tray in the tube's
+      // light, on the flowers' own strings (below).
+      for (var mo = 0; mo < 18; mo++) {
+        var ma = hash(mo, 3, 80) * Math.PI, mr = 1.15 + hash(mo, 3, 81) * 0.5;
+        var mp = new T.Vector3().setFromMatrixPosition(M(pm, at(Math.cos(ma) * mr, 1.0 + Math.sin(ma) * mr * 0.8, 0.2 + hash(mo, 3, 82) * 0.6)));
+        motes.push([mp.x, mp.y, mp.z]);
+      }
+      for (var mo2 = 0; mo2 < 14; mo2++) motes.push([(hash(mo2, 4, 83) - 0.5) * 2.6, 1.1 + hash(mo2, 4, 84) * 1.1, -4.6 + (hash(mo2, 4, 85) - 0.5) * 2.2]);
+      // Two faeries perched on the ivy, in her page's own faeries' skins and
+      // hairs, a dress each in one of the pod's paints, wings rooted at the
+      // shoulders so the kit can fold them; they fly round the door only when
+      // somebody asks, each on her own slow loop.
+      function faerie(m, n) {
+        var SKINS = ['--cb-fairy-skin-1', '--cb-fairy-skin-2', '--cb-fairy-skin-3', '--cb-fairy-skin-4', '--cb-fairy-skin-5'];
+        var HAIRS = ['--cb-fairy-hair-1', '--cb-fairy-hair-2', '--cb-fairy-hair-3', '--cb-fairy-hair-4'];
+        var WINGS = ['--cb-fairy-wing-1', '--cb-fairy-wing-2', '--cb-fairy-wing-3', '--cb-fairy-wing-4', '--cb-fairy-wing-5', '--cb-fairy-wing-6', '--cb-fairy-wing-7'];
+        var ms = [], wings = [];
+        var body = new T.ConeGeometry(0.045, 0.14, 8); body.translate(0, 0.07, 0);
+        ms.push(kit.facets(body, m, INKS[(n * 2 + 1) % 5]));
+        ms.push(kit.facets(new T.SphereGeometry(0.034, 10, 8), M(m, at(0, 0.165, 0)), SKINS[(n * 2 + 1) % 5]));
+        var hr = new T.SphereGeometry(0.038, 10, 8); hr.scale(1, 0.8, 1);
+        ms.push(kit.facets(hr, M(m, at(0, 0.185, -0.009)), HAIRS[(n * 3) % 4]));
+        [-1, 1].forEach(function (sd) {
+          var w = new T.CircleGeometry(0.07, 12); w.scale(sd * 1.6, 0.85, 1); w.translate(sd * 0.11, 0.012, 0);
+          var wm = kit.flat(w, M(m, at(sd * 0.012, 0.115, -0.017, sd * 0.5, -0.2)), WINGS[(n * 5 + 2) % 7]);
+          wm.material.transparent = true; wm.material.opacity = 0.82; wm.material.side = T.DoubleSide;
+          ms.push(wm); wings.push(wm);
+        });
+        return { meshes: ms, wings: wings };
+      }
+      var about = new T.Vector3(0, 1.25, 0.25);
+      var fa = faerie(M(pm, at(-SIDE - 0.02, 0.62, 0.2, 0.6)), 0);
+      var fb = faerie(M(pm, at(SIDE + 0.02, 0.95, 0.2, -0.6)), 1);
+      flyers.push({ meshes: fa.meshes, wings: fa.wings, about: about, r: 0.62, h: 0.24, period: 6.5 });
+      flyers.push({ meshes: fb.meshes, wings: fb.wings, about: about, r: 0.8, h: 0.32, period: 8.7 });
+      var faeries = kit.drift(flyers, { say: 'Let the faeries fly',
+        said: function (on) { return on ? 'The faeries fly, round and round the door, each on her own slow loop, through the lamp’s light.' : 'The faeries settle on the ivy where they are.'; } });
+      // A few more splashes and handprints of paint on the floor round the
+      // tray, where play got out of it, glowing.
+      [[-1.5, -3.9, '--ppd-blue'], [1.35, -5.3, '--ppd-pink'], [-0.9, -5.7, '--ppd-orange'], [1.7, -3.6, '--ppd-green'], [-0.4, -6.4, '--ppd-yellow']].forEach(function (hp, hi) {
+        var hm = at(hp[0], 0.014, hp[1], hash(hi, 9, 1) * 6);
+        dab(hp[0], 0.014, hp[1], 0.075, hp[2], 0.12);
+        for (var fg = 0; fg < 5; fg++) {
+          var fp = new T.Vector3((fg - 2) * 0.04, 0, -0.09 - (fg === 0 || fg === 4 ? 0.02 : 0.04)).applyMatrix4(hm);
+          dab(fp.x, 0.014, fp.z, 0.02, hp[2], 0.12);
+        }
+      });
+      [['--ppd-green', 0.8, -3.5, 0.03], ['--ppd-yellow', -1.05, -4.45, 0.045], ['--ppd-pink', 0.2, -5.95, 0.025], ['--ppd-blue', -0.35, -3.3, 0.035],
+       ['--ppd-orange', 1.05, -6.1, 0.04], ['--ppd-blue', -1.7, -5.2, 0.03], ['--ppd-pink', 0.95, -2.9, 0.028]].forEach(function (d, di) {
+        glow(new T.CircleGeometry(d[3], 12), at(d[1], 0.016, d[2], 0, FLAT), d[0]);
+        // And its spatter round it.
+        for (var k = 0; k < 5; k++) {
+          var sa3 = hash(di, k, 31) * Math.PI * 2, sr3 = d[3] + 0.03 + hash(di, k, 32) * 0.08;
+          glow(new T.CircleGeometry(0.005 + hash(di, k, 33) * 0.009, 7), at(d[1] + Math.cos(sa3) * sr3, 0.016, d[2] + Math.sin(sa3) * sr3, 0, FLAT), d[0]);
+        }
+      });
+
       // THE UV TUBE on the far wall, lit, and its haze on the wall round it.
       box(3.4, 0.16, 0.16, at(0, 2.35, back + 0.12), '--ppd-line', 0.02);
       glow(new T.CylinderGeometry(0.05, 0.05, 3.2, 10), at(0, 2.35, back + 0.24, 0, 0, Math.PI / 2), '--ppd-uv');
@@ -147,6 +330,22 @@
         var hg = new T.CircleGeometry(1, 40); hg.scale(r[0], r[1], 1);
         haze(hg, at(0, 2.35, back + 0.02 + i * 0.004), r[2]);
       });
+      // The tube's end caps in the fitting, and the two clips that hold it.
+      [-1, 1].forEach(function (s) {
+        kit.cyl(0.062, 0.062, 0.08, at(s * 1.62, 2.35, back + 0.24, 0, 0, Math.PI / 2), '--ppd-line', 0.006, 12);
+        box(0.12, 0.08, 0.1, at(s * 1.68, 2.35, back + 0.17), '--ppd-line', 0.006);
+        box(0.04, 0.14, 0.03, at(s * 0.9, 2.35, back + 0.25), '--ppd-line', false);
+      });
+      // Its light coming down off it, in faint sheets of violet that lean out
+      // from the wall to the floor, with no edge you could point at.
+      var beamShape = new T.Shape();
+      beamShape.moveTo(-1.6, 0); beamShape.lineTo(1.6, 0); beamShape.lineTo(2.6, -2.3); beamShape.lineTo(-2.6, -2.3); beamShape.lineTo(-1.6, 0);
+      [[0.0, 0.07], [0.35, 0.05], [0.7, 0.035]].forEach(function (b, i) {
+        var sheet = haze(new T.ShapeGeometry(beamShape), at(0, 2.33, back + 0.28 + b[0], 0, -0.42 - i * 0.14), b[1]);
+        sheet.material.side = T.DoubleSide;
+      });
+      var pool = new T.CircleGeometry(1, 40); pool.scale(2.6, 1.6, 1);
+      haze(pool, at(0, 0.013, back + 1.5, 0, FLAT), 0.06);
 
       // STRINGS OF WHITE FLOWERS swagged across under the ceiling, with
       // strands hanging down from them like wisteria, as in her photographs
@@ -173,8 +372,9 @@
         }
       });
       var blooms = kit.bulbs(bloom, 0.022, ['--ppd-ink']), buds = kit.bulbs(bud, 0.014, ['--ppd-ink']);
+      var sparkle = kit.bulbs(motes, 0.014, ['--ppd-ink', '--ppd-uv']);
       var flowers = kit.lights({ label: 'The flowers on the strings', max: true, twinkle: 'Let the glow breathe',
-        strings: [blooms, buds],
+        strings: [blooms, buds, sparkle],
         sets: [{ say: 'White, as in her photographs', inks: ['--ppd-ink'] },
                { say: 'White and lilac', inks: ['--ppd-ink', '--ppd-ink-2'] }] });
       bloom.concat(bud).forEach(function (b) { daySprigs.push([twig, at(b[0], b[1], b[2]).scale(new T.Vector3(0.02, 0.02, 0.02))]); });
@@ -182,7 +382,7 @@
       dayOnly.push(dayFlowers);
       kit.hide(dayFlowers, true);
       // The bulbs only glow under the lamp.
-      nightOnly.push(blooms.mesh, buds.mesh);
+      nightOnly.push(blooms.mesh, buds.mesh, sparkle.mesh);
       // The paper star, turning neither way, on its thread.
       var starShape = new T.Shape();
       for (var sp2 = 0; sp2 < 10; sp2++) {
@@ -199,8 +399,13 @@
       [[2.0, 0.05], [1.5, 0.06], [1.1, 0.07]].forEach(function (r, i) {
         haze(new T.CircleGeometry(r[0], 40), at(0, 0.014 + i * 0.002, tz, 0, FLAT), r[1]);
       });
-      kit.cyl(TR, TR - 0.08, 0.14, at(0, TY, tz), '--ppd-tray', 0.03, 36);
-      kit.cyl(TR - 0.1, TR - 0.1, 0.02, at(0, TY + 0.075, tz), '--ppd-night', false, 36);
+      kit.cyl(TR, TR - 0.08, 0.14, at(0, TY, tz), '--ppd-tray', 0.03, 64);
+      kit.cyl(TR - 0.1, TR - 0.1, 0.02, at(0, TY + 0.075, tz), '--ppd-night', false, 64);
+      // Its moulded lip, rolled over at the edge, and rubber feet under the legs.
+      kit.piece(new T.TorusGeometry(TR - 0.01, 0.035, 8, 64), at(0, TY + 0.07, tz, 0, FLAT), '--ppd-tray', 0.02);
+      [[-0.8, -0.3], [0.8, -0.3], [-0.5, 0.6], [0.5, 0.6]].forEach(function (l) {
+        kit.cyl(0.05, 0.06, 0.03, at(l[0], 0.015, tz + l[1]), '--ppd-tray', false, 10);
+      });
       // Its rim, catching the lamp.
       glow(new T.TorusGeometry(TR - 0.05, 0.016, 6, 48), at(0, TY + 0.072, tz, 0, FLAT), '--ppd-uv');
       [[-0.8, -0.3], [0.8, -0.3], [-0.5, 0.6], [0.5, 0.6]].forEach(function (l) {
@@ -226,13 +431,24 @@
           dab(p[0] + (hash(i, k, 3) - 0.5) * 0.16, y0 + 0.01, p[1] + (hash(i, k, 4) - 0.5) * 0.12, 0.04 + hash(i, k, 5) * 0.03, p[2], 0.6);
         }
       });
+      // Foam heaped higher in two places, where a whole can was squirted
+      // out, and a finger's trail ploughed through each heap, down to the
+      // tray's black floor.
+      [[-0.5, tz + 0.55, '--ppd-blue', 0.3], [0.62, tz - 0.3, '--ppd-pink', -0.5]].forEach(function (h, i) {
+        for (var k = 0; k < 9; k++) {
+          var ha = hash(i, k, 11) * Math.PI * 2, hr = hash(i, k, 12) * 0.11;
+          dab(h[0] + Math.cos(ha) * hr, y0 + 0.012 + hash(i, k, 13) * 0.03, h[1] + Math.sin(ha) * hr, 0.035 + hash(i, k, 14) * 0.025, h[2], 0.75);
+        }
+        glow(new T.BoxGeometry(0.32, 0.03, 0.026), at(h[0], y0 + 0.028, h[1], h[3]), '--ppd-night');
+      });
       // Trails of finger marks, dot after dot, across the tray's floor.
       [[-0.85, tz - 0.2, 0.3, -0.18, '--ppd-yellow'], [0.2, tz - 0.75, 0.28, 0.1, '--ppd-blue'], [-0.65, tz + 0.65, 0.3, 0.06, '--ppd-orange']].forEach(function (t) {
         for (var f = 0; f < 5; f++) dab(t[0] + f * t[2] / 2.2, y0 - 0.005, t[1] + f * t[3] / 2.2 + Math.sin(f * 1.3) * 0.03, 0.022, t[4], 0.3);
       });
       // A jar of tonic water, glowing blue, and a galaxy jar.
-      glow(new T.CylinderGeometry(0.1, 0.1, 0.3, 14), at(0.55, y0 + 0.15, tz - 0.05), '--ppd-blue');
-      kit.cyl(0.11, 0.11, 0.04, at(0.55, y0 + 0.32, tz - 0.05), '--ppd-line', false, 14);
+      faint(glow(new T.CylinderGeometry(0.092, 0.088, 0.27, 20), at(0.55, y0 + 0.135, tz - 0.05), '--ppd-blue'), 0.85);
+      faint(glow(new T.CylinderGeometry(0.1, 0.1, 0.3, 20, 1, true), at(0.55, y0 + 0.15, tz - 0.05), '--ppd-line'), 0.3);
+      kit.cyl(0.11, 0.11, 0.04, at(0.55, y0 + 0.32, tz - 0.05), '--ppd-line', false, 20);
       kit.piece(new T.CylinderGeometry(0.09, 0.09, 0.26, 14), at(-0.5, y0 + 0.13, tz - 0.45), '--ppd-tray', 0.01);
       for (var g = 0; g < 7; g++) glow(new T.SphereGeometry(0.012, 5, 3), at(-0.5 + (hash(g, 1, 1) - 0.5) * 0.12, y0 + 0.04 + hash(g, 1, 2) * 0.2, tz - 0.45 + 0.092), '--ppd-yellow');
       // Two glow sticks.
@@ -275,8 +491,11 @@
       [1.0, 1.6].forEach(function (y) { box(2.6, 0.06, 0.32, M(sh, at(0, y, 0)), '--ppd-line', 0.01); });
       [-1.1, -0.78, -0.46].forEach(function (x, j) {
         var tall = 0.16 + (j % 3) * 0.05;
-        glow(new T.CylinderGeometry(0.07, 0.07, tall, 12), on(x, 1.03 + tall / 2), INKS[j]);
-        kit.cyl(0.072, 0.072, 0.03, on(x, 1.045 + tall), '--ppd-line', false, 12);
+        glow(new T.CylinderGeometry(0.07, 0.07, tall, 16), on(x, 1.03 + tall / 2), INKS[j]);
+        kit.cyl(0.072, 0.072, 0.03, on(x, 1.045 + tall), '--ppd-line', false, 16);
+        // Its label, a band of white paper round it, which glows too.
+        glow(new T.CylinderGeometry(0.073, 0.073, tall * 0.45, 16, 1, true), on(x, 1.03 + tall / 2), '--ppd-ink');
+        kit.cyl(0.0735, 0.0735, 0.012, on(x, 1.03 + tall / 2), '--ppd-line', false, 16);
       });
       for (var nv = 0; nv < 5; nv++) {
         glow(new T.CylinderGeometry(0.024, 0.026, 0.06, 10), on(-0.18 + nv * 0.11, 1.06), INKS[(nv + 2) % 5]);
@@ -314,8 +533,9 @@
       kit.cyl(0.085, 0.085, 0.03, on(0.2, 1.855), '--ppd-line', false, 14);
       [0.62, 0.95].forEach(function (x, j) {
         var tall = 0.18 + j * 0.06;
-        glow(new T.CylinderGeometry(0.07, 0.07, tall, 12), on(x, 1.63 + tall / 2), INKS[j + 3]);
-        kit.cyl(0.072, 0.072, 0.03, on(x, 1.645 + tall), '--ppd-line', false, 12);
+        glow(new T.CylinderGeometry(0.07, 0.07, tall, 16), on(x, 1.63 + tall / 2), INKS[j + 3]);
+        kit.cyl(0.072, 0.072, 0.03, on(x, 1.645 + tall), '--ppd-line', false, 16);
+        glow(new T.CylinderGeometry(0.073, 0.073, tall * 0.4, 16, 1, true), on(x, 1.63 + tall / 2), '--ppd-ink');
       });
       stops.push({ name: 'at the shelf of paints and jars', x: W / 2 - 2.4, z: -5.0, yaw: -Math.PI / 2 });
 
@@ -361,6 +581,15 @@
         var sg = new T.SphereGeometry(0.05, 10, 6); sg.scale(0.3, 1, 1);
         glow(sg, at(wx, p[0], p[1]), INKS[(i + 2) % 5]);
       });
+      // Splashes, where a loaded brush was flicked at the sheet: a dot and
+      // its spatter round it.
+      [[1.6, bz + 0.1, '--ppd-blue'], [0.95, bz + 0.2, '--ppd-yellow'], [1.5, bz - 0.65, '--ppd-green']].forEach(function (sp, si) {
+        for (var k = 0; k < 8; k++) {
+          var sa2 = hash(si, k, 21) * Math.PI * 2, sr2 = k ? 0.05 + hash(si, k, 22) * 0.12 : 0;
+          var spot = new T.CircleGeometry(k ? 0.006 + hash(si, k, 23) * 0.012 : 0.032, 8);
+          glow(spot, at(wx - 0.002, sp[0] + Math.sin(sa2) * sr2, sp[1] + Math.cos(sa2) * sr2, -Math.PI / 2), sp[2]);
+        }
+      });
       // Where the paint was put on thick it has run, in drips down the sheet.
       [[1.45, bz + 0.3, 0.22, '--ppd-pink'], [1.38, bz - 0.4, 0.3, '--ppd-pink'], [1.0, bz - 0.15, 0.18, '--ppd-green'],
        [1.13, bz + 0.2, 0.14, '--ppd-green'], [1.25, bz - 0.05, 0.26, '--ppd-orange']].forEach(function (d) {
@@ -371,7 +600,11 @@
       [[-0.06, 0.2, '--ppd-yellow'], [0.05, -0.15, '--ppd-blue'], [0, 0.02, '--ppd-pink']].forEach(function (b) {
         var bm = at(W / 2 - 0.3 + b[0], 0.52, bz + 0.35, 0, 0, b[1]);
         kit.piece(new T.CylinderGeometry(0.014, 0.014, 0.5, 6), bm, '--ppd-line', false);
-        glow(new T.BoxGeometry(0.09, 0.08, 0.04), M(bm, at(0, 0.27, 0)), b[2]);
+        // The ferrule, and a head of bristles clotted with its paint.
+        kit.cyl(0.03, 0.028, 0.06, M(bm, at(0, 0.24, 0)), '--ppd-line', 0.004, 8);
+        for (var br = 0; br < 9; br++) {
+          glow(new T.CylinderGeometry(0.005, 0.004, 0.1, 4), M(bm, at((br % 3 - 1) * 0.024, 0.32, (Math.floor(br / 3) - 1) * 0.014, 0, 0, (br % 3 - 1) * 0.12)), b[2]);
+        }
       });
       faint(glow(new T.CylinderGeometry(0.05, 0.055, 0.2, 12), at(W / 2 - 0.32, 0.1, bz - 0.25), '--ppd-blue'), 0.6);
       box(0.05, 0.08, 0.05, at(W / 2 - 0.32, 0.24, bz - 0.25), '--ppd-line', 0.008);
@@ -383,6 +616,10 @@
       var mm = at(-2.55, 0, back + 1.25, 0.15);
       var onMat = function (x, y, z) { return M(mm, at(x, y, z)); };
       box(2.2, 0.012, 1.4, onMat(0, 0.006, 0), '--ppd-tray', false, false);
+      // Its raised rim, which keeps the mess on the mat.
+      [[0, 0.7, 2.24, 0.04], [0, -0.7, 2.24, 0.04], [1.1, 0, 0.04, 1.44], [-1.1, 0, 0.04, 1.44]].forEach(function (r) {
+        box(r[2], 0.03, r[3], onMat(r[0], 0.02, r[1]), '--ppd-line', 0.004);
+      });
       kit.cyl(0.26, 0.18, 0.13, onMat(-0.6, 0.075, 0.1), '--ppd-line', 0.01, 20);
       kit.cyl(0.24, 0.24, 0.01, onMat(-0.6, 0.145, 0.1), '--ppd-ink-2', false, 20);
       kit.piece(new T.CylinderGeometry(0.014, 0.014, 0.42, 6), M(onMat(-0.48, 0.2, 0.06), at(0, 0, 0, 0.4, 0, -1.1)), '--ppd-line', false);
@@ -431,6 +668,9 @@
         [-0.15, 0.15].forEach(function (pg2) { glow(new T.BoxGeometry(0.03, 0.08, 0.02), at(LX + 0.05, py2 - 0.01, pz + pg2), INKS[(pi + 3) % 5]); });
       });
 
+      stops.push({ name: 'at the drawings pegged up to dry on the left-hand wall', x: -W / 2 + 1.6, z: -2.1, yaw: Math.PI / 2, pitch: 0.18 });
+      stops.push({ name: 'under the strings of white flowers and the paper star', x: 1.2, z: -3.4, yaw: 0.3, pitch: 0.9 });
+
       // A TRAY OF RAINBOW RICE on the floor by the big sheet, the grains
       // dyed every colour of the paints, which glow.
       var rx = 2.3, rz = -1.0;
@@ -444,6 +684,129 @@
       }
       INKS.forEach(function (ink) { glow(merged(grains[ink]), new T.Matrix4(), ink); });
       kit.cyl(0.06, 0.05, 0.05, at(rx + 0.25, 0.09, rz + 0.12), '--ppd-line', 0.006, 10);
+      stops.push({ name: 'at the tray of rainbow rice on the floor', x: rx - 0.1, z: rz + 1.3, yaw: 0.05, pitch: -0.6 });
+
+      // A BIG LAVA LAMP (Helen Edgar's ask, 2026-11-11: "a real lava lamp
+      // working in my UV play pod, big, so you can sit in front of it"),
+      // person-high against the left-hand wall, with a beanbag on the floor
+      // in front of it to sit on. A dark metal base and cap, a tall tapered
+      // glass seen through, lit from below in the pod's orange, and in it
+      // eight blobs of wax that rise and sink, each on its own slow period,
+      // on kit.rise with back: true, by themselves at MAX (her dial lets the
+      // glow breathe) and at any setting once Let the lava rise is pressed.
+      // The wax is glow paint, so with the lamp off it is pale; its colour is
+      // chosen on a switch of its own.
+      var LX2 = -W / 2 + 0.62, LZ = -3.9;
+      kit.cyl(0.3, 0.36, 0.32, at(LX2, 0.16, LZ), '--ppd-line', 0.02, 24);
+      kit.cyl(0.24, 0.3, 0.06, at(LX2, 0.35, LZ), '--ppd-line', 0.01, 24);
+      var lavaGlass = kit.facets(new T.CylinderGeometry(0.2, 0.3, 1.3, 28, 1, true), at(LX2, 1.03, LZ), '--ppd-ink-2');
+      lavaGlass.material.transparent = true; lavaGlass.material.opacity = 0.2; lavaGlass.material.side = T.DoubleSide; lavaGlass.material.depthWrite = false;
+      var lavaFill = faint(glow(new T.CylinderGeometry(0.19, 0.29, 1.28, 28), at(LX2, 1.03, LZ), '--ppd-orange'), 0.22);
+      kit.cyl(0.21, 0.21, 0.06, at(LX2, 1.71, LZ), '--ppd-line', 0.01, 24);
+      kit.piece(new T.ConeGeometry(0.2, 0.3, 24), at(LX2, 1.89, LZ), '--ppd-line', 0.02);
+      var lavaLight = new T.PointLight(kit.col('--ppd-orange'), 5, 3.4, 1.4);
+      lavaLight.position.set(LX2, 0.55, LZ);
+      kit.scene.add(lavaLight);
+      var blobs = [], lava = [];
+      [[0.0, 0.5, 0.15, 11, 0.0], [0.08, 0.42, 0.1, 14, 0.3], [-0.09, 0.62, 0.09, 9.5, 0.55], [0.05, 0.95, 0.12, 16, 0.8],
+       [-0.06, 0.46, 0.07, 12.5, 0.15], [0.1, 0.78, 0.06, 10, 0.7], [-0.04, 1.1, 0.08, 13, 0.4], [0.02, 0.56, 0.05, 15, 0.9]].forEach(function (b, i) {
+        var bg = new T.SphereGeometry(b[2], 14, 10); bg.scale(1, 0.82, 1);
+        var blob = kit.facets(bg, at(LX2 + b[0], b[1], LZ + (hash(i, 50, 1) - 0.5) * 0.08), '--ppd-pink');
+        glows.push([blob, '--ppd-pink']);
+        blobs.push(blob);
+        // How far it can rise and stay in the glass.
+        lava.push({ meshes: [blob], lift: Math.max(0.2, 1.5 - b[1] - b[2]), period: b[3], ph: b[4] });
+      });
+      var lavaUp = kit.rise(lava, { say: 'Let the lava rise', max: true, back: true,
+        at: [kit.touch(0.7, 1.9, 0.7, at(LX2, 1.0, LZ))],
+        said: function (on) { return on ? 'The wax rises and sinks in the lamp, each blob on its own slow time.' : 'The wax hangs where it is.'; } });
+      var LAVA_INKS = [['Pink', '--ppd-pink'], ['Orange', '--ppd-orange'], ['Green', '--ppd-green'], ['Blue', '--ppd-blue']];
+      var lavaInk = kit.choose({ label: 'The lava’s colour', choices: LAVA_INKS.map(function (c) { return c[0]; }), start: 0,
+        pick: function (i) {
+          var ink = LAVA_INKS[i][1], day = lampNode && lampNode() && lampNode().getAttribute('data-lamp') === 'off';
+          blobs.forEach(function (bl) {
+            bl.material.color.copy(kit.col(day ? DAY[ink] : ink));
+            glows.forEach(function (g) { if (g[0] === bl) g[1] = ink; });
+          });
+          return 'The wax is ' + LAVA_INKS[i][0].toLowerCase() + '.';
+        } });
+      // The beanbag in front of it, sunk in the middle where somebody sits.
+      var bag = new T.SphereGeometry(0.5, 18, 12); bag.scale(1.1, 0.42, 1.0);
+      kit.piece(bag, at(LX2 + 1.05, 0.2, LZ), '--ppd-uv', 0.02);
+      var dent = new T.SphereGeometry(0.3, 14, 8); dent.scale(1, 0.3, 1);
+      kit.piece(dent, at(LX2 + 1.0, 0.34, LZ), '--ppd-tray', false);
+
+      // A BUBBLE TUBE in the back right-hand corner (Helen's ask, the same
+      // day): a clear column floor to near the ceiling on a padded base,
+      // water in it, bubbles rising all the way up on kit.rise (growing from
+      // nothing at the foot and gone at the top, so none ever jumps), by
+      // themselves at MAX and on Let the bubbles rise; and a string of lights
+      // up inside it that change colour slowly, one of her paints into the
+      // next, on a kit.lights string with cycle: true and a wash of their own.
+      // It is a lamp of its own, so it stays lit with the UV lamp off, as a
+      // bubble tube does.
+      var BX = W / 2 - 0.75, BZ = back + 0.85, BH = 2.5;
+      box(0.8, 0.3, 0.8, at(BX, 0.15, BZ), '--ppd-tray', 0.02);
+      box(0.7, 0.06, 0.7, at(BX, 0.33, BZ), '--ppd-line', 0.01);
+      var tubeGlass = kit.facets(new T.CylinderGeometry(0.21, 0.21, BH, 28, 1, true), at(BX, 0.36 + BH / 2, BZ), '--ppd-ink-2');
+      tubeGlass.material.transparent = true; tubeGlass.material.opacity = 0.16; tubeGlass.material.side = T.DoubleSide; tubeGlass.material.depthWrite = false;
+      var water = kit.facets(new T.CylinderGeometry(0.19, 0.19, BH - 0.1, 28), at(BX, 0.36 + BH / 2, BZ), '--ppd-blue');
+      water.material.transparent = true; water.material.opacity = 0.3; water.material.depthWrite = false;
+      kit.cyl(0.24, 0.22, 0.08, at(BX, 0.36 + BH + 0.04, BZ), '--ppd-line', 0.01, 24);
+      var bubbles = [];
+      for (var bb = 0; bb < 26; bb++) {
+        var ba = hash(bb, 51, 1) * Math.PI * 2, brr = hash(bb, 51, 2) * 0.13, bubR = 0.015 + hash(bb, 51, 3) * 0.025;
+        var bub = kit.facets(new T.SphereGeometry(bubR, 8, 6), at(BX + Math.cos(ba) * brr, 0.42, BZ + Math.sin(ba) * brr), '--ppd-ink');
+        bub.material.transparent = true; bub.material.opacity = 0.75;
+        bubbles.push({ meshes: [bub], lift: BH - 0.2, period: 4 + hash(bb, 51, 4) * 5, ph: hash(bb, 51, 5) });
+      }
+      var bubblesUp = kit.rise(bubbles, { say: 'Let the bubbles rise', max: true,
+        at: [kit.touch(0.5, BH, 0.5, at(BX, 0.36 + BH / 2, BZ))],
+        said: function (on) { return on ? 'Bubbles rise up the tube, one after another, each at its own pace.' : 'The bubbles hang in the water.'; } });
+      var tubePts = [];
+      for (var tl = 0; tl < 16; tl++) tubePts.push([BX + Math.cos(tl * 1.1) * 0.14, 0.5 + tl * (BH - 0.3) / 15, BZ + Math.sin(tl * 1.1) * 0.14]);
+      var tubeWash = new T.PointLight(kit.col('--ppd-blue'), 5, 4, 1.3);
+      tubeWash.position.set(BX, 1.6, BZ);
+      kit.scene.add(tubeWash);
+      var tubeLights = kit.lights({ label: 'The bubble tube’s light', max: true, cycle: true, washes: [tubeWash],
+        strings: [kit.bulbs(tubePts, 0.03, INKS)],
+        sets: [{ say: 'Her five paints', inks: INKS },
+               { say: 'Cool', inks: ['--ppd-blue', '--ppd-green', '--ppd-uv'] },
+               { say: 'Warm', inks: ['--ppd-pink', '--ppd-orange', '--ppd-yellow'] }] });
+
+      // SENSORY MATS (Helen's ask, the same day: "sensory mats that change
+      // colour"): six soft squares on the floor between the door and the
+      // tray, each with a grid of lit points in it on one kit.lights string
+      // with cycle: true, so every point drifts from one colour to the next
+      // over seconds, by itself at MAX and on Let the colours change; and
+      // each mat pressable, which gives that mat's own cushion the next of
+      // her paints. Their lights are their own, lit with the UV lamp off too.
+      var matInks = {}, matPts = [], matPress = [], MATS = [];
+      [[-0.7, -1.0], [0, -1.0], [0.7, -1.0], [-0.7, -1.7], [0, -1.7], [0.7, -1.7]].forEach(function (m, mi) {
+        var pad = new T.BoxGeometry(0.62, 0.06, 0.62, 2, 1, 2);
+        var mat = kit.facets(pad, at(m[0], 0.03, m[1]), '--ppd-tray');
+        mat.material.transparent = false;
+        var ring = kit.facets(new T.BoxGeometry(0.64, 0.02, 0.64), at(m[0], 0.065, m[1]), '--ppd-line');
+        kit.hide(ring, false);
+        MATS.push({ mesh: mat, ink: mi, x: m[0], z: m[1] });
+        for (var gx3 = -1; gx3 <= 1; gx3++) for (var gz3 = -1; gz3 <= 1; gz3++) matPts.push([m[0] + gx3 * 0.18, 0.08, m[1] + gz3 * 0.18]);
+      });
+      var matWash = new T.PointLight(kit.col('--ppd-pink'), 3, 3, 1.4);
+      matWash.position.set(0, 0.5, -1.35);
+      kit.scene.add(matWash);
+      var matLights = kit.lights({ label: 'The sensory mats', max: true, cycle: true, washes: [matWash],
+        strings: [kit.bulbs(matPts, 0.035, INKS)],
+        sets: [{ say: 'Her five paints', inks: INKS },
+               { say: 'Cool', inks: ['--ppd-blue', '--ppd-green', '--ppd-uv'] },
+               { say: 'Warm', inks: ['--ppd-pink', '--ppd-orange', '--ppd-yellow'] }] });
+      var matPick = kit.press({ say: 'Press a mat for a colour of its own',
+        at: MATS.map(function (mt2) { var hb = kit.touch(0.62, 0.2, 0.62, at(mt2.x, 0.1, mt2.z)); hb.userData.mat = mt2; return hb; }),
+        press: function () {
+          // Every mat in turn: the next of her paints on each.
+          MATS.forEach(function (mt2) { mt2.ink = (mt2.ink + 1) % 5; mt2.mesh.material.color.copy(kit.col(INKS[mt2.ink])); });
+          var WORDS = ['pink', 'green', 'blue', 'orange', 'yellow'];
+          return 'Each mat takes the next of her paints: ' + MATS.map(function (mt2) { return WORDS[mt2.ink]; }).join(', ') + '.';
+        } });
 
       // HER OWN PAGE on the left-hand wall.
       var pw = 3.0, ph = pw * 800 / 1180, py = 0.5 + ph / 2;
@@ -480,6 +843,7 @@
         sky.groundColor.copy(kit.col(day ? '--ppd-day-floor' : '--ppd-night'));
         sky.intensity = day ? 2.6 : 1.1;
         uv.intensity = day ? 0 : 18;
+        doorLight.intensity = day ? 0 : 4;
         kit.tint('--ppd-tray', day ? '--ppd-day' : '--ppd-tray');
         kit.tint('--ppd-line', day ? '--ppd-day-stand' : '--ppd-line');
         kit.tint('--ppd-night', day ? '--ppd-day-tray' : '--ppd-night');
@@ -533,8 +897,39 @@
           return hold ? 'Squeezed, the oobleck goes hard, and a handful of it stands up out of the bowl.'
                       : 'Let go, it goes runny and runs back flat into the bowl, in rings.';
         } });
+      // LETTERED SIGNS IN WEBGL (Helen's ask, 2026-11-11, for a headset,
+      // which shows no page or lift): over the round door, where it goes; over
+      // her page, the room's name and a line of ours; in her room's own faces.
+      function sign(words, small, w, m) {
+        var paper = kit.paper(1200, small ? 300 : 220, function (c, pw2, ph2) {
+          c.fillStyle = kit.ink('--ppd-tray'); c.fillRect(0, 0, pw2, ph2);
+          c.strokeStyle = kit.ink('--ppd-uv'); c.lineWidth = 10; c.strokeRect(12, 12, pw2 - 24, ph2 - 24);
+          c.fillStyle = kit.ink('--ppd-ink'); c.textAlign = 'center'; c.textBaseline = 'middle';
+          c.font = 'bold 110px "Grandstander"'; c.fillText(words, pw2 / 2, small ? 105 : ph2 / 2 + 4);
+          if (small) { c.font = '56px "Andika"'; c.fillStyle = kit.ink('--ppd-ink-2'); c.fillText(small, pw2 / 2, 222); }
+        });
+        kit.sheet(paper, w, w * (small ? 300 : 220) / 1200, m);
+      }
+      sign('The Faery Yurt', null, 1.1, M(pm, at(0, 2.35, 0.17)));
+      sign('The Play Pod', 'Helen Edgar’s pod: her page hangs here', 1.7, M(pg, at(0, py + ph / 2 + 0.36, 0.05)));
+      box(1.2, 0.26, 0.04, M(pm, at(0, 2.35, 0.14)), '--ppd-line', 0.008);
+      box(1.8, 0.48, 0.04, M(pg, at(0, py + ph / 2 + 0.36, 0.02)), '--ppd-line', 0.008);
+
+      stops.push({ name: 'sitting in front of the big lava lamp, on the beanbag', x: LX2 + 1.05, z: LZ, yaw: Math.PI / 2, pitch: 0.15, acts: [lavaUp, lavaInk] });
+      stops.push({ name: 'at the bubble tube, its bubbles and its changing light', x: BX - 0.2, z: BZ + 1.7, yaw: -0.1, pitch: 0.2, acts: [bubblesUp, tubeLights] });
+      stops.push({ name: 'on the sensory mats, their colours changing underfoot', x: 0, z: -1.35, yaw: 0, pitch: -0.75, acts: [matLights, matPick] });
+      stops.push({ name: 'back at the round door, the way out to the yurt', x: 0, z: -0.9, yaw: Math.PI, pitch: 0.05, acts: [faeries] });
+      // THE WALKING ORDER (the same ask): the controller's bumpers and the
+      // places list go from the door round the pod and back to the door.
+      var ORDER = ['just through the round door', 'on the sensory mats', 'at the low table', 'at the drawings', 'sitting in front of the big lava lamp',
+                   'at the tuff tray', 'at the stool', 'at the shelf of paints', 'at the big sheet', 'at the tray of rainbow rice', 'under the strings',
+                   'at the bubble tube', 'at the easel', 'at the film', 'at the messy play mat', 'at the wall, with her room', 'back at the round door'];
+      stops.sort(function (a, b) {
+        var ia = ORDER.findIndex(function (o) { return a.name.indexOf(o) === 0; }), ib = ORDER.findIndex(function (o) { return b.name.indexOf(o) === 0; });
+        return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+      });
       stops.forEach(function (st) {
-        if (/round door/.test(st.name)) st.acts = [flowers];
+        if (/round door/.test(st.name)) st.acts = [faeries, flowers];
         if (/tuff tray/.test(st.name)) st.acts = [lampPress, flowers];
         if (/lamp switch/.test(st.name)) st.acts = [lampPress];
         if (/shelf of paints/.test(st.name)) st.acts = [stir];

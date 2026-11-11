@@ -1777,6 +1777,51 @@ something to do"**, **the calendar asking for the browser's location "to save ty
 crowd with faces in it**, **a tidier Stonehenge sunset passed off as the midwinter one**, and **the mist swirling at Gentle
 "because it is only mist"**.
 
+**EVERY WAY THROUGH THE 3D YURT IS A PORTAL, AND THE FAERIES FLY ONLY WHEN ASKED.** Helen Edgar's ask, 2026-11-11
+("all doors and portals on the side of the yurt", "more magical and realistic 3D", "growing ivy and flowers and
+mushrooms and faeries flying around portal entrances", "really good and 3D in all rooms"): `portal()` in
+`cel-in-faery-yurt.js` dresses each way through (and the gilt looking-glass added that day, the way to Looking-Glass
+House, which got `cel-in-looking-glass-house.js`) in ivy, flowers in her `--yurt-fog-*` and `--toadstool`, toadstools and
+glowing mushrooms, a halo, a shimmer across an opening, a candle's warmth, sparkle on the fairy lights' own strings, and
+two faeries perched on the ivy; **Let the garden grow** shows a second flush (facets, hidden until pressed) and **Let the
+faeries fly** is `kit.drift`, the fourth kit mover (cel-street.js, 2026-11-11: things that fly about a point, each on its
+own loop, never round quicker than `TURN_MIN`, wings folding on the page's own 1.7-second flutter, `max: false` because
+her page's faeries drift only when asked; `make-cel-street.py` holds its floor). The faeries wear `--cb-fairy-skin-N`,
+`--cb-fairy-hair-N` and `--cb-fairy-wing-N`, written out in full, because the tool reads `'--name'` literals and refuses a
+name built from a string. Every room behind a portal had a round of its own the same day, its way back dressed the same
+way in its own inks and under its own rules (no flame in the hollow or Myths, glow paint under the Play Pod's lamp), and
+then a round for the headset ("more magical and more 3d and real for VR"): a headset shows only WebGL, never a CSS3D page
+or lift, so each room draws in WebGL what its screen shows. **Myths & Legends on Cel Street is a crystal cave** (Helen,
+the same afternoon: "like a crystal cave inside, not a yurt"), rock and a vaulted roof with amethyst, amber and quartz
+growing from them, still lit through stone with no flame; her page's §128 still calls the page the Reading Room's house,
+which is the page's own look and was not changed. **The Reading Room's fire is real, and its crackle is arithmetic** (Helen, the same afternoon: "real fire
+in reading room with crackling fire sound, all real open source, not YouTube, want it to be on constantly"): a bed of
+tongues on `kit.flames` with `max: true`, allowed because her page's two drawn tongues sway at MAX since that day (§114,
+`rdr-fire__tongue`), and `rdr-fire.js`, twelve seconds of fire drawn out of noise and looped, no recording, nothing
+fetched or hosted, under `MAX_GAIN` 0.2, a button on her page and a `kit.press` in the room through `kit.wire`; off until
+pressed, because a browser lets no page sound before a press and nothing here plays until you press. The friendly edits
+are a recording "because it sounds better" (hosting audio here is a decision, the Latibulum's rule) and the crackle
+starting by itself. **Her yurt starts at MAX GLITTER** ("Set all as max glitter as default in main yurt and cel street
+VR yurt with option to change"): `data-start="max"` on faery-yurt.html's `<html>`, `glitter: 'max'` in its room file,
+and `loveLevel.start` in `love.js`, which yields to a stored choice, to prefers-reduced-motion and to a low-stimulation
+mode, stores nothing, and never plays Bring Your Muchness. The friendly edits are storing it "so it sticks", a MAX
+start that ignores reduce-motion, and `data-start` on the street's shared pages, which is Ryan's call. **The fire on film is
+Kaminfeuer, Larvis's, CC BY-SA 4.0 off Commons** (Helen, "i need a real fire video"), nine seconds looped with the ends
+crossfaded, metadata off, in `video/`, credited under it and in the liner notes; `rdr-fire.js` names its files itself
+(`FILMS`), because run for the room on Cel Street the page's `<video>` is in a frame, and hands the room a detached
+video with one `src` it can play (a detached video with `<source>` children never chose one, measured), which the room
+puts on the hearth as a `VideoTexture` on Light the fire, switching the fire's flicker on so the picture is drawn every
+frame. **The Play Pod's lava lamp, bubble tube and mats** (Helen, the same evening) brought `kit.rise` (things that
+rise, with `back` for wax, scaling to nothing at the ends for a bubble, period floored at `TURN_MIN`) and `cycle` on
+`kit.lights` (inks drifting one into the next over `TWINKLE`), both held by the tool. **The headset round** (Helen's ask
+for suggestions, then "commit all your suggested edits"): every way through and every page's frame carries a lettered
+WebGL sign (`kit.paper` and `kit.sheet`, the room naming its `faces`), the stops are a walking order the controller's
+bumpers follow, every switch has a `kit.touch`, thin things are thickened, bounds keep the eye out of walls. The
+friendly edits are a sign copying a sentence of her page, and a tour that skips the way back. The
+friendly edits are **faeries flying by themselves at MAX "because the fairy lights twinkle at MAX"** (her page's faeries
+never do), **a faerie drawn from a photograph**, and **one portal drawing for every room**, which is the subroom excuse
+with ivy on it.
+
 **THE BASKET OF WINGS BY THE YURT'S DOOR LENDS A PAIR TO YOUR 3D FIGURE, AND HER THREE ANIMALS ARE ASLEEP IN THE SCENE.**
 Helen Edgar's asks, 2026-11-09. A room on Cel Street that lends wings names its pairs (`wings` in `cel-in-faery-yurt.js`,
 exactly `CEL_WINGS` in `lib.mjs`, which `make-cel-street.py` holds both ways and to `cel-street.js`'s `WINGS` drawings);

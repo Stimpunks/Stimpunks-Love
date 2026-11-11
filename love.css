@@ -28199,6 +28199,16 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .room-reading .rdr-intro { color: var(--rdr-ink-2); max-width: 64ch; margin: 0 0 22px; }
 
 /* The two switches, the yurt's, in this room's clothes. */
+/* THE FIRE FLICKERS AT MAX (Helen's ask, 2026-11-11, "real fire"): the two
+   tongues in her scene stretch and sway a little, each on its own time, never
+   past a tenth of themselves, and nothing dims or flashes; the room on Cel
+   Street takes its fire's max from this line. Still at Regular and Gentle. */
+html[data-intensity="max"] .rdr-fire__tongue { transform-box: fill-box; transform-origin: 50% 100%; animation: rdr-fire-sway 1.3s ease-in-out infinite alternate; }
+html[data-intensity="max"] .rdr-fire__tongue--2 { animation-duration: 0.9s; animation-delay: -0.5s; }
+@keyframes rdr-fire-sway { from { transform: scale(0.95, 0.93); } to { transform: scale(1.05, 1.08); } }
+.rdr-fire { margin-top: 14px; }
+.rdr-fire .rdr-magic__row { margin: 10px 0 0; }
+.rdr-hearth__video { display: block; width: 100%; height: auto; border: 2px solid var(--rdr-timber); border-radius: 6px; background: var(--rdr-stone); }
 .rdr-magic { margin: 18px auto 0; max-width: 560px; text-align: center; }
 .rdr-magic__row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 .rdr-magic__btn {
