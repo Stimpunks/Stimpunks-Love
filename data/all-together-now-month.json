@@ -9,34 +9,24 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-10T12:26Z",
+ "set": "2026-11-11T12:25Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-10T12:26:37Z"
+     "2026-11-11T12:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-10T12:26:37Z"
+     "2026-11-11T12:25:47Z"
     ]
    ]
   }
  },
  "log": [
-  {
-   "id": "6stxdrMB10Q",
-   "source": "farming-while-beige",
-   "form": "long",
-   "title": "Should we eat less red meat?",
-   "published": "2026-10-11T14:52:48Z",
-   "state": "screen",
-   "runs": 180,
-   "channel": "Farming While Beige"
-  },
   {
    "id": "tXCo6XAEt70",
    "source": "farming-while-beige",
@@ -615,6 +605,26 @@
    "published": "2026-11-09T22:09:57Z",
    "state": "screen",
    "runs": 93,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "Xgb3Lh5Eqnk",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Banning turbo chickens in the EU?",
+   "published": "2026-11-10T14:18:02Z",
+   "state": "screen",
+   "runs": 132,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "hQaWkB_GFWw",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Shop meat!",
+   "published": "2026-11-10T20:00:26Z",
+   "state": "screen",
+   "runs": 26,
    "channel": "Farming While Beige"
   }
  ]
