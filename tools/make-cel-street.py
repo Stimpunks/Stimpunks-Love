@@ -233,6 +233,42 @@ if "data-cel-doors" not in page:
 if "three.js" not in page or "MIT" not in page:
     refuse("cel-street.html no longer credits three.js and its licence.")
 
+# ── A sound in every room of Helen's, made of arithmetic ────────────────────
+# cel-sounds.js (Helen Edgar's ask, 2026-11-12, "sounds first") draws each
+# room's sound in the browser, the way rdr-fire.js draws the fire and
+# yurt-bell.js the bell: oscillators and noise, under MAX_GAIN, the
+# Repeater's ceiling, off until its switch in the room is pressed and off
+# again when the room is left (soundsOff in cel-street.js, from enter and
+# leave). It plays no recording, listens to nothing, fetches nothing and
+# keeps nothing. A room asks for one by its kind through kit.sound, which
+# places it with the kit's panner; a kind no sound has would be a switch
+# that does nothing, so each is checked against the file.
+SOUNDS = ROOT / "cel-sounds.js"
+if not SOUNDS.exists():
+    refuse("cel-sounds.js is missing, and every room of Helen's on Cel Street has a sound out of it.")
+    KINDS = set()
+else:
+    snd = SOUNDS.read_text()
+    sc = re.sub(r"/\*.*?\*/", "", snd, flags=re.S)
+    sc = re.sub(r"(?m)^\s*//.*$", "", sc)
+    mg = re.search(r"\bMAX_GAIN\s*=\s*([0-9.]+)", sc)
+    if not mg or float(mg.group(1)) > 0.2:
+        refuse("cel-sounds.js has no MAX_GAIN of 0.2 or under, the Repeater's ceiling, which every sound sits beneath.")
+    if re.search(r"\bfetch\b|XMLHttpRequest|sendBeacon|WebSocket|EventSource|localStorage|sessionStorage|indexedDB|document\.cookie", sc):
+        refuse("cel-sounds.js keeps or sends something. It is arithmetic in the browser and nothing else.")
+    if re.search(r"new Audio\b|createMediaElementSource|createMediaStreamSource|decodeAudioData|getUserMedia|getDisplayMedia|\.(mp3|m4a|ogg|wav|webm|flac)\b", sc):
+        refuse("cel-sounds.js plays a recording or listens to a microphone. Every sound is drawn out of oscillators and noise; hosting audio here is a decision (the Latibulum's rule).")
+    if "window.addEventListener('pagehide', offAll)" not in sc:
+        refuse("cel-sounds.js no longer switches every sound off when the page is left.")
+    KINDS = set(re.findall(r"^\s*kind\('(\w+)'", sc, re.M))
+    if not KINDS:
+        refuse("cel-sounds.js defines no sound (kind('name', { ... })).")
+if '<script src="cel-sounds.js" defer></script>' not in page:
+    refuse("cel-street.html no longer loads cel-sounds.js, and every room's sound switch would say the sounds have not loaded.")
+if "sound: function (o)" not in code or code.count("soundsOff()") < 3:
+    refuse("cel-street.js has lost kit.sound, or no longer switches a room's sounds off in both enter() and leave(): "
+           "a sound would follow you out of its room.")
+
 # ── The rooms you can walk into, each its own file ──────────────────────────
 # A ROOM'S FILE IS cel-in-<the room's page>.js AND IS THAT ROOM'S WORLD, the
 # walk-*.js rule on Paper Street: it keeps, sends, fetches and times nothing,
@@ -285,6 +321,9 @@ for f in sorted(ROOT.glob("cel-in-*.js")):
             continue
         if not any(all(cl in m.split() for cl in classes) for m in re.findall(r'class="([^"]*)"', page_src)):
             refuse(f"{f.name} lifts {sel} off {rpage}, which has nothing wearing those classes.")
+    for snd_kind in re.findall(r"kit\.sound\(\s*\{[^}]*?\bkind:\s*'(\w+)'", c):
+        if snd_kind not in KINDS:
+            refuse(f"{f.name} asks for a sound of kind {snd_kind!r}, which cel-sounds.js does not draw: a switch that would do nothing.")
     for src_js in re.findall(r"kit\.wire\(\s*\w+\s*,\s*'([^']+)'", c):
         if f'<script src="{src_js}"' not in page_src:
             refuse(f"{f.name} runs {src_js} against its lifts, and {rpage} does not load {src_js} itself.")

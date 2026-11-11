@@ -1368,6 +1368,15 @@
       stops.push({ name: 'at the sofa against the right-hand wall, the beanbags facing it', x: 2.9, z: -4.3, yaw: Math.PI - 0.2, pitch: -0.2, acts: sitSofaM.concat(sitBeansM) });
       stops.push({ name: 'at the floor cushions by the door, round the tea tray', x: -0.3, z: -2.2, yaw: 1.76, pitch: -0.35, acts: sitCushM });
       stops.push({ name: 'at the hammock and the window seat, in the corner by the harp', x: 3.2, z: -8.0, yaw: 0, pitch: -0.1, acts: [sitHammockM, sitWindowM] });
+      // THE HARP STIRRING IN A DRAUGHT (Helen's ask, 2026-11-12, "sounds
+      // first"): single strings plucked now and then, and sometimes a short
+      // run up them, out of one pentatonic scale, cel-sounds.js's harp
+      // (arithmetic, nothing recorded), heard from the harp in the corner
+      // through kit.sound: off until pressed, on until pressed again, off when
+      // you leave the room.
+      var harpStir = kit.sound({ kind: 'harp', pos: new T.Vector3().setFromMatrixPosition(M(hp, at(0, 1.1, 0))), say: 'Let the harp stir', stop: 'Still the harp',
+        at: [kit.touch(0.9, 1.9, 0.8, M(hp, at(0, 0.95, 0)))],
+        said: function (on) { return on ? 'A draught comes in at the window and the harp’s strings stir in it, a note here and there and now and then a run up them.' : 'The strings fall still.'; } });
       // THE TOUR (the headset round): the places in a walking order, from
       // the door round the room and back to it, which is the order a
       // controller's bumpers walk them; the way out is the last place.
@@ -1383,7 +1392,7 @@
         if (/phonograph’s deck|^over the phonograph|horn, with the moth/.test(st2.name)) st2.acts = [turning];
         if (/chandelier/.test(st2.name)) st2.acts = [candles, joinFaeries, sparkle];
         if (/left-hand candelabrum/.test(st2.name)) st2.acts = [candles];
-        if (/^beside the cello|^beside the harp|music stand/.test(st2.name)) st2.acts = [grow];
+        if (/^beside the cello|^beside the harp|music stand/.test(st2.name)) st2.acts = [grow].concat(/^beside the harp/.test(st2.name) ? [harpStir] : []);
         if (/^at the window/.test(st2.name)) st2.acts = [candles, grow];
         if (/^just through the door|^at the door back/.test(st2.name)) st2.acts = [flyFaeries, sparkle];
       });

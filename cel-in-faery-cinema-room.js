@@ -870,6 +870,16 @@
         said: function (on) { return on ? 'The feed reel on the projector goes round, once in four seconds.' : 'The feed reel stops where it is.'; } });
       var takeUp = kit.turn(reels[1].meshes, reels[1].about, { say: 'Turn the take-up reel', max: true, period: 4, at: [kit.touch(0.36, 0.36, 0.2, at(0.24, 6.36, -1.53))],
         said: function (on) { return on ? 'The take-up reel on the projector goes round, once in four seconds.' : 'The take-up reel stops where it is.'; } });
+      // THE PROJECTOR'S MOTOR (Helen's ask, 2026-11-12, "sounds first"): its
+      // whirr, a low hum off the lamp house and the shutter ticking
+      // twenty-four times a second, cel-sounds.js's projector (arithmetic,
+      // nothing recorded), heard from the box at the back through kit.sound:
+      // off until pressed, on until pressed again, off when you leave. It
+      // never flickers, whatever the sound says.
+      var whirr = kit.sound({ kind: 'projector', pos: [0, 6.1, -1.1], say: 'Switch the projector’s motor on', stop: 'Switch the projector’s motor off',
+        at: [kit.touch(0.12, 0.26, 0.1, at(0, 6.1, -1.64))],
+        said: function (on) { return on ? 'The projector hums to itself in the box, its shutter ticking twenty-four times a second, with the slow flutter of a reel that is not quite true. Its light never flickers.' : 'The motor winds down and the box is quiet.'; } });
+      stops.forEach(function (st) { if (/under the projection box/.test(st.name)) st.acts = (st.acts || []).concat([whirr]); });
       var candles = kit.flames(flames, { say: 'Let the candles flicker', at: candleTouch,
         said: function (on) { return on ? 'Every candle in its sconce flickers, each in its own time; the light from the box stays steady.' : 'The candles stand still again, as on her page.'; } });
       var mid = inBeam(0.55, 0, 0);

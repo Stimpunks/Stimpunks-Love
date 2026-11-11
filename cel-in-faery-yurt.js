@@ -691,6 +691,26 @@
       // sound, placed where the bell hangs, through the kit's panner.
       var bellAt = new T.Vector3().setFromMatrixPosition(M(round(Math.PI, R - 0.14, 0), at(-1.45, 1.1, 0.1)));
       kit.spatial(function () { return window.loveYurtBell && window.loveYurtBell.output ? window.loveYurtBell.output() : null; }, bellAt);
+      // WIND CHIMES BY THE DOOR (Helen's ask, 2026-11-12, "sounds first"):
+      // five brass tubes under a disc, hung on the wall on the other side of
+      // the door from the bell, drawn in her inks, and their sound, chimes
+      // and a breeze through the canvas out of cel-sounds.js (arithmetic,
+      // nothing recorded), heard from where they hang through kit.sound: off
+      // until pressed, on until pressed again, off when you leave the yurt.
+      var chM = M(round(Math.PI, R - 0.35, 0), at(1.45, 1.95, 0));
+      kit.cyl(0.004, 0.004, 0.3, M(chM, at(0, 0.15, 0)), '--tallow-2', false, 5);
+      kit.cyl(0.1, 0.1, 0.015, chM, '--ember-2', false, 18);
+      [[-0.07, 0.28], [-0.035, 0.22], [0, 0.3], [0.035, 0.2], [0.07, 0.25]].forEach(function (tb, ti) {
+        var tz = ti % 2 ? 0.035 : -0.035;
+        kit.cyl(0.004, 0.004, 0.06, M(chM, at(tb[0], -0.03, tz)), '--tallow-2', false, 5);
+        kit.cyl(0.013, 0.013, tb[1], M(chM, at(tb[0], -0.06 - tb[1] / 2, tz)), '--ember-2', false, 10);
+      });
+      kit.cyl(0.004, 0.004, 0.34, M(chM, at(0, -0.17, 0)), '--tallow-2', false, 5);
+      kit.cyl(0.035, 0.035, 0.012, M(chM, at(0, -0.2, 0)), '--ember-2', false, 12);
+      kit.flat(new T.PlaneGeometry(0.09, 0.12), M(chM, at(0, -0.42, 0)), '--tallow-3');
+      var chimes = kit.sound({ kind: 'chimes', pos: new T.Vector3().setFromMatrixPosition(chM), say: 'Let the wind chimes ring', stop: 'Hush the wind chimes',
+        at: [kit.touch(0.3, 0.7, 0.3, M(chM, at(0, -0.15, 0)))],
+        said: function (on) { return on ? 'A breeze comes through the canvas, and the chimes by the door ring in it now and then, each tube its own note.' : 'The breeze drops and the chimes hang still.'; } });
       stops.push({ name: 'at the far wall, with her room’s own page on it', x: 0, z: -(R - 2.3), yaw: 0, page: kit.page, frame: frame });
 
       // THE BOOKCASE, to the Reading Room: a timber case and her spines.
@@ -1314,7 +1334,7 @@
         var ia = ORDER.findIndex(function (o) { return a.name.indexOf(o) === 0; }), ib = ORDER.findIndex(function (o) { return b.name.indexOf(o) === 0; });
         return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
       });
-      stops.push({ name: 'back at the door, the way out to the campgrounds, with the bell string and the basket of blankets beside it', x: 0, z: R - 2.0, yaw: Math.PI, pitch: 0, acts: [faeries, garden] });
+      stops.push({ name: 'back at the door, the way out to the campgrounds, with the bell string and the basket of blankets beside it', x: 0, z: R - 2.0, yaw: Math.PI, pitch: 0, acts: [faeries, garden, chimes] });
 
       return {
         start: { x: 0, z: R - 1.2, yaw: 0 },

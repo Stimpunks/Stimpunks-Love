@@ -1847,6 +1847,26 @@ function start() {
         var v = pos && pos.isVector3 ? pos.clone() : new THREE.Vector3(pos[0], pos[1], pos[2]);
         (home.userData.spatials = home.userData.spatials || []).push({ get: get, pos: v, panner: null, ctx: null });
       },
+      // sound({ kind, pos, at, say, stop, said }): one of the room's own sounds
+      // out of cel-sounds.js (made of arithmetic there, nothing recorded or
+      // fetched), heard from pos through the panner above, with a switch
+      // under the line that says where you are and, where o.at is, on the
+      // thing itself. Off until pressed, on until pressed again, and off when
+      // you leave the room (soundsOff, from enter and leave), so no room's
+      // sound follows you into another. Helen Edgar's ask, 2026-11-12.
+      sound: function (o) {
+        var self = this, S = function () { return window.loveCelSounds || null; };
+        self.spatial(function () { var s = S(); return s ? s.output(o.kind) : null; }, o.pos);
+        (home.userData.sounds = home.userData.sounds || []).push(o.kind);
+        return self.press({ say: function () { var s = S(); return s && s.playing(o.kind) ? (o.stop || 'Let it be quiet') : o.say; }, at: o.at,
+          press: function () {
+            var s = S();
+            if (!s) return 'The sounds have not loaded yet; try again in a moment.';
+            var on = s.toggle(o.kind);
+            if (on === null) return 'This browser would not make the sound.';
+            return o.said ? o.said(on) : (on ? 'It sounds.' : 'It is quiet.');
+          } });
+      },
       // plaque({ title, lines, face, ink, ground, edge, w, m, size }): a board of
       // words in WebGL, wrapped to its width, for a headset, which shows no
       // page; returns its height in the world.
@@ -2080,9 +2100,16 @@ function start() {
     sc.addEventListener('error', function () { window.location.href = page; });
     document.head.appendChild(sc);
   }
+  // A room's sounds stop as you go out of it, either way (into a room off it,
+  // or back out), so a sound is only ever heard in the room it is in.
+  function soundsOff() {
+    var S = window.loveCelSounds, ks = (scene && scene.userData.sounds) || [];
+    if (S) ks.forEach(function (k) { S.off(k); });
+  }
   function enter(page, push, then) {
     if (!ROOMS[page] || (inside && inside.page === page)) return;
     var from = inside;
+    soundsOff();
     if (inside && inside.tunnel && push !== false && stops.some(function (t) { return t.page === page; })) travelStart(inside.tunnel);
     roomFile(page, function (room) {
       if (inside !== from) return;
@@ -2172,6 +2199,7 @@ function start() {
   }
   function leave() {
     if (!inside) return;
+    soundsOff();
     var into = behind.length ? behind[behind.length - 1].inside : null;
     if (into && into.tunnel && inside.from === into.page) travelStart(into.tunnel);
     scene.traverse(function (o) {

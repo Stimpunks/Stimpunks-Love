@@ -1066,6 +1066,28 @@
       });
       drinkMe(M(TR, at(0.26, TRL, 0.14)), '--lgh-hedge');
       eatMe(M(TR, at(-0.05, TRT, 0.18)), '--yurt-fog-peach', 0.4);
+      // THE KETTLE ON ITS SPIRIT STOVE (Helen's ask, 2026-11-12, "sounds
+      // first"): on the floor by the wall beyond the head of the table, between
+      // the two right-hand toadstools, a brass ring on
+      // three legs with a burner under it and a copper kettle on it, in the
+      // room's own inks; its sound, cel-sounds.js's kettle (hissing, the lid
+      // rattling, coming up to the whistle and sinking back; arithmetic,
+      // nothing recorded), heard from the kettle through kit.sound: off until
+      // pressed, on until pressed again, off when you leave the house.
+      var KM = at(TX + TL / 2 + 0.95, 0, TZ - 0.1, 0);
+      [0, 1, 2].forEach(function (lg) { var la = lg * Math.PI * 2 / 3; kit.cyl(0.01, 0.012, 0.22, M(KM, at(Math.cos(la) * 0.13, 0.11, Math.sin(la) * 0.13)), '--lgh-gilt-2', false, 6); });
+      kit.piece(new T.TorusGeometry(0.14, 0.012, 6, 24), M(KM, at(0, 0.22, 0, 0, Math.PI / 2)), '--lgh-gilt-2', false);
+      kit.cyl(0.05, 0.06, 0.05, M(KM, at(0, 0.03, 0)), '--lgh-gilt-2', false, 12);
+      kit.flat(new T.CircleGeometry(0.03, 10), M(KM, at(0, 0.06, 0, 0, -Math.PI / 2)), '--lgh-red');
+      var kettleBody = new T.SphereGeometry(0.16, 16, 12); kettleBody.scale(1, 0.72, 1);
+      kit.piece(kettleBody, M(KM, at(0, 0.34, 0)), '--lgh-gilt', false);
+      kit.cyl(0.05, 0.05, 0.02, M(KM, at(0, 0.455, 0)), '--lgh-gilt', false, 12);
+      kit.cyl(0.012, 0.012, 0.03, M(KM, at(0, 0.48, 0)), '--lgh-ink', false, 8);
+      kit.cyl(0.012, 0.03, 0.17, M(KM, at(0.19, 0.4, 0, 0, 0, -1.1)), '--lgh-gilt', false, 8);
+      kit.piece(new T.TorusGeometry(0.11, 0.012, 6, 20, Math.PI), M(KM, at(0, 0.44, 0)), '--lgh-ink', false);
+      var kettle = kit.sound({ kind: 'kettle', pos: new T.Vector3().setFromMatrixPosition(M(KM, at(0, 0.35, 0))), say: 'Put the kettle on', stop: 'Take the kettle off',
+        at: [kit.touch(0.45, 0.6, 0.45, M(KM, at(0, 0.3, 0)))],
+        said: function (on) { return on ? 'The kettle hisses on the spirit stove and its lid rattles; every so often it comes up to the whistle and sinks back, because it is always six o’clock here and it is never quite ready.' : 'The kettle comes off the flame and goes quiet.'; } });
       // The side table by the Hatter: a two-tier stand of scones and biscuits,
       // an EAT ME cake and a DRINK ME bottle, and his own pot of jam.
       var ST = at(TX + TL / 2 + 0.45, 0, TZ - 0.95, 0);
@@ -1561,7 +1583,7 @@
       stops.push({ name: 'at Alice’s place, in the armchair at the tea table', x: TX - 0.7, z: TZ + 1.9, yaw: 0, pitch: -0.15, acts: [eatMes[4], drinkMes[2]] });
       stops.push({ name: 'at the Dormouse, asleep in the teapot', x: TX - 0.35, z: TZ + 1.1, yaw: 0, pitch: -0.4 });
       stops.push({ name: 'at the tiny chair, the empty place laid for you', x: TX + 0.75, z: TZ + 1.4, yaw: 0, pitch: -0.3, acts: [sitTiny] });
-      stops.push({ name: 'at the Hatter, in his hat at the head of the table', x: TX + 1.2, z: TZ + 1.6, yaw: -0.6, pitch: -0.05, acts: [eatMes[2], drinkMes[1]] });
+      stops.push({ name: 'at the Hatter, in his hat at the head of the table', x: TX + 1.2, z: TZ + 1.6, yaw: -0.6, pitch: -0.05, acts: [eatMes[2], drinkMes[1], kettle] });
       stops.push({ name: 'at the March Hare, on his stool across the table', x: TX + 0.7, z: TZ + 1.4, yaw: 0, pitch: -0.1 });
       stops.push({ name: 'by the White Rabbit, late, with his watch out', x: TX - 2.7, z: TZ + 0.3, yaw: -2.4, pitch: -0.05 });
       stops.push({ name: 'under the Cheshire Cat’s tree in the corner', x: -2.2, z: -7.6, yaw: 0.6, pitch: 0.35, acts: [vanish] });

@@ -791,6 +791,14 @@
       kit.fabric(new T.PlaneGeometry(14, 6.2), at(0, 0.018, EDGE + 3.1, 0, -Math.PI / 2), sandCloth, false);
       kit.flat(new T.PlaneGeometry(100, 40), at(0, 0.03, EDGE - 20, 0, -Math.PI / 2), '--gwh-wave');
       kit.flat(new T.PlaneGeometry(100, 40), at(0, 0.035, EDGE - 44, 0, -Math.PI / 2), '--gwh-deep');
+      // THE SEA (Helen's ask, 2026-11-12, "sounds first"): waves coming in on
+      // two slow tides, each a swell that opens as it breaks and hisses out
+      // over the sand, cel-sounds.js's sea (arithmetic, nothing recorded),
+      // heard from the water past the shore through kit.sound: off until
+      // pressed, on until pressed again, off when you leave the hollow.
+      var seaSound = kit.sound({ kind: 'sea', pos: [0, 0.2, EDGE - 3], say: 'Listen to the sea', stop: 'Let the sea fall quiet',
+        at: [kit.touch(14, 0.6, 3, at(0, 0.3, EDGE - 7))],
+        said: function (on) { return on ? 'The sea comes in over the sand, wave after wave on two slow tides, each one hissing out as it breaks.' : 'The sea falls quiet.'; } });
       // Each wave a low dark ridge coming in, lit along its crest where it
       // breaks; the one on the sand brightest and the far ones only flecked.
       var spark = [];
@@ -838,9 +846,9 @@
       var bagL = beanbagAt(-1.4, EDGE + 6.4, 0.25), bagR = beanbagAt(1.5, EDGE + 6.6, -0.2, cushCloth);
       var thrown = new T.BoxGeometry(0.62, 0.04, 0.5);
       kit.fabric(thrown, at(-1.4, 0.5, EDGE + 6.25, 0.25, 0.5), knitCloth);
-      stops.push({ name: 'in the hammock and the beanbags above the shore, the sea ahead', x: 0, z: EDGE + 8.0, yaw: 0.3, pitch: -0.1, acts: [hamL, bagL, bagR] });
+      stops.push({ name: 'in the hammock and the beanbags above the shore, the sea ahead', x: 0, z: EDGE + 8.0, yaw: 0.3, pitch: -0.1, acts: [hamL, bagL, bagR, seaSound] });
       marker('Water', -1.6, EDGE + 5.2, 0.15);
-      stops.push({ name: 'at the water’s edge, looking out over the waves to the plankton far out', x: -1.2, z: EDGE + 0.5, yaw: 0.3, pitch: 0.05 });
+      stops.push({ name: 'at the water’s edge, looking out over the waves to the plankton far out', x: -1.2, z: EDGE + 0.5, yaw: 0.3, pitch: 0.05, acts: [seaSound] });
       // Far out, a few of the sea's own lights: plankton where the water moves.
       for (k = 0; k < 90; k++) spot(spark, (hash(k, 10, 1) - 0.5) * 50, 0.05, EDGE - 9 - hash(k, 10, 2) * 30, 0.025, 0.01);
       points(spark, '--gwh-sea');

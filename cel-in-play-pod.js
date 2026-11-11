@@ -821,6 +821,15 @@
                { say: 'Cool', inks: ['--ppd-blue', '--ppd-green', '--ppd-uv'] },
                { say: 'Warm', inks: ['--ppd-pink', '--ppd-orange', '--ppd-yellow'] }] });
 
+      // THE BUBBLE TUBE'S PUMP (Helen's ask, 2026-11-12, "sounds first"): the
+      // pump humming under the tube and the bubbles rising, each a small rising
+      // note as a bubble is, cel-sounds.js's bubbles (arithmetic, nothing
+      // recorded), heard from the tube through kit.sound, pressed at its foot:
+      // off until pressed, on until pressed again, off when you leave the pod.
+      var bubbling = kit.sound({ kind: 'bubbles', pos: [BX, 1.2, BZ], say: 'Switch the bubble tube’s pump on', stop: 'Switch the pump off',
+        at: [kit.touch(0.5, 0.3, 0.3, at(BX, 0.15, BZ + 0.45))],
+        said: function (on) { return on ? 'The pump under the tube hums and the bubbles come up through the water, each with a small note of its own.' : 'The pump stops, and the last bubbles reach the top.'; } });
+
       // SENSORY MATS (Helen's ask, the same day: "sensory mats that change
       // colour"): six soft squares on the floor between the door and the
       // tray, each with a grid of lit points in it on one kit.lights string
@@ -970,7 +979,7 @@
       box(1.8, 0.48, 0.04, M(pg, at(0, py + ph / 2 + 0.36, 0.02)), '--ppd-line', 0.008);
 
       stops.push({ name: 'sitting in front of the big lava lamp, on the beanbag', x: LX2 + 1.05, z: LZ, yaw: Math.PI / 2, pitch: 0.15, acts: [lavaUp, lavaInk] });
-      stops.push({ name: 'at the bubble tube, its bubbles and its changing light', x: BX - 0.2, z: BZ + 1.7, yaw: -0.1, pitch: 0.2, acts: [bubblesUp, tubeLights] });
+      stops.push({ name: 'at the bubble tube, its bubbles and its changing light', x: BX - 0.2, z: BZ + 1.7, yaw: -0.1, pitch: 0.2, acts: [bubblesUp, tubeLights, bubbling] });
       stops.push({ name: 'on the sensory mats, their colours changing underfoot', x: 0, z: -1.35, yaw: 0, pitch: -0.75, acts: [matLights, matPick] });
       stops.push({ name: 'back at the round door, the way out to the yurt', x: 0, z: -0.9, yaw: Math.PI, pitch: 0.05, acts: [faeries] });
       // HELEN'S HEADSET ROUND 2 (2026-11-11, after her first real headset: "do

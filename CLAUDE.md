@@ -1914,6 +1914,25 @@ than to the floor. The spread itself is `cel-in-looking-glass-house.js`'s (tarts
 side table, every EAT ME and DRINK ME `kit.hold` with the press on its tag's touch). The friendly edits are a size that
 sticks between rooms, growing by itself at MAX, and a mushroom slice "that does something", which the brief refused.
 
+**EVERY ROOM OF HERS ON CEL STREET HAS A SOUND MADE OF ARITHMETIC, AND IT STOPS AT THE ROOM'S EDGE.** Helen Edgar's
+pick, 2026-11-12 ("Sounds first", off a list of what her rooms could still have): `cel-sounds.js`, loaded by
+cel-street.html, draws each sound the way `rdr-fire.js` and `yurt-bell.js` do, oscillators and noise under `MAX_GAIN`
+0.2, a looped bed drawn once with its ends crossfaded (rain, sea, a motor, a kettle's hiss) and events scheduled a
+little ahead on the audio clock (a chime, a pluck, a drip, a bubble, the lid's rattle, the whistle); nothing recorded,
+fetched or hosted. `kit.sound({ kind, pos, at, say, stop, said })` in `cel-street.js` is a room's switch for one, placed
+with `kit.spatial` so it is heard from its thing, off until pressed, and **`soundsOff()` runs from both `enter()` and
+`leave()`**, so a sound never follows you into a room off this one or back out. The kinds are the yurt's chimes (with
+five brass tubes drawn by the door, opposite the bell), the Reading Room's rain, the Music Room's harp, the Cinema's
+projector, the crystal cave's drip, the hollow's sea, the Play Pod's bubbles and Looking-Glass House's kettle (drawn on
+a spirit stove between the two right-hand toadstools; it stood under one's cap for an hour, unseen on the screen). The
+words on a switch are the same at every setting, because a sound somebody pressed for is theirs. `make-cel-street.py`
+holds the ceiling, refuses a recording, a microphone or a request in the file, a `kit.sound` whose kind the file does
+not draw, and the engine losing either `soundsOff()`. **A new sound is a `kind()` in `cel-sounds.js` and a `kit.sound`
+in its room**, never a page script of Helen's changed for a 3D-only sound. The friendly edits are a sound that starts
+as you walk in "to set the mood", a bed that keeps playing through the tunnel into the next room, a recording "because it
+sounds better" (hosting audio here is a decision, the Latibulum's rule), and the YouTube records in the Music Room routed
+through the panner, which a cross-origin frame does not allow.
+
 **THE BASKET OF WINGS BY THE YURT'S DOOR LENDS A PAIR TO YOUR 3D FIGURE, AND HER THREE ANIMALS ARE ASLEEP IN THE SCENE.**
 Helen Edgar's asks, 2026-11-09. A room on Cel Street that lends wings names its pairs (`wings` in `cel-in-faery-yurt.js`,
 exactly `CEL_WINGS` in `lib.mjs`, which `make-cel-street.py` holds both ways and to `cel-street.js`'s `WINGS` drawings);

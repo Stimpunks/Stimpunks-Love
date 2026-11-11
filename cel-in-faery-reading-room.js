@@ -1137,6 +1137,13 @@
       // flicker is switched on so the picture is drawn every frame, and the
       // crackle plays. Nothing is fetched until the press.
       kit.wire(frame, 'rdr-fire.js');
+      // RAIN ON THE ROOF (Helen's ask, 2026-11-12, "sounds first"): a shower
+      // on the canvas overhead, cel-sounds.js's rain (arithmetic, nothing
+      // recorded), heard from the middle of the roof through kit.sound: off
+      // until pressed, on until pressed again, off when you leave the room.
+      var rain = kit.sound({ kind: 'rain', pos: [0, H - 0.4, -D / 2], say: 'Let it rain on the roof', stop: 'Let the rain pass',
+        said: function (on) { return on ? 'Rain comes on over the roof, soft, with drops landing on the canvas, and the room is the warmer for it.' : 'The rain passes over, and the roof is quiet.'; } });
+      stops.forEach(function (st) { if (/hearthrug/.test(st.name)) st.acts = (st.acts || []).concat([rain]); });
       var filmMesh = null, filmEl = null, filmLit = false;
       var crackle = kit.press({ say: function () { return filmLit ? 'Let the fire burn down' : 'Light the fire'; },
         at: [kit.touch(1.4, 1.1, 0.8, M(fp, at(0, 0.7, 0.5)))],
