@@ -1667,6 +1667,106 @@ function start() {
         hits.push(hb);
         return hb;
       },
+      // strum(hb, fn): a kit.touch that sounds when touched: pressed with the
+      // pointer or a controller, dragged across on a screen, or brushed by a
+      // hand or a fingertip in a headset, each entry one touch. fn(byHand)
+      // plays it and returns words, which are said only for a press, so a
+      // hand run over the harp's strings is not a page of sentences. Helen
+      // Edgar's ask, 2026-11-11 ("play the harp").
+      strum: function (hb, fn) {
+        hb.userData.act = { go: function () { var w = fn(false); if (w) ctlSay(w); draw(); } };
+        hb.userData.strum = fn;
+        (home.userData.strums = home.userData.strums || []).push({ hb: hb, fn: fn, was: {} });
+        return hb;
+      },
+      // tap(hb, fn): a kit.touch pressed in the scene, saying fn()'s words,
+      // with no button of its own among the room's switches; for a room with
+      // many small things to press where its own page already has a button
+      // for each (the Crystal Wheel's stones, the herbs over the cauldron).
+      tap: function (hb, fn) { hb.userData.act = { go: function () { ctlSay(fn()); draw(); } }; return hb; },
+      // clickPage(frame, rowSel, o): presses the button in the row rowSel on
+      // the room's own page on its screen, so the page's own script does what
+      // it does there (the crystal pouch's Take it with you), and says the
+      // page's own answer when its status line changes. o.out is said when the
+      // row is hidden (the page shows it only to somebody signed on), o.none
+      // when it is not there, and o.wait while the page answers.
+      clickPage: function (frame, rowSel, o) {
+        var doc = null;
+        try { doc = frame.contentDocument; } catch (e) {}
+        var row = doc && doc.querySelector(rowSel), btn = row && row.querySelector('button');
+        if (!btn) return o.none || 'The room\u2019s page has not loaded yet; try again in a moment.';
+        if (row.hidden) return o.out;
+        var said = row.querySelector('[role="status"]');
+        if (said) {
+          var was = said.textContent, seen = new MutationObserver(function () {
+            if (!said.textContent || said.textContent === was) return;
+            seen.disconnect(); ctlSay(said.textContent); vrPanel();
+          });
+          seen.observe(said, { childList: true, characterData: true, subtree: true });
+        }
+        btn.click();
+        return o.wait;
+      },
+      // paint({ w, d, m, inks, day, r, round }): a sheet lying face up at m, w by d in
+      // the world, painted on with a fingertip or a controller touching it, a
+      // controller's beam with its trigger held, or the pointer dragged across
+      // it (round: only inside the circle it holds, for a round tray);
+      // ink(i) picks the colour out of inks (names), day(on) repaints
+      // every stroke in its daylight colour (day maps an ink to its pale
+      // one), swirl() lays a spiral for anybody without a pointer, and wipe()
+      // clears it. It keeps nothing: what is painted goes when you leave the
+      // room. Helen Edgar's ask, 2026-11-11 (glow paint on the Play Pod's
+      // tuff tray).
+      paint: function (o) {
+        var CW = 768, CH = Math.round(CW * o.d / o.w), c = document.createElement('canvas');
+        c.width = CW; c.height = CH;
+        var g = c.getContext('2d'), map = new THREE.CanvasTexture(c);
+        map.colorSpace = THREE.SRGBColorSpace;
+        var geo = new THREE.PlaneGeometry(o.w, o.d); geo.rotateX(-Math.PI / 2);
+        var mesh = put(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ map: map, transparent: true, depthWrite: false })), o.m);
+        var pt = { mesh: mesh, w: o.w, d: o.d, ink: 0, dayOn: false, strokes: [], last: {}, swirls: 0 };
+        var r = (o.r || 0.022) / o.w * CW;
+        function colour(i) { var n = o.inks[i]; return css(pt.dayOn && o.day && o.day[n] ? o.day[n] : n); }
+        function dot(st, from) {
+          g.strokeStyle = g.fillStyle = colour(st[2]);
+          g.lineWidth = r * 2; g.lineCap = 'round';
+          g.beginPath();
+          if (from) { g.moveTo(from[0] * CW, (1 - from[1]) * CH); g.lineTo(st[0] * CW, (1 - st[1]) * CH); g.stroke(); }
+          else { g.arc(st[0] * CW, (1 - st[1]) * CH, r, 0, Math.PI * 2); g.fill(); }
+        }
+        function redraw() {
+          g.clearRect(0, 0, CW, CH);
+          var prev = null;
+          pt.strokes.forEach(function (st) { dot(st, st[3] && prev ? prev : null); prev = st; });
+          map.needsUpdate = true;
+        }
+        // A dab at (u, v), joined to the last one by the same painter.
+        pt.dab = function (u, v, by) {
+          if (u < 0 || u > 1 || v < 0 || v > 1) return;
+          if (o.round && (u - 0.5) * (u - 0.5) + (v - 0.5) * (v - 0.5) > 0.25) return;
+          var last = pt.last[by], join = last && Math.hypot(u - last[0], v - last[1]) < 0.12;
+          var st = [u, v, pt.ink, join ? 1 : 0];
+          if (pt.strokes.length < 12000) pt.strokes.push(st);
+          dot(st, join ? last : null);
+          pt.last[by] = st; map.needsUpdate = true; draw();
+        };
+        pt.lift = function (by) { delete pt.last[by]; };
+        (home.userData.paints = home.userData.paints || []).push(pt);
+        return {
+          mesh: mesh,
+          ink: function (i) { pt.ink = i; },
+          day: function (on) { pt.dayOn = !!on; redraw(); },
+          wipe: function () { pt.strokes = []; pt.last = {}; redraw(); draw(); },
+          swirl: function () {
+            var n = pt.swirls++, cx = 0.3 + ((n * 37) % 41) / 100, cy = 0.3 + ((n * 53) % 41) / 100, by = 'swirl' + n;
+            for (var k = 0; k < 90; k++) {
+              var a = k * 0.28, rad = 0.012 + k * 0.0016;
+              pt.dab(cx + Math.cos(a) * rad * o.d / o.w, cy + Math.sin(a) * rad, by);
+            }
+            pt.lift(by);
+          }
+        };
+      },
       // flames([{ mesh, light }], { say, max, said }): candle flames, each a
       // mesh from kit.flat with its foot at its origin, and the light it
       // gives if any. They flicker under the flash line, each on its own.
@@ -2816,10 +2916,47 @@ function start() {
     if (!pads && padFrame) { cancelAnimationFrame(padFrame); padFrame = 0; padWas = {}; padStepped = {}; }
   });
 
-  var drag = null, moved = false;
-  canvas.addEventListener('pointerdown', function (e) { drag = { x: e.clientX, y: e.clientY, mouse: e.pointerType === 'mouse' }; moved = false; });
+  var ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  var drag = null, moved = false, strummed = false;
+  // Where the pointer is on the scene: the paint sheet it is over, if any, and
+  // the string it is over, if any.
+  function pointAt(e, list) {
+    var r = canvas.getBoundingClientRect();
+    ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    return list.length ? ray.intersectObjects(list, false)[0] : null;
+  }
+  function paintUnder(e) {
+    var ps = scene.userData.paints || [], h = pointAt(e, ps.map(function (p) { return p.mesh; }));
+    return h && h.uv ? { p: ps.filter(function (p) { return p.mesh === h.object; })[0], u: h.uv.x, v: h.uv.y } : null;
+  }
+  function strumUnder(e) {
+    var h = pointAt(e, (scene.userData.strums || []).map(function (s) { return s.hb; }));
+    return h ? h.object : null;
+  }
+  canvas.addEventListener('pointerdown', function (e) {
+    drag = { x: e.clientX, y: e.clientY, mouse: e.pointerType === 'mouse' }; moved = false;
+    var pa = paintUnder(e);
+    if (pa) { drag.paint = pa.p; pa.p.dab(pa.u, pa.v, 'pointer'); return; }
+    var sh = strumUnder(e);
+    // A string is plucked as the pointer goes down on it, with its words, so
+    // the click after it does nothing more.
+    strummed = false;
+    if (sh) { drag.strum = sh; strummed = true; sh.userData.act.go(); }
+  });
   window.addEventListener('pointermove', function (e) {
     if (!drag) return;
+    if (drag.paint) {
+      moved = true;
+      var pa = paintUnder(e);
+      if (pa && pa.p === drag.paint) pa.p.dab(pa.u, pa.v, 'pointer'); else drag.paint.lift('pointer');
+      return;
+    }
+    if (drag.strum) {
+      var sh = strumUnder(e);
+      if (sh && sh !== drag.strum) { moved = true; drag.strum = sh; sh.userData.strum(true); }
+      if (moved) return;
+    }
     var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
     if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
     if (!moved) return;
@@ -2828,10 +2965,9 @@ function start() {
     drag.x = e.clientX; drag.y = e.clientY;
     clamp(); glide = null; draw(); tell();
   });
-  window.addEventListener('pointerup', function () { drag = null; });
-  var ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  window.addEventListener('pointerup', function () { if (drag && drag.paint) drag.paint.lift('pointer'); drag = null; });
   canvas.addEventListener('click', function (e) {
-    if (moved) return;
+    if (moved || strummed) { strummed = false; return; }
     var r = canvas.getBoundingClientRect();
     ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ndc, camera);
@@ -3539,6 +3675,62 @@ function start() {
     }
   }
 
+  // TOUCHING AND PAINTING IN A HEADSET (Helen Edgar's asks, 2026-11-11):
+  // every point a hand touches with, each controller's tip and each tracked
+  // index fingertip, is tested each frame against the room's strums (a hand
+  // going into a string plucks it, once, with a small buzz) and its paints
+  // (a tip within a finger's breadth of the sheet paints on it). A trigger
+  // held on a sheet paints along the beam too (hand.userData.painting).
+  var TIP_L = new THREE.Vector3(), TIP_INV = new THREE.Matrix4();
+  function tipsNow() {
+    var out = [];
+    hands.forEach(function (h, i) { out.push({ by: 'hand' + i, hand: h, p: new THREE.Vector3().setFromMatrixPosition(h.matrixWorld) }); });
+    palms.forEach(function (pm, i) {
+      var j = pm.joints && pm.joints['index-finger-tip'];
+      if (j && j.visible) out.push({ by: 'tip' + i, hand: null, p: new THREE.Vector3().setFromMatrixPosition(j.matrixWorld) });
+    });
+    return out;
+  }
+  function paintAim(hand) {
+    var ps = scene.userData.paints;
+    if (!ps || !ps.length) return null;
+    xrAim.identity().extractRotation(hand.matrixWorld);
+    xrRay.ray.origin.setFromMatrixPosition(hand.matrixWorld);
+    xrRay.ray.direction.set(0, 0, -1).applyMatrix4(xrAim);
+    xrRay.far = 6;
+    var meshes = ps.map(function (p) { return p.mesh; }), hit = xrRay.intersectObjects(meshes, false)[0];
+    return hit && hit.uv ? { p: ps[meshes.indexOf(hit.object)], u: hit.uv.x, v: hit.uv.y } : null;
+  }
+  function touchStep() {
+    var strums = scene.userData.strums, paints = scene.userData.paints;
+    if (!(strums && strums.length) && !(paints && paints.length)) return;
+    var tips = tipsNow();
+    (strums || []).forEach(function (sm) {
+      var gp = sm.hb.geometry.parameters;
+      TIP_INV.copy(sm.hb.matrixWorld).invert();
+      tips.forEach(function (t) {
+        TIP_L.copy(t.p).applyMatrix4(TIP_INV);
+        var inside = Math.abs(TIP_L.x) <= gp.width / 2 + 0.01 && Math.abs(TIP_L.y) <= gp.height / 2 && Math.abs(TIP_L.z) <= gp.depth / 2 + 0.01;
+        if (inside && !sm.was[t.by]) { sm.fn(true); if (t.hand) buzz(t.hand, 0.4); }
+        sm.was[t.by] = inside;
+      });
+    });
+    (paints || []).forEach(function (pt) {
+      TIP_INV.copy(pt.mesh.matrixWorld).invert();
+      tips.forEach(function (t) {
+        TIP_L.copy(t.p).applyMatrix4(TIP_INV);
+        if (Math.abs(TIP_L.y) < 0.03) pt.dab(TIP_L.x / pt.w + 0.5, 0.5 - TIP_L.z / pt.d, t.by);
+        else pt.lift(t.by);
+      });
+    });
+    hands.forEach(function (h, i) {
+      var pt = h.userData.painting;
+      if (!pt) return;
+      var a = paintAim(h);
+      if (a && a.p === pt) pt.dab(a.u, a.v, 'beam' + i); else pt.lift('beam' + i);
+    });
+  }
+
   // THE ROOM'S OWN PAGE, READ IN THE HEADSET. A room's page stands in its
   // scene as a web page laid over the picture, and a headset shows only the
   // picture, so everything the page says was missing there: its welcome, its
@@ -3884,7 +4076,10 @@ function start() {
       hand.userData = { beam: beam, dot: dot, cross: cross, src: null, turned: false, gripped: null };
       hand.addEventListener('connected', function (e) { this.userData.src = e.data; });
       hand.addEventListener('disconnected', function () { this.userData.src = null; this.userData.beam.visible = false; this.userData.dot.visible = false; this.userData.cross.visible = false; });
-      hand.addEventListener('select', function () { pressWith(this); });
+      // A trigger held on a paint sheet paints along the beam, and is not a press.
+      hand.addEventListener('selectstart', function () { var a = paintAim(this); if (a) { this.userData.painting = a.p; this.userData.paintedOn = true; } });
+      hand.addEventListener('selectend', function () { var pt = this.userData.painting; if (pt) pt.lift('beam' + hands.indexOf(this)); this.userData.painting = null; this.userData.paintedOn = false; });
+      hand.addEventListener('select', function () { if (this.userData.paintedOn) return; pressWith(this); });
       hand.addEventListener('squeezestart', function () { gripStart(this); });
       hand.addEventListener('squeezeend', function () { gripEnd(this); });
       dolly.add(hand); hands.push(hand);
@@ -4015,6 +4210,7 @@ function start() {
     if (travel) { travelStep(dt, now); if (travel) { travelDraw(); return; } }
     slowStep(dt, now);
     palmsStep();
+    touchStep();
     xrBeams();
     renderer.render(scene, camera);
     if (!xrLast) { xrLast = now; vrPanelPlace(); }

@@ -246,6 +246,27 @@ for s in ("love-embed.js", "rack.js"):
     if f'<script src="{s}" defer></script>' not in page:
         refuse(f"glow-wild-hollow.html does not load {s}, so every film's button would press and do nothing.")
 
+# The night walk (Helen's ask, 2026-11-11): glow-walk.js walks from light to light reading each
+# one's first fact aloud. It starts only on a press, ends on any press, reads only with a voice on
+# the device, puts the page at each light with no glide, and keeps and sends nothing.
+walk = (ROOT / "glow-walk.js").read_text(encoding="utf-8")
+wcode = re.sub(r"/\*.*?\*/", " ", walk, flags=re.S)
+wcode = re.sub(r"(?m)//.*$", " ", wcode)
+if '<script src="glow-walk.js" defer></script>' not in page or "data-gwh-walk " not in page and "data-gwh-walk hidden" not in page:
+    refuse("glow-wild-hollow.html has lost the night walk: its button (data-gwh-walk, shipped hidden) or glow-walk.js.")
+if re.search(r"localStorage|sessionStorage|indexedDB|fetch\(|XMLHttpRequest|sendBeacon|WebSocket|"
+             r"EventSource|innerHTML|outerHTML|insertAdjacentHTML|document\.cookie", wcode):
+    refuse("glow-walk.js keeps or sends something, or writes markup from a string. It keeps and sends nothing.")
+if "speechSynthesis" in wcode and "localService" not in wcode:
+    refuse("glow-walk.js reads aloud without asking for a voice on the device; a voice that is not local sends the words away.")
+if re.search(r"behavior\s*:\s*['\"]smooth", wcode):
+    refuse("glow-walk.js glides the page; the walk puts the page at each light with no glide, at every setting.")
+for t in ("pointerdown", "keydown"):
+    if f"'{t}'" not in wcode:
+        refuse(f"glow-walk.js no longer ends on {t}: any press ends the walk, as the walk round the yurt does.")
+if re.search(r"new (?:Audio|window\.Audio)\b|AudioContext|\.mp3|\.ogg|\.wav", wcode):
+    refuse("glow-walk.js makes a sound of its own. The walk's only sound is the device's voice reading.")
+
 js = SCRIPT.read_text(encoding="utf-8")
 code = re.sub(r"/\*.*?\*/", " ", js, flags=re.S)
 code = re.sub(r"(?m)//.*$", " ", code)

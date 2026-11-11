@@ -705,11 +705,35 @@
       box(0.14, sb, 0.2, at(0.075, 0.785, 0, 0, 0, -Math.atan2(0.65, 1.33), hp), '--rdr-leather');
       rod(hp, v(-0.35, 1.8, 0), v(0.05, 1.78, 0), 0.04, '--rdr-timber', 6);
       rod(hp, v(0.05, 1.78, 0), v(0.42, 1.48, 0), 0.04, '--rdr-timber', 6);
+      // Her harp's strings, and each one plays (Helen's ask, 2026-11-11, "play
+      // the harp"): a touch of the hand in a headset, a press of the pointer,
+      // or the pointer dragged across them, and string after string sounds,
+      // the longest lowest, out of cel-sounds.js's pentatonic scale, so there
+      // is no wrong note. Nothing needs switching on, and nothing is kept.
+      var strung = 0;
+      function pluckAt(k) {
+        var snd = window.loveCelSounds;
+        var n = snd && snd.pluck ? snd.pluck(k) : null;
+        return n ? 'The harp, ' + n + '.' : 'The harp\u2019s sound has not loaded yet; try again in a moment.';
+      }
       for (var hs = -0.26; hs < 0.36; hs += 0.06) {
         var foot = 0.12 + (hs + 0.25) / 0.65 * 1.33 + 0.05;
         var head = hs < 0.05 ? 1.8 - (hs + 0.35) / 0.4 * 0.02 : 1.78 - (hs - 0.05) / 0.37 * 0.3;
-        if (head - foot > 0.08) box(0.009, head - foot - 0.05, 0.009, M(hp, at(hs, (head + foot) / 2, 0)), '--rdr-brass', false);
+        if (head - foot > 0.08) {
+          box(0.009, head - foot - 0.05, 0.009, M(hp, at(hs, (head + foot) / 2, 0)), '--rdr-brass', false);
+          (function (k) {
+            kit.strum(kit.touch(0.045, head - foot - 0.05, 0.08, M(hp, at(hs, (head + foot) / 2, 0))), function () { return pluckAt(k); });
+          })(strung++);
+        }
       }
+      // For a keyboard, a switch, or anybody who would rather not aim: a hand
+      // run up the strings, every one in turn, low to high.
+      var harpRun = kit.press({ say: 'Run a hand up the harp\u2019s strings', press: function () {
+        var snd = window.loveCelSounds;
+        if (!snd || !snd.run) return 'The harp\u2019s sound has not loaded yet; try again in a moment.';
+        snd.run(strung);
+        return 'A hand runs up the harp\u2019s strings, low to high. Touch a string, or press or drag across them, to play it.';
+      } });
 
       // THE DOOR BACK TO THE YURT, DRESSED AS A PORTAL (round 4). Its frame
       // faces into the room; +z here is into the room.
@@ -1375,7 +1399,8 @@
       // through kit.sound: off until pressed, on until pressed again, off when
       // you leave the room.
       var harpStir = kit.sound({ kind: 'harp', caption: 'the harp, a string plucked now and then', pos: new T.Vector3().setFromMatrixPosition(M(hp, at(0, 1.1, 0))), say: 'Let the harp stir', stop: 'Still the harp',
-        at: [kit.touch(0.9, 1.9, 0.8, M(hp, at(0, 0.95, 0)))],
+        // On the harp's pillar and its foot, so the strings between are free to play.
+        at: [kit.touch(0.18, 1.9, 0.3, M(hp, at(-0.35, 0.95, 0))), kit.touch(0.7, 0.14, 0.4, M(hp, at(0.02, 0.07, 0)))],
         said: function (on) { return on ? 'A draught comes in at the window and the harp’s strings stir in it, a note here and there and now and then a run up them.' : 'The strings fall still.'; } });
       // THE TOUR (the headset round): the places in a walking order, from
       // the door round the room and back to it, which is the order a
@@ -1392,7 +1417,7 @@
         if (/phonograph’s deck|^over the phonograph|horn, with the moth/.test(st2.name)) st2.acts = [turning];
         if (/chandelier/.test(st2.name)) st2.acts = [candles, joinFaeries, sparkle];
         if (/left-hand candelabrum/.test(st2.name)) st2.acts = [candles];
-        if (/^beside the cello|^beside the harp|music stand/.test(st2.name)) st2.acts = [grow].concat(/^beside the harp/.test(st2.name) ? [harpStir] : []);
+        if (/^beside the cello|^beside the harp|music stand/.test(st2.name)) st2.acts = [grow].concat(/^beside the harp/.test(st2.name) ? [harpStir, harpRun] : []);
         if (/^at the window/.test(st2.name)) st2.acts = [candles, grow];
         if (/^just through the door|^at the door back/.test(st2.name)) st2.acts = [flyFaeries, sparkle];
       });

@@ -1933,6 +1933,29 @@ as you walk in "to set the mood", a bed that keeps playing through the tunnel in
 sounds better" (hosting audio here is a decision, the Latibulum's rule), and the YouTube records in the Music Room routed
 through the panner, which a cross-origin frame does not allow.
 
+**HER HARP PLAYS, HER CRYSTALS AND HERBS GO INTO HER POUCH AND BASKET, HER TRAY TAKES PAINT, AND HER YURT HAS A MAP, A WREATH
+AND A NIGHT WALK.** Helen Edgar's picks, 2026-11-11, off a list of what her yurt could still have. **Touch** is two kit calls in
+`cel-street.js`: `kit.strum(hb, fn)` (a box played as a hand's fingertip or a pointer drag enters it, `fn(true)`, or as it is
+pressed, `fn(false)`; `touchStep()` in the headset's frames, `strumUnder` on the screen, and a drag that plucked never also
+clicks), and `kit.paint({ w, d, m, inks, day, round })` (a flat canvas sheet painted by a fingertip within a few centimetres,
+a controller's beam held on it with the trigger down, or a pointer drag; `ink`, `day`, `wipe`, `swirl`; it keeps nothing). The
+harp's notes are `pluck` and `run` in `cel-sounds.js` (a pentatonic scale, so no wrong note, scheduled on the audio clock, never
+a timer). **`kit.clickPage(frame, sel, o)` presses the page's own button** in the room's frame and says what the page's status
+line says: Myths & Legends' Crystal Wheel and drying herbs press `[data-crystal-take]` and `[data-herb-take]`, so the pouch and
+the basket in Profile are the only record and nothing in the 3D room keeps one; signed off, those buttons are hidden and the room
+says to sign on. **The map** is `tools/make-yurt-map.py` out of `data/yurt-map.json`: a plan and the same plan in words on her
+page, and `YURT_MAP` on a lectern inside the door on Cel Street, and the tool refuses a way whose angle differs from the room's,
+so a door moved in the room stops the build until the map moves too. **The wreath** is `tools/make-yurt-wreath.py` out of
+`data/yurt-wreath.json`, held to her Myths & Legends page's eight festivals and their words for when, drawn in her declared inks
+by name; `yurt-wreath.js` (and the room, which may read `Date`) picks the festival nearest the visitor's own date, once, and
+nothing on it moves. **Its class is `yurt-wreath` because `.yurt-wheel` is Gibbles' wheel.** **The night walk** is
+`glow-walk.js` on Glow Wild Hollow: every `ul.hollow-facts` is a stop, its first fact read aloud only with a `localService`
+voice, the page put at the light with no glide, the fact marked where it stands, and any press, key, wheel or touch ending it;
+`make-glow-wild.py` holds it. The friendly edits are **a harp note that is wrong "so it is a real instrument"**, **saving the
+painted tray**, **a crystal kept in the 3D room's own record "so it works signed off"**, **map coordinates typed by hand**,
+**the wreath changing on a timer at midnight**, **a southern-hemisphere guess from the time zone**, and **the walk reading with
+any voice the browser offers**, which sends the words to somebody's server.
+
 **IN A HEADSET THE DIAL AND THE BREAK ARE ON THE SWITCHES, THE PAGE IS READ OFF THE PAGE, AND NOTHING IS DONE FOR YOU BUT ONE THING, ONCE.** Helen
 Edgar's ask, 2026-11-11 ("All of them", to a list of eight), all of it in `cel-street.js`, so every `vr: true` room has it. **The dial** on the panel
 is `window.loveLevel` (`lv.levels.forEach`, `lv.set(key)`), never a second dial. **The break** (`breakSet`, `xrBreak`, `breakScene`) draws a dim empty
