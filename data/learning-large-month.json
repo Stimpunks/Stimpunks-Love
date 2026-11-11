@@ -90,7 +90,7 @@
    "channel_id": "UCgscS8mBsQZ5sFRkJIFWD7Q"
   }
  ],
- "set": "2026-11-10T12:21Z",
+ "set": "2026-11-11T12:20Z",
  "log": [
   {
    "id": "mn0agTT8lG8",
@@ -573,14 +573,24 @@
    "channel": "Matt Wolfe"
   },
   {
-   "id": "huWizSgmRf0",
-   "source": "nate-b-jones",
-   "form": "long",
-   "title": "The 5 Skills I'd Bet On For 2027. AI Is Making Every One Worth More.",
-   "published": "2026-10-11T16:00:12Z",
+   "id": "isqwXApzV5E",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "When you give a humanoid roller skates",
+   "published": "2026-11-10T19:35:17Z",
    "state": "screen",
-   "runs": 1326,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
+   "runs": 90,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "Mt54ez7xsiI",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "Fable 5.2 Is Quite Insane!",
+   "published": "2026-11-11T04:59:41Z",
+   "state": "screen",
+   "runs": 111,
+   "channel": "Matt Wolfe"
   },
   {
    "id": "pTh4IJ-Mi3Y",
@@ -730,6 +740,16 @@
    "published": "2026-11-08T17:00:26Z",
    "state": "screen",
    "runs": 1172,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "OEY-vm7qRHc",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "China Won't Take 600,000 Nvidia Chips. Did It Target Jensen Huang For Better Ones?",
+   "published": "2026-11-10T16:26:00Z",
+   "state": "screen",
+   "runs": 1259,
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
@@ -933,16 +953,6 @@
    "channel": "Less Bitter"
   },
   {
-   "id": "vRS2leJLAI0",
-   "source": "theo",
-   "form": "long",
-   "title": "I thought AI was gonna get cheaper?",
-   "published": "2026-10-12T02:39:38Z",
-   "state": "screen",
-   "runs": 1098,
-   "channel": "Theo - t3․gg"
-  },
-  {
    "id": "DbWL6Zs2j_g",
    "source": "theo",
    "form": "long",
@@ -1113,6 +1123,16 @@
    "channel": "Theo - t3․gg"
   },
   {
+   "id": "yh5IAUow4Hc",
+   "source": "theo",
+   "form": "long",
+   "title": "Nobody Is Competing With Anthropic",
+   "published": "2026-11-10T19:38:40Z",
+   "state": "screen",
+   "runs": 2900,
+   "channel": "Theo - t3․gg"
+  },
+  {
    "id": "XkmZ1nOtuDc",
    "source": "theo",
    "form": "short",
@@ -1131,16 +1151,6 @@
    "state": "screen",
    "runs": 43,
    "channel": "Theo - t3․gg"
-  },
-  {
-   "id": "hbPvZvpu9KU",
-   "source": "paul-j-lipsky",
-   "form": "long",
-   "title": "The New Claude Motion Is Awesome",
-   "published": "2026-10-11T13:00:38Z",
-   "state": "screen",
-   "runs": 544,
-   "channel": "Paul J Lipsky"
   },
   {
    "id": "iXjh7VSSLDE",
@@ -1293,6 +1303,16 @@
    "channel": "Paul J Lipsky"
   },
   {
+   "id": "YTA_DsiYwAc",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Gemini 4 Carbon Is Here (Fully Tested)",
+   "published": "2026-11-10T16:04:52Z",
+   "state": "screen",
+   "runs": 1066,
+   "channel": "Paul J Lipsky"
+  },
+  {
    "id": "DMlBzXvG22g",
    "source": "austin-marchese",
    "form": "long",
@@ -1350,6 +1370,16 @@
    "published": "2026-11-05T21:00:14Z",
    "state": "screen",
    "runs": 1050,
+   "channel": "Austin Marchese"
+  },
+  {
+   "id": "fFktpPMQzjI",
+   "source": "austin-marchese",
+   "form": "long",
+   "title": "If You Ask Claude 5 Questions, It'll Make You Build 10x Faster",
+   "published": "2026-11-10T14:45:16Z",
+   "state": "screen",
+   "runs": 1356,
    "channel": "Austin Marchese"
   },
   {
@@ -1443,16 +1473,6 @@
    "channel": "Riley Brown"
   },
   {
-   "id": "FAQj3rFdnbs",
-   "source": "riley-brown",
-   "form": "short",
-   "title": "Graduate From Claude... To Claude Code",
-   "published": "2026-10-11T17:43:47Z",
-   "state": "screen",
-   "runs": 116,
-   "channel": "Riley Brown"
-  },
-  {
    "id": "ODBdb9oyrVs",
    "source": "riley-brown",
    "form": "short",
@@ -1481,16 +1501,6 @@
    "state": "screen",
    "runs": 121,
    "channel": "Riley Brown"
-  },
-  {
-   "id": "HhZdNYI4pJs",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "I Tried 100+ Github Repos for Claude. These 6 Are the Best",
-   "published": "2026-10-11T12:30:18Z",
-   "state": "screen",
-   "runs": 636,
-   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "nRXHWckVxoM",
@@ -2233,6 +2243,16 @@
    "channel": "Greg Isenberg"
   },
   {
+   "id": "G3i2k6DdI0o",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "Claude Fable 5.2: How I’d Make Money With It",
+   "published": "2026-11-10T16:50:27Z",
+   "state": "screen",
+   "runs": 1175,
+   "channel": "Greg Isenberg"
+  },
+  {
    "id": "35sh2FkQn-k",
    "source": "greg-isenberg",
    "form": "short",
@@ -2241,16 +2261,6 @@
    "state": "screen",
    "runs": 83,
    "channel": "Greg Isenberg"
-  },
-  {
-   "id": "4fLVq6HJsKc",
-   "source": "two-minute-papers",
-   "form": "long",
-   "title": "DeepSeek Solved AI’s Memory Problem",
-   "published": "2026-10-11T16:53:17Z",
-   "state": "screen",
-   "runs": 337,
-   "channel": "Two Minute Papers"
   },
   {
    "id": "z_sXLlLVUls",
@@ -2321,16 +2331,6 @@
    "state": "screen",
    "runs": 385,
    "channel": "Two Minute Papers"
-  },
-  {
-   "id": "gvESqM6s0kM",
-   "source": "robonuggets",
-   "form": "long",
-   "title": "Claude 5.5 Model Mistakes you may still be making (23 Tips and Fixes)",
-   "published": "2026-10-12T04:49:14Z",
-   "state": "screen",
-   "runs": 1231,
-   "channel": "Jay E | RoboNuggets"
   },
   {
    "id": "Eg08Lr3zqdw",
@@ -2628,13 +2628,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ]
   },
@@ -2642,13 +2642,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ]
   },
@@ -2656,13 +2656,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ]
   },
@@ -2670,13 +2670,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ]
   },
@@ -2684,13 +2684,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ]
   },
@@ -2698,13 +2698,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ]
   },
@@ -2712,13 +2712,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ]
   },
@@ -2726,13 +2726,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ]
   },
@@ -2740,13 +2740,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ]
   },
@@ -2754,13 +2754,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ]
   },
@@ -2768,13 +2768,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ]
   },
@@ -2782,13 +2782,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ]
   },
@@ -2796,13 +2796,13 @@
    "long": [
     [
      "2026-08-28T09:44:44Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:12:16Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ]
   },
@@ -2810,13 +2810,13 @@
    "long": [
     [
      "2026-09-23T01:33:56Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ],
    "short": [
     [
      "2026-09-25T03:00:26Z",
-     "2026-11-10T12:21:10Z"
+     "2026-11-11T12:20:49Z"
     ]
    ]
   }
