@@ -2568,6 +2568,20 @@
         "--bkh-lilac",
         "--bkh-mortar"
       ]
+    },
+    "cavendish-primary-classroom.html": {
+      "kind": "julia",
+      "c": [-0.7269, 0.1889],
+      "orbit": 0.011,
+      "bands": 0.06,
+      "ground": "--cpc-wall",
+      "inks": [
+        "--cpc-teal",
+        "--cpc-plum",
+        "--cpc-ochre",
+        "--cpc-felt",
+        "--cpc-leaf"
+      ]
     }
   }
 }

@@ -32,6 +32,92 @@
    it; the cello's bow leaning by the cello; her record on the phonograph as
    her page draws it, red label, moon and star; and a tone arm resting on it.
 
+   ROUND 4 (Helen Edgar's ask, 2026-11-11: the rooms off her yurt more
+   magical and realistic, with ivy, flowers and mushrooms growing round the
+   portal entrances and faeries flying round them). The door back to the yurt
+   is dressed as a portal, the yurt's own pattern: ivy up both sides and over
+   the top, flowers among it in her fog's colours, toadstools and little
+   glowing mushrooms at its feet, a halo of brass on the wall and a breath of
+   lilac over the door, a candle's warmth on it, and two faeries perched on
+   the ivy, skin, hair and wings from her page's own faeries, who fly round
+   the door only once somebody presses Let the faeries fly (kit.drift, under
+   the record's line) and settle where they are when pressed again. Sparkle
+   hangs in the candlelight round the door and the chandelier, a string of
+   lights of its own (out, low or lit, and Let the sparkle twinkle, never by
+   itself: her dial says only the record moves here at MAX). In the room: the
+   moon's cold light lying on the stone of the window and the phonograph's
+   lid, stars in the night past the branches and a drift of her fog's colours
+   across it, ivy and small flowers along the sill, a music stand by the cello
+   with a sheet on it and loose sheets of music by the chair. All of it ours,
+   in her declared colours by name, and hers to keep or send back.
+
+   THE VR ROUND (Helen Edgar's ask, 2026-11-11: "make everything more
+   magical and more 3d and real for VR"). A headset shows only the WebGL
+   picture, so what is lifted off her page is not in it: behind each shelf's
+   lift a row of drawn records in their sleeves, discs and labels showing;
+   behind the deck's lift a brass deck with dials; in the page's frame a panel
+   of her claret with her moon and star in brass, each covered by the lift on
+   a screen and seen in its place in the headset. And depth on everything: a
+   cornice and raised wainscot panels on the walls, glass in the window's
+   panes, a deeper layer of branches, the moon's halo and the night's cold
+   haze lying inside the window, knops and bead rings on the candelabra and a
+   warm haze round their flames and the chandelier's, the chandelier's chains
+   link by link, the phonograph's lid propped open on its hinge and a brass
+   nameplate, the moth her page has asleep on the horn (still, at every
+   setting), the cello's f-holes, pegs and tailpiece, the harp's pins and its
+   beaded column, the chair's legs turned, the rug's border band and pile,
+   feathers on the ravens and a glint in each eye, dew on the cobweb, more
+   dust in the candlelight on the sparkle's string, and four more places to
+   stand. Nothing new moves. Ours, in her declared colours, hers to keep or
+   send back.
+
+   THE HEADSET AND CONTROLLER ROUND (Helen Edgar's ask, 2026-11-11:
+   improvements for a VR headset that also look fine without one, and with a
+   game controller to look round). Lettered signs in WebGL, which a headset
+   can read where it shows no page and no lift: over the door back to the
+   yurt, over her page's frame, on the phonograph's cabinet, over the deck
+   and over each shelf of records, each a board of her timber with a brass
+   edge and our few words in her Cormorant Garamond. The places to stand are
+   in a walking order now, from the door round the room and back to it, the
+   order a controller's bumpers walk, with the way out last, and every switch
+   is offered where its thing is; the record, the candles and the two faeries
+   on the ivy can be pointed at and pressed in the scene; a sconce and its
+   candle light the door's end of the room; the leaded panes, the harp's
+   strings, the cobweb and the rug's fringe are thickened so they do not
+   shimmer in a headset; and the bounds keep you out of the phonograph's
+   cabinet. Ours, hers to keep or send back.
+
+   HEADSET ROUND 2 (Helen Edgar, 2026-11-11, after her first real headset:
+   "do all of above"). Somewhere to sit: the chair in the dark is a seat now
+   (kit.sit), pressed in the scene or from its place, which stands you in it
+   facing the phonograph and the window with your eyes at a sitting height,
+   in a headset and on a screen, and stands you up again. Things to hold
+   (kit.hold): the record off the top of the stack by the chair, drawn as one
+   flat disc with its label on it; the cello's bow, which is one stick now,
+   its hair and frog gone with it so it goes as one thing; and the top sheet
+   of music by the chair, its staves drawn on it. Each comes to your hand in
+   a headset or in front of you on a screen, and goes back where it was on
+   a second press. Two plaques a headset can read where it shows no page:
+   by the door, her own welcome, four sentences copied exactly from the top
+   of faery-music-room.html in her Crimson Pro on her timber with a brass
+   edge; and on the phonograph's cabinet, a line of ours naming her three
+   playlists. The room's lights were counted for a standalone headset: seven
+   point lights (the chandelier, two candelabra, the portal, the sconce, the
+   door's sconce and the moon's wash), already under ten, so none was taken
+   away. Ours, in her declared colours, hers to keep or send back.
+
+   HER RECORDS BY NAME (Helen's ask, 2026-11-12, "pick up records to play",
+   "same with records" as the books): every record of her Yarn, read off her
+   page by tools/make-cel-street.py into RECORDS between the cel:records
+   markers (never hand-edited), stands as a sleeve in two timber crates on
+   the floor between the shelves, lettered on its front in her face with its
+   title, its artist and its runtime (kit.paper on a small canvas, in the
+   room's own inks), leaning back a little with its title along the top so
+   a crate is read through, the first of each crate face out. Each is a
+   kit.hold; carried to the phonograph it leans on the cabinet and its own
+   card on the shelf's screen is pressed, so the record plays as on her page,
+   and nothing plays until it is placed. Ours, hers to keep or send back.
+
    THE PHONOGRAPH'S DECK AND HER THREE SHELVES OF RECORDS ARE HER PAGE'S OWN,
    lifted off it by the kit, and rack.js, the page's own script, plays them
    here as it does there; nothing reaches YouTube until a press. Each shelf
@@ -51,6 +137,21 @@
    The garden is drawn in her yurt's ivy, toadstool and tallow, because it is
    her yurt's garden, as on her page; everything else in her room's colours.
 
+   THE REAL LOOK (Helen Edgar's call, 2026-11-11: "more like Second Life and
+   not anime cel style, that is my choice", then an option for either): the
+   room says look: 'real', so it opens smooth and lit with no inked edges, in
+   exactly the colours it had, and Look under the stage draws it the other
+   way for a visit. With it, cloth you can see (her ask the same day): the
+   chair's velvet drawn as a nap on its seat, back and wings, its cushion
+   leather with a grain, which sitting presses flatter and standing fills out
+   again, the rug a pile with a woven border, each in two of the room's inks
+   and never fetched. And a record to play: a second record leans at the
+   foot of the first shelf, and the phonograph takes the record in your hand,
+   which goes onto the turntable, sets it turning, and presses her playlist's
+   deck to play on the screen, as her page plays it; in a headset the record
+   turns and the words say where the music is. Round things got more segments
+   for the smooth look.
+
    This is ours, hers to keep or send back, and a change to how it looks is
    hers to ask for. Every colour is one of hers, by name. It keeps
    nothing, sends nothing and fetches nothing; her page arrives through Cel
@@ -59,9 +160,19 @@
 (function () {
   'use strict';
   window.loveCelRooms = window.loveCelRooms || {};
+  // Her books and records by name, written by tools/make-cel-street.py off
+  // her own page between these markers; never hand-edit them.
+  // cel:records:begin
+  var RECORDS = [{"id": "k9ynZnEBtvw", "title": "The Dark Side of the Moon", "who": "Pink Floyd", "runtime": "42:56"}, {"id": "tNIiXeSPPWU", "title": "Goodbye Small Head", "who": "Ezra Furman", "runtime": "42:27"}, {"id": "3i_Y9F4X1fs", "title": "Texas Moon", "who": "Khruangbin & Leon Bridges", "runtime": "22:40"}, {"id": "rWMHS5IwuZQ", "title": "Under You", "who": "Andrew Sa", "runtime": "3:29"}, {"id": "MsRUnInJ4CQ", "title": "Simply the Best", "who": "Noah Reid", "runtime": "2:44"}, {"id": "WJfF4GQ6X5g", "title": "Dance With Somebody", "who": "Chaparelle", "runtime": "3:33"}, {"id": "2Ng9Pf_p7Fw", "title": "Little Fluffy Clouds", "who": "The Orb", "runtime": "4:01"}, {"id": "06ht9MyJLT4", "title": "Running With The Wolves", "who": "AURORA", "runtime": "3:38"}, {"id": "2p4JaeJR1dM", "title": "The Silent Twins", "who": "AURORA", "runtime": "4:38"}, {"id": "7TF91Zk8L5w", "title": "The Conflict Of The Mind", "who": "AURORA", "runtime": "4:13"}, {"id": "d_HlPboLRL8", "title": "Runaway", "who": "AURORA", "runtime": "4:10"}, {"id": "efKvphRDXUg", "title": "The Weight of Missing", "who": "AURORA", "runtime": "6:48"}, {"id": "adHhJUTZ9Kw", "title": "Dreams", "who": "AURORA", "runtime": "4:26"}, {"id": "vVpUkXB4Ng8", "title": "Hounds of Love", "who": "Kate Bush", "runtime": "1:13:15"}, {"id": "XmENI69srBo", "title": "Greatest Hits Full Album", "who": "Tracy Chapman", "runtime": "1:14:36"}, {"id": "sX99e5QEAEg", "title": "The Rise and Fall of Ziggy Stardust and the Spiders from Mars", "who": "David Bowie", "runtime": "38:37"}, {"id": "WDU1uqDQpeQ", "title": "Space Oddity", "who": "David Bowie", "runtime": "45:59"}, {"id": "0Yek6aantlM", "title": "Heroes", "who": "David Bowie", "runtime": "40:40"}, {"id": "TIbJO74ym2A", "title": "Through the Windowpane", "who": "Guillemots", "runtime": "3:38"}, {"id": "84Tq-eAJIk4", "title": "Wish You Were Here", "who": "Pink Floyd", "runtime": "6:09"}, {"id": "bCXBtxXUJwo", "title": "Best Collection 2026", "who": "Enigma", "runtime": "6:52:03"}, {"id": "DsBJ3Vwgg3Q", "title": "Portishead", "who": "Portishead", "runtime": "0:15"}, {"id": "8B-i1vsA6jw", "title": "Sour Times", "who": "Portishead", "runtime": "4:14"}, {"id": "qj3QPx089g4", "title": "Roads", "who": "Portishead", "runtime": "5:12"}, {"id": "4qQyUi4zfDs", "title": "Glory Box", "who": "Portishead", "runtime": "3:32"}, {"id": "H86JZTaEnHM", "title": "Top Songs Collection", "who": "Lana Del Rey", "runtime": "23:19"}, {"id": "RvnkAtWcKYg", "title": "Decode", "who": "Paramore", "runtime": "4:14"}, {"id": "yBatuRGZAmA", "title": "Last Hope", "who": "Paramore", "runtime": "5:10"}, {"id": "UwbvrnXJ9ZQ", "title": "Greatest Hits Songs Collection", "who": "Nirvana", "runtime": "1:05:30"}, {"id": "Ty__RLk7WYI", "title": "a collection of her songs", "who": "Billie Eilish", "runtime": "25:10"}, {"id": "plMevc9s8So", "title": "when the party’s over", "who": "Billie Eilish", "runtime": "5:32"}, {"id": "3YxaaGgTQYM", "title": "Bring Me To Life", "who": "Evanescence", "runtime": "4:14"}, {"id": "CdhqVtpR2ts", "title": "Going Under", "who": "Evanescence", "runtime": "3:38"}, {"id": "Y5fBdpreJiU", "title": "Somebody Told Me", "who": "The Killers", "runtime": "3:22"}, {"id": "RIZdjT1472Y", "title": "Human", "who": "The Killers", "runtime": "4:19"}, {"id": "zc8hbSM1zVo", "title": "Read My Mind", "who": "The Killers", "runtime": "4:13"}, {"id": "sZTpLvsYYHw", "title": "All These Things That I’ve Done", "who": "The Killers", "runtime": "4:41"}, {"id": "TMbyWSGYUgc", "title": "Runaways", "who": "The Killers", "runtime": "4:04"}, {"id": "IdWZgTvf4t0", "title": "When You Were Young", "who": "The Killers", "runtime": "4:49"}, {"id": "xSUoqHrqXFA", "title": "Mr. Brightside", "who": "The Killers", "runtime": "6:13"}, {"id": "ZAErD8xzjCM", "title": "Smile Like You Mean It", "who": "The Killers", "runtime": "3:56"}, {"id": "NPLwAD60xP8", "title": "Greatest Hits Full Album", "who": "Leonard Cohen", "runtime": "1:52:21"}, {"id": "RF0HhrwIwp0", "title": "Sex on Fire", "who": "Kings of Leon", "runtime": "3:27"}, {"id": "gnhXHvRoUd0", "title": "Use Somebody", "who": "Kings of Leon", "runtime": "3:51"}, {"id": "Bb7YN5wQztk", "title": "My Whole World", "who": "Kings of Leon", "runtime": "4:21"}, {"id": "8agEo6zxeHY", "title": "Closer", "who": "Kings of Leon", "runtime": "4:00"}, {"id": "lVkp0vPZxfU", "title": "Automatic for the People", "who": "R.E.M.", "runtime": "48:52"}, {"id": "RXWIitU8V0A", "title": "Californication", "who": "Red Hot Chili Peppers", "runtime": "55:19"}, {"id": "UpzrxsFCpVA", "title": "Strange Things Will Happen", "who": "The Radio Dept.", "runtime": "4:28"}, {"id": "h6AmlQ53UoU", "title": "The Applicant", "who": "Sylvia Plath & Joy Division", "runtime": "2:17"}, {"id": "GQ4DeDIh5c0", "title": "Cloudbusting", "who": "Kate Bush", "runtime": "5:09"}, {"id": "OJ62RzJkYUo", "title": "Where Is My Mind?", "who": "Pixies", "runtime": "3:50"}, {"id": "wp43OdtAAkM", "title": "Running Up That Hill", "who": "Kate Bush", "runtime": "4:56"}, {"id": "aGSKrC7dGcY", "title": "Enjoy the Silence", "who": "Depeche Mode", "runtime": "4:40"}, {"id": "etSbOs3aUqI", "title": "Mad World", "who": "Gary Jules", "runtime": "3:10"}, {"id": "A92-bzGREOU", "title": "Never Follow Suit", "who": "The Radio Dept.", "runtime": "4:13"}, {"id": "Yam5uK6e-bQ", "title": "Dreams", "who": "The Cranberries", "runtime": "4:13"}, {"id": "VJ6m8T77btU", "title": "Inertia Creeps", "who": "Massive Attack", "runtime": "6:04"}, {"id": "xF4RhDWs2DA", "title": "Wandering Star", "who": "Portishead", "runtime": "4:16"}, {"id": "HZgiAgYXneE", "title": "Six Feet Under", "who": "Billie Eilish", "runtime": "3:08"}, {"id": "yAKX51r7erw", "title": "Glory Box", "who": "Portishead", "runtime": "5:07"}, {"id": "bNqXhfUfwgc", "title": "cellophane", "who": "FKA twigs", "runtime": "3:57"}, {"id": "Sf9jk6qk6TI", "title": "Sea Swallow Me", "who": "Cocteau Twins & Harold Budd", "runtime": "3:17"}, {"id": "hz3ly6nH3Ms", "title": "Velvet Ring", "who": "Big Thief", "runtime": "2:36"}, {"id": "qrcH55Ukjks", "title": "songs like velvet ring by big thief", "who": "betram", "runtime": "26:31"}, {"id": "yon2v5I2BUU", "title": "Nostalgia", "who": "Zbigniew Preisner", "runtime": "2:16"}, {"id": "qNr9DsOL20Y", "title": "When a Man Loves a Woman", "who": "Zbigniew Preisner", "runtime": "7:23"}, {"id": "Jk2akmigU5c", "title": "L’Aurore (Dawn)", "who": "Zbigniew Preisner", "runtime": "4:19"}, {"id": "FP0wQxWifBY", "title": "The best of Zbigniew Preisner", "who": "Zbigniew Preisner", "runtime": "51:53"}, {"id": "Y6qxaTSVIoA", "title": "Lightness: Music for the Marble Palace", "who": "Brian Eno", "runtime": "55:40"}, {"id": "3Uy_Ag7ETA4", "title": "Music With Changing Parts", "who": "Philip Glass", "runtime": "1:01:40"}, {"id": "FS6o3qFimsc", "title": "Gymnopédies 1, 2, 3", "who": "Erik Satie", "runtime": "1:05:29"}];
+  // cel:records:end
   window.loveCelRooms['faery-music-room.html'] = {
     name: 'The Music Room',
     from: 'faery-yurt.html',
+    // Helen's call, 2026-11-11: her rooms open in the real look, smooth and
+    // lit, no inked edges, every colour as it was; Look under the stage flips it.
+    look: 'real',
+    // The signs (the headset round) are lettered in her heading face.
+    faces: ['"Cormorant Garamond"', '"Crimson Pro"'],
     build: function (kit) {
       var T = kit.THREE, at = kit.at, box = kit.box, W = 10, D = 11, H = 7.2, back = -D;
       var M = function (a, b) { return new T.Matrix4().multiplyMatrices(a, b); };
@@ -141,6 +252,84 @@
           kit.flat(new T.SphereGeometry(0.009, 5, 4), M(m, at(s * 0.04, 0.225, 0.155)), '--rdr-brass');
           kit.cyl(0.006, 0.006, 0.05, M(m, at(s * 0.03, 0.02, 0.02)), '--rdr-panel', false, 4);
         });
+      }
+
+      // A LETTERED SIGN, for the headset (the headset round, 2026-11-11): a
+      // board of her timber with a brass edge, the words in her Cormorant
+      // Garamond drawn on a canvas and stood where it reads, the letters
+      // about seven centimetres tall in the world. Our words, never a
+      // sentence of her page's. A headset shows no page and no lift, so the
+      // signs say what the lifts show on a screen.
+      function sign(words, sub, w, m) {
+        var pw = 1000, ph3 = sub ? 300 : 200;
+        var paper = kit.paper(pw, ph3, function (c, cw, chh) {
+          c.fillStyle = kit.ink('--rdr-timber'); c.fillRect(0, 0, cw, chh);
+          c.strokeStyle = kit.ink('--rdr-brass'); c.lineWidth = 10; c.strokeRect(12, 12, cw - 24, chh - 24);
+          c.fillStyle = kit.ink('--rdr-ink'); c.textAlign = 'center'; c.textBaseline = 'middle';
+          c.font = '600 108px "Cormorant Garamond"';
+          c.fillText(words, cw / 2, sub ? 112 : chh / 2 + 4);
+          if (sub) { c.fillStyle = kit.ink('--rdr-ink-2'); c.font = 'italic 600 54px "Cormorant Garamond"'; c.fillText(sub, cw / 2, 222); }
+        });
+        var h = w * ph3 / pw;
+        box(w + 0.06, h + 0.06, 0.03, M(m, at(0, 0, -0.02)), '--rdr-timber', 0.01);
+        kit.sheet(paper, w, h, m);
+        return h;
+      }
+
+      // THE PORTAL'S DRESSING (round 4): the yurt's own pattern, in this
+      // room's inks where it has them. Static growth is merged (kit.piece);
+      // the faeries are their own meshes, so the kit can fly them.
+      var PETALS = ['--yurt-fog-rose', '--yurt-fog-peach', '--yurt-fog-lemon', '--yurt-fog-lilac', '--yurt-fog-sky', '--yurt-fog-mint', '--toadstool', '--rdr-flame'];
+      function bloom(m, n) {
+        var head = M(m, at(0, 0.085, 0, 0, -1.1 + hash(n, 61, 1) * 0.6, hash(n, 61, 2) * Math.PI * 2));
+        kit.cyl(0.004, 0.006, 0.085, M(m, at(0, 0.042, 0, 0, 0, (hash(n, 61, 3) - 0.5) * 0.5)), '--ivy-2', false, 4);
+        for (var k = 0; k < 5; k++) {
+          var petal = new T.CircleGeometry(0.026 + hash(n, 61, 4) * 0.012, 7); petal.scale(1, 1.5, 1); petal.translate(0, 0.03, 0);
+          petal.rotateZ(k / 5 * Math.PI * 2);
+          kit.piece(petal, head, PETALS[n % PETALS.length], false);
+        }
+        kit.flat(new T.CircleGeometry(0.012, 7), M(head, at(0, 0, 0.002)), '--rdr-flame-2');
+      }
+      function leafAt(m, n) {
+        var lf = new T.SphereGeometry(0.06 + hash(n, 62, 1) * 0.03, 6, 4); lf.scale(1, 0.5, 0.3);
+        kit.piece(lf, M(m, at(0, 0, 0, hash(n, 62, 2) * 1.2 - 0.6, 0, hash(n, 62, 3) * 3)), n % 3 ? '--ivy' : '--ivy-2', false);
+      }
+      function glowcap(m, sc) {
+        kit.cyl(0.012 * sc, 0.016 * sc, 0.07 * sc, M(m, at(0, 0.035 * sc, 0)), '--tallow', false, 6);
+        var cap = new T.SphereGeometry(0.045 * sc, 10, 5, 0, Math.PI * 2, 0, Math.PI / 2); cap.scale(1, 0.75, 1);
+        kit.flat(cap, M(m, at(0, 0.07 * sc, 0)), '--rdr-flame-2');
+      }
+      function stool(m, sc) {
+        kit.cyl(0.035 * sc, 0.045 * sc, 0.18 * sc, M(m, at(0, 0.09 * sc, 0)), '--tallow', false, 8);
+        var cap = new T.SphereGeometry(0.11 * sc, 12, 6, 0, Math.PI * 2, 0, Math.PI / 2);
+        kit.piece(cap, M(m, at(0, 0.17 * sc, 0)), '--toadstool', 0.012);
+        for (var d = 0; d < 5; d++) {
+          var a3 = d / 5 * Math.PI * 2 + sc;
+          kit.piece(new T.SphereGeometry(0.016 * sc, 5, 3), M(m, at(Math.cos(a3) * 0.065 * sc, 0.245 * sc, Math.sin(a3) * 0.065 * sc)), '--tallow', false);
+        }
+      }
+      // A faerie, drawn where she rests: a dress in one of her colours, skin
+      // and hair from her page's own faeries (the Fairy Lights theme's inks,
+      // drawn from them), and two wings rooted at her shoulders, so the kit
+      // can fold them as she flies. Her own meshes, never merged.
+      function faerie(m, n) {
+        var SKINS = ['--cb-fairy-skin-1', '--cb-fairy-skin-2', '--cb-fairy-skin-3', '--cb-fairy-skin-4', '--cb-fairy-skin-5'];
+        var HAIRS = ['--cb-fairy-hair-1', '--cb-fairy-hair-2', '--cb-fairy-hair-3', '--cb-fairy-hair-4'];
+        var WINGS = ['--cb-fairy-wing-1', '--cb-fairy-wing-2', '--cb-fairy-wing-3', '--cb-fairy-wing-4', '--cb-fairy-wing-5', '--cb-fairy-wing-6', '--cb-fairy-wing-7'];
+        var dress = ['--rdr-velvet', '--yurt-fog-lilac', '--rdr-flame', '--yurt-fog-sky'][n % 4];
+        var ms = [], wings = [];
+        var body = new T.ConeGeometry(0.05, 0.15, 8); body.translate(0, 0.075, 0);
+        ms.push(kit.facets(body, m, dress));
+        ms.push(kit.facets(new T.SphereGeometry(0.038, 10, 8), M(m, at(0, 0.18, 0)), SKINS[(n * 2 + 1) % 5]));
+        var hr = new T.SphereGeometry(0.043, 10, 8); hr.scale(1, 0.8, 1);
+        ms.push(kit.facets(hr, M(m, at(0, 0.2, -0.01)), HAIRS[(n * 3) % 4]));
+        [-1, 1].forEach(function (sd) {
+          var w = new T.CircleGeometry(0.075, 12); w.scale(sd * 1.6, 0.85, 1); w.translate(sd * 0.12, 0.012, 0);
+          var wm = kit.flat(w, M(m, at(sd * 0.012, 0.125, -0.018, sd * 0.5, -0.2)), WINGS[(n * 5 + 2) % 7]);
+          wm.material.transparent = true; wm.material.opacity = 0.82; wm.material.side = T.DoubleSide;
+          ms.push(wm); wings.push(wm);
+        });
+        return { meshes: ms, wings: wings };
       }
 
       // CANDLES ONLY, and the night at the window.
@@ -251,7 +440,7 @@
           var y0 = Math.max(ya, Math.min(yAt(-LX), yAt(LX))), y1 = Math.min(yb, Math.max(yAt(-LX), yAt(LX)));
           if (y1 - y0 < 0.05) return;
           var x0 = lc + dir * (y0 - LY0), x1 = lc + dir * (y1 - LY0);
-          rod(at(0, 0, 0), v(x0, y0, back - 0.32), v(x1, y1, back - 0.32), 0.006, '--rdr-stone', 3);
+          rod(at(0, 0, 0), v(x0, y0, back - 0.32), v(x1, y1, back - 0.32), 0.01, '--rdr-stone', 3);
         });
       }
       // Bare branches across it, from one side, with twigs off them.
@@ -276,11 +465,11 @@
       raven(at(-0.62, wy + 0.01, back + 0.1));
       // A cobweb in the top corner, the one thing up there the candles touch.
       var cw = at(-W / 2 + 0.03, H - 0.25, back + 0.03);
-      [0.2, 0.55, 0.9, 1.25].forEach(function (a) { rod(cw, v(0, 0, 0), v(Math.sin(a) * 0.9, -Math.cos(a) * 0.9, 0), 0.004, '--rdr-ink-2', 3); });
+      [0.2, 0.55, 0.9, 1.25].forEach(function (a) { rod(cw, v(0, 0, 0), v(Math.sin(a) * 0.9, -Math.cos(a) * 0.9, 0), 0.007, '--rdr-ink-2', 3); });
       [0.3, 0.55, 0.8].forEach(function (r0) {
         for (var k = 0; k < 3; k++) {
           var a0 = 0.2 + k * 0.35, a1 = a0 + 0.35;
-          rod(cw, v(Math.sin(a0) * r0, -Math.cos(a0) * r0, 0), v(Math.sin(a1) * r0, -Math.cos(a1) * r0, 0), 0.003, '--rdr-ink-2', 3);
+          rod(cw, v(Math.sin(a0) * r0, -Math.cos(a0) * r0, 0), v(Math.sin(a1) * r0, -Math.cos(a1) * r0, 0), 0.005, '--rdr-ink-2', 3);
         }
       });
 
@@ -358,8 +547,8 @@
 
       // THE RUG between the chair and the phonograph, velvet with her brass
       // ring woven into it, and the chandelier of seven candles over it.
-      var rug = new T.CylinderGeometry(1, 1, 0.02, 40); rug.scale(1.7, 1, 2.3);
-      kit.piece(rug, at(0, 0.012, -6.1), '--rdr-velvet', false, false);
+      var rug = new T.CylinderGeometry(1, 1, 0.02, 48); rug.scale(1.7, 1, 2.3);
+      kit.fabric(rug, at(0, 0.012, -6.1), kit.cloth('pile', '--rdr-velvet', '--rdr-ember', 12), false);
       var ring = new T.TorusGeometry(1, 0.018, 4, 48); ring.rotateX(Math.PI / 2); ring.scale(1.35, 1, 1.85);
       kit.piece(ring, at(0, 0.026, -6.1), '--rdr-brass', false, false);
       // Woven into it: a band of little lozenges inside the brass ring, a
@@ -379,7 +568,7 @@
       [-1, 1].forEach(function (s) {
         for (var fx = -0.5; fx <= 0.5; fx += 0.05) {
           var fz = -6.1 + s * 2.3 * Math.sqrt(Math.max(0, 1 - (fx / 1.7) * (fx / 1.7)));
-          kit.cyl(0.006, 0.006, 0.14, at(fx, 0.006, fz + s * 0.06, 0, Math.PI / 2), '--rdr-ink-2', false, 3);
+          kit.cyl(0.01, 0.01, 0.14, at(fx, 0.006, fz + s * 0.06, 0, Math.PI / 2), '--rdr-ink-2', false, 3);
         }
       });
       var chy = 4.2, chz = -6.0, chm = at(0, chy, chz);
@@ -404,15 +593,24 @@
       // A CHAIR IN THE DARK, facing it: winged, velvet, brass studs along its
       // arms, on four short legs.
       var ch = at(0, 0, back + 6.4, Math.PI);
+      // Cloth with a texture you can see (Helen's ask, 2026-11-11): the
+      // chair's velvet, drawn as a nap in her velvet and her stone, on its
+      // seat, its back and its wings, each its own mesh.
+      var velvet = kit.cloth('velvet', '--rdr-velvet', '--rdr-stone', 6);
       box(1.0, 0.3, 0.95, M(ch, at(0, 0.36, 0)), '--rdr-velvet');
-      box(0.86, 0.12, 0.84, M(ch, at(0, 0.56, 0.04)), '--rdr-velvet', 0.01);
-      box(1.0, 1.1, 0.24, M(ch, at(0, 0.98, -0.38)), '--rdr-velvet');
+      kit.fabric(new T.BoxGeometry(0.86, 0.12, 0.84), M(ch, at(0, 0.56, 0.04)), velvet);
+      kit.fabric(new T.BoxGeometry(1.0, 1.1, 0.24), M(ch, at(0, 0.98, -0.38)), velvet);
       [-1, 1].forEach(function (s) {
-        box(0.18, 0.5, 0.95, M(ch, at(s * 0.5, 0.58, 0)), '--rdr-velvet');
-        box(0.22, 0.6, 0.3, M(ch, at(s * 0.46, 1.28, -0.28, s * 0.35)), '--rdr-velvet');
+        kit.fabric(new T.BoxGeometry(0.18, 0.5, 0.95), M(ch, at(s * 0.5, 0.58, 0)), velvet);
+        kit.fabric(new T.BoxGeometry(0.22, 0.6, 0.3), M(ch, at(s * 0.46, 1.28, -0.28, s * 0.35)), velvet);
         for (var st = 0; st < 5; st++) kit.piece(new T.SphereGeometry(0.014, 5, 4), M(ch, at(s * 0.6, 0.6, -0.36 + st * 0.18)), '--rdr-brass', false);
         [-0.38, 0.38].forEach(function (lz) { kit.cyl(0.035, 0.025, 0.21, M(ch, at(s * 0.42, 0.105, lz)), '--rdr-timber', false, 6); });
       });
+
+      // SIT IN THE CHAIR (headset round 2): pressed on the chair or from its
+      // place, you are in it, facing the phonograph and the window, your eyes
+      // at a sitting height; pressed again, you stand.
+      var sitChair;
 
       // Buttons deep in the velvet of its back, a row of brass studs along
       // the top of it, and a cushion squashed into the seat.
@@ -420,8 +618,15 @@
         kit.piece(new T.SphereGeometry(0.016, 6, 4), M(ch, at(-0.33 + (bt % 4) * 0.22 + (Math.floor(bt / 4) % 2) * 0.11, 0.72 + Math.floor(bt / 4) * 0.22, -0.255)), '--rdr-stone', false);
       }
       for (var tp = 0; tp < 11; tp++) kit.piece(new T.SphereGeometry(0.014, 5, 4), M(ch, at(-0.45 + tp * 0.09, 1.53, -0.38)), '--rdr-brass', false);
-      var cush = new T.SphereGeometry(0.3, 12, 8); cush.scale(1.1, 0.32, 0.9);
-      kit.piece(cush, M(ch, at(0.05, 0.66, 0.02, 0.2)), '--rdr-leather', 0.01);
+      // The cushion is leather with its grain, its own mesh, so sitting
+      // presses it flatter (the seat's squash, below).
+      var cush = new T.SphereGeometry(0.3, 24, 16); cush.scale(1.1, 0.32, 0.9);
+      var cushion = kit.fabric(cush, M(ch, at(0.05, 0.66, 0.02, 0.2)), kit.cloth('leather', '--rdr-leather', '--rdr-stone', 5));
+      sitChair = kit.sit({ x: 0, z: back + 6.3, yaw: 0, say: 'Sit in the chair in the dark', up: 'Stand up from the chair',
+        sat: 'You sit in the chair in the dark, facing the phonograph and the window, your eyes at a sitting height, the cushion giving under you.',
+        stood: 'You stand up from the chair, and the cushion fills out again.',
+        squash: cushion,
+        at: [kit.touch(1.0, 0.7, 0.95, M(ch, at(0, 0.5, 0.02)))] });
       // A little round table at its side, with a candle on it, which is lit
       // when somebody asks, and a stack of her records on the floor at the
       // other side, the top one out of its sleeve.
@@ -437,8 +642,20 @@
       ['--rdr-velvet', '--rdr-leather', '--rdr-ember', '--rdr-panel', '--rdr-ink-2'].forEach(function (sl, n) {
         box(0.32, 0.011, 0.32, M(stk, at((hash(n, 4, 1) - 0.5) * 0.04, 0.006 + n * 0.012, (hash(n, 4, 2) - 0.5) * 0.04, (hash(n, 4, 3) - 0.5) * 0.4)), sl, 0.003);
       });
-      kit.cyl(0.15, 0.15, 0.006, M(stk, at(0.06, 0.066, 0.04)), '--rdr-stone', false, 22);
-      kit.cyl(0.05, 0.05, 0.007, M(stk, at(0.06, 0.067, 0.04)), '--rdr-ember', false, 14);
+      // The record off the top of the stack can be picked up (headset round
+      // 2): one flat disc with its grooves and its red label drawn on it, so
+      // it goes as one thing and comes back as one.
+      var discPaper = kit.paper(256, 256, function (c, cw, chh) {
+        c.fillStyle = kit.ink('--rdr-stone'); c.beginPath(); c.arc(cw / 2, chh / 2, 126, 0, Math.PI * 2); c.fill();
+        c.strokeStyle = kit.ink('--rdr-panel'); c.lineWidth = 1;
+        for (var rg = 44; rg < 124; rg += 6) { c.beginPath(); c.arc(cw / 2, chh / 2, rg, 0, Math.PI * 2); c.stroke(); }
+        c.fillStyle = kit.ink('--rdr-ember'); c.beginPath(); c.arc(cw / 2, chh / 2, 38, 0, Math.PI * 2); c.fill();
+        c.strokeStyle = kit.ink('--rdr-brass'); c.lineWidth = 3; c.beginPath(); c.arc(cw / 2, chh / 2, 38, 0, Math.PI * 2); c.stroke();
+        c.fillStyle = kit.ink('--rdr-stone'); c.beginPath(); c.arc(cw / 2, chh / 2, 5, 0, Math.PI * 2); c.fill();
+      });
+      var loose = kit.flat(new T.CircleGeometry(0.15, 28), M(stk, at(0.06, 0.068, 0.04, 0, -Math.PI / 2)), '--rdr-ink');
+      loose.material.map = discPaper; loose.material.side = T.DoubleSide; loose.material.needsUpdate = true;
+      kit.hold(loose, { say: 'the record off the top of the stack' });
 
       // CANDELABRA standing either side, brass with three candles each, and
       // the only lights in the room besides the chandelier.
@@ -472,10 +689,14 @@
       [-0.03, -0.01, 0.01, 0.03].forEach(function (sx) { box(0.004, 1.05, 0.004, M(ce, at(sx, 1.08, 0.125)), '--rdr-brass', false); });
       [-1, 1].forEach(function (s) { box(0.012, 0.16, 0.01, M(ce, at(s * 0.13, 0.58, 0.105, 0, 0, s * 0.15)), '--rdr-stone', false); });
       // Its bow, leaning beside it: the stick, the hair, the frog.
+      // One stick (headset round 2), so it can be picked up and put back as
+      // one thing; its hair and frog went with that.
       var bow0 = v(-4.22, 0.03, back + 1.5), bow1 = v(-4.58, 1.32, back + 1.3);
-      rod(at(0, 0, 0), bow0, bow1, 0.007, '--rdr-timber', 5);
-      rod(at(0, 0, 0), bow0.clone().add(v(0.03, 0.06, 0)), bow1.clone().add(v(0.025, -0.05, 0)), 0.003, '--rdr-ink-2', 3);
-      box(0.04, 0.07, 0.03, at(-4.245, 0.12, back + 1.49, 0, 0, 0.27), '--rdr-stone', false);
+      var bowD = new T.Vector3().subVectors(bow1, bow0), bowMid = bow0.clone().add(bow1).multiplyScalar(0.5);
+      var bowG = new T.CylinderGeometry(0.006, 0.01, bowD.length(), 6);
+      bowG.applyQuaternion(new T.Quaternion().setFromUnitVectors(UP, bowD.clone().normalize()));
+      var bowMesh = kit.facets(bowG, at(bowMid.x, bowMid.y, bowMid.z), '--rdr-timber');
+      kit.hold(bowMesh, { say: 'the cello\u2019s bow' });
       var hp = at(4.05, 0, back + 1.15, -0.64);
       box(0.6, 0.1, 0.3, M(hp, at(0.02, 0.05, 0)), '--rdr-timber');
       kit.cyl(0.04, 0.045, 1.75, M(hp, at(-0.35, 0.93, 0)), '--rdr-timber', false, 8);
@@ -487,8 +708,129 @@
       for (var hs = -0.26; hs < 0.36; hs += 0.06) {
         var foot = 0.12 + (hs + 0.25) / 0.65 * 1.33 + 0.05;
         var head = hs < 0.05 ? 1.8 - (hs + 0.35) / 0.4 * 0.02 : 1.78 - (hs - 0.05) / 0.37 * 0.3;
-        if (head - foot > 0.08) box(0.005, head - foot - 0.05, 0.005, M(hp, at(hs, (head + foot) / 2, 0)), '--rdr-brass', false);
+        if (head - foot > 0.08) box(0.009, head - foot - 0.05, 0.009, M(hp, at(hs, (head + foot) / 2, 0)), '--rdr-brass', false);
       }
+
+      // THE DOOR BACK TO THE YURT, DRESSED AS A PORTAL (round 4). Its frame
+      // faces into the room; +z here is into the room.
+      var pm = at(0, 0, -0.1, Math.PI), pside = 0.77 + 0.12, ph2 = 2.6, motes = [], flyers = [];
+      var halo = kit.flat(new T.RingGeometry(1.25, 1.42, 40), M(pm, at(0, ph2 * 0.55, 0.012)), '--rdr-brass');
+      halo.material.transparent = true; halo.material.opacity = 0.3;
+      var halo2 = kit.flat(new T.RingGeometry(1.42, 1.56, 40), M(pm, at(0, ph2 * 0.55, 0.011)), '--yurt-fog-lilac');
+      halo2.material.transparent = true; halo2.material.opacity = 0.16;
+      var breath = kit.flat(new T.PlaneGeometry(1.2, 2.3), M(pm, at(0, 1.25, 0.03)), '--yurt-fog-lilac');
+      breath.material.transparent = true; breath.material.opacity = 0.1; breath.material.side = T.DoubleSide;
+      [-1, 1].forEach(function (sd) {
+        for (var y = 0.08, k = 0; y < ph2 + 0.05; y += 0.13, k++) {
+          var x = sd * (pside + Math.sin(k * 1.3) * 0.04);
+          kit.cyl(0.012, 0.014, 0.14, M(pm, at(x, y + 0.06, 0.1, 0, 0, Math.sin(k * 1.3) * 0.25)), '--ivy-2', false, 4);
+          leafAt(M(pm, at(x + sd * 0.07, y + 0.05, 0.16)), k);
+          if (k % 2) leafAt(M(pm, at(x - sd * 0.06, y + 0.1, 0.14)), k + 20);
+          if (k % 3 === 1) bloom(M(pm, at(x + sd * 0.1, y, 0.2)), k);
+          if (k % 3 === 2) bloom(M(pm, at(x - sd * 0.04, y + 0.04, 0.22)), k + 10);
+        }
+      });
+      for (var t = 0; t <= 12; t++) {
+        var u = t / 12, ax = pside * Math.cos(Math.PI * (1 - u)), ay = ph2 + 0.08 + Math.sin(Math.PI * u) * 0.26;
+        leafAt(M(pm, at(ax, ay, 0.14)), 100 + t);
+        if (t % 2) leafAt(M(pm, at(ax, ay + 0.1, 0.2)), 120 + t);
+        if (t % 3 === 1) bloom(M(pm, at(ax, ay - 0.06, 0.2)), 100 + t);
+      }
+      stool(M(pm, at(-pside - 0.12, 0, 0.42)), 0.6);
+      stool(M(pm, at(pside + 0.16, 0, 0.3)), 0.48);
+      [[-pside - 0.32, 0.6, 0.8], [pside + 0.32, 0.52, 1], [-pside + 0.05, 0.5, 0.6], [pside - 0.02, 0.62, 0.7]].forEach(function (g, gi) {
+        glowcap(M(pm, at(g[0] + (hash(gi, 70, 1) - 0.5) * 0.1, 0, g[1])), g[2]);
+      });
+      var portalLight = new T.PointLight(kit.col('--rdr-flame-2'), 2.6, 3.6, 1.3);
+      portalLight.position.setFromMatrixPosition(M(pm, at(0, ph2 * 0.7, 0.7)));
+      kit.scene.add(portalLight);
+      for (var mo = 0; mo < 16; mo++) {
+        var ma = hash(mo, 80, 1) * Math.PI * 2, mr = 0.55 + hash(mo, 81, 1) * 0.7;
+        var mp = new T.Vector3().setFromMatrixPosition(M(pm, at(Math.cos(ma) * mr * 1.25, ph2 * 0.58 + Math.sin(ma) * mr * 0.8, 0.2 + hash(mo, 82, 1) * 0.5)));
+        motes.push([mp.x, mp.y, mp.z]);
+      }
+      // And a little sparkle in the candlelight under the chandelier too.
+      for (mo = 0; mo < 10; mo++) {
+        var ca2 = hash(mo, 83, 1) * Math.PI * 2, cr2 = 1.0 + hash(mo, 84, 1) * 0.5;
+        motes.push([Math.cos(ca2) * cr2, chy - 0.5 + hash(mo, 85, 1) * 0.9, chz + Math.sin(ca2) * cr2]);
+      }
+      var about = new T.Vector3().setFromMatrixPosition(M(pm, at(0, ph2 * 0.6, 0.8)));
+      var fa = faerie(M(pm, at(-pside - 0.02, ph2 * 0.5, 0.22, 0.6)), 0);
+      var fb = faerie(M(pm, at(pside + 0.02, ph2 * 0.78, 0.22, -0.6)), 1);
+      flyers.push({ meshes: fa.meshes, wings: fa.wings, about: about, r: 0.6, h: 0.25, period: 7 });
+      flyers.push({ meshes: fb.meshes, wings: fb.wings, about: about, r: 0.8, h: 0.32, period: 9.5 });
+      // The sign over the door, above the ivy's arch (the headset round).
+      sign('The Faery Yurt', 'the way back, through the door you came in by', 1.5, M(pm, at(0, 3.4, 0.06)));
+      // A sconce and its candle on the left-hand wall by the first shelf, so
+      // the door's end of the room is lit enough to see (the headset round).
+      var sc1 = at(-W / 2 + 0.01, 3.4, -1.6, LEFT);
+      box(0.09, 0.26, 0.02, M(sc1, at(0, 0.02, 0.01)), '--rdr-brass', false);
+      kit.piece(new T.SphereGeometry(0.03, 6, 4), M(sc1, at(0, 0.17, 0.02)), '--rdr-brass', false);
+      rod(sc1, v(0, -0.12, 0.02), v(0, -0.06, 0.24), 0.018, '--rdr-brass', 5);
+      kit.cyl(0.07, 0.05, 0.03, M(sc1, at(0, -0.05, 0.24)), '--rdr-brass', false, 10);
+      var sc1Light = new T.PointLight(kit.col('--rdr-flame-2'), 2.4, 5.5, 1.6);
+      sc1Light.position.set(-W / 2 + 0.5, 3.2, -1.6);
+      kit.scene.add(sc1Light);
+      candle(M(sc1, at(0, -0.035, 0.24)), 0.22, 0.034, sc1Light);
+
+      // THE WINDOW'S NIGHT, deeper (round 4): stars past the branches, clear
+      // of the moon, and a drift of her fog's colours across the dark, still.
+      for (var st5 = 0; st5 < 26; st5++) {
+        var sx = (hash(st5, 90, 1) - 0.5) * 2.4, sy = wy + 0.4 + hash(st5, 90, 2) * (wh + rise - 0.9);
+        if (Math.hypot(sx - 0.55, sy - (wy + wh + 0.2)) < 0.55) continue;
+        kit.flat(new T.CircleGeometry(0.012 + hash(st5, 90, 3) * 0.014, 5), at(sx, sy, back - 0.58), st5 % 4 ? '--rdr-ink-2' : '--rdr-ink');
+      }
+      [['--yurt-fog-sky', -0.5, 1.4, 0.9], ['--yurt-fog-lilac', 0.4, 2.9, 0.7], ['--yurt-fog-mint', -0.3, 3.8, 0.5]].forEach(function (fg, fi) {
+        var wisp = new T.CircleGeometry(fg[3], 20); wisp.scale(1.6, 0.6, 1);
+        var wm2 = kit.flat(wisp, at(fg[1], wy + fg[2], back - 0.57 + fi * 0.003, 0, 0, fi * 0.4), fg[0]);
+        wm2.material.transparent = true; wm2.material.opacity = 0.16;
+      });
+      // The moon's cold light lying on the stone of the window and the
+      // phonograph's lid: faint, and high, so the window stays the dark end.
+      var moonWash = new T.PointLight(kit.col('--rdr-ink-2'), 1.3, 5, 1.6);
+      moonWash.position.set(0.4, wy + wh - 0.4, back + 0.5);
+      kit.scene.add(moonWash);
+      // Ivy along the sill, past the raven, and small flowers in it.
+      [[0.12, 1.3, 0], [-1.3, -0.95, 1]].forEach(function (rn, rni) {
+        for (var k2 = 0; k2 < 9; k2++) {
+          var ix = rn[0] + (rn[1] - rn[0]) * hash(k2, 91 + rni, 1), iz = back + 0.08 + hash(k2, 91 + rni, 2) * 0.2;
+          leafAt(at(ix, wy - 0.02 + hash(k2, 91 + rni, 3) * 0.06, iz), 200 + rni * 20 + k2);
+          if (k2 % 3 === 0) bloom(at(ix + 0.05, wy - 0.02, iz + 0.06), 200 + rni * 20 + k2);
+        }
+      });
+      // A MUSIC STAND by the cello, brass on a tripod, a sheet on it with
+      // its staves and a few notes, and loose sheets of music by the chair.
+      var ms2 = at(-3.55, 0, back + 2.35, 0.55);
+      [0, 1, 2].forEach(function (lg) { var la3 = lg / 3 * Math.PI * 2 + 0.3; rod(ms2, v(0, 0.3, 0), v(0.22 * Math.sin(la3), 0, 0.22 * Math.cos(la3)), 0.012, '--rdr-brass', 5); });
+      kit.cyl(0.014, 0.014, 1.0, M(ms2, at(0, 0.8, 0)), '--rdr-brass', false, 6);
+      box(0.4, 0.5, 0.012, M(ms2, at(0, 1.42, 0.02, 0, -0.35)), '--rdr-brass', false);
+      box(0.4, 0.03, 0.05, M(ms2, at(0, 1.2, 0.04, 0, -0.35)), '--rdr-brass', false);
+      box(0.3, 0.42, 0.006, M(ms2, at(0, 1.44, 0.035, 0, -0.35)), '--rdr-ink', false, false);
+      for (var sv = 0; sv < 10; sv++) box(0.24, 0.0025, 0.002, M(ms2, at(0, 1.6 - sv * 0.03 - Math.floor(sv / 5) * 0.04, 0.04 + (1.6 - sv * 0.03 - Math.floor(sv / 5) * 0.04 - 1.44) * 0.365, 0, -0.35)), '--rdr-stone', false, false);
+      for (var nt = 0; nt < 8; nt++) {
+        var ny = 1.6 - hash(nt, 95, 1) * 0.27, nx = -0.1 + nt * 0.028;
+        kit.piece(new T.SphereGeometry(0.006, 5, 4), M(ms2, at(nx, ny, 0.042 + (ny - 1.44) * 0.365)), '--rdr-stone', false);
+      }
+      [[0.75, -0.05, -0.2], [-0.55, 0.4, 0.8]].forEach(function (sh2, shi) {
+        box(0.24, 0.004, 0.32, M(ch, at(sh2[0], 0.002 + shi * 0.004, sh2[1], sh2[2])), '--rdr-ink', false, false);
+        for (var sl2 = 0; sl2 < 5; sl2++) box(0.18, 0.002, 0.003, M(ch, at(sh2[0], 0.005 + shi * 0.004, sh2[1] - 0.08 + sl2 * 0.04, sh2[2])), '--rdr-stone', false, false);
+      });
+      // The top sheet can be picked up (headset round 2): one sheet with its
+      // staves and a few notes drawn on it.
+      var sheetPaper = kit.paper(240, 320, function (c, cw, chh) {
+        c.fillStyle = kit.ink('--rdr-ink'); c.fillRect(0, 0, cw, chh);
+        c.strokeStyle = kit.ink('--rdr-stone'); c.lineWidth = 2;
+        for (var st = 0; st < 10; st++) { var yy = 44 + st * 22 + Math.floor(st / 5) * 36; c.beginPath(); c.moveTo(28, yy); c.lineTo(cw - 28, yy); c.stroke(); }
+        c.fillStyle = kit.ink('--rdr-stone');
+        for (var nt2 = 0; nt2 < 12; nt2++) {
+          var row = nt2 < 6 ? 0 : 1, yy2 = 44 + row * (22 * 5 + 36) + Math.floor(hash(nt2, 96, 1) * 5) * 22;
+          c.beginPath(); c.ellipse(44 + (nt2 % 6) * 30, yy2, 7, 5, -0.4, 0, Math.PI * 2); c.fill();
+          c.fillRect(49 + (nt2 % 6) * 30, yy2 - 34, 2, 34);
+        }
+      });
+      var sheet = kit.flat(new T.PlaneGeometry(0.24, 0.32), M(ch, at(0.6, 0.016, -0.3, 0.3, -Math.PI / 2)), '--rdr-ink');
+      sheet.material.map = sheetPaper; sheet.material.side = T.DoubleSide; sheet.material.needsUpdate = true;
+      kit.hold(sheet, { say: 'a sheet of music' });
 
       // HER PAGE on the right-hand wall, and the deck and the three shelves of
       // records off it: the deck by the phonograph on the far wall's left, the
@@ -498,6 +840,23 @@
       var pg = at(W / 2 - 0.02, 0, -5.4, RIGHT);
       box(pw + 0.24, phh + 0.24, 0.08, M(pg, at(0, py, 0)), '--rdr-timber');
       var frame = kit.screen(1180, 800, pw, M(pg, at(0, py, 0.06)), 'Helen Edgar’s Music Room’s own page, on the right-hand wall');
+      sign('The Music Room', 'Helen Edgar\u2019s room: her own page hangs here', 1.6, M(pg, at(0, py + phh / 2 + 0.42, 0.03)));
+      sign('The phonograph', 'her playlists play on its deck, on the shelf by the window', 0.9, M(ph, at(0, 0.5, 0.372)));
+      sign('Her playlists', 'the deck under this sign plays them, on a screen', 1.2, at(-3.3, 1.75, back + 0.03));
+      // PLAQUES (headset round 2), which a headset can read where it shows no
+      // page: by the door, her own welcome, four sentences copied exactly from
+      // the top of her page, in her Crimson Pro on her timber with a brass
+      // edge; on the phonograph's cabinet, a line of ours naming her playlists.
+      kit.plaque({ lines: [
+        'If you came for the songs and not for the rest of the yurt, this is the room.',
+        'The phonograph is in here with both my playlists on it, and every song on them stands on a shelf as a record you can take out and put on.',
+        'The window is open on the night, the candles never flicker, and the raven on the sill does not mind what you play.',
+        'Nothing starts until you press it.'],
+        face: '"Crimson Pro"', ink: '--rdr-ink', ground: '--rdr-timber', edge: '--rdr-brass', w: 0.9, size: 40,
+        m: at(2.0, 1.5, -0.05, Math.PI) });
+      kit.plaque({ lines: ['Her playlists: Faery Yurt\u2019s Yarn, Strange things will happen and Symphrenia Chill, on the deck under its sign by the window, every song on its shelf as a record.'],
+        face: '"Crimson Pro"', ink: '--rdr-ink', ground: '--rdr-timber', edge: '--rdr-brass', w: 0.8, size: 40,
+        m: M(ph, at(0, 0.2, 0.372)) });
       // The deck stands on a timber shelf on the far wall, on brass brackets.
       box(1.62, 0.06, 0.3, at(-3.3, 0.57, back + 0.15), '--rdr-timber');
       [-0.62, 0.62].forEach(function (bk) { rod(at(-3.3 + bk, 0, back), v(0, 0.3, 0.02), v(0, 0.54, 0.26), 0.014, '--rdr-brass', 4); });
@@ -507,6 +866,7 @@
         { n: 1, z: -5.5, words: 'Strange things will happen' },
         { n: 2, z: -8.4, words: 'Symphrenia Chill' }
       ];
+      var shelfG = null;
       var stops = [{ name: 'just through the door, in the candlelight', x: 0, z: -1.2, yaw: 0 }];
       stops.push({ name: 'in the chair in the dark, facing the phonograph and the window', x: 0, z: back + 6.4, yaw: 0 });
       stops.push({ name: 'at the edge of the rug beside the chair, looking up at the chandelier', x: 1.25, z: -3.9, yaw: 0.2, pitch: 0.6 });
@@ -519,16 +879,236 @@
           box(1.04, 0.1, 0.16, M(g, at(s * 0.43, 2.675, 0.06, 0, 0, -s * Math.atan2(0.55, 0.86))), '--rdr-timber');
         });
         kit.piece(new T.SphereGeometry(0.05, 8, 6), M(g, at(0, 3.0, 0.06)), '--rdr-brass', false);
+        sign(sh.words, null, 1.3, M(g, at(0, 3.3, 0.06)));
         box(1.6, 0.12, 0.4, M(g, at(0, 0.06, 0.16)), '--rdr-timber');
         var it = kit.lift(frame, '.mus-rack', { n: sh.n, w: 560, h: 700, ww: 1.5, m: M(g, at(0, 0.14, 0.02)) });
+        sh.el = it.el;
+        if (sh.n === 0) shelfG = g;
         stops.push({ name: 'at the shelf of records off ' + sh.words, x: -W / 2 + 2.6, z: sh.z, yaw: LEFT, pitch: -0.2, frame: it.el });
       });
       kit.wire(frame, 'rack.js');
+      // A second record out of its sleeve, leaning at the foot of the first
+      // shelf's arch (Helen's ask, 2026-11-11, "pick up records to play"),
+      // the same disc as the one by the chair; either can be carried to the
+      // phonograph.
+      var shelfDisc = kit.flat(new T.CircleGeometry(0.15, 28), M(shelfG, at(0.62, 0.27, 0.34, 0, -0.18)), '--rdr-ink');
+      shelfDisc.material.map = discPaper; shelfDisc.material.side = T.DoubleSide; shelfDisc.material.needsUpdate = true;
+      kit.hold(shelfDisc, { say: 'the record from the foot of the first shelf' });
+
+      // HER RECORDS BY NAME (Helen's ask, 2026-11-12: "pick up records to play",
+      // "same with records" as the books): every record of her Yarn, read off
+      // her page by tools/make-cel-street.py into RECORDS, as a sleeve you can
+      // pick up, lettered on its front with its title, its artist and its
+      // runtime in her face, in the two crates on the floor between the
+      // shelves. Each stands in the crate leaning back a little, its title
+      // along the top where a crate is read through; the first of each crate
+      // leans face out against the front. A sleeve carried to the phonograph
+      // plays that record (the platter's kit.place, below), off its own card
+      // on the shelf's screen, and nothing plays until it is placed.
+      var SLEEVE_INKS = ['--rdr-velvet', '--rdr-ember', '--rdr-leather', '--rdr-panel'];
+      function wrapWords(c, words, most) {
+        var out = [], line = '';
+        words.split(' ').forEach(function (w) {
+          var t = line ? line + ' ' + w : w;
+          if (c.measureText(t).width > most && line) { out.push(line); line = w; } else line = t;
+        });
+        if (line) out.push(line);
+        return out;
+      }
+      function sleevePaper(rec, n) {
+        return kit.paper(256, 256, function (c, cw, chh) {
+          c.fillStyle = kit.ink('--rdr-timber'); c.fillRect(0, 0, cw, chh);
+          c.fillStyle = kit.ink(SLEEVE_INKS[n % SLEEVE_INKS.length]); c.fillRect(24, 112, cw - 48, 96);
+          c.strokeStyle = kit.ink('--rdr-brass'); c.lineWidth = 4; c.strokeRect(6, 6, cw - 12, chh - 12);
+          c.fillStyle = kit.ink('--rdr-ink'); c.textAlign = 'center'; c.textBaseline = 'middle';
+          c.font = '600 30px "Cormorant Garamond"';
+          var lines = wrapWords(c, rec.title, cw - 36).slice(0, 2);
+          lines.forEach(function (l, i) { c.fillText(l, cw / 2, 34 + i * 32); });
+          c.font = 'italic 600 22px "Cormorant Garamond"';
+          wrapWords(c, rec.who, cw - 36).slice(0, 1).forEach(function (l) { c.fillText(l, cw / 2, lines.length > 1 ? 100 : 72); });
+          c.fillStyle = kit.ink('--rdr-ink-2'); c.font = '600 20px "Cormorant Garamond"';
+          c.fillText(rec.runtime, cw / 2, 232);
+        });
+      }
+      var CRATES = [{ z: -4.05 }, { z: -6.95 }], EACH = Math.ceil(RECORDS.length / CRATES.length), SL = 0.3;
+      var sleeveGeo = new T.PlaneGeometry(SL, SL);
+      CRATES.forEach(function (cr, ci) {
+        var cg = at(-W / 2 + 0.34, 0, cr.z, LEFT), len = EACH * 0.03 + 0.12;
+        box(len, 0.03, 0.4, M(cg, at(0, 0.015, 0)), '--rdr-timber');
+        box(len, 0.3, 0.02, M(cg, at(0, 0.15, -0.19)), '--rdr-timber');
+        box(len, 0.14, 0.02, M(cg, at(0, 0.07, 0.19)), '--rdr-timber');
+        [-1, 1].forEach(function (e) { box(0.02, 0.3, 0.4, M(cg, at(e * (len / 2 - 0.01), 0.15, 0)), '--rdr-timber'); });
+        for (var k = 0; k < EACH; k++) {
+          var i = ci * EACH + k;
+          if (i >= RECORDS.length) break;
+          var rec = RECORDS[i], m;
+          if (k === 0) m = M(cg, at(-len / 2 + 0.2, 0.17, 0.26, 0, -0.32));
+          else m = M(cg, at(-len / 2 + 0.06 + k * 0.03, 0.03 + SL / 2, -0.12 + (EACH - k) * 0.004, 0, -0.14));
+          var sleeve = kit.flat(sleeveGeo, m, '--rdr-timber');
+          sleeve.material.map = sleevePaper(rec, i); sleeve.material.side = T.DoubleSide; sleeve.material.needsUpdate = true;
+          sleeve.userData.rec = rec;
+          kit.hold(sleeve, { say: '“' + rec.title + '” by ' + rec.who + ', ' + rec.runtime + ', in its sleeve' });
+        }
+        stops.push({ name: 'at the crate of her records between the shelves, every sleeve named', x: -W / 2 + 1.5, z: cr.z, yaw: LEFT, pitch: -0.78 });
+      });
       stops.push({ name: 'beside the cello, leaning in the corner past the records', x: -3.55, z: back + 3.6, yaw: 0.34, pitch: -0.1 });
       stops.push({ name: 'beside the harp, in the corner by the window', x: 3.5, z: back + 4.5, yaw: -0.18, pitch: -0.12 });
       stops.push({ name: 'over the phonograph, looking down at her record on it', x: 0.15, z: back + 3.55, yaw: 0, pitch: -0.62 });
       stops.push({ name: 'at the window, with the night in it and a raven on the sill', x: 0, z: back + 1.6, yaw: 0, pitch: 0.12 });
       stops.push({ name: 'at the right-hand wall, with her room’s own page on it', x: W / 2 - 2.6, z: -5.4, yaw: RIGHT, page: kit.page, frame: frame });
+
+      // THE VR ROUND (Helen Edgar's ask, 2026-11-11: "more magical and more 3d
+      // and real for VR"). A headset shows only the WebGL picture, so what is
+      // lifted off her page (the deck, the shelves, the page itself) is not in
+      // it; each gets a drawn stand-in behind it, which the lift covers on a
+      // screen and the headset sees in its place. Everything else here is
+      // depth and detail on what the room already had, in its own inks.
+      // A cornice round the top of every wall, and the wainscot's rails and
+      // raised panels under the dado, so the walls have a surface.
+      [[-W / 2 + 0.02, -D / 2, LEFT, D], [W / 2 - 0.02, -D / 2, RIGHT, D], [0, -0.02, Math.PI, W], [0, back + 0.02, 0, W]].forEach(function (w) {
+        box(w[3], 0.12, 0.1, at(w[0], H - 0.3, w[1], w[2]), '--rdr-timber', false);
+        box(w[3], 0.05, 0.06, at(w[0], H - 0.38, w[1], w[2]), '--rdr-panel', false, false);
+        if (w[2] === 0) return;
+        box(w[3], 0.04, 0.03, at(w[0], 0.62, w[1], w[2]), '--rdr-timber', false, false);
+        for (var p2 = -w[3] / 2 + 0.55; p2 < w[3] / 2; p2 += 1.1) {
+          box(0.9, 0.3, 0.012, M(at(w[0], 0.84, w[1], w[2]), at(p2, 0, 0.01)), '--rdr-panel', false, false);
+          box(0.9, 0.3, 0.012, M(at(w[0], 0.4, w[1], w[2]), at(p2, 0, 0.01)), '--rdr-panel', false, false);
+        }
+      });
+      // The window: a glass in every pane, dark and faintly sheened, so the
+      // night is behind glass; a deeper layer of branches further off, thinner
+      // and darker; the moon's halo; and the cold haze of the night lying
+      // just inside the window, still.
+      var glass = kit.flat(new T.PlaneGeometry(ww - 0.2, wh + rise - 0.3), at(0, wy + (wh + rise) / 2 - 0.1, back - 0.3), '--rdr-ink-2');
+      glass.material.transparent = true; glass.material.opacity = 0.07; glass.material.side = T.DoubleSide;
+      [[-1.9, 2.2, 0.35, 2.4, 0.03], [-1.0, 3.3, 0.7, 1.6, 0.022], [0.6, 1.3, 1.1, 1.3, 0.025], [1.2, 2.8, -0.5, 1.5, 0.02], [-0.4, 4.9, 0.2, 1.1, 0.02],
+       [0.9, 3.9, 0.8, 0.8, 0.014], [-1.5, 1.0, 1.3, 0.6, 0.014], [0.2, 4.4, -0.9, 0.5, 0.012]].forEach(function (b) {
+        box(b[3], b[4], 0.015, at(b[0], wy + b[1], back - 0.56, 0, 0, b[2]), '--rdr-panel', false);
+      });
+      var halo3 = kit.flat(new T.CircleGeometry(0.62, 28), at(0.55, wy + wh + 0.2, back - 0.585), '--rdr-flame-2');
+      halo3.material.transparent = true; halo3.material.opacity = 0.12;
+      var halo4 = kit.flat(new T.CircleGeometry(0.95, 28), at(0.55, wy + wh + 0.2, back - 0.59), '--rdr-flame-2');
+      halo4.material.transparent = true; halo4.material.opacity = 0.05;
+      var coldHaze = kit.flat(new T.PlaneGeometry(ww + 0.4, wh + rise), at(0, wy + (wh + rise) / 2, back + 0.6), '--rdr-ink-2');
+      coldHaze.material.transparent = true; coldHaze.material.opacity = 0.045; coldHaze.material.side = T.DoubleSide;
+      // The candelabra turned: a knop and a bead ring along each stem, and a
+      // warm haze hanging round their flames, two crossed planes of candle
+      // gold, faint, as the candlelight sits in the air of a room.
+      [-1, 1].forEach(function (s) {
+        var c = at(s * 2.3, 0, back + 2.9);
+        [0.25, 0.78, 1.3].forEach(function (ky, n) {
+          kit.piece(new T.TorusGeometry(0.055 + n * 0.004, 0.012, 6, 14).rotateX(Math.PI / 2), M(c, at(0, ky, 0)), '--rdr-brass', false);
+        });
+        kit.cyl(0.07, 0.05, 0.08, M(c, at(0, 0.1, 0)), '--rdr-brass', false, 10);
+        [0, Math.PI / 2].forEach(function (ha) {
+          var hz = kit.flat(new T.PlaneGeometry(1.1, 0.9), M(c, at(0, 1.95, 0, ha)), '--rdr-flame-2');
+          hz.material.transparent = true; hz.material.opacity = 0.07; hz.material.side = T.DoubleSide; hz.material.depthWrite = false;
+        });
+      });
+      [0, Math.PI / 2].forEach(function (ha) {
+        var hz2 = kit.flat(new T.PlaneGeometry(2.2, 1.1), M(chm, at(0, -0.05, 0, ha)), '--rdr-flame-2');
+        hz2.material.transparent = true; hz2.material.opacity = 0.06; hz2.material.side = T.DoubleSide; hz2.material.depthWrite = false;
+      });
+      // The chandelier's chains, link by link, up its three cords.
+      [0, 1, 2].forEach(function (cn2) {
+        var a3 = cn2 / 3 * Math.PI * 2, top = v(0, 0.76, 0), foot = v(0.85 * Math.sin(a3), -0.22, 0.85 * Math.cos(a3));
+        for (var lk = 1; lk < 9; lk++) {
+          var pl = top.clone().lerp(foot, lk / 9);
+          kit.piece(new T.TorusGeometry(0.02, 0.005, 5, 10), M(chm, at(pl.x, pl.y, pl.z, a3, 0.6, lk % 2 ? Math.PI / 2 : 0)), '--rdr-brass', false);
+        }
+      });
+      // The far wall's sconces get the little light they give, one warm
+      // point between the two pairs, low, so the ravens are seen.
+      var sconceLight = new T.PointLight(kit.col('--rdr-flame-2'), 2.2, 5, 1.6);
+      sconceLight.position.set(0, 3.2, back + 0.6);
+      kit.scene.add(sconceLight);
+      // The phonograph: its lid, propped open at the back on a brass hinge, a
+      // brass nameplate on the cabinet, and the moth her page has asleep on
+      // the horn, still at every setting.
+      box(0.76, 0.03, 0.62, M(ph, at(0, 1.3, -0.3, 0, -1.15)), '--rdr-timber', 0.01);
+      box(0.7, 0.012, 0.56, M(ph, at(0, 1.305, -0.3, 0, -1.15)), '--rdr-panel', false, false);
+      kit.cyl(0.015, 0.015, 0.7, M(ph, at(0, 1.1, -0.3, 0, 0, Math.PI / 2)), '--rdr-brass', false, 6);
+      box(0.2, 0.06, 0.008, M(ph, at(0, 0.82, 0.355)), '--rdr-brass', false, false);
+      var mothM = M(horn, at(HR * 0.72, -HH / 2 + 0.12, HR * 0.5, 0.4, 0.5, 0.2));
+      var mothBody = new T.SphereGeometry(0.02, 8, 6); mothBody.scale(0.8, 0.7, 1.6);
+      kit.piece(mothBody, mothM, '--rdr-leather', false);
+      [-1, 1].forEach(function (s) {
+        var mw = new T.CircleGeometry(0.035, 10); mw.scale(s * 1.4, 0.9, 1); mw.translate(s * 0.045, 0, 0);
+        kit.piece(mw, M(mothM, at(0, 0.008, 0, 0, -Math.PI / 2 + 0.25)), '--rdr-ink-2', false);
+        kit.cyl(0.002, 0.002, 0.04, M(mothM, at(s * 0.01, 0.015, 0.03, 0, 0.8, s * 0.5)), '--rdr-panel', false, 3);
+      });
+      // The cello's f-holes, its pegs and its tailpiece; the harp's pins and
+      // the beads carved up its column; the chair's legs turned.
+      [-1, 1].forEach(function (s) {
+        var fh = new T.CircleGeometry(0.022, 10); fh.scale(0.45, 1.9, 1);
+        kit.piece(fh, M(ce, at(s * 0.09, 0.5, 0.12, 0, 0, s * 0.18)), '--rdr-stone', false);
+        [0.57, 0.43].forEach(function (fy) { kit.piece(new T.CircleGeometry(0.012, 8), M(ce, at(s * 0.09 + s * (fy > 0.5 ? -0.012 : 0.012), fy, 0.121)), '--rdr-stone', false); });
+        [1.6, 1.68].forEach(function (py2, n) { kit.cyl(0.012, 0.012, 0.07, M(ce, at(s * 0.06, py2, -0.01 + n * 0.01, 0, 0, Math.PI / 2)), '--rdr-stone', false, 6); });
+      });
+      box(0.07, 0.17, 0.015, M(ce, at(0, 0.3, 0.12)), '--rdr-stone', false);
+      for (var hp2 = -0.26; hp2 < 0.36; hp2 += 0.06) {
+        var headY = hp2 < 0.05 ? 1.8 - (hp2 + 0.35) / 0.4 * 0.02 : 1.78 - (hp2 - 0.05) / 0.37 * 0.3;
+        kit.cyl(0.006, 0.006, 0.03, M(hp, at(hp2, headY + 0.03, 0.03, 0, Math.PI / 2)), '--rdr-brass', false, 4);
+      }
+      [0.35, 0.7, 1.05, 1.4].forEach(function (cy2) { kit.piece(new T.TorusGeometry(0.05, 0.012, 6, 12).rotateX(Math.PI / 2), M(hp, at(-0.35, cy2, 0)), '--rdr-brass', false); });
+      [-1, 1].forEach(function (s) {
+        [-0.38, 0.38].forEach(function (lz) { kit.piece(new T.SphereGeometry(0.045, 8, 6), M(ch, at(s * 0.42, 0.12, lz)), '--rdr-timber', false); });
+      });
+      // The rug's border band inside the brass ring, and its pile along the
+      // edge, a second lip a shade off.
+      var band = new T.TorusGeometry(1, 0.045, 6, 64); band.rotateX(Math.PI / 2); band.scale(1.5, 1, 2.05);
+      kit.fabric(band, at(0, 0.024, -6.1), kit.cloth('weave', '--rdr-ember', '--rdr-brass', 16), false);
+      var pile = new T.CylinderGeometry(1, 1, 0.012, 40); pile.scale(1.74, 1, 2.34);
+      kit.piece(pile, at(0, 0.006, -6.1), '--rdr-panel', false, false);
+      // The ravens' feathers, a few laid over each body, and a glint in each
+      // eye; the cobweb's dew, three beads on its threads.
+      [at(-0.62, wy + 0.01, back + 0.1), M(at(-4.25, 3.3, back + 0.01), at(0, 0.015, 0.12)), M(at(4.25, 3.3, back + 0.01), at(0, 0.015, 0.12))].forEach(function (rm, rn) {
+        for (var fe = 0; fe < 6; fe++) {
+          var fth = new T.SphereGeometry(0.035, 6, 4); fth.scale(1, 0.35, 1.8);
+          kit.piece(fth, M(rm, at((fe % 2 ? 1 : -1) * (0.03 + hash(fe, rn, 1) * 0.03), 0.12 + hash(fe, rn, 2) * 0.06, -0.02 - Math.floor(fe / 2) * 0.05, 0, 0.3 + hash(fe, rn, 3) * 0.3, (fe % 2 ? 1 : -1) * 0.5)), '--rdr-panel', false);
+        }
+        [-1, 1].forEach(function (s) { kit.flat(new T.SphereGeometry(0.004, 4, 3), M(rm, at(s * 0.045, 0.232, 0.162)), '--rdr-ink'); });
+      });
+      [[0.3, 0.55], [0.55, 0.9], [0.8, 1.2]].forEach(function (dw) { kit.flat(new T.SphereGeometry(0.008, 5, 4), M(cw, at(Math.sin(dw[1]) * dw[0], -Math.cos(dw[1]) * dw[0], 0)), '--rdr-ink-2'); });
+      // Dust in the candlelight: more of the sparkle, round each candelabrum
+      // and up in the moon's light at the window.
+      [-1, 1].forEach(function (s) {
+        for (var dm = 0; dm < 10; dm++) {
+          var da = hash(dm, 86 + s, 1) * Math.PI * 2, dr = 0.3 + hash(dm, 87 + s, 1) * 0.6;
+          motes.push([s * 2.3 + Math.cos(da) * dr, 1.4 + hash(dm, 88 + s, 1) * 1.1, back + 2.9 + Math.sin(da) * dr]);
+        }
+      });
+      for (var dm2 = 0; dm2 < 8; dm2++) motes.push([(hash(dm2, 89, 1) - 0.5) * 2.0, wy + 0.5 + hash(dm2, 89, 2) * 3.2, back + 0.6 + hash(dm2, 89, 3) * 0.5]);
+      // STAND-INS FOR THE HEADSET behind every lift and the page: a row of
+      // records in their sleeves inside each shelf's arch, discs showing at
+      // the top with their labels; a deck of brass with its dials on the shelf
+      // by the phonograph; and in the page's frame a panel of her claret with
+      // her moon and star on it in brass. On a screen the lifts and the page
+      // cover them.
+      SHELVES.forEach(function (sh, si) {
+        var g = at(-W / 2 + 0.06, 0, sh.z, LEFT);
+        for (var rc = 0; rc < 9; rc++) {
+          var rx = -0.62 + rc * 0.155, lean = M(g, at(rx, 0.12, 0.04 + (rc % 2) * 0.02, 0, 0, -0.08 - hash(rc, si, 1) * 0.06));
+          box(0.012, 0.32, 0.32, M(lean, at(0, 0.16, 0.18, Math.PI / 2)), ['--rdr-velvet', '--rdr-ember', '--rdr-leather', '--rdr-panel', '--rdr-ink-2'][(rc + si) % 5], 0.003);
+          kit.cyl(0.15, 0.15, 0.006, M(lean, at(0, 0.33, 0.18, 0, 0, Math.PI / 2)), '--rdr-stone', false, 18);
+          kit.cyl(0.045, 0.045, 0.007, M(lean, at(0, 0.33, 0.18, 0, 0, Math.PI / 2)), rc % 2 ? '--rdr-ember' : '--rdr-brass', false, 12);
+        }
+        box(1.5, 0.4, 0.3, M(g, at(0, 0.9, 0.17)), '--rdr-panel', false, false);
+        for (var rc2 = 0; rc2 < 8; rc2++) box(0.14, 0.34, 0.012, M(g, at(-0.6 + rc2 * 0.17, 0.95, 0.33, 0, 0, (hash(rc2, si, 2) - 0.5) * 0.1)), ['--rdr-ember', '--rdr-velvet', '--rdr-leather'][rc2 % 3], false, false);
+      });
+      var dk = at(-3.3, 0.6, back + 0.15);
+      box(1.4, 0.5, 0.2, M(dk, at(0, 0.25, 0)), '--rdr-panel', 0.01);
+      box(1.3, 0.4, 0.012, M(dk, at(0, 0.25, 0.105)), '--rdr-timber', false, false);
+      [-0.45, -0.15, 0.15, 0.45].forEach(function (dx) { kit.cyl(0.05, 0.05, 0.02, M(dk, at(dx, 0.3, 0.115, 0, Math.PI / 2)), '--rdr-brass', false, 12); kit.cyl(0.012, 0.012, 0.03, M(dk, at(dx, 0.3, 0.13, 0, Math.PI / 2)), '--rdr-stone', false, 6); });
+      box(1.1, 0.03, 0.01, M(dk, at(0, 0.12, 0.115)), '--rdr-brass', false, false);
+      box(pw - 0.1, phh - 0.1, 0.02, M(pg, at(0, py, 0.02)), '--rdr-panel', false, false);
+      kit.flat(new T.ShapeGeometry(moonShape).scale(9, 9, 1), M(pg, at(-0.3, py + 0.1, 0.035)), '--rdr-brass');
+      kit.flat(new T.ShapeGeometry(starShape).scale(9, 9, 1), M(pg, at(0.35, py - 0.15, 0.035)), '--rdr-brass');
+      // Places to stand where there is now something to look at closely.
+      stops.push({ name: 'at the left-hand candelabrum, its three candles standing still', x: -2.3, z: back + 4.3, yaw: 0, pitch: 0.1 });
+      stops.push({ name: 'at the music stand by the cello, with the sheet on it', x: -3.0, z: back + 3.6, yaw: 0.55, pitch: -0.15 });
+      stops.push({ name: 'at the records stacked on the floor by the chair, the top one out of its sleeve', x: -0.9, z: back + 7.6, yaw: 0.1, pitch: -0.62 });
+      stops.push({ name: 'at the horn, with the moth asleep on it', x: 0.6, z: back + 3.9, yaw: -0.3, pitch: 0.22 });
 
       // JOIN THE FAERIES, her page's own switch: faeries between the candles,
       // round the chandelier and by the candelabra and the sconces, each with
@@ -606,9 +1186,42 @@
 
       // THE ROOM'S SWITCHES. The record goes round at MAX as hers does, or
       // when asked; the candles flicker only when asked.
+      var platter = kit.touch(0.7, 0.4, 0.7, M(ph, at(0, 1.15, 0)));
       var turning = kit.turn(record, recordAt, { say: 'Turn the record', max: true, period: 6,
+        at: [platter],
         said: function (on) { return on ? 'Her record goes round on the phonograph, once in six seconds.' : 'The record stops where it is.'; } });
+      // PICK UP A RECORD TO PLAY (Helen's ask, 2026-11-11): the phonograph
+      // takes the record in your hand: it goes onto the turntable under her
+      // record, which is the one drawn turning, the turning is switched on if
+      // it is not already (by MAX, or by a press), and her playlist's deck on
+      // the screen is pressed to play, which love-embed.js answers as on her
+      // page. In a headset the page is not shown, so there the record turns
+      // and the words say the music is on the screen.
+      kit.place(platter, function (mesh, say) {
+        var rec = mesh.userData.rec || null;
+        if (mesh !== loose && mesh !== shelfDisc && !rec) return false;
+        var mv = turning.mv, on = mv.asked === null ? document.documentElement.getAttribute('data-intensity') === 'max' : mv.asked;
+        if (!on) turning.go();
+        // A named sleeve from the crates leans against the phonograph's
+        // cabinet, and its own card on the shelf's screen is pressed: Put it
+        // on the phonograph where rack.js has shown that button, else the
+        // card's own play button, which love-embed.js answers as on her page.
+        if (rec) {
+          mesh.matrix.copy(M(ph, at(0.62, 0.17, 0.12, 0.35, -0.12))); mesh.matrixWorldNeedsUpdate = true;
+          var card = null;
+          SHELVES.forEach(function (sh) { if (!card && sh.el) card = sh.el.querySelector('#mus-lp-' + rec.id); });
+          var to = card ? card.querySelector('[data-rack-to]') : null, fac = card ? card.querySelector('button.facade') : null;
+          var pressed = to && !to.hidden ? to : fac;
+          if (pressed) pressed.click();
+          return 'You put \u201c' + rec.title + '\u201d by ' + rec.who + ' on the phonograph; it goes round, and the record (' + rec.runtime + ') ' + (pressed ? 'plays on its shelf\u2019s screen.' : 'plays on its shelf\u2019s screen, which a headset does not show.');
+        }
+        mesh.matrix.copy(M(recordAt, at(0, -0.009, 0, 0, -Math.PI / 2))); mesh.matrixWorldNeedsUpdate = true;
+        var played = false, btn = deck && deck.el ? deck.el.querySelector('button.facade') : null;
+        if (btn) { btn.click(); played = true; }
+        return 'You put ' + say + ' on the phonograph; it goes round' + (played ? ', and her playlist plays on the deck\u2019s screen by the window.' : '. Her playlist plays on the deck\u2019s screen, which a headset does not show.');
+      });
       var candles = kit.flames(flames, { say: 'Let the candles flicker',
+        at: [kit.touch(1.0, 0.7, 0.5, at(-2.3, 1.75, back + 2.9)), kit.touch(1.0, 0.7, 0.5, at(2.3, 1.75, back + 2.9))],
         said: function (on) { return on ? 'Every candle in the room flickers, each in its own time.' : 'The candles stand still again, as on her page.'; } });
       var joinFaeries = kit.press({ say: function () { return kit.hidden(faeries[0]) ? 'Join the Faeries' : 'Let the Faeries go'; },
         at: [kit.touch(2.2, 1.2, 2.2, at(0, 3.9, chz))],
@@ -624,6 +1237,16 @@
           garden.forEach(function (g) { kit.hide(g, !growNow); });
           return growNow ? 'Ivy has grown along the foot of every wall and up the corners, with toadstools in the corners.' : 'The ivy and the toadstools are cleared away.';
         } });
+      // The two faeries on the portal's ivy fly only when asked (round 4).
+      var flyFaeries = kit.drift(flyers, { say: 'Let the faeries fly',
+        at: [kit.touch(0.4, 0.4, 0.4, M(pm, at(-pside - 0.02, ph2 * 0.5 + 0.12, 0.22))), kit.touch(0.4, 0.4, 0.4, M(pm, at(pside + 0.02, ph2 * 0.78 + 0.12, 0.22)))],
+        said: function (on) { return on ? 'The two faeries on the ivy fly round the door to the yurt, each on her own slow loop.' : 'The faeries settle where they are.'; } });
+      // The sparkle in the candlelight: a string of its own, never twinkling
+      // by itself, because her dial says only the record moves here at MAX.
+      var sparkle = kit.lights({ label: 'The sparkle', strings: [kit.bulbs(motes, 0.018, ['--rdr-flame-2', '--rdr-brass'])],
+        sets: [{ say: 'Candle gold and brass', inks: ['--rdr-flame-2', '--rdr-brass'] },
+               { say: 'Her fog\u2019s colours', inks: ['--yurt-fog-rose', '--yurt-fog-sky', '--yurt-fog-lemon', '--yurt-fog-lilac'] }],
+        twinkle: 'Let the sparkle twinkle' });
       var tableCandle = kit.press({ say: function () { return kit.hidden(tableFlame) ? 'Light the candle by the chair' : 'Blow out the candle by the chair'; },
         at: [kit.touch(0.55, 0.5, 0.55, M(tb, at(0, 0.8, 0)))],
         press: function () {
@@ -631,17 +1254,159 @@
           kit.hide(tableFlame, !light);
           return light ? 'The candle on the little table by the chair is lit.' : 'The candle by the chair is blown out.';
         } });
+      // SEATING FOR THE COMMUNITY (Helen Edgar's ask, 2026-11-12: "more
+      // seating for community eg sofas, bean bags, hammocks, cushions,
+      // blankets etc in every room"): a velvet sofa for two against the
+      // right-hand wall by the door with two beanbags facing it and a basket
+      // of blankets at its end; three floor cushions round a tea tray in the
+      // corner by the door, across from the first shelf; a window seat on the
+      // far wall beside the window, by the harp; and a hammock slung between
+      // two turned posts in front of it. Every seat is a kit.sit with a
+      // squash where it has a cushion, in the room's own cloth and inks, and
+      // nothing in it moves.
+      var seatKnit = kit.cloth('knit', '--rdr-ember', '--rdr-flame', 7), seatWeave = kit.cloth('weave', '--rdr-brass', '--rdr-ember', 12);
+      var seatLeather = kit.cloth('leather', '--rdr-leather', '--rdr-timber', 5);
+      var sofaM = at(4.1, 0, -2.4, RIGHT);
+      kit.fabric(new T.BoxGeometry(2.4, 0.45, 0.9), M(sofaM, at(0, 0.32, 0)), velvet);
+      kit.fabric(new T.BoxGeometry(2.4, 0.8, 0.25), M(sofaM, at(0, 0.75, -0.42)), velvet);
+      [-1, 1].forEach(function (s) { kit.fabric(new T.BoxGeometry(0.22, 0.6, 0.9), M(sofaM, at(s * 1.2, 0.5, 0)), velvet); });
+      var sofaMCushion = kit.fabric(new T.BoxGeometry(2.3, 0.12, 0.72), M(sofaM, at(0, 0.6, 0.04)), velvet);
+      [-0.6, 0.6].forEach(function (cx) { kit.fabric(new T.BoxGeometry(0.44, 0.34, 0.14), M(sofaM, at(cx, 0.85, -0.22, 0, -0.2)), seatWeave); });
+      kit.cyl(0.012, 0.012, 2.4, M(sofaM, at(0, 1.15, -0.42, 0, 0, Math.PI / 2)), '--rdr-brass', false, 5);
+      // A knitted throw over the arm nearest the door, and a basket of
+      // blankets at the other end.
+      kit.fabric(new T.BoxGeometry(0.5, 0.03, 0.9), M(sofaM, at(-1.2, 0.82, 0.05)), seatKnit);
+      kit.fabric(new T.BoxGeometry(0.03, 0.42, 0.9), M(sofaM, at(-1.44, 0.6, 0.05)), seatKnit);
+      kit.fabric(new T.BoxGeometry(0.03, 0.3, 0.9), M(sofaM, at(-0.96, 0.66, 0.05)), seatKnit);
+      var basketM = at(4.3, 0, -3.95);
+      kit.cyl(0.26, 0.2, 0.36, M(basketM, at(0, 0.18, 0)), '--rdr-leather', 0.01, 14);
+      kit.cyl(0.27, 0.27, 0.03, M(basketM, at(0, 0.365, 0)), '--rdr-timber', false, 14);
+      kit.fabric(new T.BoxGeometry(0.4, 0.1, 0.3), M(basketM, at(0, 0.42, 0, 0.3)), seatKnit);
+      kit.fabric(new T.BoxGeometry(0.36, 0.09, 0.28), M(basketM, at(0.02, 0.51, 0.02, -0.4)), seatWeave);
+      kit.fabric(new T.BoxGeometry(0.3, 0.08, 0.24), M(basketM, at(-0.02, 0.59, -0.02, 0.9)), velvet);
+      // Two beanbags facing the sofa, knitted and woven.
+      var beanGeoM = new T.SphereGeometry(0.5, 22, 14); beanGeoM.scale(1, 0.58, 1);
+      var beansM = [[2.1, -1.7], [2.1, -3.1]].map(function (b, i) {
+        kit.cyl(0.42, 0.46, 0.04, at(b[0], 0.02, b[1]), '--rdr-panel', false, 20);
+        return kit.fabric(beanGeoM, at(b[0], 0.3, b[1], i ? 0.6 : -0.3), i ? seatKnit : seatWeave);
+      });
+      // Three floor cushions round a tea tray by the door, across from the
+      // first shelf of records.
+      var cushGeoM = new T.CylinderGeometry(0.34, 0.36, 0.14, 22);
+      var trayM = at(-1.9, 0, -2.0);
+      kit.cyl(0.3, 0.3, 0.025, M(trayM, at(0, 0.013, 0)), '--rdr-timber', 0.01, 20);
+      kit.cyl(0.31, 0.31, 0.008, M(trayM, at(0, 0.03, 0)), '--rdr-brass', false, 20);
+      kit.piece(new T.SphereGeometry(0.1, 12, 8), M(trayM, at(-0.06, 0.12, 0.02)), '--rdr-velvet', 0.01);
+      kit.cyl(0.02, 0.025, 0.14, M(trayM, at(-0.06, 0.2, 0.02)), '--rdr-velvet', false, 8);
+      [[0.12, 0.08], [0.16, -0.08], [0.0, -0.16]].forEach(function (cp) { kit.cyl(0.035, 0.03, 0.05, M(trayM, at(cp[0], 0.055, cp[1])), '--rdr-ink', false, 10); });
+      var floorCushM = [[-1.7, -1.3, 0.3], [-2.75, -1.45, -0.4], [-1.2, -2.3, 0.9]].map(function (c) {
+        var m = kit.fabric(cushGeoM, at(c[0], 0.07, c[1], c[2]), seatWeave);
+        kit.cyl(0.03, 0.03, 0.02, at(c[0], 0.145, c[1]), '--rdr-brass', false, 8);
+        return m;
+      });
+      // THE WINDOW SEAT on the far wall beside the window, by the harp: a
+      // timber bench built against the wall, a velvet cushion along it and a
+      // knitted blanket folded at one end.
+      var wsM = at(1.5, 0, back + 0.3);
+      box(1.4, 0.44, 0.5, M(wsM, at(0, 0.22, 0)), '--rdr-timber', 0.01);
+      box(1.46, 0.04, 0.54, M(wsM, at(0, 0.46, 0)), '--rdr-timber', 0.01, false);
+      var wsCushion = kit.fabric(new T.BoxGeometry(1.36, 0.12, 0.46), M(wsM, at(0, 0.54, 0.0)), velvet);
+      [-0.45, 0.45].forEach(function (cx) { kit.fabric(new T.BoxGeometry(0.34, 0.3, 0.12), M(wsM, at(cx, 0.75, -0.17, 0, -0.15)), seatWeave); });
+      kit.fabric(new T.BoxGeometry(0.34, 0.06, 0.3), M(wsM, at(-0.5, 0.63, 0.06, 0.2)), seatKnit);
+      // THE HAMMOCK: slung between two turned timber posts in front of the
+      // window seat, a woven cloth sagging on a cord at each end.
+      var hamM = [3.25, 1.3, -9.4];
+      [[2.4, -9.4], [4.1, -9.4]].forEach(function (hp) {
+        kit.cyl(0.26, 0.3, 0.06, at(hp[0], 0.03, hp[1]), '--rdr-timber', 0.01, 12);
+        kit.cyl(0.06, 0.07, 2.0, at(hp[0], 1.06, hp[1]), '--rdr-timber', 0.01, 10);
+        kit.piece(new T.SphereGeometry(0.09, 10, 8), at(hp[0], 2.1, hp[1]), '--rdr-brass', false);
+      });
+      var hamGeoM = new T.PlaneGeometry(1.4, 0.8, 18, 3); hamGeoM.rotateX(-Math.PI / 2);
+      (function () {
+        var pos = hamGeoM.attributes.position;
+        for (var i = 0; i < pos.count; i++) {
+          var hx = pos.getX(i), hz = pos.getZ(i), t = hx / 0.7, u = hz / 0.4;
+          pos.setY(i, -0.3 * (1 - t * t) - 0.06 * (1 - u * u) * (1 - t * t));
+        }
+        pos.needsUpdate = true; hamGeoM.computeVertexNormals();
+      })();
+      var hammockM = kit.fabric(hamGeoM, at(hamM[0], hamM[1], hamM[2]), seatWeave);
+      hammockM.material.side = T.DoubleSide; hammockM.material.needsUpdate = true;
+      var seatID = new T.Matrix4();
+      rod(seatID, v(2.4, 1.98, -9.4), v(2.57, 1.3, -9.4), 0.012, '--rdr-brass', 5);
+      rod(seatID, v(4.1, 1.98, -9.4), v(3.93, 1.3, -9.4), 0.012, '--rdr-brass', 5);
+      kit.fabric(new T.BoxGeometry(0.36, 0.05, 0.5), at(2.75, 1.12, -9.4, 0, 0, 0.25), seatKnit);
+      kit.fabric(new T.BoxGeometry(0.4, 0.1, 0.3), at(3.6, 1.06, -9.4, 0, 0, -0.2), velvet);
+      // The seats, each from its own touch and from its group's stop.
+      var sitSofaM = [[-0.6, 'the door'], [0.6, 'the far']].map(function (e) {
+        return kit.sit({ x: 4.0, z: -2.4 + e[0], yaw: LEFT, say: 'Sit on the sofa, ' + e[1] + ' end', up: 'Get up from the sofa', squash: sofaMCushion,
+          sat: 'You sit on the velvet sofa by the door, the beanbags and the whole room before you, somebody beside you if they like.', stood: 'You get up from the sofa.',
+          at: [kit.touch(1.0, 0.5, 0.8, M(sofaM, at(e[0], 0.4, 0.1)))] });
+      });
+      var sitBeansM = beansM.map(function (b, i) {
+        var bz = i ? -3.1 : -1.7;
+        return kit.sit({ x: 2.1, z: bz, yaw: RIGHT, say: 'Sink into the ' + (i ? 'far' : 'near') + ' beanbag', up: 'Climb out of the beanbag', squash: b,
+          sat: 'You sink into the beanbag, low to the boards, facing the sofa.', stood: 'You climb out of the beanbag.',
+          at: [kit.touch(0.9, 0.5, 0.9, at(2.1, 0.3, bz))] });
+      });
+      var sitCushM = floorCushM.map(function (c, i) {
+        var cp = [[-1.7, -1.3], [-2.75, -1.45], [-1.2, -2.3]][i];
+        var yaw = Math.atan2(-(-1.9 - cp[0]), -(-2.0 - cp[1]));
+        return kit.sit({ x: cp[0], z: cp[1], yaw: yaw, say: 'Sit on a floor cushion by the tea tray', up: 'Get up from the cushion', squash: c,
+          sat: 'You sit on the floor cushion by the door, round the tea tray with whoever else is down there.', stood: 'You get up from the cushion.',
+          at: [kit.touch(0.7, 0.2, 0.7, at(cp[0], 0.08, cp[1]))] });
+      });
+      var sitWindowM = kit.sit({ x: 1.5, z: back + 0.3, yaw: Math.PI, say: 'Sit on the window seat', up: 'Get up from the window seat', squash: wsCushion,
+        sat: 'You sit on the window seat, the night at your shoulder and the candlelit room before you.', stood: 'You get up from the window seat.',
+        at: [kit.touch(1.4, 0.5, 0.5, M(wsM, at(0, 0.4, 0)))] });
+      var sitHammockM = kit.sit({ x: hamM[0], z: hamM[2], yaw: Math.PI, say: 'Lie in the hammock', up: 'Climb out of the hammock', squash: hammockM,
+        sat: 'You lie in the hammock by the window, the harp beside you and the candles across the room.', stood: 'You climb out of the hammock.',
+        at: [kit.touch(1.4, 0.6, 0.9, at(hamM[0], 1.05, hamM[2]))] });
+      // Signs for the headset, which reads what it cannot press.
+      sign('Sit with us', 'a sofa, beanbags, cushions by the door, for whoever comes in', 1.4, M(at(W / 2 - 0.02, 0, -2.4, RIGHT), at(0, 2.0, 0.03)));
+      sign('The hammock and the window seat', 'climb in and lie back, or sit by the night', 1.3, at(3.1, 2.2, back + 0.03));
+      stops.push({ name: 'at the sofa against the right-hand wall, the beanbags facing it', x: 2.9, z: -4.3, yaw: Math.PI - 0.2, pitch: -0.2, acts: sitSofaM.concat(sitBeansM) });
+      stops.push({ name: 'at the floor cushions by the door, round the tea tray', x: -0.3, z: -2.2, yaw: 1.76, pitch: -0.35, acts: sitCushM });
+      stops.push({ name: 'at the hammock and the window seat, in the corner by the harp', x: 3.2, z: -8.0, yaw: 0, pitch: -0.1, acts: [sitHammockM, sitWindowM] });
+      // THE HARP STIRRING IN A DRAUGHT (Helen's ask, 2026-11-12, "sounds
+      // first"): single strings plucked now and then, and sometimes a short
+      // run up them, out of one pentatonic scale, cel-sounds.js's harp
+      // (arithmetic, nothing recorded), heard from the harp in the corner
+      // through kit.sound: off until pressed, on until pressed again, off when
+      // you leave the room.
+      var harpStir = kit.sound({ kind: 'harp', pos: new T.Vector3().setFromMatrixPosition(M(hp, at(0, 1.1, 0))), say: 'Let the harp stir', stop: 'Still the harp',
+        at: [kit.touch(0.9, 1.9, 0.8, M(hp, at(0, 0.95, 0)))],
+        said: function (on) { return on ? 'A draught comes in at the window and the harp’s strings stir in it, a note here and there and now and then a run up them.' : 'The strings fall still.'; } });
+      // THE TOUR (the headset round): the places in a walking order, from
+      // the door round the room and back to it, which is the order a
+      // controller's bumpers walk them; the way out is the last place.
+      var ORDER = [/^just through the door/, /floor cushions by the door/, /records stacked/, /^in the chair/, /edge of the rug/, /Faery Yurt’s Yarn/, /Strange things/,
+                   /left-hand candelabrum/, /music stand/, /^beside the cello/, /Symphrenia/, /phonograph’s deck/, /^at the window/,
+                   /^over the phonograph/, /horn, with the moth/, /^beside the harp/, /hammock and the window seat/, /own page/, /sofa against the right-hand wall/];
+      function rank(st2) { for (var i = 0; i < ORDER.length; i++) if (ORDER[i].test(st2.name)) return i; return ORDER.length; }
+      stops.sort(function (a, b) { return rank(a) - rank(b); });
+      stops.push({ name: 'at the door back to the yurt, under its sign, ivy and flowers up both sides and the two faeries on it', x: 0, z: -1.7, yaw: Math.PI, pitch: 0.1 });
       stops.forEach(function (st2) {
-        if (/^in the chair/.test(st2.name)) st2.acts = [turning, tableCandle];
-        if (/phonograph’s deck|^over the phonograph/.test(st2.name)) st2.acts = [turning];
-        if (/chandelier/.test(st2.name)) st2.acts = [candles, joinFaeries];
-        if (/^beside the cello|^beside the harp/.test(st2.name)) st2.acts = [grow];
+        if (/^in the chair/.test(st2.name)) st2.acts = [sitChair, tableCandle, turning];
+        if (/records stacked/.test(st2.name)) st2.acts = [tableCandle];
+        if (/phonograph’s deck|^over the phonograph|horn, with the moth/.test(st2.name)) st2.acts = [turning];
+        if (/chandelier/.test(st2.name)) st2.acts = [candles, joinFaeries, sparkle];
+        if (/left-hand candelabrum/.test(st2.name)) st2.acts = [candles];
+        if (/^beside the cello|^beside the harp|music stand/.test(st2.name)) st2.acts = [grow].concat(/^beside the harp/.test(st2.name) ? [harpStir] : []);
         if (/^at the window/.test(st2.name)) st2.acts = [candles, grow];
+        if (/^just through the door|^at the door back/.test(st2.name)) st2.acts = [flyFaeries, sparkle];
       });
 
       return {
         start: { x: 0, z: -1.2, yaw: 0 },
-        bounds: { x: [-W / 2 + 1.0, W / 2 - 1.0], z: [back + 1.4, -0.8] },
+        // The room less the phonograph's cabinet, which stands in the middle
+        // of the far end: you walk round it, or stand behind it at the window
+        // (the headset round).
+        bounds: { x: [-W / 2 + 1.0, W / 2 - 1.0], z: [back + 1.4, -0.8],
+                  areas: [{ x: [-W / 2 + 1.0, -0.7], z: [back + 1.4, -0.8] }, { x: [0.7, W / 2 - 1.0], z: [back + 1.4, -0.8] },
+                          { x: [-0.7, 0.7], z: [back + 3.2, -0.8] }, { x: [-0.7, 0.7], z: [back + 1.4, back + 2.15] },
+                          // The window seat, so sitting on it keeps the eye where the seat is (2026-11-12).
+                          { x: [0.8, 2.2], z: [back + 0.3, back + 1.4] }] },
         stops: stops,
         // Offered in a VR headset, as the yurt it opens off is (Ryan's ask,
         // 2026-11-07), so you walk in from the yurt without leaving the

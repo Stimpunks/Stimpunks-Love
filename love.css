@@ -3187,6 +3187,33 @@
   --bkh-far-sky: #DCE9F3;  --bkh-far-green: #CCE0B8; --bkh-far-wheat: #EEDFB6;
   --bkh-far-hedge: #A9C4A0;
 
+  /* Cavendish Primary Classroom (§152), an example mainstream primary
+     classroom for trainee teachers, set up the Cavendish Space way, seen from
+     the height of a child of seven. --cpc-wall is the putty wall and the ground
+     the page stands on, --cpc-card every sheet pinned up on it, --cpc-ink every
+     word, --cpc-ink-2 the fine print, --cpc-teal the name and the headings,
+     --cpc-link every link and --cpc-link-2 one under the pointer and the focus
+     ring. The cave is the one dark place: --cpc-cave its card, --cpc-cave-ink
+     its words and --cpc-cave-link its links. The rest are the drawing's and the
+     places' tabs, and carry no word: --cpc-plaster the drawn wall,
+     --cpc-ceiling, --cpc-cork and --cpc-cork-2 the floor, --cpc-birch and
+     --cpc-birch-2 the furniture, --cpc-felt the pinboard and the watering hole,
+     --cpc-ochre the campfire's rug, --cpc-clay the library and the cushions,
+     --cpc-plum the cave's cloth, --cpc-leaf, --cpc-grass, --cpc-sky and
+     --cpc-glass the garden through the doors, --cpc-screen and --cpc-steel the
+     panel and the stands, --cpc-lamp a lamp lit, and --cpc-dusk the room with
+     its lamps turned down. Every one is in check-contrast.py. */
+  --cpc-wall:    #EDE6DA;  --cpc-card:   #FAF6EF;  --cpc-ink:    #22302E;
+  --cpc-ink-2:   #4A5350;  --cpc-teal:   #1E5A56;  --cpc-link:   #9A3E1E;
+  --cpc-link-2:  #2E4F7A;  --cpc-cave:   #2F2A44;  --cpc-cave-ink: #F3EDE2;
+  --cpc-cave-link: #F2C77E;
+  --cpc-plaster: #E2D8C8;  --cpc-ceiling: #F2EEE6; --cpc-cork:   #C9A27A;
+  --cpc-cork-2:  #B48A62;  --cpc-birch:  #D7BC92;  --cpc-birch-2: #B08A5C;
+  --cpc-felt:    #8FAFB8;  --cpc-ochre:  #D9A94F;  --cpc-clay:   #C88B76;
+  --cpc-plum:    #5B3A6B;  --cpc-leaf:   #6E8F5A;  --cpc-grass:  #A5C08A;
+  --cpc-sky:     #DCE8EB;  --cpc-glass:  #B8C9CF;  --cpc-screen: #3B4447;
+  --cpc-steel:   #9FA7A8;  --cpc-lamp:   #F4D9A2;  --cpc-dusk:   #2A2735;
+
   /* The Emergent Future Worlds Meets Mountain Man (§118), David's cabin at the
      summit over the Campgrounds, inside, at night. --efw-night is the dark of
      a smart home at night, blue-charcoal and never brown, and the ground the
@@ -6080,6 +6107,18 @@ div.facade--square { border: 0; background: none; }
 .door--sfb .door__name  { font-family: 'Prata', Georgia, serif; font-weight: 400; color: var(--sfb-gilt-ink); font-size: 30px; line-height: 1.1; font-synthesis: none; }
 .door--sfb .door__blurb { font-family: 'Wix Madefor Text', var(--sans); color: var(--sfb-ink-2); font-size: 16px; line-height: 1.45; font-synthesis: none; }
 .door--sfb .door__knock { font-family: 'Wix Madefor Text', var(--sans); font-weight: 700; font-size: 15px; color: var(--sfb-link); font-synthesis: none; }
+/* Cavendish Primary Classroom: the five places as five tabs along the
+   awning, cave, campfire, watering hole, library and habitat, over the putty
+   wall; its name in the rounded face, in the classroom's teal. */
+.door--cpc { background: var(--cpc-wall); border-color: var(--cpc-teal); }
+.door--cpc .door__awning {
+  background-color: var(--cpc-wall);
+  background-image: linear-gradient(90deg, var(--cpc-plum) 0 20%, var(--cpc-ochre) 20% 40%, var(--cpc-felt) 40% 60%, var(--cpc-clay) 60% 80%, var(--cpc-leaf) 80% 100%);
+  border-bottom-color: var(--cpc-teal);
+}
+.door--cpc .door__name  { font-family: 'Sniglet', var(--sans); font-weight: 800; color: var(--cpc-teal); font-size: 29px; line-height: 1.1; font-synthesis: none; }
+.door--cpc .door__blurb { font-family: 'Andika', var(--sans); color: var(--cpc-ink); font-size: 16px; line-height: 1.45; font-synthesis: none; }
+.door--cpc .door__knock { font-family: 'Andika', var(--sans); font-weight: 700; font-size: 15px; color: var(--cpc-link); font-synthesis: none; }
 
 /* Excursions (§141). THE ONE FRONT IN THE ROW WHOSE AWNING IS A MAP: the
    backlit map of the area on the lobby wall, a lake, a wood and an orange
@@ -19886,7 +19925,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §153
+   class on it is `bb-`, its sizes are in points and millimetres, and §154
    prints it and nothing else. */
 
 .room-broadside {
@@ -19947,7 +19986,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §153 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §154 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -28199,6 +28238,16 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .room-reading .rdr-intro { color: var(--rdr-ink-2); max-width: 64ch; margin: 0 0 22px; }
 
 /* The two switches, the yurt's, in this room's clothes. */
+/* THE FIRE FLICKERS AT MAX (Helen's ask, 2026-11-11, "real fire"): the two
+   tongues in her scene stretch and sway a little, each on its own time, never
+   past a tenth of themselves, and nothing dims or flashes; the room on Cel
+   Street takes its fire's max from this line. Still at Regular and Gentle. */
+html[data-intensity="max"] .rdr-fire__tongue { transform-box: fill-box; transform-origin: 50% 100%; animation: rdr-fire-sway 1.3s ease-in-out infinite alternate; }
+html[data-intensity="max"] .rdr-fire__tongue--2 { animation-duration: 0.9s; animation-delay: -0.5s; }
+@keyframes rdr-fire-sway { from { transform: scale(0.95, 0.93); } to { transform: scale(1.05, 1.08); } }
+.rdr-fire { margin-top: 14px; }
+.rdr-fire .rdr-magic__row { margin: 10px 0 0; }
+.rdr-hearth__video { display: block; width: 100%; height: auto; border: 2px solid var(--rdr-timber); border-radius: 6px; background: var(--rdr-stone); }
 .rdr-magic { margin: 18px auto 0; max-width: 560px; text-align: center; }
 .rdr-magic__row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 .rdr-magic__btn {
@@ -34229,7 +34278,165 @@ html[data-intensity="max"] .sfb-glint { animation: sfb-glint 6s ease-in-out infi
   .bkh-part { padding: 30px 18px 20px; }
 }
 
-/* §152 ── Small screens───────────────────────────────────────────────────────
+/* §152 ── ROOM: Cavendish Primary Classroom (a shopfront on the street) ─────────
+   Helen Edgar's brief, 2026-11-11: a mainstream primary classroom for a class
+   of thirty, as an example for trainee teachers, neuroaffirming, with lighting
+   and warmth the class can adjust, many kinds of seat and standing desks, a
+   sensory cave, somewhere to play, somewhere to learn, a way outdoors and the
+   technology a classroom has, promoting the Cavendish Space Project's policies
+   and ethics and signposting cavendish.space.
+
+   IT IS SEEN FROM THE HEIGHT OF A CHILD OF SEVEN, about a metre off the floor:
+   the tables and the sills are at your eyes, the garden doors are glazed to
+   the floor so the outside is at your height, and the grown-ups' things are
+   up at the edge of the picture. Every other room is seen from a grown-up's
+   standing height, from above, as a model, or from the floor. NOBODY IS DRAWN:
+   the room is set for whoever comes in.
+
+   THE LIGHT IS THE CLASS'S TO TURN DOWN. Daylight comes through the garden
+   doors on the left; the lamps overhead are on a dimmer, and under the drawing
+   the visitor sets them (daylight only, low, middle, full), the blinds, the
+   fan and the lamp in the cave, the way a class would. The script changes
+   attributes and nothing moves: no transition, no keyframe, at any setting.
+     · THE PLAYHOUSE is the street's other room for children and is saturated
+       primary blue, bunting and a checkerboard. Here there is no bunting and no
+       primary colour, and the walls are nearly bare on purpose, a low-arousal
+       classroom. If a garland or a primary red ever goes up, it moves.
+     · THE COMMUNITY CENTER is the street's refuge in daylight: sage lime
+       plaster, a north window with a seat in it, a grown-up's room. This wall
+       is putty, not sage, the window is a door you walk out of, and the light
+       is a dimmer the class holds, not the sky.
+     · THE MOUNTAIN CABIN lets the visitor pick the light's colour. Here the
+       visitor sets how much light, never its colour; the lamps are one warm
+       white.
+     · CAVENDISH COWORKING is Henry Cavendish's green Georgian house with every
+       door shut; this shares his name and nothing else. Its garden doors stand
+       open.
+     · THE PLAY POD is Helen's sensory room under its lamp, where things glow.
+       Nothing glows here; the cave is dim and lit by one string of small
+       lights the class switches.
+   THE FIVE PLACES EACH HAVE A COLOUR, as a tab down the left of every sheet
+   about them, never behind a word: the cave plum, the campfire ochre, the
+   watering hole the felt's blue, the library clay, the habitat leaf. Every
+   word stands on the flat sheet, or on the cave's own dark card.
+   Sniglet sets the name and the headings; Andika, SIL's face for beginning
+   readers, carries every word that is read. */
+.cavendish-classroom { background-color: var(--cpc-wall); color: var(--cpc-ink); font-family: 'Andika', var(--sans), sans-serif; font-synthesis: none; }
+.cavendish-classroom a { color: var(--cpc-link); text-underline-offset: 3px; text-decoration-thickness: 2px; }
+.cavendish-classroom a:hover { color: var(--cpc-link-2); }
+.cavendish-classroom :focus-visible { outline-color: var(--cpc-link-2); }
+.cavendish-classroom :where(p, li, dd, dt) { font-size: 18px; line-height: 1.6; }
+.cavendish-classroom strong, .cavendish-classroom b { font-weight: 700; }
+.cavendish-classroom .backlink { font-family: 'Andika', var(--sans), sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0; color: var(--cpc-link); }
+
+.cpc-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.cavendish-classroom .cpc-trail { margin: 0; font-size: 15px; color: var(--cpc-ink-2); }
+.cpc-head { margin: 26px 0 0; }
+.cavendish-classroom .cpc-over { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--cpc-ink-2); }
+.cavendish-classroom h1 {
+  margin: 6px 0 0; font-family: 'Sniglet', var(--sans), sans-serif; font-weight: 800;
+  font-size: clamp(38px, 7vw, 72px); line-height: 1.06; color: var(--cpc-teal);
+}
+.cavendish-classroom .cpc-sub { margin: 12px 0 0; font-size: 21px; line-height: 1.45; max-width: 48ch; }
+.cavendish-classroom h2 { font-family: 'Sniglet', var(--sans), sans-serif; font-weight: 800; font-size: clamp(25px, 3.6vw, 33px); line-height: 1.2; margin: 0 0 12px; color: var(--cpc-teal); }
+.cavendish-classroom h3 { font-family: 'Sniglet', var(--sans), sans-serif; font-weight: 400; font-size: 22px; line-height: 1.25; margin: 20px 0 8px; color: var(--cpc-teal); }
+
+/* THE ROOM, from a child's height: the only place the garden and the lamps
+   are. Each setting the visitor chooses shows or hides a part of it. */
+.cpc-room { margin: 22px auto 0; max-width: 880px; line-height: 0; }
+.cpc-room__draw { display: block; width: 100%; height: auto; border-radius: 8px; border: 3px solid var(--cpc-birch-2); }
+.cpc-room .cpc-dim { opacity: .24; }
+.cpc-room[data-light="low"] .cpc-dim { opacity: .14; }
+.cpc-room[data-light="middle"] .cpc-dim { opacity: .06; }
+.cpc-room[data-light="full"] .cpc-dim { opacity: 0; }
+.cpc-room .cpc-lamp { fill: var(--cpc-ceiling); }
+.cpc-room:not([data-light="day"]) .cpc-lamp { fill: var(--cpc-lamp); }
+.cpc-room .cpc-blind--half, .cpc-room .cpc-blind--down { display: none; }
+.cpc-room[data-blind="half"] .cpc-blind--half { display: inline; }
+.cpc-room[data-blind="down"] .cpc-blind--down { display: inline; }
+.cpc-room .cpc-air { display: none; }
+.cpc-room[data-fan="on"] .cpc-air { display: inline; }
+.cpc-room .cpc-string circle { fill: var(--cpc-cave); }
+.cpc-room[data-cave="on"] .cpc-string circle { fill: var(--cpc-lamp); }
+
+/* THE SETTINGS, under the drawing, where the hand is. They ship hidden, so a
+   page with no script shows no dead control, and the answer is on the strip
+   under them, never only at the top of the page. */
+.cpc-set { max-width: 880px; margin: 14px auto 0; padding: 16px 20px; background: var(--cpc-card); border: 2px solid var(--cpc-birch-2); border-radius: 8px; }
+.cavendish-classroom .cpc-set__h { margin: 0 0 8px; font-size: 20px; }
+.cpc-set__row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 0 0 10px; }
+.cavendish-classroom .cpc-set__name { margin: 0; min-width: 9ch; font-size: 16px; font-weight: 700; }
+.cpc-set__btn {
+  font: inherit; font-size: 16px; font-weight: 700; color: var(--cpc-ink); background: var(--cpc-wall);
+  border: 2px solid var(--cpc-teal); border-radius: 999px; padding: 6px 14px; cursor: pointer; min-height: 44px;
+}
+.cpc-set__btn[aria-pressed="true"] { background: var(--cpc-teal); color: var(--cpc-card); }
+.cpc-set__btn:hover { border-color: var(--cpc-link-2); }
+.cavendish-classroom .cpc-said { margin: 6px 0 0; font-size: 17px; min-height: 1.6em; }
+
+.cavendish-classroom .cpc-lede { max-width: 880px; margin: 20px auto 0; font-size: 19px; }
+
+/* EVERY SHEET IS PINNED TO THE WALL, and the place it is about is a tab of
+   its colour down its left edge, never behind a word. */
+.cpc-part {
+  position: relative; max-width: 880px; margin: 30px auto 0; padding: 26px 26px 22px 34px;
+  background: var(--cpc-card); border: 2px solid var(--cpc-plaster); border-radius: 8px;
+}
+.cpc-part::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; border-radius: 6px 0 0 6px; background: var(--cpc-teal); }
+.cpc-part--cave::before { background: var(--cpc-plum); }
+.cpc-part--campfire::before { background: var(--cpc-ochre); }
+.cpc-part--hole::before { background: var(--cpc-felt); }
+.cpc-part--library::before { background: var(--cpc-clay); }
+.cpc-part--habitat::before { background: var(--cpc-leaf); }
+.cpc-part > :last-child { margin-bottom: 0; }
+.cpc-list { margin: 0 0 14px; padding: 0 0 0 1.2em; }
+.cpc-list li { margin: 0 0 8px; }
+.cpc-list li::marker { color: var(--cpc-teal); }
+.cavendish-classroom .cpc-fine { margin: 14px 0 0; font-size: 16px; color: var(--cpc-ink-2); }
+.cpc-quote { margin: 14px 0; padding: 4px 0 4px 18px; border-left: 4px solid var(--cpc-felt); }
+.cavendish-classroom .cpc-quote p { margin: 0; font-size: 19px; }
+.cavendish-classroom .cpc-quote cite { display: block; margin: 6px 0 0; font-style: normal; font-size: 15px; color: var(--cpc-ink-2); }
+.cpc-places { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 14px 0 0; padding: 0; list-style: none; }
+.cpc-places li { margin: 0; padding: 12px 14px 12px 18px; border: 2px solid var(--cpc-plaster); border-left-width: 10px; border-radius: 6px; background: var(--cpc-card); }
+.cpc-places .cpc-pl--cave { border-left-color: var(--cpc-plum); }
+.cpc-places .cpc-pl--campfire { border-left-color: var(--cpc-ochre); }
+.cpc-places .cpc-pl--hole { border-left-color: var(--cpc-felt); }
+.cpc-places .cpc-pl--library { border-left-color: var(--cpc-clay); }
+.cpc-places .cpc-pl--habitat { border-left-color: var(--cpc-leaf); }
+.cavendish-classroom .cpc-places h3 { margin: 0 0 6px; }
+.cavendish-classroom .cpc-places p { margin: 0; font-size: 17px; }
+/* The example day: a table on the sheet, its rows ruled in the plaster. */
+.cpc-day { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.cavendish-classroom .cpc-day th, .cavendish-classroom .cpc-day td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 2px solid var(--cpc-plaster); font-size: 16px; line-height: 1.5; }
+.cavendish-classroom .cpc-day thead th { font-family: 'Sniglet', var(--sans), sans-serif; font-weight: 400; color: var(--cpc-teal); font-size: 17px; }
+.cavendish-classroom .cpc-day tbody th { white-space: nowrap; font-weight: 700; }
+@media (max-width: 560px) {
+  .cavendish-classroom .cpc-day th, .cavendish-classroom .cpc-day td { padding: 6px 4px; font-size: 15px; }
+  .cavendish-classroom .cpc-day tbody th { white-space: normal; }
+}
+.cpc-refs { margin: 0; padding: 0 0 0 1.2em; }
+.cavendish-classroom .cpc-refs li { font-size: 16px; line-height: 1.5; margin: 0 0 8px; }
+.cpc-go { display: inline-block; margin: 6px 0 0; padding: 10px 18px; border: 2px solid var(--cpc-teal); border-radius: 999px; font-weight: 700; text-decoration: none; }
+
+/* THE CAVE IS THE ONE DARK PLACE, and its sheet is dark too. */
+.cpc-part--dark { background: var(--cpc-cave); border-color: var(--cpc-plum); color: var(--cpc-cave-ink); }
+.cavendish-classroom .cpc-part--dark h2, .cavendish-classroom .cpc-part--dark h3 { color: var(--cpc-cave-ink); }
+.cavendish-classroom .cpc-part--dark a { color: var(--cpc-cave-link); }
+.cavendish-classroom .cpc-part--dark a:hover { color: var(--cpc-cave-ink); }
+.cavendish-classroom .cpc-part--dark :focus-visible { outline-color: var(--cpc-cave-link); }
+.cavendish-classroom .cpc-part--dark .cpc-quote cite, .cavendish-classroom .cpc-part--dark .cpc-fine { color: var(--cpc-cave-ink); }
+.cavendish-classroom .cpc-part--dark .cpc-quote { border-left-color: var(--cpc-cave-link); }
+.cavendish-classroom .cpc-part--dark .cpc-list li::marker { color: var(--cpc-cave-link); }
+
+/* The job marker lies on the classroom floor and opens onto a sheet. */
+.cavendish-classroom .quest__panel { background: var(--cpc-card); color: var(--cpc-ink); border-color: var(--cpc-birch-2); }
+
+@media (max-width: 560px) {
+  .cpc-part { padding: 22px 16px 18px 26px; }
+  .cpc-set { padding: 14px; }
+}
+
+/* §153 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -34333,7 +34540,7 @@ html[data-intensity="max"] .sfb-glint { animation: sfb-glint 6s ease-in-out infi
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §152 says every
+   shipped with no rule here at all — which on a street whose §153 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -34457,7 +34664,7 @@ html[data-intensity="max"] .sfb-glint { animation: sfb-glint 6s ease-in-out infi
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §153 ── Print ───────────────────────────────────────────────────────────────
+/* §154 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

@@ -96,6 +96,7 @@ ORDER = ["index.html",
          "breaker-breaker.html",
          "spaceholder-saloon.html",  # Norah's, brought in by tools/import-room.py
          "scalable-feast-ballroom.html",
+         "cavendish-primary-classroom.html",
          "your-room.html",
          # Street furniture rather than a door, and listed like everything else:
          # a page nobody can find from the sitemap is unpublished with extra

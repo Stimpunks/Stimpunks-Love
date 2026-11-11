@@ -138,7 +138,8 @@ if re.search(r"XMLHttpRequest|sendBeacon|EventSource|WebSocket", code):
     refuse("cel-street.js sends something some other way than fetch.")
 if re.search(r"\bset(Interval|Timeout)\b", code):
     refuse("cel-street.js waits on a clock. Nothing on the street moves by itself.")
-# WHAT A ROOM LETS MOVE moves only through the kit, and only under the line.
+# WHAT A ROOM LETS MOVE moves only through the kit (flames, turn, lights,
+# drift, rise, and lights' cycle), and only under the line.
 for m in re.finditer(r"requestAnimationFrame\((.{0,40})", code):
     if not re.match(r"\s*(tick|padTick|moveTick|function \(\) \{ ctlSaid)", m.group(1)):
         refuse(f"cel-street.js asks for a frame for {m.group(1).strip()!r}; only walking, a controller, what a room "
@@ -154,9 +155,18 @@ if not _hz:
 if _num("DIM") > 0.1 or max(float(x) for x in _hz.group(1).split(",")) > 2.5:
     refuse("cel-street.js lets a flame dim by more than a tenth of itself or wobble faster than two and a half "
            "times a second, which is past the line candles.js holds.")
+# The travel through a portal (Helen, 2026-11-12) swirls and turns slower than
+# TURN_MIN lets anything turn, and fades over FADE seconds each way, never cuts.
+if max(_num("SWIRL"), _num("TURN_GALAXY")) > 6.2832 / 1.8 or _num("FADE") < 0.4:
+    refuse("cel-street.js swirls the tunnel through a portal, or turns the galaxy at its end, quicker than TURN_MIN "
+           "lets anything turn, or fades it in under four tenths of a second, which is a cut.")
 if _num("TWINKLE") < 3 or _num("TURN_MIN") < 1.8:
     refuse("cel-street.js lets a bulb twinkle quicker than once in three seconds or a thing turn quicker than once "
            "in 1.8: the yurt's own lights take 3.4 and her record six.")
+if "rise:" in code and len(re.findall(r"period:\s*Math\.max\(TURN_MIN,", code)) < 2:
+    refuse("cel-street.js lets a thing that rises go up quicker than TURN_MIN; a bubble's climb is held to the record's line.")
+if "drift:" in code and not re.search(r"period:\s*Math\.max\(TURN_MIN,", code):
+    refuse("cel-street.js lets a thing that drifts go round quicker than TURN_MIN; a faerie's loop is held to the record's line.")
 if "hasAttribute('data-low')" not in code or "document.hidden" not in code:
     refuse("cel-street.js lets something move in a low-stimulation mode or a hidden tab.")
 # IN A HEADSET (Helen's ask, 2026-11-07): the headset asks for a picture every
@@ -223,6 +233,42 @@ if "data-cel-doors" not in page:
 if "three.js" not in page or "MIT" not in page:
     refuse("cel-street.html no longer credits three.js and its licence.")
 
+# ── A sound in every room of Helen's, made of arithmetic ────────────────────
+# cel-sounds.js (Helen Edgar's ask, 2026-11-12, "sounds first") draws each
+# room's sound in the browser, the way rdr-fire.js draws the fire and
+# yurt-bell.js the bell: oscillators and noise, under MAX_GAIN, the
+# Repeater's ceiling, off until its switch in the room is pressed and off
+# again when the room is left (soundsOff in cel-street.js, from enter and
+# leave). It plays no recording, listens to nothing, fetches nothing and
+# keeps nothing. A room asks for one by its kind through kit.sound, which
+# places it with the kit's panner; a kind no sound has would be a switch
+# that does nothing, so each is checked against the file.
+SOUNDS = ROOT / "cel-sounds.js"
+if not SOUNDS.exists():
+    refuse("cel-sounds.js is missing, and every room of Helen's on Cel Street has a sound out of it.")
+    KINDS = set()
+else:
+    snd = SOUNDS.read_text()
+    sc = re.sub(r"/\*.*?\*/", "", snd, flags=re.S)
+    sc = re.sub(r"(?m)^\s*//.*$", "", sc)
+    mg = re.search(r"\bMAX_GAIN\s*=\s*([0-9.]+)", sc)
+    if not mg or float(mg.group(1)) > 0.2:
+        refuse("cel-sounds.js has no MAX_GAIN of 0.2 or under, the Repeater's ceiling, which every sound sits beneath.")
+    if re.search(r"\bfetch\b|XMLHttpRequest|sendBeacon|WebSocket|EventSource|localStorage|sessionStorage|indexedDB|document\.cookie", sc):
+        refuse("cel-sounds.js keeps or sends something. It is arithmetic in the browser and nothing else.")
+    if re.search(r"new Audio\b|createMediaElementSource|createMediaStreamSource|decodeAudioData|getUserMedia|getDisplayMedia|\.(mp3|m4a|ogg|wav|webm|flac)\b", sc):
+        refuse("cel-sounds.js plays a recording or listens to a microphone. Every sound is drawn out of oscillators and noise; hosting audio here is a decision (the Latibulum's rule).")
+    if "window.addEventListener('pagehide', offAll)" not in sc:
+        refuse("cel-sounds.js no longer switches every sound off when the page is left.")
+    KINDS = set(re.findall(r"^\s*kind\('(\w+)'", sc, re.M))
+    if not KINDS:
+        refuse("cel-sounds.js defines no sound (kind('name', { ... })).")
+if '<script src="cel-sounds.js" defer></script>' not in page:
+    refuse("cel-street.html no longer loads cel-sounds.js, and every room's sound switch would say the sounds have not loaded.")
+if "sound: function (o)" not in code or code.count("soundsOff()") < 3:
+    refuse("cel-street.js has lost kit.sound, or no longer switches a room's sounds off in both enter() and leave(): "
+           "a sound would follow you out of its room.")
+
 # ── The rooms you can walk into, each its own file ──────────────────────────
 # A ROOM'S FILE IS cel-in-<the room's page>.js AND IS THAT ROOM'S WORLD, the
 # walk-*.js rule on Paper Street: it keeps, sends, fetches and times nothing,
@@ -275,6 +321,9 @@ for f in sorted(ROOT.glob("cel-in-*.js")):
             continue
         if not any(all(cl in m.split() for cl in classes) for m in re.findall(r'class="([^"]*)"', page_src)):
             refuse(f"{f.name} lifts {sel} off {rpage}, which has nothing wearing those classes.")
+    for snd_kind in re.findall(r"kit\.sound\(\s*\{[^}]*?\bkind:\s*'(\w+)'", c):
+        if snd_kind not in KINDS:
+            refuse(f"{f.name} asks for a sound of kind {snd_kind!r}, which cel-sounds.js does not draw: a switch that would do nothing.")
     for src_js in re.findall(r"kit\.wire\(\s*\w+\s*,\s*'([^']+)'", c):
         if f'<script src="{src_js}"' not in page_src:
             refuse(f"{f.name} runs {src_js} against its lifts, and {rpage} does not load {src_js} itself.")
@@ -432,6 +481,61 @@ else:
                      lambda m: m.group(1) + "  var GALLERY_SLOTS = " + str(galleries) + ";" + m.group(2), src, flags=re.S)
         if new != src:
             f.write_text(new)
+
+# HELEN'S BOOKS AND RECORDS, BY NAME (her asks, 2026-11-12: "pick the books up
+# and choose off the shelf with title on the spines", "and same with records").
+# The Reading Room's bookcases and its Library Music records, and the Music
+# Room's records, are read off her own pages, each case's label and every
+# spine's words and link, each record's id, title, artist and runtime, and
+# written into the rooms' files between cel:books and cel:records markers,
+# never by hand, so a book or a record she adds to a page is on its shelf in
+# 3D at the next run. A room with the markers gone is refused.
+def _plain(t):
+    return html.unescape(re.sub(r"<[^>]+>", "", t)).strip()
+def _books(page):
+    cases = []
+    for m in re.finditer(r'<section class="yurt-case"[^>]*>(.*?)</section>', page, re.S):
+        seg = m.group(1)
+        lab = re.search(r'yurt-case__label[^>]*>(.*?)</h3>', seg, re.S)
+        books = []
+        for b in re.finditer(r'<li class="spine ([a-z0-9]+)"[^>]*>(.*?)</li>', seg, re.S):
+            href = re.search(r'href="([^"]*)"', b.group(2))
+            books.append({"t": _plain(b.group(2)), "c": b.group(1), "href": html.unescape(href.group(1)) if href else ""})
+        cases.append({"label": _plain(lab.group(1)) if lab else "", "books": books})
+    return cases
+def _records(page, cls):
+    recs = []
+    for m in re.finditer(r'<li class="' + cls + r'__slot" id="[^"]*" data-rack-card>(.*?)</li>', page, re.S):
+        seg = m.group(1)
+        vid = re.search(r'data-embed-id="([A-Za-z0-9_-]{11})"', seg)
+        title = re.search(cls + r'__title">(.*?)</span>', seg, re.S)
+        who = re.search(cls + r'__who">(.*?)</span>', seg, re.S)
+        run = re.search(r'data-rack-runtime="([^"]*)"', seg)
+        if vid and title and who:
+            recs.append({"id": vid.group(1), "title": _plain(title.group(1)), "who": _plain(who.group(1)), "runtime": run.group(1) if run else ""})
+    return recs
+def _write_between(fname, mark, name, value):
+    f = ROOT / fname
+    src = f.read_text()
+    if f"// {mark}:begin" not in src or f"// {mark}:end" not in src:
+        refuse(f"{fname} has lost its {mark} markers.")
+        return
+    line = "  var " + name + " = " + json.dumps(value, ensure_ascii=False) + ";"
+    new = re.sub(r"(// " + mark + r":begin\n).*?(\s*// " + mark + r":end)", lambda m: m.group(1) + line + "\n" + m.group(2).lstrip("\n"), src, flags=re.S)
+    if new != src:
+        f.write_text(new)
+_rdr = (ROOT / "faery-reading-room.html").read_text()
+_mus = (ROOT / "faery-music-room.html").read_text()
+_rdr_books = _books(_rdr)
+_rdr_recs = _records(_rdr, "rdr-lp")
+_mus_recs = _records(_mus, "mus-lp")
+if len(_rdr_books) < 2 or any(not c["books"] for c in _rdr_books):
+    refuse("faery-reading-room.html's bookcases could not be read for the Reading Room's shelves on Cel Street.")
+if len(_rdr_recs) < 2 or len(_mus_recs) < 2:
+    refuse("the records on faery-reading-room.html or faery-music-room.html could not be read for their shelves on Cel Street.")
+_write_between("cel-in-faery-reading-room.js", "cel:books", "BOOKS", _rdr_books)
+_write_between("cel-in-faery-reading-room.js", "cel:records", "RECORDS", _rdr_recs)
+_write_between("cel-in-faery-music-room.js", "cel:records", "RECORDS", _mus_recs)
 
 # The World room hangs a garden for every part of the Map its directory has,
 # with that part's heading; written between cel:parts markers, never by hand.

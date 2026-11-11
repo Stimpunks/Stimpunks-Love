@@ -50,8 +50,8 @@ function start() {
   // here by tools/make-cel-street.py from the cel-in-*.js files. Do not
   // hand-edit between the markers.
   // cel:rooms:begin
-  var ROOMS = {'a-quiet-pint.html': 'cel-in-a-quiet-pint.js', 'adventurers-guild.html': 'cel-in-adventurers-guild.js', 'all-needs-met.html': 'cel-in-all-needs-met.js', 'all-together-now.html': 'cel-in-all-together-now.js', 'arcade.html': 'cel-in-arcade.js', 'arlesglad-caverns.html': 'cel-in-arlesglad-caverns.js', 'big-steep-fermentables.html': 'cel-in-big-steep-fermentables.js', 'black-leather-lagoon.html': 'cel-in-black-leather-lagoon.js', 'bodymind-booth.html': 'cel-in-bodymind-booth.js', 'brass-tacks-board.html': 'cel-in-brass-tacks-board.js', 'breaker-breaker.html': 'cel-in-breaker-breaker.js', 'brew-and-stew.html': 'cel-in-brew-and-stew.js', 'brighter-days.html': 'cel-in-brighter-days.js', 'broadsheet-broadside.html': 'cel-in-broadsheet-broadside.js', 'campgrounds.html': 'cel-in-campgrounds.js', 'cavendish-campfire.html': 'cel-in-cavendish-campfire.js', 'cavendish-cave.html': 'cel-in-cavendish-cave.js', 'cavendish-coworking.html': 'cel-in-cavendish-coworking.js', 'cavendish-editorial.html': 'cel-in-cavendish-editorial.js', 'cavendish-events.html': 'cel-in-cavendish-events.js', 'cavendish-operations.html': 'cel-in-cavendish-operations.js', 'cavendish-watering-hole.html': 'cel-in-cavendish-watering-hole.js', 'champuru.html': 'cel-in-champuru.js', 'chimera-obscura.html': 'cel-in-chimera-obscura.js', 'clacks-tower.html': 'cel-in-clacks-tower.js', 'club-chronic.html': 'cel-in-club-chronic.js', 'collection-collection.html': 'cel-in-collection-collection.js', 'comfort-station.html': 'cel-in-comfort-station.js', 'community-care.html': 'cel-in-community-care.js', 'community-center.html': 'cel-in-community-center.js', 'community-library.html': 'cel-in-community-library.js', 'cooldown-room.html': 'cel-in-cooldown-room.js', 'coping.html': 'cel-in-coping.js', 'count-me-in.html': 'cel-in-count-me-in.js', 'covenstead.html': 'cel-in-covenstead.js', 'dance-punks.html': 'cel-in-dance-punks.js', 'danny-the-street.html': 'cel-in-danny-the-street.js', 'dead-tired-society.html': 'cel-in-dead-tired-society.js', 'dopamine-dress-up-den.html': 'cel-in-dopamine-dress-up-den.js', 'enids-room.html': 'cel-in-enids-room.js', 'excursions.html': 'cel-in-excursions.js', 'faery-cinema-room.html': 'cel-in-faery-cinema-room.js', 'faery-music-room.html': 'cel-in-faery-music-room.js', 'faery-myths-room.html': 'cel-in-faery-myths-room.js', 'faery-reading-room.html': 'cel-in-faery-reading-room.js', 'faery-yurt.html': 'cel-in-faery-yurt.js', 'fantasy-fancy-dress.html': 'cel-in-fantasy-fancy-dress.js', 'foundry.html': 'cel-in-foundry.js', 'fridge-of-sighs.html': 'cel-in-fridge-of-sighs.js', 'gentle-help.html': 'cel-in-gentle-help.js', 'glow-go-gee-gaws.html': 'cel-in-glow-go-gee-gaws.js', 'glow-wild-hollow.html': 'cel-in-glow-wild-hollow.js', 'golem-trust.html': 'cel-in-golem-trust.js', 'haunted-house.html': 'cel-in-haunted-house.js', 'healing-checkpoint.html': 'cel-in-healing-checkpoint.js', 'hear-queer-here.html': 'cel-in-hear-queer-here.js', 'hey-good-cookin.html': 'cel-in-hey-good-cookin.js', 'jungle-room.html': 'cel-in-jungle-room.js', 'l-space.html': 'cel-in-l-space.js', 'latibulum.html': 'cel-in-latibulum.js', 'laughingstock.html': 'cel-in-laughingstock.js', 'learning-large.html': 'cel-in-learning-large.js', 'lightbulb-picture-house.html': 'cel-in-lightbulb-picture-house.js', 'live-room.html': 'cel-in-live-room.js', 'loo-with-a-view.html': 'cel-in-loo-with-a-view.js', 'looming-rocks.html': 'cel-in-looming-rocks.js', 'mycelium-munchies.html': 'cel-in-mycelium-munchies.js', 'natures-contribution.html': 'cel-in-natures-contribution.js', 'neurohome.html': 'cel-in-neurohome.js', 'nothing-for-sale.html': 'cel-in-nothing-for-sale.js', 'now-playing.html': 'cel-in-now-playing.js', 'oook.html': 'cel-in-oook.js', 'oracle-deck.html': 'cel-in-oracle-deck.js', 'otterly-adorbs.html': 'cel-in-otterly-adorbs.js', 'pando-calrissian.html': 'cel-in-pando-calrissian.js', 'pebble-board.html': 'cel-in-pebble-board.js', 'pekoe-and-purrs.html': 'cel-in-pekoe-and-purrs.js', 'penguin-pebbling.html': 'cel-in-penguin-pebbling.js', 'pets.html': 'cel-in-pets.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js', 'play-pod.html': 'cel-in-play-pod.js', 'playhouse.html': 'cel-in-playhouse.js', 'plural-mural.html': 'cel-in-plural-mural.js', 'polaroids.html': 'cel-in-polaroids.js', 'quill-drift.html': 'cel-in-quill-drift.js', 'rabbit-hole.html': 'cel-in-rabbit-hole.js', 'rebellion-rave-room.html': 'cel-in-rebellion-rave-room.js', 'repeater.html': 'cel-in-repeater.js', 'rescue-a-cat.html': 'cel-in-rescue-a-cat.js', 'rescue-a-dog.html': 'cel-in-rescue-a-dog.js', 'rescue-small-animals.html': 'cel-in-rescue-small-animals.js', 'retail-therapy.html': 'cel-in-retail-therapy.js', 'samefood-cafe.html': 'cel-in-samefood-cafe.js', 'sandbox.html': 'cel-in-sandbox.js', 'scalable-feast-ballroom.html': 'cel-in-scalable-feast-ballroom.js', 'seaside-convenience.html': 'cel-in-seaside-convenience.js', 'show-your-work.html': 'cel-in-show-your-work.js', 'sithen.html': 'cel-in-sithen.js', 'small-hours.html': 'cel-in-small-hours.js', 'solarpunk-hermitage.html': 'cel-in-solarpunk-hermitage.js', 'spaceholder-saloon.html': 'cel-in-spaceholder-saloon.js', 'stay-breezy.html': 'cel-in-stay-breezy.js', 'stay-frosty.html': 'cel-in-stay-frosty.js', 'sunshine-sanctuary.html': 'cel-in-sunshine-sanctuary.js', 'swaying-sweetgrass.html': 'cel-in-swaying-sweetgrass.js', 'the-aerial-arbour.html': 'cel-in-the-aerial-arbour.js', 'the-bough-house.html': 'cel-in-the-bough-house.js', 'the-chappell.html': 'cel-in-the-chappell.js', 'the-dairy.html': 'cel-in-the-dairy.js', 'the-den.html': 'cel-in-the-den.js', 'the-doom-scoop.html': 'cel-in-the-doom-scoop.js', 'the-doomscroll.html': 'cel-in-the-doomscroll.js', 'the-feed.html': 'cel-in-the-feed.js', 'the-garden.html': 'cel-in-the-garden.js', 'the-green.html': 'cel-in-the-green.js', 'the-honesty-box.html': 'cel-in-the-honesty-box.js', 'the-mopery.html': 'cel-in-the-mopery.js', 'the-mountain-cabin.html': 'cel-in-the-mountain-cabin.js', 'the-mud-room.html': 'cel-in-the-mud-room.js', 'the-open-notebook.html': 'cel-in-the-open-notebook.js', 'the-outskirts.html': 'cel-in-the-outskirts.js', 'the-pile.html': 'cel-in-the-pile.js', 'the-quiet-stall.html': 'cel-in-the-quiet-stall.js', 'the-run.html': 'cel-in-the-run.js', 'the-source.html': 'cel-in-the-source.js', 'town-hall-board.html': 'cel-in-town-hall-board.js', 'town-hall-directors.html': 'cel-in-town-hall-directors.js', 'town-hall-executive-session.html': 'cel-in-town-hall-executive-session.js', 'town-hall-fishbowl.html': 'cel-in-town-hall-fishbowl.js', 'town-hall-moderators.html': 'cel-in-town-hall-moderators.js', 'town-hall.html': 'cel-in-town-hall.js', 'truckin-food-court.html': 'cel-in-truckin-food-court.js', 'vital-plant-living.html': 'cel-in-vital-plant-living.js', 'volunteers.html': 'cel-in-volunteers.js', 'widdershins.html': 'cel-in-widdershins.js', 'wide-spread-chaos.html': 'cel-in-wide-spread-chaos.js', 'words-bud-beats.html': 'cel-in-words-bud-beats.js', 'world.html': 'cel-in-world.js', 'your-room.html': 'cel-in-your-room.js', 'zibaldone.html': 'cel-in-zibaldone.js', 'zine-issue-2.html': 'cel-in-zine-issue-2.js', 'zine-table.html': 'cel-in-zine-table.js'};
-  var NAMES = {"a-quiet-pint.html": "A Quiet Pint", "adventurers-guild.html": "The Adventurer’s Guild", "all-needs-met.html": "All Needs Met Wildlife Sanctuary", "all-together-now.html": "All Together Now Farms", "arcade.html": "The Arcade", "arlesglad-caverns.html": "Arlesglad Caverns", "big-steep-fermentables.html": "Big Steep Fermentables", "black-leather-lagoon.html": "Black Leather Lagoon", "bodymind-booth.html": "The Bodymind Booth", "brass-tacks-board.html": "The Brass Tacks Board", "breaker-breaker.html": "Breaker Breaker", "brew-and-stew.html": "Brew and Stew", "brighter-days.html": "Brighter Days Solar Farm", "broadsheet-broadside.html": "The Broadsheet Broadside", "campgrounds.html": "The Campgrounds", "cavendish-campfire.html": "The Campfire", "cavendish-cave.html": "The Cave", "cavendish-coworking.html": "Cavendish Coworking", "cavendish-editorial.html": "The Editorial Room", "cavendish-events.html": "The Events Room", "cavendish-operations.html": "The Operations Room", "cavendish-watering-hole.html": "The Watering Hole", "champuru.html": "Champuru", "chimera-obscura.html": "Chimera Obscura", "clacks-tower.html": "The Clacks Tower", "club-chronic.html": "Club Chronic", "collection-collection.html": "The Collection Collection", "comfort-station.html": "The Comfort Station", "community-care.html": "Community Care", "community-center.html": "The Community Center", "community-library.html": "The Community Library", "cooldown-room.html": "The Cooldown Room", "coping.html": "Coping", "count-me-in.html": "Count Me In", "covenstead.html": "Covenstead", "dance-punks.html": "Dance, Punks", "danny-the-street.html": "Danny the Street", "dead-tired-society.html": "Dead Tired Society", "dopamine-dress-up-den.html": "The Dopamine Dress-Up Den", "enids-room.html": "Enid's Room", "excursions.html": "Excursions", "faery-cinema-room.html": "The Cinema", "faery-music-room.html": "The Music Room", "faery-myths-room.html": "Myths & Legends", "faery-reading-room.html": "The Reading Room", "faery-yurt.html": "The Faery Yurt", "fantasy-fancy-dress.html": "Fantasy Fancy Dress", "foundry.html": "The Foundry", "fridge-of-sighs.html": "The Fridge of Sighs", "gentle-help.html": "Gentle Help Cannabis Farm", "glow-go-gee-gaws.html": "Glow Go Gee Gaws", "glow-wild-hollow.html": "Glow Wild Hollow", "golem-trust.html": "The Golem Trust", "haunted-house.html": "The Haunted House", "healing-checkpoint.html": "The Healing Checkpoint", "hear-queer-here.html": "Hear Queer Here", "hey-good-cookin.html": "Hey, Good Cookin’", "jungle-room.html": "The Jungle Room", "l-space.html": "L-Space", "latibulum.html": "The Latibulum", "laughingstock.html": "Laughingstock", "learning-large.html": "Learning Large", "lightbulb-picture-house.html": "The Lightbulb Picture House", "live-room.html": "The Live Room", "loo-with-a-view.html": "Loo With a View", "looming-rocks.html": "Looming Rocks Amphitheatre", "mycelium-munchies.html": "Mycelium Munchies", "natures-contribution.html": "Nature’s Contribution", "neurohome.html": "NeuroHome", "nothing-for-sale.html": "Nothing For Sale", "now-playing.html": "Now Playing", "oook.html": "Oook", "oracle-deck.html": "The Oracle Deck", "otterly-adorbs.html": "Otterly Adorbs", "pando-calrissian.html": "Pando Calrissian", "pebble-board.html": "The Pebble Board", "pekoe-and-purrs.html": "Pekoe and Purrs", "penguin-pebbling.html": "Penguin Pebbling", "pets.html": "Pets", "pink-pony-club.html": "Pink Pony Club", "play-pod.html": "The Play Pod", "playhouse.html": "The Playhouse", "plural-mural.html": "Plural Mural", "polaroids.html": "The Polaroid Wall", "quill-drift.html": "Quill Drift", "rabbit-hole.html": "The Rabbit Hole", "rebellion-rave-room.html": "Rebellion Rave Room", "repeater.html": "The Repeater", "rescue-a-cat.html": "Rescue A Cat", "rescue-a-dog.html": "Rescue A Dog", "rescue-small-animals.html": "Rescue Small Animals", "retail-therapy.html": "Retail Therapy", "samefood-cafe.html": "Samefood Cafe", "sandbox.html": "The Sandbox", "scalable-feast-ballroom.html": "Scalable Feast Ballroom", "seaside-convenience.html": "The Seaside Convenience", "show-your-work.html": "Show Your Work", "sithen.html": "Sithen", "small-hours.html": "The Small Hours", "solarpunk-hermitage.html": "The Solarpunk Hermitage", "spaceholder-saloon.html": "Spaceholder Saloon", "stay-breezy.html": "Stay Breezy", "stay-frosty.html": "Stay Frosty", "sunshine-sanctuary.html": "The Sunshine Sanctuary for Sick Dragons", "swaying-sweetgrass.html": "Swaying Sweetgrass", "the-aerial-arbour.html": "The Aerial Arbour", "the-bough-house.html": "The Bough House", "the-chappell.html": "The Chappell", "the-dairy.html": "The Dairy", "the-den.html": "The Den", "the-doom-scoop.html": "The Doom Scoop", "the-doomscroll.html": "The Doomscroll", "the-feed.html": "The Feed", "the-garden.html": "The Garden", "the-green.html": "The Green", "the-honesty-box.html": "The Honesty Box", "the-mopery.html": "The Mopery", "the-mountain-cabin.html": "The Emergent Future Worlds Meets Mountain Man", "the-mud-room.html": "The MUD Room", "the-open-notebook.html": "The Open Notebook", "the-outskirts.html": "The Outskirts", "the-pile.html": "The Pile", "the-quiet-stall.html": "The Quiet Stall", "the-run.html": "The Run", "the-source.html": "The Source", "town-hall-board.html": "The Board room", "town-hall-directors.html": "The Directors’ room", "town-hall-executive-session.html": "Executive Session", "town-hall-fishbowl.html": "The Fishbowl", "town-hall-moderators.html": "The Moderators’ room", "town-hall.html": "The Town Hall", "truckin-food-court.html": "Truckin’ Food Court", "vital-plant-living.html": "Vital Plant Living", "volunteers.html": "Volunteers", "widdershins.html": "Widdershins", "wide-spread-chaos.html": "Wide-Spread Chaos Gardens", "words-bud-beats.html": "Words, Bud, Beats", "world.html": "World", "your-room.html": "Your Room", "zibaldone.html": "The Zibaldone", "zine-issue-2.html": "Issue #2, One Root, Two Rainbows", "zine-table.html": "The Zine Table"};
+  var ROOMS = {'a-quiet-pint.html': 'cel-in-a-quiet-pint.js', 'adventurers-guild.html': 'cel-in-adventurers-guild.js', 'all-needs-met.html': 'cel-in-all-needs-met.js', 'all-together-now.html': 'cel-in-all-together-now.js', 'arcade.html': 'cel-in-arcade.js', 'arlesglad-caverns.html': 'cel-in-arlesglad-caverns.js', 'big-steep-fermentables.html': 'cel-in-big-steep-fermentables.js', 'black-leather-lagoon.html': 'cel-in-black-leather-lagoon.js', 'bodymind-booth.html': 'cel-in-bodymind-booth.js', 'brass-tacks-board.html': 'cel-in-brass-tacks-board.js', 'breaker-breaker.html': 'cel-in-breaker-breaker.js', 'brew-and-stew.html': 'cel-in-brew-and-stew.js', 'brighter-days.html': 'cel-in-brighter-days.js', 'broadsheet-broadside.html': 'cel-in-broadsheet-broadside.js', 'campgrounds.html': 'cel-in-campgrounds.js', 'cavendish-campfire.html': 'cel-in-cavendish-campfire.js', 'cavendish-cave.html': 'cel-in-cavendish-cave.js', 'cavendish-coworking.html': 'cel-in-cavendish-coworking.js', 'cavendish-editorial.html': 'cel-in-cavendish-editorial.js', 'cavendish-events.html': 'cel-in-cavendish-events.js', 'cavendish-operations.html': 'cel-in-cavendish-operations.js', 'cavendish-primary-classroom.html': 'cel-in-cavendish-primary-classroom.js', 'cavendish-watering-hole.html': 'cel-in-cavendish-watering-hole.js', 'champuru.html': 'cel-in-champuru.js', 'chimera-obscura.html': 'cel-in-chimera-obscura.js', 'clacks-tower.html': 'cel-in-clacks-tower.js', 'club-chronic.html': 'cel-in-club-chronic.js', 'collection-collection.html': 'cel-in-collection-collection.js', 'comfort-station.html': 'cel-in-comfort-station.js', 'community-care.html': 'cel-in-community-care.js', 'community-center.html': 'cel-in-community-center.js', 'community-library.html': 'cel-in-community-library.js', 'cooldown-room.html': 'cel-in-cooldown-room.js', 'coping.html': 'cel-in-coping.js', 'count-me-in.html': 'cel-in-count-me-in.js', 'covenstead.html': 'cel-in-covenstead.js', 'dance-punks.html': 'cel-in-dance-punks.js', 'danny-the-street.html': 'cel-in-danny-the-street.js', 'dead-tired-society.html': 'cel-in-dead-tired-society.js', 'dopamine-dress-up-den.html': 'cel-in-dopamine-dress-up-den.js', 'enids-room.html': 'cel-in-enids-room.js', 'excursions.html': 'cel-in-excursions.js', 'faery-cinema-room.html': 'cel-in-faery-cinema-room.js', 'faery-music-room.html': 'cel-in-faery-music-room.js', 'faery-myths-room.html': 'cel-in-faery-myths-room.js', 'faery-reading-room.html': 'cel-in-faery-reading-room.js', 'faery-yurt.html': 'cel-in-faery-yurt.js', 'fantasy-fancy-dress.html': 'cel-in-fantasy-fancy-dress.js', 'foundry.html': 'cel-in-foundry.js', 'fridge-of-sighs.html': 'cel-in-fridge-of-sighs.js', 'gentle-help.html': 'cel-in-gentle-help.js', 'glow-go-gee-gaws.html': 'cel-in-glow-go-gee-gaws.js', 'glow-wild-hollow.html': 'cel-in-glow-wild-hollow.js', 'golem-trust.html': 'cel-in-golem-trust.js', 'haunted-house.html': 'cel-in-haunted-house.js', 'healing-checkpoint.html': 'cel-in-healing-checkpoint.js', 'hear-queer-here.html': 'cel-in-hear-queer-here.js', 'hey-good-cookin.html': 'cel-in-hey-good-cookin.js', 'jungle-room.html': 'cel-in-jungle-room.js', 'l-space.html': 'cel-in-l-space.js', 'latibulum.html': 'cel-in-latibulum.js', 'laughingstock.html': 'cel-in-laughingstock.js', 'learning-large.html': 'cel-in-learning-large.js', 'lightbulb-picture-house.html': 'cel-in-lightbulb-picture-house.js', 'live-room.html': 'cel-in-live-room.js', 'loo-with-a-view.html': 'cel-in-loo-with-a-view.js', 'looking-glass-house.html': 'cel-in-looking-glass-house.js', 'looming-rocks.html': 'cel-in-looming-rocks.js', 'mycelium-munchies.html': 'cel-in-mycelium-munchies.js', 'natures-contribution.html': 'cel-in-natures-contribution.js', 'neurohome.html': 'cel-in-neurohome.js', 'nothing-for-sale.html': 'cel-in-nothing-for-sale.js', 'now-playing.html': 'cel-in-now-playing.js', 'oook.html': 'cel-in-oook.js', 'oracle-deck.html': 'cel-in-oracle-deck.js', 'otterly-adorbs.html': 'cel-in-otterly-adorbs.js', 'pando-calrissian.html': 'cel-in-pando-calrissian.js', 'pebble-board.html': 'cel-in-pebble-board.js', 'pekoe-and-purrs.html': 'cel-in-pekoe-and-purrs.js', 'penguin-pebbling.html': 'cel-in-penguin-pebbling.js', 'pets.html': 'cel-in-pets.js', 'pink-pony-club.html': 'cel-in-pink-pony-club.js', 'play-pod.html': 'cel-in-play-pod.js', 'playhouse.html': 'cel-in-playhouse.js', 'plural-mural.html': 'cel-in-plural-mural.js', 'polaroids.html': 'cel-in-polaroids.js', 'quill-drift.html': 'cel-in-quill-drift.js', 'rabbit-hole.html': 'cel-in-rabbit-hole.js', 'rebellion-rave-room.html': 'cel-in-rebellion-rave-room.js', 'repeater.html': 'cel-in-repeater.js', 'rescue-a-cat.html': 'cel-in-rescue-a-cat.js', 'rescue-a-dog.html': 'cel-in-rescue-a-dog.js', 'rescue-small-animals.html': 'cel-in-rescue-small-animals.js', 'retail-therapy.html': 'cel-in-retail-therapy.js', 'samefood-cafe.html': 'cel-in-samefood-cafe.js', 'sandbox.html': 'cel-in-sandbox.js', 'scalable-feast-ballroom.html': 'cel-in-scalable-feast-ballroom.js', 'seaside-convenience.html': 'cel-in-seaside-convenience.js', 'show-your-work.html': 'cel-in-show-your-work.js', 'sithen.html': 'cel-in-sithen.js', 'small-hours.html': 'cel-in-small-hours.js', 'solarpunk-hermitage.html': 'cel-in-solarpunk-hermitage.js', 'spaceholder-saloon.html': 'cel-in-spaceholder-saloon.js', 'stay-breezy.html': 'cel-in-stay-breezy.js', 'stay-frosty.html': 'cel-in-stay-frosty.js', 'sunshine-sanctuary.html': 'cel-in-sunshine-sanctuary.js', 'swaying-sweetgrass.html': 'cel-in-swaying-sweetgrass.js', 'the-aerial-arbour.html': 'cel-in-the-aerial-arbour.js', 'the-bough-house.html': 'cel-in-the-bough-house.js', 'the-chappell.html': 'cel-in-the-chappell.js', 'the-dairy.html': 'cel-in-the-dairy.js', 'the-den.html': 'cel-in-the-den.js', 'the-doom-scoop.html': 'cel-in-the-doom-scoop.js', 'the-doomscroll.html': 'cel-in-the-doomscroll.js', 'the-feed.html': 'cel-in-the-feed.js', 'the-garden.html': 'cel-in-the-garden.js', 'the-green.html': 'cel-in-the-green.js', 'the-honesty-box.html': 'cel-in-the-honesty-box.js', 'the-mopery.html': 'cel-in-the-mopery.js', 'the-mountain-cabin.html': 'cel-in-the-mountain-cabin.js', 'the-mud-room.html': 'cel-in-the-mud-room.js', 'the-open-notebook.html': 'cel-in-the-open-notebook.js', 'the-outskirts.html': 'cel-in-the-outskirts.js', 'the-pile.html': 'cel-in-the-pile.js', 'the-quiet-stall.html': 'cel-in-the-quiet-stall.js', 'the-run.html': 'cel-in-the-run.js', 'the-source.html': 'cel-in-the-source.js', 'town-hall-board.html': 'cel-in-town-hall-board.js', 'town-hall-directors.html': 'cel-in-town-hall-directors.js', 'town-hall-executive-session.html': 'cel-in-town-hall-executive-session.js', 'town-hall-fishbowl.html': 'cel-in-town-hall-fishbowl.js', 'town-hall-moderators.html': 'cel-in-town-hall-moderators.js', 'town-hall.html': 'cel-in-town-hall.js', 'truckin-food-court.html': 'cel-in-truckin-food-court.js', 'vital-plant-living.html': 'cel-in-vital-plant-living.js', 'volunteers.html': 'cel-in-volunteers.js', 'widdershins.html': 'cel-in-widdershins.js', 'wide-spread-chaos.html': 'cel-in-wide-spread-chaos.js', 'words-bud-beats.html': 'cel-in-words-bud-beats.js', 'world.html': 'cel-in-world.js', 'your-room.html': 'cel-in-your-room.js', 'zibaldone.html': 'cel-in-zibaldone.js', 'zine-issue-2.html': 'cel-in-zine-issue-2.js', 'zine-table.html': 'cel-in-zine-table.js'};
+  var NAMES = {"a-quiet-pint.html": "A Quiet Pint", "adventurers-guild.html": "The Adventurer’s Guild", "all-needs-met.html": "All Needs Met Wildlife Sanctuary", "all-together-now.html": "All Together Now Farms", "arcade.html": "The Arcade", "arlesglad-caverns.html": "Arlesglad Caverns", "big-steep-fermentables.html": "Big Steep Fermentables", "black-leather-lagoon.html": "Black Leather Lagoon", "bodymind-booth.html": "The Bodymind Booth", "brass-tacks-board.html": "The Brass Tacks Board", "breaker-breaker.html": "Breaker Breaker", "brew-and-stew.html": "Brew and Stew", "brighter-days.html": "Brighter Days Solar Farm", "broadsheet-broadside.html": "The Broadsheet Broadside", "campgrounds.html": "The Campgrounds", "cavendish-campfire.html": "The Campfire", "cavendish-cave.html": "The Cave", "cavendish-coworking.html": "Cavendish Coworking", "cavendish-editorial.html": "The Editorial Room", "cavendish-events.html": "The Events Room", "cavendish-operations.html": "The Operations Room", "cavendish-primary-classroom.html": "Cavendish Primary Classroom", "cavendish-watering-hole.html": "The Watering Hole", "champuru.html": "Champuru", "chimera-obscura.html": "Chimera Obscura", "clacks-tower.html": "The Clacks Tower", "club-chronic.html": "Club Chronic", "collection-collection.html": "The Collection Collection", "comfort-station.html": "The Comfort Station", "community-care.html": "Community Care", "community-center.html": "The Community Center", "community-library.html": "The Community Library", "cooldown-room.html": "The Cooldown Room", "coping.html": "Coping", "count-me-in.html": "Count Me In", "covenstead.html": "Covenstead", "dance-punks.html": "Dance, Punks", "danny-the-street.html": "Danny the Street", "dead-tired-society.html": "Dead Tired Society", "dopamine-dress-up-den.html": "The Dopamine Dress-Up Den", "enids-room.html": "Enid's Room", "excursions.html": "Excursions", "faery-cinema-room.html": "The Cinema", "faery-music-room.html": "The Music Room", "faery-myths-room.html": "Myths & Legends", "faery-reading-room.html": "The Reading Room", "faery-yurt.html": "The Faery Yurt", "fantasy-fancy-dress.html": "Fantasy Fancy Dress", "foundry.html": "The Foundry", "fridge-of-sighs.html": "The Fridge of Sighs", "gentle-help.html": "Gentle Help Cannabis Farm", "glow-go-gee-gaws.html": "Glow Go Gee Gaws", "glow-wild-hollow.html": "Glow Wild Hollow", "golem-trust.html": "The Golem Trust", "haunted-house.html": "The Haunted House", "healing-checkpoint.html": "The Healing Checkpoint", "hear-queer-here.html": "Hear Queer Here", "hey-good-cookin.html": "Hey, Good Cookin’", "jungle-room.html": "The Jungle Room", "l-space.html": "L-Space", "latibulum.html": "The Latibulum", "laughingstock.html": "Laughingstock", "learning-large.html": "Learning Large", "lightbulb-picture-house.html": "The Lightbulb Picture House", "live-room.html": "The Live Room", "loo-with-a-view.html": "Loo With a View", "looking-glass-house.html": "Looking-Glass House", "looming-rocks.html": "Looming Rocks Amphitheatre", "mycelium-munchies.html": "Mycelium Munchies", "natures-contribution.html": "Nature’s Contribution", "neurohome.html": "NeuroHome", "nothing-for-sale.html": "Nothing For Sale", "now-playing.html": "Now Playing", "oook.html": "Oook", "oracle-deck.html": "The Oracle Deck", "otterly-adorbs.html": "Otterly Adorbs", "pando-calrissian.html": "Pando Calrissian", "pebble-board.html": "The Pebble Board", "pekoe-and-purrs.html": "Pekoe and Purrs", "penguin-pebbling.html": "Penguin Pebbling", "pets.html": "Pets", "pink-pony-club.html": "Pink Pony Club", "play-pod.html": "The Play Pod", "playhouse.html": "The Playhouse", "plural-mural.html": "Plural Mural", "polaroids.html": "The Polaroid Wall", "quill-drift.html": "Quill Drift", "rabbit-hole.html": "The Rabbit Hole", "rebellion-rave-room.html": "Rebellion Rave Room", "repeater.html": "The Repeater", "rescue-a-cat.html": "Rescue A Cat", "rescue-a-dog.html": "Rescue A Dog", "rescue-small-animals.html": "Rescue Small Animals", "retail-therapy.html": "Retail Therapy", "samefood-cafe.html": "Samefood Cafe", "sandbox.html": "The Sandbox", "scalable-feast-ballroom.html": "Scalable Feast Ballroom", "seaside-convenience.html": "The Seaside Convenience", "show-your-work.html": "Show Your Work", "sithen.html": "Sithen", "small-hours.html": "The Small Hours", "solarpunk-hermitage.html": "The Solarpunk Hermitage", "spaceholder-saloon.html": "Spaceholder Saloon", "stay-breezy.html": "Stay Breezy", "stay-frosty.html": "Stay Frosty", "sunshine-sanctuary.html": "The Sunshine Sanctuary for Sick Dragons", "swaying-sweetgrass.html": "Swaying Sweetgrass", "the-aerial-arbour.html": "The Aerial Arbour", "the-bough-house.html": "The Bough House", "the-chappell.html": "The Chappell", "the-dairy.html": "The Dairy", "the-den.html": "The Den", "the-doom-scoop.html": "The Doom Scoop", "the-doomscroll.html": "The Doomscroll", "the-feed.html": "The Feed", "the-garden.html": "The Garden", "the-green.html": "The Green", "the-honesty-box.html": "The Honesty Box", "the-mopery.html": "The Mopery", "the-mountain-cabin.html": "The Emergent Future Worlds Meets Mountain Man", "the-mud-room.html": "The MUD Room", "the-open-notebook.html": "The Open Notebook", "the-outskirts.html": "The Outskirts", "the-pile.html": "The Pile", "the-quiet-stall.html": "The Quiet Stall", "the-run.html": "The Run", "the-source.html": "The Source", "town-hall-board.html": "The Board room", "town-hall-directors.html": "The Directors’ room", "town-hall-executive-session.html": "Executive Session", "town-hall-fishbowl.html": "The Fishbowl", "town-hall-moderators.html": "The Moderators’ room", "town-hall.html": "The Town Hall", "truckin-food-court.html": "Truckin’ Food Court", "vital-plant-living.html": "Vital Plant Living", "volunteers.html": "Volunteers", "widdershins.html": "Widdershins", "wide-spread-chaos.html": "Wide-Spread Chaos Gardens", "words-bud-beats.html": "Words, Bud, Beats", "world.html": "World", "your-room.html": "Your Room", "zibaldone.html": "The Zibaldone", "zine-issue-2.html": "Issue #2, One Root, Two Rainbows", "zine-table.html": "The Zine Table"};
   // cel:rooms:end
   var CHUNK = 60;            // the street is drawn in lengths this long
   var VIEW = 300;            // and only the lengths this near you are drawn
@@ -156,14 +156,30 @@ function start() {
     mat.customProgramCacheKey = function () { return 'painted'; };
     return mat;
   }
+  // THE LOOK (Helen Edgar's call for her rooms, 2026-11-11: "more like Second
+  // Life and not anime cel style, that is my choice", then "an option for anime
+  // cel or photo real"): the street is drawn in cel, Ryan's look, and a room may
+  // say look: 'real' on its object, which draws it with smooth lit materials,
+  // soft colour in the light and no inked hulls, in exactly the same colours.
+  // Look under the stage lets anybody flip the room they are in between the
+  // two for this visit; it is kept nowhere. lookChoice is theirs, lookNow the
+  // look everything is built in while a room is built.
+  var lookChoice = null, lookNow = 'cel';
+  function real() { return lookNow === 'real'; }
+  function solid(c) {
+    return real()
+      ? painted(new THREE.MeshStandardMaterial({ color: c, roughness: 0.78, metalness: 0.0 }))
+      : painted(new THREE.MeshToonMaterial({ color: c, gradientMap: gradient }));
+  }
   var mats = {};
   function toon(name) {
-    if (!mats[name]) mats[name] = painted(new THREE.MeshToonMaterial({ color: col(name), gradientMap: gradient }));
-    return mats[name];
+    var k = lookNow + '|' + name;
+    if (!mats[k]) mats[k] = solid(col(name));
+    return mats[k];
   }
   function toonColor(c) {
-    var key = 'c' + c.getHexString();
-    if (!mats[key]) mats[key] = painted(new THREE.MeshToonMaterial({ color: c, gradientMap: gradient }));
+    var key = lookNow + '|c' + c.getHexString();
+    if (!mats[key]) mats[key] = solid(c);
     return mats[key];
   }
   var inkMat = new THREE.MeshBasicMaterial({ color: col('--cel-ink'), side: THREE.BackSide });
@@ -207,7 +223,7 @@ function start() {
     g.applyMatrix4(m);
     var c = chunkOf(g);
     bucket(key + '|' + c, mat, shadow).geos.push(g);
-    if (ink !== false) {
+    if (ink !== false && !real()) {
       var h = geo.index ? geo.toNonIndexed() : geo.clone();
       h.computeBoundingBox();
       tmpBox.copy(h.boundingBox); tmpBox.getSize(tmpSize); tmpBox.getCenter(tmpMid);
@@ -1090,16 +1106,108 @@ function start() {
   function place() {
     // In a headset you stand on the floor and the headset says where your
     // head is: what moves is where your feet stand and which way they face.
-    if (xrOn) { dolly.position.set(me.x, up ? ROOF - EYE : 0, me.z); dolly.rotation.set(0, me.yaw, 0); dolly.updateMatrixWorld(true); }
+    if (xrOn) { dolly.position.set(me.x, (up ? ROOF - EYE : 0) - xrSeat, me.z); dolly.rotation.set(0, me.yaw, 0); dolly.updateMatrixWorld(true); }
     else {
-      camera.position.set(me.x, up ? ROOF : EYE, me.z);
+      camera.position.set(me.x, (up ? ROOF : EYE) - xrSeat, me.z);
       camera.rotation.set(me.pitch, me.yaw, 0, 'YXZ');
+      camera.updateMatrixWorld(true);
     }
+    carry(); ears();
     skyGroup.position.set(me.x, 0, me.z - 6);
     sun.position.set(me.x + SUN.x, SUN.y, me.z + SUN.z);
     sun.target.position.set(me.x, 0, me.z - 12);
     sun.target.updateMatrixWorld();
     for (var i = 0; i < far.length; i++) far[i].o.visible = !far[i].o.userData.hidden && Math.abs(far[i].z - me.z) < VIEW + CHUNK / 2;
+  }
+  // A THING YOU CAN PICK UP (kit.hold, Helen's headset round): pressed, it
+  // comes to your hand in a headset, or to just in front of you on a screen,
+  // and pressed again it goes back where it came from, so nothing is ever
+  // left floating. Carried every frame from where your hand or your eyes are.
+  var HOLD = new THREE.Matrix4().makeTranslation(0, -0.12, -0.45), HOLD_VR = new THREE.Matrix4().makeTranslation(0, 0, -0.12);
+  function carry() {
+    var hs = scene.userData.holds || [];
+    for (var i = 0; i < hs.length; i++) {
+      var h = hs[i].userData.hold;
+      if (!h || !h.by) continue;
+      if (h.by === 'screen') hs[i].matrix.copy(camera.matrixWorld).multiply(HOLD);
+      else hs[i].matrix.copy(h.by.matrixWorld).multiply(HOLD_VR);
+      hs[i].matrixWorldNeedsUpdate = true;
+    }
+  }
+  function holdToggle(mesh, by) {
+    var h = mesh.userData.hold;
+    if (h.by) { h.by = null; mesh.matrix.copy(h.home); mesh.matrixWorldNeedsUpdate = true; ctlSay((h.say || 'It') + ' goes back where it was.'); }
+    else {
+      // One thing in a hand at a time: whatever that hand held goes home.
+      (scene.userData.holds || []).forEach(function (o) { var oh = o.userData.hold; if (oh.by === by) { oh.by = null; o.matrix.copy(oh.home); o.matrixWorldNeedsUpdate = true; } });
+      h.by = by; ctlSay('You pick up ' + (h.say || 'it') + '; press it again to put it back, or press something to use it on.');
+    }
+    draw();
+  }
+  function heldBy(by) {
+    var hs = scene.userData.holds || [];
+    for (var i = 0; i < hs.length; i++) if (hs[i].userData.hold.by === by) return hs[i];
+    return null;
+  }
+  function heldNow() {
+    var hs = scene.userData.holds || [];
+    for (var i = 0; i < hs.length; i++) if (hs[i].userData.hold.by) return hs[i];
+    return null;
+  }
+  // A held thing put somewhere (kit.place): take() says what happened and
+  // stands the thing where it now is, or refuses with false.
+  function putOn(target, by) {
+    var held = heldBy(by);
+    if (!held || !target.userData.take) return false;
+    var words = target.userData.take(held, held.userData.hold.say);
+    if (words === false) return false;
+    held.userData.hold.by = null; held.matrixWorldNeedsUpdate = true;
+    ctlSay(typeof words === 'string' ? words : 'Done.');
+    draw();
+    return true;
+  }
+  // A SOUND WITH A PLACE (kit.spatial): a room's own sound, made by its page's
+  // script (the Reading Room's crackle, the yurt's bell), is heard from where
+  // its thing stands, through a panner between the script's output and the
+  // speakers, with your ears where your head is, every frame. The script
+  // hands over its output only once it has made its sound, so each is asked
+  // for until it answers. Nothing is fetched; it is the same arithmetic.
+  var EAR = new THREE.Vector3(), EAR_F = new THREE.Vector3(), EAR_Q = new THREE.Quaternion();
+  function ears() {
+    var ss = scene.userData.spatials || [];
+    if (!ss.length) return;
+    if (xrOn) { camera.getWorldPosition(EAR); camera.getWorldQuaternion(EAR_Q); EAR_F.set(0, 0, -1).applyQuaternion(EAR_Q); }
+    else { EAR.set(me.x, EYE - xrSeat, me.z); EAR_F.set(-Math.sin(me.yaw) * Math.cos(me.pitch), Math.sin(me.pitch), -Math.cos(me.yaw) * Math.cos(me.pitch)); }
+    for (var i = 0; i < ss.length; i++) {
+      var sp = ss[i];
+      if (!sp.panner) {
+        var o = null;
+        try { o = sp.get(); } catch (e) { o = null; }
+        if (!o || !o.ctx || !o.node) continue;
+        try {
+          var pn = o.ctx.createPanner();
+          pn.panningModel = 'HRTF'; pn.distanceModel = 'inverse'; pn.refDistance = 1; pn.maxDistance = 30; pn.rolloffFactor = 1;
+          if (pn.positionX) { pn.positionX.value = sp.pos.x; pn.positionY.value = sp.pos.y; pn.positionZ.value = sp.pos.z; }
+          else pn.setPosition(sp.pos.x, sp.pos.y, sp.pos.z);
+          o.node.disconnect(); o.node.connect(pn); pn.connect(o.ctx.destination);
+          sp.panner = pn; sp.ctx = o.ctx;
+        } catch (e) { continue; }
+      }
+      var l = sp.ctx.listener;
+      try {
+        if (l.positionX) {
+          l.positionX.value = EAR.x; l.positionY.value = EAR.y; l.positionZ.value = EAR.z;
+          l.forwardX.value = EAR_F.x; l.forwardY.value = EAR_F.y; l.forwardZ.value = EAR_F.z;
+          l.upX.value = 0; l.upY.value = 1; l.upZ.value = 0;
+        } else { l.setPosition(EAR.x, EAR.y, EAR.z); l.setOrientation(EAR_F.x, EAR_F.y, EAR_F.z, 0, 1, 0); }
+      } catch (e) { /* an old browser */ }
+    }
+  }
+  // Each place read aloud as you arrive, in a headset only, where the words
+  // under the stage cannot be read; the panel switches it off.
+  function voice(words) {
+    if (!xrOn || !xrVoice || !('speechSynthesis' in window)) return;
+    try { window.speechSynthesis.cancel(); window.speechSynthesis.speak(new SpeechSynthesisUtterance(words)); } catch (e) { /* no voice here */ }
   }
   // A page or a thing lifted off one is laid over the picture, so no wall
   // can hide it: one that belongs to a part of a room (inside a cabin, behind
@@ -1116,14 +1224,121 @@ function start() {
   function zoned(el, zone) { if (zone) (scene.userData.zoned = scene.userData.zoned || []).push({ el: el, zone: zone }); }
   // In a headset the headset asks for every picture itself (xrFrame), so a
   // change only moves you; the next picture it asks for shows it.
-  function draw() { place(); if (xrOn) return; zones(); renderer.render(scene, camera); css3d.render(scene, camera); }
+  function draw() { place(); if (xrOn) return; if (travel) { travelDraw(); return; } zones(); renderer.render(scene, camera); css3d.render(scene, camera); }
   function soon() { if (!frame) frame = requestAnimationFrame(tick); }
+
+  /* ── Through a portal: a swirl of the Milky Way ──────────────────────── */
+  // Helen Edgar's ask, 2026-11-12: going through any portal of her yurt is a
+  // travel down a spiral tunnel of space, real pictures and a slow swirl. A
+  // room says `tunnel: { walls, end }`, two photographs off its own page (the
+  // yurt's are the Milky Way behind her Music Room's doors and the Whirlpool
+  // Galaxy behind her Cinema's, credited there and on this page): the walls
+  // are wrapped round a tube you look down, twice over at two depths so the
+  // stars part as you go, and the galaxy turns at the far end and comes to
+  // meet you. Nothing is drawn over either picture. It plays only on a press
+  // (Walk into, Back out, a place in the headset) between that room and a room
+  // off it, for TRAVEL seconds; the tube swirls at SWIRL and the galaxy turns
+  // at TURN_GALAXY, both radians a second and both far slower than TURN_MIN
+  // allows; at Gentle the picture stands still for TRAVEL_STILL seconds and
+  // nothing swirls; in a low-stimulation mode, or a hidden tab, there is no
+  // travel at all, you are simply there. It comes up and goes over FADE
+  // seconds each way, so nothing flashes. tools/make-cel-street.py holds the
+  // turns and the fade.
+  var TRAVEL = 3.4, TRAVEL_STILL = 1.2, SWIRL = 0.11, TURN_GALAXY = 0.09, FADE = 0.5, TRAVEL_MOST = 12;
+  var travel = null, tunnelScene = null, tunnel = null;
+  function tunnelMake(spec) {
+    var key = spec.walls + '|' + spec.end;
+    if (tunnel && tunnel.key === key) return tunnel;
+    var loader = new THREE.TextureLoader();
+    // The walls are the sky alone: a room says how much of its photograph is
+    // sky (`sky`, a fraction from the top), and the ground below the horizon
+    // is left off the tube, because a tunnel of space has no desert in it.
+    // That is a crop and nothing else; no pixel of the sky is changed.
+    function pic(file, rx, ry, sky) {
+      var t = loader.load(file, function (tex) {
+        if (sky && sky < 1 && tex.image) {
+          var im = tex.image, c = document.createElement('canvas');
+          c.width = im.width; c.height = Math.round(im.height * sky);
+          c.getContext('2d').drawImage(im, 0, 0, im.width, c.height, 0, 0, c.width, c.height);
+          tex.image = c;
+        }
+        tex.needsUpdate = true;
+        if (travel) soon();
+      });
+      t.colorSpace = THREE.SRGBColorSpace;
+      if (rx) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rx, ry); }
+      return t;
+    }
+    tunnelScene = new THREE.Scene();
+    tunnelScene.background = col('--cel-ink');
+    var rig = new THREE.Group();
+    var tube = new THREE.CylinderGeometry(1, 1, 90, 48, 1, true);
+    tube.rotateX(Math.PI / 2);
+    var outer = new THREE.Mesh(tube, new THREE.MeshBasicMaterial({ map: pic(spec.walls, 5, 10, spec.sky), side: THREE.BackSide, transparent: true, opacity: 0 }));
+    outer.scale.set(2.6, 2.6, 1); outer.position.z = -34;
+    var inner = new THREE.Mesh(tube, new THREE.MeshBasicMaterial({ map: pic(spec.walls, 3, 7, spec.sky), side: THREE.BackSide, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+    inner.scale.set(1.7, 1.7, 1); inner.position.z = -34; inner.rotation.z = 1.3;
+    // The far end is closed with the same sky, so there is no hole of black
+    // past the galaxy, and the galaxy stands in front of it, big enough to
+    // fill the tube by the time it reaches you.
+    var sky = new THREE.Mesh(new THREE.CircleGeometry(2.7, 64), new THREE.MeshBasicMaterial({ map: pic(spec.walls, 1.4, 1.4, spec.sky), transparent: true, opacity: 0 }));
+    sky.position.z = -78;
+    var galaxy = new THREE.Mesh(new THREE.CircleGeometry(4.8, 64), new THREE.MeshBasicMaterial({ map: pic(spec.end), transparent: true, opacity: 0 }));
+    galaxy.position.z = -44;
+    rig.add(outer, inner, sky, galaxy);
+    tunnelScene.add(rig);
+    tunnel = { key: key, rig: rig, outer: outer, inner: inner, sky: sky, galaxy: galaxy };
+    return tunnel;
+  }
+  function travelStart(spec) {
+    if (!spec || document.documentElement.hasAttribute('data-low') || (document.hidden && !xrOn)) return;
+    if (travel) { travel.arrived = false; return; }
+    var gentle = document.documentElement.getAttribute('data-intensity') === 'gentle';
+    travel = { t: 0, began: performance.now(), len: gentle ? TRAVEL_STILL : TRAVEL, swirl: !gentle, arrived: false };
+    var t = tunnelMake(spec), v = new THREE.Vector3();
+    if (xrOn) dolly.updateMatrixWorld(true); else camera.updateMatrixWorld(true);
+    camera.getWorldDirection(v);
+    t.rig.rotation.set(0, Math.atan2(-v.x, -v.z), 0);
+    t.galaxy.position.z = -44; t.galaxy.scale.set(1, 1, 1);
+    css3d.domElement.style.visibility = 'hidden';
+    soon();
+  }
+  function travelStep(dt, now) {
+    var t = tunnel, tr = travel;
+    // Its length is the clock's, so a slow frame never draws it out.
+    tr.t = (now - tr.began) / 1000;
+    var fade = Math.max(0, Math.min(1, tr.t / FADE, (tr.len - tr.t) / FADE));
+    t.outer.material.opacity = fade; t.inner.material.opacity = fade * 0.55; t.galaxy.material.opacity = fade; t.sky.material.opacity = fade;
+    if (tr.swirl) {
+      var on = Math.min(1, tr.t / tr.len);
+      t.outer.material.map.offset.y -= dt * 0.22;
+      t.inner.material.map.offset.y -= dt * 0.34;
+      t.outer.rotation.z += SWIRL * dt;
+      t.inner.rotation.z -= SWIRL * 0.6 * dt;
+      t.galaxy.rotation.z += TURN_GALAXY * dt;
+      t.galaxy.position.z = -44 + 30 * on;
+      t.galaxy.scale.setScalar(1 + 0.5 * on);
+      t.sky.rotation.z -= SWIRL * 0.3 * dt;
+    }
+    if (tr.t >= tr.len && (tr.arrived || tr.t > TRAVEL_MOST)) {
+      travel = null;
+      css3d.domElement.style.visibility = '';
+      draw();
+    }
+  }
+  function travelDraw() {
+    var v = new THREE.Vector3();
+    if (xrOn) dolly.updateMatrixWorld(true); else camera.updateMatrixWorld(true);
+    camera.getWorldPosition(v);
+    tunnel.rig.position.copy(v);
+    renderer.render(tunnelScene, camera);
+  }
 
   /* ── What a room lets move, and only when somebody asks ──────────────── */
   // Ryan, 2026-11-04, for the Faery Yurt and the rooms off it: candles that
   // flicker, a record that turns, fairy lights that twinkle. That reverses
   // "nothing on Cel Street moves by itself" for exactly what a room hands the
-  // kit (flames, turn, lights) and nothing else, and only as the candles behind
+  // kit (flames, turn, lights, and drift and rise since 2026-11-11) and nothing else, and only as the candles behind
   // the door marked E move (candles.js): by itself at MAX only where the room
   // says its own page moves that thing at MAX (max: true), and at any setting
   // once somebody presses its switch, which the dial does not undo. Never in a
@@ -1243,6 +1458,7 @@ function start() {
       : up ? 'Up over the roofs, looking down on the solar panels.' : s ? 'In front of ' + s.name + '.' : 'Out on Cel Street, in the sun.';
     if (words === said) return;
     said = words;
+    voice(s ? (s.where || s.name) : words);
     if (xrOn) vrPanel();
     hereEl.textContent = words + ' ';
     if (s && ROOMS[s.page] && !(inside && s.page === inside.page)) {
@@ -1305,11 +1521,70 @@ function start() {
       tint: function (name, to) { toon(name).color.copy(col(to)); },
       piece: function (geo, m, ink, ink2, shadow) { piece(geo, m, toon(ink), ink, ink2, shadow); },
       facets: function (geo, m, ink) {
-        var mat = painted(new THREE.MeshToonMaterial({ color: col(ink), gradientMap: gradient }));
-        var mesh = put(new THREE.Mesh(geo, mat), m);
+        var mesh = put(new THREE.Mesh(geo, solid(col(ink))), m);
         mesh.castShadow = true;
         return mesh;
       },
+      // cloth(kind, inkA, inkB, repeat): a woven, knitted, velvet, fur, pile,
+      // canvas or leather texture drawn on a canvas in two of the room's
+      // inks (Helen's ask, 2026-11-11: cushions, rugs and blankets with a
+      // texture you can see), tiled `repeat` times across a metre, for
+      // kit.fabric. Drawn, never fetched; the colours are the room's own.
+      cloth: function (kind, inkA, inkB, repeat) {
+        var a = css(inkA), b = css(inkB), N = 256;
+        var map = tex(N, N, function (g) {
+          g.fillStyle = a; g.fillRect(0, 0, N, N);
+          g.fillStyle = b; g.strokeStyle = b;
+          var i, j, k;
+          if (kind === 'weave' || kind === 'canvas') {
+            var step = kind === 'canvas' ? 8 : 16;
+            for (i = 0; i < N; i += step) for (j = 0; j < N; j += step) {
+              if (((i + j) / step) % 2 === 0) { g.globalAlpha = 0.55; g.fillRect(i, j, step - 1, step / 2 - 1); g.globalAlpha = 0.3; g.fillRect(i, j + step / 2, step / 2 - 1, step / 2 - 1); }
+            }
+          } else if (kind === 'knit') {
+            g.lineWidth = 5; g.lineCap = 'round';
+            for (j = 0; j < N + 16; j += 16) for (i = 0; i < N + 16; i += 16) {
+              g.globalAlpha = 0.6; g.beginPath(); g.moveTo(i, j); g.lineTo(i + 8, j + 10); g.lineTo(i + 16, j); g.stroke();
+              g.globalAlpha = 0.25; g.beginPath(); g.moveTo(i + 2, j + 4); g.lineTo(i + 8, j + 12); g.lineTo(i + 14, j + 4); g.stroke();
+            }
+          } else if (kind === 'velvet') {
+            for (k = 0; k < 9000; k++) { g.globalAlpha = 0.08 + Math.random() * 0.12; g.fillRect(Math.random() * N, Math.random() * N, 2, 3 + Math.random() * 4); }
+          } else if (kind === 'fur') {
+            g.lineWidth = 2; g.lineCap = 'round';
+            for (k = 0; k < 1400; k++) {
+              var x = Math.random() * N, y = Math.random() * N, r = 4 + Math.random() * 6;
+              g.globalAlpha = 0.25 + Math.random() * 0.35; g.beginPath(); g.arc(x, y, r, Math.random() * Math.PI, Math.random() * Math.PI + 3); g.stroke();
+            }
+          } else if (kind === 'pile') {
+            for (i = 0; i < N; i += 6) for (j = 0; j < N; j += 6) { g.globalAlpha = 0.15 + ((i * 7 + j * 13) % 10) / 25; g.beginPath(); g.arc(i + 3, j + 3, 2.2, 0, Math.PI * 2); g.fill(); }
+          } else if (kind === 'leather') {
+            for (k = 0; k < 2200; k++) { g.globalAlpha = 0.06 + Math.random() * 0.1; g.beginPath(); g.arc(Math.random() * N, Math.random() * N, 3 + Math.random() * 5, 0, Math.PI * 2); g.fill(); }
+            g.globalAlpha = 0.35; g.lineWidth = 1;
+            for (k = 0; k < 60; k++) { g.beginPath(); g.moveTo(Math.random() * N, Math.random() * N); g.lineTo(Math.random() * N, Math.random() * N); g.stroke(); }
+          }
+          g.globalAlpha = 1;
+        });
+        map.wrapS = map.wrapT = THREE.RepeatWrapping;
+        map.repeat.set(repeat || 4, repeat || 4);
+        return map;
+      },
+      // fabric(geo, m, cloth, shadow): a thing made of cloth, its own mesh,
+      // the weave as its surface and, in the real look, as its relief too.
+      fabric: function (geo, m, cloth, shadow) {
+        var mat = real()
+          ? new THREE.MeshStandardMaterial({ map: cloth, bumpMap: cloth, bumpScale: 0.012, roughness: 0.96, metalness: 0 })
+          : new THREE.MeshToonMaterial({ map: cloth, gradientMap: gradient });
+        var mesh = put(new THREE.Mesh(geo, mat), m);
+        mesh.castShadow = shadow !== false; mesh.receiveShadow = true;
+        return mesh;
+      },
+      // place(touch, take): somewhere a held thing can be put: pressed while
+      // you hold something, take(mesh, say) is called with it and says what
+      // happened (and sets the mesh's matrix where it now stands), or returns
+      // false to refuse; the thing is let go of if it was taken.
+      place: function (hb, take) { hb.userData.take = take; return hb; },
+      // held(): the thing in your hand just now, or null.
+      held: function () { return heldNow(); },
       flat: function (geo, m, ink) { return put(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: col(ink) })), m); },
       // A colour by name as the canvas wants it, a sheet of paper drawn on a
       // canvas in those inks, and that sheet hung somewhere, lit like
@@ -1318,7 +1593,10 @@ function start() {
       paper: function (pw, ph, draw) { return tex(pw, ph, draw); },
       // Sheets of one paper are merged into one mesh, however many there are.
       sheet: function (map, w, h, m) {
-        if (!map.userData.mat) map.userData.mat = new THREE.MeshToonMaterial({ map: map, gradientMap: gradient });
+        if (!map.userData.mat || map.userData.look !== lookNow) {
+          map.userData.look = lookNow;
+          map.userData.mat = real() ? new THREE.MeshStandardMaterial({ map: map, roughness: 0.9, metalness: 0 }) : new THREE.MeshToonMaterial({ map: map, gradientMap: gradient });
+        }
         var g = PLANE.clone(); g.scale(w, h, 1);
         piece(g, m, map.userData.mat, 'sheet' + map.uuid, false, false);
       },
@@ -1438,6 +1716,186 @@ function start() {
         (o.at || []).forEach(function (hb) { hb.userData.act = sw; });
         return sw;
       },
+      // drift(list, { say, max, period, said, at }): small things that fly
+      // about a point, each on its own slow loop (Helen Edgar's ask, 2026-11-11,
+      // for the faeries round the portals in her yurt). list: [{ meshes, about
+      // (a Vector3), r, h, period, wings }]. Each goes round its point r out,
+      // up and down h, once in period seconds and never quicker than TURN_MIN,
+      // turned to face the way it flies, and its wings (meshes drawn with their
+      // root at the body) fold and open once in WING seconds, the page's own
+      // flutter; its meshes are drawn where it rests, and it rests where it
+      // stops. Nothing in it flashes: a wing folds, nothing dims.
+      drift: function (list, o) {
+        var WING = 1.7, inv = new THREE.Matrix4(), tr = new THREE.Matrix4(), rot = new THREE.Matrix4(), fold = new THREE.Matrix4();
+        var ds = list.map(function (d, n) {
+          inv.makeTranslation(-d.about.x, -d.about.y, -d.about.z);
+          return { about: d.about.clone(), r: d.r || 0.5, h: d.h || 0.2, dir: n % 2 ? 1 : -1,
+                   period: Math.max(TURN_MIN, d.period || o.period || 7), ph: Math.random() * Math.PI * 2,
+                   meshes: d.meshes.map(function (m) { return { o: m, local: inv.clone().multiply(m.matrix), wing: (d.wings || []).indexOf(m) }; }) };
+        });
+        var mv = addMove({ max: !!o.max,
+          step: function (s) {
+            ds.forEach(function (d) {
+              var a = d.ph + d.dir * s * Math.PI * 2 / d.period;
+              tr.makeTranslation(d.about.x + Math.cos(a) * d.r, d.about.y + Math.sin(a * 2 + d.ph) * d.h, d.about.z + Math.sin(a) * d.r);
+              rot.makeRotationY(-a + (d.dir > 0 ? Math.PI : 0));
+              var f = 0.55 + 0.45 * Math.abs(Math.sin(s * Math.PI / WING + d.ph));
+              d.meshes.forEach(function (m) {
+                m.o.matrix.copy(tr).multiply(rot).multiply(m.local);
+                if (m.wing >= 0) m.o.matrix.multiply(fold.makeScale(f, 1, 1));
+                m.o.matrixWorldNeedsUpdate = true;
+              });
+            });
+          },
+          // A faerie that stops stays where it stopped.
+          rest: function () {} });
+        var sw = addCtl(moveSwitch(mv, o.say, o.said || function (on) { return on ? 'They fly.' : 'They settle.'; }));
+        (o.at || []).forEach(function (hb) { hb.userData.act = sw; });
+        return sw;
+      },
+      // rise(list, { say, said, max, period, back }): things that rise, as
+      // bubbles up a tube or the wax in a lava lamp (Helen Edgar's ask,
+      // 2026-11-11, for her Play Pod). list: [{ meshes, lift, period, ph }]:
+      // each rises `lift` (metres) from where it is drawn once in period
+      // seconds, never quicker than TURN_MIN, and either comes back down the
+      // same way (o.back, the lava) or starts again at the foot, growing from
+      // nothing at the foot and shrinking to nothing at the top so there is no
+      // jump (a bubble). Its meshes are drawn where they rest and rest where
+      // they stop. Nothing dims, nothing flashes.
+      rise: function (list, o) {
+        var tr = new THREE.Matrix4(), sc = new THREE.Matrix4();
+        var rs = list.map(function (d, n) {
+          return { lift: d.lift || 1, period: Math.max(TURN_MIN, d.period || o.period || 8), ph: d.ph != null ? d.ph : (n * 0.618) % 1,
+                   meshes: d.meshes.map(function (m) { return { o: m, base: m.matrix.clone() }; }) };
+        });
+        var mv = addMove({ max: !!o.max,
+          step: function (s) {
+            rs.forEach(function (d) {
+              var u = (s / d.period + d.ph) % 1, k = 1;
+              if (o.back) u = 0.5 - 0.5 * Math.cos(u * Math.PI * 2);
+              else k = Math.max(0.001, Math.sin(u * Math.PI));
+              tr.makeTranslation(0, d.lift * u, 0);
+              sc.makeScale(k, k, k);
+              d.meshes.forEach(function (m) {
+                // Lifted straight up from where it was drawn.
+                m.o.matrix.copy(tr).multiply(m.base);
+                if (!o.back) m.o.matrix.multiply(sc);
+                m.o.matrixWorldNeedsUpdate = true;
+              });
+            });
+          },
+          rest: function () {} });
+        var sw = addCtl(moveSwitch(mv, o.say, o.said || function (on) { return on ? 'They rise.' : 'They hold still.'; }));
+        (o.at || []).forEach(function (hb) { hb.userData.act = sw; });
+        return sw;
+      },
+      // hold(mesh, { say }): a thing you can pick up (Helen's headset round):
+      // a kit.facets or kit.flat mesh, drawn where it lives; pressed, it comes
+      // to your hand in a headset or to just in front of you on a screen, and
+      // pressed again it goes back where it was.
+      hold: function (mesh, o) {
+        mesh.userData.hold = { home: mesh.matrix.clone(), say: o && o.say, by: null };
+        hits.push(mesh);
+        (home.userData.holds = home.userData.holds || []).push(mesh);
+        return mesh;
+      },
+      // sit({ x, z, yaw, say, up, at }): somewhere to sit: pressed, you are
+      // stood there facing that way with your eyes at a sitting height, in a
+      // headset and on a screen, and pressed again you stand. One seat at a
+      // time; leaving the room stands you up.
+      // stature({ tall | small, say, back, done, undone, at }): EAT ME and DRINK
+      // ME (Looking-Glass House, Helen's ask, 2026-11-12): pressed, your eyes
+      // go up by `tall` or down by `small` metres, on a screen and in a headset
+      // alike (xrSeat is the one height everything reads), and pressed again,
+      // or on leaving the room, you are your own size. Sitting down while
+      // grown puts you at a seat's height; standing up keeps you grown.
+      stature: function (o) {
+        var self = this;
+        return self.press({ say: function () { return stature === o ? (o.back || 'Back to your own size') : o.say; }, at: o.at,
+          press: function () {
+            if (stature === o) { stature = null; if (!seated) xrSeat = 0; place(); vrPanelPlace(); return o.undone || 'You are your own size again.'; }
+            stature = o; xrSeat = (o.small || 0) - (o.tall || 0); place(); vrPanelPlace();
+            return o.done || 'You grow.';
+          } });
+      },
+      sit: function (o) {
+        var self = this, SQ = new THREE.Matrix4();
+        // o.squash: the cushion's mesh (kit.facets or kit.fabric), pressed a
+        // little flatter while you sit on it, and back when you stand.
+        function squash(down) {
+          if (!o.squash) return;
+          var m = o.squash;
+          if (!m.userData.unsquashed) m.userData.unsquashed = m.matrix.clone();
+          m.matrix.copy(m.userData.unsquashed);
+          if (down) { var p = new THREE.Vector3().setFromMatrixPosition(m.matrix); m.matrix.premultiply(SQ.makeTranslation(-p.x, -p.y, -p.z)).premultiply(SQ.makeScale(1.06, 0.78, 1.06)).premultiply(SQ.makeTranslation(p.x, p.y, p.z)); }
+          m.matrixWorldNeedsUpdate = true;
+        }
+        return self.press({ say: function () { return seated === o ? (o.up || 'Stand up') : (o.say || 'Sit down'); }, at: o.at,
+          press: function () {
+            if (seated === o) { seated = null; xrSeat = stature ? (stature.small || 0) - (stature.tall || 0) : 0; squash(false); place(); vrPanelPlace(); return o.stood || 'You stand up.'; }
+            if (seated && seated.unsquash) seated.unsquash();
+            seated = o; o.unsquash = function () { squash(false); }; squash(true); xrSeat = SEAT;
+            if (xrOn) footFor(o.x, o.z, o.yaw - headLocal().yaw); else { me.x = o.x; me.z = o.z; me.yaw = o.yaw; }
+            place(); vrPanelPlace();
+            return o.sat || 'You sit down.';
+          } });
+      },
+      // spatial(get, pos): a sound heard from pos ([x, y, z] or a Vector3): get()
+      // returns { ctx, node } once the page's script has its output (window.loveFire.output(),
+      // window.loveYurtBell.output()), or nothing yet.
+      spatial: function (get, pos) {
+        var v = pos && pos.isVector3 ? pos.clone() : new THREE.Vector3(pos[0], pos[1], pos[2]);
+        (home.userData.spatials = home.userData.spatials || []).push({ get: get, pos: v, panner: null, ctx: null });
+      },
+      // sound({ kind, pos, at, say, stop, said }): one of the room's own sounds
+      // out of cel-sounds.js (made of arithmetic there, nothing recorded or
+      // fetched), heard from pos through the panner above, with a switch
+      // under the line that says where you are and, where o.at is, on the
+      // thing itself. Off until pressed, on until pressed again, and off when
+      // you leave the room (soundsOff, from enter and leave), so no room's
+      // sound follows you into another. Helen Edgar's ask, 2026-11-12.
+      sound: function (o) {
+        var self = this, S = function () { return window.loveCelSounds || null; };
+        self.spatial(function () { var s = S(); return s ? s.output(o.kind) : null; }, o.pos);
+        (home.userData.sounds = home.userData.sounds || []).push(o.kind);
+        return self.press({ say: function () { var s = S(); return s && s.playing(o.kind) ? (o.stop || 'Let it be quiet') : o.say; }, at: o.at,
+          press: function () {
+            var s = S();
+            if (!s) return 'The sounds have not loaded yet; try again in a moment.';
+            var on = s.toggle(o.kind);
+            if (on === null) return 'This browser would not make the sound.';
+            return o.said ? o.said(on) : (on ? 'It sounds.' : 'It is quiet.');
+          } });
+      },
+      // plaque({ title, lines, face, ink, ground, edge, w, m, size }): a board of
+      // words in WebGL, wrapped to its width, for a headset, which shows no
+      // page; returns its height in the world.
+      plaque: function (o) {
+        var pw = 1024, size = o.size || 42, face = o.face || 'sans-serif', pad = 48, rows = [];
+        var probe = document.createElement('canvas').getContext('2d');
+        probe.font = size + 'px ' + face;
+        (o.lines || []).forEach(function (line) {
+          var cur = '';
+          String(line).split(/\s+/).forEach(function (wd) {
+            var t = cur ? cur + ' ' + wd : wd;
+            if (probe.measureText(t).width > pw - pad * 2 && cur) { rows.push(cur); cur = wd; } else cur = t;
+          });
+          rows.push(cur);
+        });
+        var th = o.title ? Math.round(size * 1.5) + 18 : 0, ph = pad * 2 + th + rows.length * Math.round(size * 1.3);
+        var map = tex(pw, ph, function (g) {
+          g.fillStyle = css(o.ground); g.fillRect(0, 0, pw, ph);
+          if (o.edge) { g.strokeStyle = css(o.edge); g.lineWidth = 10; g.strokeRect(5, 5, pw - 10, ph - 10); }
+          g.fillStyle = css(o.ink); g.textBaseline = 'top'; g.textAlign = 'left';
+          var y = pad;
+          if (o.title) { g.font = '700 ' + Math.round(size * 1.5) + 'px ' + face; g.fillText(o.title, pad, y); y += th; }
+          g.font = size + 'px ' + face;
+          rows.forEach(function (r) { g.fillText(r, pad, y); y += Math.round(size * 1.3); });
+        });
+        var h = o.w * ph / pw;
+        this.sheet(map, o.w, h, o.m);
+        return h;
+      },
       // bulbs(points, r, inks): a string of little glass bulbs at points
       // ([x, y, z]), coloured in turn from inks, one mesh however many.
       bulbs: function (points, r, inks) {
@@ -1454,19 +1912,38 @@ function start() {
         var LEVELS = ['Out', 'Low', 'Lit'], BULB = [0.14, 0.55, 1], WASH = [0, 0.45, 1];
         var lvl = 2, set = 0, tw = null, lt = { els: [] }, tmp = new THREE.Color();
         var washes = (o.washes || []).map(function (l) { return { l: l, i: l.intensity }; });
+        // o.cycle (Helen Edgar's ask, 2026-11-11, her Play Pod's sensory mats):
+        // instead of twinkling, each bulb drifts from one of the set's inks to
+        // the next, a whole TWINKLE for each step, so a colour changes over
+        // seconds and nothing flashes.
+        var tmp2 = new THREE.Color();
         function paint(s) {
           var inks = o.sets[set].inks.map(col);
           o.strings.forEach(function (b) {
             for (var i = 0; i < b.n; i++) {
+              if (o.cycle && s != null && inks.length > 1) {
+                var t = s / TWINKLE + b.ph[i] * inks.length, j = Math.floor(t) % inks.length, u = t - Math.floor(t);
+                u = u * u * (3 - 2 * u);
+                tmp.copy(inks[j]).lerp(tmp2.copy(inks[(j + 1) % inks.length]), u).multiplyScalar(BULB[lvl]);
+                b.mesh.setColorAt(i, tmp);
+                continue;
+              }
               var f = s == null ? 1 : TWINKLE_LOW + (1 - TWINKLE_LOW) * (0.5 + 0.5 * Math.cos((s / TWINKLE + b.ph[i]) * Math.PI * 2));
               b.mesh.setColorAt(i, tmp.copy(inks[i % inks.length]).multiplyScalar(BULB[lvl] * f));
             }
             b.mesh.instanceColor.needsUpdate = true;
           });
-          washes.forEach(function (w) { w.l.color.copy(inks[0]); w.l.intensity = w.i * WASH[lvl]; });
+          washes.forEach(function (w, wi) {
+            if (o.cycle && s != null && inks.length > 1) {
+              var t2 = s / TWINKLE + wi * 0.37, j2 = Math.floor(t2) % inks.length, u2 = t2 - Math.floor(t2);
+              u2 = u2 * u2 * (3 - 2 * u2);
+              w.l.color.copy(inks[j2]).lerp(tmp2.copy(inks[(j2 + 1) % inks.length]), u2);
+            } else w.l.color.copy(inks[0]);
+            w.l.intensity = w.i * WASH[lvl];
+          });
         }
         var mv = addMove({ max: !!o.max, step: function (s) { paint(s); }, rest: function () { paint(null); } });
-        tw = moveSwitch(mv, o.twinkle || 'Let them twinkle', function (on) { return on ? 'They twinkle, slowly, each in its own time.' : 'They hold still.'; });
+        tw = moveSwitch(mv, o.twinkle || (o.cycle ? 'Let the colours change' : 'Let them twinkle'), function (on) { return on ? (o.cycle ? 'The colours change, slowly, one into the next.' : 'They twinkle, slowly, each in its own time.') : 'They hold still.'; });
         lt.make = function (here) {
           var g = document.createElement('div');
           g.className = 'cel-roomctl__group';
@@ -1623,9 +2100,17 @@ function start() {
     sc.addEventListener('error', function () { window.location.href = page; });
     document.head.appendChild(sc);
   }
+  // A room's sounds stop as you go out of it, either way (into a room off it,
+  // or back out), so a sound is only ever heard in the room it is in.
+  function soundsOff() {
+    var S = window.loveCelSounds, ks = (scene && scene.userData.sounds) || [];
+    if (S) ks.forEach(function (k) { S.off(k); });
+  }
   function enter(page, push, then) {
     if (!ROOMS[page] || (inside && inside.page === page)) return;
     var from = inside;
+    soundsOff();
+    if (inside && inside.tunnel && push !== false && stops.some(function (t) { return t.page === page; })) travelStart(inside.tunnel);
     roomFile(page, function (room) {
       if (inside !== from) return;
       // Arriving straight at a room that opens off another (by its address),
@@ -1641,8 +2126,16 @@ function start() {
       scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = 'none'; });
       scene = new THREE.Scene(); far = []; hits = []; buckets = {};
       var name = room.name || (door ? door.room || door.name : page);
+      lookNow = lookChoice || room.look || 'cel';
+      // In the real look nothing is lifted to a bright step by the cel's
+      // gradient, so the room gets a little even light of its own to stand on.
+      // A room says `dusk` (0 to 1) to have less of it: Looking-Glass House at
+      // its tea party (Helen, 2026-11-12) is lit by its own candles and fairy
+      // lights, and the even light would wash them out.
+      if (real()) scene.add(new THREE.AmbientLight(col('--cel-page'), 0.55 * (1 - Math.min(1, Math.max(0, room.dusk || 0)))));
       var k = kit(page, name);
       var made = room.build(k);
+      lookNow = 'cel';
       // A room with a basket of wings (Helen Edgar's yurt, 2026-11-09) lends a
       // pair while you are in it: a row under the room's own switches, None
       // first. The pair goes with your place to the radio (spotTell), and back
@@ -1658,12 +2151,18 @@ function start() {
           } });
       }
       bake();
-      inside = { page: page, name: name, vr: !!made.vr };
+      xrSeat = 0; seated = null; stature = null; xrTour = 0;
+      inside = { page: page, name: name, vr: !!made.vr, from: room.from || null, tunnel: room.tunnel || null };
+      if (travel) travel.arrived = true;
+      // A room that starts at a level of its own (Helen's yurt at MAX GLITTER,
+      // 2026-11-11): love.js decides, honouring a dial the visitor has set and
+      // a device that asks for less, and stores nothing.
+      if (made.glitter && window.loveLevel && window.loveLevel.start) window.loveLevel.start(made.glitter);
       stops = made.stops; bounds = made.bounds;
       me = { x: made.start.x, z: made.start.z, yaw: made.start.yaw || 0, pitch: 0.05 };
       up = false; glide = null; held = {};
       if (push !== false) history.pushState({ celIn: page }, '', '#in=' + page.replace(/\.html$/, ''));
-      wayOut(); places(); roomCtl(); vrOffer(); radioRoom();
+      wayOut(); places(); roomCtl(); vrOffer(); radioRoom(); lookShow();
       said = '';
       draw(); tell(); plateUp(); moves();
       if (xrOn && inside.vr) vrStand({ x: me.x, z: me.z, yaw: me.yaw });
@@ -1700,6 +2199,9 @@ function start() {
   }
   function leave() {
     if (!inside) return;
+    soundsOff();
+    var into = behind.length ? behind[behind.length - 1].inside : null;
+    if (into && into.tunnel && inside.from === into.page) travelStart(into.tunnel);
     scene.traverse(function (o) {
       if (o.geometry) o.geometry.dispose();
       if (o.isCSS3DObject && o.element.parentNode) o.element.parentNode.removeChild(o.element);
@@ -1707,8 +2209,10 @@ function start() {
     var was = behind.pop();
     scene = was.scene; far = was.far; stops = was.stops; bounds = was.bounds; hits = was.hits; me = was.me;
     inside = was.inside; glide = null; held = {}; wornWings = null;
+    xrSeat = 0; seated = null; stature = null;
     // The room you came back into shows its own page again.
     scene.traverse(function (o) { if (o.isCSS3DObject) o.element.style.display = ''; });
+    if (travel) travel.arrived = true;
     wayOut(); places(); roomCtl(); vrOffer(); radioRoom();
     if (!inside && list) list.querySelectorAll('a').forEach(function (a) { a.removeAttribute('tabindex'); });
     said = '';
@@ -1949,6 +2453,7 @@ function start() {
     var dt = last ? Math.min((now - last) / 1000, 0.1) : 0;
     last = now;
     var any = false;
+    if (travel) { travelStep(dt, now); any = !!travel; }
     Object.keys(held).forEach(function (w) { if (held[w]) { any = true; act(w, { m: WALK * dt, t: TURN * dt }); } });
     if (glide) {
       glide.t = Math.min(1, glide.t + dt / glide.len);
@@ -2311,6 +2816,8 @@ function start() {
     ray.setFromCamera(ndc, camera);
     var hit = ray.intersectObjects(hits, false)[0];
     // A thing a room lets you press is pressed; anything else stands you there.
+    if (hit && hit.object.userData.take && heldBy('screen') && putOn(hit.object, 'screen')) return;
+    if (hit && hit.object.userData.hold) { holdToggle(hit.object, 'screen'); return; }
     if (hit && hit.object.userData.act) hit.object.userData.act.go();
     else if (hit) standAt(stops[hit.object.userData.stop]);
     stage.focus({ preventScroll: true });
@@ -2592,6 +3099,20 @@ function start() {
   // over, about a fifth of a turn: slow, because turning is the most
   // sickening way to be moved. With gliding off, a stick steps you round.
   var VR_WALK = 1.4, VR_TURN = 1.2, xrGlide = true, xrGoing = false, xrPrev = 0, xrWhy = '';
+  // HELEN EDGAR'S HEADSET ROUND (2026-11-11, after her first real headset:
+  // "do all of above"): xrStep is the snap turn, a twelfth, an eighth or a
+  // quarter of the way round; xrSeat how far below standing eye height you
+  // sit (the panel's Sit down, or a room's kit.sit); xrVoice whether each
+  // place is read aloud as you arrive, in the headset only; xrTour the guided
+  // walk's next place, 0 when not walking; xrDim a moment of dark the walk
+  // puts between places; vignette the ring that darkens the edges of the view
+  // while a stick glides you, which is what keeps a glide from turning a
+  // stomach; xrMode VR or passthrough. SEAT is a sitting eye height below
+  // standing, TOUR_EVERY the walk's pace.
+  var stature = null;
+  var xrStep = STEP_TURN, xrSeat = 0, xrVoice = true, xrTour = 0, xrTourAt = 0, xrDim = 0, vignette = null, xrMode = 'immersive-vr', arCan = false, xrSky = null;
+  var SEAT = 0.55, TOUR_EVERY = 7000, seated = null;
+  var arBtn = document.querySelector('[data-cel-ar]');
   // Whether where you are now can be shown in a headset: the street can, and
   // a room only when its file says vr: true.
   function vrHere() { return inside ? inside.vr : true; }
@@ -2607,6 +3128,7 @@ function start() {
   }
   function vrOffer() {
     if (vrBtn) vrBtn.hidden = !(xrCan && vrHere()) && !xrOn;
+    if (arBtn) arBtn.hidden = !(arCan && vrHere()) || xrOn;
     if (!xrOn) return;
     panelWords = '';
     if (vrHere()) { vrPanel(); return; }
@@ -2694,6 +3216,17 @@ function start() {
         go: function () { act('climb'); place(); vrPanelPlace(); tell(); vrTell(up ? 'Up over the roofs, looking down on the solar panels. One press brings you back down.' : 'Back down on the street.'); } });
       items.push({ words: xrGlide ? 'Gliding with the sticks: switch to steps' : 'Steps: switch to gliding with the sticks', pressed: !xrGlide,
         go: function () { xrGlide = !xrGlide; vrTell(xrGlide ? 'Gliding: push a stick forward or back to walk, or sideways to turn.' : 'Steps: a stick turns you a twelfth of the way round at a time; point and press to move.'); } });
+      items.push({ words: xrSeat ? 'Stand up' : 'Sit down where you are (eyes at a sitting height)', pressed: !!xrSeat,
+        go: function () { xrSeat = xrSeat ? 0 : SEAT; seated = null; place(); vrPanelPlace(); vrTell(xrSeat ? 'Sitting: your eyes are at a sitting height. Stand up puts them back.' : 'Standing again.'); } });
+      items.push({ words: 'A little lower', go: function () { xrSeat = Math.min(1.0, xrSeat + 0.08); place(); vrPanelPlace(); vrTell('A little lower.'); } });
+      items.push({ words: 'A little higher', go: function () { xrSeat = Math.max(-0.4, xrSeat - 0.08); place(); vrPanelPlace(); vrTell('A little higher.'); } });
+      items.push({ words: 'Snap turn ' + Math.round(xrStep * 180 / Math.PI) + ' degrees (press to change)',
+        go: function () { xrStep = xrStep === Math.PI / 6 ? Math.PI / 4 : xrStep === Math.PI / 4 ? Math.PI / 2 : Math.PI / 6; vrPanel(); vrTell('Snap turns of ' + Math.round(xrStep * 180 / Math.PI) + ' degrees, in steps.'); } });
+      items.push({ words: 'Put me back at the way in', go: function () { if (stops[0]) vrStand(stops[0]); vrTell('Back at the way in.'); } });
+      items.push({ words: xrVoice ? 'Places read aloud: on' : 'Places read aloud: off', pressed: xrVoice,
+        go: function () { xrVoice = !xrVoice; if (!xrVoice && window.speechSynthesis) window.speechSynthesis.cancel(); vrPanel(); vrTell(xrVoice ? 'Each place is read aloud as you arrive.' : 'Places are not read aloud.'); } });
+      if (inside) items.push({ words: xrTour ? 'Stop the walk round' : 'Walk me round the room, place by place (any press stops it)', pressed: !!xrTour, go: function () { tourToggle(); } });
+      if (inside) items.push({ words: lookOf() === 'real' ? 'Look: real (press for cel)' : 'Look: cel (press for real)', go: function () { relook(); } });
       items.push({ words: 'Put the switches away', go: function () { panelOpen = false; vrPanel(); } });
       items.push({ words: 'Take the headset out of the room', go: function () { if (xrSession) xrSession.end(); } });
     } else {
@@ -2743,8 +3276,11 @@ function start() {
   }
   function pressWith(hand) {
     var a = aimOf(hand);
+    if (xrTour) { xrTour = 0; vrTell('The walk round stops here.'); }
     if (!a) return;
     if (a.tile) { if (a.tile.btn) a.tile.btn.click(); else a.tile.go(); vrPanel(); return; }
+    if (a.hit && a.hit.userData.take && heldBy(hand) && putOn(a.hit, hand)) { vrPanel(); return; }
+    if (a.hit && a.hit.userData.hold) { holdToggle(a.hit, hand); vrPanel(); return; }
     if (a.hit && a.hit.userData.act) { a.hit.userData.act.go(); vrPanel(); return; }
     if (a.hit) {
       var st = stops[a.hit.userData.stop];
@@ -2765,7 +3301,7 @@ function start() {
       hand.addEventListener('connected', function (e) { this.userData.src = e.data; });
       hand.addEventListener('disconnected', function () { this.userData.src = null; this.userData.beam.visible = false; this.userData.dot.visible = false; });
       hand.addEventListener('select', function () { pressWith(this); });
-      hand.addEventListener('squeeze', function () { panelOpen = !panelOpen; vrPanel(); vrPanelPlace(); });
+      hand.addEventListener('squeeze', function () { xrTour = 0; panelOpen = !panelOpen; vrPanel(); vrPanelPlace(); });
       dolly.add(hand); hands.push(hand);
     }
   }
@@ -2785,7 +3321,7 @@ function start() {
       if (xrGlide) { if (Math.abs(x) > Math.abs(spin)) spin = x; return; }
       if (Math.abs(x) > 0.6 && !hand.userData.turned) {
         hand.userData.turned = true;
-        var hw = headWorld(), yaw = me.yaw - Math.sign(x) * STEP_TURN, h = headLocal(), c = Math.cos(yaw), s = Math.sin(yaw);
+        var hw = headWorld(), yaw = me.yaw - Math.sign(x) * xrStep, h = headLocal(), c = Math.cos(yaw), s = Math.sin(yaw);
         me.yaw = yaw; me.x = hw.x - (c * h.x + s * h.z); me.z = hw.z - (-s * h.x + c * h.z);
         vrPanelPlace();
       } else if (Math.abs(x) < 0.3) hand.userData.turned = false;
@@ -2796,6 +3332,7 @@ function start() {
       me.yaw = yaw; me.x = hw0.x - (c * h.x + s * h.z); me.z = hw0.z - (-s * h.x + c * h.z);
     }
     var f = Math.abs(push) > 0.2 ? Math.sign(push) * (Math.abs(push) - 0.2) / 0.8 : 0;
+    if (f || r) xrTour = 0;
     if (xrGlide && (f || r)) xrGoing = true;
     if (xrGlide && f && dt) {
       var hw = headWorld(), d = f * VR_WALK * dt;
@@ -2804,18 +3341,71 @@ function start() {
     }
     if (!(xrGlide && (f || r)) && xrGoing) { xrGoing = false; vrPanelPlace(); tell(); }
   }
+  // THE GUIDED WALK (Helen's headset round): one press, and you are stood at
+  // each of the room's places in turn, a few seconds at each, with a moment
+  // of dark between (the vignette closing and opening), never carried; any
+  // press, squeeze or stick stops it. For anybody who finds the sticks hard.
+  function tourToggle() {
+    if (xrTour) { xrTour = 0; vrTell('The walk round stops here.'); return; }
+    xrTour = 1; xrTourAt = 0;
+    vrTell('Walking you round the room, place by place, with a moment of dark between; any press stops it.');
+  }
+  function tourStep(now) {
+    if (!xrTour || !inside) return;
+    if (xrTourAt && now - xrTourAt < TOUR_EVERY) return;
+    var i = xrTour - 1;
+    if (i >= stops.length) { xrTour = 0; vrTell('That was the whole room.'); return; }
+    xrTourAt = now; xrTour++; xrDim = 1;
+    vrStand(stops[i]);
+  }
+  // The vignette: a ring at the edge of the view, dark while a stick glides
+  // you and for the walk's moment between places, clear otherwise; it is on
+  // the camera, so it goes where the head goes, and it hides nothing when
+  // you stand still.
+  function vignetteUp() {
+    if (vignette) return;
+    vignette = new THREE.Mesh(new THREE.RingGeometry(0.24, 2.0, 32), new THREE.MeshBasicMaterial({ color: col('--cel-ink'), transparent: true, opacity: 0, depthTest: false, depthWrite: false, side: THREE.DoubleSide }));
+    vignette.position.set(0, 0, -0.5); vignette.renderOrder = 999;
+    camera.add(vignette);
+  }
+  function vignetteStep(dt) {
+    if (!vignette) return;
+    var want = xrGoing ? 0.82 : 0;
+    if (xrDim > 0) { want = Math.max(want, Math.min(1, xrDim)); xrDim = Math.max(0, xrDim - dt * 1.6); }
+    var o = vignette.material.opacity;
+    vignette.material.opacity = o + (want - o) * Math.min(1, dt * 9);
+  }
+  var ARC = [];
+  for (var ai = 0; ai <= 12; ai++) ARC.push(new THREE.Vector3());
+  var arcP = new THREE.Vector3();
   function xrBeams() {
     hands.forEach(function (hand) {
       var u = hand.userData, src = u.src;
       var shown = !!src && src.targetRayMode === 'tracked-pointer';
       var a = shown ? aimOf(hand) : null;
       u.beam.visible = shown;
-      u.beam.scale.z = a ? a.d : 3;
+      if (a && a.floor) {
+        // Pointing at the floor, the beam sags to where you would stand, as a
+        // thrown rope would, so the spot reads as a spot and not a wall.
+        var d = a.d;
+        for (var k = 0; k <= 12; k++) {
+          var t = k / 12;
+          arcP.copy(xrRay.ray.origin).addScaledVector(xrRay.ray.direction, d * t);
+          arcP.y += Math.sin(t * Math.PI) * Math.min(0.6, d * 0.12);
+          hand.worldToLocal(arcP);
+          ARC[k].copy(arcP);
+        }
+        u.beam.geometry.setFromPoints(ARC); u.beam.scale.z = 1;
+      } else {
+        u.beam.geometry.setFromPoints([new THREE.Vector3(), new THREE.Vector3(0, 0, -1)]);
+        u.beam.scale.z = a ? a.d : 3;
+      }
       if (u.dot.parent !== scene) scene.add(u.dot);
       u.dot.visible = !!a && !a.tile;
       if (u.dot.visible) {
         u.dot.position.copy(xrRay.ray.origin).addScaledVector(xrRay.ray.direction, a.d - 0.01);
-        u.dot.lookAt(xrRay.ray.origin);
+        if (a.floor) { u.dot.position.y = 0.01; u.dot.rotation.set(-Math.PI / 2, 0, 0); u.dot.scale.setScalar(4); }
+        else { u.dot.lookAt(xrRay.ray.origin); u.dot.scale.setScalar(1); }
       }
       panelTiles.forEach(function (t) { if (t.userData.tile) t.scale.setScalar(a && a.tile === t.userData.tile ? 1.06 : 1); });
     });
@@ -2823,9 +3413,13 @@ function start() {
   function xrFrame(now) {
     if (dolly.parent !== scene) scene.add(dolly);
     stepMoves(now);
-    xrSticks(xrPrev ? Math.min((now - xrPrev) / 1000, 0.1) : 0);
+    var dt = xrPrev ? Math.min((now - xrPrev) / 1000, 0.1) : 0;
+    xrSticks(dt);
     xrPrev = now;
+    tourStep(now);
+    vignetteStep(dt);
     place();
+    if (travel) { travelStep(dt, now); if (travel) { travelDraw(); return; } }
     xrBeams();
     renderer.render(scene, camera);
     if (!xrLast) { xrLast = now; vrPanelPlace(); }
@@ -2837,6 +3431,11 @@ function start() {
     hands.forEach(function (hand) { if (hand.userData.dot.parent) hand.userData.dot.parent.remove(hand.userData.dot); dolly.remove(hand); });
     hands = [];
     if (panel) { dolly.remove(panel); panel = null; panelTiles = []; }
+    if (vignette) { camera.remove(vignette); vignette = null; }
+    xrSeat = 0; seated = null; stature = null; xrTour = 0; xrDim = 0;
+    if (window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) {} }
+    if (xrMode === 'immersive-ar') { scene.background = xrSky; skyGroup.visible = true; renderer.setClearAlpha(1); }
+    xrMode = 'immersive-vr';
     dolly.remove(camera);
     if (dolly.parent) dolly.parent.remove(dolly);
     camera.position.set(0, 0, 0); camera.quaternion.identity();
@@ -2849,15 +3448,29 @@ function start() {
   // After three.js has put its own size back, or the picture is drawn at the
   // headset's size and then cleared.
   renderer.xr.addEventListener('sessionend', xrEnd);
-  if (vrBtn) vrBtn.addEventListener('click', function () {
+  if (vrBtn) vrBtn.addEventListener('click', function () { openXR('immersive-vr'); });
+  // PASSTHROUGH (Helen's headset round): on a headset with cameras (a Quest 3),
+  // the same room drawn over your own room, with no sky and no ground of its
+  // own; the yurt's canvas still stands round you, because it is the room.
+  if (arBtn) arBtn.addEventListener('click', function () { openXR('immersive-ar'); });
+  if (navigator.xr && navigator.xr.isSessionSupported) {
+    navigator.xr.isSessionSupported('immersive-ar').then(function (ok) { arCan = !!ok; vrOffer(); }).catch(function () {});
+  }
+  function openXR(mode) {
     if (xrSession) { xrSession.end(); return; }
-    navigator.xr.requestSession('immersive-vr', { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] }).then(function (session) {
+    xrMode = mode;
+    navigator.xr.requestSession(mode, { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] }).then(function (session) {
       xrSession = session;
       renderer.xr.enabled = true;
       renderer.xr.setReferenceSpaceType('local-floor');
+      // Sharpest in the middle of the view, where you look, lighter at the
+      // edges: what a standalone headset needs to keep its frames.
+      try { renderer.xr.setFoveation(1); } catch (e) { /* not every browser */ }
       return renderer.xr.setSession(session).then(function () {
         xrOn = true; glide = null; held = {};
         dolly.add(camera); scene.add(dolly);
+        vignetteUp();
+        if (mode === 'immersive-ar') { xrSky = scene.background; scene.background = null; skyGroup.visible = false; renderer.setClearAlpha(0); }
         handsUp(); panelOpen = true; panelWords = ''; vrPanel();
         renderer.setAnimationLoop(xrFrame);
         vrBtn.textContent = 'Leave VR';
@@ -2867,7 +3480,32 @@ function start() {
       xrSession = null; renderer.xr.enabled = false;
       if (vrNote) vrNote.textContent = 'The headset could not open the room just now.';
     });
-  });
+  }
+
+  /* ── The look, flipped for this visit ──────────────────────────────────── */
+  // Under the stage, in a room only (the street stays in its cel): the room
+  // you are in drawn again in the other look, where you stand, kept nowhere.
+  var lookBtn = document.querySelector('[data-cel-look]');
+  function lookOf() { return inside ? (lookChoice || (window.loveCelRooms[inside.page] || {}).look || 'cel') : 'cel'; }
+  function lookShow() {
+    if (!lookBtn) return;
+    lookBtn.hidden = !inside;
+    lookBtn.textContent = lookOf() === 'real' ? 'Look: real (press for cel)' : 'Look: cel (press for real)';
+  }
+  function relook() {
+    if (!inside) return;
+    lookChoice = lookOf() === 'real' ? 'cel' : 'real';
+    var pg = inside.page, was = { x: me.x, z: me.z, yaw: me.yaw, pitch: me.pitch };
+    outOfRoom();
+    enter(pg, false, function () {
+      me.x = was.x; me.z = was.z; me.yaw = was.yaw; me.pitch = was.pitch;
+      // Back out pushed the parent's address; the room is still the room.
+      history.replaceState({ celIn: pg }, '', '#in=' + pg.replace(/\.html$/, ''));
+      place(); draw(); tell(); lookShow(); vrPanelPlace();
+    });
+    ctlSay(lookChoice === 'real' ? 'The room is drawn in the real look: smooth and lit, no inked edges, the same colours.' : 'The room is drawn in the cel look: flat colour and inked edges.');
+  }
+  if (lookBtn) lookBtn.addEventListener('click', relook);
 
   /* ── Read the street, then build ───────────────────────────────────────── */
   fetch('index.html', { credentials: 'same-origin', cache: 'no-cache' })

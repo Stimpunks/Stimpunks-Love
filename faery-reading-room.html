@@ -80,8 +80,8 @@
       <path d="M140 71 H260 L256 76 H144 Z" fill="var(--rdr-stone)"/>
       <g stroke="var(--rdr-timber)" stroke-width="7" stroke-linecap="round"><path d="M178 138 L222 130"/><path d="M180 128 L224 140"/></g>
       <path d="M186 136 Q182 118 196 108 Q194 122 204 116 Q210 100 220 112 Q226 124 214 136 Z" fill="var(--rdr-ember)"/>
-      <path d="M190 136 Q190 120 200 112 Q200 124 208 118 Q214 108 216 120 Q218 130 208 136 Z" fill="var(--rdr-flame)"/>
-      <path d="M197 136 Q197 126 203 120 Q206 128 209 125 Q211 132 206 136 Z" fill="var(--rdr-flame-2)"/>
+      <path class="rdr-fire__tongue" d="M190 136 Q190 120 200 112 Q200 124 208 118 Q214 108 216 120 Q218 130 208 136 Z" fill="var(--rdr-flame)"/>
+      <path class="rdr-fire__tongue rdr-fire__tongue--2" d="M197 136 Q197 126 203 120 Q206 128 209 125 Q211 132 206 136 Z" fill="var(--rdr-flame-2)"/>
       <!-- two candles on the mantel, and one in a sconce on each wall; none flickers -->
       <g id="rdr-candle">
         <rect x="-2.5" y="-16" width="5" height="16" fill="var(--rdr-ink)"/>
@@ -139,6 +139,27 @@
       <!-- an open book left on the sofa -->
       <path d="M70 100 q8 -3 14 0 q6 -3 14 0 v3 q-8 -3 -14 0 q-6 -3 -14 0 Z" fill="var(--rdr-ink)" opacity=".9"/>
     </svg>
+    <!-- THE REAL FIRE, AND ITS CRACKLE (Helen's asks, 2026-11-11: "real fire
+         in reading room with crackling fire sound, all real open source, not
+         YouTube", then "i need a real fire video"). The film is a log fire,
+         Kaminfeuer by Larvis, CC BY-SA 4.0 via Wikimedia Commons, cut to a
+         nine-second loop with its ends crossfaded, every byte of metadata off,
+         kept here as video/reading-room-fire.webm and .mp4 under the same
+         licence as the site, silent; the crackle is rdr-fire.js's arithmetic,
+         no recording. The film burns by itself at MAX, as the drawn fire sways
+         at MAX; Light the fire plays the film and the crackle together at any
+         setting, until pressed again or the page is left; at Regular and
+         Gentle the film stands at its poster until pressed. The button is
+         hidden with no script, because without one it would do nothing. -->
+    <figure class="rdr-magic rdr-fire" data-rdr-hearth>
+      <video class="rdr-hearth__video" muted loop playsinline preload="metadata" width="640" height="360" poster="video/reading-room-fire-poster.webp" aria-label="A log fire burning in a hearth, filmed: flames over two logs, with embers under them" data-rdr-hearth-video>
+        <source src="video/reading-room-fire.webm" type="video/webm">
+        <source src="video/reading-room-fire.mp4" type="video/mp4">
+      </video>
+      <p class="rdr-magic__row" data-rdr-fire-box hidden><button type="button" class="rdr-magic__btn" data-rdr-fire aria-pressed="false">Light the fire</button></p>
+      <figcaption class="rdr-magic__note">A real log fire: <a href="https://commons.wikimedia.org/wiki/File:Kaminfeuer.webm">Kaminfeuer</a>, filmed by Larvis, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, via Wikimedia Commons, cut to a nine-second loop and kept here, silent. It burns by itself at MAX GLITTER; the button lights it at any setting, and with it a crackle made of arithmetic in your browser (no recording, nothing fetched, nothing kept), until you press again or leave.</figcaption>
+      <p class="sr" role="status" aria-live="polite" data-rdr-fire-said></p>
+    </figure>
     <p class="rdr-eyebrow">Behind the Faery Yurt &middot; through the bookcase door</p>
     <h1>The Reading Room</h1>
     <p class="rdr-tagline">Every book I keep, a fire that has caught, and a chair that is yours while you are in it.</p>
@@ -154,7 +175,7 @@
         <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
       </div>
       <p class="dial__note" aria-live="polite"></p>
-      <p class="dial__fine">Starts wherever your device says. In here MAX turns the record on the gramophone; nothing else moves at any setting unless you ask it to, below, and the candles stand still.</p>
+      <p class="dial__fine">Starts wherever your device says. In here MAX turns the record on the gramophone and lets the fire flicker in the hearth; nothing else moves at any setting unless you ask it to, below, and the candles stand still.</p>
     </div>
     <!-- Join the Faeries and Grow a garden, Helen's ask, 2026-10-15, in here as
          well as in the yurt: yurt-garden.js finds the box by its data attribute
@@ -1222,5 +1243,6 @@
 <script src="rack.js" defer></script>
 <script src="quest.js" defer></script>
 <script src="yurt-garden.js" defer></script>
+<script src="rdr-fire.js" defer></script>
 </body>
 </html>

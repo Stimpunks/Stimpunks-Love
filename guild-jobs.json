@@ -742,6 +742,11 @@
    "room": "Spaceholder Saloon"
   },
   {
+   "id": "cpc-pencil",
+   "title": "What the cave is never",
+   "room": "Cavendish Primary Classroom"
+  },
+  {
    "id": "sfb-drop",
    "title": "Somewhere to go under",
    "room": "Scalable Feast Ballroom"

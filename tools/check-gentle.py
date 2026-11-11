@@ -136,10 +136,13 @@ JS = r"""
     var rows = [];
     for (var i = 0; i < all.length; i++) {
       var s = getComputedStyle(all[i]);
-      rows.push([wobble(s.transform), s.transform, s.animationName,
-                 getComputedStyle(all[i], '::before').animationName,
-                 getComputedStyle(all[i], '::after').animationName,
-                 s.transitionDuration]);
+      // An element Chrome never renders (a <source> inside a <video>, found
+      // 2026-11-11) has no computed animation at all and answers '', which
+      // is nothing moving; read as none, not as a name.
+      rows.push([wobble(s.transform), s.transform, s.animationName || 'none',
+                 getComputedStyle(all[i], '::before').animationName || 'none',
+                 getComputedStyle(all[i], '::after').animationName || 'none',
+                 s.transitionDuration || '0s']);
     }
     return {rows: rows, text: document.body.innerText.replace(/\s+/g, ' ').trim()};
   }

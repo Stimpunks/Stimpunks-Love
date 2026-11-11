@@ -1777,6 +1777,162 @@ something to do"**, **the calendar asking for the browser's location "to save ty
 crowd with faces in it**, **a tidier Stonehenge sunset passed off as the midwinter one**, and **the mist swirling at Gentle
 "because it is only mist"**.
 
+**EVERY WAY THROUGH THE 3D YURT IS A PORTAL, AND THE FAERIES FLY ONLY WHEN ASKED.** Helen Edgar's ask, 2026-11-11
+("all doors and portals on the side of the yurt", "more magical and realistic 3D", "growing ivy and flowers and
+mushrooms and faeries flying around portal entrances", "really good and 3D in all rooms"): `portal()` in
+`cel-in-faery-yurt.js` dresses each way through (and the gilt looking-glass added that day, the way to Looking-Glass
+House, which got `cel-in-looking-glass-house.js`) in ivy, flowers in her `--yurt-fog-*` and `--toadstool`, toadstools and
+glowing mushrooms, a halo, a shimmer across an opening, a candle's warmth, sparkle on the fairy lights' own strings, and
+two faeries perched on the ivy; **Let the garden grow** shows a second flush (facets, hidden until pressed) and **Let the
+faeries fly** is `kit.drift`, the fourth kit mover (cel-street.js, 2026-11-11: things that fly about a point, each on its
+own loop, never round quicker than `TURN_MIN`, wings folding on the page's own 1.7-second flutter, `max: false` because
+her page's faeries drift only when asked; `make-cel-street.py` holds its floor). The faeries wear `--cb-fairy-skin-N`,
+`--cb-fairy-hair-N` and `--cb-fairy-wing-N`, written out in full, because the tool reads `'--name'` literals and refuses a
+name built from a string. Every room behind a portal had a round of its own the same day, its way back dressed the same
+way in its own inks and under its own rules (no flame in the hollow or Myths, glow paint under the Play Pod's lamp), and
+then a round for the headset ("more magical and more 3d and real for VR"): a headset shows only WebGL, never a CSS3D page
+or lift, so each room draws in WebGL what its screen shows. **Myths & Legends on Cel Street is a crystal cave** (Helen,
+the same afternoon: "like a crystal cave inside, not a yurt"), rock and a vaulted roof with amethyst, amber and quartz
+growing from them, still lit through stone with no flame; her page's §128 still calls the page the Reading Room's house,
+which is the page's own look and was not changed. **The Reading Room's fire is real, and its crackle is arithmetic** (Helen, the same afternoon: "real fire
+in reading room with crackling fire sound, all real open source, not YouTube, want it to be on constantly"): a bed of
+tongues on `kit.flames` with `max: true`, allowed because her page's two drawn tongues sway at MAX since that day (§114,
+`rdr-fire__tongue`), and `rdr-fire.js`, twelve seconds of fire drawn out of noise and looped, no recording, nothing
+fetched or hosted, under `MAX_GAIN` 0.2, a button on her page and a `kit.press` in the room through `kit.wire`; off until
+pressed, because a browser lets no page sound before a press and nothing here plays until you press. The friendly edits
+are a recording "because it sounds better" (hosting audio here is a decision, the Latibulum's rule) and the crackle
+starting by itself. **Her yurt starts at MAX GLITTER** ("Set all as max glitter as default in main yurt and cel street
+VR yurt with option to change"): `data-start="max"` on faery-yurt.html's `<html>`, `glitter: 'max'` in its room file,
+and `loveLevel.start` in `love.js`, which yields to a stored choice, to prefers-reduced-motion and to a low-stimulation
+mode, stores nothing, and never plays Bring Your Muchness. The friendly edits are storing it "so it sticks", a MAX
+start that ignores reduce-motion, and `data-start` on the street's shared pages, which is Ryan's call. **The fire on film is
+Kaminfeuer, Larvis's, CC BY-SA 4.0 off Commons** (Helen, "i need a real fire video"), nine seconds looped with the ends
+crossfaded, metadata off, in `video/`, credited under it and in the liner notes; `rdr-fire.js` names its files itself
+(`FILMS`), because run for the room on Cel Street the page's `<video>` is in a frame, and hands the room a detached
+video with one `src` it can play (a detached video with `<source>` children never chose one, measured), which the room
+puts on the hearth as a `VideoTexture` on Light the fire, switching the fire's flicker on so the picture is drawn every
+frame. **The Play Pod's lava lamp, bubble tube and mats** (Helen, the same evening) brought `kit.rise` (things that
+rise, with `back` for wax, scaling to nothing at the ends for a bubble, period floored at `TURN_MIN`) and `cycle` on
+`kit.lights` (inks drifting one into the next over `TWINKLE`), both held by the tool. **The headset round** (Helen's ask
+for suggestions, then "commit all your suggested edits"): every way through and every page's frame carries a lettered
+WebGL sign (`kit.paper` and `kit.sheet`, the room naming its `faces`), the stops are a walking order the controller's
+bumpers follow, every switch has a `kit.touch`, thin things are thickened, bounds keep the eye out of walls. The
+friendly edits are a sign copying a sentence of her page, and a tour that skips the way back. **Then, after her first real headset ("do all of above")**: the vignette while a stick glides (`vignette` on the camera),
+`xrSeat` (Sit down and a little lower or higher on the panel, and a room's `kit.sit`), `xrStep` (the snap turn's size),
+Put me back at the way in, `xrVoice` (places read aloud in the headset only, `voice()` from `tell()`), the guided walk
+(`xrTour`, `tourStep` in the headset's frames, a moment of dark between places, never a glide, ended by any press or
+stick), the floor's sagging rope and ring, passthrough (`openXR('immersive-ar')`, the sky and background put away and
+`setClearAlpha(0)`, restored on end; `[data-cel-ar]` ships hidden like Enter VR), foveation, and four kit calls: `hold`
+(a facets/flat mesh carried by `carry()` from the hand or the camera, home on a second press), `sit`, `spatial` (a panner
+between a page script's `output()` and the speakers, `ears()` moving the listener every frame; `rdr-fire.js` and
+`yurt-bell.js` route through one master gain and expose `output()`), and `plaque` (wrapped words on a sheet). Leaving a
+room or the headset stands you up and stops the walk and the voice. The friendly edits are **a glide to a place "since
+the vignette makes it safe"** (the tool still refuses it), **the voice on outside the headset**, **a held thing dropped
+where it is** (left floating), and **a wave sent over the radio** without the privacy page saying so first. **HELEN'S ROOMS ARE DRAWN IN A REAL LOOK, AND A ROOM CHOOSES ITS LOOK** (Helen, 2026-11-11: "more like Second Life and not
+anime cel style, that is my choice", then "an option for anime cel or photo real"): `look: 'real'` on a room's object has
+`solid()` in cel-street.js make `MeshStandardMaterial`s in place of the cel's toon ones (same colours by name, `painted()`
+still), `piece()` draws no inked hull, a little `AmbientLight` stands in for the cel gradient's bright step, `facets`,
+`sheet` and `fabric` follow, and `lookNow` is set only while a room is built; the street stays Ryan's cel. **Look** under
+the stage and on the headset's panel (`relook()`) rebuilds the room you are in by leaving and entering it, keeps your
+place and the address, and stores nothing. `kit.cloth(kind, inkA, inkB, repeat)` draws weave, canvas, knit, velvet, fur,
+pile or leather in two declared inks, `kit.fabric(geo, m, cloth)` wears it (a bump map in the real look), `kit.sit`'s
+`squash` flattens a cushion while sat on, and `kit.place(touch, take)` lets a held thing be put somewhere (`putOn`: take()
+sets the thing's matrix and says what happened, or refuses). The friendly edits are **a photograph as a texture** (a colour
+nobody measured; every cloth is drawn in declared inks), **the street drawn real "to match her rooms"** (Ryan's look),
+**a look remembered in storage**, and **a held thing used on anything** (only a `kit.place` takes one). The
+friendly edits are **faeries flying by themselves at MAX "because the fairy lights twinkle at MAX"** (her page's faeries
+never do), **a faerie drawn from a photograph**, and **one portal drawing for every room**, which is the subroom excuse
+with ivy on it.
+
+**GOING THROUGH ANY PORTAL OF HER YURT IS A TRAVEL THROUGH THE MILKY WAY, AND THE PICTURES ARE HER PAGE'S OWN.** Helen
+Edgar's ask, 2026-11-12 ("a swirling galaxy milky way for each door as you enter ... a spiral space tunnel ... real
+life images ... a slow swirl"): a room says `tunnel: { walls, end, sky }` (`cel-in-faery-yurt.js`: the Milky Way behind
+her Music Room's doors and the Whirlpool Galaxy behind her Cinema's, credited there, on cel-street.html and in the liner
+notes), and `travelStart` in `cel-street.js` plays it on a press between that room and a room off it (`enter` through
+one of its portals, `leave` back through one, never on arriving by address): a tube wrapped in the sky at two depths, the
+galaxy turning at the end and coming closer, `TRAVEL` seconds, fading over `FADE` each way, drawn in place of the room
+while it lasts (the CSS3D pages hidden) and in a headset's frames too; `sky` is how much of the photograph is sky, and
+the ground below it is cropped off the walls, which is the one thing done to the picture. **At Gentle it stands still
+for `TRAVEL_STILL` seconds; in a low-stimulation mode or a hidden tab there is no travel.** `make-cel-street.py` holds
+`SWIRL` and `TURN_GALAXY` under what `TURN_MIN` lets turn and `FADE` to at least four tenths. **Her every page and every
+room of hers starts at MAX GLITTER**, her standing call, with the dial to turn it down. The friendly edits are a
+tunnel on every room's door "so the street is consistent" (a room says `tunnel` or has none), a cut in place of the fade,
+a quicker swirl "so it feels like warp", and a drawn star or a lens flare laid over the photographs.
+
+**HER BOOKS AND RECORDS ON CEL STREET ARE NAMED OFF HER PAGES, AND THE TOOL WRITES THE NAMES.** Helen Edgar's asks,
+2026-11-12 ("pick the books up and choose off the shelf with title on the spines", "same with records"):
+`make-cel-street.py` reads the Reading Room's `.yurt-case` sections (label, every spine's words and link) and the
+`rdr-lp__slot` records, and the Music Room's `mus-lp__slot` records, off her pages, and writes `BOOKS` and `RECORDS`
+between `cel:books` and `cel:records` markers in `cel-in-faery-reading-room.js` and `cel-in-faery-music-room.js`, never
+by hand. Each book is its own `kit.facets` box with a canvas spine lettered up its back (`spinePaper`), in one of six
+inks after her page's six spine classes, `kit.hold` with its words, standing in rows from `TITLED_FROM` (the fourth
+shelf, chest height: the bottom row was out of a standing eye's view) with the drawn fillers above and below; **the
+case's stone back board stands behind the books** (it stood in front of them for a day, unseen while her page's copy
+hung over everything, which is `[hidden]`'s lesson in three dimensions: a thing nobody could see passed every check).
+Each record is a lettered square sleeve, `kit.hold`, and the phonograph's `kit.place` plays a placed sleeve's record
+by pressing its own card's button inside the lifted rack (`#mus-lp-<id>`, `#rdr-lp-<id>`), saying the runtime first,
+so `love-embed.js` still builds the frame and nothing plays until the record is placed. The friendly edits are
+typing a title into a room file, a book that opens to its link in 3D (its link is on her page, on the wall), and a
+record that plays as it is picked up.
+
+**LOOKING-GLASS HOUSE ON CEL STREET IS AT DUSK WITH THE MAD TEA PARTY LAID, AND HER PAGE STAYS SILVER.** Helen
+Edgar's asks, 2026-11-12 ("darker as it stands out being all light", "more faiery and alice and wonderland and teaparty
+and very mad and magical", "add all characters around a tea table and have rabbit and cheshire cat"): the 3D room in
+`cel-in-looking-glass-house.js` reverses its own "silver from everywhere" (walls' body `--lgh-ink-2`, silver kept in the
+bevels, `dusk: 0.92`, which `enter()` in `cel-street.js` reads to scale down the real look's even light, hemisphere
+and directional lights low), lit by candles on the tea table and fairy lights over king-size toadstools, each moving
+only after its switch (`max: false`, because her page's candles are points in the glass). **Her page's §135 rule is
+untouched**: the page stays silver, dark words on silver, and the note above about it going dark still holds there.
+**Carroll's characters round the table are drawn from blocks after Tenniel's engravings and never after Disney's or any
+film's designs** (Carroll died 1898, Tenniel 1914, so they are public domain, unlike the Discworld rooms' people): Alice,
+the Hatter, the March Hare, the Dormouse in a teapot, the White Rabbit apart, the Cheshire Cat in a corner tree whose
+"Let the cat vanish" hides the body and leaves the grin, on a press and never by itself. Teapots pour into cups
+(`kit.place`, the yurt's pattern), EAT ME and DRINK ME are Carroll's words, the clock is stopped at six. The friendly
+edits are a Disney-blue Alice "because that is what Alice looks like", the cat fading by itself at MAX (her page moves
+nothing), and the page's silver darkened "to match the room".
+
+**EVERY ROOM OF HERS HAS SEATS FOR A GROUP, THE CAVE GROWS EVERY STONE OF HER WHEEL, AND THE TEA PARTY'S PEOPLE ARE
+REAL BUT NOT DISNEY'S.** Helen Edgar's asks, 2026-11-12. Seating in every `cel-in-*` room of hers (sofas,
+beanbags, hammocks, cushions, blankets, each `kit.sit`, `squash` where it has a cushion, cloth through `kit.cloth`, in
+the room's own inks, a stop per group, nothing moving); the cave's crystals in `cel-in-faery-myths-room.js` in the
+Crystal Wheel's `--crys-*` inks, prisms with terminations, druses, geodes and columns, `shine()` making each glassy in
+the real look (transparent, low roughness, an emissive of its own ink, guarded by `'roughness' in mat` so the cel look
+is untouched) with a `PointLight` in the big clusters; and the six tea-party figures rebuilt lifelike (`person`,
+`visage`, `locks`) **after Tenniel and Macmillan's coloured editions, never Disney's 1951 designs**, which are in
+copyright: Helen asked for the film as inspiration and was told the limit; the file's header says so. **The first
+build of that round named its face helper `face`, which the file already used for the glass's face geometry, and
+the room stopped building ("face is not a function"): grep a name before adding a helper**, the street's `named`
+lesson a third time. The friendly edits are a Disney likeness "since she asked for the film", a count of seats, and
+crystals in a literal colour "because the photographs are brighter".
+
+**EAT ME MAKES YOU TALL AND DRINK ME MAKES YOU SMALL, AND IT IS ONE HEIGHT THE WHOLE ENGINE READS.** Helen Edgar's
+ask, 2026-11-12 ("cake stands and eat me drink me bottles and food"): `kit.stature({ tall | small, say, back, done,
+undone, at })` in `cel-street.js` is a press that sets `xrSeat`, the one number `place()` subtracts from the eye on a
+screen and from the dolly in a headset, so growing works in both without a second mechanism; pressed again, leaving the
+room, or the headset's session ending puts you back, and standing up from a seat goes back to the grown height rather
+than to the floor. The spread itself is `cel-in-looking-glass-house.js`'s (tarts, sandwiches, a trolley of stands, a
+side table, every EAT ME and DRINK ME `kit.hold` with the press on its tag's touch). The friendly edits are a size that
+sticks between rooms, growing by itself at MAX, and a mushroom slice "that does something", which the brief refused.
+
+**EVERY ROOM OF HERS ON CEL STREET HAS A SOUND MADE OF ARITHMETIC, AND IT STOPS AT THE ROOM'S EDGE.** Helen Edgar's
+pick, 2026-11-12 ("Sounds first", off a list of what her rooms could still have): `cel-sounds.js`, loaded by
+cel-street.html, draws each sound the way `rdr-fire.js` and `yurt-bell.js` do, oscillators and noise under `MAX_GAIN`
+0.2, a looped bed drawn once with its ends crossfaded (rain, sea, a motor, a kettle's hiss) and events scheduled a
+little ahead on the audio clock (a chime, a pluck, a drip, a bubble, the lid's rattle, the whistle); nothing recorded,
+fetched or hosted. `kit.sound({ kind, pos, at, say, stop, said })` in `cel-street.js` is a room's switch for one, placed
+with `kit.spatial` so it is heard from its thing, off until pressed, and **`soundsOff()` runs from both `enter()` and
+`leave()`**, so a sound never follows you into a room off this one or back out. The kinds are the yurt's chimes (with
+five brass tubes drawn by the door, opposite the bell), the Reading Room's rain, the Music Room's harp, the Cinema's
+projector, the crystal cave's drip, the hollow's sea, the Play Pod's bubbles and Looking-Glass House's kettle (drawn on
+a spirit stove between the two right-hand toadstools; it stood under one's cap for an hour, unseen on the screen). The
+words on a switch are the same at every setting, because a sound somebody pressed for is theirs. `make-cel-street.py`
+holds the ceiling, refuses a recording, a microphone or a request in the file, a `kit.sound` whose kind the file does
+not draw, and the engine losing either `soundsOff()`. **A new sound is a `kind()` in `cel-sounds.js` and a `kit.sound`
+in its room**, never a page script of Helen's changed for a 3D-only sound. The friendly edits are a sound that starts
+as you walk in "to set the mood", a bed that keeps playing through the tunnel into the next room, a recording "because it
+sounds better" (hosting audio here is a decision, the Latibulum's rule), and the YouTube records in the Music Room routed
+through the panner, which a cross-origin frame does not allow.
+
 **THE BASKET OF WINGS BY THE YURT'S DOOR LENDS A PAIR TO YOUR 3D FIGURE, AND HER THREE ANIMALS ARE ASLEEP IN THE SCENE.**
 Helen Edgar's asks, 2026-11-09. A room on Cel Street that lends wings names its pairs (`wings` in `cel-in-faery-yurt.js`,
 exactly `CEL_WINGS` in `lib.mjs`, which `make-cel-street.py` holds both ways and to `cel-street.js`'s `WINGS` drawings);
@@ -3720,6 +3876,28 @@ Arbour is the one to watch** (coloured cloth and tents): there you are inside on
 inside something enormous. Nothing moves below MAX; at MAX the gilt's glints brighten and fade. On Cel Street the hall is
 fifty-odd metres long and fourteen high, the height's plaques hang up the wall at their own heights, the chandeliers can
 be turned low or out and glint at MAX, and the four-poster's curtains draw on a press.
+
+**CAVENDISH PRIMARY CLASSROOM (§152) IS AN EXAMPLE FOR TRAINEE TEACHERS, SEEN FROM A CHILD'S HEIGHT, AND NOBODY IS
+DRAWN IN IT.** Helen Edgar's brief, 2026-11-11: a mainstream primary classroom for thirty, neuroaffirming, with lighting and
+warmth the class adjusts, many kinds of seat and standing desks, a sensory cave, play, learning, a way outdoors and the
+technology a classroom has, promoting the Cavendish Space Project's ethics and signposting cavendish.space; then research on
+universal design and neuroqueer learning spaces, and the room on Cel Street with `vr: true`. `cavendish-primary-classroom.html`
+is hand-built; `classroom.js` sets the drawing's `data-light`, `data-blind`, `data-fan` and `data-cave` and says so under the
+buttons, keeping, sending and moving nothing, and the settings ship hidden. **Every quotation was read on its own page**:
+cavendish.space's word for word (CC0, credit kept), Walker's as our manifesto quotes it, Barrett et al. and Fisher et al. off
+their papers. **Helen and Ryan's chapter for Nick Walker's book is unpublished and nothing is quoted from it**; the page names
+it as forthcoming and lists the published sources it draws on. CAST's UDL guidelines are CAST's copyright, so only the names
+of their three principles are given. **The Playhouse and the Community Center are the ones to watch** (§152 says why). **It is built for sensory avoiders and sensory seekers both** (Helen's ask, the same
+day, after a critique of the first version): caves and a dimmer for children who need less, a movement corner, heavy work
+and the garden for children who need more, more than one cave (a den under a table, a tent in the garden), task lamps for
+a child who needs more light, signing, symbols and home languages, honesty that most schools cannot hand a class the
+heating, a sheet of caves round the whole school (the library, a quiet room that is never a seclusion room, the hall's
+edge, the dining hall's quiet table, the playground) with campfires and watering holes across the school too, so the
+classroom is one example of a whole school, what a small classroom keeps and what it shares with the school or finds
+outdoors (Helen: not every classroom has space for big sensory areas), an example flexible, interest-led day as a table, what the room cannot do
+without the rest of the school, and how to read the research. The
+friendly edits are a behaviour chart "as an example of what not to do" drawn on the wall, bunting and primary colours "because
+it is for children", a child drawn in the cave, and a quotation from the unpublished chapter before the book is out.
 
 **CHAMPURU (§136) IS RYAN'S OWN TABLE, AND NOTHING ON IT SAYS WHAT FOOD DOES FOR A BODY.** Ryan's brief, 2026-11-03:
 a restaurant to sit in when he eats, next door to Vital Plant Living, with Mediterranean and Okinawan dishes and the
@@ -6350,18 +6528,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §153 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §154 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§153 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§154 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §153 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §154 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

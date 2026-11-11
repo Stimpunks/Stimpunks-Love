@@ -1752,6 +1752,18 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
   line-height: 1.4; margin: 0 0 16px; }}
 .og--luis-burrow .og-foot {{ font-family: 'Nunito', sans-serif; color: var(--lbw-moss-2); font-size: 18px; margin: 0; }}
 
+/* cavendish primary classroom — THE ROOM beside the name, lifted off the
+   page whole, from a child's height, with its lamps off and its doors open. */
+.og--cavendish-classroom {{ flex-direction: row; align-items: center; gap: 30px; padding: 30px 40px; }}
+.og--cavendish-classroom .og-words {{ flex: 0 0 440px; }}
+.og--cavendish-classroom .og-room {{ flex: 0 0 640px; line-height: 0; margin: 0; max-width: none; }}
+.og--cavendish-classroom .og-room svg {{ display: block; width: 100%; height: auto; border-radius: 8px; border: 3px solid var(--cpc-birch-2); }}
+.og--cavendish-classroom .cpc-over {{ font-size: 15px; margin: 0 0 8px !important; }}
+.og--cavendish-classroom h1 {{ font-size: 54px; line-height: 1.04; margin: 0 0 14px !important; }}
+.og--cavendish-classroom .og-lede {{ font-family: 'Andika', sans-serif; color: var(--cpc-ink); font-size: 21px;
+  line-height: 1.4; margin: 0 0 14px; }}
+.og--cavendish-classroom .og-foot {{ font-family: 'Andika', sans-serif; color: var(--cpc-ink-2); font-size: 17px; margin: 0; }}
+
 /* new partington power's house — THE PORCH beside the name, lifted off the
    page whole: the brick wall and the mint front door, the porch in its own
    shade, the maker space at the end of it, and the farm pastel through the
@@ -6057,6 +6069,40 @@ def card_burrow(p):
     )
 
 
+def card_classroom(p):
+    # THE ROOM AND THE NAME ARE LIFTED WHOLE, so the card cannot show a
+    # classroom the page does not, and the lede is the page's og:description.
+    # The settings are the page's script's; the card shows the room as it ships.
+    draw = re.search(r'(<svg class="cpc-room__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="cpc-over">(.*?)</p>', p["src"], re.S)
+    trail = re.search(r'<p class="cpc-trail">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and trail and p["h1"]):
+        raise SystemExit(
+            "REFUSING: cavendish-primary-classroom.html has lost the drawing of the room or\n"
+            "its header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--cavendish-classroom" data-fit="card">'
+        f'<div class="og-words"><p class="cpc-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">{trail.group(1)} &middot; stimpunks.world</p></div>'
+        f'<div class="og-room cpc-room" data-cpc-room data-light="day" data-blind="up" data-fan="off" data-cave="off">{draw.group(1)}</div>'
+        f'</div>',
+        f"A putty-coloured card. On the right, a primary classroom seen from a child's height, its lamps off "
+        f"and lit by daylight: on the left, garden doors glazed to the floor standing open onto a fenced garden "
+        f"with grass, a tree and a sail over an outdoor space; on the back wall a felt pinboard with three plain "
+        f"sheets, a picture timetable of simple shapes, a screen on a stand, a small plate with a dimmer and a "
+        f"thermostat, and a rail of headphones; a low shelf of books with blocks under it; on the right a "
+        f"sensory cave of plum cloth with cushions and a string of small lights; on the floor a round low table "
+        f"with a chair and a wobble stool and a den under it behind a hung cloth, a standing desk with a task lamp, "
+        f"a beanbag, a tray of loose parts, an ochre rug with floor cushions, a small tent in the garden, and a "
+        f"movement corner with a crash mat, a balance board and a rocking chair. Nobody is drawn. On the left, small capitals reading {plain(over.group(1))}, "
+        f"then \u201c{p['h1text']}\u201d in large rounded teal lettering, then: {p['desc_plain']} "
+        f"Below it: {plain(trail.group(1))}, stimpunks.world.",
+    )
+
+
 def card_brickhouse(p):
     # THE PORCH AND THE NAME ARE LIFTED WHOLE, so the card cannot show a house
     # the page does not, and the lede is the page's og:description.
@@ -6649,6 +6695,7 @@ CARDS = {
     "arbour":       card_arbour,
     "luis-burrow":  card_burrow,
     "brickhouse":   card_brickhouse,
+    "cavendish-classroom": card_classroom,
     "summit":       card_summit,
     "natures":      card_natures,
     "sanctuary":    card_sanctuary,
