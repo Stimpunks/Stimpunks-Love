@@ -6095,8 +6095,9 @@ def card_classroom(p):
         f"sheets, a picture timetable of simple shapes, a screen on a stand, a small plate with a dimmer and a "
         f"thermostat, and a rail of headphones; a low shelf of books with blocks under it; on the right a "
         f"sensory cave of plum cloth with cushions and a string of small lights; on the floor a round low table "
-        f"with a chair and a wobble stool, a standing desk, a beanbag, a tray of loose parts and an ochre rug "
-        f"with floor cushions. Nobody is drawn. On the left, small capitals reading {plain(over.group(1))}, "
+        f"with a chair and a wobble stool and a den under it behind a hung cloth, a standing desk with a task lamp, "
+        f"a beanbag, a tray of loose parts, an ochre rug with floor cushions, a small tent in the garden, and a "
+        f"movement corner with a crash mat, a balance board and a rocking chair. Nobody is drawn. On the left, small capitals reading {plain(over.group(1))}, "
         f"then \u201c{p['h1text']}\u201d in large rounded teal lettering, then: {p['desc_plain']} "
         f"Below it: {plain(trail.group(1))}, stimpunks.world.",
     )

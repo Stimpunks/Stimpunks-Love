@@ -34405,6 +34405,15 @@ html[data-intensity="max"] .sfb-glint { animation: sfb-glint 6s ease-in-out infi
 .cpc-places .cpc-pl--habitat { border-left-color: var(--cpc-leaf); }
 .cavendish-classroom .cpc-places h3 { margin: 0 0 6px; }
 .cavendish-classroom .cpc-places p { margin: 0; font-size: 17px; }
+/* The example day: a table on the sheet, its rows ruled in the plaster. */
+.cpc-day { width: 100%; border-collapse: collapse; margin: 14px 0; }
+.cavendish-classroom .cpc-day th, .cavendish-classroom .cpc-day td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 2px solid var(--cpc-plaster); font-size: 16px; line-height: 1.5; }
+.cavendish-classroom .cpc-day thead th { font-family: 'Sniglet', var(--sans), sans-serif; font-weight: 400; color: var(--cpc-teal); font-size: 17px; }
+.cavendish-classroom .cpc-day tbody th { white-space: nowrap; font-weight: 700; }
+@media (max-width: 560px) {
+  .cavendish-classroom .cpc-day th, .cavendish-classroom .cpc-day td { padding: 6px 4px; font-size: 15px; }
+  .cavendish-classroom .cpc-day tbody th { white-space: normal; }
+}
 .cpc-refs { margin: 0; padding: 0 0 0 1.2em; }
 .cavendish-classroom .cpc-refs li { font-size: 16px; line-height: 1.5; margin: 0 0 8px; }
 .cpc-go { display: inline-block; margin: 6px 0 0; padding: 10px 18px; border: 2px solid var(--cpc-teal); border-radius: 999px; font-weight: 700; text-decoration: none; }

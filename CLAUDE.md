@@ -3887,7 +3887,14 @@ buttons, keeping, sending and moving nothing, and the settings ship hidden. **Ev
 cavendish.space's word for word (CC0, credit kept), Walker's as our manifesto quotes it, Barrett et al. and Fisher et al. off
 their papers. **Helen and Ryan's chapter for Nick Walker's book is unpublished and nothing is quoted from it**; the page names
 it as forthcoming and lists the published sources it draws on. CAST's UDL guidelines are CAST's copyright, so only the names
-of their three principles are given. **The Playhouse and the Community Center are the ones to watch** (§152 says why). The
+of their three principles are given. **The Playhouse and the Community Center are the ones to watch** (§152 says why). **It is built for sensory avoiders and sensory seekers both** (Helen's ask, the same
+day, after a critique of the first version): caves and a dimmer for children who need less, a movement corner, heavy work
+and the garden for children who need more, more than one cave (a den under a table, a tent in the garden), task lamps for
+a child who needs more light, signing, symbols and home languages, honesty that most schools cannot hand a class the
+heating, a sheet of caves round the whole school (the library, a quiet room that is never a seclusion room, the hall's
+edge, the dining hall's quiet table, the playground) with campfires and watering holes across the school too, so the
+classroom is one example of a whole school, an example flexible, interest-led day as a table, what the room cannot do
+without the rest of the school, and how to read the research. The
 friendly edits are a behaviour chart "as an example of what not to do" drawn on the wall, bunting and primary colours "because
 it is for children", a child drawn in the cave, and a quotation from the unpublished chapter before the book is out.
 

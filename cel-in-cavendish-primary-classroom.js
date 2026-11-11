@@ -199,16 +199,52 @@
         }
       });
 
+      // THE SECOND CAVE: a den under the round table nearest the shelf, a
+      // clay cloth hung over the table to the floor with a way in at the
+      // front, and a cushion inside. And a task lamp on that table, and on
+      // each standing desk, for a child who needs more light than the room.
+      var DEN = TABLES[2];
+      var denCloth = new T.CylinderGeometry(0.66, 0.7, DEN[2], 28, 1, true, 0.5, Math.PI * 2 - 1.0);
+      kit.piece(denCloth, at(DEN[0], DEN[2] / 2, DEN[1], -Math.PI / 2), '--cpc-clay', 0.008);
+      var denSeatGeo = new T.SphereGeometry(0.26, 16, 10); denSeatGeo.scale(1, 0.3, 1);
+      var denSeat = kit.facets(denSeatGeo, at(DEN[0], 0.08, DEN[1]), '--cpc-plum');
+      function taskLamp(x, y, z) {
+        cyl(0.08, 0.09, 0.02, at(x, y + 0.01, z), '--cpc-steel', false, 12);
+        box(0.02, 0.36, 0.02, at(x, y + 0.18, z, 0, 0, 0.25), '--cpc-steel', false);
+        cyl(0.03, 0.08, 0.1, at(x - 0.08, y + 0.36, z, 0, 0, 0.6), '--cpc-lamp', false, 12);
+      }
+      taskLamp(DEN[0] + 0.3, DEN[2] + 0.02, DEN[1] - 0.2);
+      taskLamp(TABLES[0][0] + 0.3, TABLES[0][2] + 0.02, TABLES[0][1] - 0.2);
+
       // STANDING DESKS, on legs that wind up and down, each with a footrest
       // bar to push against, room for two at each.
-      [[3.6, 1.4], [0.1, 2.0]].forEach(function (d) {
+      [[3.0, 1.6], [0.1, 2.0]].forEach(function (d) {
         box(1.3, 0.04, 0.62, at(d[0], 1.0, d[1]), '--cpc-birch', 0.008);
         [-0.55, 0.55].forEach(function (o) {
           box(0.07, 0.98, 0.07, at(d[0] + o, 0.49, d[1]), '--cpc-steel', false);
           box(0.06, 0.04, 0.6, at(d[0] + o, 0.02, d[1]), '--cpc-steel', false);
         });
         cyl(0.025, 0.025, 1.1, at(d[0], 0.22, d[1] + 0.18, 0, 0, Math.PI / 2), '--cpc-screen', false, 8);
+        taskLamp(d[0] + 0.45, 1.02, d[1] - 0.15);
       });
+
+      // THE MOVEMENT CORNER, for children who need more: a crash mat on the
+      // floor, a balance board on it, and a rocking chair beside it.
+      var MX = 4.9, MZ = 2.2;
+      box(1.8, 0.16, 1.3, at(MX, 0.08, MZ), '--cpc-felt', 0.01);
+      box(1.82, 0.01, 0.03, at(MX, 0.162, MZ), '--cpc-glass', false, false);
+      var board = new T.CylinderGeometry(0.5, 0.5, 0.5, 20, 1, false, Math.PI - 0.5, 1.0);
+      kit.piece(board, at(MX - 0.2, 0.62, MZ, 0, Math.PI / 2, 0), '--cpc-birch-2', false);
+      box(0.9, 0.04, 0.4, at(MX - 0.2, 0.3, MZ), '--cpc-birch', 0.006);
+      var rocker = new T.TorusGeometry(0.45, 0.025, 6, 20, 1.2);
+      [-0.2, 0.2].forEach(function (o) { kit.piece(rocker.clone(), at(MX - 0.2, 0.47, MZ - 1.3 + o, 0, 0, Math.PI * 1.5 - 0.6), '--cpc-birch-2', false); });
+      box(0.44, 0.04, 0.42, at(MX - 0.2, 0.4, MZ - 1.3), '--cpc-birch', 0.006);
+      box(0.04, 0.5, 0.42, at(MX - 0.02, 0.65, MZ - 1.3, 0, 0, -0.15), '--cpc-birch', 0.006);
+
+      // THE TENT IN THE GARDEN, a cave outside, under the tree.
+      var tent = new T.ConeGeometry(0.85, 1.3, 4, 1, true);
+      kit.piece(tent, at(XL - 5.2, 0.65, -3.2, Math.PI / 4), '--cpc-plum', 0.01);
+      box(0.4, 0.7, 0.02, at(XL - 5.2 + 0.0, 0.35, -3.2 + 0.6), '--cpc-cave', false, false);
 
       // BEANBAGS, and the tray of loose parts by the garden doors.
       var bagMeshes = [[4.0, -0.2, '--cpc-felt'], [-1.9, 1.6, '--cpc-clay'], [2.2, -4.6, '--cpc-leaf']].map(function (b) {
@@ -324,6 +360,13 @@
         say: 'Sit in the cave', up: 'Come out of the cave', sat: 'You sit in the cave, in the dim, with the cloth all round you. Nobody will come and take you out.', stood: 'You come out of the cave when you are ready.',
         at: [kit.touch(0.8, 0.3, 0.8, at(CX - 0.5, 0.1, CZ - 0.5))] });
 
+      var sitDen = kit.sit({ x: DEN[0], z: DEN[1], yaw: 0, squash: denSeat,
+        say: 'Crawl into the den under the table', up: 'Come out of the den', sat: 'You are in the den under the table, the cloth all round you, a cave of your own.', stood: 'You come out of the den.',
+        at: [kit.touch(0.8, 0.4, 0.8, at(DEN[0], 0.2, DEN[1]))] });
+      var sitMat = kit.sit({ x: MX, z: MZ, yaw: LEFT,
+        say: 'Flop on the crash mat', up: 'Get up off the crash mat', sat: 'You flop onto the crash mat, the balance board beside you.', stood: 'You get up off the crash mat.',
+        at: [kit.touch(1.8, 0.3, 1.3, at(MX, 0.1, MZ))] });
+
       var stops = [
         { name: 'in from the street, the whole classroom in front of you', where: 'at the door in from the street', x: 0, z: 2.4, yaw: 0, pitch: -0.08, acts: [child, lamps, blind] },
         { name: 'at the garden doors, standing open', where: 'at the garden doors', x: XL + 1.2, z: -0.3, yaw: LEFT, pitch: 0, acts: [blind] },
@@ -331,7 +374,10 @@
         { name: 'at the tray of loose parts by the doors', where: 'at the tray of loose parts', x: XL + 2.2, z: 2.0, yaw: LEFT + 0.3, pitch: -0.55 },
         { name: 'at the campfire rug, the cushions round it', where: 'at the campfire rug', x: -0.2, z: -0.2, yaw: 0, pitch: -0.4, acts: [sitRug] },
         { name: 'at the tables and the wobble stools', where: 'at the tables', x: 0.2, z: 1.0, yaw: -0.6, pitch: -0.3, acts: [sitBag] },
-        { name: 'at the standing desks', where: 'at a standing desk', x: 3.6, z: 2.3, yaw: 0, pitch: -0.3 },
+        { name: 'at the standing desks', where: 'at a standing desk', x: 3.0, z: 2.5, yaw: 0, pitch: -0.3 },
+        { name: 'at the movement corner, for children who need more', where: 'at the movement corner', x: MX - 1.6, z: MZ, yaw: RIGHT, pitch: -0.35, acts: [sitMat] },
+        { name: 'at the den under the round table, the second cave', where: 'at the den', x: DEN[0] + 1.4, z: DEN[1] + 0.6, yaw: LEFT + 0.4, pitch: -0.3, acts: [sitDen] },
+        { name: 'in the garden at the tent under the tree, a cave outside', where: 'at the tent in the garden', x: XL - 4.6, z: -1.8, yaw: Math.PI - 0.5, pitch: -0.2 },
         { name: 'at the library shelf and the pinboard', where: 'at the library', x: -3.2, z: BACK + 2.0, yaw: 0, pitch: 0 },
         { name: 'at the interactive panel and the timetable', where: 'at the panel', x: 0.1, z: BACK + 2.4, yaw: 0, pitch: 0.05, acts: [lamps] },
         { name: 'at the rail of headphones, by the cave', where: 'at the headphones', x: 2.9, z: BACK + 1.6, yaw: 0, pitch: -0.05 },
