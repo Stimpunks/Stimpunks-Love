@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Mon, 09 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 11 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The Faery Yurt: an invitation to walk in on Cel Street</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-11-faery-yurt-invitation</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-11-faery-yurt-invitation</guid>
+      <pubDate>Wed, 11 Nov 2026 12:00:00 GMT</pubDate>
+      <description>Helen Edgar asked for a direct way into her yurt on Cel Street at the top of her page, on a gothic-looking invitation card. Under the crown now, before the welcome, stands a card in her own inks with a drawn arch and finials over its title, a double rule round it and one button straight into the yurt on Cel Street, saying in a few words that it can be looked round with the keyboard, a mouse, a thumb, a game controller such as an Xbox controller, or a VR headset, whose browser shows Enter VR there, and that everybody is welcome, whoever and however they are. The title is the one line of blackletter in the yurt, the Doomscroll’s masthead face, a few words and never a sentence; every sentence is the yurt’s own serif, and nothing on the card moves at any setting. What it says the street can do is what Cel Street’s own page says, headset included, which has only been tried with a pretend headset so far. The words are hers to change.</description>
+    </item>
     <item>
       <title>The Aerial Arbour: fluffy blankets, more cushions and beanbags</title>
       <link>https://stimpunks.world/changelog.html#2026-11-09-aerial-arbour-blankets</link>

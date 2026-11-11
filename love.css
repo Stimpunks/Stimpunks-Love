@@ -9198,6 +9198,26 @@ html[data-intensity="max"] .crown-moth { animation: yurt-moth 11s ease-in-out in
    borrowed pictures' credits gathered at the foot, the calendar a list on a
    phone (each day a row, its weekday from data-dow), and the Stim Tin two
    across on a phone. */
+/* THE INVITATION at the top (Helen's ask, 2026-11-11): one card in her own
+   inks, a gothic arch drawn over the title and a double rule round the card,
+   the way an invitation is printed. The title is the one line of blackletter
+   in this room: UnifrakturMaguntia is the Doomscroll's masthead face and sets
+   a few words here and never a sentence (that room's rule), and every sentence
+   on the card is the yurt's own Crimson Pro. --candle on --tent is the deck's
+   PRESS PLAY pair and --tallow on --tent its label's; the arch carries no word.
+   Nothing on it moves at any setting. */
+.room-yurt .yurt-invite { position: relative; max-width: 640px; margin: 24px auto 0; padding: 20px 28px 24px; text-align: center; border: 2px solid var(--timber); outline: 1px solid rgba(233,200,116,.35); outline-offset: 5px; }
+.yurt-invite__arch { display: block; width: min(320px, 100%); height: auto; margin: 0 auto 2px; overflow: visible; }
+.yurt-invite__over { margin: 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; letter-spacing: .22em; text-transform: uppercase; color: var(--tallow-2); }
+.room-yurt .hearth-card .yurt-invite__title { margin: 4px 0 0; font-family: 'UnifrakturMaguntia', 'Cormorant Garamond', Georgia, serif; font-weight: 400; font-style: normal; font-size: clamp(34px, 7vw, 46px); line-height: 1.1; letter-spacing: .01em; color: var(--candle); }
+.yurt-invite__sub { margin: 4px 0 14px; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 20px; color: var(--tallow); }
+.room-yurt .yurt-invite p { max-width: 54ch; margin-left: auto; margin-right: auto; }
+.yurt-invite__row { margin: 16px auto 10px; }
+.room-yurt a.yurt-invite__go { display: inline-block; min-height: 44px; padding: 9px 22px; border: 1px solid var(--candle); border-radius: 6px; background: var(--tent); color: var(--candle); font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700; font-size: 19px; letter-spacing: .04em; text-decoration: none; }
+.room-yurt a.yurt-invite__go:hover { background: var(--canvas); color: var(--candle); }
+.room-yurt a.yurt-invite__go:focus-visible { outline: 3px solid var(--candle); outline-offset: 3px; }
+.yurt-invite__fine { font-size: 14.5px; color: var(--tallow-2); margin-bottom: 0; }
+
 .yurt-contents { max-width: 640px; margin: 22px auto 0; padding: 14px 18px; background: linear-gradient(180deg, var(--canvas), var(--tent)); border: 1px solid rgba(233,200,116,.18); border-radius: 6px; }
 .room-yurt .yurt-contents h2 { font-size: 20px; font-style: italic; margin: 0 0 8px; }
 .yurt-contents__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 15.5px; }
