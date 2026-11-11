@@ -658,6 +658,11 @@ DRAW = {
     # cushions' orange, 9.47 on the dim it lies against, its holes the dim
     # itself, its thread --lbw-moss, 12.09, and the floor line --lbw-moss-2.
     "lbw-button": """<path d="M3 29 H29" stroke="var(--lbw-moss-2)" stroke-width="1.6" stroke-linecap="round"/><circle cx="16" cy="17" r="10" fill="var(--lbw-link)"/><circle cx="16" cy="17" r="7" fill="none" stroke="var(--lbw-dim)" stroke-width="1" opacity=".5"/><circle cx="13" cy="14" r="1.6" fill="var(--lbw-dim)"/><circle cx="19" cy="14" r="1.6" fill="var(--lbw-dim)"/><circle cx="13" cy="20" r="1.6" fill="var(--lbw-dim)"/><circle cx="19" cy="20" r="1.6" fill="var(--lbw-dim)"/><path d="M13 14 L19 20 M19 14 L13 20" stroke="var(--lbw-moss)" stroke-width="1.4" stroke-linecap="round"/><path d="M19 20 C 23 24, 26 24, 28 27" stroke="var(--lbw-moss)" stroke-width="1.2" fill="none" stroke-linecap="round"/>""",
+    # A pencil dropped on the Cavendish Primary Classroom's floor: its body
+    # --cpc-teal, 6.38 on the putty wall it lies against and over the body
+    # threshold, its painted end --cpc-link, 5.49, its point --cpc-ink, and
+    # the floor line --cpc-ink-2, 6.40.
+    "cpc-pencil": """<path d="M3 29 H29" stroke="var(--cpc-ink-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M8 24 L22 10" stroke="var(--cpc-teal)" stroke-width="5" stroke-linecap="butt"/><path d="M22 10 L25.5 6.5" stroke="var(--cpc-link)" stroke-width="5" stroke-linecap="round"/><path d="M6.2 22.2 L9.8 25.8 L4 28 Z" fill="var(--cpc-ink)"/>""",
     # A screw dropped out of the coffee can on New Partington Power's bench,
     # lying on the porch boards: its shank --bkh-mortar, 6.61 on the shade it
     # lies against, its head --bkh-post, 9.58, the slot in it the shade

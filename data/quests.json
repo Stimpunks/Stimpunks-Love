@@ -4908,6 +4908,45 @@
   "learned": "Some things are easier to set down in a place that keeps no record of them."
  },
  {
+  "id": "cpc-pencil",
+  "page": "cavendish-primary-classroom.html",
+  "room": "Cavendish Primary Classroom",
+  "title": "What the cave is never",
+  "posted": "There is a primary classroom on the street, set up as an example for people training to teach, with a sensory cave in the far corner. Go in, find out what anybody may do in there, and come back with the one thing the cave is never.",
+  "rank": 1,
+  "takes": "about as long as it takes to read one sheet on the wall",
+  "target": "a pencil dropped on the classroom floor",
+  "code": "RETREAT",
+  "learned": "The sensory cave is never a time-out. Anybody can go in at any time and come out when they are ready; nobody is sent there and nobody is fetched out, and going in early is the point. Cavendish Space puts it in five words: a retreat, never a time-out.",
+  "hints": [
+   "On the street itself, in the row of shopfronts, near the end: the front with five coloured tabs along its awning.",
+   "Under the heading The sensory cave, the one dark sheet in the room.",
+   "On the floor of the room, before the sign-off, where somebody has dropped a pencil."
+  ],
+  "ask": {
+   "question": "In the Cavendish Primary Classroom, what is the sensory cave never?",
+   "accept": [
+    "a time-out",
+    "time-out",
+    "a time out",
+    "time out",
+    "a timeout",
+    "timeout",
+    "a punishment",
+    "punishment",
+    "a consequence",
+    "consequence"
+   ],
+   "answer": "A time-out",
+   "why": "The cave is never a time-out, never a consequence and never a place to put a child who is upset: a retreat, never a time-out.",
+   "hints": [
+    "It is the first thing in the list on the dark sheet.",
+    "Some classrooms send a child to sit somewhere apart as a consequence.",
+    "Two words, joined by a hyphen."
+   ]
+  }
+ },
+ {
   "id": "sfb-drop",
   "page": "scalable-feast-ballroom.html",
   "room": "Scalable Feast Ballroom",

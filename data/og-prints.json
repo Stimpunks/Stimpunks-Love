@@ -91,6 +91,10 @@
   "made_from": "3c7bb78c63562617b716e4253d216eff7258b903fde2b0506142412465252c42",
   "png": "dd9c34abf26133f324353e4367b235b6636cda8c2af65a2a2f476d959346ce6c"
  },
+ "cavendish-primary-classroom": {
+  "made_from": "0aa3e70fcaca793c9ff1a0da8a58b9a86f9e85e891d72b1737435b8285d46139",
+  "png": "d4290594e243ed01976fff04aa635345c6c7a121f2b3886e8b42b25741842a94"
+ },
  "cavendish-watering-hole": {
   "made_from": "c8ecc3bde1ed6bf5e0f496221a21f871edca5d97e0fcf2b080482175c036889b",
   "png": "4c6d702a67b24dd9b0931c9373778a826a5a918b192c784dcd4b93606d0c4520"
@@ -208,8 +212,8 @@
   "png": "0dbea8a3b6697b46795c0e752bbf391f790b72bbebdc0fd6804530616dc70151"
  },
  "faery-reading-room": {
-  "made_from": "1b65cb101e697ff6cfcd0505ff6e704b2b979dd85989376262d81e08b0cd60e5",
-  "png": "cf9d06d35af6fc3c726314c6e97018f76a7e39c9b915688cdae7fdcb995e58d0"
+  "made_from": "614065d15fae9dc63e23d997659785e7226e2eefdcb2d000b41ba5687f36cfd9",
+  "png": "e415d13490fca5115427ceb94e2bee8c4cd6d4a9790ce151761401a5d60c4c40"
  },
  "faery-yurt": {
   "made_from": "b9283e79c77fbabe2d519ea66f16f2fe5b556c6fb1e5c0bd2e7570aaae1f6002",

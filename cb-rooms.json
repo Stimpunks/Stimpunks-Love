@@ -615,6 +615,12 @@
    "about": "A big comfortable ballroom on the street, cozy and grand at once: a coffered ceiling with a sky painted in it, chandeliers on long chains, gilt and herringbone parquet, and at each end canopies, tents and cabanas to go under, each a living room with a sofa, a rug and something soft, the hall’s light coming through the cloth. Scroll down and you feel how high it is."
   },
   {
+   "tag": "cavendish-primary-classroom",
+   "name": "Cavendish Primary Classroom",
+   "path": "/cavendish-primary-classroom.html",
+   "about": "An example mainstream primary classroom for trainee teachers, for a class of thirty, set up the Cavendish Space way and seen from the height of a child of seven: garden doors glazed to the floor, lamps the class turns down, many kinds of seat and standing desks, a sensory cave, somewhere to play, the technology a classroom has, and the research it stands on, universal design and neuroqueer learning spaces among it."
+  },
+  {
    "tag": "your-room",
    "name": "Your Room",
    "path": "/your-room.html",

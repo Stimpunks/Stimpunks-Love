@@ -1055,6 +1055,11 @@ AAR_PINK, AAR_GLOW = "#F48CCB", "#7FDAD3"
 LBW_DIM, LBW_MOSS, LBW_MOSS2, LBW_LINK, LBW_GLOW = "#1B2416", "#D5E6B8", "#A9C089", "#FFB46A", "#FFE8B5"
 LBW_CUSH, LBW_CUSH2, LBW_INK, LBW_INK2, LBW_CLINK = "#F4A259", "#F7C38A", "#16260F", "#3B4419", "#0D3B1F"
 LBW_TV = "#0E140C"
+# Cavendish Primary Classroom (love.css §152): every word on the putty wall,
+# on a sheet pinned to it, on a setting's button, or on the cave's dark sheet.
+CPC_WALL, CPC_CARD, CPC_INK, CPC_INK2 = "#EDE6DA", "#FAF6EF", "#22302E", "#4A5350"
+CPC_TEAL, CPC_LINK, CPC_LINK2 = "#1E5A56", "#9A3E1E", "#2E4F7A"
+CPC_CAVE, CPC_CAVE_INK, CPC_CAVE_LINK = "#2F2A44", "#F3EDE2", "#F2C77E"
 # New Partington Power's House (love.css §151), on Nature's Contribution by
 # the farm: every word on the porch's shade or on a card under a course of brick.
 BKH_SHADE, BKH_BOARD, BKH_TEXT, BKH_DIM = "#2F3430", "#3C423C", "#F4EDE0", "#CFD3C6"
@@ -4138,6 +4143,22 @@ PAIRS = [
     (LBW_LINK,  LBW_TV,    False, "luis's burrow: the telly's own name on it"),
     (LBW_CUSH2, LBW_INK,   False, "luis's burrow: the words on a button, Put it on the telly and Switch the telly off"),
 
+    # CAVENDISH PRIMARY CLASSROOM (love.css §152). A pale room on a dark street,
+    # so its link colour and its focus ring are decided at the room.
+    (CPC_INK,   CPC_WALL,  False, "cavendish primary classroom: the line under the name, the lede, and every word on the putty wall"),
+    (CPC_INK,   CPC_CARD,  False, "cavendish primary classroom: every word on a sheet, on a setting's button, and on the job marker's panel"),
+    (CPC_INK2,  CPC_WALL,  False, "cavendish primary classroom: the trail and the line over the name"),
+    (CPC_INK2,  CPC_CARD,  False, "cavendish primary classroom: the fine print and a quotation's credit on a sheet"),
+    (CPC_TEAL,  CPC_WALL,  False, "cavendish primary classroom: the name"),
+    (CPC_TEAL,  CPC_CARD,  False, "cavendish primary classroom: every heading on a sheet, and a list's markers"),
+    (CPC_CARD,  CPC_TEAL,  False, "cavendish primary classroom: the words on a setting that is pressed"),
+    (CPC_LINK,  CPC_WALL,  False, "cavendish primary classroom: the backlink, and a link on the putty wall"),
+    (CPC_LINK,  CPC_CARD,  False, "cavendish primary classroom: every link on a sheet"),
+    (CPC_LINK2, CPC_WALL,  False, "cavendish primary classroom: a link under the pointer, and the focus ring, on the wall"),
+    (CPC_LINK2, CPC_CARD,  False, "cavendish primary classroom: the same on a sheet"),
+    (CPC_CAVE_INK,  CPC_CAVE, False, "cavendish primary classroom: every word on the cave's dark sheet, its headings and a link under the pointer"),
+    (CPC_CAVE_LINK, CPC_CAVE, False, "cavendish primary classroom: every link on the cave's sheet, its markers and its focus ring"),
+
     # NEW PARTINGTON POWER'S HOUSE (love.css §151). Every word sits on the
     # porch's shade or a card; the pastel farm and the wire are only in the drawing.
     (BKH_TEXT,  BKH_SHADE, False, "new partington power's house: the line under the name, the lede, every word between the cards"),
@@ -5373,6 +5394,24 @@ ORNAMENT = {
     "#f3e9d6": "luis's burrow: --lbw-fluff, the rabbits, the owl's face, the fox's tail tip and every animal's outline, 13.31 on the dim; it carries no word.",
     "#9aa389": "luis's burrow: --lbw-owl, the owl, the rabbits' outlines and the telly's aerials, 6.08 on the dim; it carries no word.",
     "#2e4a33": "luis's burrow: --lbw-glass, the telly's glass in the drawing, 1.64 on the dim; it carries no word.",
+    "#e2d8c8": "cavendish primary classroom: --cpc-plaster, the drawn back wall, and the edge of every sheet, 1.14 on the wall; it carries no word.",
+    "#f2eee6": "cavendish primary classroom: --cpc-ceiling, the ceiling, the lamps while they are off, the sheets on the pinboard and the control plate, 1.07 on the wall; it carries no word.",
+    "#c9a27a": "cavendish primary classroom: --cpc-cork, the cork floor, 1.90 on the wall; it carries no word.",
+    "#b48a62": "cavendish primary classroom: --cpc-cork-2, the floor's seams, 2.51 on the wall; it carries no word.",
+    "#d7bc92": "cavendish primary classroom: --cpc-birch, the door frames, the shelf, the tables and the desk top, 1.47 on the wall; it carries no word.",
+    "#b08a5c": "cavendish primary classroom: --cpc-birch-2, the furniture's edges, the fence, the drawing's frame and the settings' edge, 2.55 on the wall; it carries no word.",
+    "#8fafb8": "cavendish primary classroom: --cpc-felt, the pinboard, the blinds, the watering hole's tab and cushions, 1.88 on the wall; it carries no word.",
+    "#d9a94f": "cavendish primary classroom: --cpc-ochre, the campfire rug, its tab and the blocks, 1.74 on the wall; it carries no word.",
+    "#c88b76": "cavendish primary classroom: --cpc-clay, the library's tab, the instructions box, the sail and cushions, 2.28 on the wall; it carries no word.",
+    "#5b3a6b": "cavendish primary classroom: --cpc-plum, the cave's cloth, its tab and a set of ear defenders, 7.48 on the wall; it carries no word.",
+    "#6e8f5a": "cavendish primary classroom: --cpc-leaf, the tree, the habitat's tab and a book, 2.95 on the wall; it carries no word.",
+    "#a5c08a": "cavendish primary classroom: --cpc-grass, the garden's grass, 1.61 on the wall; it carries no word.",
+    "#dce8eb": "cavendish primary classroom: --cpc-sky, the sky through the doors, 1.01 on the wall; it carries no word.",
+    "#b8c9cf": "cavendish primary classroom: --cpc-glass, the blinds' slats, 1.38 on the wall; it carries no word.",
+    "#3b4447": "cavendish primary classroom: --cpc-screen, the panel, the headphones and the loose parts tray, 8.05 on the wall; it carries no word.",
+    "#9fa7a8": "cavendish primary classroom: --cpc-steel, the stands, the lamps' rims and the fan, 1.98 on the wall; it carries no word.",
+    "#f4d9a2": "cavendish primary classroom: --cpc-lamp, a lamp lit, and the cave's lights on, 1.11 on the wall; it carries no word.",
+    "#2a2735": "cavendish primary classroom: --cpc-dusk, the room with its lamps turned down, laid over the drawing at a quarter at most, 11.76 on the wall; it carries no word.",
     "#9c4f3b": "new partington power's house: --bkh-brick, the house's wall, the knee wall and the course of brick along the top of every card, 2.17 on the shade, 3.04 on the mortar between; it carries no word.",
     "#7a3b2d": "new partington power's house: --bkh-brick-2, the darker bricks among them and the doormat, 1.51 on the shade; it carries no word.",
     "#c9b9a2": "new partington power's house: --bkh-mortar, the mortar, the back fence, the tools' steel and the soldering iron's stand, and the job marker's screw, 6.61 on the shade; it carries no word.",

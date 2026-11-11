@@ -3877,6 +3877,20 @@ inside something enormous. Nothing moves below MAX; at MAX the gilt's glints bri
 fifty-odd metres long and fourteen high, the height's plaques hang up the wall at their own heights, the chandeliers can
 be turned low or out and glint at MAX, and the four-poster's curtains draw on a press.
 
+**CAVENDISH PRIMARY CLASSROOM (§152) IS AN EXAMPLE FOR TRAINEE TEACHERS, SEEN FROM A CHILD'S HEIGHT, AND NOBODY IS
+DRAWN IN IT.** Helen Edgar's brief, 2026-11-11: a mainstream primary classroom for thirty, neuroaffirming, with lighting and
+warmth the class adjusts, many kinds of seat and standing desks, a sensory cave, play, learning, a way outdoors and the
+technology a classroom has, promoting the Cavendish Space Project's ethics and signposting cavendish.space; then research on
+universal design and neuroqueer learning spaces, and the room on Cel Street with `vr: true`. `cavendish-primary-classroom.html`
+is hand-built; `classroom.js` sets the drawing's `data-light`, `data-blind`, `data-fan` and `data-cave` and says so under the
+buttons, keeping, sending and moving nothing, and the settings ship hidden. **Every quotation was read on its own page**:
+cavendish.space's word for word (CC0, credit kept), Walker's as our manifesto quotes it, Barrett et al. and Fisher et al. off
+their papers. **Helen and Ryan's chapter for Nick Walker's book is unpublished and nothing is quoted from it**; the page names
+it as forthcoming and lists the published sources it draws on. CAST's UDL guidelines are CAST's copyright, so only the names
+of their three principles are given. **The Playhouse and the Community Center are the ones to watch** (§152 says why). The
+friendly edits are a behaviour chart "as an example of what not to do" drawn on the wall, bunting and primary colours "because
+it is for children", a child drawn in the cave, and a quotation from the unpublished chapter before the book is out.
+
 **CHAMPURU (§136) IS RYAN'S OWN TABLE, AND NOTHING ON IT SAYS WHAT FOOD DOES FOR A BODY.** Ryan's brief, 2026-11-03:
 a restaurant to sit in when he eats, next door to Vital Plant Living, with Mediterranean and Okinawan dishes and the
 two mixed, first and foremost for him and a prescription for nobody. `tools/make-champuru.py` builds it out of
@@ -6506,18 +6520,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §153 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §154 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§153 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§154 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §153 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §154 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
