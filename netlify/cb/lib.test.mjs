@@ -53,7 +53,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   setAvatarsShown, avatarsShown, shownAvatars,
   CHIMERA, CHIMERA_KEEP, cleanChimera, readChimeras, keepChimera, editChimera, removeChimera, forgetChimeras, setChimerasShown, chimerasShown, shownChimeras, chimeraSticker, shapeChimeraSticker, shape as shapeMessages,
   CHIMERA_SAYINGS, CHIMERA_SAYING_MAX, cleanChimeraSayings, cleanFamiliar, showFamiliar, familiarOut, withFamiliars, shapeChimera,
-  cleanCelSpot, showCelFolk, withCelFolk, CEL_SPOTS, CEL_WINGS,
+  cleanCelSpot, showCelFolk, withCelFolk, CEL_SPOTS, CEL_WINGS, CEL_WAVES,
   QUEST_IDS, questIds, readJobs, keepJobs, forgetJobs, setJobsShown, jobsShown, shownJobs,
   CRYSTAL_IDS, crystalId, readCrystals, pouchCrystal, forgetCrystals, setCrystalsShown, crystalsShown, shownCrystals,
   HERB_IDS, herbId, readHerbs, basketHerb, forgetHerbs, setHerbsShown, herbsShown, shownHerbs,
@@ -2769,6 +2769,13 @@ test('a 3D figure is seen only in its own room, beside a claimed name wearing an
   assert.deepEqual(Object.keys((await s.get('cel-folk', { type: 'json' })).out[pk]).sort(), ['room', 'spot', 'wings'], 'the record kept something beside the wings');
   await showCelFolk(pk, { room: 'faery-yurt', spot: 3 }, s);
   assert.deepEqual((await withCelFolk(people, 'faery-yurt', s))[0].cel, { spot: 3, look: a.look }, 'wings given back are still worn');
+  assert.deepEqual(cleanCelSpot({ room: 'faery-yurt', spot: 2, wave: 4 }), { room: 'faery-yurt', spot: 2, wave: 4 }, 'a wave dropped');
+  assert.deepEqual(cleanCelSpot({ room: 'faery-yurt', spot: 2, wave: CEL_WAVES }), { room: 'faery-yurt', spot: 2 }, 'a wave past the count kept');
+  assert.deepEqual(cleanCelSpot({ room: 'faery-yurt', spot: 2, wave: 1.5 }), { room: 'faery-yurt', spot: 2 }, 'a wave that is not a count kept');
+  await showCelFolk(pk, { room: 'faery-yurt', spot: 3, wave: 7, hands: [1, 2, 3], when: 99 }, s);
+  assert.deepEqual((await withCelFolk(people, 'faery-yurt', s))[0].cel, { spot: 3, wave: 7, look: a.look }, 'a wave does not reach the room');
+  assert.deepEqual(Object.keys((await s.get('cel-folk', { type: 'json' })).out[pk]).sort(), ['room', 'spot', 'wave'], 'a wave kept more than its count');
+  await showCelFolk(pk, { room: 'faery-yurt', spot: 3 }, s);
   await showCelFolk(pk, null, s);
   assert.equal((await withCelFolk(people, 'faery-yurt', s))[0].cel, undefined, 'gone and still seen');
   await showCelFolk(pk, { room: 'faery-yurt', spot: 1 }, s);

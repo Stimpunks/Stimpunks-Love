@@ -1,0 +1,33 @@
+{
+  "_about": "The wreath on the Faery Yurt's door, dressed for whichever festival of the Wheel of the Year is nearest today. Helen Edgar's ask, 2026-11-11: 'The yurt could put out decorations for the sabbat nearest today's date. They would change with the date and nothing would move by itself.' The eight festivals, their order and their words for when are her Myths & Legends page's (faery-myths-room.html#wheel); what is on the wreath for each is ours, in her inks, and hers to change. The solstices and equinoxes are given by the day they usually fall on, near enough to choose the nearest festival. Northern hemisphere, as Birmingham is. tools/make-yurt-wreath.py writes it onto her page and into the yurt on Cel Street.",
+  "festivals": [
+    { "id": "samhain", "name": "Samhain", "month": 10, "day": 31, "when": "around 31 October",
+      "dress": "turnip lanterns, the old kind carved before pumpkins, and apples and fallen leaves",
+      "items": [["lantern", "--tallow"], ["leaf", "--ember"], ["apple", "--toadstool"], ["leaf", "--timber"]] },
+    { "id": "yule", "name": "Yule", "month": 12, "day": 21, "when": "the winter solstice, around 21 December",
+      "dress": "holly and its berries, and a gold sun at the top for the sun’s turn back",
+      "top": ["sun", "--candle"],
+      "items": [["leaf", "--ivy-2"], ["berry", "--toadstool"], ["leaf", "--ivy"], ["berry", "--toadstool"]] },
+    { "id": "imbolc", "name": "Imbolc", "month": 2, "day": 1, "when": "around 1 February",
+      "dress": "snowdrops, and a Brigid’s cross of straw at the top",
+      "top": ["cross", "--tallow-2"],
+      "items": [["drop", "--tallow"], ["leaf", "--ivy"], ["drop", "--tallow"], ["leaf", "--ivy-2"]] },
+    { "id": "ostara", "name": "Ostara", "month": 3, "day": 20, "when": "the spring equinox, around 20 March",
+      "dress": "painted eggs and primroses",
+      "items": [["egg", "--yurt-fog-lilac"], ["flower", "--yurt-fog-lemon"], ["egg", "--yurt-fog-sky"], ["flower", "--yurt-fog-lemon"], ["egg", "--yurt-fog-rose"]] },
+    { "id": "beltane", "name": "Beltane", "month": 5, "day": 1, "when": "around 1 May",
+      "dress": "may blossom off the hawthorn, and ribbons as on a maypole",
+      "ribbons": ["--yurt-fog-rose", "--yurt-fog-sky", "--yurt-fog-mint"],
+      "items": [["flower", "--tallow"], ["leaf", "--ivy"], ["flower", "--yurt-fog-rose"], ["leaf", "--ivy"]] },
+    { "id": "litha", "name": "Litha", "month": 6, "day": 21, "when": "the summer solstice, around 21 June",
+      "dress": "oak leaves and little yellow flowers, and the sun at the top on the longest day",
+      "top": ["sun", "--candle"],
+      "items": [["leaf", "--ivy"], ["flower", "--yurt-fog-lemon"], ["leaf", "--ivy-2"], ["flower", "--candle"]] },
+    { "id": "lughnasadh", "name": "Lughnasadh", "month": 8, "day": 1, "when": "around 1 August",
+      "dress": "ears of wheat and poppies off the edge of the field",
+      "items": [["ear", "--candle"], ["flower", "--toadstool"], ["ear", "--ember-2"], ["flower", "--toadstool"]] },
+    { "id": "mabon", "name": "Mabon", "month": 9, "day": 22, "when": "the autumn equinox, around 22 September",
+      "dress": "apples, acorns and blackberries, the harvest in",
+      "items": [["apple", "--toadstool"], ["acorn", "--timber"], ["berry", "--moonstone"], ["leaf", "--ember"]] }
+  ]
+}

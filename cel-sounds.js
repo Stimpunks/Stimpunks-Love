@@ -302,6 +302,28 @@
   function playing(name) { return !!live[name]; }
   function output(name) { return ctx && masters[name] ? { ctx: ctx, node: masters[name] } : null; }
   function kinds() { return Object.keys(SOUNDS); }
-  window.loveCelSounds = { on: on, off: off, offAll: offAll, toggle: toggle, playing: playing, output: output, kinds: kinds };
+  // ONE STRING PLUCKED BY A HAND (the Music Room's harp, Helen's ask,
+  // 2026-11-11: "play the harp"): string i, counted up from the lowest, out of
+  // the same pentatonic scale the stirring plays, so there is no wrong note,
+  // through the harp's own master, so it is heard from the harp. It needs no
+  // switch: a string sounds when it is touched, and says which note it was.
+  var SCALE = [294, 330, 370, 440, 494], NAMES = ['D', 'E', 'F sharp', 'A', 'B'];
+  function pluckString(i) {
+    try {
+      var c = context(), hz = SCALE[i % 5] * Math.pow(2, Math.floor(i / 5) - 1);
+      pluck(c, master('harp'), c.currentTime + 0.01, hz, 0.34);
+      return NAMES[i % 5];
+    } catch (e) { return null; }
+  }
+  // A hand run up n strings, low to high, each a little after the last on
+  // the audio clock (no timer).
+  function run(n) {
+    try {
+      var c = context(), t = c.currentTime + 0.02;
+      for (var k = 0; k < n; k++) pluck(c, master('harp'), t + k * 0.11, SCALE[k % 5] * Math.pow(2, Math.floor(k / 5) - 1), 0.28);
+      return true;
+    } catch (e) { return null; }
+  }
+  window.loveCelSounds = { on: on, off: off, offAll: offAll, toggle: toggle, playing: playing, output: output, kinds: kinds, pluck: pluckString, run: run };
   window.addEventListener('pagehide', offAll);
 })();

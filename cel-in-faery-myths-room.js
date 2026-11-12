@@ -771,11 +771,22 @@
       box(1.6, 0.06, 0.06, at(px, 3.12, cz2), '--rdr-timber', 0.01);
       [-0.7, 0.7].forEach(function (o) { box(0.02, H - 3.12, 0.02, at(px + o, (H + 3.12) / 2, cz2), '--rdr-brass', false); });
       var bundle = new T.ConeGeometry(0.075, 0.4, 7);
+      // Each bundle is one of the Herbery's herbs, and pressed (or touched in
+      // a headset) it is gathered into your herb basket by her page's own
+      // Gather it button (Helen's ask, 2026-11-11), so the basket in your
+      // Profile and this room are one basket. Signed off, it says how.
+      var DRYING = ['lavender', 'rosemary', 'rose', 'bay', 'elder', 'thyme'];
       ['--myth-amethyst-2', '--rdr-leather', '--rdr-velvet', '--rdr-leather', '--myth-chalk', '--rdr-brass'].forEach(function (ink, i) {
         var bx = px - 0.6 + i * 0.24, drop = hash(i, 3, 61) * 0.08;
         box(0.008, 0.08 + drop, 0.008, at(bx, 3.05 - drop / 2, cz2), '--rdr-brass', false, false);
         kit.cyl(0.03, 0.03, 0.04, at(bx, 2.99 - drop, cz2), '--rdr-brass', false, 8);
         kit.piece(bundle, at(bx, 2.77 - drop, cz2, hash(i, 5, 63) * 3), ink, 0.01);
+        var herb = DRYING[i], name = herb.charAt(0).toUpperCase() + herb.slice(1);
+        kit.tap(kit.touch(0.2, 0.5, 0.2, at(bx, 2.77 - drop, cz2)), function () {
+          return kit.clickPage(frame, '[data-herb-take="' + herb + '"]', {
+            wait: 'Gathering the ' + herb + ' into your herb basket\u2026',
+            out: name + ', drying over the cauldron. Sign on to the CB to gather it into the herb basket in your Profile.' });
+        });
       });
       // Rivets round the pot under its rim, a ladle hung on the rim, and a
       // basket of herbs at its foot, wicker in bands with a handle over.
@@ -825,11 +836,24 @@
       kit.cyl(0.85, 0.85, 0.08, M(wg, at(0, 2.75, 0.04, 0, Math.PI / 2)), '--rdr-timber', 0.02, 28);
       kit.cyl(0.7, 0.7, 0.09, M(wg, at(0, 2.75, 0.05, 0, Math.PI / 2)), '--rdr-panel', false, 28);
       kit.cyl(0.2, 0.2, 0.1, M(wg, at(0, 2.75, 0.06, 0, Math.PI / 2)), '--rdr-brass', false, 20);
-      var STONES = ['--myth-amethyst', '--myth-amber', '--myth-chalk', '--myth-amethyst-2', '--myth-amber-2', '--rdr-brass'];
-      for (var cw = 0; cw < 12; cw++) {
+      // Each stone on the wheel is one of her Crystal Wheel's twelve, in its
+      // own --crys ink, and pressed (or touched in a headset) it goes into your
+      // crystal pouch by her page's own Take it with you button (Helen's ask,
+      // 2026-11-11), so the pouch in your Profile and this cave are one pouch.
+      var WHEEL = [['amethyst', 'Amethyst', '--crys-amethyst'], ['citrine', 'Citrine', '--crys-citrine'], ['garnet', 'Garnet', '--crys-garnet'],
+        ['moonstone', 'Moonstone', '--crys-moonstone'], ['labradorite', 'Labradorite', '--crys-labradorite'], ['lapis-lazuli', 'Lapis lazuli', '--crys-lapis-lazuli'],
+        ['turquoise', 'Turquoise', '--crys-turquoise'], ['rose-quartz', 'Rose quartz', '--crys-rose-quartz'], ['clear-quartz', 'Clear quartz', '--crys-clear-quartz'],
+        ['smoky-quartz', 'Smoky quartz', '--crys-smoky-quartz'], ['obsidian', 'Obsidian', '--crys-obsidian'], ['tigers-eye', 'Tiger\u2019s eye', '--crys-tigers-eye']];
+      WHEEL.forEach(function (cr, cw) {
         var ca = cw / 12 * Math.PI * 2, st = new T.OctahedronGeometry(0.07, 0); st.scale(1, 1.4, 0.8);
-        kit.piece(st, M(wg, at(Math.cos(ca) * 0.55, 2.75 + Math.sin(ca) * 0.55, 0.12, 0, 0, ca)), STONES[cw % STONES.length], 0.01);
-      }
+        var spot = M(wg, at(Math.cos(ca) * 0.55, 2.75 + Math.sin(ca) * 0.55, 0.12, 0, 0, ca));
+        kit.piece(st, spot, cr[2], 0.01);
+        kit.tap(kit.touch(0.2, 0.24, 0.2, spot), function () {
+          return kit.clickPage(frame, '[data-crystal-take="' + cr[0] + '"]', {
+            wait: 'Putting the ' + cr[1].toLowerCase() + ' in your crystal pouch\u2026',
+            out: cr[1] + ', on the Crystal Wheel. Sign on to the CB to keep it in the crystal pouch in your Profile.' });
+        });
+      });
       var pouch = kit.lift(frame, '.myth-mix.myth-panel', { n: 0, w: 600, ww: 1.3, m: M(wg, at(0, 0.35, 0.06)) });
       // Her page's own scripts, run against the pouch and the cauldron here.
       kit.wire(frame, 'crystal-pouch.js');
@@ -1028,9 +1052,10 @@
       // pressable touch, so pressed with nothing in hand it says what to do.
       box(1.1, 0.03, 0.14, M(wg, at(0, 1.85, 0.12)), '--rdr-brass', 0.008);
       var onLedge = 0;
-      var wheelTouch = kit.touch(1.9, 2.0, 0.5, M(wg, at(0, 2.3, 0.15)));
+      // The ledge alone, so the wheel's own stones above it are free to press.
+      var wheelTouch = kit.touch(1.3, 0.4, 0.45, M(wg, at(0, 1.86, 0.15)));
       kit.press({ say: 'Put a crystal on the Crystal Wheel\u2019s ledge', at: [wheelTouch],
-        press: function () { return kit.held() ? 'Press the wheel itself with the crystal in your hand, and it goes on the ledge.' : 'Pick up a crystal from the floor first; pressed with it in your hand, the wheel takes it onto its ledge.'; } });
+        press: function () { return kit.held() ? 'Press the ledge under the wheel with the crystal in your hand, and it goes there.' : 'Pick up a crystal from the floor first; pressed with it in your hand, the ledge takes it.'; } });
       kit.place(wheelTouch, function (mesh, say) {
         var slot = ((onLedge % 7) + 7) % 7; onLedge++;
         mesh.matrix.copy(M(wg, at(-0.42 + slot * 0.14, 1.865, 0.12, 0, 0, 0)));

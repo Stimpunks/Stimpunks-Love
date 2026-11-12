@@ -502,6 +502,23 @@
       var stops = [{ name: 'just through the round door', x: 0, z: -0.3, yaw: 0 },
                    { name: 'at the tuff tray, under the lamp', x: 0, z: tz + 2.1, yaw: 0, pitch: -0.22 }];
 
+      // GLOW PAINT ON THE TRAY (Helen's ask, 2026-11-11): paint on the tuff
+      // tray with a fingertip or a controller touching it, a controller's beam
+      // with its trigger held, or the pointer dragged across it, in her five
+      // glow paints. Like everything in the tray it glows under the lamp and is
+      // its pale paint in daylight. Paint a swirl is the way in without a
+      // pointer, and Wipe the tray clean clears it; nothing painted is kept,
+      // and it goes when you leave the room.
+      var PAINTS = ['Pink', 'Green', 'Blue', 'Orange', 'Yellow'];
+      var trayPaint = kit.paint({ w: 2.0, d: 2.0, m: at(0, TY + 0.088, tz), inks: ['--ppd-pink', '--ppd-green', '--ppd-blue', '--ppd-orange', '--ppd-yellow'], day: DAY, round: true, r: 0.024 });
+      var paintPick = kit.choose({ label: 'Glow paint', choices: PAINTS, start: 0, pick: function (i) {
+        trayPaint.ink(i);
+        return PAINTS[i] + ' glow paint on your finger. Touch the tray, or drag across it, to paint.';
+      } });
+      var paintSwirl = kit.press({ say: 'Paint a swirl on the tray', press: function () { trayPaint.swirl(); return 'A swirl of glow paint goes on the tray.'; } });
+      var paintWipe = kit.press({ say: 'Wipe the tray clean', press: function () { trayPaint.wipe(); return 'The tray is wiped clean, ready for more.'; } });
+      stops[1].acts = [paintPick, paintSwirl, paintWipe];
+
       // A STOOL BY THE TRAY: tonic water poured full, half with water and a
       // quarter, the glow fading jar by jar, and glow sticks in a glass of warm
       // water and a glass of cold.
@@ -915,6 +932,7 @@
         });
         nightOnly.forEach(function (m) { kit.hide(m, day); });
         dayOnly.forEach(function (m) { kit.hide(m, !day); });
+        trayPaint.day(day);
         if (lampPress) lampPress.sync();
       });
 

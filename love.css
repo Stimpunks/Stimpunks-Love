@@ -9137,6 +9137,15 @@ html:not([data-intensity="gentle"]) .yurt-wings__art.is-fluttering image { anima
 .yurt-wings__art image[data-wings="fritillary"] { animation-duration: 2.5s; animation-delay: .2s; }
 @keyframes yurt-wings-flutter { 0%, 100% { transform: scaleX(1) translateY(0); } 50% { transform: scaleX(.74) translateY(-2px); } }
 .yurt-saucer__art { width: 230px; } /* wider than the other things by the door, so the drops and rings can be seen. */
+/* The wreath on the door (Helen's ask, 2026-11-11): willow and ivy dressed for the festival of the
+   Wheel of the Year nearest today, by tools/make-yurt-wreath.py and yurt-wreath.js. Every dressing ships
+   hidden and one is shown by date; nothing on it moves at any setting. Its own class, because
+   .yurt-wheel is Gibbles' wheel. */
+.yurt-wreath__art { display: block; width: 170px; max-width: 100%; height: auto; margin: 0 auto; }
+.yurt-wreath__says { font-style: italic; }
+.yurt-wreath__all summary { cursor: pointer; color: var(--candle); }
+.yurt-wreath__all ul { margin: 8px 0 0; padding-left: 1.1em; font-size: 15px; color: var(--tallow-2); }
+.yurt-wreath__all li[aria-current] { color: var(--tallow); }
 .yurt-saucer__ring { transform-box: fill-box; transform-origin: center; }
 .yurt-saucer__milk { transform-box: fill-box; transform-origin: center; }
 .yurt-saucer__spoon { transform-box: view-box; transform-origin: 94px 76px; }
@@ -9285,6 +9294,32 @@ html[data-intensity="max"] .crown-moth { animation: yurt-moth 11s ease-in-out in
 .room-yurt .yurt-moon { margin: 0 0 8px; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 17px; color: var(--tallow-2); }
 html[data-intensity="max"] body[data-moon="full"] .lights span { background: var(--tallow); box-shadow: 0 0 6px 2px rgba(242,230,212,.6); }
 html[data-intensity="max"] body[data-moon="full"] .crown-light { fill: var(--tallow); }
+
+/* A MAP OF THE YURT (Helen's ask, 2026-11-11), written by tools/make-yurt-map.py:
+   the tent from above in her own inks, the far wall at the top and the door, where
+   you are, at the bottom; the drawing is a picture only, and the list under it is the
+   same map in words. Nothing on it moves. */
+.room-yurt .yurt-map { max-width: 760px; margin: 26px auto 0; }
+.room-yurt .yurt-map h2 { margin-top: 0; }
+.yurt-map__lede, .yurt-map__how { color: var(--tallow-2); font-size: 16px; line-height: 1.55; }
+.yurt-map__fig { margin: 10px 0 6px; }
+.yurt-map__plan { display: block; width: 100%; height: auto; color: var(--tallow); }
+.yurt-map__floor { fill: var(--canvas); }
+.yurt-map__rug { fill: var(--canvas-2); }
+.yurt-map__table { fill: var(--timber); }
+.yurt-map__wall { fill: none; stroke: var(--tallow-3); stroke-width: 4; }
+.yurt-map__crown { fill: none; stroke: var(--canvas-2); stroke-width: 2; }
+.yurt-map__pole { stroke: var(--canvas-2); stroke-width: 1.4; }
+.yurt-map__place { fill: var(--tallow-2); }
+.yurt-map__way { fill: var(--candle); }
+.yurt-map__wayin { fill: var(--tent); }
+.yurt-map__door { fill: var(--ember); }
+.yurt-map__here { fill: var(--ember-2); }
+.yurt-map__plan text { fill: currentColor; font-family: 'Cormorant Garamond', Georgia, serif; }
+.yurt-map__room { font-size: 19px; font-weight: 600; }
+.yurt-map__heretext { font-size: 19px; font-weight: 600; fill: var(--ember-2) !important; }
+.yurt-map__mid, .yurt-map__placename { font-size: 15px; font-style: italic; fill: var(--tallow-2) !important; }
+.yurt-map__ways { margin: 6px 0 10px; padding-left: 1.4em; line-height: 1.6; color: var(--tallow); }
 
 /* §15 ── ROOM: The Arcade ────────────────────────────────────────────────────
    The only room on this street with a game in it. Coin-op at
@@ -30953,6 +30988,10 @@ html[data-intensity="max"] .myth-glint { animation: myth-glint 3.4s ease-in-out 
 }
 .hollow-btn:hover { border-color: var(--gwh-ink); }
 .room-hollow .hollow-said { margin: 8px 0 0; min-height: 1.7em; font-style: italic; color: var(--gwh-ink-2); }
+/* The night walk (Helen's ask, 2026-11-11, glow-walk.js): the light the walk has stopped at is ringed in
+   the foxfire's own green, steady, and the ring goes when the walk moves on or stops. Nothing moves. */
+.room-hollow .is-walked { outline: 2px solid var(--gwh-fox); outline-offset: 6px; border-radius: 10px; }
+.room-hollow .hollow-facts li.is-read { box-shadow: inset 3px 0 0 var(--gwh-fox); padding-left: 10px; }
 
 /* THE PHOTOGRAPHS, Helen's asks, 2026-10-28: real pictures of each thing
    glowing, like the crystals in Myths & Legends, all through the page and very
@@ -34416,6 +34455,38 @@ html[data-intensity="max"] .sfb-glint { animation: sfb-glint 6s ease-in-out infi
 }
 .cpc-refs { margin: 0; padding: 0 0 0 1.2em; }
 .cavendish-classroom .cpc-refs li { font-size: 16px; line-height: 1.5; margin: 0 0 8px; }
+/* THE INTERACTIVE WHITEBOARD, with an essay on it (Helen's ask, 2026-11-11):
+   the panel's dark bezel on the wall, a sheet of the room's own card inside it
+   that scrolls, and the stand under it. The bezel and the stand carry no word.
+   The essay's rules hang off .cpc-essay alone, because Cel Street lifts the
+   essay by itself onto the 3D panel, without the bezel round it. The scroll
+   region's ring is drawn inside it, on the sheet, where it is measured. */
+.cpc-board { max-width: 880px; margin: 34px auto 0; }
+.cavendish-classroom .cpc-board > h2 { font-family: 'Sniglet', var(--sans), sans-serif; font-weight: 400; color: var(--cpc-teal); font-size: clamp(24px, 3.4vw, 30px); line-height: 1.2; margin: 0 0 10px; }
+.cpc-board__panel { margin: 16px 0 0; padding: 14px; border-radius: 16px; background: var(--cpc-screen); }
+.cpc-board__screen { max-height: min(76vh, 780px); overflow-y: auto; border-radius: 6px; background: var(--cpc-card); padding: 22px 26px 26px; }
+.cavendish-classroom .cpc-board__screen:focus-visible { outline: 4px solid var(--cpc-link-2); outline-offset: -6px; }
+.cpc-board__stand { width: 34%; height: 46px; margin: 0 auto; border: solid var(--cpc-steel); border-width: 0 16px 10px; }
+.cavendish-classroom .cpc-essay h3 { font-family: 'Sniglet', var(--sans), sans-serif; font-weight: 800; color: var(--cpc-teal); font-size: clamp(24px, 3.6vw, 32px); line-height: 1.2; margin: 0 0 8px; }
+.cavendish-classroom .cpc-essay h4 { font-family: 'Sniglet', var(--sans), sans-serif; font-weight: 400; color: var(--cpc-teal); font-size: 22px; line-height: 1.25; margin: 26px 0 8px; }
+.cavendish-classroom .cpc-essay p { margin: 0 0 14px; }
+.cavendish-classroom .cpc-essay__by { font-weight: 700; margin: 0 0 6px; }
+.cavendish-classroom .cpc-essay__from { color: var(--cpc-ink-2); font-size: 16px; }
+.cavendish-classroom .cpc-essay a { color: var(--cpc-link); }
+.cavendish-classroom .cpc-essay a:hover { color: var(--cpc-link-2); }
+.cpc-essay__refs { list-style: none; margin: 0; padding: 0; }
+.cavendish-classroom .cpc-essay__refs li { font-size: 15px; line-height: 1.5; margin: 0 0 10px; padding-left: 1.6em; text-indent: -1.6em; overflow-wrap: anywhere; }
+/* On paper the board lets go of its scroll, so the whole essay prints. */
+@media print {
+  .cpc-board__screen { max-height: none; overflow: visible; }
+}
+@media (max-width: 560px) {
+  .cpc-board__panel { padding: 8px; border-radius: 12px; }
+  .cpc-board__screen { padding: 16px 14px 20px; }
+}
+.cavendish-classroom .cpc-walk { max-width: 880px; margin: 18px auto 0; }
+.cavendish-classroom .cpc-walk .cpc-go { margin: 0 10px 6px 0; background: var(--cpc-card); }
+.cavendish-classroom .cpc-walk__note { font-size: 16px; color: var(--cpc-ink-2); }
 .cpc-go { display: inline-block; margin: 6px 0 0; padding: 10px 18px; border: 2px solid var(--cpc-teal); border-radius: 999px; font-weight: 700; text-decoration: none; }
 
 /* THE CAVE IS THE ONE DARK PLACE, and its sheet is dark too. */

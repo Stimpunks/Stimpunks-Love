@@ -1933,6 +1933,29 @@ as you walk in "to set the mood", a bed that keeps playing through the tunnel in
 sounds better" (hosting audio here is a decision, the Latibulum's rule), and the YouTube records in the Music Room routed
 through the panner, which a cross-origin frame does not allow.
 
+**HER HARP PLAYS, HER CRYSTALS AND HERBS GO INTO HER POUCH AND BASKET, HER TRAY TAKES PAINT, AND HER YURT HAS A MAP, A WREATH
+AND A NIGHT WALK.** Helen Edgar's picks, 2026-11-11, off a list of what her yurt could still have. **Touch** is two kit calls in
+`cel-street.js`: `kit.strum(hb, fn)` (a box played as a hand's fingertip or a pointer drag enters it, `fn(true)`, or as it is
+pressed, `fn(false)`; `touchStep()` in the headset's frames, `strumUnder` on the screen, and a drag that plucked never also
+clicks), and `kit.paint({ w, d, m, inks, day, round })` (a flat canvas sheet painted by a fingertip within a few centimetres,
+a controller's beam held on it with the trigger down, or a pointer drag; `ink`, `day`, `wipe`, `swirl`; it keeps nothing). The
+harp's notes are `pluck` and `run` in `cel-sounds.js` (a pentatonic scale, so no wrong note, scheduled on the audio clock, never
+a timer). **`kit.clickPage(frame, sel, o)` presses the page's own button** in the room's frame and says what the page's status
+line says: Myths & Legends' Crystal Wheel and drying herbs press `[data-crystal-take]` and `[data-herb-take]`, so the pouch and
+the basket in Profile are the only record and nothing in the 3D room keeps one; signed off, those buttons are hidden and the room
+says to sign on. **The map** is `tools/make-yurt-map.py` out of `data/yurt-map.json`: a plan and the same plan in words on her
+page, and `YURT_MAP` on a lectern inside the door on Cel Street, and the tool refuses a way whose angle differs from the room's,
+so a door moved in the room stops the build until the map moves too. **The wreath** is `tools/make-yurt-wreath.py` out of
+`data/yurt-wreath.json`, held to her Myths & Legends page's eight festivals and their words for when, drawn in her declared inks
+by name; `yurt-wreath.js` (and the room, which may read `Date`) picks the festival nearest the visitor's own date, once, and
+nothing on it moves. **Its class is `yurt-wreath` because `.yurt-wheel` is Gibbles' wheel.** **The night walk** is
+`glow-walk.js` on Glow Wild Hollow: every `ul.hollow-facts` is a stop, its first fact read aloud only with a `localService`
+voice, the page put at the light with no glide, the fact marked where it stands, and any press, key, wheel or touch ending it;
+`make-glow-wild.py` holds it. The friendly edits are **a harp note that is wrong "so it is a real instrument"**, **saving the
+painted tray**, **a crystal kept in the 3D room's own record "so it works signed off"**, **map coordinates typed by hand**,
+**the wreath changing on a timer at midnight**, **a southern-hemisphere guess from the time zone**, and **the walk reading with
+any voice the browser offers**, which sends the words to somebody's server.
+
 **IN A HEADSET THE DIAL AND THE BREAK ARE ON THE SWITCHES, THE PAGE IS READ OFF THE PAGE, AND NOTHING IS DONE FOR YOU BUT ONE THING, ONCE.** Helen
 Edgar's ask, 2026-11-11 ("All of them", to a list of eight), all of it in `cel-street.js`, so every `vr: true` room has it. **The dial** on the panel
 is `window.loveLevel` (`lv.levels.forEach`, `lv.set(key)`), never a second dial. **The break** (`breakSet`, `xrBreak`, `breakScene`) draws a dim empty
@@ -1956,7 +1979,14 @@ let-go. **Tried only in a pretend headset** (a fake `navigator.xr` in the browse
 pausing the room's sounds "since it is a break"** (somebody may have the rain on on purpose), **her photographs on the board "since it is her room"**
 (each record's `elsewhere` is hers to widen), **the picture switching back to full when the frames recover**, which flaps, **a stronger or longer buzz
 "so it can be felt"**, **the page's words typed into a room file "so the board looks better"**, and **seeing each other's hands**, which sends more
-than a place and needs the privacy page first.
+than a place and needs the privacy page first. **Helen's photographs are drawn on the board since the same evening, by her yes** ("they are my photos and i
+consent"): a record in `data/polaroids.json` with `headset` (the date of the yes) is written by `make-cel-street.py` into `HEADSET_PHOTOS` between
+`cel:photos` markers, and the board draws only those (`headsetMay`); the staircase photograph, taken by a friend, joined them the same evening on
+Helen's own yes ("yes it is my photo"). **Wave** (the same evening, "see each other's hands waving") is a press in every room: `myWave`, a count round 0 to 9, travels with the
+place (`cleanCelSpot`, `CEL_WAVES`, privacy.html#cel-folk) and a figure whose count moved since this page last heard of it waves its arm
+(`waveStart`, `waveStep`, inside `moveTick` and the headset's frames), still at Gentle, said in words. **Real hands are never sent**, and the tool
+refuses a hand's pose beside a place. The friendly edits are **live hand tracking sent "so a wave is real"**, which is a stream of somebody's body,
+**a wave that lasts "so nobody misses it"**, and **a figure waving on arrival**.
 
 **THE BASKET OF WINGS BY THE YURT'S DOOR LENDS A PAIR TO YOUR 3D FIGURE, AND HER THREE ANIMALS ARE ASLEEP IN THE SCENE.**
 Helen Edgar's asks, 2026-11-09. A room on Cel Street that lends wings names its pairs (`wings` in `cel-in-faery-yurt.js`,
@@ -3922,7 +3952,13 @@ classroom is one example of a whole school, what a small classroom keeps and wha
 outdoors (Helen: not every classroom has space for big sensory areas), an example flexible, interest-led day as a table, what the room cannot do
 without the rest of the school, and how to read the research. The
 friendly edits are a behaviour chart "as an example of what not to do" drawn on the wall, bunting and primary colours "because
-it is for children", a child drawn in the cave, and a quotation from the unpublished chapter before the book is out.
+it is for children", a child drawn in the cave, and a quotation from the unpublished chapter before the book is out. **The whiteboard has an essay on it** (Helen's ask, the same day): *From the Height of a Child*, by Helen Edgar and Ryan
+Boren, is the `<article class="cpc-essay">` in the page's `.cpc-board`, the only copy of its words, real text that scrolls on the board;
+`tools/make-classroom-pdf.py` prints `pdf/from-the-height-of-a-child.pdf` from it, **by hand and never in `check-all.sh`** (it needs Chrome,
+and a PDF's bytes carry the minute it was made), and `--check` says whether the PDF is older than the essay (`data/classroom-pdf.json`).
+Cel Street lifts `.cpc-essay` onto the 3D panel, so the essay's rules hang off `.cpc-essay` alone, never off the board round it. The
+friendly edits are the essay's words typed a second time into the PDF tool, the PDF in a frame in place of the words (one page on a
+phone and nothing to a screen reader), and a line of the unpublished chapter quoted in it.
 
 **CHAMPURU (§136) IS RYAN'S OWN TABLE, AND NOTHING ON IT SAYS WHAT FOOD DOES FOR A BODY.** Ryan's brief, 2026-11-03:
 a restaurant to sit in when he eats, next door to Vital Plant Living, with Mediterranean and Okinawan dishes and the

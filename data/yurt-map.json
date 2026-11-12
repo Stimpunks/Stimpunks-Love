@@ -1,0 +1,21 @@
+{
+  "_source": "Helen Edgar's ask, 2026-11-11: \"A map of your yurt and its rooms ... with a 'you are here'\". Every way through and every place is where it stands in the yurt on Cel Street (cel-in-faery-yurt.js), measured round from the far wall the way a clock's hand goes, seen from above; tools/make-yurt-map.py checks every way's angle against that file, so the map and the room cannot disagree. Degrees: 0 is the far wall, 90 the right-hand side as you come in, 180 the door, -90 (270) the left-hand side.",
+  "ways": [
+    { "room": "The Reading Room", "page": "faery-reading-room.html", "by": "the bookcase", "angle": 35 },
+    { "room": "The Music Room", "page": "faery-music-room.html", "by": "the phonograph", "angle": 70 },
+    { "room": "The Cinema", "page": "faery-cinema-room.html", "by": "the curtain", "angle": 108 },
+    { "room": "Looking-Glass House", "page": "looking-glass-house.html", "by": "the gilt looking-glass", "angle": 126 },
+    { "room": "The Play Pod", "page": "play-pod.html", "by": "the round door", "angle": -154 },
+    { "room": "Myths & Legends", "page": "faery-myths-room.html", "by": "the Alchemist’s Arch", "angle": -112 },
+    { "room": "Glow Wild Hollow", "page": "glow-wild-hollow.html", "by": "the glowing mushroom", "angle": -22 }
+  ],
+  "places": [
+    { "name": "the door out to the campgrounds", "short": "the way in", "angle": 180, "r": 1.0, "section": "by-the-door" },
+    { "name": "the regulation nook and its egg chair", "short": "the nook", "angle": 145, "r": 0.62, "section": "regulation-nook" },
+    { "name": "the beanbags", "short": "beanbags", "angle": 95, "r": 0.62 },
+    { "name": "her own page, on the far wall", "short": "her page", "angle": 0, "r": 0.85 },
+    { "name": "the Glimmer Window", "short": "the Glimmer Window", "angle": -38, "r": 0.82, "section": "glimmer-window" },
+    { "name": "the stove, with the fly agarics round it", "short": "the stove", "angle": -72, "r": 0.66 },
+    { "name": "the hammock", "short": "hammock", "angle": -133, "r": 0.62 }
+  ]
+}

@@ -15868,7 +15868,7 @@
      Whether it is on is kept in love-cb as `cel`, Be seen here's rule. */
   var celSpot = null;
   window.addEventListener('love-cel-spot', function (e) {
-    celSpot = e.detail && Number.isInteger(e.detail.spot) ? { room: e.detail.room, spot: e.detail.spot, wings: typeof e.detail.wings === 'string' ? e.detail.wings : null } : null;
+    celSpot = e.detail && Number.isInteger(e.detail.spot) ? { room: e.detail.room, spot: e.detail.spot, wings: typeof e.detail.wings === 'string' ? e.detail.wings : null, wave: Number.isInteger(e.detail.wave) && e.detail.wave >= 0 && e.detail.wave < 10 ? e.detail.wave : null } : null;
     if (radio && !radio.state.folded) radio.celShown();
   });
   function celPage() { return !inWindow() && herePath() === '/cel-street.html'; }
@@ -15880,7 +15880,12 @@
     if (others !== undefined && celPage()) {
       var mine = fold(this.state.handle);
       var folk = (others || []).filter(function (o) { return o && o.cel && fold(o.handle) !== mine; })
-        .map(function (o) { return { handle: o.handle, base: !!o.base, spot: o.cel.spot, look: o.cel.look }; });
+        .map(function (o) {
+          var f = { handle: o.handle, base: !!o.base, spot: o.cel.spot, look: o.cel.look };
+          if (typeof o.cel.wings === 'string') f.wings = o.cel.wings;
+          if (Number.isInteger(o.cel.wave)) f.wave = o.cel.wave;
+          return f;
+        });
       var key = JSON.stringify(folk);
       if (key !== this.celFolkSent) { this.celFolkSent = key; window.dispatchEvent(new CustomEvent('love-cel-folk', { detail: { room: here, folk: folk } })); }
     }
@@ -15888,7 +15893,14 @@
     // seen, in a room on Cel Street, and nothing otherwise.
     // A pair of wings borrowed in the room (Helen's basket by the door) goes
     // with the place and comes back in the basket with it.
-    var want = this.state.cel && this.state.seen && show && celSpot && celSpot.room === here ? (celSpot.wings ? { room: here, spot: celSpot.spot, wings: celSpot.wings } : { room: here, spot: celSpot.spot }) : null;
+    // A wave (Wave in the room, Helen's ask of 2026-11-11) is a count round
+    // 0 to 9 that goes with the place, so a figure whose count moved waves.
+    var want = null;
+    if (this.state.cel && this.state.seen && show && celSpot && celSpot.room === here) {
+      want = { room: here, spot: celSpot.spot };
+      if (celSpot.wings) want.wings = celSpot.wings;
+      if (celSpot.wave !== null) want.wave = celSpot.wave;
+    }
     var wantKey = want ? JSON.stringify(want) : '';
     // Sent when it changes. The first time with nothing to send, once, in case
     // a record from an earlier visit is still there.

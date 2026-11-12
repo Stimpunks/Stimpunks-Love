@@ -675,6 +675,129 @@
       var stops = [{ name: 'just inside the door, out of the night air', x: 0, z: R - 1.2, yaw: 0, acts: [] }];
       function stop(theta, name, page, room) { stops.push({ name: name, room: room, page: page, x: (R - 3.3) * Math.sin(theta), z: -(R - 3.3) * Math.cos(theta), yaw: -theta, pitch: -0.08 }); }
 
+      // A MAP OF THE YURT ON A LECTERN JUST INSIDE THE DOOR (Helen's ask,
+      // 2026-11-11): her page's map, the yurt from above with the far wall at
+      // the top, so standing at the lectern and facing into the tent the map
+      // and the room line up. YURT_MAP is written by tools/make-yurt-map.py
+      // out of data/yurt-map.json, which it checks against every way's angle
+      // in this file; never hand-edit between the markers. Lettered in her
+      // Cormorant Garamond in her own inks; YOU ARE HERE is the door.
+      /* yurt-map:begin */
+      var YURT_MAP = {"ways": [{"room": "The Reading Room", "angle": 35, "by": "the bookcase"}, {"room": "The Music Room", "angle": 70, "by": "the phonograph"}, {"room": "The Cinema", "angle": 108, "by": "the curtain"}, {"room": "Looking-Glass House", "angle": 126, "by": "the gilt looking-glass"}, {"room": "The Play Pod", "angle": -154, "by": "the round door"}, {"room": "Myths & Legends", "angle": -112, "by": "the Alchemist’s Arch"}, {"room": "Glow Wild Hollow", "angle": -22, "by": "the glowing mushroom"}], "places": [{"short": "the way in", "angle": 180, "r": 1.0}, {"short": "the nook", "angle": 145, "r": 0.62}, {"short": "beanbags", "angle": 95, "r": 0.62}, {"short": "her page", "angle": 0, "r": 0.85}, {"short": "the Glimmer Window", "angle": -38, "r": 0.82}, {"short": "the stove", "angle": -72, "r": 0.66}, {"short": "hammock", "angle": -133, "r": 0.62}]};
+      
+/* yurt-map:end */
+      (function () {
+        var lx = 1.1, lz = 3.75, tilt = -0.62, size = 0.64;
+        kit.cyl(0.035, 0.05, 0.92, at(lx, 0.46, lz), '--timber', 0.01, 8);
+        kit.cyl(0.2, 0.22, 0.04, at(lx, 0.02, lz), '--timber', 0.01, 16);
+        var top = at(lx, 1.0, lz, 0, tilt);
+        box(size + 0.08, size + 0.08, 0.04, M(top, at(0, 0, -0.025)), '--timber', 0.012);
+        var map = kit.paper(1024, 1024, function (c, cw) {
+          var cx = cw / 2, cy = cw / 2 + 30, rr = 330;
+          function pt(a, r) { var t = a * DEG; return [cx + r * Math.sin(t), cy - r * Math.cos(t)]; }
+          c.fillStyle = kit.ink('--tent'); c.fillRect(0, 0, cw, cw);
+          c.fillStyle = kit.ink('--canvas'); c.beginPath(); c.arc(cx, cy, rr, 0, Math.PI * 2); c.fill();
+          c.strokeStyle = kit.ink('--canvas-2'); c.lineWidth = 3;
+          for (var k = 0; k < 28; k++) { var p1 = pt(k / 28 * 360, rr * 0.24), p2 = pt(k / 28 * 360, rr); c.beginPath(); c.moveTo(p1[0], p1[1]); c.lineTo(p2[0], p2[1]); c.stroke(); }
+          c.strokeStyle = kit.ink('--tallow-3'); c.lineWidth = 8; c.beginPath(); c.arc(cx, cy, rr, 0, Math.PI * 2); c.stroke();
+          c.fillStyle = kit.ink('--timber'); c.beginPath(); c.arc(cx, cy, rr * 0.14, 0, Math.PI * 2); c.fill();
+          c.textBaseline = 'middle';
+          c.fillStyle = kit.ink('--tallow'); c.textAlign = 'center';
+          c.font = '600 46px "Cormorant Garamond"'; c.fillText('A map of the yurt', cx, 52);
+          c.font = 'italic 26px "Cormorant Garamond"'; c.fillStyle = kit.ink('--tallow-2');
+          c.fillText('the low table', cx, cy - 2);
+          YURT_MAP.places.forEach(function (pl) {
+            if (pl.angle === 180) return;
+            var q = pt(pl.angle, rr * pl.r), sn = Math.sin(pl.angle * DEG);
+            c.fillStyle = kit.ink('--tallow-2'); c.beginPath(); c.arc(q[0], q[1], 7, 0, Math.PI * 2); c.fill();
+            c.textAlign = Math.abs(sn) < 0.3 ? 'center' : (sn > 0 ? 'right' : 'left');
+            c.fillText(pl.short, q[0] + (Math.abs(sn) < 0.3 ? 0 : (sn > 0 ? -14 : 14)), q[1] + (Math.abs(sn) < 0.3 ? 26 : 0));
+          });
+          c.font = '600 32px "Cormorant Garamond"';
+          YURT_MAP.ways.forEach(function (w) {
+            var q = pt(w.angle, rr), l = pt(w.angle, rr + 36), sn = Math.sin(w.angle * DEG);
+            c.fillStyle = kit.ink('--candle'); c.beginPath(); c.arc(q[0], q[1], 16, 0, Math.PI * 2); c.fill();
+            c.textAlign = Math.abs(sn) < 0.3 ? 'center' : (sn > 0 ? 'left' : 'right');
+            c.fillText(w.room, l[0], l[1]);
+          });
+          var d = pt(180, rr);
+          c.fillStyle = kit.ink('--ember'); c.fillRect(d[0] - 40, d[1] - 9, 80, 18);
+          c.fillStyle = kit.ink('--ember-2'); c.beginPath(); c.arc(d[0], d[1] - 50, 14, 0, Math.PI * 2); c.fill();
+          c.textAlign = 'left'; c.font = '600 32px "Cormorant Garamond"'; c.fillText('you are here', d[0] + 26, d[1] - 50);
+          c.textAlign = 'center'; c.font = 'italic 26px "Cormorant Garamond"'; c.fillStyle = kit.ink('--tallow-2');
+          c.fillText('the door, out to the campgrounds', d[0], d[1] + 40);
+        });
+        kit.sheet(map, size, size, top);
+        stops.push({ name: 'at the map on its lectern, just inside the door', x: lx, z: lz + 0.75, yaw: 0, pitch: -0.62 });
+      })();
+
+      // THE WREATH ON THE DOOR (Helen's ask, 2026-11-11): her page's wreath,
+      // willow and ivy hung from the lintel inside the door, dressed for
+      // whichever festival of the Wheel of the Year is nearest today's date on
+      // the visitor's own device, read once as the room is built. YURT_WREATH
+      // is written by tools/make-yurt-wreath.py out of data/yurt-wreath.json,
+      // which it checks against her Myths & Legends page's wheel; never
+      // hand-edit between the markers. Her inks only, and nothing on it moves.
+/* yurt-wreath:begin */
+      var YURT_WREATH = [{"id": "samhain", "name": "Samhain", "month": 10, "day": 31, "when": "around 31 October", "items": [["lantern", "--tallow"], ["leaf", "--ember"], ["apple", "--toadstool"], ["leaf", "--timber"]]}, {"id": "yule", "name": "Yule", "month": 12, "day": 21, "when": "the winter solstice, around 21 December", "items": [["leaf", "--ivy-2"], ["berry", "--toadstool"], ["leaf", "--ivy"], ["berry", "--toadstool"]], "top": ["sun", "--candle"]}, {"id": "imbolc", "name": "Imbolc", "month": 2, "day": 1, "when": "around 1 February", "items": [["drop", "--tallow"], ["leaf", "--ivy"], ["drop", "--tallow"], ["leaf", "--ivy-2"]], "top": ["cross", "--tallow-2"]}, {"id": "ostara", "name": "Ostara", "month": 3, "day": 20, "when": "the spring equinox, around 20 March", "items": [["egg", "--yurt-fog-lilac"], ["flower", "--yurt-fog-lemon"], ["egg", "--yurt-fog-sky"], ["flower", "--yurt-fog-lemon"], ["egg", "--yurt-fog-rose"]]}, {"id": "beltane", "name": "Beltane", "month": 5, "day": 1, "when": "around 1 May", "items": [["flower", "--tallow"], ["leaf", "--ivy"], ["flower", "--yurt-fog-rose"], ["leaf", "--ivy"]], "ribbons": ["--yurt-fog-rose", "--yurt-fog-sky", "--yurt-fog-mint"]}, {"id": "litha", "name": "Litha", "month": 6, "day": 21, "when": "the summer solstice, around 21 June", "items": [["leaf", "--ivy"], ["flower", "--yurt-fog-lemon"], ["leaf", "--ivy-2"], ["flower", "--candle"]], "top": ["sun", "--candle"]}, {"id": "lughnasadh", "name": "Lughnasadh", "month": 8, "day": 1, "when": "around 1 August", "items": [["ear", "--candle"], ["flower", "--toadstool"], ["ear", "--ember-2"], ["flower", "--toadstool"]]}, {"id": "mabon", "name": "Mabon", "month": 9, "day": 22, "when": "the autumn equinox, around 22 September", "items": [["apple", "--toadstool"], ["acorn", "--timber"], ["berry", "--moonstone"], ["leaf", "--ember"]]}];
+      
+/* yurt-wreath:end */
+      (function () {
+        var d0 = new Date(), y0 = d0.getFullYear(), today = new Date(y0, d0.getMonth(), d0.getDate());
+        var near = YURT_WREATH[0], gap = Infinity;
+        YURT_WREATH.forEach(function (f) {
+          [y0 - 1, y0, y0 + 1].forEach(function (yy) {
+            var g = Math.abs(Math.round((new Date(yy, f.month - 1, f.day) - today) / 86400000));
+            if (g < gap) { gap = g; near = f; }
+          });
+        });
+        var RW = 0.2, wm = M(dg, at(0, 1.6, 0.16));
+        kit.cyl(0.004, 0.004, 0.2, M(wm, at(0, RW + 0.12, 0)), '--tallow-3', false, 5);
+        var ring = new T.TorusGeometry(RW, 0.042, 8, 30);
+        kit.piece(ring, wm, '--timber', 0.008);
+        function on(a, r, dz) { return M(wm, at((r || RW) * Math.sin(a), (r || RW) * Math.cos(a), dz || 0.03)); }
+        function ball(r, m, ink, sx, sy, sz) { var g = new T.SphereGeometry(r, 8, 6); g.scale(sx || 1, sy || 1, sz || 1); kit.piece(g, m, ink, false); }
+        for (var iv = 0; iv < 18; iv++) {
+          var la = (iv * 20 + 10) * DEG, lr = RW + (iv % 2 ? 0.03 : -0.03);
+          var lg = new T.SphereGeometry(0.03, 6, 4); lg.scale(1, 0.5, 0.3); lg.rotateZ(-la + Math.PI / 4);
+          kit.piece(lg, on(la, lr, 0.035), iv % 3 ? '--ivy' : '--ivy-2', false);
+        }
+        function thing(kind, ink, m, a) {
+          if (kind === 'leaf') { var g = new T.SphereGeometry(0.036, 6, 4); g.scale(1, 0.45, 0.25); g.rotateZ(-a); kit.piece(g, m, ink, false); }
+          else if (kind === 'berry') { [[-0.014, 0], [0.014, 0.003], [0, 0.02]].forEach(function (b) { ball(0.014, M(m, at(b[0], b[1], 0.01)), ink); }); }
+          else if (kind === 'apple') { ball(0.032, m, ink); kit.cyl(0.003, 0.003, 0.02, M(m, at(0, 0.036, 0)), '--timber', false, 4); }
+          else if (kind === 'lantern') { ball(0.04, m, ink, 1, 0.92, 1); ball(0.012, M(m, at(-0.012, 0.006, 0.036)), '--ember'); ball(0.012, M(m, at(0.012, 0.006, 0.036)), '--ember'); ball(0.016, M(m, at(0, -0.014, 0.034)), '--ember', 1.4, 0.5, 0.5); }
+          else if (kind === 'drop') { ball(0.022, m, ink, 0.8, 1.3, 0.8); kit.cyl(0.003, 0.003, 0.04, M(m, at(0, 0.04, 0)), '--ivy-2', false, 4); }
+          else if (kind === 'egg') { ball(0.026, m, ink, 0.8, 1.1, 0.8); }
+          else if (kind === 'flower') {
+            for (var p = 0; p < 5; p++) ball(0.013, M(m, at(0.016 * Math.sin(p * 72 * DEG), 0.016 * Math.cos(p * 72 * DEG), 0)), ink);
+            ball(0.009, M(m, at(0, 0, 0.01)), ink === '--toadstool' ? '--timber' : '--candle');
+          }
+          else if (kind === 'ear') {
+            var em = M(m, at(0, 0, 0, 0, 0, -a));
+            kit.cyl(0.003, 0.003, 0.12, em, ink, false, 4);
+            for (var e = 0; e < 5; e++) ball(0.009, M(em, at(e % 2 ? -0.008 : 0.008, 0.012 + e * 0.012, 0)), ink, 0.7, 1.3, 0.7);
+          }
+          else if (kind === 'acorn') { ball(0.02, m, '--tallow-3', 0.85, 1.1, 0.85); ball(0.021, M(m, at(0, 0.012, 0)), ink, 1, 0.55, 1); }
+          else if (kind === 'sun') {
+            var sd = new T.CylinderGeometry(0.05, 0.05, 0.012, 20); sd.rotateX(Math.PI / 2); kit.piece(sd, m, ink, false);
+            for (var r = 0; r < 8; r++) kit.box(0.012, 0.03, 0.008, M(m, at(0.07 * Math.sin(r * 45 * DEG), 0.07 * Math.cos(r * 45 * DEG), 0, 0, 0, -r * 45 * DEG)), ink, false);
+          }
+          else if (kind === 'cross') {
+            kit.box(0.03, 0.03, 0.01, m, ink, false);
+            [[0, 0.05], [0.05, 0], [0, -0.05], [-0.05, 0]].forEach(function (c) { kit.box(c[0] ? 0.07 : 0.014, c[0] ? 0.014 : 0.07, 0.01, M(m, at(c[0], c[1], 0)), ink, false); });
+          }
+        }
+        for (var s = 0; s < 8; s++) {
+          var sa = (22.5 + 45 * s) * DEG, it = near.items[s % near.items.length];
+          thing(it[0], it[1], on(sa, RW, 0.05), sa);
+        }
+        if (near.top) thing(near.top[0], near.top[1], on(0, RW, 0.06), 0);
+        (near.ribbons || []).forEach(function (ink, n) {
+          kit.box(0.022, 0.32, 0.004, M(wm, at((n - 1) * 0.045, -RW - 0.17, 0.03, 0, 0, (n - 1) * 0.12)), ink, false);
+        });
+      })();
+
       // HER OWN PAGE on the far wall, facing the door, in a timber frame.
       var sw0 = 2.4, sh0 = sw0 * 800 / 1180, sy0 = 0.28 + sh0 / 2;
       var pg = round(0, R - 0.14, 0);
@@ -1326,7 +1449,7 @@
       // the crown in the middle, then round the wall to the right and back
       // to the door, which is where a controller's bumpers go. Every stop
       // stands in open floor, a stride or more off what it faces.
-      var ORDER = ['just inside the door', 'at the low table', 'under the crown', 'at the pebble bowl', 'in the regulation nook',
+      var ORDER = ['just inside the door', 'at the map on its lectern', 'at the low table', 'under the crown', 'at the pebble bowl', 'in the regulation nook',
                    'at the looking-glass', 'at the curtain', 'at the beanbags', 'at the phonograph', 'at the bookcase', 'at the far wall',
                    'by the glowing mushroom', 'at the Glimmer Window', 'at the daybed', 'by the stove', 'at the stove’s door', 'at the shelf of jars',
                    'at the hollow stump', 'at the Alchemist’s Arch', 'at the hammock', 'at the round door'];
@@ -1334,7 +1457,7 @@
         var ia = ORDER.findIndex(function (o) { return a.name.indexOf(o) === 0; }), ib = ORDER.findIndex(function (o) { return b.name.indexOf(o) === 0; });
         return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
       });
-      stops.push({ name: 'back at the door, the way out to the campgrounds, with the bell string and the basket of blankets beside it', x: 0, z: R - 2.0, yaw: Math.PI, pitch: 0, acts: [faeries, garden, chimes] });
+      stops.push({ name: 'back at the door, the way out to the campgrounds, with the wreath, the bell string and the basket of blankets beside it', x: 0, z: R - 2.0, yaw: Math.PI, pitch: 0, acts: [faeries, garden, chimes] });
 
       return {
         start: { x: 0, z: R - 1.2, yaw: 0 },
