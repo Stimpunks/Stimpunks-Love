@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-11-11T12:18Z",
+ "set": "2026-11-12T12:18Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2024-05-03T15:53:16Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-11-11T12:18:29Z"
+     "2026-11-12T12:18:07Z"
     ]
    ]
   }
@@ -358,16 +358,6 @@
    "published": "2026-10-24T13:54:41Z",
    "state": "screen",
    "runs": 1670,
-   "channel": "Sarah's Vegan Kitchen"
-  },
-  {
-   "id": "xCBLcY06t6k",
-   "source": "sarahs-vegan-kitchen",
-   "form": "short",
-   "title": "For the ones who measure garlic with their hearts 🧄❤️‍🔥",
-   "published": "2026-10-12T21:35:09Z",
-   "state": "screen",
-   "runs": 12,
    "channel": "Sarah's Vegan Kitchen"
   },
   {
@@ -611,6 +601,16 @@
    "channel": "Ahmad Noori"
   },
   {
+   "id": "6_Y24wBWGPg",
+   "source": "ahmad-noori",
+   "form": "short",
+   "title": "Golden Stuffed Potato Pancakes with a Creamy Surprise! 🥔✨ #potatopancakes #veganrecipes",
+   "published": "2026-11-11T19:05:51Z",
+   "state": "screen",
+   "runs": 22,
+   "channel": "Ahmad Noori"
+  },
+  {
    "id": "-4zSLGkhjTQ",
    "source": "veganproteins",
    "form": "long",
@@ -721,15 +721,6 @@
    "channel": "PB with J"
   },
   {
-   "id": "HjlMmRyR2vg",
-   "source": "pb-with-j",
-   "form": "long",
-   "title": "How to Use Fresh Herbs Before They Go to Waste!",
-   "published": "2026-11-05T18:03:34Z",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
    "id": "Dld0cHMt90Q",
    "source": "pb-with-j",
    "form": "long",
@@ -737,6 +728,16 @@
    "published": "2026-11-07T15:00:09Z",
    "state": "screen",
    "runs": 701,
+   "channel": "PB with J"
+  },
+  {
+   "id": "HjlMmRyR2vg",
+   "source": "pb-with-j",
+   "form": "long",
+   "title": "How to Use Fresh Herbs Before They Go to Waste!",
+   "published": "2026-11-11T16:00:09Z",
+   "state": "screen",
+   "runs": 1076,
    "channel": "PB with J"
   },
   {
@@ -867,6 +868,16 @@
    "published": "2026-11-07T01:05:35Z",
    "state": "screen",
    "runs": 15,
+   "channel": "Carleigh Bodrug"
+  },
+  {
+   "id": "Dn7CWRY4EDw",
+   "source": "carleigh-bodrug",
+   "form": "short",
+   "title": "Red lentil stew ! #recipe",
+   "published": "2026-11-11T15:49:53Z",
+   "state": "screen",
+   "runs": 42,
    "channel": "Carleigh Bodrug"
   },
   {
