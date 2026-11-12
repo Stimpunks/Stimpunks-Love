@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-11-11T12:16Z",
+  "set": "2026-11-12T12:16Z",
   "springs": [
     {
       "id": "starstuff",
@@ -73,7 +73,7 @@
           ]
         }
       ],
-      "read": "2026-11-11T12:16Z"
+      "read": "2026-11-12T12:16Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-11-11T12:16Z"
+      "read": "2026-11-12T12:16Z"
     },
     {
       "id": "cavendish",
@@ -154,6 +154,36 @@
       "feed": "https://github.com/Stimpunks/Cavendish-Cards/commits/main.atom",
       "note": "The Cavendish Cards deck and the site that holds it. The repository kept the deck's name.",
       "items": [
+        {
+          "title": "Add /third-places: a third place needs a cave",
+          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/6c1d9dc24e9dc639d77ce3d8038ed6e80c136f7e",
+          "date": "2026-11-11T16:28:34Z",
+          "sha": "6c1d9dc",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "Add /cultures-of-regulation: Helen's regulation workshop, with slides",
+          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/ea83f5a1898cb78f05243f1578aa8cdf9b6c63c8",
+          "date": "2026-11-11T12:59:44Z",
+          "sha": "ea83f5a",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "Add /classroom: walk a Cavendish classroom",
+          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/f2a2a024e2ae75b2ac829716733d66a495ad58ab",
+          "date": "2026-11-11T12:44:09Z",
+          "sha": "f2a2a02",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
         {
           "title": "Add /cogens: hold a cogen with the deck",
           "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/190aa5187a488df7add11cb3f384f7eb1eeef772",
@@ -183,39 +213,9 @@
             "ryanboren",
             "Claude Opus 5"
           ]
-        },
-        {
-          "title": "Add an RSS feed for the changelog",
-          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/e3c5c2c67e6fef9045d723cb9bd2bc49ce239cff",
-          "date": "2026-09-20T12:12:56Z",
-          "sha": "e3c5c2c",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5"
-          ]
-        },
-        {
-          "title": "Rewire the registry: the Pattern Library is complete at 56",
-          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/422a17666b0e7d0e954438606f91d0bb8802ed22",
-          "date": "2026-09-18T19:26:05Z",
-          "sha": "422a176",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5"
-          ]
-        },
-        {
-          "title": "Wire Patterns 52–54: the anxiety cluster has a home",
-          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/ee85a83437e7bc137dd92af17f174ad2d16797cf",
-          "date": "2026-09-18T12:21:48Z",
-          "sha": "ee85a83",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5"
-          ]
         }
       ],
-      "read": "2026-11-11T12:16Z"
+      "read": "2026-11-12T12:16Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-11-11T12:16Z"
+      "read": "2026-11-12T12:16Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-11-11T12:16Z"
+      "read": "2026-11-12T12:16Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-11-11T12:16Z"
+      "read": "2026-11-12T12:16Z"
     },
     {
       "id": "love",
@@ -439,67 +439,67 @@
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
         {
-          "title": "The classroom: when the room is small",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/f1a1e2324c12de2da005b679004f4195d93aded1",
-          "date": "2026-11-11T12:09:38Z",
-          "sha": "f1a1e23",
+          "title": "The classroom essay credits the chapter's editor",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/1ddefc47fbf3094ac65eece7d3b4a20641c1b2ef",
+          "date": "2026-11-12T04:12:39Z",
+          "sha": "1ddefc4",
           "by": [
             "AutisticRealms",
-            "Claude Fable 5.2"
+            "Claude Sonnet 5.5"
           ]
         },
         {
-          "title": "The classroom for sensory avoiders and seekers, in a whole school wit…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/2e8a48b133e47e2e797fa21117127f0f031c2f82",
-          "date": "2026-11-11T12:00:23Z",
-          "sha": "2e8a48b",
-          "by": [
-            "AutisticRealms",
-            "Claude Fable 5.2"
-          ]
-        },
-        {
-          "title": "Cavendish Primary Classroom: an example for trainee teachers, on the …",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/64f49ce5ac23e031a4926844f0490d39d7b5dcba",
-          "date": "2026-11-11T11:35:23Z",
-          "sha": "64f49ce",
+          "title": "A harp to play, a map of the yurt, a wreath for the Wheel of the Year…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/eec05dce6133c83b42b16c5308d1165cf49f9884",
+          "date": "2026-11-11T19:42:27Z",
+          "sha": "eec05dc",
           "by": [
             "AutisticRealms",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "A sound in every room of Helen's on Cel Street, made of arithmetic",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/c9788fa731ec41ce93b5b620cf643f67899a29a8",
-          "date": "2026-11-11T11:35:10Z",
-          "sha": "c9788fa",
+          "title": "The classroom essay names the book its chapter is in",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/a66980d6a080932e82d4cc03157b5076ff936d40",
+          "date": "2026-11-11T19:04:14Z",
+          "sha": "a66980d",
+          "by": [
+            "AutisticRealms",
+            "Claude Sonnet 5.5"
+          ]
+        },
+        {
+          "title": "The staircase photograph on the headset's reading board too",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/09bf70583934438efa52e11fb07f846357f8ec9c",
+          "date": "2026-11-11T13:10:32Z",
+          "sha": "09bf705",
           "by": [
             "AutisticRealms",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "The tea party's spread, and EAT ME and DRINK ME that make you tall an…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/1e418f83d0b5840bff5d2d63aa91f0ad00c95129",
-          "date": "2026-11-11T07:05:22Z",
-          "sha": "1e418f8",
+          "title": "Helen's photographs on the headset's reading board, and waving to eac…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/5ff5dd61ccd18d50a0b0d1128beffcf886f93f8d",
+          "date": "2026-11-11T13:02:44Z",
+          "sha": "5ff5dd6",
           "by": [
             "AutisticRealms",
-            "Claude Fable 5.1"
+            "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Seats for a group in every room of Helen's, every stone of her wheel …",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/cb2fa7ee1a020baffb45259cd60d113c259bd582",
-          "date": "2026-11-11T06:52:56Z",
-          "sha": "cb2fa7e",
+          "title": "An essay on the classroom's whiteboard, as text and as a PDF, and a w…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/bf8435997788e548cb09cd449662726cc60957a4",
+          "date": "2026-11-11T13:00:53Z",
+          "sha": "bf84359",
           "by": [
             "AutisticRealms",
-            "Claude Fable 5.1"
+            "Claude Fable 5.2"
           ]
         }
       ],
-      "read": "2026-11-11T12:16Z"
+      "read": "2026-11-12T12:16Z"
     },
     {
       "id": "garden",
@@ -568,7 +568,7 @@
           "anon": true
         }
       ],
-      "read": "2026-11-11T12:16Z"
+      "read": "2026-11-12T12:16Z"
     }
   ]
 }
