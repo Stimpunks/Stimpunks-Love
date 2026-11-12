@@ -90,7 +90,7 @@
    "channel_id": "UCgscS8mBsQZ5sFRkJIFWD7Q"
   }
  ],
- "set": "2026-11-11T12:20Z",
+ "set": "2026-11-12T12:20Z",
  "log": [
   {
    "id": "mn0agTT8lG8",
@@ -320,6 +320,16 @@
    "published": "2026-11-09T23:16:34Z",
    "state": "screen",
    "runs": 1247,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "pvl3z_GyU2Y",
+   "source": "matt-wolfe",
+   "form": "long",
+   "title": "He Built an AI System That Runs His Entire Business",
+   "published": "2026-11-11T16:00:07Z",
+   "state": "screen",
+   "runs": 1663,
    "channel": "Matt Wolfe"
   },
   {
@@ -593,6 +603,16 @@
    "channel": "Matt Wolfe"
   },
   {
+   "id": "Xtb3Pua0e8s",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "The New Ring Camera Flies Around Your House",
+   "published": "2026-11-11T15:00:23Z",
+   "state": "screen",
+   "runs": 109,
+   "channel": "Matt Wolfe"
+  },
+  {
    "id": "pTh4IJ-Mi3Y",
    "source": "nate-b-jones",
    "form": "long",
@@ -853,6 +873,16 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
+   "id": "g8jKNvxbqYI",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "The ChatGPT setting that changes everything #ChatGPT #AI #LifeHack",
+   "published": "2026-11-11T18:28:05Z",
+   "state": "screen",
+   "runs": 94,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
    "id": "oAn38UNeRqw",
    "source": "less-bitter",
    "form": "long",
@@ -900,6 +930,16 @@
    "published": "2026-11-04T14:25:28Z",
    "state": "screen",
    "runs": 625,
+   "channel": "Less Bitter"
+  },
+  {
+   "id": "4BnLL7tUGmI",
+   "source": "less-bitter",
+   "form": "long",
+   "title": "Don’t buy Anthropic stock until you see this",
+   "published": "2026-11-12T12:00:35Z",
+   "state": "screen",
+   "runs": 570,
    "channel": "Less Bitter"
   },
   {
@@ -951,16 +991,6 @@
    "state": "screen",
    "runs": 25,
    "channel": "Less Bitter"
-  },
-  {
-   "id": "DbWL6Zs2j_g",
-   "source": "theo",
-   "form": "long",
-   "title": "Meta just caught up with Anthropic",
-   "published": "2026-10-13T11:01:13Z",
-   "state": "screen",
-   "runs": 2282,
-   "channel": "Theo - t3․gg"
   },
   {
    "id": "NE006pkiAnk",
@@ -1133,13 +1163,13 @@
    "channel": "Theo - t3․gg"
   },
   {
-   "id": "XkmZ1nOtuDc",
+   "id": "OBNVzWYMKbE",
    "source": "theo",
-   "form": "short",
-   "title": "P.S. Don't Upgrade For Ultrafast (Yet)",
-   "published": "2026-10-12T18:00:14Z",
+   "form": "long",
+   "title": "Progress?",
+   "published": "2026-11-11T15:50:36Z",
    "state": "screen",
-   "runs": 23,
+   "runs": 1777,
    "channel": "Theo - t3․gg"
   },
   {
@@ -1151,16 +1181,6 @@
    "state": "screen",
    "runs": 43,
    "channel": "Theo - t3․gg"
-  },
-  {
-   "id": "iXjh7VSSLDE",
-   "source": "paul-j-lipsky",
-   "form": "long",
-   "title": "Meta's New Muse Wonder Is Huge!",
-   "published": "2026-10-12T19:17:18Z",
-   "state": "screen",
-   "runs": 480,
-   "channel": "Paul J Lipsky"
   },
   {
    "id": "3MMbWDF4xYI",
@@ -1313,6 +1333,16 @@
    "channel": "Paul J Lipsky"
   },
   {
+   "id": "o8hqvv3Cbls",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Fable 5.2: 18 Wild Things You Can Build",
+   "published": "2026-11-11T23:39:42Z",
+   "state": "screen",
+   "runs": 1437,
+   "channel": "Paul J Lipsky"
+  },
+  {
    "id": "DMlBzXvG22g",
    "source": "austin-marchese",
    "form": "long",
@@ -1376,10 +1406,20 @@
    "id": "fFktpPMQzjI",
    "source": "austin-marchese",
    "form": "long",
-   "title": "If You Ask Claude 5 Questions, It'll Make You Build 10x Faster",
+   "title": "Ask Claude These 5 Questions, It'll Make You Build 10x Faster",
    "published": "2026-11-10T14:45:16Z",
    "state": "screen",
    "runs": 1356,
+   "channel": "Austin Marchese"
+  },
+  {
+   "id": "_cSM8Xe0sd8",
+   "source": "austin-marchese",
+   "form": "long",
+   "title": "How To Prompt Claude Like The Top 1% (Karpathy's Method)",
+   "published": "2026-11-11T23:45:07Z",
+   "state": "screen",
+   "runs": 1095,
    "channel": "Austin Marchese"
   },
   {
@@ -1473,6 +1513,16 @@
    "channel": "Riley Brown"
   },
   {
+   "id": "XQfbNtp67OE",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "Claude Fable 5.2 Feels Like AGI (Here’s Everything It Can Do)",
+   "published": "2026-11-11T13:33:18Z",
+   "state": "screen",
+   "runs": 1132,
+   "channel": "Riley Brown"
+  },
+  {
    "id": "ODBdb9oyrVs",
    "source": "riley-brown",
    "form": "short",
@@ -1501,16 +1551,6 @@
    "state": "screen",
    "runs": 121,
    "channel": "Riley Brown"
-  },
-  {
-   "id": "nRXHWckVxoM",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "This ONE Claude Skill Helps You Think Clearer Than 99% of People",
-   "published": "2026-10-13T02:42:52Z",
-   "state": "screen",
-   "runs": 884,
-   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "rL5tw6h78zo",
@@ -1613,13 +1653,13 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
-   "id": "7GTWAXCTy0o",
+   "id": "dlkZr61G6vA",
    "source": "nate-herk",
-   "form": "short",
-   "title": "I Built the Ultimate AI Board of Advisors",
-   "published": "2026-10-13T02:43:49Z",
+   "form": "long",
+   "title": "Everything Alex Hormozi Said About AI in 2026",
+   "published": "2026-11-11T12:44:29Z",
    "state": "screen",
-   "runs": 91,
+   "runs": 707,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -1963,6 +2003,16 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
+   "id": "3iylmS2k3Is",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Claude Can Now Run Your Omnisend Account for You",
+   "published": "2026-11-11T18:00:39Z",
+   "state": "screen",
+   "runs": 52,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
    "id": "o8LjTSvza0E",
    "source": "chase-ai",
    "form": "long",
@@ -2020,6 +2070,16 @@
    "published": "2026-11-10T05:29:39Z",
    "state": "screen",
    "runs": 641,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "lAE78Iorby0",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "The NEW Fable 5.2 Design Workflow Everyone Is Stealing",
+   "published": "2026-11-11T23:47:10Z",
+   "state": "screen",
+   "runs": 979,
    "channel": "Chase AI"
   },
   {
@@ -2253,6 +2313,16 @@
    "channel": "Greg Isenberg"
   },
   {
+   "id": "1cWZ7Ekff6E",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "Use Grok Bot Better Than 99% of People (Full Course)",
+   "published": "2026-11-11T18:00:16Z",
+   "state": "screen",
+   "runs": 2911,
+   "channel": "Greg Isenberg"
+  },
+  {
    "id": "35sh2FkQn-k",
    "source": "greg-isenberg",
    "form": "short",
@@ -2261,16 +2331,6 @@
    "state": "screen",
    "runs": 83,
    "channel": "Greg Isenberg"
-  },
-  {
-   "id": "z_sXLlLVUls",
-   "source": "two-minute-papers",
-   "form": "long",
-   "title": "OpenAI’s New AI Is Doing Things We Barely Understand",
-   "published": "2026-10-13T08:56:12Z",
-   "state": "screen",
-   "runs": 529,
-   "channel": "Two Minute Papers"
   },
   {
    "id": "LWxX6vvHfrc",
@@ -2628,13 +2688,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ]
   },
@@ -2642,13 +2702,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ]
   },
@@ -2656,13 +2716,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ]
   },
@@ -2670,13 +2730,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ]
   },
@@ -2684,13 +2744,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ]
   },
@@ -2698,13 +2758,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ]
   },
@@ -2712,13 +2772,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ]
   },
@@ -2726,13 +2786,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ]
   },
@@ -2740,13 +2800,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ]
   },
@@ -2754,13 +2814,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ]
   },
@@ -2768,13 +2828,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ]
   },
@@ -2782,13 +2842,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ]
   },
@@ -2796,13 +2856,13 @@
    "long": [
     [
      "2026-08-28T09:44:44Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:12:16Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ]
   },
@@ -2810,13 +2870,13 @@
    "long": [
     [
      "2026-09-23T01:33:56Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-09-25T03:00:26Z",
-     "2026-11-11T12:20:49Z"
+     "2026-11-12T12:20:23Z"
     ]
    ]
   }
