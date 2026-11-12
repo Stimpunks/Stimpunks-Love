@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-11T12:25Z",
+ "set": "2026-11-12T12:25Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-11T12:25:47Z"
+     "2026-11-12T12:25:34Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-11T12:25:47Z"
+     "2026-11-12T12:25:34Z"
     ]
    ]
   }
@@ -125,36 +125,6 @@
    "published": "2026-11-07T01:57:36Z",
    "state": "screen",
    "runs": 538,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "ciaPR1KwGz0",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Focus on unleashing productive people, not punishing deadbeats.",
-   "published": "2026-10-12T14:59:51Z",
-   "state": "screen",
-   "runs": 157,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "bkNLujkx_Y8",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Deranged restaurant reviews part 1: Milk & Honey",
-   "published": "2026-10-12T20:01:27Z",
-   "state": "screen",
-   "runs": 46,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "ehag_Lsss3M",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "“You can’t be pro-Black if you can’t  punch a motherless child.”",
-   "published": "2026-10-13T11:16:59Z",
-   "state": "screen",
-   "runs": 13,
    "channel": "Farming While Beige"
   },
   {
@@ -625,6 +595,36 @@
    "published": "2026-11-10T20:00:26Z",
    "state": "screen",
    "runs": 26,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "ZtirsiN0DWw",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "We have two years to get ready to toss every single one of these people out of their seats.",
+   "published": "2026-11-11T14:24:10Z",
+   "state": "screen",
+   "runs": 135,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "3rNnGWtEuHA",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Our turkeys are almost ready!",
+   "published": "2026-11-11T16:44:38Z",
+   "state": "screen",
+   "runs": 178,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "veWduJOv0RI",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Lamb and pet treats are back!",
+   "published": "2026-11-12T01:31:53Z",
+   "state": "screen",
+   "runs": 117,
    "channel": "Farming While Beige"
   }
  ]
