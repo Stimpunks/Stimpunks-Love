@@ -225,7 +225,7 @@
    "id": "p2J-gB1SHII",
    "source": "acl",
    "form": "short",
-   "title": "Ari Lennox Season 52 Episode Recap | Live From Austin City Limits TV",
+   "title": "Ari Lennox Season 52 Episode Recap | Live on Austin City Limits TV",
    "published": "2026-10-23T01:39:48Z",
    "state": "screen",
    "runs": 86,
@@ -255,7 +255,7 @@
    "id": "iW5mJxC58ng",
    "source": "acl",
    "form": "short",
-   "title": "Gracie Abrams - I Love You, I'm Sorry clip | Live From Austin City Limits TV",
+   "title": "Gracie Abrams - I Love You, I'm Sorry clip | Live on Austin City Limits TV",
    "published": "2026-10-28T16:12:45Z",
    "state": "screen",
    "runs": 57,
@@ -285,7 +285,7 @@
    "id": "3qFPs59URWc",
    "source": "acl",
    "form": "short",
-   "title": "Ty Myers - Whiskey River clip | Live From Austin City Limits TV",
+   "title": "Ty Myers - Whiskey River clip | Live on Austin City Limits TV",
    "published": "2026-11-01T01:20:27Z",
    "state": "screen",
    "runs": 60,
@@ -320,56 +320,6 @@
    "state": "screen",
    "runs": 23,
    "channel": "Austin City Limits"
-  },
-  {
-   "id": "gyQkq7Mm0YI",
-   "source": "kexp",
-   "form": "long",
-   "title": "Diavol Strâin - Full Performance (Live on KEXP)",
-   "published": "2026-10-12T15:00:15Z",
-   "state": "screen",
-   "runs": 2083,
-   "channel": "KEXP"
-  },
-  {
-   "id": "7GYtO7Z_XqQ",
-   "source": "kexp",
-   "form": "long",
-   "title": "Altın Gün - Bir Nazar Eyledim (Live on KEXP)",
-   "published": "2026-10-13T11:00:07Z",
-   "state": "screen",
-   "runs": 321,
-   "channel": "KEXP"
-  },
-  {
-   "id": "Sj6QzsqVsCQ",
-   "source": "kexp",
-   "form": "long",
-   "title": "Altın Gün - Zülüf Dökülmüs Yüze (Live on KEXP)",
-   "published": "2026-10-13T11:00:11Z",
-   "state": "screen",
-   "runs": 218,
-   "channel": "KEXP"
-  },
-  {
-   "id": "hEH4RJzlGZw",
-   "source": "kexp",
-   "form": "long",
-   "title": "Altın Gün - Neredesin Sen (Live on KEXP)",
-   "published": "2026-10-13T11:00:15Z",
-   "state": "screen",
-   "runs": 281,
-   "channel": "KEXP"
-  },
-  {
-   "id": "AnlOB3kieq4",
-   "source": "kexp",
-   "form": "long",
-   "title": "Altın Gün - Gönül Dağı (Live on KEXP)",
-   "published": "2026-10-13T11:00:31Z",
-   "state": "screen",
-   "runs": 237,
-   "channel": "KEXP"
   },
   {
    "id": "B0uBUBs7-6c",
@@ -1532,13 +1482,53 @@
    "channel": "KEXP"
   },
   {
-   "id": "7eRphwN7PxI",
+   "id": "BlKQ30FYJNg",
    "source": "kexp",
-   "form": "short",
-   "title": "Diavol Strâin perform \"Un Camino A La Muerte\" & more Live on KEXP",
-   "published": "2026-10-12T17:07:57Z",
+   "form": "long",
+   "title": "Inspirative - Full Performance (Live on KEXP)",
+   "published": "2026-11-11T16:00:31Z",
    "state": "screen",
-   "runs": 59,
+   "runs": 1714,
+   "channel": "KEXP"
+  },
+  {
+   "id": "AK1Py16KkJE",
+   "source": "kexp",
+   "form": "long",
+   "title": "Commemorate - Away (Live on KEXP)",
+   "published": "2026-11-11T22:59:39Z",
+   "state": "screen",
+   "runs": 335,
+   "channel": "KEXP"
+  },
+  {
+   "id": "PrOmq2WIHyA",
+   "source": "kexp",
+   "form": "long",
+   "title": "Commemorate - P.S  (Please Stay) (Live on KEXP)",
+   "published": "2026-11-12T12:00:06Z",
+   "state": "screen",
+   "runs": 431,
+   "channel": "KEXP"
+  },
+  {
+   "id": "g2yDVKYRVbU",
+   "source": "kexp",
+   "form": "long",
+   "title": "Commemorate - Slow Down (Live on KEXP)",
+   "published": "2026-11-12T12:00:21Z",
+   "state": "screen",
+   "runs": 278,
+   "channel": "KEXP"
+  },
+  {
+   "id": "n9dxtkilLws",
+   "source": "kexp",
+   "form": "long",
+   "title": "Commemorate - Dazed (Live on KEXP)",
+   "published": "2026-11-12T12:00:31Z",
+   "state": "screen",
+   "runs": 362,
    "channel": "KEXP"
   },
   {
@@ -1742,6 +1732,16 @@
    "channel": "KEXP"
   },
   {
+   "id": "m3Jmctjs3tM",
+   "source": "kexp",
+   "form": "short",
+   "title": "Inspirative performs \"Follow the GPS\" & more Live on KEXP",
+   "published": "2026-11-11T18:04:13Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
    "id": "TRNXBfToBzk",
    "source": "kcrw",
    "form": "long",
@@ -1882,6 +1882,16 @@
    "channel": "KCRW"
   },
   {
+   "id": "_NEAz1SSKOU",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Joy Oladokun: Live On KCRW",
+   "published": "2026-11-11T15:00:10Z",
+   "state": "screen",
+   "runs": 1005,
+   "channel": "KCRW"
+  },
+  {
    "id": "GqcyWTBXj54",
    "source": "kcrw",
    "form": "short",
@@ -1947,13 +1957,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-11T12:29:20Z"
+     "2026-11-12T12:29:08Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-11T12:29:20Z"
+     "2026-11-12T12:29:08Z"
     ]
    ]
   },
@@ -1961,13 +1971,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-11T12:29:20Z"
+     "2026-11-12T12:29:08Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-11T12:29:20Z"
+     "2026-11-12T12:29:08Z"
     ]
    ]
   },
@@ -1975,16 +1985,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-11T12:29:20Z"
+     "2026-11-12T12:29:08Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-11T12:29:20Z"
+     "2026-11-12T12:29:08Z"
     ]
    ]
   }
  },
- "set": "2026-11-11T12:29Z"
+ "set": "2026-11-12T12:29Z"
 }
