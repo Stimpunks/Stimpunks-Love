@@ -2748,7 +2748,7 @@
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css?v=68004e34ba';
+    sheet.href = '/cb.css?v=86f99046fa';
     host.style.visibility = 'hidden';
     function shown() {
       host.style.visibility = ''; me.place(); me.drawArt();
@@ -3801,6 +3801,11 @@
      arrives, because that is the live region's job and not the scroll bar's. */
   Radio.prototype.show = function (messages, mine) {
     var me = this, want = {}, i, added = 0;
+    /* NOT BEFORE THE RADIO KNOWS WHO YOU IGNORE AND BLOCK (2026-11-13): on a
+       device that has never been told, the channel waits for the first
+       /cb/unread, so nobody you hid is drawn even for a moment. */
+    if (this.hushWait()) { this.heldShow = [messages, mine]; return; }
+    this.heldShow = null;
     /* What is on the channel now, for Take to the forums, Up to edit and the @
        list. Not this.onAir, which is the voice's flag that it is speaking: the
        two shared a name from 2026-10-18, and the list being there kept the
@@ -3809,7 +3814,9 @@
     // On Cel Street, the newest few for the headset's panel (cel-street.js):
     // who and their words, out of what this radio already shows.
     if (celPage()) {
-      var tail = messages.slice(-4).map(function (m) { return { handle: m.handle, text: m.text || '' }; });
+      var tail = messages.slice(-4).map(function (m) {
+        return me.hushOf(m.handle) ? { handle: '', text: 'A message you have hidden.' } : { handle: m.handle, text: m.text || '' };
+      });
       window.dispatchEvent(new CustomEvent('love-cel-chat', { detail: { channel: this.tunedRoom() ? 'This room' : 'World', lines: tail } }));
     }
     var log = this.log;
@@ -3858,7 +3865,7 @@
         // Already on the log: only its words, if its sender edited it, and
         // its reactions can have changed.
         var was = this.msgLi(m.id);
-        if (was) { this.drawWords(was, m); this.drawReactions(was, m); this.drawRe(was, m, messages, this.log, RE_GONE); this.drawUnfurls(was, m); pos = was.nextElementSibling; }
+        if (was) { this.drawWords(was, m); this.drawReactions(was, m); this.drawRe(was, m, messages, this.log, RE_GONE); this.drawUnfurls(was, m); this.hushLi(was); pos = was.nextElementSibling; }
         continue;
       }
       this.seen[m.id] = true;
@@ -3920,8 +3927,10 @@
          look at). cb.css shows them while a message is pointed at or has the
          keyboard in it, and always where nothing can point. */
       this.drawActs(li, m);
+      li.cbHandle = bot ? '' : m.handle;
+      this.hushLi(li);
       this.log.insertBefore(li, pos);
-      if (news && !(mine && m.handle === this.state.handle)) this.speak(li);
+      if (news && !(mine && m.handle === this.state.handle) && !this.hushOf(li.cbHandle)) this.speak(li);
     }
     this.quiet.textContent = this.quietText();
     this.quiet.hidden = messages.length > 0;
@@ -4118,12 +4127,98 @@
      `log` the list it is drawn in, the channel's or a conversation's, and
      `gone` what to say. Drawn again only when what it says changes, with the
      keyboard kept on it. */
+  /* IGNORE AND BLOCK (a request from our community, Ryan's ask, 2026-11-13,
+     after Discord's): the people you ignore and block are your own lists on
+     the server (dm-set/ in lib.mjs), sent to you alone on every /cb/unread
+     and with your conversations, and kept in love-cb as `hush` so a page
+     never draws one of their messages before it knows. Every message of
+     theirs, on any channel and in a conversation, is folded to one line that
+     says so, with Show it; a reply's quote of one says neither who nor what;
+     none is read aloud. Nothing is sent or changed for anybody else: they
+     post, react, call and are seen as before, and are never told. */
+  // Whose lists they are travels with them, so another username in this browser never wears them.
+  Radio.prototype.hushNow = function () {
+    var h = this.state.hush;
+    return h && fold(h.of) === fold(this.state.handle) ? h : null;
+  };
+  Radio.prototype.hushOf = function (handle) {
+    var h = this.hushNow(), f = fold(handle);
+    if (!h || !f || f === fold(this.state.handle)) return '';
+    if ((h.blocked || []).some(function (x) { return fold(x) === f; })) return 'blocked';
+    if ((h.ignored || []).some(function (x) { return fold(x) === f; })) return 'ignored';
+    return '';
+  };
+  // A claimed username's radio that has never been told who it hides waits once.
+  Radio.prototype.hushWait = function () {
+    return !this.hushNow() && !this.hushFailed && forumPass(this.state.pass);
+  };
+  Radio.prototype.setHush = function (h) {
+    var next = { of: this.state.handle, blocked: Array.isArray(h && h.blocked) ? h.blocked.slice() : [], ignored: Array.isArray(h && h.ignored) ? h.ignored.slice() : [] };
+    var same = JSON.stringify(next) === JSON.stringify(this.hushNow());
+    if (!same) { this.state.hush = next; save(this.state); }
+    if (this.heldShow) { var held = this.heldShow; this.show(held[0], held[1]); }
+    if (same) return;
+    // Every message already drawn folds or unfolds, and the next listen draws the quotes again.
+    var me = this;
+    [this.log, this.dmLog].forEach(function (log) {
+      if (!log) return;
+      Array.prototype.forEach.call(log.querySelectorAll(':scope > li'), function (li) { me.hushLi(li); });
+    });
+    this.chanV = null;
+    this.dmSig = null;
+  };
+  Radio.prototype.hushLi = function (li) {
+    var me = this, kind = li.cbHandle ? this.hushOf(li.cbHandle) : '';
+    var row = li.querySelector(':scope > .cb-hush');
+    if (!kind) { li.classList.remove('cb-msg--hushed'); if (row) row.remove(); li.cbShown = false; return; }
+    if (!row || row.dataset.kind !== kind) {
+      if (row) row.remove();
+      row = el('p', 'cb-hush');
+      row.dataset.kind = kind;
+      row.appendChild(el('span', 'cb-hush__says', kind === 'blocked' ? 'A message from somebody you blocked.' : 'A message from somebody you ignore.'));
+      row.appendChild(document.createTextNode(' '));
+      var b = el('button', 'cb-btn cb-hush__show');
+      b.type = 'button';
+      b.addEventListener('click', function () { li.cbShown = !li.cbShown; me.hushLi(li); });
+      row.appendChild(b);
+      li.insertBefore(row, li.firstChild);
+    }
+    var shown = !!li.cbShown;
+    li.classList.toggle('cb-msg--hushed', !shown);
+    var btn = row.querySelector('.cb-hush__show');
+    btn.textContent = shown ? 'Hide it again' : 'Show it';
+    btn.setAttribute('aria-label', (shown ? 'Hide ' : 'Show ') + 'this message from somebody you ' + (kind === 'blocked' ? 'blocked' : 'ignore'));
+  };
+  /* Ignore, block, stop ignoring or unblock somebody, from a profile, a
+     message's three dots or the lists under All messages. The answer is your
+     conversations, which carry both lists. */
+  Radio.prototype.hushCall = function (body, done, tellIt) {
+    var me = this;
+    return call('/cb/dm', { body: body }, this.state.pass).then(function (r) {
+      if (r.status === 401) { me.lost(); return null; }
+      if (r.status === 200 && r.body && Array.isArray(r.body.conversations)) {
+        me.setHush(r.body);
+        if (me.dmBox) {
+          if (me.dmWith && fold(me.dmWith) === fold(body.with || '') && body.block) me.dmShowInbox();
+          me.dmSig = null;
+          if (!me.dmWith) me.dmDrawInbox(r.body);
+        }
+        (tellIt || function (t) { me.tell(t); })(done);
+        return r.body;
+      }
+      (tellIt || function (t) { me.tell(t); })((r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.');
+      return null;
+    }, function () { (tellIt || function (t) { me.tell(t); })('The street could not be reached just now. Nothing changed.'); return null; });
+  };
+
   Radio.prototype.drawRe = function (li, m, list, log, gone) {
     var me = this, was = li.querySelector(':scope > .cb-re');
     if (!m.re) { if (was) was.remove(); return; }
     var to = null;
     for (var i = 0; i < list.length; i++) if (list[i].id === m.re) { to = list[i]; break; }
-    var key = to ? to.handle + '\n' + reWords(to) : '';
+    // A quote of somebody you ignore or block says neither who nor what.
+    var hid = !!to && !!this.hushOf(to.handle);
+    var key = to ? (hid ? 'hidden' : to.handle + '\n' + reWords(to)) : '';
     if (was && was.dataset.key === key) return;
     var held = !!was && was === this.box.getRootNode().activeElement;
     var q;
@@ -4133,13 +4228,17 @@
       var mark = el('span', 'cb-re__mark', '\u21aa');
       mark.setAttribute('aria-hidden', 'true');
       q.appendChild(mark);
-      q.appendChild(document.createTextNode('Replying to '));
-      q.appendChild(el('b', 'cb-re__who', to.handle));
-      q.appendChild(document.createTextNode(': ' + reWords(to)));
+      if (hid) q.appendChild(document.createTextNode('Replying to a message you have hidden'));
+      else {
+        q.appendChild(document.createTextNode('Replying to '));
+        q.appendChild(el('b', 'cb-re__who', to.handle));
+        q.appendChild(document.createTextNode(': ' + reWords(to)));
+      }
       q.addEventListener('click', function () { me.reJump(log, m.re); });
     } else q = el('p', 'cb-re', gone);
     q.dataset.key = key;
-    if (was) was.replaceWith(q); else li.insertBefore(q, li.firstChild);
+    var cover = li.querySelector(':scope > .cb-hush');
+    if (was) was.replaceWith(q); else li.insertBefore(q, cover ? cover.nextSibling : li.firstChild);
     if (held && to) q.focus();
   };
   /* A quote pressed: the message it answers, brought into view in its list
@@ -4227,6 +4326,19 @@
        it, anywhere but a room that keeps to itself (the server refuses that
        too). It only ticks; the server copies the messages off the channel. */
     if (m.text && forumPass(this.state.pass) && !(offList() && this.tunedRoom())) items.push(this.forumBtn(m));
+    /* IGNORE (2026-11-13): somebody else's, never a room's bot. Block is on
+       their profile, where its second press is. */
+    if (!m.feed && forumPass(this.state.pass) && fold(m.handle) !== fold(this.state.handle) && !this.hushOf(m.handle)) {
+      var ig = el('button', 'cb-btn cb-ignore', 'Ignore ' + m.handle);
+      ig.type = 'button';
+      ig.setAttribute('aria-label', 'Ignore ' + m.handle + ': fold their messages away for you, and they are not told');
+      ig.addEventListener('click', function () {
+        me.hushCall({ ignore: m.handle }, m.handle + ' is ignored. Their messages are folded away for you, with Show it on each, and nothing they say notifies you. They are not told. Stop ignoring them from their profile or under All messages.')
+          // The dots fold away with the message, so the keyboard goes to its Show it.
+          .then(function (r) { var b = r && li.querySelector(':scope > .cb-hush .cb-hush__show'); if (b) b.focus(); });
+      });
+      items.push(ig);
+    }
     /* TAKE OFF is on every message for the base, and on your own for
        everybody (Ryan, 2026-10-08). Which are yours is canTakeOff's rule in
        lib.mjs, asked again by the server: this only decides where the button
@@ -7956,6 +8068,61 @@
           dmRow.appendChild(dmB);
           (card.querySelector('.pf-body') || left).appendChild(dmRow);
         }
+        /* IGNORE AND BLOCK (2026-11-13), yours alone: they are never told. */
+        if (!mineP && me.dmBox && forumPass(me.state.pass)) {
+          var hushBox = el('div', 'pf-hush');
+          (card.querySelector('.pf-body') || left).appendChild(hushBox);
+          var hushSaid = el('p', 'cb-quiet pf-hush__said');
+          hushSaid.setAttribute('role', 'status');
+          var drawHush = function (focusOn) {
+            hushBox.textContent = '';
+            var now = me.hushOf(whose);
+            var row = el('p', 'pf-hush__row');
+            function btn(label, fn) {
+              var b = el('button', 'cb-btn', label);
+              b.type = 'button';
+              b.addEventListener('click', fn);
+              row.appendChild(b);
+              row.appendChild(document.createTextNode(' '));
+              return b;
+            }
+            function say(t) { hushSaid.textContent = t; }
+            function act(body, done) {
+              return me.hushCall(body, done, say).then(function (r) { if (r) drawHush(true); });
+            }
+            var first = null;
+            if (now === 'blocked') {
+              first = btn('Unblock ' + whose, function () { act({ unblock: whose }, whose + ' is unblocked. Their messages show again.'); });
+            } else {
+              first = now === 'ignored'
+                ? btn('Stop ignoring ' + whose, function () { act({ unignore: whose }, 'You are not ignoring ' + whose + ' any more. Their messages show again.'); })
+                : btn('Ignore ' + whose, function () { act({ ignore: whose }, whose + ' is ignored. Their messages are folded away for you, with Show it on each, and nothing they say notifies you. They are not told.'); });
+              var blk = btn('Block ' + whose, function () { sure.hidden = false; blk.hidden = true; no.focus(); });
+              var sure = el('div', 'cb-forget-sure');
+              sure.hidden = true;
+              sure.appendChild(el('p', null, 'Blocking ' + whose + ' does everything Ignore does, and stops them messaging you or giving you props, and you them, and deletes your conversation for both of you. They are not told. You can unblock them here or under All messages.'));
+              var yes = el('button', 'cb-btn', 'Yes, block ' + whose);
+              yes.type = 'button';
+              var no = el('button', 'cb-btn', 'Not now');
+              no.type = 'button';
+              yes.addEventListener('click', function () { yes.disabled = true; act({ with: whose, block: true }, whose + ' is blocked. They are not told.').then(function () { yes.disabled = false; }); });
+              no.addEventListener('click', function () { sure.hidden = true; blk.hidden = false; blk.focus(); });
+              sure.appendChild(yes);
+              sure.appendChild(no);
+              hushBox.appendChild(row);
+              hushBox.appendChild(sure);
+            }
+            if (!row.parentNode) hushBox.appendChild(row);
+            hushBox.appendChild(el('p', 'cb-seen-now pf-hush__about', now === 'blocked'
+              ? 'Only you know. Nobody is told, ' + whose + ' included.'
+              : now === 'ignored'
+                ? 'Only you know. Nothing changed for ' + whose + ', and nobody is told.'
+                : 'Ignore folds their messages away for you and stops their notifications. Nothing changes for them, and they are not told.'));
+            hushBox.appendChild(hushSaid);
+            if (focusOn && first) first.focus();
+          };
+          drawHush(false);
+        }
         var avSaid = el('p', 'cb-quiet', 'Looking…');
         panels[0].appendChild(avSaid);
         var avBox = el('div', 'cb-peek__avatars');
@@ -11332,11 +11499,21 @@
       me.newsAt = Date.now();
       if (r.status === 401) return me.lost();
       if (r.status === 200 && r.body && r.body.latest) { me.news = r.body; me.newsShown(); }
+      // Who you ignore and block rides on this ask too, so another device's choice reaches here.
+      if (r.status === 200 && r.body && r.body.hush) me.setHush(r.body.hush);
+      else me.hushGaveUp();
       // Your own chat status rides on this ask, so another device's choice reaches here.
       if (r.status === 200 && r.body && typeof r.body.chat === 'string') me.chatStatusKnown(r.body.chat, asked);
       // So does your availability.
       if (r.status === 200 && r.body && typeof r.body.avail === 'string') me.availKnown(r.body, asked);
-    }, function () { me.newsAt = Date.now(); }).then(function () { me.newsBusy = false; });
+    }, function () { me.newsAt = Date.now(); me.hushGaveUp(); }).then(function () { me.newsBusy = false; });
+  };
+  /* The first ask did not say who you hide: the channel is drawn rather than
+     held, and the next ask, half a minute on, folds anybody it names. */
+  Radio.prototype.hushGaveUp = function () {
+    if (this.hushNow() || this.hushFailed) return;
+    this.hushFailed = true;
+    if (this.heldShow) { var held = this.heldShow; this.show(held[0], held[1]); }
   };
 
   /* YOUR CHAT STATUS, in Your status & availability (Ryan's ask, 2026-10-24): none, or
@@ -12488,10 +12665,12 @@
       : 'Nobody new can message you. Conversations already going go on, and you can still write to people who take messages.';
     var convs = Array.isArray(b.conversations) ? b.conversations : [];
     var blocked = Array.isArray(b.blocked) ? b.blocked : [];
+    var ignored = Array.isArray(b.ignored) ? b.ignored : [];
+    this.setHush(b);
     this.dmInboxBody = b;
     var fresh = (this.news && this.news.dms) || [];
     if (inChat()) this.chatShown();
-    var sig = JSON.stringify([convs, blocked, fresh]);
+    var sig = JSON.stringify([convs, blocked, ignored, fresh]);
     if (sig === this.dmSig) return;
     this.dmSig = sig;
     var on = this.box.getRootNode().activeElement;
@@ -12539,6 +12718,7 @@
     }
     if (blocked.length) {
       box.appendChild(el('h3', 'cb-h3', 'People you have blocked'));
+      box.appendChild(el('p', 'cb-seen-now', 'Their messages are folded away for you, they cannot message you or give you props, and nothing they say notifies you. They are not told.'));
       var bl = el('ul', 'cb-dm-list');
       blocked.forEach(function (h) {
         var li = el('li', 'cb-dm-row');
@@ -12550,13 +12730,35 @@
         un.setAttribute('aria-label', 'Unblock ' + h);
         un.addEventListener('click', function () {
           un.disabled = true;
-          me.dmCall({ unblock: h }, h + ' is unblocked. If you both write, nothing that was said before is back.', function () { return start(); })
+          me.dmCall({ unblock: h }, h + ' is unblocked. Their messages show again, and if you both write, nothing that was said before is back.', function () { return start(); })
             .then(function (r) { if (!r) un.disabled = false; });
         });
         li.appendChild(un);
         bl.appendChild(li);
       });
       box.appendChild(bl);
+    }
+    if (ignored.length) {
+      box.appendChild(el('h3', 'cb-h3', 'People you ignore'));
+      box.appendChild(el('p', 'cb-seen-now', 'Their messages are folded away for you, on every channel and here, and nothing they say notifies you. They are not told.'));
+      var il = el('ul', 'cb-dm-list');
+      ignored.forEach(function (h) {
+        var li = el('li', 'cb-dm-row');
+        li.appendChild(el('span', 'cb-handle', h));
+        li.appendChild(document.createTextNode(' '));
+        var un = el('button', 'cb-btn', 'Stop ignoring');
+        un.type = 'button';
+        un.dataset.dmKey = 'i|' + h;
+        un.setAttribute('aria-label', 'Stop ignoring ' + h);
+        un.addEventListener('click', function () {
+          un.disabled = true;
+          me.hushCall({ unignore: h }, 'You are not ignoring ' + h + ' any more. Their messages show again.', function (t) { me.dmTold(t); })
+            .then(function (r) { if (!r) un.disabled = false; else { var to = start(); if (to) to.focus(); } });
+        });
+        li.appendChild(un);
+        il.appendChild(li);
+      });
+      box.appendChild(il);
     }
     function start() { return me.dmInbox.querySelector('#cb-dm-to'); }
     if (keep) {
@@ -12818,6 +13020,8 @@
     li.appendChild(rx);
     this.drawReactions(li, m, function (e) { me.dmReact(m.id, e); });
     this.dmDrawActs(li, m);
+    li.cbHandle = m.handle;
+    this.hushLi(li);
     return li;
   };
 
@@ -13061,7 +13265,7 @@
     b.type = 'button';
     var sure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This stops ' + who + ' writing to you, and you to them, and deletes your conversation for both of you. They are not told: if they try to write, they are told you are not taking messages from them. Report anything first, if you want the moderators to see it. You can unblock them from All messages.'));
+    sure.appendChild(el('p', null, 'This stops ' + who + ' writing to you, and you to them, deletes your conversation for both of you, and folds their messages away for you on every channel. They are not told: if they try to write, they are told you are not taking messages from them. Report anything first, if you want the moderators to see it. You can unblock them from All messages.'));
     var y = el('button', 'cb-btn', 'Yes, block ' + who);
     y.type = 'button';
     var n = el('button', 'cb-btn', 'Not now');
@@ -16753,7 +16957,7 @@
     var host = el('div', 'cb-under-host'), root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css?v=68004e34ba';
+    sheet.href = '/cb.css?v=86f99046fa';
     root.appendChild(sheet);
     var wrap = el('div', 'cb-under');
     var strip = el('div', 'cb-strip');
@@ -17249,7 +17453,7 @@
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css?v=68004e34ba';
+    sheet.href = '/cb.css?v=86f99046fa';
     host.style.visibility = 'hidden';
     sheet.addEventListener('load', function () { host.style.visibility = ''; });
     sheet.addEventListener('error', function () { host.style.visibility = ''; });
@@ -17330,7 +17534,7 @@
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css?v=68004e34ba';
+    sheet.href = '/cb.css?v=86f99046fa';
     host.style.visibility = 'hidden';
     sheet.addEventListener('load', function () { host.style.visibility = ''; });
     sheet.addEventListener('error', function () { host.style.visibility = ''; });

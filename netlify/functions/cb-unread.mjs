@@ -17,7 +17,9 @@
    rides on it too, `avail` and `note`, chosen at /cb/availability, with `auto`, Away by
    itself's minutes; with that on, this ask is the CB hearing from you (availabilityHeard). And `due` (2026-10-29),
    whether a reminder of yours has come due, so the Inbox can be marked: yes or
-   no, never how many. */
+   no, never how many. And `hush` (2026-11-13), the people you block and
+   ignore, so your radio folds their messages away on every device: yours
+   alone, and never anybody else's. */
 import { readPass, forumReader, newFor, markRead, chatStatusOf, availabilityHeard, remindersDue, petKey, json, body, sameSite } from '../cb/lib.mjs';
 
 // Every answer asks search engines not to index or archive it.

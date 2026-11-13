@@ -122,7 +122,7 @@
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css?v=68004e34ba';
+    sheet.href = '/cb.css?v=86f99046fa';
     host.style.visibility = 'hidden';
     function shown() { host.style.visibility = ''; }
     sheet.addEventListener('load', shown);

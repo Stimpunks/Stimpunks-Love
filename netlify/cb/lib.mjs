@@ -3364,6 +3364,8 @@ export async function giveProp(handle, who, text, s = store()) {
   const acct = await readAccount(handle, s);
   if (!acct) return { error: 'closed' };
   if (foldHandle(acct.handle) === foldHandle(who.handle)) return { error: 'self' };
+  // Somebody who blocked you has a shut tab, as far as you can tell (Direct messages, IGNORE AND BLOCK).
+  if (await blockedBy(acct, who, s)) return { error: 'closed' };
   const by = authorMark(who);
   const rec = { id: 'r' + randomBytes(8).toString('base64url').slice(0, 10), text: t, handle: who.handle, by };
   if (who.role === 'base') rec.base = true;
@@ -4391,6 +4393,33 @@ export async function sweepCalls(s = store(), now = Date.now()) {
    for the one blocked and 'blocked' for the one who blocked. Nobody is told,
    and nobody but its owner sees a block list.
 
+   IGNORE AND BLOCK REACH PAST MESSAGES (a request from our community, Ryan's
+   ask, 2026-11-13, after Discord's Ignore and Block): somebody in our
+   community, whom messages about abuse and neglect can harm, asked for a
+   private way to stop seeing one person's messages in the rooms' channels and
+   the calls' chat, "a private setting that doesn't notify the other person",
+   "without that limiting the other person's ability to participate". So the
+   same record holds a second list, `ignored`, by petKey too, and both lists:
+     · come back to their owner on every /cb/unread (newFor's `hush`) and with
+       their conversations (listDms), so the radio folds away, on every
+       channel, in every conversation and in a reply's quote, the messages of
+       anybody on either, each with Show it, and reads none of them aloud;
+     · stop every notification either person's words would have caused you
+       (hushedFor, asked by tellDevices, notifyForum, notifyProps, notifyDm and
+       notifyDmCall);
+     · change NOTHING the other person can see, do or be told, and nothing on
+       the channel for anybody else: they post, react, call and are seen as
+       before. Their messages are still on the air; only your radio folds them.
+   IGNORE stops there: an ignored person can still message you, their
+   conversation is kept, and it never marks itself new. BLOCK is everything
+   above it was, plus the hiding, plus props refused ('closed', the shut tab's
+   answer, giveProp). Blocking somebody you ignore moves them across, and
+   ignoring somebody blocked is refused, so each name is on one list. The
+   friendly edits are telling the other person "so they know why", a count of
+   who ignores somebody, a moderator's view of who blocked whom, and taking an
+   ignored person's messages off the channel for everybody: the first three
+   are the record and the notice the ask refused, the last limits them.
+
    NOT END-TO-END ENCRYPTED, and privacy.html#messages says so: the words sit in
    this store like the channel's, and nothing here reads them out to anybody
    but the two people in the conversation. NO MODERATOR CAN READ ONE. The only
@@ -4455,7 +4484,7 @@ export async function sweepCalls(s = store(), now = Date.now()) {
    WHAT IS KEPT. For each person (dmKey: the folded name and when it was
    claimed, the forums' authorMark's ingredients, so a name claimed again after
    its owner deleted it is somebody else): whether they take messages and who
-   they blocked (dm-set/). For each conversation (dm/, under both people's
+   they blocked and ignore (dm-set/). For each conversation (dm/, under both people's
    keys): their two handles, who asked, whether it was accepted, and its
    messages, each its words, its sender's handle and key, BASE if so, when it
    was sent and last edited, and how long it is kept; and its timer, if
@@ -4468,6 +4497,7 @@ export const DM_TIMERS = [1, 7];               // days a conversation's disappea
 export const DM_KEEP = KEEP;                   // messages in one conversation at once, unless the desk says otherwise
 export const DM_WITH = 40;                     // conversations one person can be in at once
 export const DM_BLOCKS = 200;                  // people one person can block
+export const DM_IGNORES = 200;                 // people one person can ignore
 export const REPORT_KEEP = 200;                // reports waiting on the desk at once
 export const REPORT_DAYS = 30;
 export const REPORT_NOTE_MAX = 280;
@@ -4517,8 +4547,8 @@ function plain(d) { return d && typeof d === 'object' && !Array.isArray(d) ? d :
 
 function dmSetDoc(d) {
   d = plain(d);
-  const blocked = Array.isArray(d.blocked) ? d.blocked.filter((b) => b && typeof b.k === 'string' && typeof b.handle === 'string') : [];
-  return { open: d.open === true, blocked };
+  const named = (l) => (Array.isArray(l) ? l.filter((b) => b && typeof b.k === 'string' && typeof b.handle === 'string') : []);
+  return { open: d.open === true, blocked: named(d.blocked), ignored: named(d.ignored) };
 }
 
 /* A conversation as it stands now: no message past its time, and one with
@@ -4565,6 +4595,27 @@ async function updateDm(key, norm, change, s, sealed = false) {
 export async function readDmSet(me, s = store()) { return dmSetDoc(await getDm(DM_SET + me, s)); }
 const updateDmSet = (me, change, s) => updateDm(DM_SET + me, dmSetDoc, change, s, true);
 const blocks = (set, handle) => set.blocked.some((b) => b.k === petKey(handle));
+const ignores = (set, handle) => set.ignored.some((b) => b.k === petKey(handle));
+const hushes = (set, handle) => blocks(set, handle) || ignores(set, handle);
+const handlesOf = (l) => l.map((b) => b.handle).sort((a, b) => a.localeCompare(b));
+/* Your two lists as your radio is shown them, and nobody else ever is. */
+const hushOf = (set) => ({ blocked: handlesOf(set.blocked), ignored: handlesOf(set.ignored) });
+
+/* Whether the claimed username `acct` has blocked `who`, for props (giveProp). */
+export async function blockedBy(acct, who, s = store()) {
+  if (!acct || !who || !dmReady()) return false;
+  return blocks(await readDmSet(dmKey(acct.handle, acct.since), s), who.handle);
+}
+
+/* Whether `who`, the person a notification is for, ignores or blocks
+   `from`, whose words would cause it. Read once per person per notification
+   (`cache`), and never when direct messages are shut, when nobody has a list. */
+async function hushedFor(who, from, s, cache) {
+  if (!who || !from || !forumReader(who) || !dmReady()) return false;
+  const me = dmKey(who.handle, who.since);
+  if (!cache.has(me)) cache.set(me, readDmSet(me, s).catch(() => dmSetDoc(null)));
+  return hushes(await cache.get(me), from);
+}
 
 /* Every write to a conversation goes through here, and a picture its write
    let go of (taken back, pushed off, emptied) is deleted as soon as the write
@@ -4810,8 +4861,8 @@ export async function readDmWith(who, handle, s = store(), now = Date.now()) {
 
 /* Everybody you are in a conversation with, the latest first: who, whether
    it is waiting and on whom, and who wrote last and when. Never how many of
-   anything, and never whether you have read it. With your switch and your
-   block list, which nobody else is ever shown. */
+   anything, and never whether you have read it. With your switch, your
+   block list and who you ignore, which nobody else is ever shown. */
 export async function listDms(who, s = store(), now = Date.now()) {
   if (!forumReader(who)) return { error: 'claim' };
   const me = dmKey(who.handle, who.since);
@@ -4829,7 +4880,7 @@ export async function listDms(who, s = store(), now = Date.now()) {
     out.push(row);
   }
   out.sort((a, b) => b.last.t - a.last.t || a.handle.localeCompare(b.handle));
-  return { open: set.open, blocked: set.blocked.map((b) => b.handle).sort((a, b) => a.localeCompare(b)), conversations: out };
+  return { open: set.open, ...hushOf(set), conversations: out };
 }
 
 /* Accept a request: what they asked is the start of a conversation. */
@@ -4972,7 +5023,7 @@ export async function blockDm(who, handle, s = store(), now = Date.now()) {
   const set = await updateDmSet(p.me, (was) => {
     if (was.blocked.some((b) => b.k === k)) return null;
     if (was.blocked.length >= DM_BLOCKS) return { error: 'full' };
-    return { ...was, blocked: [...was.blocked, { k, handle: p.handle }] };
+    return { ...was, blocked: [...was.blocked, { k, handle: p.handle }], ignored: was.ignored.filter((b) => b.k !== k) };
   }, s);
   if (set.error) return set;
   await updateConv(p.key, (c) => (c.messages.length ? emptied() : null), s, now);
@@ -4988,7 +5039,39 @@ export async function unblockDm(who, handle, s = store()) {
     ? { ...was, blocked: was.blocked.filter((b) => b.k !== k) } : null), s);
 }
 
-/* Forget me and deleting the username: your switch, your blocks, every
+/* Ignore somebody (above): into your own record by name, and nothing else
+   changes anywhere. Only a claimed username, because a message's handle is
+   what the radio folds away, and every username on the CB is claimed.
+   { ignored } or { error }: 'claim', 'which' (nobody has that name), 'self',
+   'blocked' (they are on your block list already), 'full'. */
+export async function ignoreDm(who, handle, s = store()) {
+  if (!forumReader(who)) return { error: 'claim' };
+  const h = cleanHandle(handle);
+  if (!h) return { error: 'which' };
+  if (foldHandle(h) === foldHandle(who.handle)) return { error: 'self' };
+  const acct = await readAccount(h, s);
+  if (!acct) return { error: 'which' };
+  const k = petKey(acct.handle);
+  const set = await updateDmSet(dmKey(who.handle, who.since), (was) => {
+    if (was.blocked.some((b) => b.k === k)) return { error: 'blocked' };
+    if (was.ignored.some((b) => b.k === k)) return null;
+    if (was.ignored.length >= DM_IGNORES) return { error: 'full' };
+    return { ...was, ignored: [...was.ignored, { k, handle: acct.handle }] };
+  }, s);
+  if (set.error) return set;
+  return { ignored: acct.handle };
+}
+
+export async function unignoreDm(who, handle, s = store()) {
+  if (!forumReader(who)) return { error: 'claim' };
+  const h = cleanHandle(handle);
+  if (!h) return { error: 'which' };
+  const k = petKey(h);
+  return updateDmSet(dmKey(who.handle, who.since), (was) => (was.ignored.some((b) => b.k === k)
+    ? { ...was, ignored: was.ignored.filter((b) => b.k !== k) } : null), s);
+}
+
+/* Forget me and deleting the username: your switch, your blocks, who you ignore, every
    conversation you are in, for both of you, and the markers. Reports stay on
    the desk for their thirty days. */
 export async function forgetDms(handle, since, s = store()) {
@@ -5096,7 +5179,8 @@ export async function readDayCounts(s = store()) {
 /* What is new to a claimed username: { latest, read, dms, asking }. latest is
    every channel's newest message time it may hear (World as WORLD_CALL), read
    its own last-read times, dms the handles of conversations with something new
-   from the other person, and asking whether a first message waits for it. */
+   from the other person, asking whether a first message waits for it, and
+   hush the people it blocks and ignores, so its radio can fold them away. */
 export async function newFor(who, s = store(), now = Date.now()) {
   if (!forumReader(who)) return { error: 'claim' };
   const me = dmKey(who.handle, who.since);
@@ -5120,7 +5204,8 @@ export async function newFor(who, s = store(), now = Date.now()) {
     const them = b.key.slice(prefix.length);
     const c = convDoc(await getDm(pairBlob(me, them), s), now, await ruleOf(RULE_DM, s));
     const handle = c.people[them];
-    if (!c.messages.length || typeof handle !== 'string' || blocks(set, handle)) continue;
+    // Somebody you ignore never marks their conversation new (above).
+    if (!c.messages.length || typeof handle !== 'string' || hushes(set, handle)) continue;
     const state = stateOf(c, me);
     if (state === 'asked') continue;
     if (state === 'asking') asking = true;
@@ -5128,7 +5213,7 @@ export async function newFor(who, s = store(), now = Date.now()) {
     if (last.by !== me && last.t > (r.dm[them] || 0)) dms.push(handle);
   }
   dms.sort((a, b) => a.localeCompare(b));
-  return { latest, read: r.ch, dms, asking };
+  return { latest, read: r.ch, dms, asking, hush: hushOf(set) };
 }
 
 /* You have read a channel (`ch`, a room's tag or WORLD_CALL) or a conversation
@@ -12477,7 +12562,7 @@ async function tellDevices(msg, room, before, s, mods, send, to = null) {
   const from = foldHandle(msg.handle), quiet = !!(room && quietRoom(room));
   // The roles it calls that it did not call before an edit (ROLE_ANYBODY).
   const called = quiet ? [] : keptRoles(msg.roles).filter((r) => !(before && atName(before, r)));
-  const sends = [], gone = [];
+  const sends = [], gone = [], hush = new Map();
   for (const [id, d] of Object.entries(devs)) {
     if (!d || d.fold === from) continue;
     const w = d.want || {};
@@ -12491,6 +12576,8 @@ async function tellDevices(msg, room, before, s, mods, send, to = null) {
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
     if (!roomAllows(who, room)) continue;
+    // Nothing somebody ignores or blocks says reaches them (Direct messages, IGNORE AND BLOCK).
+    if (await hushedFor(who, msg.handle, s, hush)) continue;
     // The message answered is this device's only if it is its sender's, the
     // way an edit would be (canEdit): a name somebody else holds now is not.
     if (answered && !canEdit(who, to)) answered = false;
@@ -12560,7 +12647,7 @@ export async function notifyForum(topic, post, before = '', s = store(), mods, s
   const from = foldHandle(writer);
   // The roles it calls that it did not call before an edit (ROLE_ANYBODY).
   const called = keptRoles(post.roles).filter((r) => !(before && atName(before, r)));
-  const sends = [], gone = [];
+  const sends = [], gone = [], hush = new Map();
   for (const [id, d] of Object.entries(devs)) {
     if (!d || d.fold === from || !wants(d.want, 'mentions')) continue;
     const h = d.pass && d.pass.handle;
@@ -12570,6 +12657,7 @@ export async function notifyForum(topic, post, before = '', s = store(), mods, s
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
     if (!forumAllows(who, cat)) continue;
+    if (await hushedFor(who, writer, s, hush)) continue;
     if (role) role = role.find((r) => who.role === 'base' && who.roles && who.roles.has(r)) || null;
     if (!named && !role) continue;
     let text = '', title = '';
@@ -12601,12 +12689,13 @@ export async function notifyProps(handle, writer, text, s = store(), mods, send 
   const to = foldHandle(handle), from = foldHandle(writer);
   if (!to || to === from) return [];
   const devs = await readDevices(s);
-  const sends = [], gone = [];
+  const sends = [], gone = [], hush = new Map();
   for (const [id, d] of Object.entries(devs)) {
     if (!d || d.fold !== to || !wants(d.want, 'props')) continue;
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
     if (!who.account || foldHandle(who.handle) !== to) continue;
+    if (await hushedFor(who, writer, s, hush)) continue;
     let words = '';
     if (d.want.words !== false) {
       words = linkWords(text).replace(/\s+/g, ' ').trim();
@@ -12721,12 +12810,13 @@ export async function notifyDm(handle, sender, said, asked, s = store(), mods, s
   const to = foldHandle(handle), from = foldHandle(sender);
   if (!to || to === from) return [];
   const devs = await readDevices(s);
-  const sends = [], gone = [];
+  const sends = [], gone = [], hush = new Map();
   for (const [id, d] of Object.entries(devs)) {
     if (!d || d.fold !== to || !wants(d.want, 'messages')) continue;
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
     if (!forumReader(who) || foldHandle(who.handle) !== to) continue;
+    if (await hushedFor(who, sender, s, hush)) continue;
     let words = '';
     if (d.want.words !== false) {
       words = linkWords(text).replace(/\s+/g, ' ').trim();
@@ -12752,12 +12842,13 @@ export async function notifyDmCall(handle, sender, s = store(), mods, send = sen
   const to = foldHandle(handle), from = foldHandle(sender);
   if (!to || to === from) return [];
   const devs = await readDevices(s);
-  const sends = [], gone = [];
+  const sends = [], gone = [], hush = new Map();
   for (const [id, d] of Object.entries(devs)) {
     if (!d || d.fold !== to || !wants(d.want, 'ringing')) continue;
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
     if (!forumReader(who) || foldHandle(who.handle) !== to) continue;
+    if (await hushedFor(who, sender, s, hush)) continue;
     sends.push({ id, d, payload: { kind: 'dm', handle: String(sender || ''), call: true }, opts: {} });
   }
   return deliver(sends, gone, s, send);

@@ -4964,6 +4964,61 @@ test('a block refuses both ways, says nothing, empties the conversation and hold
   assert.ok((await sendDm(person('ADA', 55), 'Bex', 'hi again', s)).sent);
 }));
 
+import { ignoreDm, unignoreDm } from './lib.mjs';
+test('ignoring somebody tells them nothing, changes nothing for them, and keeps their conversation quiet', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  await setDmOpen(bex, true, s);
+  await sendDm(ada, 'Bex', 'hi', s);
+  assert.equal((await ignoreDm(bex, 'bex', s)).error, 'self');
+  assert.equal((await ignoreDm(bex, 'Nobody At All', s)).error, 'which', 'ignored a name nobody has');
+  assert.deepEqual(await ignoreDm(bex, 'ada', s), { ignored: 'Ada' });
+  assert.deepEqual(await ignoreDm(bex, 'ADA', s), { ignored: 'Ada' }, 'ignoring twice did something');
+  const mine = await listDms(bex, s);
+  assert.deepEqual(mine.ignored, ['Ada']);
+  assert.equal(mine.conversations.length, 1, 'ignoring somebody took their conversation away');
+  assert.deepEqual((await listDms(ada, s)).ignored, [], 'somebody was shown who ignores them');
+  assert.ok((await sendDm(ada, 'Bex', 'still here', s)).error === 'waiting', 'ignoring changed what they are told');
+  const news = await newFor(bex, s);
+  assert.deepEqual(news.hush, { blocked: [], ignored: ['Ada'] });
+  assert.equal(news.asking, false, 'an ignored person\u2019s request marked itself new');
+  assert.deepEqual((await newFor(ada, s)).hush, { blocked: [], ignored: [] });
+  await blockDm(bex, 'Ada', s);
+  const after = await listDms(bex, s);
+  assert.deepEqual([after.blocked, after.ignored], [['Ada'], []], 'a block left them on the ignore list');
+  assert.equal((await ignoreDm(bex, 'Ada', s)).error, 'blocked');
+  await unblockDm(bex, 'Ada', s);
+  await ignoreDm(bex, 'Ada', s);
+  await unignoreDm(bex, 'ada', s);
+  assert.deepEqual((await listDms(bex, s)).ignored, []);
+}));
+
+test('nothing somebody ignored or blocked says notifies, and a block shuts the props tab', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const bexPass = await claimedPassFor('Bex', s), cyPass = await claimedPassFor('Cy', s);
+  await claimedPassFor('Ada', s); await claimedPassFor('Dee', s);
+  const bex = person('Bex', 1), cy = person('Cy', 1), ada = person('Ada', 1);
+  const bexDev = aDevice(), cyDev = aDevice();
+  await keepDevice(bexDev, bexPass, { all: true }, s);
+  await keepDevice(cyDev, cyPass, { all: true }, s);
+  await ignoreDm(bex, 'Ada', s);
+  await blockDm(cy, 'Ada', s);
+  const sent = [];
+  const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
+  await notifyMessage({ id: 'h1', handle: 'Ada', text: 'morning @bex @cy', t: 1 }, null, s, readMods(''), send);
+  await notifyDm('Bex', 'Ada', 'hello', true, s, readMods(''), send);
+  await notifyDm('Cy', 'Ada', 'hello', true, s, readMods(''), send);
+  await notifyProps('Bex', 'Ada', 'thanks', s, readMods(''), send);
+  await notifyDmCall('Bex', 'Ada', s, readMods(''), send);
+  assert.deepEqual(sent, [], 'somebody ignored or blocked caused a notification');
+  await notifyMessage({ id: 'h2', handle: 'Dee', text: 'morning @bex', t: 1 }, null, s, readMods(''), send);
+  assert.deepEqual(sent.map((x) => x.to).sort(), [bexDev.endpoint, cyDev.endpoint].sort(), 'ignoring one person quietened somebody else');
+  await setPropsOpen(petKey('Cy'), true, s);
+  await setPropsOpen(petKey('Bex'), true, s);
+  assert.equal((await giveProp('Cy', ada, 'thank you', s)).error, 'closed', 'somebody blocked could give props, or was told why not');
+  assert.ok((await giveProp('Bex', ada, 'thank you', s)).given, 'ignoring somebody stopped them giving props');
+}));
+
 test('every message goes two weeks after it was sent, and the conversation with it', () => withPasswords(async () => {
   const s = memoryStore({ etagOnRead: true });
   const [ada, bex] = await twoPeople(s);
@@ -5262,7 +5317,9 @@ test('what is new to a claimed username is a mark worked out from what it read, 
   assert.equal(await noteLatest(QUIET_ROOMS[0], now - 3000, s, now), false, 'a room that keeps to itself was put on the map');
   await noteLatest('the-den', now - 9000, s, now);
   let n = await newFor(ada, s, now);
-  assert.deepEqual(Object.keys(n).sort(), ['asking', 'dms', 'latest', 'read'], 'the answer carried more than marks need');
+  // hush is the asker's own block and ignore lists (2026-11-13), never a count.
+  assert.deepEqual(Object.keys(n).sort(), ['asking', 'dms', 'hush', 'latest', 'read'], 'the answer carried more than marks need');
+  assert.deepEqual(n.hush, { blocked: [], ignored: [] });
   assert.equal(n.latest[WORLD_CALL], now - 5000);
   assert.equal(n.latest['the-den'], now - 4000, 'the newest time went backwards');
   assert.equal(n.latest[QUIET_ROOMS[0]], undefined);

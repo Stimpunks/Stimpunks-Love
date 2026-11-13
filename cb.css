@@ -728,6 +728,16 @@ a.cb-to-chat, a.cb-to-you { display: inline-flex; align-items: center; text-deco
 }
 button.cb-re { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
 .cb-re__mark { margin-right: 4px; }
+/* A MESSAGE FROM SOMEBODY YOU IGNORE OR BLOCK (2026-11-13) is folded to one
+   line in the time's quiet amber, saying so, with Show it; everything else in
+   it is hidden until pressed. Shown, the line moves under it, as Hide it again. */
+.cb-msg > .cb-hush {
+  grid-column: 1 / -1; grid-row: 10; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px;
+  margin: 0; font-size: 13px; color: var(--cb-amber-2);
+}
+.cb-msg.cb-msg--hushed > .cb-hush { grid-row: 1; }
+.cb-msg.cb-msg--hushed > :not(.cb-hush) { display: none !important; }
+.cb-hush__show { min-height: 32px; padding: 2px 10px; font-size: 13px; }
 .cb-re__who { font-weight: 700; color: var(--cb-amber); }
 /* The message a quote was pressed on has the keyboard, and its edge says so:
    the readout's own amber, as the focus ring everywhere on the radio is. */
@@ -3064,4 +3074,10 @@ body.cb-appwin :focus-visible { outline: 3px solid var(--cb-amber); outline-offs
 .cb-radio--large .cb-dm-log { max-height: min(56vh, 640px); }
 /* In a profile, the Message button at the foot of the card, in its own inks. */
 .pf-message { margin: 4px 0 0; }
+/* IGNORE AND BLOCK on somebody's profile (2026-11-13): ordinary buttons in the
+   card's own amber, and a line saying they are not told. No colour of its own. */
+.pf-hush { margin: 6px 0 0; }
+.pf-hush__row { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; }
+.pf-hush .cb-forget-sure { margin: 6px 0 0; }
+.pf-hush__about, .pf-hush__said { margin: 4px 0 0; }
 

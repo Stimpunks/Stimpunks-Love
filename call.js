@@ -393,7 +393,7 @@
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
-    sheet.href = '/cb.css?v=68004e34ba';
+    sheet.href = '/cb.css?v=86f99046fa';
     root.appendChild(sheet);
     var box = el('section', 'cb-call' + (whole ? ' cb-call--whole' : ''));
     box.setAttribute('aria-label', here.title || 'Call in ' + here.name);

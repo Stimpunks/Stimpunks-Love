@@ -25,6 +25,10 @@
                                      conversation is accepted
      { with, block: true }           block them, which empties the conversation
      { unblock: handle }             stop blocking them
+     { ignore: handle }              ignore them: your radio folds their
+                                     messages away and nothing they say
+                                     notifies you; they are never told
+     { unignore: handle }            stop ignoring them
      { with, report: id, note }      report a message they sent you to the
                                      moderators' desk
    Only a claimed username can, at both ends. Nothing about who read what is
@@ -40,7 +44,7 @@
    rule: shown before anybody writes, never while they are not taking messages
    from you, and it refuses nothing. */
 import { dmReady, readPass, forumReader, listDms, readDmWith, chatStatusOf, availabilityOf, petKey, sendDm, acceptDm, rejectDm, takeDm, takeMineDm, editDm, reactDm, setDmTimer, setDmOpen, blockDm,
-  unblockDm, reportDm, notifyDm, cleanHandle, MESSAGE_MAX, REPORT_NOTE_MAX, DM_WITH, json, body, sameSite } from '../cb/lib.mjs';
+  unblockDm, ignoreDm, unignoreDm, DM_IGNORES, reportDm, notifyDm, cleanHandle, MESSAGE_MAX, REPORT_NOTE_MAX, DM_WITH, json, body, sameSite } from '../cb/lib.mjs';
 
 // Every answer asks search engines not to index or archive it, as
 // privacy.html#messages says.
@@ -63,6 +67,19 @@ export default async (req, context) => {
     if (typeof b.unblock === 'string') {
       const r = await unblockDm(who, b.unblock);
       if (r.error) return json(404, { error: 'That name is not on your block list.' });
+      return ok(await listDms(who));
+    }
+    if (typeof b.ignore === 'string') {
+      const r = await ignoreDm(who, b.ignore);
+      if (r.error === 'self') return json(400, { error: 'You cannot ignore yourself.' });
+      if (r.error === 'blocked') return json(409, { error: 'You have blocked them already, which hides their messages too.' });
+      if (r.error === 'full') return json(409, { error: `You are ignoring ${DM_IGNORES} people already. Stop ignoring somebody first.` });
+      if (r.error) return json(404, { error: 'Nobody has that username.' });
+      return ok(await listDms(who));
+    }
+    if (typeof b.unignore === 'string') {
+      const r = await unignoreDm(who, b.unignore);
+      if (r.error) return json(404, { error: 'That name is not on your list of people you ignore.' });
       return ok(await listDms(who));
     }
     if (b.with === undefined) return ok(await listDms(who));

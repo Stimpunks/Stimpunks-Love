@@ -2202,6 +2202,23 @@ rest. A reported picture is copied onto the desk, shown there only after **Show 
 The friendly edit is a picture in the request "so people can explain what they want"; it is the first contact the rule
 exists to keep words. The open questions, safeguarding first, are in `DECISIONS.md`.
 
+**IGNORE AND BLOCK ARE YOURS ALONE, AND NOTHING CHANGES FOR THE OTHER PERSON.** A request from our community and Ryan's ask,
+2026-11-13, after Discord's Ignore and Block: somebody whom one person's messages can harm asked for a private way to stop
+seeing them, "a private setting that doesn't notify the other person", "without that limiting the other person's ability
+to participate". `ignored` sits beside `blocked` in each person's sealed `dm-set/` (`ignoreDm`, `unignoreDm`, by petKey,
+so it holds through a re-claim); both lists go to their owner alone, on `/cb/unread` (`newFor`'s `hush`) and with their
+conversations (`listDms`), and the radio keeps them in `love-cb` as `hush`, **tied to the username they are for**
+(`hushNow`), and **draws no channel until it knows** (`hushWait`, `heldShow`; `hushGaveUp` draws it if the first ask
+fails). Their messages fold to one line naming nobody, with Show it (`hushLi`, `.cb-msg--hushed`), on every channel and
+in conversations; a reply's quote of them says neither who nor what (`drawRe`); none is read aloud; and **`hushedFor` in
+`lib.mjs` stops every notification their words would cause** (tellDevices, notifyForum, notifyProps, notifyDm,
+notifyDmCall): a new notifier from a person asks it too. Ignore stops there; Block also refuses DMs both ways (as it
+always did) and props (`giveProp` answers 'closed'). Ignore and Block are on a profile, Ignore under a message's three
+dots, both lists under All messages. **The friendly edits are telling the other person "so they know why", naming them
+on the folded line, a count of who ignores somebody, a moderator's view of anybody's lists, and taking an ignored
+person's messages off the channel**; the first four are the notice and the record the ask refused, and the last limits
+them. `DECISIONS.md` has what is still open, the forums first.
+
 **EVENTS ARE THE CB'S, SCHEDULED BY ANYBODY SIGNED ON, AND AN EVENT NAMES WHO IS INTERESTED AND NEVER HOW MANY.**
 Ryan's ask and calls, 2026-10-23, after Discord's Scheduled Events: the Events part of `netlify/cb/lib.mjs` (one blob,
 `events`), `/cb/events`, `cb-events-start` every five minutes, an Events part on the radio after Unreads and Events at the
