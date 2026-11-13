@@ -172,16 +172,6 @@
    "why": "live, or not out yet"
   },
   {
-   "id": "FV4SXCKhvRE",
-   "source": "acl",
-   "form": "short",
-   "title": "ACL TV Season 52 is a wrap!",
-   "published": "2026-10-13T20:50:37Z",
-   "state": "screen",
-   "runs": 111,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "FkXtCPkLWhg",
    "source": "acl",
    "form": "short",
@@ -320,56 +310,6 @@
    "state": "screen",
    "runs": 23,
    "channel": "Austin City Limits"
-  },
-  {
-   "id": "B0uBUBs7-6c",
-   "source": "kexp",
-   "form": "long",
-   "title": "Altın Gün - Full Performance (Live on KEXP)",
-   "published": "2026-10-13T15:00:28Z",
-   "state": "screen",
-   "runs": 1397,
-   "channel": "KEXP"
-  },
-  {
-   "id": "Fk4Esm-I7OY",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Sword - Maiden, Mother, Crone (Live on KEXP)",
-   "published": "2026-10-14T11:00:03Z",
-   "state": "screen",
-   "runs": 252,
-   "channel": "KEXP"
-  },
-  {
-   "id": "gDFAnwZhVeY",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Sword - Necron 99 (Live on KEXP)",
-   "published": "2026-10-14T11:00:09Z",
-   "state": "screen",
-   "runs": 274,
-   "channel": "KEXP"
-  },
-  {
-   "id": "oA_Vo28IXW8",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Sword - Tears Like Diamonds (Live on KEXP)",
-   "published": "2026-10-14T11:00:10Z",
-   "state": "screen",
-   "runs": 233,
-   "channel": "KEXP"
-  },
-  {
-   "id": "otzPM661cis",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Sword - Freya (Live on KEXP)",
-   "published": "2026-10-14T11:00:36Z",
-   "state": "screen",
-   "runs": 297,
-   "channel": "KEXP"
   },
   {
    "id": "-z_HOleoXpw",
@@ -1505,7 +1445,7 @@
    "id": "PrOmq2WIHyA",
    "source": "kexp",
    "form": "long",
-   "title": "Commemorate - P.S  (Please Stay) (Live on KEXP)",
+   "title": "Commemorate - P.S. (Please Stay) (Live on KEXP)",
    "published": "2026-11-12T12:00:06Z",
    "state": "screen",
    "runs": 431,
@@ -1532,13 +1472,63 @@
    "channel": "KEXP"
   },
   {
-   "id": "pu1sD5myB0Q",
+   "id": "X9pTek80J4I",
    "source": "kexp",
-   "form": "short",
-   "title": "Altin Gün performs \"Neredesin Sen\" & more Live on KEXP",
-   "published": "2026-10-13T17:05:51Z",
+   "form": "long",
+   "title": "Commemorate - See You Again (Live on KEXP)",
+   "published": "2026-11-12T14:00:12Z",
    "state": "screen",
-   "runs": 60,
+   "runs": 245,
+   "channel": "KEXP"
+  },
+  {
+   "id": "Qws6-I8IDQE",
+   "source": "kexp",
+   "form": "long",
+   "title": "Commemorate - Full Performance (Live on KEXP)",
+   "published": "2026-11-12T16:00:07Z",
+   "state": "screen",
+   "runs": 1704,
+   "channel": "KEXP"
+  },
+  {
+   "id": "OoZYrWjRvaQ",
+   "source": "kexp",
+   "form": "long",
+   "title": "Chelsea Wolfe - Cold (Live on KEXP)",
+   "published": "2026-11-13T12:00:03Z",
+   "state": "screen",
+   "runs": 289,
+   "channel": "KEXP"
+  },
+  {
+   "id": "RzSSZe9j9Fg",
+   "source": "kexp",
+   "form": "long",
+   "title": "Chelsea Wolfe - Death Is Not The End (Live on KEXP)",
+   "published": "2026-11-13T12:00:25Z",
+   "state": "screen",
+   "runs": 283,
+   "channel": "KEXP"
+  },
+  {
+   "id": "FLuuBf90mnk",
+   "source": "kexp",
+   "form": "long",
+   "title": "Chelsea Wolfe - Turn The Key (Live on KEXP)",
+   "published": "2026-11-13T12:00:28Z",
+   "state": "screen",
+   "runs": 281,
+   "channel": "KEXP"
+  },
+  {
+   "id": "Gpld7f3w2Jo",
+   "source": "kexp",
+   "form": "long",
+   "title": "Chelsea Wolfe - The Dark (Live on KEXP)",
+   "published": "2026-11-13T12:00:36Z",
+   "state": "screen",
+   "runs": 219,
    "channel": "KEXP"
   },
   {
@@ -1742,14 +1732,14 @@
    "channel": "KEXP"
   },
   {
-   "id": "TRNXBfToBzk",
-   "source": "kcrw",
-   "form": "long",
-   "title": "Busta Rhymes' Must-Listen Albums",
-   "published": "2026-10-13T14:00:20Z",
+   "id": "Mai9RbLtgBc",
+   "source": "kexp",
+   "form": "short",
+   "title": "Commemorate performs \"Away\" & more Live on KEXP at AXEAN Festival",
+   "published": "2026-11-12T18:07:03Z",
    "state": "screen",
-   "runs": 338,
-   "channel": "KCRW"
+   "runs": 59,
+   "channel": "KEXP"
   },
   {
    "id": "vipreP8qwwQ",
@@ -1957,13 +1947,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-12T12:29:08Z"
+     "2026-11-13T12:36:16Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-12T12:29:08Z"
+     "2026-11-13T12:36:16Z"
     ]
    ]
   },
@@ -1971,13 +1961,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-12T12:29:08Z"
+     "2026-11-13T12:36:16Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-12T12:29:08Z"
+     "2026-11-13T12:36:16Z"
     ]
    ]
   },
@@ -1985,16 +1975,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-12T12:29:08Z"
+     "2026-11-13T12:36:16Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-12T12:29:08Z"
+     "2026-11-13T12:36:16Z"
     ]
    ]
   }
  },
- "set": "2026-11-12T12:29Z"
+ "set": "2026-11-13T12:36Z"
 }
