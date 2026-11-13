@@ -9,19 +9,19 @@
    "channel_id": "UCj0VqueTI8SeTUS4rykh7Pw"
   }
  ],
- "set": "2026-11-12T12:23Z",
+ "set": "2026-11-13T12:30Z",
  "covered": {
   "future-in-bloom": {
    "long": [
     [
      "2026-09-29T14:14:21Z",
-     "2026-11-12T12:23:55Z"
+     "2026-11-13T12:30:57Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:14:21Z",
-     "2026-11-12T12:23:55Z"
+     "2026-11-13T12:30:57Z"
     ]
    ]
   }
@@ -95,6 +95,16 @@
    "published": "2026-11-07T12:00:31Z",
    "state": "screen",
    "runs": 41,
+   "channel": "Future in Bloom with Steph Speirs"
+  },
+  {
+   "id": "bh02ROuQeP0",
+   "source": "future-in-bloom",
+   "form": "short",
+   "title": "Do We Prioritize Servers or Shelters?",
+   "published": "2026-11-12T16:30:01Z",
+   "state": "screen",
+   "runs": 77,
    "channel": "Future in Bloom with Steph Speirs"
   }
  ]

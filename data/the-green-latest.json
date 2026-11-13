@@ -68,8 +68,64 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-11-12T12:23Z",
+ "set": "2026-11-13T12:29Z",
  "latest": [
+  {
+   "id": "VMtKnQFAcC0",
+   "title": "Why Renewable Energy Projects Succeed or Struggle: RE-wiring the Sector | Yumnaa Firfirey",
+   "channel": "INSPIRE  Initiative for Social Performance in RE",
+   "published": "2026-11-13T12:00:44Z",
+   "runs": 453,
+   "search": "renewable-energy"
+  },
+  {
+   "id": "GfFyf9ptHJ0",
+   "title": "Riversdale: A Renewable Start | Episode 2 - The Vision",
+   "channel": "Herholdt's Group",
+   "published": "2026-11-13T10:33:00Z",
+   "runs": 922,
+   "search": "renewable-energy"
+  },
+  {
+   "id": "uM0qh6gH0tc",
+   "title": "Desert Food Forests: Sun, Shade and Rainwater with Permaculture Expert Jérémy Chevallier",
+   "channel": "Sunlight Matters Podcast",
+   "published": "2026-11-13T10:29:32Z",
+   "runs": 3053,
+   "search": "edibles"
+  },
+  {
+   "id": "Fy_ovjYZKqY",
+   "title": "Creighton unveils $24M campus green space",
+   "channel": "First Alert 6",
+   "published": "2026-11-13T05:57:59Z",
+   "runs": 145,
+   "search": "green-spaces"
+  },
+  {
+   "id": "b4Cv2yF_nMA",
+   "title": "Food Access, Public Land, and the Power of Community Beacon Food Forest",
+   "channel": "Talkin' Dirt",
+   "published": "2026-11-12T15:00:18Z",
+   "runs": 3632,
+   "search": "edibles"
+  },
+  {
+   "id": "3Qlb9mfVkww",
+   "title": "Urban Smart Agriculture: Making Urban Farms Profitable to Fill Our Plates Now, Part 1, Episode 90",
+   "channel": "Fill Your Plate Now",
+   "published": "2026-11-12T13:54:10Z",
+   "runs": 2733,
+   "search": "urban-farms"
+  },
+  {
+   "id": "lBqNoNfg5CU",
+   "title": "12th THAI GREEN BUILDING EXPO AND CONFERENCE 2026",
+   "channel": "Thai Gbi",
+   "published": "2026-11-12T10:47:16Z",
+   "runs": 12361,
+   "search": "green-building"
+  },
   {
    "id": "C7LEPPzMQSg",
    "title": "Every Punk Subgenre Explained: Cyberpunk, Steampunk, Solarpunk and More",
@@ -77,22 +133,6 @@
    "published": "2026-11-12T10:00:07Z",
    "runs": 867,
    "search": "solarpunk"
-  },
-  {
-   "id": "QRA21oHDhz8",
-   "title": "12th THAI GREEN BUILDING EXPO AND CONFERENCE 2026",
-   "channel": "Thai Gbi",
-   "published": "2026-11-12T06:57:05Z",
-   "runs": 12213,
-   "search": "green-building"
-  },
-  {
-   "id": "cWjoyMa8pTs",
-   "title": "Beyond the Grid: Community Ownership, Energy Hubs & Europe's Renewable Energy Lessons with Haskoning",
-   "channel": "Exploring Clean Energy with Andy Marsland",
-   "published": "2026-11-12T05:56:08Z",
-   "runs": 2964,
-   "search": "renewable-energy"
   },
   {
    "id": "z8kJyuDjg9M",
@@ -103,12 +143,28 @@
    "search": "green-building"
   },
   {
+   "id": "eHHVvIE15jI",
+   "title": "Attorney Gerald Griggs and the team at Justice for the Podcast visit an Urban Farm in Atlanta",
+   "channel": "Attorney Gerald Griggs - #Justicefighter",
+   "published": "2026-11-12T03:37:27Z",
+   "runs": 181,
+   "search": "urban-farms"
+  },
+  {
    "id": "hfMK3yOO-6Y",
    "title": "From Edenicity to Solarpunk: How Good Housing Can Save the World with Jo Carson",
    "channel": "Jo Carson",
    "published": "2026-11-11T23:16:52Z",
    "runs": 1720,
    "search": "solarpunk"
+  },
+  {
+   "id": "MDlAEuNdkgk",
+   "title": "Food Forests are Public Health Assets in the Heart of the City",
+   "channel": "Boston Food Forest Coalition",
+   "published": "2026-11-11T21:46:00Z",
+   "runs": 117,
+   "search": "edibles"
   },
   {
    "id": "RV5f4sBp0JA",
@@ -159,27 +215,11 @@
    "search": "urban-forests"
   },
   {
-   "id": "DzJOd2NbVNg",
-   "title": "Why I’m Delaying My Food Forest — But Starting a Nursery Now",
-   "channel": "Anaganaga Natural Farms",
-   "published": "2026-11-10T12:18:23Z",
-   "runs": 563,
-   "search": "edibles"
-  },
-  {
    "id": "7XiAts8mbGQ",
    "title": "Christmas Makers Market at Tam O'Shanter Urban Farm 2026 🎄 | Wirral Makers & Traders",
    "channel": "The Wirral Beacon",
    "published": "2026-11-10T07:30:03Z",
    "runs": 210,
-   "search": "urban-farms"
-  },
-  {
-   "id": "jv-wsFPU5TY",
-   "title": "Rush Medical Center breaks ground on urban farm to fight food insecurity",
-   "channel": "WGN News",
-   "published": "2026-11-10T00:34:29Z",
-   "runs": 118,
    "search": "urban-farms"
   },
   {
@@ -189,86 +229,10 @@
    "published": "2026-11-09T16:45:18Z",
    "runs": 252,
    "search": "green-spaces"
-  },
-  {
-   "id": "Iu-SyqPD2D8",
-   "title": "The Long Game That Built The Urban Farmer",
-   "channel": "Modern Grower",
-   "published": "2026-11-09T15:19:00Z",
-   "runs": 2640,
-   "search": "urban-farms"
-  },
-  {
-   "id": "sa4lCiEt3VE",
-   "title": "Sun Link Community | Smart Renewable Energy for Communities | STEM Summer Camp 2026",
-   "channel": "The Visiola Foundation",
-   "published": "2026-11-09T07:52:09Z",
-   "runs": 265,
-   "search": "renewable-energy"
-  },
-  {
-   "id": "bOHpP2EJv2Y",
-   "title": "#3: Enhancing and Transforming Green Spaces in Baltimore",
-   "channel": "David Heath",
-   "published": "2026-11-06T17:53:08Z",
-   "runs": 3522,
-   "search": "green-spaces"
-  },
-  {
-   "id": "JpFbRKNILDE",
-   "title": "She Turned a TINY HOA Yard Into a FOOD FOREST!",
-   "channel": "LoveHealthMarket",
-   "published": "2026-11-06T11:00:05Z",
-   "runs": 4255,
-   "search": "edibles"
-  },
-  {
-   "id": "Kr6GOvOX8HM",
-   "title": "Food forest update and new project growing trees from seed for sale 2027 (Denver Metro)",
-   "channel": "Colorado Permaculture",
-   "published": "2026-11-05T22:29:25Z",
-   "runs": 239,
-   "search": "edibles"
   }
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
  "seen": [
-  {
-   "id": "r1VP2yEBkMU",
-   "search": "green-spaces",
-   "title": "Urban planning and green spaces (ep. 4) | Advanced Swedish Comprehensible Input (Level 6)",
-   "channel": "Bubblegum Swedish",
-   "published": "2026-11-05T13:41:27Z",
-   "runs": 645,
-   "state": "screen"
-  },
-  {
-   "id": "jj_rEfurUzw",
-   "search": "green-spaces",
-   "title": "Gujarat Develops Urban Green Spaces Through Oxygen Parks and Miyawaki Forests",
-   "channel": "Indiafile",
-   "published": "2026-11-05T14:56:44Z",
-   "runs": 148,
-   "state": "screen"
-  },
-  {
-   "id": "v0KedZ9385s",
-   "search": "green-spaces",
-   "title": "Dating dugyot ngayon into Green Space Manila Underpass na ! Grabe pagpapaganda ! 2026",
-   "channel": "Tour from Johnny",
-   "published": "2026-11-06T07:26:06Z",
-   "runs": 488,
-   "state": "screen"
-  },
-  {
-   "id": "MbV4QR3fGSU",
-   "search": "green-spaces",
-   "title": "Somer Valley Rediscovered Greenspace Project Summary Film",
-   "channel": "Somer Valley Rediscovered",
-   "published": "2026-11-06T11:24:07Z",
-   "runs": 430,
-   "state": "screen"
-  },
   {
    "id": "jJI_ol9R6XM",
    "search": "green-spaces",
@@ -324,55 +288,12 @@
    "state": "screen"
   },
   {
-   "id": "lBqNoNfg5CU",
-   "search": "green-building",
-   "title": "12th THAI GREEN BUILDING EXPO AND CONFERENCE 2026",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
-   "id": "lQuiWunaT3Y",
-   "search": "green-building",
-   "title": "Greenbuild 2026 recap: The world's largest gathering for green building professionals",
-   "channel": "Greenbuild International Conference & Expo",
-   "published": "2026-11-05T15:15:21Z",
-   "runs": 95,
-   "state": "screen"
-  },
-  {
-   "id": "Ssul5a_4gtk",
-   "search": "green-building",
-   "title": "Green Building Forum Italia 2026 Roma | Rachel HODGDON",
-   "channel": "Green Building Council Italia",
-   "published": "2026-11-05T17:50:41Z",
-   "runs": 1126,
-   "state": "screen"
-  },
-  {
-   "id": "-KS_o54evSY",
-   "search": "green-building",
-   "title": "Mayor Jonkie , MCCI discuss Investment Code reforms, green building incentives to attract investors.",
-   "channel": "RAMIL VILLENA AYUMAN",
-   "published": "2026-11-06T01:35:46Z",
-   "runs": 44,
-   "state": "screen"
-  },
-  {
-   "id": "b3ZNqAWwvTc",
-   "search": "green-building",
-   "title": "Green Building Convention 2026: The Green Revolution",
-   "channel": "Green Building Council South Africa GBCSA",
-   "published": "2026-11-06T06:45:46Z",
-   "runs": 408,
-   "state": "screen"
-  },
-  {
-   "id": "Mn7MUuAT0HI",
-   "search": "green-building",
-   "title": "Emirates Green Building Council 15th Annual Congress",
-   "channel": "Emirates Green Building Council",
-   "published": "2026-11-06T10:06:33Z",
-   "runs": 140,
+   "id": "Fy_ovjYZKqY",
+   "search": "green-spaces",
+   "title": "Creighton unveils $24M campus green space",
+   "channel": "First Alert 6",
+   "published": "2026-11-13T05:57:59Z",
+   "runs": 145,
    "state": "screen"
   },
   {
@@ -403,6 +324,15 @@
    "state": "screen"
   },
   {
+   "id": "sR-_di-zfeE",
+   "search": "green-building",
+   "title": "Prime Melwa Port City Development Project Signs Green Building Certification Agreement | GBCSL",
+   "channel": "Green Building Council of Sri Lanka",
+   "published": "2026-11-08T14:44:13Z",
+   "runs": 86,
+   "state": "screen"
+  },
+  {
    "id": "_-ByHslNibA",
    "search": "green-building",
    "title": "Bay One Residencies Signs Green Building Certification Agreement | GBCSL | Green Economy Forum 2026",
@@ -418,6 +348,15 @@
    "channel": "IGBC Online",
    "published": "2026-11-10T05:30:09Z",
    "runs": 71,
+   "state": "screen"
+  },
+  {
+   "id": "T1UGFRoaY_U",
+   "search": "green-building",
+   "title": "Topic 3  - The Quezon City Green Building Code of 2025",
+   "channel": "ELUPTV",
+   "published": "2026-11-10T16:30:04Z",
+   "runs": 2466,
    "state": "screen"
   },
   {
@@ -448,21 +387,12 @@
    "state": "screen"
   },
   {
-   "id": "gm-5qACsTYE",
-   "search": "urban-forests",
-   "title": "Arlington County Urban Forestry Town Hall | October 29, 2026",
-   "channel": "Arlington County Meetings",
-   "published": "2026-11-05T17:41:46Z",
-   "runs": 5351,
-   "state": "screen"
-  },
-  {
-   "id": "YsqJJx0eqfk",
-   "search": "urban-forests",
-   "title": "HPARD Upgrades Heavy Duty Urban Forestry Equipment",
-   "channel": "Houston Parks and Recreation Department",
-   "published": "2026-11-05T19:11:32Z",
-   "runs": 122,
+   "id": "lBqNoNfg5CU",
+   "search": "green-building",
+   "title": "12th THAI GREEN BUILDING EXPO AND CONFERENCE 2026",
+   "channel": "Thai Gbi",
+   "published": "2026-11-12T10:47:16Z",
+   "runs": 12361,
    "state": "screen"
   },
   {
@@ -583,39 +513,21 @@
    "state": "screen"
   },
   {
-   "id": "RQgaeS6YfzE",
-   "search": "urban-farms",
-   "title": "Urban Agriculture and the Future of Food",
-   "channel": "United States Botanic Garden",
-   "published": "2026-11-05T15:23:51Z",
-   "runs": 3404,
-   "state": "screen"
-  },
-  {
-   "id": "ShrDWTDemLY",
-   "search": "urban-farms",
-   "title": "Reliving MAHA: How Urban Farm Tech Brought Smart Farming to Life!",
-   "channel": "Urban Farm Tech",
-   "published": "2026-11-06T04:26:25Z",
-   "runs": 30,
-   "state": "screen"
-  },
-  {
-   "id": "vEm9RoyHE7A",
-   "search": "urban-farms",
-   "title": "BrandSpot - Episode 26 - Keith Chipudhla, Vitagrow Urban Farms",
-   "channel": "Global Brands Magazine",
-   "published": "2026-11-06T11:30:18Z",
-   "runs": 1645,
-   "state": "screen"
-  },
-  {
    "id": "L6yP0Bgh7Ac",
    "search": "urban-farms",
    "title": "Thieves steal tools from Las Vegas urban farm Obodo Collective",
    "channel": "FOX5 Las Vegas",
    "published": "2026-11-07T07:23:17Z",
    "runs": 142,
+   "state": "screen"
+  },
+  {
+   "id": "eyiHr9bJ45Y",
+   "search": "urban-farms",
+   "title": "Urban Farming in Luneta Park Manila",
+   "channel": "Nestorlakay",
+   "published": "2026-11-09T11:00:16Z",
+   "runs": 231,
    "state": "screen"
   },
   {
@@ -646,21 +558,21 @@
    "state": "screen"
   },
   {
-   "id": "Kr6GOvOX8HM",
-   "search": "edibles",
-   "title": "Food forest update and new project growing trees from seed for sale 2027 (Denver Metro)",
-   "channel": "Colorado Permaculture",
-   "published": "2026-11-05T22:29:25Z",
-   "runs": 239,
+   "id": "eHHVvIE15jI",
+   "search": "urban-farms",
+   "title": "Attorney Gerald Griggs and the team at Justice for the Podcast visit an Urban Farm in Atlanta",
+   "channel": "Attorney Gerald Griggs - #Justicefighter",
+   "published": "2026-11-12T03:37:27Z",
+   "runs": 181,
    "state": "screen"
   },
   {
-   "id": "JpFbRKNILDE",
-   "search": "edibles",
-   "title": "She Turned a TINY HOA Yard Into a FOOD FOREST!",
-   "channel": "LoveHealthMarket",
-   "published": "2026-11-06T11:00:05Z",
-   "runs": 4255,
+   "id": "3Qlb9mfVkww",
+   "search": "urban-farms",
+   "title": "Urban Smart Agriculture: Making Urban Farms Profitable to Fill Our Plates Now, Part 1, Episode 90",
+   "channel": "Fill Your Plate Now",
+   "published": "2026-11-12T13:54:10Z",
+   "runs": 2733,
    "state": "screen"
   },
   {
@@ -673,81 +585,31 @@
    "state": "screen"
   },
   {
-   "id": "IvfYGFqLm1o",
-   "search": "solarpunk",
-   "title": "Solarpunk Ambient LIVESTREAM",
-   "state": "pending",
-   "why": "live, or not out yet"
+   "id": "MDlAEuNdkgk",
+   "search": "edibles",
+   "title": "Food Forests are Public Health Assets in the Heart of the City",
+   "channel": "Boston Food Forest Coalition",
+   "published": "2026-11-11T21:46:00Z",
+   "runs": 117,
+   "state": "screen"
   },
   {
-   "id": "e-d4bMlHbSg",
-   "search": "solarpunk",
-   "title": "Solarpunk full updated intro sequence",
-   "channel": "YourNotAverageDuck",
-   "published": "2026-11-05T14:54:11Z",
-   "runs": 113,
-   "state": "left",
-   "why": "filed under Gaming"
+   "id": "b4Cv2yF_nMA",
+   "search": "edibles",
+   "title": "Food Access, Public Land, and the Power of Community Beacon Food Forest",
+   "channel": "Talkin' Dirt",
+   "published": "2026-11-12T15:00:18Z",
+   "runs": 3632,
+   "state": "screen"
   },
   {
-   "id": "xUzp6uA_S88",
-   "search": "solarpunk",
-   "title": "Loftia — Official Early Access Trailer | Cozy Solarpunk MMO OUT NOW",
-   "channel": "IGW - Indie Games World",
-   "published": "2026-11-05T19:00:40Z",
-   "runs": 90,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "S4RSQwKxjDI",
-   "search": "solarpunk",
-   "title": "Solarpunk Episode 9",
-   "channel": "Rhi Chi",
-   "published": "2026-11-05T22:01:24Z",
-   "runs": 7250,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "kGAhSi8P9mk",
-   "search": "solarpunk",
-   "title": "[FR] [PC] Découverte / SolarPunk / On test",
-   "channel": "Ashker Nms",
-   "published": "2026-11-05T23:02:46Z",
-   "runs": 8525,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "_xXuaVwmnFg",
-   "search": "solarpunk",
-   "title": "We WILL Figure Out the Friggin Drones!! | Solarpunk w/ @Aliza_Gekkota",
-   "channel": "Indy Brambles",
-   "published": "2026-11-06T01:37:58Z",
-   "runs": 14585,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "XIl2ypAwjGw",
-   "search": "solarpunk",
-   "title": "Loftia Early Access (Pt. 1) - Cozy Solarpunk Vibes 🤗",
-   "channel": "Copacaxi",
-   "published": "2026-11-06T03:15:15Z",
-   "runs": 13370,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "dih8WCP99Bs",
-   "search": "solarpunk",
-   "title": "SOLARPUNK - [4K 60FPS] - GAMEPLAY PARTE 36",
-   "channel": "[PT]HUN7ER",
-   "published": "2026-11-06T09:00:25Z",
-   "runs": 912,
-   "state": "left",
-   "why": "filed under Gaming"
+   "id": "uM0qh6gH0tc",
+   "search": "edibles",
+   "title": "Desert Food Forests: Sun, Shade and Rainwater with Permaculture Expert Jérémy Chevallier",
+   "channel": "Sunlight Matters Podcast",
+   "published": "2026-11-13T10:29:32Z",
+   "runs": 3053,
+   "state": "screen"
   },
   {
    "id": "JEEWZgy5tec",
@@ -766,6 +628,16 @@
    "channel": "Mimi the Martian",
    "published": "2026-11-06T16:34:15Z",
    "runs": 5596,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "IPK6GG4v6qM",
+   "search": "solarpunk",
+   "title": "🔴 SOLARPUNK LIVE | Building my DREAM home in the SKY",
+   "channel": "Liss",
+   "published": "2026-11-06T16:34:38Z",
+   "runs": 11726,
    "state": "left",
    "why": "filed under Gaming"
   },
@@ -856,6 +728,25 @@
    "why": "filed under Music"
   },
   {
+   "id": "xMqNczXRup4",
+   "search": "solarpunk",
+   "title": "Solarpunk, Visualized",
+   "channel": "Things Visualized",
+   "published": "2026-11-08T15:08:24Z",
+   "runs": 306,
+   "state": "screen"
+  },
+  {
+   "id": "DG5uGIBi3Cc",
+   "search": "solarpunk",
+   "title": "Lucas Marte Ft. Táljame  ★ Solarpunk (acústico)",
+   "channel": "Lucas Marte",
+   "published": "2026-11-08T21:00:09Z",
+   "runs": 281,
+   "state": "left",
+   "why": "filed under Music"
+  },
+  {
    "id": "rl2SyrhA_p0",
    "search": "solarpunk",
    "title": "Look At Them All Go | Part 75 | Solarpunk",
@@ -864,6 +755,15 @@
    "runs": 3772,
    "state": "left",
    "why": "filed under Gaming"
+  },
+  {
+   "id": "NvtluD-JN8w",
+   "search": "solarpunk",
+   "title": "[3 Hours] Solarpunk Canopy Treehouse, Ferns & a Warm Lamp, No Talking",
+   "channel": "Solar Wanderer",
+   "published": "2026-11-09T10:49:48Z",
+   "runs": 11588,
+   "state": "screen"
   },
   {
    "id": "YvPWei6TXow",
@@ -961,49 +861,44 @@
    "state": "screen"
   },
   {
-   "id": "il5pG6RKp0U",
-   "search": "renewable-energy",
-   "title": "Community Shared Ownership of Renewables in South Lanarkshire 2026",
-   "channel": "VASLan South Lanarkshire's TSI",
-   "published": "2026-11-05T12:47:02Z",
-   "runs": 4494,
-   "state": "screen"
+   "id": "aIsdd7l2X7Y",
+   "search": "solarpunk",
+   "title": "The trees are someone else's problem now. | Ep 14, Solarpunk",
+   "channel": "Hock1216",
+   "published": "2026-11-12T17:00:13Z",
+   "runs": 2544,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
-   "id": "_-PQMOOGGRg",
-   "search": "renewable-energy",
-   "title": "Renewable Energy Could Transform Remote Pacific Communities",
-   "channel": "Pasifika TV",
-   "published": "2026-11-05T14:45:40Z",
-   "runs": 502,
-   "state": "screen"
+   "id": "Nst_fUUausw",
+   "search": "solarpunk",
+   "title": "Getting Ready for Chickens! | Solarpunk - Episode 6",
+   "channel": "HinukanYT",
+   "published": "2026-11-12T20:30:05Z",
+   "runs": 2794,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
-   "id": "uhk6bQCJcNo",
-   "search": "renewable-energy",
-   "title": "Kenosha County Case Study for Renewable Energy Projects",
-   "channel": "University of Wisconsin Extension",
-   "published": "2026-11-05T22:27:23Z",
-   "runs": 1210,
-   "state": "screen"
+   "id": "0tL11byhzGU",
+   "search": "solarpunk",
+   "title": "SOLARPUNK - [4K 60FPS] - GAMEPLAY PARTE 39",
+   "channel": "[PT]HUN7ER",
+   "published": "2026-11-13T09:00:21Z",
+   "runs": 905,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
-   "id": "4p0nq1MEFd0",
-   "search": "renewable-energy",
-   "title": "Riversdale: A Renewable Start | Episode 1 - Our Town, Our Power",
-   "channel": "Herholdt's Group",
-   "published": "2026-11-06T10:29:02Z",
-   "runs": 1533,
-   "state": "screen"
-  },
-  {
-   "id": "UNA3NnWjTP4",
-   "search": "renewable-energy",
-   "title": "Junior Energy Series 2026 - Community Renewables",
-   "channel": "Burness Paull LLP",
-   "published": "2026-11-06T11:05:20Z",
-   "runs": 1782,
-   "state": "screen"
+   "id": "iKhyAqswWUg",
+   "search": "solarpunk",
+   "title": "Solarpunk Season 1 Episode 10",
+   "channel": "Rhi Chi",
+   "published": "2026-11-13T09:02:35Z",
+   "runs": 6940,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
    "id": "kVOdW47uIOg",
@@ -1033,12 +928,57 @@
    "state": "screen"
   },
   {
+   "id": "zCuLAaII7t0",
+   "search": "renewable-energy",
+   "title": "How one NSW community is leading Australia's home electrification journey #solar #renewableenergy",
+   "channel": "Rewiring Australia",
+   "published": "2026-11-12T00:45:09Z",
+   "runs": 45,
+   "state": "screen"
+  },
+  {
    "id": "cWjoyMa8pTs",
    "search": "renewable-energy",
    "title": "Beyond the Grid: Community Ownership, Energy Hubs & Europe's Renewable Energy Lessons with Haskoning",
    "channel": "Exploring Clean Energy with Andy Marsland",
    "published": "2026-11-12T05:56:08Z",
    "runs": 2964,
+   "state": "screen"
+  },
+  {
+   "id": "8smcyKcl-5Y",
+   "search": "renewable-energy",
+   "title": "Renewable Energy Myths in Rural Areas | Myth #06: Only Large Companies Benefit from Renewable Energy",
+   "channel": "Ecoloop Project",
+   "published": "2026-11-12T12:30:05Z",
+   "runs": 27,
+   "state": "screen"
+  },
+  {
+   "id": "GfFyf9ptHJ0",
+   "search": "renewable-energy",
+   "title": "Riversdale: A Renewable Start | Episode 2 - The Vision",
+   "channel": "Herholdt's Group",
+   "published": "2026-11-13T10:33:00Z",
+   "runs": 922,
+   "state": "screen"
+  },
+  {
+   "id": "Q5gmzcBBgy0",
+   "search": "renewable-energy",
+   "title": "Why Renewable Energy Projects Succeed or Struggle: Building Capacity for Trusts | Avela Pamla",
+   "channel": "INSPIRE  Initiative for Social Performance in RE",
+   "published": "2026-11-13T11:49:19Z",
+   "runs": 516,
+   "state": "screen"
+  },
+  {
+   "id": "VMtKnQFAcC0",
+   "search": "renewable-energy",
+   "title": "Why Renewable Energy Projects Succeed or Struggle: RE-wiring the Sector | Yumnaa Firfirey",
+   "channel": "INSPIRE  Initiative for Social Performance in RE",
+   "published": "2026-11-13T12:00:44Z",
+   "runs": 453,
    "state": "screen"
   }
  ]
