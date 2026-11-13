@@ -9,10 +9,17 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Fri, 13 Nov 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Ignore and Block reach the forums</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-13-ignore-in-the-forums</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-13-ignore-in-the-forums</guid>
+      <pubDate>Fri, 13 Nov 2026 12:00:00 GMT</pubDate>
+      <description>In the forums, a post from somebody you ignore or block is folded away too, to one line with Show it, and so is a message of theirs copied from the CB into a post. A reply to one of their posts says it answers a post you have hidden, and a search or your Mentions shows none of their words. Ignoring or blocking somebody from their profile folds their posts on the page you are on at once. Nothing changes for them, and nobody is told. How it works.</description>
+    </item>
+    <item>
       <title>Ignore and Block on the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-11-13-ignore-and-block</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-13-ignore-and-block</guid>
-      <pubDate>Fri, 13 Nov 2026 12:00:00 GMT</pubDate>
+      <pubDate>Fri, 13 Nov 2026 11:59:00 GMT</pubDate>
       <description>You can ignore somebody on the CB. Somebody in our community asked for a private way to stop seeing one person’s messages, without the other person being told or limited, and Ryan asked for both of Discord’s answers. Ignore, on somebody’s profile (press their name) or under the three dots on one of their messages, folds every message of theirs away for you, on every channel, in a call’s chat and in your conversation with them, to one line with Show it. A reply quoting them says neither who nor what, none of their messages is read aloud, and nothing they say notifies you. Nothing changes for them, and nobody is told. How it works. Block does all of that now too, as well as what it always did (stopping messages both ways and deleting your conversation), and stops them giving you props. It is on their profile as well as under a conversation, and asks before it does anything. Both lists are yours alone: kept on our server with your conversations’ settings, sealed the same way, and sent only to you, so they follow you to every device. People you ignore and People you have blocked are under All messages, with Stop ignoring and Unblock. What is kept.</description>
     </item>
     <item>

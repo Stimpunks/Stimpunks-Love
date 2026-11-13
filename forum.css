@@ -125,6 +125,11 @@
 .fm-post__when, .fm-post__edited { font-size: 14px; }
 .fm-post__edited { color: var(--cb-amber-2); }
 .fm-post__reply { font-size: 14px; color: var(--cb-amber-2); }
+/* A post or a copied message from somebody you ignore or block (2026-11-13):
+   one line in the reply line's quiet amber, naming nobody, with Show it;
+   everything else in it hidden until pressed, and the line stays as Hide it again. */
+.fm-hush { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0; font-size: 14px; color: var(--cb-amber-2); }
+.fm-hushed > :not(.fm-hush) { display: none !important; }
 .fm-who {
   font: 700 16px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; color: var(--cb-steel);
   background: none; border: 0; padding: 2px 0; cursor: pointer;

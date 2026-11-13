@@ -4155,7 +4155,12 @@
   Radio.prototype.setHush = function (h) {
     var next = { of: this.state.handle, blocked: Array.isArray(h && h.blocked) ? h.blocked.slice() : [], ignored: Array.isArray(h && h.ignored) ? h.ignored.slice() : [] };
     var same = JSON.stringify(next) === JSON.stringify(this.hushNow());
-    if (!same) { this.state.hush = next; save(this.state); }
+    if (!same) {
+      this.state.hush = next;
+      save(this.state);
+      // The forums fold the same people on this page, as soon as they change (forum.js).
+      window.dispatchEvent(new CustomEvent('love-hush', { detail: { blocked: next.blocked.slice(), ignored: next.ignored.slice() } }));
+    }
     if (this.heldShow) { var held = this.heldShow; this.show(held[0], held[1]); }
     if (same) return;
     // Every message already drawn folds or unfolds, and the next listen draws the quotes again.

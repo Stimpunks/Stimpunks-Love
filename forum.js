@@ -82,7 +82,7 @@
   var root = host.attachShadow({ mode: 'open' });
   var waiting = 2;
   host.style.visibility = 'hidden';
-  ['/cb.css?v=86f99046fa', '/forum.css?v=5106bbfa6a'].forEach(function (href) {
+  ['/cb.css?v=86f99046fa', '/forum.css?v=68c01497f4'].forEach(function (href) {
     var l = document.createElement('link');
     l.rel = 'stylesheet';
     l.href = href;
@@ -467,6 +467,50 @@
   /* BASE, filled, beside a moderator's name. There is no CLAIMED any more:
      every username on the CB is claimed (2026-10-21), so it said nothing. */
   function tag(text) { return el('span', 'cb-tag', text); }
+  /* IGNORE AND BLOCK (2026-11-13): the people this reader ignores and blocks
+     come with every answer as me.hush, theirs alone, and the radio says when
+     they change (love-hush). Their posts fold to one line naming nobody, with
+     Show it; a reply to one says it answers a post you have hidden; a message
+     of theirs copied from the CB folds the same way; and a search or a mention
+     of theirs shows none of their words. Nothing changes for anybody else. */
+  function hushOf(handle) {
+    var h = me && me.hush, f = fold(handle);
+    if (!h || !f || f === fold(me.handle)) return '';
+    if ((h.blocked || []).some(function (x) { return fold(x) === f; })) return 'blocked';
+    if ((h.ignored || []).some(function (x) { return fold(x) === f; })) return 'ignored';
+    return '';
+  }
+  function hushSays(kind, what) { return 'A ' + what + ' from somebody you ' + (kind === 'blocked' ? 'blocked.' : 'ignore.'); }
+  function hushIt(box, handle, what) {
+    box.dataset.hushOf = handle;
+    box.dataset.hushWhat = what;
+    var kind = hushOf(handle), row = box.querySelector(':scope > .fm-hush');
+    if (!kind) { box.classList.remove('fm-hushed'); if (row) row.remove(); box.hushShown = false; return; }
+    if (!row || row.dataset.kind !== kind) {
+      if (row) row.remove();
+      row = el('p', 'fm-hush');
+      row.dataset.kind = kind;
+      row.appendChild(el('span', null, hushSays(kind, what)));
+      row.appendChild(document.createTextNode(' '));
+      var b = el('button', 'cb-btn fm-small fm-hush__show');
+      b.type = 'button';
+      b.addEventListener('click', function () { box.hushShown = !box.hushShown; hushIt(box, handle, what); });
+      row.appendChild(b);
+      box.insertBefore(row, box.firstChild);
+    }
+    var shown = !!box.hushShown;
+    box.classList.toggle('fm-hushed', !shown);
+    var sb = row.querySelector('.fm-hush__show');
+    sb.textContent = shown ? 'Hide it again' : 'Show it';
+    sb.setAttribute('aria-label', (shown ? 'Hide ' : 'Show ') + 'this ' + what + ' from somebody you ' + (kind === 'blocked' ? 'blocked' : 'ignore'));
+  }
+  window.addEventListener('love-hush', function (e) {
+    if (!me || !e.detail) return;
+    me.hush = { blocked: e.detail.blocked || [], ignored: e.detail.ignored || [] };
+    if (!root) return;
+    Array.prototype.forEach.call(root.querySelectorAll('[data-hush-of]'), function (box) { hushIt(box, box.dataset.hushOf, box.dataset.hushWhat); });
+  });
+
   function marks(into, base, bot) { if (bot) into.appendChild(tag('BOT')); else if (base) into.appendChild(tag('BASE')); }
 
   /* A name opens that person's profile on the radio, as a handle on the channel does. */
@@ -830,6 +874,7 @@
         });
         li.appendChild(out);
       }
+      hushIt(li, m.handle, 'message');
       ul.appendChild(li);
     });
     wrap.appendChild(ul);
@@ -1289,7 +1334,7 @@
       if (to) {
         var rp = el('p', 'fm-post__reply');
         rp.appendChild(document.createTextNode('In reply to '));
-        var ra = el('a', null, to.handle + '’s post');
+        var ra = el('a', null, hushOf(to.handle) ? 'a post you have hidden' : to.handle + '’s post');
         ra.href = '#/t/' + t.id + '/' + to.id;
         rp.appendChild(ra);
         art.appendChild(rp);
@@ -1327,6 +1372,7 @@
       tools.appendChild(db);
     }
     art.appendChild(tools);
+    if (!p.bot) hushIt(art, p.handle, 'post');
     return art;
   }
 
@@ -2444,7 +2490,7 @@
         var li = topicRow(x);
         if (x.match) {
           var m = el('p', 'fm-row__match');
-          var a = el('a', null, x.match.handle + ': ' + x.match.words);
+          var a = el('a', null, hushOf(x.match.handle) ? hushSays(hushOf(x.match.handle), 'post') : x.match.handle + ': ' + x.match.words);
           a.href = '#/t/' + x.id + (x.match.post ? '/' + x.match.post : '');
           m.appendChild(a);
           li.appendChild(m);
@@ -2471,7 +2517,7 @@
       r.body.results.forEach(function (x) {
         var li = topicRow(x);
         var m = el('p', 'fm-row__match');
-        var a = el('a', null, x.match.handle + ': ' + x.match.words);
+        var a = el('a', null, hushOf(x.match.handle) ? hushSays(hushOf(x.match.handle), 'post') : x.match.handle + ': ' + x.match.words);
         a.href = '#/t/' + x.id + (x.match.post ? '/' + x.match.post : '');
         m.appendChild(a);
         li.appendChild(m);

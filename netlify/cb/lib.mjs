@@ -4400,10 +4400,11 @@ export async function sweepCalls(s = store(), now = Date.now()) {
    the calls' chat, "a private setting that doesn't notify the other person",
    "without that limiting the other person's ability to participate". So the
    same record holds a second list, `ignored`, by petKey too, and both lists:
-     · come back to their owner on every /cb/unread (newFor's `hush`) and with
-       their conversations (listDms), so the radio folds away, on every
-       channel, in every conversation and in a reply's quote, the messages of
-       anybody on either, each with Show it, and reads none of them aloud;
+     · come back to their owner on every /cb/unread (newFor's `hush`), with
+       their conversations (listDms) and in every forums answer (hushFor), so
+       the radio folds away, on every channel, in every conversation and in a
+       reply's quote, the messages of anybody on either, each with Show it,
+       and reads none of them aloud, and the forums fold their posts the same way;
      · stop every notification either person's words would have caused you
        (hushedFor, asked by tellDevices, notifyForum, notifyProps, notifyDm and
        notifyDmCall);
@@ -4600,6 +4601,13 @@ const hushes = (set, handle) => blocks(set, handle) || ignores(set, handle);
 const handlesOf = (l) => l.map((b) => b.handle).sort((a, b) => a.localeCompare(b));
 /* Your two lists as your radio is shown them, and nobody else ever is. */
 const hushOf = (set) => ({ blocked: handlesOf(set.blocked), ignored: handlesOf(set.ignored) });
+
+/* Your two lists, for a page that folds their words away but is not the
+   radio (the forums, cb-forum.mjs): empty when direct messages are shut. */
+export async function hushFor(who, s = store()) {
+  if (!forumReader(who) || !dmReady()) return hushOf(dmSetDoc(null));
+  return hushOf(await readDmSet(dmKey(who.handle, who.since), s));
+}
 
 /* Whether the claimed username `acct` has blocked `who`, for props (giveProp). */
 export async function blockedBy(acct, who, s = store()) {

@@ -38,7 +38,7 @@
                                                      nobody else is sent any
    A post that @mentions somebody tells their devices, if they asked
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
-import { staffReady, loadForumRules, readPass, forumReader, mentionableRoles, noteModCall, rolesOf, tasksAllow, officeAllow, taskSnippets, nameRefs, findLinks, backlinksTo, forumPeople, forumTags, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
+import { staffReady, loadForumRules, readPass, hushFor, forumReader, mentionableRoles, noteModCall, rolesOf, tasksAllow, officeAllow, taskSnippets, nameRefs, findLinks, backlinksTo, forumPeople, forumTags, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
   reactPost, votePoll, closePoll, addPoll, moderateTopic, retagTopic, importTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
   FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FILE_MAX, FILE_PART, FORUM_FILE_TYPES, POLL_CHOICES_MAX, POLL_CHOICE_MAX, POLL_Q_MAX, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
@@ -64,7 +64,9 @@ export default async (req, context) => {
   if (!forumReader(who)) return json(403, { error: CLAIM, claim: true }, QUIET);
   // tasks and office say whether the bar offers them, a press away for the people who can open them.
   // mention: the roles this reader may call with an @ (mentionableRoles); roles: their own, so a call of one is marked.
-  const me = { handle: who.handle, mod: who.role === 'base', tasks: tasksAllow(who), office: officeAllow(who), mention: mentionableRoles(who), roles: rolesOf(who) };
+  // hush: the people this reader ignores and blocks, theirs alone, so their posts are folded away (2026-11-13).
+  const me = { handle: who.handle, mod: who.role === 'base', tasks: tasksAllow(who), office: officeAllow(who), mention: mentionableRoles(who), roles: rolesOf(who),
+    hush: await hushFor(who).catch(() => ({ blocked: [], ignored: [] })) };
   // Every answer's links to tasks, topics and the office named for this reader, last.
   const answer = async (code, b, h) => json(code, await nameRefs(b, who), h);
   // The desk's keeps, so every category's says what it keeps now.

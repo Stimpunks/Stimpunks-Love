@@ -2214,10 +2214,12 @@ in conversations; a reply's quote of them says neither who nor what (`drawRe`); 
 `lib.mjs` stops every notification their words would cause** (tellDevices, notifyForum, notifyProps, notifyDm,
 notifyDmCall): a new notifier from a person asks it too. Ignore stops there; Block also refuses DMs both ways (as it
 always did) and props (`giveProp` answers 'closed'). Ignore and Block are on a profile, Ignore under a message's three
-dots, both lists under All messages. **The friendly edits are telling the other person "so they know why", naming them
+dots, both lists under All messages. **The forums fold the same people** (`hushIt` in `forum.js`): every forums
+answer carries the reader's lists as `me.hush` (`hushFor`), the radio fires `love-hush` when they change, and a post, a
+message copied from the CB into one, a reply's line and a search or Mentions match fold or name nobody. **The friendly edits are telling the other person "so they know why", naming them
 on the folded line, a count of who ignores somebody, a moderator's view of anybody's lists, and taking an ignored
 person's messages off the channel**; the first four are the notice and the record the ask refused, and the last limits
-them. `DECISIONS.md` has what is still open, the forums first.
+them. `DECISIONS.md` has what is still open.
 
 **EVENTS ARE THE CB'S, SCHEDULED BY ANYBODY SIGNED ON, AND AN EVENT NAMES WHO IS INTERESTED AND NEVER HOW MANY.**
 Ryan's ask and calls, 2026-10-23, after Discord's Scheduled Events: the Events part of `netlify/cb/lib.mjs` (one blob,
