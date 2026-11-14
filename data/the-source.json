@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-11-13T12:22Z",
+  "set": "2026-11-14T12:16Z",
   "springs": [
     {
       "id": "starstuff",
@@ -12,6 +12,26 @@
       "feed": "https://github.com/Stimpunks/Star-Stuff/commits/main.atom",
       "note": "Every zine, field guide, broadside and working paper on starstuff.earth, and the tools that check each one before it goes up.",
       "items": [
+        {
+          "title": "Regenerate the derived files for Glimmer Wire edition twelve",
+          "url": "https://github.com/Stimpunks/Star-Stuff/commit/0b6c34ebc61b809ec053649ba1374b2a2d246752",
+          "date": "2026-11-13T12:48:13Z",
+          "sha": "0b6c34e",
+          "by": [
+            "claude",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Glimmer Wire, edition twelve: eight papers read end to end, and a spe…",
+          "url": "https://github.com/Stimpunks/Star-Stuff/commit/ee4d2f6e5261b195626fd3a7b7eaf8b3a906037c",
+          "date": "2026-11-13T12:42:30Z",
+          "sha": "ee4d2f6",
+          "by": [
+            "claude",
+            "Claude Opus 5"
+          ]
+        },
         {
           "title": "Regenerate the derived files for Glimmer Wire edition eleven",
           "url": "https://github.com/Stimpunks/Star-Stuff/commit/24a487ce37638963260eb44a5f44dd090cd68588",
@@ -51,29 +71,9 @@
             "claude",
             "Claude Opus 5"
           ]
-        },
-        {
-          "title": "Glimmer Wire, edition ten: eight filed, six held, and the archive tha…",
-          "url": "https://github.com/Stimpunks/Star-Stuff/commit/5c48a735661d2aaf2e7c2d0c0591c54f2064e3a8",
-          "date": "2026-10-30T12:49:36Z",
-          "sha": "5c48a73",
-          "by": [
-            "claude",
-            "Claude Opus 5"
-          ]
-        },
-        {
-          "title": "Regenerate the derived files for Glimmer Wire edition nine",
-          "url": "https://github.com/Stimpunks/Star-Stuff/commit/c29b3c69da81e9cea6e8ce6c34c5dcf0c740e518",
-          "date": "2026-10-23T13:01:15Z",
-          "sha": "c29b3c6",
-          "by": [
-            "claude",
-            "Claude Opus 5"
-          ]
         }
       ],
-      "read": "2026-11-13T12:22Z"
+      "read": "2026-11-14T12:16Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-11-13T12:22Z"
+      "read": "2026-11-14T12:16Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-11-13T12:22Z"
+      "read": "2026-11-14T12:16Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-11-13T12:22Z"
+      "read": "2026-11-14T12:16Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-11-13T12:22Z"
+      "read": "2026-11-14T12:16Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-11-13T12:22Z"
+      "read": "2026-11-14T12:16Z"
     },
     {
       "id": "love",
@@ -476,29 +476,9 @@
           "by": [
             "ryanboren"
           ]
-        },
-        {
-          "title": "The classroom essay credits the chapter's editor",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/1ddefc47fbf3094ac65eece7d3b4a20641c1b2ef",
-          "date": "2026-11-12T04:12:39Z",
-          "sha": "1ddefc4",
-          "by": [
-            "AutisticRealms",
-            "Claude Sonnet 5.5"
-          ]
-        },
-        {
-          "title": "A harp to play, a map of the yurt, a wreath for the Wheel of the Year…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/eec05dce6133c83b42b16c5308d1165cf49f9884",
-          "date": "2026-11-11T19:42:27Z",
-          "sha": "eec05dc",
-          "by": [
-            "AutisticRealms",
-            "Claude Opus 5.5"
-          ]
         }
       ],
-      "read": "2026-11-13T12:22Z"
+      "read": "2026-11-14T12:16Z"
     },
     {
       "id": "garden",
@@ -567,7 +547,7 @@
           "anon": true
         }
       ],
-      "read": "2026-11-13T12:22Z"
+      "read": "2026-11-14T12:16Z"
     }
   ]
 }
