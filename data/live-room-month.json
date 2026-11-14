@@ -23,16 +23,6 @@
  ],
  "log": [
   {
-   "id": "RV_Xs3NbPiY",
-   "source": "acl",
-   "form": "long",
-   "title": "The Red Clay Strays - Demons In Your Choir | Live on Austin City Limits TV",
-   "published": "2026-10-14T13:54:06Z",
-   "state": "screen",
-   "runs": 254,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "cZsjf48RMkQ",
    "source": "acl",
    "form": "long",
@@ -170,6 +160,36 @@
    "published": "2026-11-09T16:07:18Z",
    "state": "pending",
    "why": "live, or not out yet"
+  },
+  {
+   "id": "l5_64GLzoFA",
+   "source": "acl",
+   "form": "long",
+   "title": "Sufjan Stevens - Casimir Pulaski Day | Austin City Limits",
+   "published": "2026-11-13T17:04:17Z",
+   "state": "screen",
+   "runs": 337,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "-_SRp5Me8KY",
+   "source": "acl",
+   "form": "long",
+   "title": "My Morning Jacket - Wordless Chorus | Austin City Limits",
+   "published": "2026-11-13T17:06:50Z",
+   "state": "screen",
+   "runs": 258,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "utV8Q1b7YOE",
+   "source": "acl",
+   "form": "long",
+   "title": "Sonic Youth - Cross The Breeze | Austin City Limits",
+   "published": "2026-11-13T17:16:37Z",
+   "state": "screen",
+   "runs": 403,
+   "channel": "Austin City Limits"
   },
   {
    "id": "FkXtCPkLWhg",
@@ -310,66 +330,6 @@
    "state": "screen",
    "runs": 23,
    "channel": "Austin City Limits"
-  },
-  {
-   "id": "-z_HOleoXpw",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Sword - Tres Brujas (Live on KEXP)",
-   "published": "2026-10-14T13:00:14Z",
-   "state": "screen",
-   "runs": 252,
-   "channel": "KEXP"
-  },
-  {
-   "id": "EMbctaZKtj8",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Sword - Full Performance (Live on KEXP)",
-   "published": "2026-10-14T15:00:26Z",
-   "state": "screen",
-   "runs": 1745,
-   "channel": "KEXP"
-  },
-  {
-   "id": "VjnnG1iC2xs",
-   "source": "kexp",
-   "form": "long",
-   "title": "Death Cab For Cutie - Stone Over Water (Live on KEXP)",
-   "published": "2026-10-15T11:00:15Z",
-   "state": "screen",
-   "runs": 200,
-   "channel": "KEXP"
-  },
-  {
-   "id": "XhblkMF4oN8",
-   "source": "kexp",
-   "form": "long",
-   "title": "Death Cab For Cutie - I Built You A Tower (a) (Live on KEXP)",
-   "published": "2026-10-15T11:00:21Z",
-   "state": "screen",
-   "runs": 212,
-   "channel": "KEXP"
-  },
-  {
-   "id": "5hUpTQYsQ9s",
-   "source": "kexp",
-   "form": "long",
-   "title": "Death Cab For Cutie - How Heavenly A State (Live on KEXP)",
-   "published": "2026-10-15T11:00:26Z",
-   "state": "screen",
-   "runs": 219,
-   "channel": "KEXP"
-  },
-  {
-   "id": "NcExhbURAZE",
-   "source": "kexp",
-   "form": "long",
-   "title": "Death Cab For Cutie - Cath... (Live on KEXP)",
-   "published": "2026-10-15T11:00:32Z",
-   "state": "screen",
-   "runs": 243,
-   "channel": "KEXP"
   },
   {
    "id": "iZyoW4rghz4",
@@ -1532,13 +1492,13 @@
    "channel": "KEXP"
   },
   {
-   "id": "W4XmhK9ymhg",
+   "id": "z2bJQRhZze0",
    "source": "kexp",
-   "form": "short",
-   "title": "The Sword performs \"Tres Brujas\" & more Live on KEXP",
-   "published": "2026-10-14T17:05:33Z",
+   "form": "long",
+   "title": "Chelsea Wolfe - Full Performance (Live on KEXP)",
+   "published": "2026-11-13T16:00:11Z",
    "state": "screen",
-   "runs": 60,
+   "runs": 1434,
    "channel": "KEXP"
   },
   {
@@ -1742,14 +1702,14 @@
    "channel": "KEXP"
   },
   {
-   "id": "vipreP8qwwQ",
-   "source": "kcrw",
-   "form": "long",
-   "title": "STRFKR Explain Their Career Using an iPod",
-   "published": "2026-10-14T17:45:22Z",
+   "id": "qMGSFXl6m1k",
+   "source": "kexp",
+   "form": "short",
+   "title": "Chelsea Wolfe performs \"Death Is Not the End\" & more Live on KEXP",
+   "published": "2026-11-13T18:05:43Z",
    "state": "screen",
-   "runs": 441,
-   "channel": "KCRW"
+   "runs": 60,
+   "channel": "KEXP"
   },
   {
    "id": "-qsgc5rmBqE",
@@ -1947,13 +1907,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-13T12:36:16Z"
+     "2026-11-14T12:27:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-13T12:36:16Z"
+     "2026-11-14T12:27:59Z"
     ]
    ]
   },
@@ -1961,13 +1921,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-13T12:36:16Z"
+     "2026-11-14T12:27:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-13T12:36:16Z"
+     "2026-11-14T12:27:59Z"
     ]
    ]
   },
@@ -1975,16 +1935,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-13T12:36:16Z"
+     "2026-11-14T12:27:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-13T12:36:16Z"
+     "2026-11-14T12:27:59Z"
     ]
    ]
   }
  },
- "set": "2026-11-13T12:36Z"
+ "set": "2026-11-14T12:27Z"
 }
