@@ -3719,7 +3719,7 @@
     /* Tuned to a room, the first listen waits for the street's list, so that
        a page that is no room (the 404 answers any address) never sends its
        address to us as if it were one: it hears World instead. */
-    if (this.state.band === 'room' && rooms === null && !offList()) {
+    if (this.state.band !== 'world' && rooms === null && !offList()) {
       this.roomsReady.then(function () {
         if (radio === me && !me.state.folded && document.visibilityState === 'visible') me.tune();
       });
@@ -15512,7 +15512,10 @@
   /* WORLD OR THIS ROOM. Ryan, 2026-09-28: the radio can tune to the World
      channel, as it always could, or to the channel of the room it is on, and
      a room's channel keeps the World's rules exactly. One at a time, like a
-     radio. The choice is remembered, like Small, so moving between rooms
+     radio. Since 2026-11-14 a radio starts on This room (Ryan's call, reversing
+     World as where a radio starts): a radio nobody has tuned hears the room it
+     is in, and a press of World is remembered as before. The choice is
+     remembered, like Small, so moving between rooms
      tuned to rooms hears each room's own channel in turn. A page that is not a
      room on the street, like the 404, has no channel of its own and hears
      World. Retuning starts the log afresh, and what is already on the other
@@ -15525,7 +15528,7 @@
     }
     // In a room that keeps to itself the radio opens on its channel, and a
     // press of World or This room there is the visitor's and is kept as usual.
-    var band = offList() && !this.bandPressed ? 'room' : this.state.band;
+    var band = offList() && !this.bandPressed ? 'room' : this.state.band === 'world' ? 'world' : 'room';
     if (band !== 'room' || worldHere()) return null;
     if (rooms && rooms.length && !hereRoom()) return null;
     var tag = hereTag();

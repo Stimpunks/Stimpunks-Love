@@ -794,8 +794,9 @@ where `call.js` had to load first, and a spot's room link did nothing there.
 **EVERY ROOM HAS A CHANNEL, AND ONLY THAT ONE TELLS US WHERE ANYBODY IS.** Ryan, 2026-09-28: the
 radio tunes to World (the `channel` blob, as it always was) or to this room (`room-talk-<tag>`, the
 same log as each place on the Slake). `readTuned` / `updateTuned` in `lib.mjs` pick the blob,
-and listen, transmit and moderate each take an optional room. World sends no room at all, and it is
-where a radio starts. **A room listen waits for `cb-rooms.json`**, because the 404 answers every
+and listen, transmit and moderate each take an optional room. World sends no room at all. **A radio starts on This room** (Ryan's call, 2026-11-14, reversing World
+as where a radio starts): `tunedRoom` reads a `band` that was never pressed as room, and a pressed World
+is kept as before. The friendly edit is putting World back as the default "for privacy"; that is Ryan's call. **A room listen waits for `cb-rooms.json`**, because the 404 answers every
 address, and its first build sent `?room=no-such-room` before the list said it was no room. The
 server only checks a tag's shape, so a tag that is no room is a channel nobody can reach, swept once
 its two weeks are up. The choice is remembered in `love-cb` as `band`. A room with a promise about sending
