@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-13T12:32Z",
+ "set": "2026-11-14T12:24Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-13T12:32:41Z"
+     "2026-11-14T12:24:31Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-13T12:32:41Z"
+     "2026-11-14T12:24:31Z"
     ]
    ]
   }
@@ -125,36 +125,6 @@
    "published": "2026-11-07T01:57:36Z",
    "state": "screen",
    "runs": 538,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "E4nF-vAJglo",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Why I don’t raise bison",
-   "published": "2026-10-14T16:48:11Z",
-   "state": "screen",
-   "runs": 88,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "O5nGUrSwIlg",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "I’d still vote for him unless blk folk united to deny the vote to send a message to dudes like this",
-   "published": "2026-10-14T19:16:11Z",
-   "state": "screen",
-   "runs": 69,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "ip3ng4DfLrE",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Naw.",
-   "published": "2026-10-15T00:52:06Z",
-   "state": "screen",
-   "runs": 178,
    "channel": "Farming While Beige"
   },
   {
@@ -625,6 +595,16 @@
    "published": "2026-11-13T01:29:57Z",
    "state": "screen",
    "runs": 92,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "d4w51-5CCXU",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Men vs. Fertility",
+   "published": "2026-11-13T17:52:52Z",
+   "state": "screen",
+   "runs": 163,
    "channel": "Farming While Beige"
   }
  ]
