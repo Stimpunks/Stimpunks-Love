@@ -90,7 +90,7 @@
    "channel_id": "UCgscS8mBsQZ5sFRkJIFWD7Q"
   }
  ],
- "set": "2026-11-14T12:20Z",
+ "set": "2026-11-15T12:20Z",
  "log": [
   {
    "id": "mn0agTT8lG8",
@@ -111,16 +111,6 @@
    "state": "screen",
    "runs": 77,
    "channel": "Tina Huang"
-  },
-  {
-   "id": "rw0fqnrZgNM",
-   "source": "ai-labs",
-   "form": "long",
-   "title": "GitHub's #1 Trending Skill Is Insane (5 Use Cases)",
-   "published": "2026-10-15T15:45:10Z",
-   "state": "screen",
-   "runs": 736,
-   "channel": "AI LABS"
   },
   {
    "id": "NZjjmf3I6I4",
@@ -233,6 +223,16 @@
    "channel": "AI LABS"
   },
   {
+   "id": "EFGvVCpW9zc",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "Fable 5.2 Is Insane... Only If You Use It Anthropic's Way",
+   "published": "2026-11-14T15:10:21Z",
+   "state": "screen",
+   "runs": 962,
+   "channel": "AI LABS"
+  },
+  {
    "id": "KGcuuhqmPhI",
    "source": "matt-wolfe",
    "form": "long",
@@ -330,16 +330,6 @@
    "published": "2026-11-13T17:21:49Z",
    "state": "screen",
    "runs": 1630,
-   "channel": "Matt Wolfe"
-  },
-  {
-   "id": "WXWFmwfo1JA",
-   "source": "matt-wolfe",
-   "form": "short",
-   "title": "This Tesla Actually Flies (NOT AI)",
-   "published": "2026-10-16T04:30:35Z",
-   "state": "screen",
-   "runs": 46,
    "channel": "Matt Wolfe"
   },
   {
@@ -613,14 +603,14 @@
    "channel": "Matt Wolfe"
   },
   {
-   "id": "PseF3LyXQ04",
-   "source": "nate-b-jones",
-   "form": "long",
-   "title": "Your Vibe-Coded App Can Look Right And Fall Apart After Launch. REA Shows You How Real Teams Build.",
-   "published": "2026-10-15T14:00:11Z",
+   "id": "X3r-mZtPfP8",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "The Self-Driving Car With Balls",
+   "published": "2026-11-15T07:12:15Z",
    "state": "screen",
-   "runs": 1357,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
+   "runs": 60,
+   "channel": "Matt Wolfe"
   },
   {
    "id": "btUxMt_tssA",
@@ -991,16 +981,6 @@
    "state": "screen",
    "runs": 25,
    "channel": "Less Bitter"
-  },
-  {
-   "id": "hiI0Vk4NgeY",
-   "source": "theo",
-   "form": "long",
-   "title": "Anthropic Rebuilt Git (yes really)",
-   "published": "2026-10-16T04:38:27Z",
-   "state": "screen",
-   "runs": 2884,
-   "channel": "Theo - t3․gg"
   },
   {
    "id": "m-B3jIMMmUE",
@@ -1443,16 +1423,6 @@
    "channel": "Austin Marchese"
   },
   {
-   "id": "fDE5R4fSq2w",
-   "source": "riley-brown",
-   "form": "long",
-   "title": "Start Using Claude Code For EVERYTHING (Trust Me)",
-   "published": "2026-10-15T18:24:45Z",
-   "state": "screen",
-   "runs": 1654,
-   "channel": "Riley Brown"
-  },
-  {
    "id": "1d7P3ewd9AA",
    "source": "riley-brown",
    "form": "long",
@@ -1553,6 +1523,16 @@
    "channel": "Riley Brown"
   },
   {
+   "id": "j5BDkyEcML4",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "The Biggest Week in Claude History...",
+   "published": "2026-11-14T19:50:15Z",
+   "state": "screen",
+   "runs": 1303,
+   "channel": "Riley Brown"
+  },
+  {
    "id": "ODBdb9oyrVs",
    "source": "riley-brown",
    "form": "short",
@@ -1581,16 +1561,6 @@
    "state": "screen",
    "runs": 121,
    "channel": "Riley Brown"
-  },
-  {
-   "id": "KZiF2J83zaY",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "AI Agents Just Became Multiplayer. Here's How to Build Them.",
-   "published": "2026-10-15T15:16:33Z",
-   "state": "screen",
-   "runs": 1344,
-   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "Z8lf5oWKfj0",
@@ -1680,26 +1650,6 @@
    "published": "2026-11-11T12:44:29Z",
    "state": "screen",
    "runs": 707,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "saxdE-U_YS8",
-   "source": "nate-herk",
-   "form": "short",
-   "title": "AI Agents Just Became Multiplayer. Here's How to Build Them.",
-   "published": "2026-10-15T16:33:38Z",
-   "state": "screen",
-   "runs": 68,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "K70Qf06XBLE",
-   "source": "nate-herk",
-   "form": "short",
-   "title": "McKinsey Explains: Build an AI Operating System",
-   "published": "2026-10-15T21:06:54Z",
-   "state": "screen",
-   "runs": 49,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -2073,6 +2023,16 @@
    "channel": "Chase AI"
   },
   {
+   "id": "ynEEbqKQSaY",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "n8n Just Released a FREE + Open Source Version of Claude Duet, Grokbot, Dots, & Muse",
+   "published": "2026-11-14T22:20:30Z",
+   "state": "screen",
+   "runs": 754,
+   "channel": "Chase AI"
+  },
+  {
    "id": "sZ1Z6XfkELo",
    "source": "chase-ai",
    "form": "short",
@@ -2191,16 +2151,6 @@
    "state": "screen",
    "runs": 45,
    "channel": "Chase AI"
-  },
-  {
-   "id": "jEOUUAPC1sc",
-   "source": "greg-isenberg",
-   "form": "long",
-   "title": "Make cool things with AI that people buy (Gemini 4 Argon)",
-   "published": "2026-10-15T20:40:35Z",
-   "state": "screen",
-   "runs": 1850,
-   "channel": "Greg Isenberg"
   },
   {
    "id": "tpZOU1ugODQ",
@@ -2386,21 +2336,11 @@
    "id": "x7iwI6WfWS0",
    "source": "two-minute-papers",
    "form": "long",
-   "title": "Funkiest Teams meeting EVER (Surprise video)",
+   "title": "AI Can Do Everything…Except This",
    "published": "2026-11-14T08:40:55Z",
    "state": "screen",
    "runs": 363,
    "channel": "Two Minute Papers"
-  },
-  {
-   "id": "Eg08Lr3zqdw",
-   "source": "robonuggets",
-   "form": "long",
-   "title": "Claude MOTION is Unreal for Video. Master it in 12 minutes.",
-   "published": "2026-10-16T03:39:31Z",
-   "state": "screen",
-   "runs": 728,
-   "channel": "Jay E | RoboNuggets"
   },
   {
    "id": "NarezKh3w4o",
@@ -2698,13 +2638,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ]
   },
@@ -2712,13 +2652,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ]
   },
@@ -2726,13 +2666,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ]
   },
@@ -2740,13 +2680,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ]
   },
@@ -2754,13 +2694,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ]
   },
@@ -2768,13 +2708,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ]
   },
@@ -2782,13 +2722,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ]
   },
@@ -2796,13 +2736,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ]
   },
@@ -2810,13 +2750,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ]
   },
@@ -2824,13 +2764,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ]
   },
@@ -2838,13 +2778,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ]
   },
@@ -2852,13 +2792,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ]
   },
@@ -2866,13 +2806,13 @@
    "long": [
     [
      "2026-08-28T09:44:44Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:12:16Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ]
   },
@@ -2880,13 +2820,13 @@
    "long": [
     [
      "2026-09-23T01:33:56Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ],
    "short": [
     [
      "2026-09-25T03:00:26Z",
-     "2026-11-14T12:20:02Z"
+     "2026-11-15T12:20:50Z"
     ]
    ]
   }
