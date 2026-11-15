@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-11-14T12:16Z",
+  "set": "2026-11-15T12:16Z",
   "springs": [
     {
       "id": "starstuff",
@@ -73,7 +73,7 @@
           ]
         }
       ],
-      "read": "2026-11-14T12:16Z"
+      "read": "2026-11-15T12:16Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-11-14T12:16Z"
+      "read": "2026-11-15T12:16Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-11-14T12:16Z"
+      "read": "2026-11-15T12:16Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-11-14T12:16Z"
+      "read": "2026-11-15T12:16Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-11-14T12:16Z"
+      "read": "2026-11-15T12:16Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-11-14T12:16Z"
+      "read": "2026-11-15T12:16Z"
     },
     {
       "id": "love",
@@ -439,46 +439,17 @@
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
         {
-          "title": "Ignore and Block reach the forums",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/b73b4ce952a6f6b9be8d55802b2e50d0cf6315b2",
-          "date": "2026-11-13T09:39:14Z",
-          "sha": "b73b4ce",
+          "title": "The CB starts on This room instead of World",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/df094f6b792d89da53b9c87e5be8a10e020218ac",
+          "date": "2026-11-14T16:35:41Z",
+          "sha": "df094f6",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
-          ]
-        },
-        {
-          "title": "Ignore and Block on the CB",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/9035eb910a45b443abb44bfb7c26a339e88863a0",
-          "date": "2026-11-13T08:39:44Z",
-          "sha": "9035eb9",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5.5"
-          ]
-        },
-        {
-          "title": "Sitemap catches up with the morning's refills",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/a565475bb1549553147c4b8010dc554f43d062e0",
-          "date": "2026-11-12T16:07:03Z",
-          "sha": "a565475",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5.5"
-          ]
-        },
-        {
-          "title": "Merge branch 'main' of github.com:Stimpunks/Stimpunks-Love",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/e5bc4c0b6fc4f0065ddd11dfa96646bd67ff835b",
-          "date": "2026-11-12T15:46:38Z",
-          "sha": "e5bc4c0",
-          "by": [
-            "ryanboren"
           ]
         }
       ],
-      "read": "2026-11-14T12:16Z"
+      "read": "2026-11-15T12:16Z"
     },
     {
       "id": "garden",
@@ -547,7 +518,7 @@
           "anon": true
         }
       ],
-      "read": "2026-11-14T12:16Z"
+      "read": "2026-11-15T12:16Z"
     }
   ]
 }
