@@ -174,18 +174,8 @@
    "channel_id": "UChl5ao9UL_LwHngOMSpkkmg"
   }
  ],
- "set": "2026-11-14T12:18Z",
+ "set": "2026-11-15T12:19Z",
  "log": [
-  {
-   "id": "-F9-3R6viZM",
-   "source": "bullet-journal",
-   "form": "long",
-   "title": "Stop Journaling Like This. It’s Making Things Worse.",
-   "published": "2026-10-16T11:00:25Z",
-   "state": "screen",
-   "runs": 454,
-   "channel": "Bullet Journal"
-  },
   {
    "id": "dInecdJIKog",
    "source": "bullet-journal",
@@ -195,16 +185,6 @@
    "state": "screen",
    "runs": 591,
    "channel": "Bullet Journal"
-  },
-  {
-   "id": "JG1GLZVcpHw",
-   "source": "novie-by-the-sea",
-   "form": "long",
-   "title": "What Happens When You Stop Avoiding Your Thoughts",
-   "published": "2026-10-15T13:00:08Z",
-   "state": "screen",
-   "runs": 828,
-   "channel": "Novie by the Sea"
   },
   {
    "id": "jrrxobeAGdY",
@@ -377,16 +357,6 @@
    "channel": "kerry ♡ journaling gal"
   },
   {
-   "id": "F3BpRjXuc5g",
-   "source": "journalwithker",
-   "form": "short",
-   "title": "life lessons from junk journaling ✍️✂️ #journal #journalwithme #mindfuljournaling",
-   "published": "2026-10-15T17:24:00Z",
-   "state": "screen",
-   "runs": 27,
-   "channel": "kerry ♡ journaling gal"
-  },
-  {
    "id": "fr1QJnQ0EPM",
    "source": "journalwithker",
    "form": "short",
@@ -474,6 +444,16 @@
    "published": "2026-11-06T15:09:07Z",
    "state": "screen",
    "runs": 1331,
+   "channel": "Amanda Close"
+  },
+  {
+   "id": "g6IXUJsUUN0",
+   "source": "amanda-close",
+   "form": "long",
+   "title": "On Poetry, Favorite Journal Spreads, and How I Got into Art: an AMA at 35K",
+   "published": "2026-11-14T13:37:57Z",
+   "state": "screen",
+   "runs": 975,
    "channel": "Amanda Close"
   },
   {
@@ -656,6 +636,16 @@
    "published": "2026-11-05T18:24:18Z",
    "state": "screen",
    "runs": 127,
+   "channel": "julia here."
+  },
+  {
+   "id": "F6JonOs3QG0",
+   "source": "julia-here",
+   "form": "short",
+   "title": "First look at the Consul Origin!.. with a BENU Botticelli Side Quest 👀 #newpenday",
+   "published": "2026-11-14T14:27:50Z",
+   "state": "screen",
+   "runs": 164,
    "channel": "julia here."
   },
   {
@@ -909,6 +899,16 @@
    "channel": "Little Coco Studio"
   },
   {
+   "id": "RY7CG74_pk4",
+   "source": "little-coco-studio",
+   "form": "long",
+   "title": "📓 I have so many notebooks, but I only need two",
+   "published": "2026-11-14T12:30:36Z",
+   "state": "screen",
+   "runs": 1923,
+   "channel": "Little Coco Studio"
+  },
+  {
    "id": "0HCRpDW4RHM",
    "source": "jenna-hong",
    "form": "long",
@@ -1017,6 +1017,16 @@
    "state": "screen",
    "runs": 21,
    "channel": "Jenna Hong"
+  },
+  {
+   "id": "1m4uU9q2zSw",
+   "source": "jam-and-butter",
+   "form": "long",
+   "title": "November 2026 Bullet Journal Setup | Bujo Spread Ideas 🍪 fall bakery theme",
+   "published": "2026-11-14T13:41:58Z",
+   "state": "screen",
+   "runs": 1013,
+   "channel": "jam and butter"
   },
   {
    "id": "KuxnNiWIUTg",
@@ -1146,6 +1156,16 @@
    "published": "2026-11-08T02:28:44Z",
    "state": "screen",
    "runs": 2376,
+   "channel": "Tess | Pixiedust Press"
+  },
+  {
+   "id": "rYQmjphOGLU",
+   "source": "pixiedust-press",
+   "form": "long",
+   "title": "I Finally Got A Pilot Vanishing Point! ✨ | Unboxing & First Impressions",
+   "published": "2026-11-14T15:12:56Z",
+   "state": "screen",
+   "runs": 855,
    "channel": "Tess | Pixiedust Press"
   },
   {
@@ -1349,14 +1369,14 @@
    "channel": "Yoseka Stationery"
   },
   {
-   "id": "QBu7lpC62Tg",
-   "source": "jetpens",
-   "form": "long",
-   "title": "What’s new for the Hobonichi Techo 2027 Lineup! And an Interview with Hobonichi President ✨📖",
-   "published": "2026-10-15T19:30:08Z",
+   "id": "E-lUYNhwleg",
+   "source": "yoseka",
+   "form": "short",
+   "title": "Sticker Swap at Yoseka! 11/18",
+   "published": "2026-11-14T16:00:35Z",
    "state": "screen",
-   "runs": 655,
-   "channel": "JetPens"
+   "runs": 22,
+   "channel": "Yoseka Stationery"
   },
   {
    "id": "E47R3FWT65Y",
@@ -1396,16 +1416,6 @@
    "published": "2026-11-13T00:00:28Z",
    "state": "screen",
    "runs": 369,
-   "channel": "JetPens"
-  },
-  {
-   "id": "Tt-bvOSKJH4",
-   "source": "jetpens",
-   "form": "short",
-   "title": "Hobonichi x One Piece 2027 Planners",
-   "published": "2026-10-15T19:14:27Z",
-   "state": "screen",
-   "runs": 28,
    "channel": "JetPens"
   },
   {
@@ -1509,6 +1519,16 @@
    "channel": "Lori Ann Tata"
   },
   {
+   "id": "I5ytODSFjLA",
+   "source": "lori-ann-tata",
+   "form": "long",
+   "title": "Back to Japan, But I Don't Want What I Used To!",
+   "published": "2026-11-14T16:13:55Z",
+   "state": "screen",
+   "runs": 1487,
+   "channel": "Lori Ann Tata"
+  },
+  {
    "id": "ISQVWSE49Ew",
    "source": "lori-ann-tata",
    "form": "short",
@@ -1587,16 +1607,6 @@
    "state": "screen",
    "runs": 64,
    "channel": "Mark Your Pages"
-  },
-  {
-   "id": "1-T8rE28AY8",
-   "source": "desk-standard",
-   "form": "long",
-   "title": "7 American Notebooks That ABSOLUTELY DESTROY Moleskine (For a Fraction of the Price)",
-   "published": "2026-10-15T17:58:27Z",
-   "state": "screen",
-   "runs": 1213,
-   "channel": "The Desk Standard"
   },
   {
    "id": "tVdkHHb-Z_c",
@@ -1889,6 +1899,16 @@
    "channel": "The Desk Standard"
   },
   {
+   "id": "rNa1ESFkNiU",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "10 Amazon Gel Pens Everyone Ignores (But They’re Absolute GOLDMINES)",
+   "published": "2026-11-14T18:13:44Z",
+   "state": "screen",
+   "runs": 1441,
+   "channel": "The Desk Standard"
+  },
+  {
    "id": "rueRyLR50QE",
    "source": "goulet-pens",
    "form": "long",
@@ -1986,16 +2006,6 @@
    "published": "2026-11-12T12:23:32Z",
    "state": "screen",
    "runs": 155,
-   "channel": "Doodlewithrachel"
-  },
-  {
-   "id": "pnQpW8z-sMo",
-   "source": "doodle-with-rachel",
-   "form": "short",
-   "title": "this took me about 20 minutes in total 🤗 #doodleart #patternideas #pens #createeveryday #sketchbook",
-   "published": "2026-10-16T11:46:29Z",
-   "state": "screen",
-   "runs": 50,
    "channel": "Doodlewithrachel"
   },
   {
@@ -2344,13 +2354,13 @@
    "long": [
     [
      "2026-02-25T12:01:38Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-05-23T13:01:11Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2358,13 +2368,13 @@
    "long": [
     [
      "2026-03-31T18:00:00Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2025-11-26T18:00:24Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2372,13 +2382,13 @@
    "long": [
     [
      "2025-04-23T20:59:59Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2386,13 +2396,13 @@
    "long": [
     [
      "2026-05-09T13:15:14Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-08-11T18:31:31Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2400,13 +2410,13 @@
    "long": [
     [
      "2025-12-23T01:30:17Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-07-06T18:30:31Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2414,13 +2424,13 @@
    "long": [
     [
      "2026-06-21T15:00:05Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2428,13 +2438,13 @@
    "long": [
     [
      "2026-01-13T17:46:02Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2025-07-05T01:57:47Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2442,13 +2452,13 @@
    "long": [
     [
      "2026-05-13T15:00:36Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2025-05-23T15:01:39Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2456,13 +2466,13 @@
    "long": [
     [
      "2025-12-16T18:34:18Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2025-12-28T22:47:07Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2470,13 +2480,13 @@
    "long": [
     [
      "2026-05-23T23:39:19Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-07-08T13:11:24Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2484,13 +2494,13 @@
    "long": [
     [
      "2026-06-26T15:00:10Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2025-06-03T14:46:05Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2498,13 +2508,13 @@
    "long": [
     [
      "2026-09-10T20:18:43Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-07-13T04:01:07Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2512,13 +2522,13 @@
    "long": [
     [
      "2026-05-30T11:30:33Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2526,13 +2536,13 @@
    "long": [
     [
      "2026-08-10T13:30:06Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2025-08-19T14:37:02Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2540,13 +2550,13 @@
    "long": [
     [
      "2026-03-30T13:14:26Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2023-12-04T02:58:57Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2554,13 +2564,13 @@
    "long": [
     [
      "2026-01-22T17:31:11Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2025-07-21T17:45:47Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2568,13 +2578,13 @@
    "long": [
     [
      "2026-02-19T00:28:45Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2582,13 +2592,13 @@
    "long": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2024-09-07T00:14:00Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2596,13 +2606,13 @@
    "long": [
     [
      "2025-08-02T00:06:33Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2610,13 +2620,13 @@
    "long": [
     [
      "2026-07-15T03:00:21Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2624,13 +2634,13 @@
    "long": [
     [
      "2026-03-03T07:32:57Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-04-30T04:08:40Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2638,13 +2648,13 @@
    "long": [
     [
      "2026-08-12T19:29:13Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T14:30:53Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2652,13 +2662,13 @@
    "long": [
     [
      "2026-06-04T23:00:22Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T15:00:22Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2666,13 +2676,13 @@
    "long": [
     [
      "2026-06-19T13:16:14Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T22:28:36Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2680,13 +2690,13 @@
    "long": [
     [
      "2026-07-03T14:00:00Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-07-21T22:16:43Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2694,13 +2704,13 @@
    "long": [
     [
      "2026-10-11T18:17:54Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-09-26T09:56:33Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2708,13 +2718,13 @@
    "long": [
     [
      "2026-08-26T19:13:05Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2025-10-29T12:41:34Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   },
@@ -2722,13 +2732,13 @@
    "long": [
     [
      "2025-02-09T13:41:25Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ],
    "short": [
     [
      "2026-10-12T10:07:54Z",
-     "2026-11-14T12:18:26Z"
+     "2026-11-15T12:19:07Z"
     ]
    ]
   }
