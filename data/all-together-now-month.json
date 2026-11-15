@@ -9,34 +9,24 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-14T12:24Z",
+ "set": "2026-11-15T12:26Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-14T12:24:31Z"
+     "2026-11-15T12:26:01Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-14T12:24:31Z"
+     "2026-11-15T12:26:01Z"
     ]
    ]
   }
  },
  "log": [
-  {
-   "id": "tXCo6XAEt70",
-   "source": "farming-while-beige",
-   "form": "long",
-   "title": "Mobile Chicken Pens with The Gardening Gays",
-   "published": "2026-10-15T16:01:33Z",
-   "state": "screen",
-   "runs": 316,
-   "channel": "Farming While Beige"
-  },
   {
    "id": "cOeXz-SvDRg",
    "source": "farming-while-beige",
@@ -125,6 +115,16 @@
    "published": "2026-11-07T01:57:36Z",
    "state": "screen",
    "runs": 538,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "nrZi_Ld4qQk",
+   "source": "farming-while-beige",
+   "form": "long",
+   "title": "More Horse Meat Conspiracies",
+   "published": "2026-11-15T02:53:02Z",
+   "state": "screen",
+   "runs": 228,
    "channel": "Farming While Beige"
   },
   {
@@ -605,6 +605,16 @@
    "published": "2026-11-13T17:52:52Z",
    "state": "screen",
    "runs": 163,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "GZ_SxWuzaCI",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Men need to teach other men how to handle rejection and how to move like grownups.",
+   "published": "2026-11-14T15:31:18Z",
+   "state": "screen",
+   "runs": 179,
    "channel": "Farming While Beige"
   }
  ]
