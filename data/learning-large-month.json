@@ -90,7 +90,7 @@
    "channel_id": "UCgscS8mBsQZ5sFRkJIFWD7Q"
   }
  ],
- "set": "2026-11-15T12:20Z",
+ "set": "2026-11-16T12:19Z",
  "log": [
   {
    "id": "mn0agTT8lG8",
@@ -231,16 +231,6 @@
    "state": "screen",
    "runs": 962,
    "channel": "AI LABS"
-  },
-  {
-   "id": "KGcuuhqmPhI",
-   "source": "matt-wolfe",
-   "form": "long",
-   "title": "AI News: 6 New Models & A Nano Banana Killer",
-   "published": "2026-10-16T16:20:28Z",
-   "state": "screen",
-   "runs": 1867,
-   "channel": "Matt Wolfe"
   },
   {
    "id": "umGZrkyTRtw",
@@ -613,6 +603,16 @@
    "channel": "Matt Wolfe"
   },
   {
+   "id": "ETw45WHQ6Z4",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "3D Printing Entire Buildings is So Wild To Me",
+   "published": "2026-11-16T05:35:39Z",
+   "state": "screen",
+   "runs": 66,
+   "channel": "Matt Wolfe"
+  },
+  {
    "id": "btUxMt_tssA",
    "source": "nate-b-jones",
    "form": "long",
@@ -773,13 +773,13 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "Ypmd2M5-sMU",
+   "id": "JlHqTyW8rtA",
    "source": "nate-b-jones",
-   "form": "short",
-   "title": "I asked AI how smart I am. You should too #AI #ChatGPT #Claude #prompts #selfimprovement",
-   "published": "2026-10-17T03:00:27Z",
+   "form": "long",
+   "title": "Why Your Company Doesn't Need the Most Expensive AI Model",
+   "published": "2026-11-15T17:00:21Z",
    "state": "screen",
-   "runs": 63,
+   "runs": 1224,
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
@@ -873,6 +873,16 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
+   "id": "dzsSYHob9a0",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "What are they hiding about Alice Huang? #shorts #conspiracy",
+   "published": "2026-11-16T04:00:10Z",
+   "state": "screen",
+   "runs": 95,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
    "id": "oAn38UNeRqw",
    "source": "less-bitter",
    "form": "long",
@@ -930,6 +940,16 @@
    "published": "2026-11-12T12:00:35Z",
    "state": "screen",
    "runs": 570,
+   "channel": "Less Bitter"
+  },
+  {
+   "id": "GIz76M47590",
+   "source": "less-bitter",
+   "form": "long",
+   "title": "The ground stop is so much worse than they’re telling you",
+   "published": "2026-11-15T21:25:53Z",
+   "state": "screen",
+   "runs": 433,
    "channel": "Less Bitter"
   },
   {
@@ -1163,6 +1183,16 @@
    "channel": "Theo - t3․gg"
   },
   {
+   "id": "TWoS5Nmyoc8",
+   "source": "theo",
+   "form": "long",
+   "title": "Stop Searching For the Perfect Model",
+   "published": "2026-11-16T00:09:03Z",
+   "state": "screen",
+   "runs": 1677,
+   "channel": "Theo - t3․gg"
+  },
+  {
    "id": "nXpoU99pTho",
    "source": "theo",
    "form": "short",
@@ -1171,16 +1201,6 @@
    "state": "screen",
    "runs": 43,
    "channel": "Theo - t3․gg"
-  },
-  {
-   "id": "rimJ8l1Wf2g",
-   "source": "paul-j-lipsky",
-   "form": "long",
-   "title": "AI News: Argon Is Insane and Muse Wonder May Be Benchmaxxed",
-   "published": "2026-10-16T13:00:21Z",
-   "state": "screen",
-   "runs": 1687,
-   "channel": "Paul J Lipsky"
   },
   {
    "id": "YJ_e-dsMruc",
@@ -1423,16 +1443,6 @@
    "channel": "Austin Marchese"
   },
   {
-   "id": "1d7P3ewd9AA",
-   "source": "riley-brown",
-   "form": "long",
-   "title": "The Truth About Gemini 4 and Muse Wonder (Full Testing)",
-   "published": "2026-10-16T17:30:21Z",
-   "state": "screen",
-   "runs": 1572,
-   "channel": "Riley Brown"
-  },
-  {
    "id": "4PO0x-myitw",
    "source": "riley-brown",
    "form": "long",
@@ -1526,7 +1536,7 @@
    "id": "j5BDkyEcML4",
    "source": "riley-brown",
    "form": "long",
-   "title": "The Biggest Week in Claude History...",
+   "title": "Claude Just Changed EVERYTHING (Here’s What’s New)",
    "published": "2026-11-14T19:50:15Z",
    "state": "screen",
    "runs": 1303,
@@ -1561,16 +1571,6 @@
    "state": "screen",
    "runs": 121,
    "channel": "Riley Brown"
-  },
-  {
-   "id": "Z8lf5oWKfj0",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "Matt Pocock: The Most Valuable Skill to Learn in the Age of AI",
-   "published": "2026-10-16T19:52:20Z",
-   "state": "screen",
-   "runs": 2690,
-   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "hgLI491ajG0",
@@ -1650,36 +1650,6 @@
    "published": "2026-11-11T12:44:29Z",
    "state": "screen",
    "runs": 707,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "gNMN-7D9130",
-   "source": "nate-herk",
-   "form": "short",
-   "title": "Claude Opus 5.5 is my video editor",
-   "published": "2026-10-16T13:21:43Z",
-   "state": "screen",
-   "runs": 44,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "8kH03pGq4V0",
-   "source": "nate-herk",
-   "form": "short",
-   "title": "Why I let my Grok Bot doomscroll on TikTok",
-   "published": "2026-10-16T20:34:31Z",
-   "state": "screen",
-   "runs": 52,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "NmN6jn6IiMA",
-   "source": "nate-herk",
-   "form": "short",
-   "title": "Clay's AI Agent Builds Your Outbound From One Prompt",
-   "published": "2026-10-17T11:45:06Z",
-   "state": "screen",
-   "runs": 59,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -1953,16 +1923,6 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
-   "id": "mKjxGy6vCnY",
-   "source": "chase-ai",
-   "form": "long",
-   "title": "The SECRET Claude Code Upgrade That Has Everyone Going Nuts (Full Guide)",
-   "published": "2026-10-16T22:28:23Z",
-   "state": "screen",
-   "runs": 1129,
-   "channel": "Chase AI"
-  },
-  {
    "id": "4B1iGFShCnI",
    "source": "chase-ai",
    "form": "long",
@@ -2030,26 +1990,6 @@
    "published": "2026-11-14T22:20:30Z",
    "state": "screen",
    "runs": 754,
-   "channel": "Chase AI"
-  },
-  {
-   "id": "sZ1Z6XfkELo",
-   "source": "chase-ai",
-   "form": "short",
-   "title": "This Secret Claude Feature Turns It Into An Orchestration BEAST",
-   "published": "2026-10-17T01:45:05Z",
-   "state": "screen",
-   "runs": 74,
-   "channel": "Chase AI"
-  },
-  {
-   "id": "iLYXboxulcg",
-   "source": "chase-ai",
-   "form": "short",
-   "title": "This Prompt From Claude's Lead Engineer Is Brilliant",
-   "published": "2026-10-17T06:00:35Z",
-   "state": "screen",
-   "runs": 73,
    "channel": "Chase AI"
   },
   {
@@ -2638,13 +2578,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ]
   },
@@ -2652,13 +2592,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ]
   },
@@ -2666,13 +2606,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ]
   },
@@ -2680,13 +2620,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ]
   },
@@ -2694,13 +2634,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ]
   },
@@ -2708,13 +2648,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ]
   },
@@ -2722,13 +2662,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ]
   },
@@ -2736,13 +2676,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ]
   },
@@ -2750,13 +2690,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ]
   },
@@ -2764,13 +2704,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ]
   },
@@ -2778,13 +2718,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ]
   },
@@ -2792,13 +2732,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ]
   },
@@ -2806,13 +2746,13 @@
    "long": [
     [
      "2026-08-28T09:44:44Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:12:16Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ]
   },
@@ -2820,13 +2760,13 @@
    "long": [
     [
      "2026-09-23T01:33:56Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-25T03:00:26Z",
-     "2026-11-15T12:20:50Z"
+     "2026-11-16T12:19:46Z"
     ]
    ]
   }
