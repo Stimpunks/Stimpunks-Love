@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-11-15T12:16Z",
+  "set": "2026-11-16T12:16Z",
   "springs": [
     {
       "id": "starstuff",
@@ -73,7 +73,7 @@
           ]
         }
       ],
-      "read": "2026-11-15T12:16Z"
+      "read": "2026-11-16T12:16Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-11-15T12:16Z"
+      "read": "2026-11-16T12:16Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-11-15T12:16Z"
+      "read": "2026-11-16T12:16Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-11-15T12:16Z"
+      "read": "2026-11-16T12:16Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-11-15T12:16Z"
+      "read": "2026-11-16T12:16Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-11-15T12:16Z"
+      "read": "2026-11-16T12:16Z"
     },
     {
       "id": "love",
@@ -449,7 +449,7 @@
           ]
         }
       ],
-      "read": "2026-11-15T12:16Z"
+      "read": "2026-11-16T12:16Z"
     },
     {
       "id": "garden",
@@ -518,7 +518,7 @@
           "anon": true
         }
       ],
-      "read": "2026-11-15T12:16Z"
+      "read": "2026-11-16T12:16Z"
     }
   ]
 }
