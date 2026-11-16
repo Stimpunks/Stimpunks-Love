@@ -9,34 +9,24 @@
    "channel_id": "UCj0VqueTI8SeTUS4rykh7Pw"
   }
  ],
- "set": "2026-11-15T12:24Z",
+ "set": "2026-11-16T12:22Z",
  "covered": {
   "future-in-bloom": {
    "long": [
     [
      "2026-09-29T14:14:21Z",
-     "2026-11-15T12:24:16Z"
+     "2026-11-16T12:22:41Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:14:21Z",
-     "2026-11-15T12:24:16Z"
+     "2026-11-16T12:22:41Z"
     ]
    ]
   }
  },
  "log": [
-  {
-   "id": "mfzKtDJ9zXU",
-   "source": "future-in-bloom",
-   "form": "long",
-   "title": "How Do You Swim With Aggressive Sharks?",
-   "published": "2026-10-16T19:30:12Z",
-   "state": "screen",
-   "runs": 793,
-   "channel": "Future in Bloom with Steph Speirs"
-  },
   {
    "id": "1__vSL7kjNs",
    "source": "future-in-bloom",
