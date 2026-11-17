@@ -90,7 +90,7 @@
    "channel_id": "UCgscS8mBsQZ5sFRkJIFWD7Q"
   }
  ],
- "set": "2026-11-16T12:19Z",
+ "set": "2026-11-17T12:20Z",
  "log": [
   {
    "id": "mn0agTT8lG8",
@@ -101,26 +101,6 @@
    "state": "screen",
    "runs": 1532,
    "channel": "Tina Huang"
-  },
-  {
-   "id": "VSOpd7AsBC0",
-   "source": "tina-huang",
-   "form": "short",
-   "title": "macOS vs nvidia rtx spark",
-   "published": "2026-10-17T15:12:13Z",
-   "state": "screen",
-   "runs": 77,
-   "channel": "Tina Huang"
-  },
-  {
-   "id": "NZjjmf3I6I4",
-   "source": "ai-labs",
-   "form": "long",
-   "title": "6 Insane Trending GitHub AI Design Repos You Need to Use",
-   "published": "2026-10-17T16:22:51Z",
-   "state": "screen",
-   "runs": 620,
-   "channel": "AI LABS"
   },
   {
    "id": "y2ifUC9_zuU",
@@ -613,6 +593,16 @@
    "channel": "Matt Wolfe"
   },
   {
+   "id": "btjS7OaffpM",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "This had never been done before!",
+   "published": "2026-11-16T22:27:42Z",
+   "state": "screen",
+   "runs": 77,
+   "channel": "Matt Wolfe"
+  },
+  {
    "id": "btUxMt_tssA",
    "source": "nate-b-jones",
    "form": "long",
@@ -783,13 +773,13 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "ZVnuhgXF9uM",
+   "id": "1aXBg-qQzgA",
    "source": "nate-b-jones",
-   "form": "short",
-   "title": "How to choose model vs effort #AI #ChatGPT #Claude #productivity #AItips",
-   "published": "2026-10-18T03:00:09Z",
+   "form": "long",
+   "title": "AI Just Got Cheaper. Here's Why That's a Problem for NVIDIA.",
+   "published": "2026-11-16T16:00:05Z",
    "state": "screen",
-   "runs": 113,
+   "runs": 1233,
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
@@ -1363,6 +1353,16 @@
    "channel": "Paul J Lipsky"
   },
   {
+   "id": "oBI5-NabniU",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "The Pocket-Sized AI Voice Controller (Genspark VoicePad)",
+   "published": "2026-11-16T14:00:06Z",
+   "state": "screen",
+   "runs": 477,
+   "channel": "Paul J Lipsky"
+  },
+  {
    "id": "_NzakzRXzLI",
    "source": "austin-marchese",
    "form": "long",
@@ -1426,7 +1426,7 @@
    "id": "_cSM8Xe0sd8",
    "source": "austin-marchese",
    "form": "long",
-   "title": "How To Prompt Claude Like The Top 1% (Karpathy's Method)",
+   "title": "How the Top 1% ACTUALLY Prompt Claude (Karpathy’s Breakdown)",
    "published": "2026-11-11T23:45:07Z",
    "state": "screen",
    "runs": 1095,
@@ -1526,7 +1526,7 @@
    "id": "VnJiHSS5Pjk",
    "source": "riley-brown",
    "form": "long",
-   "title": "Claude Code Projects is INSANE for Building Apps (From Your Phone)",
+   "title": "Claude Projects is INSANE (Watch Me Build An Entire App From My Phone)",
    "published": "2026-11-12T19:49:16Z",
    "state": "screen",
    "runs": 1476,
@@ -1536,7 +1536,7 @@
    "id": "j5BDkyEcML4",
    "source": "riley-brown",
    "form": "long",
-   "title": "Claude Just Changed EVERYTHING (Here’s What’s New)",
+   "title": "Claude Just Changed EVERYTHING…",
    "published": "2026-11-14T19:50:15Z",
    "state": "screen",
    "runs": 1303,
@@ -1570,6 +1570,16 @@
    "published": "2026-11-10T02:02:42Z",
    "state": "screen",
    "runs": 121,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "r7wECrPNz-I",
+   "source": "riley-brown",
+   "form": "short",
+   "title": "The Biggest Marketing Trend of 2027 #ManychatPartner",
+   "published": "2026-11-16T23:48:13Z",
+   "state": "screen",
+   "runs": 62,
    "channel": "Riley Brown"
   },
   {
@@ -1650,6 +1660,16 @@
    "published": "2026-11-11T12:44:29Z",
    "state": "screen",
    "runs": 707,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "XSehihyKFqw",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "The SIMPLEST Way To Make Money Online With Claude AI in 2026",
+   "published": "2026-11-16T13:25:09Z",
+   "state": "screen",
+   "runs": 1097,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -1923,6 +1943,26 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
+   "id": "lJXEzzYaktY",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Jensen's NVIDIA exit could crash the entire economy",
+   "published": "2026-11-16T15:40:26Z",
+   "state": "screen",
+   "runs": 47,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "_qfxa2tCAeI",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Jensen's NVIDIA exit could make your AI more expensive",
+   "published": "2026-11-16T15:41:19Z",
+   "state": "screen",
+   "runs": 55,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
    "id": "4B1iGFShCnI",
    "source": "chase-ai",
    "form": "long",
@@ -1990,6 +2030,16 @@
    "published": "2026-11-14T22:20:30Z",
    "state": "screen",
    "runs": 754,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "rLdgRGJDPx0",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "Claude Code Has a Plugin Problem",
+   "published": "2026-11-17T06:43:52Z",
+   "state": "screen",
+   "runs": 1087,
    "channel": "Chase AI"
   },
   {
@@ -2283,16 +2333,6 @@
    "channel": "Two Minute Papers"
   },
   {
-   "id": "NarezKh3w4o",
-   "source": "robonuggets",
-   "form": "long",
-   "title": "Anthropic just shared how they use Claude differently (Master it in 12 mins)",
-   "published": "2026-10-17T22:52:03Z",
-   "state": "screen",
-   "runs": 762,
-   "channel": "Jay E | RoboNuggets"
-  },
-  {
    "id": "s_1GPN-NXA0",
    "source": "robonuggets",
    "form": "long",
@@ -2578,13 +2618,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ]
   },
@@ -2592,13 +2632,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ]
   },
@@ -2606,13 +2646,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ]
   },
@@ -2620,13 +2660,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ]
   },
@@ -2634,13 +2674,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ]
   },
@@ -2648,13 +2688,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ]
   },
@@ -2662,13 +2702,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ]
   },
@@ -2676,13 +2716,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ]
   },
@@ -2690,13 +2730,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ]
   },
@@ -2704,13 +2744,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ]
   },
@@ -2718,13 +2758,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ]
   },
@@ -2732,13 +2772,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ]
   },
@@ -2746,13 +2786,13 @@
    "long": [
     [
      "2026-08-28T09:44:44Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:12:16Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ]
   },
@@ -2760,13 +2800,13 @@
    "long": [
     [
      "2026-09-23T01:33:56Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ],
    "short": [
     [
      "2026-09-25T03:00:26Z",
-     "2026-11-16T12:19:46Z"
+     "2026-11-17T12:20:16Z"
     ]
    ]
   }
