@@ -68,8 +68,32 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-11-16T12:22Z",
+ "set": "2026-11-17T12:22Z",
  "latest": [
+  {
+   "id": "IqykMt2Bl4g",
+   "title": "Urban Forest Committee Meeting - November 16, 2026",
+   "channel": "CityofErie",
+   "published": "2026-11-17T05:58:25Z",
+   "runs": 3006,
+   "search": "urban-forests"
+  },
+  {
+   "id": "LSOuZ4oTqHA",
+   "title": "Why Water Efficiency Is Your Secret Weapon in the Green Building Market",
+   "channel": "GreenCE Education",
+   "published": "2026-11-16T23:23:14Z",
+   "runs": 68,
+   "search": "green-building"
+  },
+  {
+   "id": "q1EzAEzgTBE",
+   "title": "E LECTURE: Urban Forestry Perspectives: Presentations from Wilmont, ON and St. Thomas, ON",
+   "channel": "CIF IFC",
+   "published": "2026-11-16T17:07:50Z",
+   "runs": 3309,
+   "search": "urban-forests"
+  },
   {
    "id": "HxRNkaoKwOk",
    "title": "The Ultimate Anti-Consumerist & Solarpunk Gift Guide (Christmas 2026)",
@@ -87,20 +111,12 @@
    "search": "urban-forests"
   },
   {
-   "id": "nmXlEfPrzFU",
-   "title": "Aerial view of the urban forest in Dalian, Liaoning, China航拍中国辽宁大连城市森林",
-   "channel": "fly over China",
-   "published": "2026-11-15T12:01:39Z",
-   "runs": 488,
-   "search": "urban-forests"
-  },
-  {
-   "id": "ZxKJ9LmLEpU",
-   "title": "A home to over 1,500 House Sparrows | Clifton Urban Forest",
-   "channel": "Clifton Urban Forest",
-   "published": "2026-11-15T11:06:00Z",
-   "runs": 37,
-   "search": "urban-forests"
+   "id": "KE4onUUmutY",
+   "title": "Solar Punk Farming Sim Trailer & Animation | Project 1 Environment Design",
+   "channel": "Divine Requiem Studios",
+   "published": "2026-11-16T00:13:16Z",
+   "runs": 27,
+   "search": "solarpunk"
   },
   {
    "id": "uJzcJ2E-JHU",
@@ -127,6 +143,14 @@
    "search": "green-spaces"
   },
   {
+   "id": "44QsQR4nbQE",
+   "title": "Herb Scavenger Hunt: Urban Farming vs Village Garden | From My Culture to the World",
+   "channel": "Keluarga Lets Go",
+   "published": "2026-11-14T10:06:58Z",
+   "runs": 175,
+   "search": "urban-farms"
+  },
+  {
    "id": "SoIUQN7FnTo",
    "title": "COP31 | Circular Construction and Green Buildings (World Green Building Council)",
    "channel": "Sıfır Atık Vakfı",
@@ -151,14 +175,6 @@
    "search": "renewable-energy"
   },
   {
-   "id": "OydVSPVDgnU",
-   "title": "Urban Agriculture Grant Program - Info Session 1 - November 4, 2026",
-   "channel": "California Department of Food and Agriculture",
-   "published": "2026-11-13T17:54:48Z",
-   "runs": 2429,
-   "search": "urban-farms"
-  },
-  {
    "id": "dj6IYtD_6QM",
    "title": "Nov 13 - Beyond Energy Access: Unlocking Renewable Energy’s Peace Dividends",
    "channel": "UN DESA",
@@ -175,8 +191,16 @@
    "search": "edibles"
   },
   {
+   "id": "iSUGGIOfuD8",
+   "title": "Christmas in Tomorrow | Futuristic Solarpunk Christmas Ambience (12 min)",
+   "channel": "Raw Ai Studios",
+   "published": "2026-11-13T12:30:48Z",
+   "runs": 738,
+   "search": "solarpunk"
+  },
+  {
    "id": "uM0qh6gH0tc",
-   "title": "Desert Food Forests: Sun, Shade and Rainwater with Permaculture Expert Jérémy Chevallier",
+   "title": "How to Grow a Permaculture Food Forest in the Desert with Jérémy Chevallier",
    "channel": "Sunlight Matters Podcast",
    "published": "2026-11-13T10:29:32Z",
    "runs": 3053,
@@ -191,36 +215,12 @@
    "search": "green-spaces"
   },
   {
-   "id": "GuiOgaTR2rs",
-   "title": "What Is Solarpunk? Imagining a Better Future Together | Wombs of the World Podcast",
-   "channel": "Wombs of the World",
-   "published": "2026-11-12T22:20:58Z",
-   "runs": 275,
-   "search": "solarpunk"
-  },
-  {
    "id": "b4Cv2yF_nMA",
    "title": "Food Access, Public Land, and the Power of Community Beacon Food Forest",
    "channel": "Talkin' Dirt",
    "published": "2026-11-12T15:00:18Z",
    "runs": 3632,
    "search": "edibles"
-  },
-  {
-   "id": "lBqNoNfg5CU",
-   "title": "12th THAI GREEN BUILDING EXPO AND CONFERENCE 2026",
-   "channel": "Thai Gbi",
-   "published": "2026-11-12T10:47:16Z",
-   "runs": 12361,
-   "search": "green-building"
-  },
-  {
-   "id": "C7LEPPzMQSg",
-   "title": "Every Punk Subgenre Explained: Cyberpunk, Steampunk, Solarpunk and More",
-   "channel": "Oddwick",
-   "published": "2026-11-12T10:00:07Z",
-   "runs": 867,
-   "search": "solarpunk"
   },
   {
    "id": "oY1GJ3ittP8",
@@ -233,51 +233,6 @@
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
  "seen": [
-  {
-   "id": "Y9OIhv86S6Y",
-   "search": "green-spaces",
-   "title": "Pamela Templer: Urban Forests Under Pressure: Can City Greenspace Continue to Mitigate Pollution?",
-   "channel": "Office of Research, Boston University",
-   "published": "2026-11-09T16:30:32Z",
-   "runs": 255,
-   "state": "screen"
-  },
-  {
-   "id": "4b09sBYiqGs",
-   "search": "green-spaces",
-   "title": "Jennifer Bhatnagar: Urban Greenspaces: Living Systems with Uncertain Tradeoffs",
-   "channel": "Office of Research, Boston University",
-   "published": "2026-11-09T16:44:04Z",
-   "runs": 284,
-   "state": "screen"
-  },
-  {
-   "id": "quWPF-K8kgI",
-   "search": "green-spaces",
-   "title": "Kevin James Lane: Urban Greenspace & Health",
-   "channel": "Office of Research, Boston University",
-   "published": "2026-11-09T16:45:18Z",
-   "runs": 252,
-   "state": "screen"
-  },
-  {
-   "id": "mD-vzw99ox0",
-   "search": "green-spaces",
-   "title": "How Do Green Spaces Relate To Our Health | MSF Fundraiser",
-   "channel": "FlowSustain",
-   "published": "2026-11-09T18:43:29Z",
-   "runs": 96,
-   "state": "screen"
-  },
-  {
-   "id": "NKUWZn4DN2s",
-   "search": "green-spaces",
-   "title": "The Hidden Power of Urban Green Spaces: Why Concrete Cities Need This Now MP4",
-   "channel": "Mekonene Nigussu",
-   "published": "2026-11-10T10:46:07Z",
-   "runs": 7173,
-   "state": "screen"
-  },
   {
    "id": "oY1GJ3ittP8",
    "search": "green-spaces",
@@ -303,15 +258,6 @@
    "channel": "IELTS Progress",
    "published": "2026-11-14T12:14:18Z",
    "runs": 225,
-   "state": "screen"
-  },
-  {
-   "id": "Gpch-S62I3I",
-   "search": "green-building",
-   "title": "A Legacy of Scale & Trust | GREEN BUILDING CONGRESS 2026",
-   "channel": "IGBC Online",
-   "published": "2026-11-10T05:30:09Z",
-   "runs": 71,
    "state": "screen"
   },
   {
@@ -388,21 +334,12 @@
    "state": "screen"
   },
   {
-   "id": "j8DzxCKzU74",
-   "search": "urban-forests",
-   "title": "Voices from the Forest /Episode 2 / Liina Jürisoo: Why do urban forest plans sit on a shelf?",
-   "channel": "Urban Forestry Network",
-   "published": "2026-11-10T09:00:10Z",
-   "runs": 1627,
-   "state": "screen"
-  },
-  {
-   "id": "EcG1iqsRcSo",
-   "search": "urban-forests",
-   "title": "Urban Forestry Commission meeting 11/9/26",
-   "channel": "City of Stow",
-   "published": "2026-11-10T09:20:19Z",
-   "runs": 2155,
+   "id": "LSOuZ4oTqHA",
+   "search": "green-building",
+   "title": "Why Water Efficiency Is Your Secret Weapon in the Green Building Market",
+   "channel": "GreenCE Education",
+   "published": "2026-11-16T23:23:14Z",
+   "runs": 68,
    "state": "screen"
   },
   {
@@ -478,39 +415,30 @@
    "state": "screen"
   },
   {
-   "id": "Iu-SyqPD2D8",
-   "search": "urban-farms",
-   "title": "The Long Game That Built The Urban Farmer",
-   "channel": "Modern Grower",
-   "published": "2026-11-09T15:19:00Z",
-   "runs": 2640,
+   "id": "q1EzAEzgTBE",
+   "search": "urban-forests",
+   "title": "E LECTURE: Urban Forestry Perspectives: Presentations from Wilmont, ON and St. Thomas, ON",
+   "channel": "CIF IFC",
+   "published": "2026-11-16T17:07:50Z",
+   "runs": 3309,
    "state": "screen"
   },
   {
-   "id": "WMV6tJiZUPQ",
-   "search": "urban-farms",
-   "title": "Tamirisa Garner Urban Farm",
-   "channel": "2000 America India Company",
-   "published": "2026-11-09T22:23:24Z",
-   "runs": 60,
+   "id": "Dkyxx2iRpOI",
+   "search": "urban-forests",
+   "title": "Urban Forest Committee - November 16, 2026",
+   "channel": "CityofErie",
+   "published": "2026-11-16T20:28:08Z",
+   "runs": 1827,
    "state": "screen"
   },
   {
-   "id": "jv-wsFPU5TY",
-   "search": "urban-farms",
-   "title": "Rush Medical Center breaks ground on urban farm to fight food insecurity",
-   "channel": "WGN News",
-   "published": "2026-11-10T00:34:29Z",
-   "runs": 118,
-   "state": "screen"
-  },
-  {
-   "id": "7XiAts8mbGQ",
-   "search": "urban-farms",
-   "title": "Christmas Makers Market at Tam O'Shanter Urban Farm 2026 🎄 | Wirral Makers & Traders",
-   "channel": "The Wirral Beacon",
-   "published": "2026-11-10T07:30:03Z",
-   "runs": 210,
+   "id": "IqykMt2Bl4g",
+   "search": "urban-forests",
+   "title": "Urban Forest Committee Meeting - November 16, 2026",
+   "channel": "CityofErie",
+   "published": "2026-11-17T05:58:25Z",
+   "runs": 3006,
    "state": "screen"
   },
   {
@@ -532,12 +460,30 @@
    "state": "screen"
   },
   {
+   "id": "vki_UZiiLJs",
+   "search": "urban-farms",
+   "title": "Community Gardens, Urban Agriculture and Livable Communities",
+   "channel": "AARP Michigan",
+   "published": "2026-11-13T08:58:04Z",
+   "runs": 3115,
+   "state": "screen"
+  },
+  {
    "id": "OydVSPVDgnU",
    "search": "urban-farms",
    "title": "Urban Agriculture Grant Program - Info Session 1 - November 4, 2026",
    "channel": "California Department of Food and Agriculture",
    "published": "2026-11-13T17:54:48Z",
    "runs": 2429,
+   "state": "screen"
+  },
+  {
+   "id": "44QsQR4nbQE",
+   "search": "urban-farms",
+   "title": "Herb Scavenger Hunt: Urban Farming vs Village Garden | From My Culture to the World",
+   "channel": "Keluarga Lets Go",
+   "published": "2026-11-14T10:06:58Z",
+   "runs": 175,
    "state": "screen"
   },
   {
@@ -556,15 +502,6 @@
    "channel": "Tribun Timur",
    "published": "2026-11-15T08:12:00Z",
    "runs": 534,
-   "state": "screen"
-  },
-  {
-   "id": "DzJOd2NbVNg",
-   "search": "edibles",
-   "title": "Why I’m Delaying My Food Forest — But Starting a Nursery Now",
-   "channel": "Anaganaga Natural Farms",
-   "published": "2026-11-10T12:18:23Z",
-   "runs": 563,
    "state": "screen"
   },
   {
@@ -588,7 +525,7 @@
   {
    "id": "uM0qh6gH0tc",
    "search": "edibles",
-   "title": "Desert Food Forests: Sun, Shade and Rainwater with Permaculture Expert Jérémy Chevallier",
+   "title": "How to Grow a Permaculture Food Forest in the Desert with Jérémy Chevallier",
    "channel": "Sunlight Matters Podcast",
    "published": "2026-11-13T10:29:32Z",
    "runs": 3053,
@@ -604,82 +541,11 @@
    "state": "screen"
   },
   {
-   "id": "YdNkYb8BAAM",
+   "id": "9CnlOkoStf8",
    "search": "solarpunk",
-   "title": "🍂 Harvest Week in the Kitchen | 3H Solarpunk Ambience for Cozy Focus & Creative Work",
-   "channel": "Verdant Vistas",
-   "published": "2026-11-09T13:00:15Z",
-   "runs": 10800,
-   "state": "left",
-   "why": "filed under Music"
-  },
-  {
-   "id": "YvPWei6TXow",
-   "search": "solarpunk",
-   "title": "Blaster Master - Underwater - Solarpunk",
-   "channel": "Altered Realms Music",
-   "published": "2026-11-09T17:00:23Z",
-   "runs": 225,
-   "state": "screen"
-  },
-  {
-   "id": "2e6bzwzDupo",
-   "search": "solarpunk",
-   "title": "We Build a Greenhouse - Episode 4 (Solarpunk)",
-   "channel": "Prosanity",
-   "published": "2026-11-09T18:00:33Z",
-   "runs": 3256,
-   "state": "screen"
-  },
-  {
-   "id": "eraw17vSgqo",
-   "search": "solarpunk",
-   "title": "Open Circuit | Solarpunk Lo-Fi Mix",
-   "channel": "SunLit Commons Radio [Solar Punk LoFi]",
-   "published": "2026-11-10T04:00:47Z",
-   "runs": 600,
-   "state": "left",
-   "why": "filed under Music"
-  },
-  {
-   "id": "obNOoROIKes",
-   "search": "solarpunk",
-   "title": "Copper Junction Swing | 10 Minutes of Solarpunk Lo-Fi",
-   "channel": "SunLit Commons Radio [Solar Punk LoFi]",
-   "published": "2026-11-10T04:02:21Z",
-   "runs": 600,
-   "state": "left",
-   "why": "filed under Music"
-  },
-  {
-   "id": "Y53SPwTQnWk",
-   "search": "solarpunk",
-   "title": "Solar punk episode 4",
-   "channel": "SurviveNgrind",
-   "published": "2026-11-10T06:00:15Z",
-   "runs": 4181,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "2pUHY2AKswM",
-   "search": "solarpunk",
-   "title": "SOLARPUNK - [4K 60FPS] - GAMEPLAY PARTE 37",
-   "channel": "[PT]HUN7ER",
-   "published": "2026-11-10T09:00:16Z",
-   "runs": 924,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "_8yAhWEss5Q",
-   "search": "solarpunk",
-   "title": "Solarpunk Odyssey: Cities of the Next Era | 4K 60 FPS",
-   "channel": "Alternative Realities",
-   "published": "2026-11-10T12:00:21Z",
-   "runs": 188,
-   "state": "left",
-   "why": "filed under Music"
+   "title": "Solarpunk Ambient LIVESTREAM",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
    "id": "WAYequvxmoE",
@@ -736,12 +602,30 @@
    "state": "screen"
   },
   {
+   "id": "HbAzQn35crM",
+   "search": "solarpunk",
+   "title": "Solarpunk | Let's play part 1 | No commentary",
+   "channel": "JJKMB Gaming",
+   "published": "2026-11-11T23:00:08Z",
+   "runs": 2419,
+   "state": "screen"
+  },
+  {
    "id": "hfMK3yOO-6Y",
    "search": "solarpunk",
    "title": "From Edenicity to Solarpunk: How Good Housing Can Save the World with Jo Carson",
    "channel": "Jo Carson",
    "published": "2026-11-11T23:16:52Z",
    "runs": 1720,
+   "state": "screen"
+  },
+  {
+   "id": "g-uWBo-8Qck",
+   "search": "solarpunk",
+   "title": "The Time Capsule Under Flooded Venice Beach | Solarpunk Sci-Fi Audio Story",
+   "channel": "Slopcast",
+   "published": "2026-11-12T09:42:25Z",
+   "runs": 2239,
    "state": "screen"
   },
   {
@@ -801,6 +685,15 @@
    "runs": 6940,
    "state": "left",
    "why": "filed under Gaming"
+  },
+  {
+   "id": "iSUGGIOfuD8",
+   "search": "solarpunk",
+   "title": "Christmas in Tomorrow | Futuristic Solarpunk Christmas Ambience (12 min)",
+   "channel": "Raw Ai Studios",
+   "published": "2026-11-13T12:30:48Z",
+   "runs": 738,
+   "state": "screen"
   },
   {
    "id": "Mpngn09kUJI",
@@ -873,6 +766,15 @@
    "why": "no embedding"
   },
   {
+   "id": "KE4onUUmutY",
+   "search": "solarpunk",
+   "title": "Solar Punk Farming Sim Trailer & Animation | Project 1 Environment Design",
+   "channel": "Divine Requiem Studios",
+   "published": "2026-11-16T00:13:16Z",
+   "runs": 27,
+   "state": "screen"
+  },
+  {
    "id": "ghx0-g1lWow",
    "search": "solarpunk",
    "title": "Solarpunk Lo-Fi Greenhouse — 3 Hours of Futuristic Chill Beats for Studying & Deep Focus (4K)",
@@ -890,6 +792,23 @@
    "published": "2026-11-16T12:00:02Z",
    "runs": 1244,
    "state": "screen"
+  },
+  {
+   "id": "F4hKSNL2kVQ",
+   "search": "solarpunk",
+   "title": "SOLARPUNK - [4K 60FPS] - GAMEPLAY PARTE 40",
+   "channel": "[PT]HUN7ER",
+   "published": "2026-11-17T09:00:23Z",
+   "runs": 897,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "Ks7rFP-tHeI",
+   "search": "renewable-energy",
+   "title": "Grand finale of the 7th Energy Commission Senior High Schools Renewable Energy Challenge",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
    "id": "zCuLAaII7t0",
@@ -916,6 +835,15 @@
    "channel": "Ecoloop Project",
    "published": "2026-11-12T12:30:05Z",
    "runs": 27,
+   "state": "screen"
+  },
+  {
+   "id": "AkPbzcHyVHk",
+   "search": "renewable-energy",
+   "title": "A FutuRE in Progress: Imagining a Just Renewable Energy Future",
+   "channel": "JustRE Alliance",
+   "published": "2026-11-12T14:00:09Z",
+   "runs": 1233,
    "state": "screen"
   },
   {
