@@ -114,54 +114,54 @@
    ]
   }
  ],
- "set": "2026-11-16T12:16Z",
+ "set": "2026-11-17T12:16Z",
  "covered": {
   "meidastouch": [
    [
     "2026-10-03T05:30:32Z",
-    "2026-11-16T12:16:44Z"
+    "2026-11-17T12:16:32Z"
    ]
   ],
   "closer-look": [
    [
     "2026-07-17T01:00:31Z",
-    "2026-11-16T12:16:44Z"
+    "2026-11-17T12:16:32Z"
    ]
   ],
   "late-night-monologues": [
    [
     "2026-07-15T01:00:12Z",
-    "2026-11-16T12:16:44Z"
+    "2026-11-17T12:16:32Z"
    ]
   ],
   "kimmel": [
    [
     "2026-09-18T06:00:06Z",
-    "2026-11-16T12:16:44Z"
+    "2026-11-17T12:16:32Z"
    ]
   ],
   "jason-salmon": [
    [
     "2026-08-24T15:00:06Z",
-    "2026-11-16T12:16:44Z"
+    "2026-11-17T12:16:32Z"
    ]
   ],
   "texas-paul": [
    [
     "2026-09-17T21:37:08Z",
-    "2026-11-16T12:16:44Z"
+    "2026-11-17T12:16:32Z"
    ]
   ],
   "tennessee-brando": [
    [
     "2026-09-17T16:07:51Z",
-    "2026-11-16T12:16:44Z"
+    "2026-11-17T12:16:32Z"
    ]
   ],
   "lawyer-oyer": [
    [
     "2026-09-01T01:12:06Z",
-    "2026-11-16T12:16:44Z"
+    "2026-11-17T12:16:32Z"
    ]
   ],
   "hawk": [
@@ -184,472 +184,26 @@
    [
     "2026-11-14T15:00:21Z",
     "2026-11-16T12:16:44Z"
+   ],
+   [
+    "2026-11-16T22:00:38Z",
+    "2026-11-17T12:16:32Z"
    ]
   ],
   "daily-show": [
    [
     "2026-09-18T11:35:00Z",
-    "2026-11-16T12:16:44Z"
+    "2026-11-17T12:16:32Z"
    ]
   ],
   "heather-cox-richardson": [
    [
     "2026-10-22T22:14:28Z",
-    "2026-11-16T12:16:44Z"
+    "2026-11-17T12:16:32Z"
    ]
   ]
  },
  "scoops": [
-  {
-   "id": "ApZqBMsH71g",
-   "source": "meidastouch",
-   "title": "Trump PANICS as DC HELL BEGINS!!!",
-   "published": "2026-11-09T12:00:11Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 1063,
-   "channel": "MeidasTouch"
-  },
-  {
-   "id": "rb6gh8M_LY8",
-   "source": "hawk",
-   "title": "They prosecute children in military courts",
-   "published": "2026-11-09T13:00:05Z",
-   "edition": "2026-11-10",
-   "state": "door",
-   "why": "no embedding",
-   "runs": 15,
-   "channel": "Hawk's Podcasts / mdg650hawk"
-  },
-  {
-   "id": "0bHa6Cul6m8",
-   "source": "meidastouch",
-   "title": "🚨Iran TWISTS THE KNIFE!!!",
-   "published": "2026-11-09T13:30:01Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 1736,
-   "channel": "MeidasTouch"
-  },
-  {
-   "id": "WQVPP8onWKs",
-   "source": "texas-paul",
-   "title": "My advice to Todd Blanche on his making threats against Democrats.  Trump isn't worth it.",
-   "published": "2026-11-09T13:58:33Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 167,
-   "channel": "Texas Paul"
-  },
-  {
-   "id": "coxiBbyBxqs",
-   "source": "hawk",
-   "title": "IDF killed her mother",
-   "published": "2026-11-09T14:00:32Z",
-   "edition": "2026-11-10",
-   "state": "door",
-   "why": "no embedding",
-   "runs": 56,
-   "channel": "Hawk's Podcasts / mdg650hawk"
-  },
-  {
-   "id": "R5BEC2VY1Ug",
-   "source": "hawk",
-   "title": "Genocidal war criminals",
-   "published": "2026-11-09T15:00:23Z",
-   "edition": "2026-11-10",
-   "state": "door",
-   "why": "no embedding",
-   "runs": 114,
-   "channel": "Hawk's Podcasts / mdg650hawk"
-  },
-  {
-   "id": "ghKKdiavEVY",
-   "source": "meidastouch",
-   "title": "🚨Dems RETURN and MAKE HIM SUFFER!!!",
-   "published": "2026-11-09T15:00:24Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 1175,
-   "channel": "MeidasTouch"
-  },
-  {
-   "id": "5JFrkbHnJdY",
-   "source": "hawk",
-   "title": "They’re just dumb",
-   "published": "2026-11-09T15:37:59Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 180,
-   "channel": "Hawk's Podcasts / mdg650hawk"
-  },
-  {
-   "id": "WqKWBEsx8VA",
-   "source": "hawk",
-   "title": "Ten Years",
-   "published": "2026-11-09T15:38:46Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 139,
-   "channel": "Hawk's Podcasts / mdg650hawk"
-  },
-  {
-   "id": "VGkeSZoXhAU",
-   "source": "hawk",
-   "title": "Have the day you voted for",
-   "published": "2026-11-09T15:38:54Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 180,
-   "channel": "Hawk's Podcasts / mdg650hawk"
-  },
-  {
-   "id": "-lYi2iwkhy4",
-   "source": "hawk",
-   "title": "It started in 1948",
-   "published": "2026-11-09T16:00:33Z",
-   "edition": "2026-11-10",
-   "state": "door",
-   "why": "no embedding",
-   "runs": 54,
-   "channel": "Hawk's Podcasts / mdg650hawk"
-  },
-  {
-   "id": "0TqId0L-2FM",
-   "source": "jason-salmon",
-   "title": "There is no team more like America than the Dallas Cowboys #dallascowboys #nfl #jerryjones",
-   "published": "2026-11-09T16:09:06Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 107,
-   "channel": "Jason Salmon"
-  },
-  {
-   "id": "aI3c8fIAN1M",
-   "source": "meidastouch",
-   "title": "🚨 Fox COLLAPSE ON LIVE TV just Got EVEN WORSE!!!",
-   "published": "2026-11-09T16:30:36Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 1143,
-   "channel": "MeidasTouch"
-  },
-  {
-   "id": "HTpV5-5XA3A",
-   "source": "hawk",
-   "title": "Israel First",
-   "published": "2026-11-09T17:00:31Z",
-   "edition": "2026-11-10",
-   "state": "door",
-   "why": "no embedding",
-   "runs": 78,
-   "channel": "Hawk's Podcasts / mdg650hawk"
-  },
-  {
-   "id": "ofJ5NLb9pc8",
-   "source": "hawk",
-   "title": "Every inch of Israel is Palestine",
-   "published": "2026-11-09T18:00:27Z",
-   "edition": "2026-11-10",
-   "state": "door",
-   "why": "no embedding",
-   "runs": 52,
-   "channel": "Hawk's Podcasts / mdg650hawk"
-  },
-  {
-   "id": "a_Jw8TkjGFM",
-   "source": "meidastouch",
-   "title": "🚨 Trump FALLS APART as Congress RETURNS!!!",
-   "published": "2026-11-09T18:19:15Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 1092,
-   "channel": "MeidasTouch"
-  },
-  {
-   "id": "2GAo1AGNvgs",
-   "source": "hawk",
-   "title": "Steven Miller is just evil",
-   "published": "2026-11-09T18:42:21Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 180,
-   "channel": "Hawk's Podcasts / mdg650hawk"
-  },
-  {
-   "id": "nPSCiJ9Pf1g",
-   "source": "tennessee-brando",
-   "title": "Trump Just ADMITTED What We Knew All Along!",
-   "published": "2026-11-09T18:55:18Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 758,
-   "channel": "Tennessee Brando"
-  },
-  {
-   "id": "PUpFOp0YUo4",
-   "source": "hawk",
-   "title": "Does Palestine have a right to exist?",
-   "published": "2026-11-09T19:00:31Z",
-   "edition": "2026-11-10",
-   "state": "door",
-   "why": "no embedding",
-   "runs": 95,
-   "channel": "Hawk's Podcasts / mdg650hawk"
-  },
-  {
-   "id": "X5u-dzUA-SU",
-   "source": "texas-paul",
-   "title": "Pete Hegseth is about to be impeached. Looks like there are between 227-230 votes in favor.",
-   "published": "2026-11-09T19:36:51Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 47,
-   "channel": "Texas Paul"
-  },
-  {
-   "id": "e1DhCjKZqVk",
-   "source": "heather-cox-richardson",
-   "title": "The Law is King",
-   "published": "2026-11-09T19:36:57Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 796,
-   "channel": "Heather Cox Richardson"
-  },
-  {
-   "id": "KIN07A_f3KY",
-   "source": "meidastouch",
-   "title": "🚨 Iran STRIKES OMAN!!!",
-   "published": "2026-11-09T20:00:18Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 792,
-   "channel": "MeidasTouch"
-  },
-  {
-   "id": "Ryvo8rvbJjc",
-   "source": "hawk",
-   "title": "Gaza is flooded",
-   "published": "2026-11-09T20:00:18Z",
-   "edition": "2026-11-10",
-   "state": "door",
-   "why": "no embedding",
-   "runs": 79,
-   "channel": "Hawk's Podcasts / mdg650hawk"
-  },
-  {
-   "id": "6gX2HHtYYpo",
-   "source": "hawk",
-   "title": "Why do they all look like dirty homeless Phish fans?",
-   "published": "2026-11-09T21:00:13Z",
-   "edition": "2026-11-10",
-   "state": "door",
-   "why": "no embedding",
-   "runs": 68,
-   "channel": "Hawk's Podcasts / mdg650hawk"
-  },
-  {
-   "id": "X0lhllLYMqc",
-   "source": "meidastouch",
-   "title": "Trump PANICS as IMPEACHMENT ARTICLES HIT!!",
-   "published": "2026-11-09T21:36:09Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 1151,
-   "channel": "MeidasTouch"
-  },
-  {
-   "id": "_hBRoMoaEgs",
-   "source": "hawk",
-   "title": "An Israeli war criminal",
-   "published": "2026-11-09T22:00:01Z",
-   "edition": "2026-11-10",
-   "state": "door",
-   "why": "no embedding",
-   "runs": 119,
-   "channel": "Hawk's Podcasts / mdg650hawk"
-  },
-  {
-   "id": "1u6C9A6AEx4",
-   "source": "lawyer-oyer",
-   "title": "DOJ prepares for showdown with Congress",
-   "published": "2026-11-09T22:33:31Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 168,
-   "channel": "Lawyer Oyer"
-  },
-  {
-   "id": "q8dkp7JwMxg",
-   "source": "tennessee-brando",
-   "title": "Trump and Fox News Are BACKPEDALING Like Crazy!",
-   "published": "2026-11-09T23:00:16Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 733,
-   "channel": "Tennessee Brando"
-  },
-  {
-   "id": "ICBloe6Hbvc",
-   "source": "meidastouch",
-   "title": "Trump JUST CRACKED at PRESSER!!!",
-   "published": "2026-11-09T23:23:10Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 907,
-   "channel": "MeidasTouch"
-  },
-  {
-   "id": "jIZIcz8KKv4",
-   "source": "meidastouch",
-   "title": "🚨Trump’s DOWNFALL Gets Worse…MAGA CALLS IT QUITS!!!",
-   "published": "2026-11-10T00:30:39Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 664,
-   "channel": "MeidasTouch"
-  },
-  {
-   "id": "3u9tk-zu8dw",
-   "source": "texas-paul",
-   "title": "What they are doing to Mitch Mcconnell is elder abuse and it needs to stop!",
-   "published": "2026-11-10T00:50:28Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 42,
-   "channel": "Texas Paul"
-  },
-  {
-   "id": "L_0ZhLWNgJU",
-   "source": "closer-look",
-   "title": "Trump Goes on 60 Minutes & Promotes Stephen Miller, Boebert Loses, Zohran Schools Fox: A Closer Look",
-   "published": "2026-11-10T02:00:09Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 1103,
-   "channel": "Late Night with Seth Meyers"
-  },
-  {
-   "id": "zS7D6zMl0ro",
-   "source": "tennessee-brando",
-   "title": "I’ve Been Saying This About Trump’s Family for YEARS!",
-   "published": "2026-11-10T02:00:26Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 609,
-   "channel": "Tennessee Brando"
-  },
-  {
-   "id": "Wq2I4E6Epow",
-   "source": "meidastouch",
-   "title": "🚨MAGA Mike FREAKS OUT as NO ONE SHOWS!!!!",
-   "published": "2026-11-10T02:30:38Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 1643,
-   "channel": "MeidasTouch"
-  },
-  {
-   "id": "otNdvBqWKeU",
-   "source": "daily-show",
-   "title": "Precap: The Midterms Have Desi Lydic Feeling the \"Opposite of Despair\" | The Daily Show",
-   "published": "2026-11-10T02:44:08Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 2165,
-   "channel": "The Daily Show"
-  },
-  {
-   "id": "rC2GKv3eY_U",
-   "source": "meidastouch",
-   "title": "Trump watches DOMINOES FALL!!!",
-   "published": "2026-11-10T04:00:08Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 1885,
-   "channel": "MeidasTouch"
-  },
-  {
-   "id": "wrAuG5d2pvI",
-   "source": "daily-show",
-   "title": "Trump Hopes for Heaven on \"60 Minutes\" & Stephen Miller Becomes Chief of Staff | The Daily Show",
-   "published": "2026-11-10T04:00:17Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 1338,
-   "channel": "The Daily Show"
-  },
-  {
-   "id": "0Tglmmk6epY",
-   "source": "daily-show",
-   "title": "Rachel Maddow on the Midterms & Examining the DOJ in “Department of Fate” | The Daily Show",
-   "published": "2026-11-10T04:30:10Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 1422,
-   "channel": "The Daily Show"
-  },
-  {
-   "id": "XMRsPleHZ4s",
-   "source": "kimmel",
-   "title": "Trump Cries Rigged Election, “Kidding\" About Hiring Dana White & White House Insults Jimmy Kimmel",
-   "published": "2026-11-10T04:35:19Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 956,
-   "channel": "Jimmy Kimmel Live"
-  },
-  {
-   "id": "d0yHa-iySoU",
-   "source": "meidastouch",
-   "title": "🚨 Trump Gets HUMILIATED After MAGA's OBAMA STUNT BACKFIRES...",
-   "published": "2026-11-10T05:30:30Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 1445,
-   "channel": "MeidasTouch"
-  },
-  {
-   "id": "Ikg9oHVLDMQ",
-   "source": "kimmel",
-   "title": "Will Ferrell Interrupts Andy Richter’s Interview About His New Elf Book",
-   "published": "2026-11-10T07:00:01Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 571,
-   "channel": "Jimmy Kimmel Live"
-  },
-  {
-   "id": "9Wt9u-Zv9J4",
-   "source": "meidastouch",
-   "title": "🚨 Hegseth Gets MORE BAD NEWS as  VETERANS HEAD TO DC!!!",
-   "published": "2026-11-10T07:00:02Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 928,
-   "channel": "MeidasTouch"
-  },
-  {
-   "id": "uQL4-SO-dRw",
-   "source": "kimmel",
-   "title": "Bill Murray on Meeting Huey Lewis, Driving Around Ireland with Tom Coyne & What About Bob Screening",
-   "published": "2026-11-10T07:00:02Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 1019,
-   "channel": "Jimmy Kimmel Live"
-  },
-  {
-   "id": "Vx9Blda5FqY",
-   "source": "late-night-monologues",
-   "title": "Trump Names Stephen Miller as His New Chief of Staff",
-   "published": "2026-11-10T10:00:05Z",
-   "edition": "2026-11-10",
-   "state": "screen",
-   "runs": 1170,
-   "channel": "Late Night with Seth Meyers"
-  },
   {
    "id": "yn4WmpyeidI",
    "source": "meidastouch",
@@ -2876,7 +2430,412 @@
    "state": "screen",
    "runs": 959,
    "channel": "MeidasTouch"
+  },
+  {
+   "id": "JmwuH5p_gRQ",
+   "source": "meidastouch",
+   "title": "Iran JUST DID IT AGAIN!!!",
+   "published": "2026-11-16T13:30:11Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 1084,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "p-gdMdwPRag",
+   "source": "texas-paul",
+   "title": "Trump is hiding his medical problems again by getting treatments at his golf club.",
+   "published": "2026-11-16T14:55:01Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 37,
+   "channel": "Texas Paul"
+  },
+  {
+   "id": "pv6yt06FeOw",
+   "source": "meidastouch",
+   "title": "🚨NATO Just CANCELED ALL Trump Meetings!!!",
+   "published": "2026-11-16T15:00:17Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 1182,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "slZXcqqSNME",
+   "source": "jason-salmon",
+   "title": "Just got in a fight with a deer? #deerhunting #texas #shorts",
+   "published": "2026-11-16T16:00:14Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 78,
+   "channel": "Jason Salmon"
+  },
+  {
+   "id": "kiOKqhnWr-s",
+   "source": "meidastouch",
+   "title": "🚨Trump PANICS as IT FINALLY BEGINS!!!!",
+   "published": "2026-11-16T16:30:27Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 1320,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "hLFnoraLArw",
+   "source": "meidastouch",
+   "title": "🚨Trump Just DEPARTED WH in DISGRACE!!!!",
+   "published": "2026-11-16T18:16:27Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 1532,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "qv3f2r0fOcU",
+   "source": "tennessee-brando",
+   "title": "Fetterman wants OUT? Let Him GO!",
+   "published": "2026-11-16T19:00:27Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 633,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "LNw2jAWp33M",
+   "source": "meidastouch",
+   "title": "🚨 BREAKING: US BANKS GO DOWN!!!",
+   "published": "2026-11-16T19:43:57Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 827,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "mAnQkLM4uPM",
+   "source": "meidastouch",
+   "title": "🚨BREAKING: MAJOR UPDATE in UKRAINE!",
+   "published": "2026-11-16T21:41:59Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 696,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "xBcGXhs_5Lk",
+   "source": "hawk",
+   "title": "Get vaccinated, you potatoes 🥔",
+   "published": "2026-11-16T22:00:38Z",
+   "edition": "2026-11-17",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 138,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "cHp1AjUauv8",
+   "source": "hawk",
+   "title": "Everything is swinging",
+   "published": "2026-11-16T23:00:35Z",
+   "edition": "2026-11-17",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 98,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "YGdyJicFksk",
+   "source": "meidastouch",
+   "title": "🚨Trump faces 25TH AMENDMENT as BANKS COLLAPSE!!!",
+   "published": "2026-11-16T23:15:33Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 639,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "DeJsOHvJSsw",
+   "source": "lawyer-oyer",
+   "title": "More DOJ stupidity",
+   "published": "2026-11-16T23:50:12Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 178,
+   "channel": "Lawyer Oyer"
+  },
+  {
+   "id": "bQjOAjGFcro",
+   "source": "hawk",
+   "title": "Massive corruption",
+   "published": "2026-11-17T00:00:26Z",
+   "edition": "2026-11-17",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 84,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "zqX_XvAJKbQ",
+   "source": "meidastouch",
+   "title": "🚨Trump Just Made SHOCK CLAIM ON IRAN WAR!!",
+   "published": "2026-11-17T00:37:21Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 859,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "orJgOVM8PAM",
+   "source": "tennessee-brando",
+   "title": "The MAGA Podcast Bro’s Just Got EXPOSED",
+   "published": "2026-11-17T01:00:09Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 565,
+   "channel": "Tennessee Brando"
+  },
+  {
+   "id": "ZscUcPM1swE",
+   "source": "hawk",
+   "title": "Good luck, Todd",
+   "published": "2026-11-17T01:00:27Z",
+   "edition": "2026-11-17",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 135,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "6T80YWYhnnQ",
+   "source": "closer-look",
+   "title": "Trump Disappears During Air Travel Crisis Then Blames Biden, Melts Down Over Ballroom: A Closer Look",
+   "published": "2026-11-17T02:00:02Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 822,
+   "channel": "Late Night with Seth Meyers"
+  },
+  {
+   "id": "amhIDSxqsX4",
+   "source": "hawk",
+   "title": "This will be a disaster",
+   "published": "2026-11-17T02:00:07Z",
+   "edition": "2026-11-17",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 105,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "896lwT0hFuk",
+   "source": "daily-show",
+   "title": "Colom's Historic Win, Bessent's Bunker Move & Nvidia's Huang Hangover - Precap | The Daily Show",
+   "published": "2026-11-17T02:05:38Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 2314,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "Ya069HiQ9bk",
+   "source": "meidastouch",
+   "title": "🚨GOP Leaders CRASH OUT!!!",
+   "published": "2026-11-17T02:42:53Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 1463,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "NMQrg7yOQ70",
+   "source": "hawk",
+   "title": "All because Jensen was horny",
+   "published": "2026-11-17T03:00:19Z",
+   "edition": "2026-11-17",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 161,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "now0emhNT4A",
+   "source": "daily-show",
+   "title": "The FAA Crashes Out Over a Router & Why Is Trump Protecting AI and Jensen Huang? | The Daily Show",
+   "published": "2026-11-17T03:59:11Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 1287,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "aefyRW_WVd8",
+   "source": "hawk",
+   "title": "They’re all just incredibly dumb",
+   "published": "2026-11-17T04:00:13Z",
+   "edition": "2026-11-17",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 148,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "m09PWB5d9dA",
+   "source": "daily-show",
+   "title": "Ad-Rock & Mike D on Beastie Boys’ Debut Album “Licensed to Ill”’s 40th Anniversary | The Daily Show",
+   "published": "2026-11-17T04:30:19Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 1206,
+   "channel": "The Daily Show"
+  },
+  {
+   "id": "AzKVdh032qU",
+   "source": "kimmel",
+   "title": "Trump Makes Excuses for Airport Armageddon & His Top Minds Put on One Hell of a Press Conference",
+   "published": "2026-11-17T04:35:13Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 972,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "zOr0rBSyUQw",
+   "source": "meidastouch",
+   "title": "🚨Canada Just DROPPED THE HAMMER!!!",
+   "published": "2026-11-17T04:35:25Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 2311,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "hMJdTRozooY",
+   "source": "hawk",
+   "title": "I’m always up for a good crash and burn",
+   "published": "2026-11-17T05:00:16Z",
+   "edition": "2026-11-17",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 105,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "KMCTtvv74tA",
+   "source": "hawk",
+   "title": "Sunshine is the best disinfectant",
+   "published": "2026-11-17T06:00:05Z",
+   "edition": "2026-11-17",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 129,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "Olb3GXUWk5w",
+   "source": "meidastouch",
+   "title": "🚨Putin Gets BAD NEWS…NEW FOOTAGE EMERGES!!",
+   "published": "2026-11-17T06:00:36Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 775,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "ZjJ1Uw_4k8Y",
+   "source": "hawk",
+   "title": "The Republican Triangle of Doom",
+   "published": "2026-11-17T07:00:00Z",
+   "edition": "2026-11-17",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 114,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "2I3e49KpD2w",
+   "source": "kimmel",
+   "title": "Chris Rock on Inducting Wu-Tang Clan in Rock Hall of Fame, Working as a DJ & New Movie Misty Green",
+   "published": "2026-11-17T07:00:02Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 847,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "Up8Yblwsqgk",
+   "source": "kimmel",
+   "title": "Billie Jean King on Elton John Writing a Song for Her & Fighting for Equal Pay in Sports",
+   "published": "2026-11-17T07:00:02Z",
+   "edition": "2026-11-17",
+   "state": "screen",
+   "runs": 772,
+   "channel": "Jimmy Kimmel Live"
+  },
+  {
+   "id": "3rb50Hk_5gc",
+   "source": "hawk",
+   "title": "Oh well",
+   "published": "2026-11-17T08:00:20Z",
+   "edition": "2026-11-17",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 97,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "jiUbqvbKQII",
+   "source": "hawk",
+   "title": "Dems can win in the South",
+   "published": "2026-11-17T09:00:06Z",
+   "edition": "2026-11-17",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 81,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "B-XT7TLRxA0",
+   "source": "hawk",
+   "title": "It’s part of the gig",
+   "published": "2026-11-17T10:00:22Z",
+   "edition": "2026-11-17",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 93,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "jm8719ZGxG0",
+   "source": "hawk",
+   "title": "Russia and Ukraine",
+   "published": "2026-11-17T11:00:37Z",
+   "edition": "2026-11-17",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 76,
+   "channel": "Hawk's Podcasts / mdg650hawk"
+  },
+  {
+   "id": "YSAFfrowaNU",
+   "source": "meidastouch",
+   "title": "🚨Trump Gets RUDE AWAKENING as HE ARRIVES!!",
+   "published": "2026-11-17T12:00:05Z",
+   "edition": "2026-11-18",
+   "state": "screen",
+   "runs": 830,
+   "channel": "MeidasTouch"
+  },
+  {
+   "id": "4Iiw7cvBMVk",
+   "source": "hawk",
+   "title": "I find this to be offensive",
+   "published": "2026-11-17T12:00:29Z",
+   "edition": "2026-11-18",
+   "state": "door",
+   "why": "no embedding",
+   "runs": 176,
+   "channel": "Hawk's Podcasts / mdg650hawk"
   }
  ],
- "newest": "2026-11-16"
+ "newest": "2026-11-17"
 }
