@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-16T12:24Z",
+ "set": "2026-11-17T12:24Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-16T12:24:20Z"
+     "2026-11-17T12:24:51Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-16T12:24:20Z"
+     "2026-11-17T12:24:51Z"
     ]
    ]
   }
@@ -125,26 +125,6 @@
    "published": "2026-11-15T02:53:02Z",
    "state": "screen",
    "runs": 228,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "kf5Ah71KvrQ",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Part 2: she’s back and I’m not happy about it",
-   "published": "2026-10-17T13:06:33Z",
-   "state": "screen",
-   "runs": 110,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "ha7yVNM0UNw",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Thinking about farming for a living? I wrote a book about it. Link in description :-)",
-   "published": "2026-10-18T12:05:49Z",
-   "state": "screen",
-   "runs": 89,
    "channel": "Farming While Beige"
   },
   {
@@ -615,6 +595,26 @@
    "published": "2026-11-15T15:25:51Z",
    "state": "screen",
    "runs": 178,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "vvyx9MfgpCM",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Record breaking farm debt (in context)",
+   "published": "2026-11-16T13:50:41Z",
+   "state": "screen",
+   "runs": 166,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "BFKWqY4fv50",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "The curiously wholesome joy of being rejected by Black women",
+   "published": "2026-11-17T02:20:37Z",
+   "state": "screen",
+   "runs": 141,
    "channel": "Farming While Beige"
   }
  ]
