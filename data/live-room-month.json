@@ -23,16 +23,6 @@
  ],
  "log": [
   {
-   "id": "cZsjf48RMkQ",
-   "source": "acl",
-   "form": "long",
-   "title": "Ari Lennox - Full Episode | Live on Austin City Limits TV",
-   "published": "2026-10-18T01:00:09Z",
-   "state": "screen",
-   "runs": 3202,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "hf_NYmmeFHE",
    "source": "acl",
    "form": "long",
@@ -193,13 +183,13 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "MHLGcNt91pU",
+   "id": "s1rrkIIAmNs",
    "source": "acl",
-   "form": "short",
-   "title": "Ari Lennox - Under The Moon clip | Live on Austin City Limits TV",
-   "published": "2026-10-18T01:03:35Z",
+   "form": "long",
+   "title": "SIENNA SPIRO - Great Expectation | Live on Austin City Limits TV",
+   "published": "2026-11-16T21:00:10Z",
    "state": "screen",
-   "runs": 54,
+   "runs": 182,
    "channel": "Austin City Limits"
   },
   {
@@ -1493,6 +1483,26 @@
    "channel": "KEXP"
   },
   {
+   "id": "QoR0gzAjLW8",
+   "source": "kexp",
+   "form": "long",
+   "title": "Jonathan Hultén - Riverflame (Live on KEXP)",
+   "published": "2026-11-16T14:00:04Z",
+   "state": "screen",
+   "runs": 271,
+   "channel": "KEXP"
+  },
+  {
+   "id": "lhUZYnTaVQk",
+   "source": "kexp",
+   "form": "long",
+   "title": "Jonathan Hultén - Full Performance (Live on KEXP)",
+   "published": "2026-11-16T16:00:01Z",
+   "state": "screen",
+   "runs": 1475,
+   "channel": "KEXP"
+  },
+  {
    "id": "Ugv0GGD93jM",
    "source": "kexp",
    "form": "short",
@@ -1683,6 +1693,16 @@
    "channel": "KEXP"
   },
   {
+   "id": "5dQM7Mk6v70",
+   "source": "kexp",
+   "form": "short",
+   "title": "Jonathan Hultén performs \"Where The Devil Weeps\" & more Live on KEXP",
+   "published": "2026-11-16T18:08:19Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
    "id": "bYdTIzaYNqg",
    "source": "kcrw",
    "form": "long",
@@ -1868,13 +1888,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-16T12:27:51Z"
+     "2026-11-17T12:28:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-16T12:27:51Z"
+     "2026-11-17T12:28:24Z"
     ]
    ]
   },
@@ -1882,13 +1902,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-16T12:27:51Z"
+     "2026-11-17T12:28:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-16T12:27:51Z"
+     "2026-11-17T12:28:24Z"
     ]
    ]
   },
@@ -1896,16 +1916,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-16T12:27:51Z"
+     "2026-11-17T12:28:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-16T12:27:51Z"
+     "2026-11-17T12:28:24Z"
     ]
    ]
   }
  },
- "set": "2026-11-16T12:27Z"
+ "set": "2026-11-17T12:28Z"
 }
