@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-11-17T12:18Z",
+ "set": "2026-11-18T12:17Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2024-05-03T15:53:16Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-11-17T12:18:06Z"
+     "2026-11-18T12:17:50Z"
     ]
    ]
   }
@@ -261,6 +261,16 @@
    "channel": "Derek Sarno"
   },
   {
+   "id": "zKaWwdd7ylA",
+   "source": "derek-sarno",
+   "form": "long",
+   "title": "A Chef’s Lazy Weeknight Meal",
+   "published": "2026-11-17T15:32:57Z",
+   "state": "screen",
+   "runs": 550,
+   "channel": "Derek Sarno"
+  },
+  {
    "id": "GI4JojpYW_0",
    "source": "rainbow-plant-life",
    "form": "long",
@@ -279,16 +289,6 @@
    "state": "screen",
    "runs": 746,
    "channel": "Rainbow Plant Life"
-  },
-  {
-   "id": "1n3pBpRQ6Vc",
-   "source": "nard-dog-cooks",
-   "form": "long",
-   "title": "How I made CABBAGE taste 10x BETTER | Hot \"Honey\" Cabbage with Butter Beans and Garlic Breadcrumbs",
-   "published": "2026-10-18T13:04:14Z",
-   "state": "screen",
-   "runs": 571,
-   "channel": "Andrew Bernard | The Nard Dog Cooks"
   },
   {
    "id": "8icHGAeH5q8",
@@ -601,6 +601,16 @@
    "channel": "Ahmad Noori"
   },
   {
+   "id": "sS1lSb2-ooM",
+   "source": "ahmad-noori",
+   "form": "short",
+   "title": "Why you need to fry your zucchini for pasta #veganrecipe #foodhacks",
+   "published": "2026-11-17T15:00:07Z",
+   "state": "screen",
+   "runs": 21,
+   "channel": "Ahmad Noori"
+  },
+  {
    "id": "EOPFfWbHZh0",
    "source": "veganproteins",
    "form": "long",
@@ -721,14 +731,13 @@
    "channel": "PB with J"
   },
   {
-   "id": "MIysXbd0Px4",
+   "id": "QxobtUssdtU",
    "source": "pb-with-j",
-   "form": "short",
-   "title": "Frozen Veggies: The Nutrient Powerhouse You're Missing! #shorts",
-   "published": "2026-10-18T12:40:29Z",
-   "state": "screen",
-   "runs": 34,
-   "channel": "PB with J"
+   "form": "long",
+   "title": "Tired of Oatmeal? Try These 3 Plant-Based Breakfasts!",
+   "published": "2026-11-15T22:41:33Z",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
    "id": "G5DxPQtVllg",
@@ -769,16 +778,6 @@
    "state": "screen",
    "runs": 45,
    "channel": "PB with J"
-  },
-  {
-   "id": "rNdpTMVMCUw",
-   "source": "carleigh-bodrug",
-   "form": "short",
-   "title": "#NinjaPrepi is a game changer. #ninjapartner @NinjaKitchen",
-   "published": "2026-10-18T17:09:09Z",
-   "state": "screen",
-   "runs": 19,
-   "channel": "Carleigh Bodrug"
   },
   {
    "id": "w25o2LAzXJw",
