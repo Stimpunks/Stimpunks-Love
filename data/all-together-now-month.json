@@ -9,34 +9,24 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-17T12:24Z",
+ "set": "2026-11-19T12:24Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-17T12:24:51Z"
+     "2026-11-19T12:24:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-17T12:24:51Z"
+     "2026-11-19T12:24:44Z"
     ]
    ]
   }
  },
  "log": [
-  {
-   "id": "cOeXz-SvDRg",
-   "source": "farming-while-beige",
-   "form": "long",
-   "title": "I Am a Capitalist Shill (Allegedly)",
-   "published": "2026-10-20T00:58:20Z",
-   "state": "screen",
-   "runs": 714,
-   "channel": "Farming While Beige"
-  },
   {
    "id": "1FyHhmXWDAU",
    "source": "farming-while-beige",
@@ -125,46 +115,6 @@
    "published": "2026-11-15T02:53:02Z",
    "state": "screen",
    "runs": 228,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "ObTfrUh4-8E",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Another hot pot adventure!",
-   "published": "2026-10-18T14:07:09Z",
-   "state": "screen",
-   "runs": 123,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "p1OE46f_HmE",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "How far can we drop a farm fresh egg?",
-   "published": "2026-10-18T21:33:57Z",
-   "state": "screen",
-   "runs": 124,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "Mpzk3tS_SBM",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "How do you know it’s big ag?",
-   "published": "2026-10-19T11:34:35Z",
-   "state": "screen",
-   "runs": 121,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "-z6lFiGgnqM",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Is there a TikTok money glitch?",
-   "published": "2026-10-19T15:28:28Z",
-   "state": "screen",
-   "runs": 104,
    "channel": "Farming While Beige"
   },
   {
@@ -615,6 +565,46 @@
    "published": "2026-11-17T02:20:37Z",
    "state": "screen",
    "runs": 141,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "Fhto3pox6D0",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "When politicians forget to be specific 😂",
+   "published": "2026-11-17T14:44:23Z",
+   "state": "screen",
+   "runs": 126,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "EjWNJ1cgy3o",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "A rave review of my book!",
+   "published": "2026-11-18T02:24:32Z",
+   "state": "screen",
+   "runs": 106,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "aStIAViZuuU",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Meat delivery companies are scamming you.",
+   "published": "2026-11-18T15:23:53Z",
+   "state": "screen",
+   "runs": 99,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "5haPz23Seic",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Highway poultry chaos",
+   "published": "2026-11-19T02:32:18Z",
+   "state": "screen",
+   "runs": 98,
    "channel": "Farming While Beige"
   }
  ]
