@@ -90,18 +90,8 @@
    "channel_id": "UCgscS8mBsQZ5sFRkJIFWD7Q"
   }
  ],
- "set": "2026-11-18T12:20Z",
+ "set": "2026-11-19T12:20Z",
  "log": [
-  {
-   "id": "mn0agTT8lG8",
-   "source": "tina-huang",
-   "form": "long",
-   "title": "Here's the AI Roadmap You Actually Need",
-   "published": "2026-10-19T12:59:11Z",
-   "state": "screen",
-   "runs": 1532,
-   "channel": "Tina Huang"
-  },
   {
    "id": "kmnApfAmoj0",
    "source": "tina-huang",
@@ -111,16 +101,6 @@
    "state": "screen",
    "runs": 110,
    "channel": "Tina Huang"
-  },
-  {
-   "id": "y2ifUC9_zuU",
-   "source": "ai-labs",
-   "form": "long",
-   "title": "Vercel's CEO Just Unveiled The Greatest AI Coding Workflow Ever",
-   "published": "2026-10-19T15:00:27Z",
-   "state": "screen",
-   "runs": 861,
-   "channel": "AI LABS"
   },
   {
    "id": "92ZDgn8bgLM",
@@ -333,23 +313,13 @@
    "channel": "Matt Wolfe"
   },
   {
-   "id": "aIrrq3CLSKM",
+   "id": "-oA6oLxWpJg",
    "source": "matt-wolfe",
-   "form": "short",
-   "title": "3 New Claude Prompts You Need To Try",
-   "published": "2026-10-19T12:43:39Z",
+   "form": "long",
+   "title": "Insane AI Breakthroughs Nobody Is Talking About",
+   "published": "2026-11-18T22:08:16Z",
    "state": "screen",
-   "runs": 56,
-   "channel": "Matt Wolfe"
-  },
-  {
-   "id": "VVBszkWK0Io",
-   "source": "matt-wolfe",
-   "form": "short",
-   "title": "My favorite new image editing tool",
-   "published": "2026-10-20T04:19:39Z",
-   "state": "screen",
-   "runs": 80,
+   "runs": 1765,
    "channel": "Matt Wolfe"
   },
   {
@@ -643,6 +613,16 @@
    "channel": "Matt Wolfe"
   },
   {
+   "id": "hT0qW_DRFLw",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "The Reason No One Can Catch NVIDIA",
+   "published": "2026-11-18T19:02:01Z",
+   "state": "screen",
+   "runs": 97,
+   "channel": "Matt Wolfe"
+  },
+  {
    "id": "xUl-RD4l4i4",
    "source": "nate-b-jones",
    "form": "long",
@@ -813,6 +793,16 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
+   "id": "VkvoUCgHP6Q",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "The Robot Brain Might Already Exist. It's A Coding Agent.",
+   "published": "2026-11-18T15:00:36Z",
+   "state": "screen",
+   "runs": 739,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
    "id": "Xo1oF84Dhq8",
    "source": "nate-b-jones",
    "form": "short",
@@ -911,16 +901,6 @@
    "state": "screen",
    "runs": 135,
    "channel": "AI News & Strategy Daily | Nate B Jones"
-  },
-  {
-   "id": "oAn38UNeRqw",
-   "source": "less-bitter",
-   "form": "long",
-   "title": "20-year devs can't find work anymore",
-   "published": "2026-10-20T02:39:41Z",
-   "state": "screen",
-   "runs": 795,
-   "channel": "Less Bitter"
   },
   {
    "id": "2obqnM6KXps",
@@ -1213,6 +1193,16 @@
    "channel": "Theo - t3․gg"
   },
   {
+   "id": "9KvI-zg4mfo",
+   "source": "theo",
+   "form": "long",
+   "title": "Astra 6.2 Is Unusable",
+   "published": "2026-11-18T17:48:56Z",
+   "state": "screen",
+   "runs": 2745,
+   "channel": "Theo - t3․gg"
+  },
+  {
    "id": "nXpoU99pTho",
    "source": "theo",
    "form": "short",
@@ -1393,6 +1383,16 @@
    "channel": "Paul J Lipsky"
   },
   {
+   "id": "AbfheTIO2Ec",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Gemini Neon Is Here (Personally Tested)",
+   "published": "2026-11-18T21:36:36Z",
+   "state": "screen",
+   "runs": 580,
+   "channel": "Paul J Lipsky"
+  },
+  {
    "id": "_NzakzRXzLI",
    "source": "austin-marchese",
    "form": "long",
@@ -1546,7 +1546,7 @@
    "id": "zU0jqYKTgMs",
    "source": "riley-brown",
    "form": "long",
-   "title": "This NEW Claude Update Changes EVERYTHING (Claude Code From Your Phone)",
+   "title": "Claude Duet Can Control Your Entire Computer (Full Guide)",
    "published": "2026-11-08T21:01:20Z",
    "state": "screen",
    "runs": 751,
@@ -1583,13 +1583,13 @@
    "channel": "Riley Brown"
   },
   {
-   "id": "0Z8YxSDh028",
+   "id": "7N1AE5Y87GU",
    "source": "riley-brown",
-   "form": "short",
-   "title": "ChatGPT dots to do 3D modeling and Videos",
-   "published": "2026-10-19T21:17:38Z",
+   "form": "long",
+   "title": "Claude Is Taking Over (NEW Artifacts Are Insane)",
+   "published": "2026-11-18T19:35:33Z",
    "state": "screen",
-   "runs": 104,
+   "runs": 1182,
    "channel": "Riley Brown"
   },
   {
@@ -1611,16 +1611,6 @@
    "state": "screen",
    "runs": 62,
    "channel": "Riley Brown"
-  },
-  {
-   "id": "hgLI491ajG0",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "I Tried 100+ AI Tools. These 7 Are the Best",
-   "published": "2026-10-19T14:22:01Z",
-   "state": "screen",
-   "runs": 615,
-   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "DSS1Yqb6-qE",
@@ -1730,6 +1720,16 @@
    "published": "2026-11-18T03:11:31Z",
    "state": "screen",
    "runs": 1778,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "BqFimJpU1g8",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "Claude and GPT Get Nerfed After Launch (They Admitted It)",
+   "published": "2026-11-18T21:11:08Z",
+   "state": "screen",
+   "runs": 605,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -2073,14 +2073,14 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
-   "id": "4B1iGFShCnI",
-   "source": "chase-ai",
-   "form": "long",
-   "title": "Did Ponytail 5.0 Just Fix Claude's Token Problem? (No Hype Results)",
-   "published": "2026-10-19T20:58:39Z",
+   "id": "cMPisrqH1eQ",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Run AI Agents Locally on the MSI Prestige N16 Flip AI+",
+   "published": "2026-11-19T00:56:59Z",
    "state": "screen",
-   "runs": 1026,
-   "channel": "Chase AI"
+   "runs": 118,
+   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "pJ5tXmHAwR4",
@@ -2163,23 +2163,13 @@
    "channel": "Chase AI"
   },
   {
-   "id": "lHvzytIV_go",
+   "id": "IyuUR51Mu4I",
    "source": "chase-ai",
-   "form": "short",
-   "title": "I Put Ponytail 5.0 To The Test (All Hype??)",
-   "published": "2026-10-19T23:00:09Z",
+   "form": "long",
+   "title": "This Experimental Feature Is Claude Code's BIGGEST Upgrade of 2026",
+   "published": "2026-11-19T06:10:38Z",
    "state": "screen",
-   "runs": 148,
-   "channel": "Chase AI"
-  },
-  {
-   "id": "OOYKxthpcxA",
-   "source": "chase-ai",
-   "form": "short",
-   "title": "Claude Can Now Hack Your TV",
-   "published": "2026-10-20T01:30:08Z",
-   "state": "screen",
-   "runs": 24,
+   "runs": 481,
    "channel": "Chase AI"
   },
   {
@@ -2273,14 +2263,24 @@
    "channel": "Chase AI"
   },
   {
-   "id": "tpZOU1ugODQ",
-   "source": "greg-isenberg",
-   "form": "long",
-   "title": "Meta Muse Will Create 1,000 Millionaires",
-   "published": "2026-10-19T17:50:26Z",
+   "id": "5JagoWLzucA",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "Someone Just Open Sourced Granola",
+   "published": "2026-11-18T20:00:39Z",
    "state": "screen",
-   "runs": 1474,
-   "channel": "Greg Isenberg"
+   "runs": 34,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "Eiy1ojXzhxQ",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "The UPGRADE To Reverse Engineer Anything Is Here (and Free)",
+   "published": "2026-11-18T22:00:08Z",
+   "state": "screen",
+   "runs": 42,
+   "channel": "Chase AI"
   },
   {
    "id": "nRl-7Yhmbog",
@@ -2370,6 +2370,16 @@
    "published": "2026-11-11T18:00:16Z",
    "state": "screen",
    "runs": 2911,
+   "channel": "Greg Isenberg"
+  },
+  {
+   "id": "vKobP6DkC1E",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "Build a 1 Person Media Machine With Grok Bot",
+   "published": "2026-11-18T22:10:02Z",
+   "state": "screen",
+   "runs": 3053,
    "channel": "Greg Isenberg"
   },
   {
@@ -2463,6 +2473,16 @@
    "channel": "Two Minute Papers"
   },
   {
+   "id": "Cy7Wz6Z4TWU",
+   "source": "two-minute-papers",
+   "form": "long",
+   "title": "DeepMind Just Showed Us What AI Is Really For",
+   "published": "2026-11-19T09:26:19Z",
+   "state": "screen",
+   "runs": 385,
+   "channel": "Two Minute Papers"
+  },
+  {
    "id": "s_1GPN-NXA0",
    "source": "robonuggets",
    "form": "long",
@@ -2540,36 +2560,6 @@
    "published": "2026-11-12T13:48:10Z",
    "state": "screen",
    "runs": 1032,
-   "channel": "Jay E | RoboNuggets"
-  },
-  {
-   "id": "fbXh3Gih5kg",
-   "source": "robonuggets",
-   "form": "short",
-   "title": "Stop running Claude without these 3 mods (Skins, Reflect, Terminal Browser) #shorts",
-   "published": "2026-10-19T22:00:36Z",
-   "state": "screen",
-   "runs": 49,
-   "channel": "Jay E | RoboNuggets"
-  },
-  {
-   "id": "D7deI3r3Mug",
-   "source": "robonuggets",
-   "form": "short",
-   "title": "Someone reverse engineered Adobe and open sourced it for free #shorts",
-   "published": "2026-10-20T02:00:30Z",
-   "state": "screen",
-   "runs": 32,
-   "channel": "Jay E | RoboNuggets"
-  },
-  {
-   "id": "lL--nCLw94Q",
-   "source": "robonuggets",
-   "form": "short",
-   "title": "3 Claude + Jev use cases: inbox, competitor ads, sales calls #shorts",
-   "published": "2026-10-20T06:00:25Z",
-   "state": "screen",
-   "runs": 59,
    "channel": "Jay E | RoboNuggets"
   },
   {
@@ -2748,13 +2738,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ]
   },
@@ -2762,13 +2752,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ]
   },
@@ -2776,13 +2766,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ]
   },
@@ -2790,13 +2780,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ]
   },
@@ -2804,13 +2794,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ]
   },
@@ -2818,13 +2808,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ]
   },
@@ -2832,13 +2822,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ]
   },
@@ -2846,13 +2836,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ]
   },
@@ -2860,13 +2850,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ]
   },
@@ -2874,13 +2864,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ]
   },
@@ -2888,13 +2878,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ]
   },
@@ -2902,13 +2892,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ]
   },
@@ -2916,13 +2906,13 @@
    "long": [
     [
      "2026-08-28T09:44:44Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:12:16Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ]
   },
@@ -2930,13 +2920,13 @@
    "long": [
     [
      "2026-09-23T01:33:56Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ],
    "short": [
     [
      "2026-09-25T03:00:26Z",
-     "2026-11-18T12:20:25Z"
+     "2026-11-19T12:20:20Z"
     ]
    ]
   }
