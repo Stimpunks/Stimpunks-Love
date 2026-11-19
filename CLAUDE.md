@@ -1957,6 +1957,18 @@ painted tray**, **a crystal kept in the 3D room's own record "so it works signed
 **the wreath changing on a timer at midnight**, **a southern-hemisphere guess from the time zone**, and **the walk reading with
 any voice the browser offers**, which sends the words to somebody's server.
 
+**HER MUSIC BOOK IS HER WORDS, AND A PLAYLIST THAT DOES NOT OPEN HAS NO LINK.** Helen Edgar's document of 2026-11-19
+("Read and push"): `data/music-book.json` holds her welcome, six parts and every playlist's songs as she listed them, and
+`tools/make-music-book.py` writes them into `faery-music-room.html` between `music-book` markers, one folded chapter to a
+playlist with a link out to YouTube. **Nothing in it plays**: no facade and no frame, because the phonograph and its shelves
+are what plays in that room. Every id was asked of YouTube that day; the ones on her channel (@AutisticRealms-w4k) keep
+`list`, and a playlist YouTube said does not exist has `list: null` and the document's id in `was`, its songs shown with "Not
+on YouTube yet" until Helen sends the address. The tool refuses a part whose own count ("Sixteen playlists ...") is not the
+chapters under it, a welcome total that is not the book's, an id not YouTube's shape, and anything that plays. The friendly
+edits are **a link to the id the document gave "since it is hers"**, which opens YouTube's "does not exist", **playing the
+playlists in the room**, which is the phonograph's job and its runtime rules, and **trimming the songs to save length**, which
+is her list.
+
 **IN A HEADSET THE DIAL AND THE BREAK ARE ON THE SWITCHES, THE PAGE IS READ OFF THE PAGE, AND NOTHING IS DONE FOR YOU BUT ONE THING, ONCE.** Helen
 Edgar's ask, 2026-11-11 ("All of them", to a list of eight), all of it in `cel-street.js`, so every `vr: true` room has it. **The dial** on the panel
 is `window.loveLevel` (`lv.levels.forEach`, `lv.set(key)`), never a second dial. **The break** (`breakSet`, `xrBreak`, `breakScene`) draws a dim empty

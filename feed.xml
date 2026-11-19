@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Sat, 14 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Helen’s Music Book in the Music Room</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-19-faery-yurt-music-book</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-19-faery-yurt-music-book</guid>
+      <pubDate>Thu, 19 Nov 2026 12:00:00 GMT</pubDate>
+      <description>The Music Book is in Helen Edgar’s Music Room: her welcome, six parts and every one of her playlists as a chapter that opens to its songs, in the playlist’s own order, with a link that opens the playlist on YouTube. Nothing in it plays by itself; the phonograph and the shelves above it are still what plays in the room. Each playlist’s address was asked of YouTube the same day. The ones that opened are the ones on Helen’s channel, and they keep their links. The rest are not on YouTube yet, so their chapters show their songs and say so, with no link, until Helen sends their addresses.</description>
+    </item>
     <item>
       <title>The CB starts on This room</title>
       <link>https://stimpunks.world/changelog.html#2026-11-14-cb-starts-on-this-room</link>

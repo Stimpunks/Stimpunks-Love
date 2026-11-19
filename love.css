@@ -28729,6 +28729,24 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .mus-walk-deck { --ps-takes: auto; box-sizing: border-box; padding: 14px; background: var(--rdr-wall); border: 8px solid var(--rdr-timber); border-radius: 4px; }
 .mus-walk-deck .mus-deck { margin: 0; }
 
+/* Helen's Music Book (2026-11-19, tools/make-music-book.py): her playlists as chapters on
+   shelves, each a folded card in the room's own panel and brass, its songs in the order the
+   playlist plays them. Nothing in it plays and nothing moves; a chapter not on YouTube yet
+   says so in words, never by being dimmed. */
+.mus-book__lede { max-width: 62ch; margin: 0 auto 14px; }
+.mus-book__how { max-width: 62ch; margin: 0 auto 6px; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); }
+.room-music .mus-book__part { font-size: 24px; font-style: italic; margin: 30px 0 4px; }
+.mus-book__about { margin: 0 0 12px; font-size: 16px; color: var(--rdr-ink-2); }
+.mus-book__shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; align-items: start; }
+.mus-book__list { background: var(--rdr-panel); border: 1px solid rgba(214,176,106,.28); border-top: 3px solid var(--rdr-brass); border-radius: 6px; padding: 0 14px; }
+.mus-book__list[open] { grid-column: 1 / -1; }
+.mus-book__name { cursor: pointer; padding: 12px 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic; font-size: 21px; color: var(--rdr-ink); }
+.mus-book__go { margin: 0 0 8px; font-size: 16px; }
+.mus-book__go--soon { font-style: italic; color: var(--rdr-ink-2); }
+.mus-book__songs { margin: 0 0 14px; padding-left: 2.2em; font-size: 16px; line-height: 1.5; columns: 18em; column-gap: 2em; }
+.mus-book__songs li { break-inside: avoid; }
+.mus-book__from { margin: 22px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); text-align: center; }
+
 /* §116 ── SUBROOM: Fantasy Fancy Dress (through the curtain behind the Dopamine Dress-Up Den)
    THE BACK OF A FANCY DRESS SHOP, LIT ONLY FROM BEHIND, THROUGH SHEER STUFF.
    Lengths of tulle and chiffon hang from the ceiling in rose, mint, gold and
