@@ -143,6 +143,24 @@
    "channel": "Austin City Limits"
   },
   {
+   "id": "ItKWhObcr6s",
+   "source": "acl",
+   "form": "long",
+   "title": "Sebastián Yatra - Tacones rojos | Live on Austin City Limits TV",
+   "published": "2026-11-09T16:29:54Z",
+   "state": "pending",
+   "why": "live, or not out yet"
+  },
+  {
+   "id": "SIwLCVpxnag",
+   "source": "acl",
+   "form": "long",
+   "title": "Sebastián Yatra - Pareja Del Año | Live on Austin City Limits TV",
+   "published": "2026-11-09T16:31:25Z",
+   "state": "pending",
+   "why": "live, or not out yet"
+  },
+  {
    "id": "l5_64GLzoFA",
    "source": "acl",
    "form": "long",
@@ -176,7 +194,7 @@
    "id": "6PoiZgFvye8",
    "source": "acl",
    "form": "long",
-   "title": "Sebastián Yatra - Full Episode | Live on Austin City Limits TV",
+   "title": "Sebastián Yatra - Full Episode | Live from Austin City Limits TV",
    "published": "2026-11-15T02:00:06Z",
    "state": "screen",
    "runs": 3200,
@@ -193,13 +211,32 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "dyM_nFuOEi0",
+   "id": "iCOMBv9hJRY",
    "source": "acl",
-   "form": "short",
-   "title": "Ari Lennox - Soft Girl Era clip  | Live From Austin City Limits TV",
-   "published": "2026-10-20T00:05:35Z",
+   "form": "long",
+   "title": "ACL Presents: Americana 25th Annual Honors - Full Episode",
+   "published": "2026-11-17T15:38:30Z",
+   "state": "pending",
+   "why": "live, or not out yet"
+  },
+  {
+   "id": "rzLS8pVeDwE",
+   "source": "acl",
+   "form": "long",
+   "title": "Ty Myers - Whiskey River | Live From Austin City Limits TV",
+   "published": "2026-11-17T22:53:27Z",
    "state": "screen",
-   "runs": 58,
+   "runs": 291,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "nT2jAC47n8c",
+   "source": "acl",
+   "form": "long",
+   "title": "The Red Clay Strays - Backstage | Austin City Limits TV",
+   "published": "2026-11-18T18:00:06Z",
+   "state": "screen",
+   "runs": 447,
    "channel": "Austin City Limits"
   },
   {
@@ -333,44 +370,14 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "8lUzwni-deE",
-   "source": "kexp",
-   "form": "long",
-   "title": "TONTRAKUL - Strategy (Live on KEXP)",
-   "published": "2026-10-20T11:00:04Z",
+   "id": "vMXvPr9CeTo",
+   "source": "acl",
+   "form": "short",
+   "title": "Backstage with Olivia Rodrigo | Austin City Limits TV",
+   "published": "2026-11-18T22:49:23Z",
    "state": "screen",
-   "runs": 298,
-   "channel": "KEXP"
-  },
-  {
-   "id": "Yd4x5humcSw",
-   "source": "kexp",
-   "form": "long",
-   "title": "TONTRAKUL - Electro Khaen (Live on KEXP)",
-   "published": "2026-10-20T11:00:07Z",
-   "state": "screen",
-   "runs": 293,
-   "channel": "KEXP"
-  },
-  {
-   "id": "gJyca4OjcGM",
-   "source": "kexp",
-   "form": "long",
-   "title": "TONTRAKUL - Earn (เอิ้น) (Live on KEXP)",
-   "published": "2026-10-20T11:00:07Z",
-   "state": "screen",
-   "runs": 290,
-   "channel": "KEXP"
-  },
-  {
-   "id": "U_MYC27NC2Y",
-   "source": "kexp",
-   "form": "long",
-   "title": "TONTRAKUL - Muan (ม่วน) (Live on KEXP)",
-   "published": "2026-10-20T11:00:15Z",
-   "state": "screen",
-   "runs": 245,
-   "channel": "KEXP"
+   "runs": 94,
+   "channel": "Austin City Limits"
   },
   {
    "id": "FUWf78dVtzw",
@@ -1503,6 +1510,116 @@
    "channel": "KEXP"
   },
   {
+   "id": "EnyEhyR5aDs",
+   "source": "kexp",
+   "form": "long",
+   "title": "Croz Boyce - Full Performance (Live on KEXP)",
+   "published": "2026-11-17T16:00:14Z",
+   "state": "screen",
+   "runs": 3184,
+   "channel": "KEXP"
+  },
+  {
+   "id": "u62vVY0Bct8",
+   "source": "kexp",
+   "form": "long",
+   "title": "Iguana Death Cult - Guns Out (Live on KEXP)",
+   "published": "2026-11-18T12:00:06Z",
+   "state": "screen",
+   "runs": 194,
+   "channel": "KEXP"
+  },
+  {
+   "id": "L9d0rHMxJa0",
+   "source": "kexp",
+   "form": "long",
+   "title": "Iguana Death Cult - Swinging At Ghosts (Live on KEXP)",
+   "published": "2026-11-18T12:00:13Z",
+   "state": "screen",
+   "runs": 173,
+   "channel": "KEXP"
+  },
+  {
+   "id": "bU6gHOnNsFY",
+   "source": "kexp",
+   "form": "long",
+   "title": "Iguana Death Cult - Supreme Leader (Live on KEXP)",
+   "published": "2026-11-18T12:00:24Z",
+   "state": "screen",
+   "runs": 202,
+   "channel": "KEXP"
+  },
+  {
+   "id": "8v6CNzYWfV0",
+   "source": "kexp",
+   "form": "long",
+   "title": "Iguana Death Cult - I Like It, It's Nice (Live on KEXP)",
+   "published": "2026-11-18T12:00:38Z",
+   "state": "screen",
+   "runs": 242,
+   "channel": "KEXP"
+  },
+  {
+   "id": "VWE0CAIrALU",
+   "source": "kexp",
+   "form": "long",
+   "title": "Iguana Death Cult - Reckless Running (Live on KEXP)",
+   "published": "2026-11-18T14:00:22Z",
+   "state": "screen",
+   "runs": 120,
+   "channel": "KEXP"
+  },
+  {
+   "id": "nFMFG14gzug",
+   "source": "kexp",
+   "form": "long",
+   "title": "Iguana Death Cult - Full Performance (Live on KEXP)",
+   "published": "2026-11-18T16:00:13Z",
+   "state": "screen",
+   "runs": 1321,
+   "channel": "KEXP"
+  },
+  {
+   "id": "jVknDR10-tA",
+   "source": "kexp",
+   "form": "long",
+   "title": "Sweeping Promises - Good Living Is Coming For You (Live on KEXP)",
+   "published": "2026-11-19T12:00:00Z",
+   "state": "screen",
+   "runs": 214,
+   "channel": "KEXP"
+  },
+  {
+   "id": "CSwjqs8kOIk",
+   "source": "kexp",
+   "form": "long",
+   "title": "Sweeping Promises - Abduction On Camera (Live on KEXP)",
+   "published": "2026-11-19T12:00:06Z",
+   "state": "screen",
+   "runs": 207,
+   "channel": "KEXP"
+  },
+  {
+   "id": "Mjr8Uq7krKw",
+   "source": "kexp",
+   "form": "long",
+   "title": "Sweeping Promises - Rapture, Or... (Live on KEXP)",
+   "published": "2026-11-19T12:00:11Z",
+   "state": "screen",
+   "runs": 212,
+   "channel": "KEXP"
+  },
+  {
+   "id": "JTFpHUjvqIw",
+   "source": "kexp",
+   "form": "long",
+   "title": "Sweeping Promises - Hunger For A Way Out (Live on KEXP)",
+   "published": "2026-11-19T12:00:35Z",
+   "state": "screen",
+   "runs": 129,
+   "channel": "KEXP"
+  },
+  {
    "id": "Ugv0GGD93jM",
    "source": "kexp",
    "form": "short",
@@ -1703,14 +1820,24 @@
    "channel": "KEXP"
   },
   {
-   "id": "bYdTIzaYNqg",
-   "source": "kcrw",
-   "form": "long",
-   "title": "Legendary pop group Menudo on their career, legacy, and riding a motorcycle on stage | KCRW",
-   "published": "2026-10-19T14:00:07Z",
+   "id": "-p9ozo0qcwo",
+   "source": "kexp",
+   "form": "short",
+   "title": "Croz Boyce performs \"Towson Acid\" & more Live on KEXP",
+   "published": "2026-11-17T18:33:19Z",
    "state": "screen",
-   "runs": 2146,
-   "channel": "KCRW"
+   "runs": 62,
+   "channel": "KEXP"
+  },
+  {
+   "id": "9rNyTBq3zgw",
+   "source": "kexp",
+   "form": "short",
+   "title": "Iguana Death Cult performs \"Guns Out\" & more Live on KEXP",
+   "published": "2026-11-18T18:11:11Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
   },
   {
    "id": "4njGwwFkf3U",
@@ -1823,6 +1950,26 @@
    "channel": "KCRW"
   },
   {
+   "id": "h_DUGB7D_OQ",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Corinne Bailey Rae's Must-Listen Albums",
+   "published": "2026-11-17T15:00:00Z",
+   "state": "screen",
+   "runs": 462,
+   "channel": "KCRW"
+  },
+  {
+   "id": "m8hyyEd3qZo",
+   "source": "kcrw",
+   "form": "long",
+   "title": "untitled (halo): Live on KCRW",
+   "published": "2026-11-18T15:00:04Z",
+   "state": "screen",
+   "runs": 884,
+   "channel": "KCRW"
+  },
+  {
    "id": "GqcyWTBXj54",
    "source": "kcrw",
    "form": "short",
@@ -1888,13 +2035,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-17T12:28:24Z"
+     "2026-11-19T12:43:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-17T12:28:24Z"
+     "2026-11-19T12:43:46Z"
     ]
    ]
   },
@@ -1902,13 +2049,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-17T12:28:24Z"
+     "2026-11-19T12:43:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-17T12:28:24Z"
+     "2026-11-19T12:43:46Z"
     ]
    ]
   },
@@ -1916,16 +2063,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-17T12:28:24Z"
+     "2026-11-19T12:43:46Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-17T12:28:24Z"
+     "2026-11-19T12:43:46Z"
     ]
    ]
   }
  },
- "set": "2026-11-17T12:28Z"
+ "set": "2026-11-19T12:43Z"
 }
