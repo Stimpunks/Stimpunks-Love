@@ -6958,6 +6958,24 @@ div.facade--square { border: 0; background: none; }
 .celwindow:focus-visible { outline-color: var(--cel-sky); }
 .celwindow__to { display: block; font-family: 'Rammetto One', var(--sans); font-size: 17px; letter-spacing: .5px; color: var(--cel-link); }
 .celwindow__why { display: block; margin-top: 7px; font-size: 14.5px; max-width: 70ch; color: var(--cel-print); }
+/* ON THE WALL BY THE DOOR: Swamburger's pictures, commissioned for the street
+   (Ryan, 2026-11-19), side by side above the doors and one above the other on
+   a phone. Each is hung bare on the night ground inside a plain frame of the
+   pavement's own line, so the street's dark is round them and nothing is laid
+   over them: no filter, tint, crop, rotation or movement, at any setting or in
+   any low-stimulation mode, the polaroid wall's rule for somebody's picture.
+   Every word stands on the night ground in the street's chalk and yellow,
+   pairs check-contrast.py already holds, and declares its own link colour,
+   because the street has no base link rule. */
+.hungart { margin: 6px 0 0; }
+.hungart__h { margin: 0 0 14px; font-family: 'Bungee', var(--sans); font-size: 15px; letter-spacing: 1px; color: var(--yellow); }
+.hungart__row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 26px; align-items: start; }
+.hungart__piece { margin: 0; }
+.hungart__img { display: block; width: 100%; height: auto; border: 4px solid var(--ink-3); border-radius: 6px; }
+.hungart__cap { margin-top: 9px; font-size: 15px; line-height: 1.45; color: var(--chalk); }
+.hungart__title { color: var(--cream); }
+.hungart__cap a, .hungart__credit a { color: var(--yellow); text-underline-offset: 3px; }
+.hungart__credit { margin: 16px 0 0; max-width: 70ch; font-size: 13.5px; line-height: 1.55; color: var(--chalk); }
 .finder__lab { display: block; margin-bottom: 8px; font-family: 'Bungee', var(--sans); font-size: 15px;
   letter-spacing: 1px; color: var(--mm-link); }
 .finder__q {
