@@ -282,13 +282,13 @@
    "channel": "America's Test Kitchen"
   },
   {
-   "id": "bQ7zThcHkGE",
+   "id": "bFq44G_aOSo",
    "source": "americas-test-kitchen",
-   "form": "short",
-   "title": "How To Temper Chocolate At Home",
-   "published": "2026-10-19T16:29:58Z",
+   "form": "long",
+   "title": "Which Brand Makes The Best Enameled Cast Iron Skillet? | America’s Test Kitchen",
+   "published": "2026-11-18T16:59:51Z",
    "state": "screen",
-   "runs": 98,
+   "runs": 298,
    "channel": "America's Test Kitchen"
   },
   {
@@ -652,26 +652,6 @@
    "channel": "NYT Cooking"
   },
   {
-   "id": "EVkuAUWyvEc",
-   "source": "nyt-cooking",
-   "form": "short",
-   "title": "Warm, Gooey Buns, Swirled With Maple and Cardamom! #stickybuns #fallbaking #maple #nytcooking",
-   "published": "2026-10-19T18:10:00Z",
-   "state": "screen",
-   "runs": 33,
-   "channel": "NYT Cooking"
-  },
-  {
-   "id": "D3VE3vHqk-Q",
-   "source": "nyt-cooking",
-   "form": "short",
-   "title": "Huge news: Genevieve Ko has perfected mac & cheese. Watch the full  #Cooking101 video. #macandcheese",
-   "published": "2026-10-19T22:00:21Z",
-   "state": "screen",
-   "runs": 48,
-   "channel": "NYT Cooking"
-  },
-  {
    "id": "uHnVUP0VCiU",
    "source": "nyt-cooking",
    "form": "short",
@@ -1022,13 +1002,13 @@
    "channel": "Andy Cooks"
   },
   {
-   "id": "ywIAG_GSUQU",
+   "id": "XKmLajyu2P4",
    "source": "andy-cooks",
-   "form": "short",
-   "title": "5 weeknight dinner ideas, quick smart",
-   "published": "2026-10-20T10:00:36Z",
+   "form": "long",
+   "title": "Ranking the 10 best Hot Dogs in the world",
+   "published": "2026-11-19T06:00:11Z",
    "state": "screen",
-   "runs": 124,
+   "runs": 785,
    "channel": "Andy Cooks"
   },
   {
@@ -1292,26 +1272,6 @@
    "channel": "The Pasta Queen"
   },
   {
-   "id": "pZKtmvg1OTw",
-   "source": "the-pasta-queen",
-   "form": "short",
-   "title": "A Michelin-Starred Chef's Pasta Secrets Anyone Can Use",
-   "published": "2026-10-19T19:19:54Z",
-   "state": "screen",
-   "runs": 57,
-   "channel": "The Pasta Queen"
-  },
-  {
-   "id": "Kz7TRlyg__s",
-   "source": "the-pasta-queen",
-   "form": "short",
-   "title": "Chef Confessions: Rocco DiSpirito Spills His Dirtiest Kitchen Secrets",
-   "published": "2026-10-19T19:26:58Z",
-   "state": "screen",
-   "runs": 76,
-   "channel": "The Pasta Queen"
-  },
-  {
    "id": "AjTPuypb27U",
    "source": "the-pasta-queen",
    "form": "short",
@@ -1452,34 +1412,14 @@
    "channel": "The Pasta Queen"
   },
   {
-   "id": "PUaGupVGX3E",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "40 Garlic Cloves per Serving! Why Customers Love This Fried Rice in Japan",
-   "published": "2026-10-19T14:00:02Z",
+   "id": "h52i-M-KCy0",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "The REAL ITALIAN Pasta Bake♥️",
+   "published": "2026-11-18T19:42:23Z",
    "state": "screen",
-   "runs": 2094,
-   "channel": "Japanese Food Noodles"
-  },
-  {
-   "id": "gITFrm792SI",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "Why 200 Workers Pack This Osaka Diner at Lunch for Huge Fried Rice and Stir-Fried Noodles",
-   "published": "2026-10-19T22:00:40Z",
-   "state": "screen",
-   "runs": 1813,
-   "channel": "Japanese Food Noodles"
-  },
-  {
-   "id": "znqYTxdKMpg",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "How a 45-Year-Old Japanese Chef Turns Wild Game Into Incredible BBQ",
-   "published": "2026-10-20T02:00:04Z",
-   "state": "screen",
-   "runs": 2107,
-   "channel": "Japanese Food Noodles"
+   "runs": 88,
+   "channel": "The Pasta Queen"
   },
   {
    "id": "lwydCLZ9y-I",
@@ -1982,6 +1922,26 @@
    "channel": "Japanese Food Noodles"
   },
   {
+   "id": "zub8F9A_f3Q",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Lightning-Fast Pasta! Hungry Men Pack This Nagoya Shop for a Nonstop Lunch Rush",
+   "published": "2026-11-18T22:00:30Z",
+   "state": "screen",
+   "runs": 3212,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "TNbChB8sFwU",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Served in Just 2 Seconds! Inside Tokyo’s Insanely Fast Ramen Shop",
+   "published": "2026-11-19T00:00:14Z",
+   "state": "screen",
+   "runs": 2237,
+   "channel": "Japanese Food Noodles"
+  },
+  {
    "id": "YX6TOLZn4d0",
    "source": "japanese-cooking-101",
    "form": "short",
@@ -2029,6 +1989,16 @@
    "published": "2026-11-14T07:43:57Z",
    "state": "screen",
    "runs": 1563,
+   "channel": "Japanese Kitchen Tour"
+  },
+  {
+   "id": "vh5g-OY13o0",
+   "source": "japanese-kitchen-tour",
+   "form": "long",
+   "title": "250 Plates a Day! Japanese Spaghetti Like Nothing You’ve Seen | Behind the Scenes",
+   "published": "2026-11-19T07:53:33Z",
+   "state": "screen",
+   "runs": 1536,
    "channel": "Japanese Kitchen Tour"
   },
   {
@@ -2272,6 +2242,16 @@
    "channel": "Japanese Food Craftsman"
   },
   {
+   "id": "lJJEcxjeM6U",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "３０種類のスパイスを操るインド人店主の本場料理！妊娠９ヶ月の妻も手が止まらない美味さに密着！（広島",
+   "published": "2026-11-19T11:00:13Z",
+   "state": "screen",
+   "runs": 33,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
    "id": "l6N8dYQfZJ4",
    "source": "bon-appetit",
    "form": "long",
@@ -2382,13 +2362,13 @@
    "channel": "Bon Appétit"
   },
   {
-   "id": "1UoQW8XF0tE",
+   "id": "a7MrFsS0JYY",
    "source": "bon-appetit",
-   "form": "short",
-   "title": "How a London Pub Makes Perfect Fish and Chips",
-   "published": "2026-10-19T16:00:04Z",
+   "form": "long",
+   "title": "Our 5 Favorite Ways to Transform Thanksgiving Leftovers | Test Kitchen Talks | Bon Appétit",
+   "published": "2026-11-18T17:00:06Z",
    "state": "screen",
-   "runs": 88,
+   "runs": 1428,
    "channel": "Bon Appétit"
   },
   {
@@ -2572,14 +2552,14 @@
    "channel": "Bon Appétit"
   },
   {
-   "id": "4K5o2RRxvcQ",
-   "source": "insider-food",
+   "id": "05MXQ_LKP9w",
+   "source": "bon-appetit",
    "form": "short",
-   "title": "Inside one of America’s best restaurants during dinner service #kabawa #finedining #fullservice",
-   "published": "2026-10-19T16:12:12Z",
+   "title": "Season Steak Like a Professional Chef",
+   "published": "2026-11-18T16:30:02Z",
    "state": "screen",
-   "runs": 57,
-   "channel": "Insider Food"
+   "runs": 83,
+   "channel": "Bon Appétit"
   },
   {
    "id": "FAae20DMp8E",
@@ -2752,6 +2732,16 @@
    "channel": "Fallow"
   },
   {
+   "id": "z-hKdrqmLCo",
+   "source": "fallow",
+   "form": "short",
+   "title": "Restoring a 100-Year-Old Food Truck",
+   "published": "2026-11-18T16:57:40Z",
+   "state": "screen",
+   "runs": 93,
+   "channel": "Fallow"
+  },
+  {
    "id": "rINvUKx2d7A",
    "source": "guga",
    "form": "long",
@@ -2785,7 +2775,7 @@
    "id": "P_OGnYeWifI",
    "source": "guga",
    "form": "long",
-   "title": "I Cooked These Wild Animals WHOLE!",
+   "title": "I Cooked EVERY Wild Animals WHOLE!",
    "published": "2026-11-13T16:15:13Z",
    "state": "screen",
    "runs": 2767,
@@ -2890,16 +2880,6 @@
    "state": "screen",
    "runs": 110,
    "channel": "mrnigelng"
-  },
-  {
-   "id": "wlCkIhkWwy0",
-   "source": "eater",
-   "form": "long",
-   "title": "Where a Top NYC Chef Actually Eats on His Day Off – Chef's Day Off",
-   "published": "2026-10-19T14:00:31Z",
-   "state": "screen",
-   "runs": 898,
-   "channel": "Eater"
   },
   {
    "id": "LBRiMlBufP4",
@@ -3450,6 +3430,16 @@
    "state": "screen",
    "runs": 61,
    "channel": "JOLLY"
+  },
+  {
+   "id": "xX0VsYtdWOQ",
+   "source": "jolly",
+   "form": "short",
+   "title": "British Headmaster visits Walmart for the first time!",
+   "published": "2026-11-18T23:45:08Z",
+   "state": "screen",
+   "runs": 61,
+   "channel": "JOLLY"
   }
  ],
  "covered": {
@@ -3457,13 +3447,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3471,13 +3461,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3485,13 +3475,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3499,13 +3489,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3513,13 +3503,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3527,13 +3517,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3541,13 +3531,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3555,13 +3545,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3569,13 +3559,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3583,13 +3573,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3597,13 +3587,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3611,13 +3601,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3625,13 +3615,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3639,13 +3629,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3653,13 +3643,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3667,13 +3657,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3681,13 +3671,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3695,13 +3685,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3709,13 +3699,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3723,13 +3713,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3737,13 +3727,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3751,13 +3741,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3765,13 +3755,13 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   },
@@ -3779,16 +3769,16 @@
    "long": [
     [
      "2026-07-25T11:00:12Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ],
    "short": [
     [
      "2026-10-05T22:56:49Z",
-     "2026-11-18T12:21:46Z"
+     "2026-11-19T12:21:26Z"
     ]
    ]
   }
  },
- "set": "2026-11-18T12:21Z"
+ "set": "2026-11-19T12:21Z"
 }
