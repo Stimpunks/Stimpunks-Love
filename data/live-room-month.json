@@ -23,26 +23,6 @@
  ],
  "log": [
   {
-   "id": "hf_NYmmeFHE",
-   "source": "acl",
-   "form": "long",
-   "title": "Maggie Rose - Gentle Man | Live on Austin City Limits TV",
-   "published": "2026-10-20T14:29:55Z",
-   "state": "screen",
-   "runs": 439,
-   "channel": "Austin City Limits"
-  },
-  {
-   "id": "K11xiBTKLqg",
-   "source": "acl",
-   "form": "long",
-   "title": "SIENNA SPIRO - Die on This Hill | Live on Austin City Limits TV",
-   "published": "2026-10-20T16:01:12Z",
-   "state": "screen",
-   "runs": 280,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "YT9YkJczxIc",
    "source": "acl",
    "form": "long",
@@ -240,16 +220,6 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "1mduroEONKE",
-   "source": "acl",
-   "form": "short",
-   "title": "BTS at ACL TV - Camera Color Matching",
-   "published": "2026-10-20T17:01:45Z",
-   "state": "screen",
-   "runs": 29,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "p2J-gB1SHII",
    "source": "acl",
    "form": "short",
@@ -378,76 +348,6 @@
    "state": "screen",
    "runs": 94,
    "channel": "Austin City Limits"
-  },
-  {
-   "id": "FUWf78dVtzw",
-   "source": "kexp",
-   "form": "long",
-   "title": "TONTRAKUL - Isan Lum Long (อีสานลำล่อง) (Live on KEXP)",
-   "published": "2026-10-20T13:00:01Z",
-   "state": "screen",
-   "runs": 251,
-   "channel": "KEXP"
-  },
-  {
-   "id": "mHD1vBLe6Fo",
-   "source": "kexp",
-   "form": "long",
-   "title": "TONTRAKUL - Home (โฮม) (Live on KEXP)",
-   "published": "2026-10-20T13:00:01Z",
-   "state": "screen",
-   "runs": 292,
-   "channel": "KEXP"
-  },
-  {
-   "id": "yZXpav794BY",
-   "source": "kexp",
-   "form": "long",
-   "title": "TONTRAKUL - Full Performance (Live on KEXP)",
-   "published": "2026-10-20T15:00:17Z",
-   "state": "screen",
-   "runs": 1650,
-   "channel": "KEXP"
-  },
-  {
-   "id": "5UcspgoBux8",
-   "source": "kexp",
-   "form": "long",
-   "title": "Numeron - Blood In My Vein (Live on KEXP)",
-   "published": "2026-10-21T11:00:02Z",
-   "state": "screen",
-   "runs": 370,
-   "channel": "KEXP"
-  },
-  {
-   "id": "_yXcDGhNb_s",
-   "source": "kexp",
-   "form": "long",
-   "title": "Numeron - The Lost Twin Observer (Live on KEXP)",
-   "published": "2026-10-21T11:00:03Z",
-   "state": "screen",
-   "runs": 385,
-   "channel": "KEXP"
-  },
-  {
-   "id": "6KnIYk5JM-Q",
-   "source": "kexp",
-   "form": "long",
-   "title": "Numeron - Triumph Of Death (Live on KEXP)",
-   "published": "2026-10-21T11:00:13Z",
-   "state": "screen",
-   "runs": 343,
-   "channel": "KEXP"
-  },
-  {
-   "id": "qkGfwlGDMh0",
-   "source": "kexp",
-   "form": "long",
-   "title": "Numeron - Cosmic Symphony (Live on KEXP)",
-   "published": "2026-10-21T11:00:35Z",
-   "state": "screen",
-   "runs": 387,
-   "channel": "KEXP"
   },
   {
    "id": "iHomzK3fgTg",
@@ -1620,13 +1520,63 @@
    "channel": "KEXP"
   },
   {
-   "id": "Ugv0GGD93jM",
+   "id": "nAlgEexQ2pw",
    "source": "kexp",
-   "form": "short",
-   "title": "TONTRAKUL performs \"Isan Lum Long (อีสานลำล่อง)\" & more Live on KEXP",
-   "published": "2026-10-20T17:11:36Z",
+   "form": "long",
+   "title": "Sweeping Promises - My Friend’s An Entomologist (Live on KEXP)",
+   "published": "2026-11-19T14:00:02Z",
    "state": "screen",
-   "runs": 70,
+   "runs": 208,
+   "channel": "KEXP"
+  },
+  {
+   "id": "6ivYCIF8lyo",
+   "source": "kexp",
+   "form": "long",
+   "title": "Sweeping Promises - Full Performance (Live on KEXP)",
+   "published": "2026-11-19T16:00:10Z",
+   "state": "screen",
+   "runs": 1601,
+   "channel": "KEXP"
+  },
+  {
+   "id": "j9EBUdJ2mhA",
+   "source": "kexp",
+   "form": "long",
+   "title": "SLIFT - The Village (Live on KEXP)",
+   "published": "2026-11-20T12:00:15Z",
+   "state": "screen",
+   "runs": 352,
+   "channel": "KEXP"
+  },
+  {
+   "id": "AtIgzEhY7GQ",
+   "source": "kexp",
+   "form": "long",
+   "title": "SLIFT - The Day Of Execution (Live on KEXP)",
+   "published": "2026-11-20T12:00:19Z",
+   "state": "screen",
+   "runs": 327,
+   "channel": "KEXP"
+  },
+  {
+   "id": "rEFpUwY6LAo",
+   "source": "kexp",
+   "form": "long",
+   "title": "SLIFT - Fantasia / Corrupted Sky (Live on KEXP)",
+   "published": "2026-11-20T12:00:20Z",
+   "state": "screen",
+   "runs": 964,
+   "channel": "KEXP"
+  },
+  {
+   "id": "v9ff0nrD9Bs",
+   "source": "kexp",
+   "form": "long",
+   "title": "SLIFT - The Story (Live on KEXP)",
+   "published": "2026-11-20T12:00:20Z",
+   "state": "screen",
+   "runs": 443,
    "channel": "KEXP"
   },
   {
@@ -1840,14 +1790,14 @@
    "channel": "KEXP"
   },
   {
-   "id": "4njGwwFkf3U",
-   "source": "kcrw",
-   "form": "long",
-   "title": "King Gizzard and the Lizard Wizard's Must-Listen Albums",
-   "published": "2026-10-20T14:00:27Z",
+   "id": "1y_jAEFb4KM",
+   "source": "kexp",
+   "form": "short",
+   "title": "Sweeping Promises performs \"Rapture, Or...\" & more Live on KEXP",
+   "published": "2026-11-19T18:11:28Z",
    "state": "screen",
-   "runs": 770,
-   "channel": "KCRW"
+   "runs": 56,
+   "channel": "KEXP"
   },
   {
    "id": "nbmqQFMSBpo",
@@ -2035,13 +1985,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-19T12:43:46Z"
+     "2026-11-20T12:27:31Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-19T12:43:46Z"
+     "2026-11-20T12:27:31Z"
     ]
    ]
   },
@@ -2049,13 +1999,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-19T12:43:46Z"
+     "2026-11-20T12:27:31Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-19T12:43:46Z"
+     "2026-11-20T12:27:31Z"
     ]
    ]
   },
@@ -2063,16 +2013,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-19T12:43:46Z"
+     "2026-11-20T12:27:31Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-19T12:43:46Z"
+     "2026-11-20T12:27:31Z"
     ]
    ]
   }
  },
- "set": "2026-11-19T12:43Z"
+ "set": "2026-11-20T12:27Z"
 }
