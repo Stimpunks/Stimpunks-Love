@@ -7,13 +7,20 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Thu, 19 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 20 Nov 2026 12:00:00 GMT</lastBuildDate>
     <item>
       <title>Swamburger’s pictures on the wall by the door</title>
       <link>https://stimpunks.world/changelog.html#2026-11-19-swamburger-on-the-wall</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-19-swamburger-on-the-wall</guid>
       <pubDate>Thu, 19 Nov 2026 12:00:00 GMT</pubDate>
       <description>Mindful Mechanics and Becoming Your Own Lane hang above the doors on the street, side by side, one above the other on a phone. Stimpunks commissioned them for Stimpunks.World from our friend Swamburger, whose work is at mugsandpockets.com. They are Swamburger’s and are not under this site’s licence, which the liner notes say beside the credit. Nothing is laid over them at any setting.</description>
+    </item>
+    <item>
+      <title>Every chapter of the Music Book opens on YouTube</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-20-music-book-every-link</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-20-music-book-every-link</guid>
+      <pubDate>Fri, 20 Nov 2026 12:00:00 GMT</pubDate>
+      <description>The last of Helen Edgar’s playlists are public, so every chapter of the Music Book now has its link, each asked of YouTube again the same day. The line saying a chapter’s playlist is on its way shows only while one is.</description>
     </item>
     <item>
       <title>Helen’s Music Book in the Music Room</title>

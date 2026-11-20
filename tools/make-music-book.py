@@ -74,7 +74,9 @@ out = ['<section class="mus-book" aria-labelledby="music-book">',
        '    <h2 id="music-book">The Music Book</h2>']
 for para in DATA["welcome"]:
     out.append(f'    <p class="mus-book__lede">{esc(para)}</p>')
-out.append(f'    <p class="mus-book__how">Every chapter opens to its songs, in the playlist&rsquo;s own order, and its link opens the playlist on YouTube; nothing here plays by itself. A chapter that says it is not on YouTube yet is one whose playlist is on its way.</p>')
+waiting = any(not pl.get("list") for p in parts for pl in p["lists"])
+out.append('    <p class="mus-book__how">Every chapter opens to its songs, in the playlist&rsquo;s own order, and its link opens the playlist on YouTube; nothing here plays by itself.'
+           + (' A chapter that says it is not on YouTube yet is one whose playlist is on its way.' if waiting else '') + '</p>')
 for p in parts:
     pid = f"music-book-{slug(p['part'])}"
     out.append(f'    <h3 class="mus-book__part" id="{pid}">{esc(p["part"])}: {esc(p["name"])}</h3>')
@@ -115,4 +117,4 @@ new = page[: i + len(BEGIN)] + "\n  " + block + "\n  " + page[j:]
 if new != page:
     PAGE.write_text(new)
 linked = sum(1 for p in parts for pl in p["lists"] if pl.get("list"))
-print(f"music book: Helen's chapters written into the Music Room, {linked} with their playlist's link and the rest waiting for theirs")
+print(f"music book: Helen's chapters written into the Music Room, {linked} with their playlist's link" + (" and the rest waiting for theirs" if waiting else ", every one"))
