@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-19T12:24Z",
+ "set": "2026-11-20T12:23Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-19T12:24:44Z"
+     "2026-11-20T12:23:58Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-19T12:24:44Z"
+     "2026-11-20T12:23:58Z"
     ]
    ]
   }
@@ -118,33 +118,13 @@
    "channel": "Farming While Beige"
   },
   {
-   "id": "ywmFWtP9ZmM",
+   "id": "jZSe6yBOEu0",
    "source": "farming-while-beige",
-   "form": "short",
-   "title": "@Haley Pair got the Facebook farmer treatment and I wish I could have warned her.",
-   "published": "2026-10-20T13:02:17Z",
+   "form": "long",
+   "title": "Reminder: even the “progressives” have no idea what it means to be part of a human family",
+   "published": "2026-11-20T00:15:50Z",
    "state": "screen",
-   "runs": 173,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "8w_IUH-Ur4k",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "@elizabethchristo43 has a rooster question",
-   "published": "2026-10-20T21:48:30Z",
-   "state": "screen",
-   "runs": 69,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "0GD8SvzITbI",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Look ma, another multibillion dollar farm bailout!",
-   "published": "2026-10-21T00:29:07Z",
-   "state": "screen",
-   "runs": 153,
+   "runs": 224,
    "channel": "Farming While Beige"
   },
   {
@@ -605,6 +585,26 @@
    "published": "2026-11-19T02:32:18Z",
    "state": "screen",
    "runs": 98,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "_sEOcy_38yM",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "The new KFC ad got people shook 😂",
+   "published": "2026-11-19T16:20:01Z",
+   "state": "screen",
+   "runs": 117,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "LzyFJKxWq6k",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "None of my childless friends are like this… because they aren’t children themselves 😂",
+   "published": "2026-11-19T22:05:39Z",
+   "state": "screen",
+   "runs": 168,
    "channel": "Farming While Beige"
   }
  ]
