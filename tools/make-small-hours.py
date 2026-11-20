@@ -84,6 +84,10 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/small-hours.json"
 ROOM = ROOT / "small-hours.html"
 NOTES = ROOT / "liner-notes.html"
+# The front page features both albums under Community Constructionism, written
+# here from the same data so its song counts and runtimes cannot drift from the
+# jukebox, and its links land on the album headings this tool gives ids to.
+HOME = ROOT / "index.html"
 MIRROR = Path.home() / "Documents/Claude/Projects/Stimpunks Knowledge System/site/stimpunks.org"
 
 ENTITY = re.compile(r"&(?:[a-zA-Z][a-zA-Z0-9]{1,31}|#\d{1,6}|#x[0-9a-fA-F]{1,6});")
@@ -395,6 +399,14 @@ def e(s):
     return html.escape(s, quote=True)
 
 
+MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August",
+          "September", "October", "November", "December"]
+
+
+def slug(title):
+    return re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
+
+
 def swap(src, marker, body, where):
     begin, end = f"<!-- {marker}:begin -->", f"<!-- {marker}:end -->"
     if src.count(begin) != 1 or src.count(end) != 1:
@@ -552,7 +564,7 @@ def main():
             f'{play(t, t["title"] + " by Josephmooon")}</li>' for t in a["tracks"])
         albums_html.append(
             f'    <div class="sh-album" data-album="{i}">\n'
-            f'      <h3 class="sh-album__h">{e(a["title"])}</h3>\n'
+            f'      <h3 id="{slug(a["title"])}" class="sh-album__h">{e(a["title"])}</h3>\n'
             f'      <p class="sh-album__meta">Josephmooon{when} &middot; '
             f'<a href="{e(a["page"])}">on the band&rsquo;s own site</a></p>\n'
             f'      <button type="button" class="sh-album__all" hidden '
@@ -563,6 +575,30 @@ def main():
             f'    </div>')
     if data.get("albums"):
         room = swap(room, "sh-jukebox", "\n".join(albums_html), ROOM.name)
+        cards = []
+        for a in data["albums"]:
+            secs = sum(int(t["runs"].split(":")[0]) * 60 + int(t["runs"].split(":")[1]) for t in a["tracks"])
+            when = ""
+            if a.get("released"):
+                y, mth, d = a["released"].split("-")
+                when = f' &middot; released {int(d)} {MONTHS[int(mth) - 1]} {y}'
+            note = ""
+            if rec and rec["album"] == a["title"]:
+                note = (f'      <p class="constr-album__note">Track {rec["track"]}, &ldquo;{e(rec["title"])}&rdquo;, '
+                        f'is {e(rec["about"][0].lower() + rec["about"][1:]).split(",")[0].rstrip(".")}'
+                        f' with words by {e(rec["credits"][0]["who"])}, printed in full in The Small Hours.</p>\n')
+            cards.append(
+                f'    <li class="constr-album">\n'
+                f'      <p class="constr-album__t"><i>{e(a["title"])}</i></p>\n'
+                f'      <p class="constr-album__meta">Josephmooon{when} &middot; {len(a["tracks"])} songs '
+                f'&middot; {round(secs / 60)} min</p>\n' + note +
+                f'      <p class="constr-album__go"><a href="small-hours.html#{slug(a["title"])}">Play it in '
+                f'The Small Hours&rsquo; jukebox &rarr;</a> &middot; <a href="{e(a["page"])}">On the band&rsquo;s '
+                f'own site</a></p>\n'
+                f'    </li>')
+        home = HOME.read_text()
+        HOME.write_text(swap(home, "home-albums",
+                             '  <ul class="constr-albums">\n' + "\n".join(cards) + '\n  </ul>', HOME.name))
 
     items = []
     for m in data["menu"]:

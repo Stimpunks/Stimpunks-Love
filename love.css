@@ -7014,12 +7014,39 @@ div.facade--square { border: 0; background: none; }
    frame, so the street's own dark is between the nails. A row is never wider
    than the page and never taller than the doors' lettering is tall; on a phone
    it shrinks whole rather than wrapping, because a wrapped row is two rows.
-   The credit sits under the last of them, in words, and declares its own link
-   colour, because the street has no base link rule. */
+   The credit is Em's part of Community Constructionism, below, in words. */
 .nailrow { margin: 34px 0 0; }
 .nailrow img { display: block; margin: 0 auto; width: auto; height: auto; max-width: 100%; max-height: 96px; }
-.nailcredit { margin: 22px auto 0; max-width: 70ch; text-align: center; font-size: 13.5px; line-height: 1.55; color: var(--chalk); }
-.nailcredit a { color: var(--yellow); text-underline-offset: 3px; }
+/* COMMUNITY CONSTRUCTIONISM (Ryan, 2026-11-20): a part for each person in our
+   community whose work is on this page or behind one of its doors, near the
+   foot. Everything stands on the night ground, as the wall by the door does,
+   in the street's chalk, cream and yellow, pairs check-contrast.py already
+   holds; the album cards are only an outline of the pavement's line, so no
+   new ground arrives. Em's nails and Swamburger's pictures are hung exactly as
+   they are elsewhere on the page, smaller: no filter, tint, crop or movement,
+   at any setting or in any low-stimulation mode. */
+.constr { margin: 40px 0 0; }
+.constr__h { margin: 0 0 12px; font-family: 'Bungee', var(--sans); font-size: 17px; letter-spacing: 1px; color: var(--yellow); }
+.constr__lede, .constr__who p { max-width: 70ch; font-size: 16px; line-height: 1.6; color: var(--chalk); }
+.constr__lede { margin: 0; }
+.constr a { color: var(--yellow); text-underline-offset: 3px; }
+.constr__who { margin: 30px 0 0; padding-top: 22px; border-top: 3px solid var(--ink-3); }
+.constr__name { margin: 0 0 10px; font-family: 'Bungee', var(--sans); font-size: 15px; letter-spacing: 1px; color: var(--cream); }
+.constr__who p { margin: 0 0 12px; }
+.constr-albums, .constr__nails, .constr__art { list-style: none; margin: 18px 0 0; padding: 0; }
+.constr-albums { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 18px; }
+.constr-album { padding: 16px 18px; border: 3px solid var(--ink-3); border-radius: 12px; }
+.constr .constr-album p { margin: 0 0 8px; font-size: 15px; }
+.constr .constr-album .constr-album__t { font-family: 'Bungee', var(--sans); font-size: 16px; color: var(--cream); }
+.constr .constr-album .constr-album__go { margin: 0; }
+.constr__nails { display: grid; gap: 18px; }
+.constr__set, .constr__piece { margin: 0; }
+.constr__set img { display: block; width: auto; height: auto; max-width: 100%; max-height: 64px; }
+.constr__set figcaption, .constr__piece figcaption { margin-top: 6px; font-size: 14px; color: var(--chalk); }
+.constr__art { display: flex; flex-wrap: wrap; gap: 20px; }
+.constr__art > li { width: min(100%, 200px); }
+.constr__piece img { display: block; width: 100%; height: auto; border: 3px solid var(--ink-3); border-radius: 6px; }
+.constr__piece i { color: var(--cream); }
 
 
 /* §6 ── ROOM: Pink Pony Club ─────────────────────────────────────────────────
