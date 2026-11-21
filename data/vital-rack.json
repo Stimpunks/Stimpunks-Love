@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-11-20T12:17Z",
+ "set": "2026-11-21T12:17Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2024-05-03T15:53:16Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-11-20T12:17:36Z"
+     "2026-11-21T12:17:23Z"
     ]
    ]
   }
@@ -254,7 +254,7 @@
    "id": "Tf47_i0MxKc",
    "source": "derek-sarno",
    "form": "long",
-   "title": "Your Stuffing Is Missing This",
+   "title": "The Best Vegan Stuffing I’ve Ever Made",
    "published": "2026-11-10T11:47:26Z",
    "state": "screen",
    "runs": 803,
@@ -268,6 +268,16 @@
    "published": "2026-11-17T15:32:57Z",
    "state": "screen",
    "runs": 550,
+   "channel": "Derek Sarno"
+  },
+  {
+   "id": "-miZi3HE_Jg",
+   "source": "derek-sarno",
+   "form": "long",
+   "title": "The Restaurant Copout You Can Make Better at Home",
+   "published": "2026-11-20T23:29:11Z",
+   "state": "screen",
+   "runs": 1334,
    "channel": "Derek Sarno"
   },
   {
@@ -521,6 +531,16 @@
    "channel": "Ahmad Noori"
   },
   {
+   "id": "a2yo1w2pfXs",
+   "source": "ahmad-noori",
+   "form": "long",
+   "title": "Creamy Tomato Pasta in One Pan (Yes, It Goes In Dry)",
+   "published": "2026-11-21T00:00:28Z",
+   "state": "screen",
+   "runs": 66,
+   "channel": "Ahmad Noori"
+  },
+  {
    "id": "nXqgiiSP-aw",
    "source": "ahmad-noori",
    "form": "short",
@@ -661,16 +681,6 @@
    "channel": "VeganProteins"
   },
   {
-   "id": "tGZqrTLsXXQ",
-   "source": "pb-with-j",
-   "form": "long",
-   "title": "3 Vegan Candy Bars I Still Think About",
-   "published": "2026-10-21T15:00:07Z",
-   "state": "screen",
-   "runs": 1104,
-   "channel": "PB with J"
-  },
-  {
    "id": "olKg1tKadHk",
    "source": "pb-with-j",
    "form": "long",
@@ -749,6 +759,15 @@
    "state": "screen",
    "runs": 1062,
    "channel": "PB with J"
+  },
+  {
+   "id": "Z4wEiJzw7ug",
+   "source": "pb-with-j",
+   "form": "long",
+   "title": "50 Years Without Meat: What Glen Merzer Has Learned",
+   "published": "2026-11-19T14:25:10Z",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
    "id": "G5DxPQtVllg",
@@ -901,16 +920,6 @@
    "channel": "Yeung Man Cooking"
   },
   {
-   "id": "6yeLVxIgNzU",
-   "source": "merle-oneal",
-   "form": "long",
-   "title": "Taco Bell's Crunchwrap Supreme, but HALF the Price & DOUBLE the Protein",
-   "published": "2026-10-21T21:35:25Z",
-   "state": "screen",
-   "runs": 741,
-   "channel": "Merle O'Neal"
-  },
-  {
    "id": "9671O0Z8Dh8",
    "source": "merle-oneal",
    "form": "long",
@@ -938,6 +947,16 @@
    "published": "2026-11-13T18:42:12Z",
    "state": "screen",
    "runs": 804,
+   "channel": "Merle O'Neal"
+  },
+  {
+   "id": "6eVc7cMnpdI",
+   "source": "merle-oneal",
+   "form": "long",
+   "title": "Forget What You Know About Beans Until You Try This",
+   "published": "2026-11-20T16:00:36Z",
+   "state": "screen",
+   "runs": 736,
    "channel": "Merle O'Neal"
   },
   {
