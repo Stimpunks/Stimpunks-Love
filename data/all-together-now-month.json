@@ -9,34 +9,24 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-20T12:23Z",
+ "set": "2026-11-21T12:24Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-20T12:23:58Z"
+     "2026-11-21T12:24:21Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-20T12:23:58Z"
+     "2026-11-21T12:24:21Z"
     ]
    ]
   }
  },
  "log": [
-  {
-   "id": "1FyHhmXWDAU",
-   "source": "farming-while-beige",
-   "form": "long",
-   "title": "The Broke Trust Funder Paradox",
-   "published": "2026-10-22T01:01:42Z",
-   "state": "screen",
-   "runs": 229,
-   "channel": "Farming While Beige"
-  },
   {
    "id": "h7H_4cvs7ew",
    "source": "farming-while-beige",
@@ -125,26 +115,6 @@
    "published": "2026-11-20T00:15:50Z",
    "state": "screen",
    "runs": 224,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "KNWKHzxNq_o",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "My beloved @bogwitchannie gives the most understated history of our time together farming 😂",
-   "published": "2026-10-21T13:09:40Z",
-   "state": "screen",
-   "runs": 178,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "-vm0rxYFzHY",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Pet treats are restocked. These ship NATIONWIDE!",
-   "published": "2026-10-21T18:24:54Z",
-   "state": "screen",
-   "runs": 41,
    "channel": "Farming While Beige"
   },
   {
@@ -605,6 +575,16 @@
    "published": "2026-11-19T22:05:39Z",
    "state": "screen",
    "runs": 168,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "Ye0kAhmBnIs",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "They’re stealing my book again.",
+   "published": "2026-11-20T16:50:59Z",
+   "state": "screen",
+   "runs": 64,
    "channel": "Farming While Beige"
   }
  ]
