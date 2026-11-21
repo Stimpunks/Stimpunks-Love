@@ -152,16 +152,6 @@
  ],
  "log": [
   {
-   "id": "EqzWuyvsBUw",
-   "source": "americas-test-kitchen",
-   "form": "long",
-   "title": "Grilled Lamb Burger with Tomato Chutney Recipe | America's Test Kitchen",
-   "published": "2026-10-21T15:59:55Z",
-   "state": "screen",
-   "runs": 576,
-   "channel": "America's Test Kitchen"
-  },
-  {
    "id": "Q06H5__o5a8",
    "source": "americas-test-kitchen",
    "form": "long",
@@ -422,6 +412,16 @@
    "channel": "America's Test Kitchen"
   },
   {
+   "id": "zQngb7fk_w8",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "The Butter Upgrade for More Flavorful Sides",
+   "published": "2026-11-20T18:59:56Z",
+   "state": "screen",
+   "runs": 37,
+   "channel": "America's Test Kitchen"
+  },
+  {
    "id": "LFYTDmT-y74",
    "source": "alton-brown",
    "form": "long",
@@ -460,16 +460,6 @@
    "state": "screen",
    "runs": 2281,
    "channel": "Binging with Babish"
-  },
-  {
-   "id": "OxuHuukJq3c",
-   "source": "epicurious",
-   "form": "long",
-   "title": "8 People Rank Popular Chocolate Chip Cookies | Everybody Eats | Epicurious",
-   "published": "2026-10-21T16:00:23Z",
-   "state": "screen",
-   "runs": 958,
-   "channel": "Epicurious"
   },
   {
    "id": "BrLTf27eUL0",
@@ -942,6 +932,16 @@
    "channel": "NYT Cooking"
   },
   {
+   "id": "778HQ_BW36E",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "We challenged Andy Baraghani to host a Thanksgiving dinner in NYC on a $100 budget, with a few rules",
+   "published": "2026-11-20T12:39:05Z",
+   "state": "screen",
+   "runs": 33,
+   "channel": "NYT Cooking"
+  },
+  {
    "id": "F4QFSnAaTRI",
    "source": "iron-chef-dad",
    "form": "short",
@@ -972,14 +972,14 @@
    "channel": "Iron Chef Dad"
   },
   {
-   "id": "gbhIkf2zETk",
-   "source": "andy-cooks",
-   "form": "long",
-   "title": "We Tested Every Steak Myth",
-   "published": "2026-10-22T06:04:48Z",
+   "id": "w07p3uAVw4c",
+   "source": "iron-chef-dad",
+   "form": "short",
+   "title": "The Most Expensive Bread in the World 🥖",
+   "published": "2026-11-20T18:05:47Z",
    "state": "screen",
-   "runs": 1354,
-   "channel": "Andy Cooks"
+   "runs": 59,
+   "channel": "Iron Chef Dad"
   },
   {
    "id": "-F9McxVWKdU",
@@ -1232,6 +1232,16 @@
    "channel": "Andy Cooks"
   },
   {
+   "id": "vzBOoPBcB3I",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Pre-cooked rice Vs day-old rice 🍚 ￼",
+   "published": "2026-11-21T10:18:27Z",
+   "state": "screen",
+   "runs": 79,
+   "channel": "Andy Cooks"
+  },
+  {
    "id": "xIk7IslIn5A",
    "source": "back-of-house",
    "form": "long",
@@ -1440,36 +1450,6 @@
    "state": "screen",
    "runs": 75,
    "channel": "The Pasta Queen"
-  },
-  {
-   "id": "4N5d86N8QI0",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "How Small Chicken Shop Serves to Super Big $3 Japan’s Fried Chicken?",
-   "published": "2026-10-21T22:00:04Z",
-   "state": "screen",
-   "runs": 1224,
-   "channel": "Japanese Food Noodles"
-  },
-  {
-   "id": "0UmJIezJhjk",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "Why Truck Drivers Rush to This Japanese Port Diner for $2 Bento Boxes at 6:30AM",
-   "published": "2026-10-22T00:00:28Z",
-   "state": "screen",
-   "runs": 2042,
-   "channel": "Japanese Food Noodles"
-  },
-  {
-   "id": "gaL1rA1gKpA",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "Big Eaters Flock to This Japanese Diner for a 650g, 3-Inch-Thick Pork Steak",
-   "published": "2026-10-22T02:00:36Z",
-   "state": "screen",
-   "runs": 2041,
-   "channel": "Japanese Food Noodles"
   },
   {
    "id": "7loxFYpafyE",
@@ -1962,6 +1942,16 @@
    "channel": "Japanese Food Noodles"
   },
   {
+   "id": "faoh4FrVgSY",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "200 Chicken & Egg Rice Bowls a Day! A 69-Year-Old 3rd-Generation Chef Runs This 1931 Diner",
+   "published": "2026-11-20T22:00:15Z",
+   "state": "screen",
+   "runs": 1675,
+   "channel": "Japanese Food Noodles"
+  },
+  {
    "id": "YX6TOLZn4d0",
    "source": "japanese-cooking-101",
    "form": "short",
@@ -2079,16 +2069,6 @@
    "published": "2026-11-20T09:30:15Z",
    "state": "screen",
    "runs": 2096,
-   "channel": "Japanese Food Craftsman"
-  },
-  {
-   "id": "IAacBJPG76U",
-   "source": "japanese-food-craftsman",
-   "form": "short",
-   "title": "Paper-Free Coffee ☕ Mt. Fuji Ceramic Filter",
-   "published": "2026-10-22T02:43:51Z",
-   "state": "screen",
-   "runs": 28,
    "channel": "Japanese Food Craftsman"
   },
   {
@@ -2252,16 +2232,6 @@
    "channel": "Japanese Food Craftsman"
   },
   {
-   "id": "l6N8dYQfZJ4",
-   "source": "bon-appetit",
-   "form": "long",
-   "title": "Surviving a 10-Hour Shift as a Line Cook in NYC | Life of a Line Cook | Bon Appétit",
-   "published": "2026-10-21T16:00:22Z",
-   "state": "screen",
-   "runs": 1558,
-   "channel": "Bon Appétit"
-  },
-  {
    "id": "vs9lfTZmOMw",
    "source": "bon-appetit",
    "form": "long",
@@ -2382,13 +2352,13 @@
    "channel": "Bon Appétit"
   },
   {
-   "id": "K6-QsmB9WIY",
+   "id": "VE374eHDawE",
    "source": "bon-appetit",
-   "form": "short",
-   "title": "3 Ways to Make Perfect Scrambled Eggs",
-   "published": "2026-10-21T15:30:03Z",
+   "form": "long",
+   "title": "Our Favorite Thanksgiving Recipes | Bon Appétit",
+   "published": "2026-11-20T17:00:04Z",
    "state": "screen",
-   "runs": 48,
+   "runs": 5995,
    "channel": "Bon Appétit"
   },
   {
@@ -2572,14 +2542,14 @@
    "channel": "Bon Appétit"
   },
   {
-   "id": "FAae20DMp8E",
-   "source": "fallow",
-   "form": "long",
-   "title": "Probably The Best Chicken Tenders in the World",
-   "published": "2026-10-21T17:00:35Z",
+   "id": "BSfitqN3J4E",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "May the Olives Be Ever in Your Favor",
+   "published": "2026-11-20T16:30:03Z",
    "state": "screen",
-   "runs": 896,
-   "channel": "Fallow"
+   "runs": 53,
+   "channel": "Bon Appétit"
   },
   {
    "id": "PghM3UavVjc",
@@ -2619,16 +2589,6 @@
    "published": "2026-11-19T20:58:48Z",
    "state": "screen",
    "runs": 4091,
-   "channel": "Fallow"
-  },
-  {
-   "id": "sfn9TVzGMio",
-   "source": "fallow",
-   "form": "short",
-   "title": "The Best Schnitzel You Will Ever Make",
-   "published": "2026-10-21T15:43:27Z",
-   "state": "screen",
-   "runs": 166,
    "channel": "Fallow"
   },
   {
@@ -2762,6 +2722,16 @@
    "channel": "Fallow"
   },
   {
+   "id": "tyQMCsoiM9A",
+   "source": "fallow",
+   "form": "short",
+   "title": "Best Thanksgiving Dessert - Pecan Pie",
+   "published": "2026-11-20T19:03:32Z",
+   "state": "screen",
+   "runs": 117,
+   "channel": "Fallow"
+  },
+  {
    "id": "rINvUKx2d7A",
    "source": "guga",
    "form": "long",
@@ -2802,13 +2772,13 @@
    "channel": "Guga"
   },
   {
-   "id": "ABljzWIbSX0",
+   "id": "0wp5Z3z4bjM",
    "source": "guga",
-   "form": "short",
-   "title": "Jiggly Japanese Cheesecake",
-   "published": "2026-10-22T02:56:07Z",
+   "form": "long",
+   "title": "Indian Food Made Me Forget About STEAK!",
+   "published": "2026-11-20T16:15:19Z",
    "state": "screen",
-   "runs": 29,
+   "runs": 1159,
    "channel": "Guga"
   },
   {
@@ -3052,6 +3022,16 @@
    "channel": "Eater"
   },
   {
+   "id": "rNiCEk5zEXQ",
+   "source": "eater",
+   "form": "short",
+   "title": "Is this the ultimate French onion soup? 😲 #pastis #nyc",
+   "published": "2026-11-20T15:00:26Z",
+   "state": "screen",
+   "runs": 72,
+   "channel": "Eater"
+  },
+  {
    "id": "jLFwDTE2XCg",
    "source": "munchies",
    "form": "long",
@@ -3122,6 +3102,16 @@
    "channel": "Joshua Weissman"
   },
   {
+   "id": "hBOMIg-MfKg",
+   "source": "joshua-weissman",
+   "form": "short",
+   "title": "Giant Indian Balloon Bread",
+   "published": "2026-11-20T17:15:21Z",
+   "state": "screen",
+   "runs": 31,
+   "channel": "Joshua Weissman"
+  },
+  {
    "id": "ZX2EJP-0Nec",
    "source": "strictly-dumpling",
    "form": "long",
@@ -3169,6 +3159,16 @@
    "published": "2026-11-15T00:18:16Z",
    "state": "screen",
    "runs": 21069,
+   "channel": "Strictly Dumpling"
+  },
+  {
+   "id": "nwxzayXhTbI",
+   "source": "strictly-dumpling",
+   "form": "long",
+   "title": "What Locals Eat for BREAKFAST in Morocco 🍳",
+   "published": "2026-11-20T23:22:58Z",
+   "state": "screen",
+   "runs": 2745,
    "channel": "Strictly Dumpling"
   },
   {
@@ -3225,20 +3225,20 @@
    "id": "MjzLFh-ogwE",
    "source": "jolly",
    "form": "long",
-   "title": "We Brought our British Friend to America for the first time!",
+   "title": "We Took our Most British Friend to the Most American Places.",
    "published": "2026-11-14T20:38:20Z",
    "state": "screen",
    "runs": 2092,
    "channel": "JOLLY"
   },
   {
-   "id": "pIv6NX8t3jM",
+   "id": "9vITRarNDWA",
    "source": "jolly",
-   "form": "short",
-   "title": "Brits try the Spicy Pizza Challenge!",
-   "published": "2026-10-22T03:38:15Z",
+   "form": "long",
+   "title": "Brits get invited to a Texan Thanksgiving Feast!",
+   "published": "2026-11-21T12:00:12Z",
    "state": "screen",
-   "runs": 30,
+   "runs": 1232,
    "channel": "JOLLY"
   },
   {
@@ -3440,6 +3440,16 @@
    "state": "screen",
    "runs": 44,
    "channel": "JOLLY"
+  },
+  {
+   "id": "eIeF5-tBu2k",
+   "source": "jolly",
+   "form": "short",
+   "title": "British Headmaster visits In-N-Out for the first time!",
+   "published": "2026-11-20T23:59:44Z",
+   "state": "screen",
+   "runs": 66,
+   "channel": "JOLLY"
   }
  ],
  "covered": {
@@ -3447,13 +3457,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3461,13 +3471,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3475,13 +3485,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3489,13 +3499,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3503,13 +3513,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3517,13 +3527,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3531,13 +3541,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3545,13 +3555,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3559,13 +3569,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3573,13 +3583,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3587,13 +3597,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3601,13 +3611,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3615,13 +3625,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3629,13 +3639,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3643,13 +3653,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3657,13 +3667,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3671,13 +3681,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3685,13 +3695,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3699,13 +3709,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3713,13 +3723,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3727,13 +3737,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3741,13 +3751,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3755,13 +3765,13 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   },
@@ -3769,16 +3779,16 @@
    "long": [
     [
      "2026-07-25T11:00:12Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ],
    "short": [
     [
      "2026-10-05T22:56:49Z",
-     "2026-11-20T12:20:52Z"
+     "2026-11-21T12:21:00Z"
     ]
    ]
   }
  },
- "set": "2026-11-20T12:20Z"
+ "set": "2026-11-21T12:21Z"
 }
