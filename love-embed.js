@@ -93,6 +93,15 @@
        /api/forbidden, so a frame is the only way it plays here. Suno shows its
        own play button inside the frame, so a song is two presses. */
     'https://suno.com/embed/',
+    /* William's music on the front page, under Community Constructionism
+       (Helen Edgar's and William's ask, relayed by Ryan, 2026-11-21). NINTH
+       ORIGIN. It lives on Quench Arts' SoundCloud, and w.soundcloud.com/player/
+       is the widget Helen's own site frames it with; it sent no X-Frame-Options
+       and no frame-ancestors (measured 2026-11-21), every track says
+       embeddable_by "all", and each plays whole.
+       Its player also reports the visit to SoundCloud (dwt.soundcloud.com),
+       which privacy.html says. */
+    'https://w.soundcloud.com/player/',
     /* A room's call, through 8x8's Jitsi as a Service. FIFTH ORIGIN, AND THE
        FIRST ONE HANDED THE CAMERA AND THE MICROPHONE. Ryan, 2026-09-28. It
        is still only framed after a press, and only from the CB, with a token

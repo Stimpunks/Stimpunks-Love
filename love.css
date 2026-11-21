@@ -7047,6 +7047,22 @@ div.facade--square { border: 0; background: none; }
 .constr__art > li { width: min(100%, 200px); }
 .constr__piece img { display: block; width: 100%; height: auto; border: 3px solid var(--ink-3); border-radius: 6px; }
 .constr__piece i { color: var(--cream); }
+/* William's songs: a quotation of Helen's line, then a press-to-play button
+   for each song, which §4's .facade dresses in the street's own ink-2 and cream.
+   The shell the press leaves is a SoundCloud strip, not a screen, so it takes
+   no 16:9. */
+.constr__quote { margin: 0; padding: 0 0 0 16px; border-left: 3px solid var(--ink-3); }
+.constr__who .constr__quote p { margin: 0 0 6px; }
+.constr__who .constr__said { margin: 0 0 16px; padding-left: 19px; font-size: 14px; }
+.constr button.constr-play {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  max-width: 480px; aspect-ratio: auto; min-height: 56px; padding: 12px 16px;
+  font-size: 17px; font-weight: 700;
+}
+.constr-play__len { font-family: 'Bungee', var(--sans); font-size: 13px; font-weight: 400; letter-spacing: 1px; color: var(--yellow); }
+.constr div.facade { max-width: 640px; aspect-ratio: auto; height: 166px; padding: 0; border: 0; background: none; }
+.constr-songs { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.constr__who .constr-play__from { margin: 10px 0 0; font-size: 14px; }
 
 
 /* §6 ── ROOM: Pink Pony Club ─────────────────────────────────────────────────

@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Fri, 20 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 21 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>William’s music under Community Constructionism</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-21-william</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-21-william</guid>
+      <pubDate>Sat, 21 Nov 2026 12:00:00 GMT</pubDate>
+      <description>William, Helen Edgar’s son, has a part of his own under Community Constructionism on the front page, at his and Helen’s ask: Echoes Of The Mind, Luminescent Nocturne, Prelude To The Shadows and The End Of The Beginning, which he composed and played at eleven for Quench Arts’ Wavelength project, with Helen’s credit line from Autistic Realms word for word. Each plays from Quench Arts’ SoundCloud, and only once you press it. Every button says how long its song runs before the press, and nothing reaches SoundCloud until then. SoundCloud is the ninth service the street will frame, and the privacy page says what its player does.</description>
+    </item>
     <item>
       <title>Community Constructionism on the front page</title>
       <link>https://stimpunks.world/changelog.html#2026-11-20-community-constructionism</link>
