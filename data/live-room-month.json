@@ -203,7 +203,7 @@
    "id": "rzLS8pVeDwE",
    "source": "acl",
    "form": "long",
-   "title": "Ty Myers - Whiskey River | Live From Austin City Limits TV",
+   "title": "Ty Myers - Whiskey River | Willie Nelson Cover on ACLTV",
    "published": "2026-11-17T22:53:27Z",
    "state": "screen",
    "runs": 291,
@@ -217,6 +217,36 @@
    "published": "2026-11-18T18:00:06Z",
    "state": "screen",
    "runs": 447,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "N_Yj4CS6baU",
+   "source": "acl",
+   "form": "long",
+   "title": "Jesse Welles - Masks Off | Live on Austin City Limits TV",
+   "published": "2026-11-20T16:54:46Z",
+   "state": "screen",
+   "runs": 286,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "dzmbBTPlxt8",
+   "source": "acl",
+   "form": "long",
+   "title": "Jesse Welles - War Pigs | Live on Austin City Limits TV",
+   "published": "2026-11-20T16:55:15Z",
+   "state": "screen",
+   "runs": 257,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "8WE-4-JlkgM",
+   "source": "acl",
+   "form": "long",
+   "title": "Ty Myers - Thought It Was Love | Live on Austin City Limits TV",
+   "published": "2026-11-20T18:00:09Z",
+   "state": "screen",
+   "runs": 311,
    "channel": "Austin City Limits"
   },
   {
@@ -348,66 +378,6 @@
    "state": "screen",
    "runs": 94,
    "channel": "Austin City Limits"
-  },
-  {
-   "id": "iHomzK3fgTg",
-   "source": "kexp",
-   "form": "long",
-   "title": "Numeron - My Eternity (Live on KEXP)",
-   "published": "2026-10-21T13:00:23Z",
-   "state": "screen",
-   "runs": 302,
-   "channel": "KEXP"
-  },
-  {
-   "id": "988NAhJ13Kw",
-   "source": "kexp",
-   "form": "long",
-   "title": "Numeron - Full Performance (Live on KEXP)",
-   "published": "2026-10-21T15:00:21Z",
-   "state": "screen",
-   "runs": 1796,
-   "channel": "KEXP"
-  },
-  {
-   "id": "xSH9jOxWyGI",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Panturas - Khodam Buntut Lutung (Live on KEXP)",
-   "published": "2026-10-22T11:00:02Z",
-   "state": "screen",
-   "runs": 230,
-   "channel": "KEXP"
-  },
-  {
-   "id": "w0PeRHynku8",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Panturas - Tafsir Mistik (Live on KEXP)",
-   "published": "2026-10-22T11:00:04Z",
-   "state": "screen",
-   "runs": 275,
-   "channel": "KEXP"
-  },
-  {
-   "id": "77ZvW6ZUbxM",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Panturas - Soma Gospel (Live on KEXP)",
-   "published": "2026-10-22T11:00:27Z",
-   "state": "screen",
-   "runs": 220,
-   "channel": "KEXP"
-  },
-  {
-   "id": "gPurTCYl8yY",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Panturas - Fisherman Slut (Live on KEXP)",
-   "published": "2026-10-22T11:00:36Z",
-   "state": "screen",
-   "runs": 160,
-   "channel": "KEXP"
   },
   {
    "id": "CjAVGCYwGsI",
@@ -1580,13 +1550,13 @@
    "channel": "KEXP"
   },
   {
-   "id": "Nww_-z1P60A",
+   "id": "pjX0K1T3tkk",
    "source": "kexp",
-   "form": "short",
-   "title": "Numeron performs \"Blood In My Vein\" & more Live on KEXP",
-   "published": "2026-10-21T17:03:54Z",
+   "form": "long",
+   "title": "SLIFT - Full Performance (Live on KEXP)",
+   "published": "2026-11-20T16:00:20Z",
    "state": "screen",
-   "runs": 60,
+   "runs": 2236,
    "channel": "KEXP"
   },
   {
@@ -1800,6 +1770,16 @@
    "channel": "KEXP"
   },
   {
+   "id": "onRx-hWEUFQ",
+   "source": "kexp",
+   "form": "short",
+   "title": "SLIFT performs \"Fantasia\" & more Live on KEXP",
+   "published": "2026-11-20T18:06:59Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
    "id": "nbmqQFMSBpo",
    "source": "kcrw",
    "form": "long",
@@ -1985,13 +1965,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-20T12:27:31Z"
+     "2026-11-21T12:28:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-20T12:27:31Z"
+     "2026-11-21T12:28:00Z"
     ]
    ]
   },
@@ -1999,13 +1979,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-20T12:27:31Z"
+     "2026-11-21T12:28:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-20T12:27:31Z"
+     "2026-11-21T12:28:00Z"
     ]
    ]
   },
@@ -2013,16 +1993,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-20T12:27:31Z"
+     "2026-11-21T12:28:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-20T12:27:31Z"
+     "2026-11-21T12:28:00Z"
     ]
    ]
   }
  },
- "set": "2026-11-20T12:27Z"
+ "set": "2026-11-21T12:28Z"
 }
