@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-11-20T12:16Z",
+  "set": "2026-11-21T12:16Z",
   "springs": [
     {
       "id": "starstuff",
@@ -12,6 +12,26 @@
       "feed": "https://github.com/Stimpunks/Star-Stuff/commits/main.atom",
       "note": "Every zine, field guide, broadside and working paper on starstuff.earth, and the tools that check each one before it goes up.",
       "items": [
+        {
+          "title": "Regenerate the derived files for edition thirteen, and fix two faults…",
+          "url": "https://github.com/Stimpunks/Star-Stuff/commit/dbc298be547d99b500a22ffbf308698ae2e04360",
+          "date": "2026-11-20T12:47:32Z",
+          "sha": "dbc298b",
+          "by": [
+            "claude",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Glimmer Wire, edition thirteen: a deficit hypothesis rejected by the …",
+          "url": "https://github.com/Stimpunks/Star-Stuff/commit/4bcb6ec2f395d1f1ad5079964f927b23a7703616",
+          "date": "2026-11-20T12:38:36Z",
+          "sha": "4bcb6ec",
+          "by": [
+            "claude",
+            "Claude Opus 5"
+          ]
+        },
         {
           "title": "Regenerate the derived files for Glimmer Wire edition twelve",
           "url": "https://github.com/Stimpunks/Star-Stuff/commit/0b6c34ebc61b809ec053649ba1374b2a2d246752",
@@ -51,29 +71,9 @@
             "claude",
             "Claude Opus 5"
           ]
-        },
-        {
-          "title": "The code is MIT, and the collection stays CC BY-SA",
-          "url": "https://github.com/Stimpunks/Star-Stuff/commit/85467102d1b9e02e1fe5faaa8982737a9472e8a6",
-          "date": "2026-11-03T23:51:03Z",
-          "sha": "8546710",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5.5"
-          ]
-        },
-        {
-          "title": "Regenerate the derived files for Glimmer Wire edition ten, and repair…",
-          "url": "https://github.com/Stimpunks/Star-Stuff/commit/29ec841be728a7e3fc745381e84c2da0f3a6b134",
-          "date": "2026-10-30T13:04:21Z",
-          "sha": "29ec841",
-          "by": [
-            "claude",
-            "Claude Opus 5"
-          ]
         }
       ],
-      "read": "2026-11-20T12:16Z"
+      "read": "2026-11-21T12:16Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-11-20T12:16Z"
+      "read": "2026-11-21T12:16Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-11-20T12:16Z"
+      "read": "2026-11-21T12:16Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-11-20T12:16Z"
+      "read": "2026-11-21T12:16Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-11-20T12:16Z"
+      "read": "2026-11-21T12:16Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-11-20T12:16Z"
+      "read": "2026-11-21T12:16Z"
     },
     {
       "id": "love",
@@ -438,6 +438,26 @@
       "feed": "https://github.com/Stimpunks/Stimpunks-Love/commits/main.atom",
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
+        {
+          "title": "William's music under Community Constructionism",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/54d623a4d80e0dbefd6ff4399632bd09d4f30051",
+          "date": "2026-11-21T07:34:13Z",
+          "sha": "54d623a",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "Community Constructionism on the front page",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/053ed5f06da09dd9ea7d23adac8050689e1a951c",
+          "date": "2026-11-20T15:01:16Z",
+          "sha": "053ed5f",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
         {
           "title": "Every chapter of the Music Book opens on YouTube",
           "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/120b926c539daa8765db157693fe392d5e31ea08",
@@ -457,19 +477,9 @@
             "ryanboren",
             "Claude Opus 5.5"
           ]
-        },
-        {
-          "title": "Helen's Music Book in the Music Room",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/9f72a83ae22be448e46667d1a689dd60c6e584e7",
-          "date": "2026-11-19T08:04:57Z",
-          "sha": "9f72a83",
-          "by": [
-            "AutisticRealms",
-            "Claude Opus 5.5"
-          ]
         }
       ],
-      "read": "2026-11-20T12:16Z"
+      "read": "2026-11-21T12:16Z"
     },
     {
       "id": "garden",
@@ -538,7 +548,7 @@
           "anon": true
         }
       ],
-      "read": "2026-11-20T12:16Z"
+      "read": "2026-11-21T12:16Z"
     }
   ]
 }
