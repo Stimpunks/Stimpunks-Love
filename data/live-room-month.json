@@ -23,16 +23,6 @@
  ],
  "log": [
   {
-   "id": "YT9YkJczxIc",
-   "source": "acl",
-   "form": "long",
-   "title": "John Anderson - Swingin clip | Live From Austin City Limits TV",
-   "published": "2026-10-23T14:47:34Z",
-   "state": "screen",
-   "runs": 83,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "uRizbw49v7c",
    "source": "acl",
    "form": "long",
@@ -123,24 +113,6 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "ItKWhObcr6s",
-   "source": "acl",
-   "form": "long",
-   "title": "Sebastián Yatra - Tacones rojos | Live on Austin City Limits TV",
-   "published": "2026-11-09T16:29:54Z",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
-   "id": "SIwLCVpxnag",
-   "source": "acl",
-   "form": "long",
-   "title": "Sebastián Yatra - Pareja Del Año | Live on Austin City Limits TV",
-   "published": "2026-11-09T16:31:25Z",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
    "id": "l5_64GLzoFA",
    "source": "acl",
    "form": "long",
@@ -189,15 +161,6 @@
    "state": "screen",
    "runs": 182,
    "channel": "Austin City Limits"
-  },
-  {
-   "id": "iCOMBv9hJRY",
-   "source": "acl",
-   "form": "long",
-   "title": "ACL Presents: Americana 25th Annual Honors - Full Episode",
-   "published": "2026-11-17T15:38:30Z",
-   "state": "pending",
-   "why": "live, or not out yet"
   },
   {
    "id": "rzLS8pVeDwE",
@@ -250,23 +213,33 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "p2J-gB1SHII",
+   "id": "ItKWhObcr6s",
    "source": "acl",
-   "form": "short",
-   "title": "Ari Lennox Season 52 Episode Recap | Live on Austin City Limits TV",
-   "published": "2026-10-23T01:39:48Z",
+   "form": "long",
+   "title": "Sebastián Yatra - Tacones rojos | Live on Austin City Limits TV",
+   "published": "2026-11-21T17:30:09Z",
    "state": "screen",
-   "runs": 86,
+   "runs": 229,
    "channel": "Austin City Limits"
   },
   {
-   "id": "YoR2Bwntt04",
+   "id": "SIwLCVpxnag",
    "source": "acl",
-   "form": "short",
-   "title": "The Red Clay Strays - 10/24 Episode DROP | Live on Austin City Limits TV",
-   "published": "2026-10-23T19:51:29Z",
+   "form": "long",
+   "title": "Sebastián Yatra - Pareja Del Año | Live on Austin City Limits TV",
+   "published": "2026-11-21T19:45:10Z",
    "state": "screen",
-   "runs": 30,
+   "runs": 185,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "iCOMBv9hJRY",
+   "source": "acl",
+   "form": "long",
+   "title": "ACL Presents: Americana 25th Annual Honors - Full Episode",
+   "published": "2026-11-22T02:00:07Z",
+   "state": "screen",
+   "runs": 3290,
    "channel": "Austin City Limits"
   },
   {
@@ -380,94 +353,14 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "CjAVGCYwGsI",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Panturas - Bentang Sagara (Live on KEXP)",
-   "published": "2026-10-22T13:00:12Z",
+   "id": "uOCukPHOjEg",
+   "source": "acl",
+   "form": "short",
+   "title": "ACL Presents Americana 25th Annual Honors episode trailer",
+   "published": "2026-11-22T02:21:23Z",
    "state": "screen",
-   "runs": 282,
-   "channel": "KEXP"
-  },
-  {
-   "id": "dicxqRQZmko",
-   "source": "kexp",
-   "form": "long",
-   "title": "The Panturas - Full Performance (Live on KEXP)",
-   "published": "2026-10-22T15:00:39Z",
-   "state": "screen",
-   "runs": 1165,
-   "channel": "KEXP"
-  },
-  {
-   "id": "mbJVMeqNBAc",
-   "source": "kexp",
-   "form": "long",
-   "title": "OSEES - Enemy Destruct (Live on KEXP)",
-   "published": "2026-10-23T11:00:10Z",
-   "state": "screen",
-   "runs": 190,
-   "channel": "KEXP"
-  },
-  {
-   "id": "lLspymqv1mk",
-   "source": "kexp",
-   "form": "long",
-   "title": "OSEES - Plastic Plants (Live on KEXP)",
-   "published": "2026-10-23T11:00:30Z",
-   "state": "screen",
-   "runs": 315,
-   "channel": "KEXP"
-  },
-  {
-   "id": "inoXeuoYx3A",
-   "source": "kexp",
-   "form": "long",
-   "title": "OSEES - I Was Denied (Live on KEXP)",
-   "published": "2026-10-23T11:00:31Z",
-   "state": "screen",
-   "runs": 235,
-   "channel": "KEXP"
-  },
-  {
-   "id": "ls0o1NwSJEQ",
-   "source": "kexp",
-   "form": "long",
-   "title": "OSEES - Meat Step Lively (Live on KEXP)",
-   "published": "2026-10-23T11:00:37Z",
-   "state": "screen",
-   "runs": 159,
-   "channel": "KEXP"
-  },
-  {
-   "id": "xzU6ENUDrL8",
-   "source": "kexp",
-   "form": "long",
-   "title": "OSEES - Block Of Ice (Live on KEXP)",
-   "published": "2026-10-23T13:00:34Z",
-   "state": "screen",
-   "runs": 1097,
-   "channel": "KEXP"
-  },
-  {
-   "id": "HCBi8EoqEII",
-   "source": "kexp",
-   "form": "long",
-   "title": "OSEES - Plastic Plant (Live on KEXP)",
-   "published": "2026-10-23T15:22:58Z",
-   "state": "screen",
-   "runs": 315,
-   "channel": "KEXP"
-  },
-  {
-   "id": "fTmmYzD4QQk",
-   "source": "kexp",
-   "form": "long",
-   "title": "OSEES - Full Performance (Live on KEXP)",
-   "published": "2026-10-23T15:36:07Z",
-   "state": "screen",
-   "runs": 2119,
-   "channel": "KEXP"
+   "runs": 30,
+   "channel": "Austin City Limits"
   },
   {
    "id": "Q2FVoWMg0c8",
@@ -1560,23 +1453,43 @@
    "channel": "KEXP"
   },
   {
-   "id": "w8fY07nKdd8",
+   "id": "34HJsluhDOQ",
    "source": "kexp",
-   "form": "short",
-   "title": "The Panturas perform \"Soma Gospel\" & more Live on KEXP",
-   "published": "2026-10-22T17:16:37Z",
+   "form": "long",
+   "title": "Chat Pile - Funny Man (Live on KEXP)",
+   "published": "2026-11-23T12:00:08Z",
    "state": "screen",
-   "runs": 60,
+   "runs": 225,
    "channel": "KEXP"
   },
   {
-   "id": "XkbhusyIRDY",
+   "id": "AX5puxAsFuI",
    "source": "kexp",
-   "form": "short",
-   "title": "OSEES perform \"Block Of Ice\" & more Live on KEXP",
-   "published": "2026-10-23T17:09:02Z",
+   "form": "long",
+   "title": "Chat Pile - Pen I S Mall (Live on KEXP)",
+   "published": "2026-11-23T12:00:08Z",
    "state": "screen",
-   "runs": 60,
+   "runs": 293,
+   "channel": "KEXP"
+  },
+  {
+   "id": "3nM5NzcX1os",
+   "source": "kexp",
+   "form": "long",
+   "title": "Chat Pile - Tropical Beaches, Inc. (Live on KEXP)",
+   "published": "2026-11-23T12:00:26Z",
+   "state": "screen",
+   "runs": 224,
+   "channel": "KEXP"
+  },
+  {
+   "id": "dqVI3REzKLE",
+   "source": "kexp",
+   "form": "long",
+   "title": "Chat Pile - Dallas Beltway (Live on KEXP)",
+   "published": "2026-11-23T12:00:35Z",
+   "state": "screen",
+   "runs": 270,
    "channel": "KEXP"
   },
   {
@@ -1965,13 +1878,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-21T12:28:00Z"
+     "2026-11-23T12:30:43Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-21T12:28:00Z"
+     "2026-11-23T12:30:43Z"
     ]
    ]
   },
@@ -1979,13 +1892,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-21T12:28:00Z"
+     "2026-11-23T12:30:43Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-21T12:28:00Z"
+     "2026-11-23T12:30:43Z"
     ]
    ]
   },
@@ -1993,16 +1906,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-21T12:28:00Z"
+     "2026-11-23T12:30:43Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-11-21T12:28:00Z"
+     "2026-11-23T12:30:43Z"
     ]
    ]
   }
  },
- "set": "2026-11-21T12:28Z"
+ "set": "2026-11-23T12:30Z"
 }
