@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-11-21T12:24Z",
+ "set": "2026-11-23T12:26Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-21T12:24:21Z"
+     "2026-11-23T12:26:58Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-11-21T12:24:21Z"
+     "2026-11-23T12:26:58Z"
     ]
    ]
   }
@@ -118,43 +118,13 @@
    "channel": "Farming While Beige"
   },
   {
-   "id": "KIyddrJIqtg",
+   "id": "wCSLimoI-kA",
    "source": "farming-while-beige",
-   "form": "short",
-   "title": "You do not want to grow all your own food, fiber, and medicine 😂",
-   "published": "2026-10-22T13:06:59Z",
+   "form": "long",
+   "title": "Using SNAP to change the food system?",
+   "published": "2026-11-21T14:53:03Z",
    "state": "screen",
-   "runs": 144,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "rvGAzPr33CY",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Pointing fingers in rural America",
-   "published": "2026-10-22T20:30:56Z",
-   "state": "screen",
-   "runs": 178,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "aQSfAYtVJqM",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Pig insanity.",
-   "published": "2026-10-23T12:44:48Z",
-   "state": "screen",
-   "runs": 171,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "N2pd60rDtFM",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Are blue policies better for farms than red?",
-   "published": "2026-10-24T12:02:44Z",
-   "state": "screen",
-   "runs": 178,
+   "runs": 407,
    "channel": "Farming While Beige"
   },
   {
@@ -585,6 +555,36 @@
    "published": "2026-11-20T16:50:59Z",
    "state": "screen",
    "runs": 64,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "HpEHS8meZA0",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Short: Using SNAP to move food markets…",
+   "published": "2026-11-21T14:58:25Z",
+   "state": "screen",
+   "runs": 178,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "c77xusSDVKY",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Too fat to fly 😂",
+   "published": "2026-11-22T16:04:51Z",
+   "state": "screen",
+   "runs": 77,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "ShdFvb5MfAc",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Her ex must’ve been a chicken…",
+   "published": "2026-11-23T12:01:10Z",
+   "state": "screen",
+   "runs": 125,
    "channel": "Farming While Beige"
   }
  ]
