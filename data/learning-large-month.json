@@ -90,7 +90,7 @@
    "channel_id": "UCgscS8mBsQZ5sFRkJIFWD7Q"
   }
  ],
- "set": "2026-11-21T12:19Z",
+ "set": "2026-11-23T12:20Z",
  "log": [
   {
    "id": "kmnApfAmoj0",
@@ -196,7 +196,7 @@
    "id": "JhZB3spnuIY",
    "source": "ai-labs",
    "form": "long",
-   "title": "Google Just Released Something To Fix Claude Code's Biggest Problem",
+   "title": "Google's New Way Of Using Claude Code Is Insane",
    "published": "2026-11-17T16:31:22Z",
    "state": "screen",
    "runs": 827,
@@ -211,16 +211,6 @@
    "state": "screen",
    "runs": 771,
    "channel": "AI LABS"
-  },
-  {
-   "id": "TVRCcMlvR10",
-   "source": "matt-wolfe",
-   "form": "long",
-   "title": "AI News: 24 Things You Need To Know This Week",
-   "published": "2026-10-23T17:40:19Z",
-   "state": "screen",
-   "runs": 1618,
-   "channel": "Matt Wolfe"
   },
   {
    "id": "AtjFk9f44HE",
@@ -320,26 +310,6 @@
    "published": "2026-11-20T19:00:16Z",
    "state": "screen",
    "runs": 1980,
-   "channel": "Matt Wolfe"
-  },
-  {
-   "id": "WSHEBdmahHY",
-   "source": "matt-wolfe",
-   "form": "short",
-   "title": "These ChatGPT Prompts Are Game-Changers!",
-   "published": "2026-10-23T21:15:47Z",
-   "state": "screen",
-   "runs": 51,
-   "channel": "Matt Wolfe"
-  },
-  {
-   "id": "FiyUagHO37Y",
-   "source": "matt-wolfe",
-   "form": "short",
-   "title": "Old Phones Are Becoming Robots?!?",
-   "published": "2026-10-24T00:23:07Z",
-   "state": "screen",
-   "runs": 64,
    "channel": "Matt Wolfe"
   },
   {
@@ -623,14 +593,24 @@
    "channel": "Matt Wolfe"
   },
   {
-   "id": "15gxN8DnC8s",
-   "source": "nate-b-jones",
-   "form": "long",
-   "title": "I Read Goodfire's New Essay. AI May Be Far Easier To Understand Than We Thought.",
-   "published": "2026-10-22T14:00:05Z",
+   "id": "GFxHjrYwoFk",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "They built cyborg cockroaches with built-in AI...",
+   "published": "2026-11-21T21:25:07Z",
    "state": "screen",
-   "runs": 1174,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
+   "runs": 71,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "8RNSJ6Ud4nY",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "Google Cooked With This New Model!",
+   "published": "2026-11-22T20:58:01Z",
+   "state": "screen",
+   "runs": 102,
+   "channel": "Matt Wolfe"
   },
   {
    "id": "qDYe2eTl_D4",
@@ -803,13 +783,13 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "Xo1oF84Dhq8",
+   "id": "fFeyE4nINqs",
    "source": "nate-b-jones",
-   "form": "short",
-   "title": "This is the best AI news #blackbox #AI",
-   "published": "2026-10-23T03:00:23Z",
+   "form": "long",
+   "title": "Microsoft, The FAA And Even The NSA Had Outages In One Week. What Is Happening?",
+   "published": "2026-11-22T17:00:15Z",
    "state": "screen",
-   "runs": 137,
+   "runs": 802,
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
@@ -1023,16 +1003,6 @@
    "channel": "Less Bitter"
   },
   {
-   "id": "USeyDcWyVCc",
-   "source": "theo",
-   "form": "long",
-   "title": "Even The NSA Got Involved",
-   "published": "2026-10-22T19:14:45Z",
-   "state": "screen",
-   "runs": 1762,
-   "channel": "Theo - t3․gg"
-  },
-  {
    "id": "5Bmp9cz1JN8",
    "source": "theo",
    "form": "long",
@@ -1216,31 +1186,21 @@
    "id": "HQlk9RGx2dk",
    "source": "theo",
    "form": "long",
-   "title": "holy sh*t",
+   "title": "Where was Google hiding this?",
    "published": "2026-11-20T15:40:19Z",
    "state": "screen",
    "runs": 1949,
    "channel": "Theo - t3․gg"
   },
   {
-   "id": "nXpoU99pTho",
+   "id": "B2rFx4Fy1us",
    "source": "theo",
-   "form": "short",
-   "title": "Even The NSA Got Involved",
-   "published": "2026-10-23T21:00:31Z",
-   "state": "screen",
-   "runs": 43,
-   "channel": "Theo - t3․gg"
-  },
-  {
-   "id": "vDYqh1FGrgQ",
-   "source": "paul-j-lipsky",
    "form": "long",
-   "title": "AI News: Claude Duet Crushes; Amazing Grok Bot Updates; and NotebookLM Upgrade",
-   "published": "2026-10-23T13:00:11Z",
+   "title": "If you like Open Models, I'm sorry",
+   "published": "2026-11-22T15:00:39Z",
    "state": "screen",
-   "runs": 1338,
-   "channel": "Paul J Lipsky"
+   "runs": 2419,
+   "channel": "Theo - t3․gg"
   },
   {
    "id": "9WTqqWBPCsk",
@@ -1423,16 +1383,6 @@
    "channel": "Paul J Lipsky"
   },
   {
-   "id": "BZluE67z1MA",
-   "source": "austin-marchese",
-   "form": "long",
-   "title": "Master Claude Models & Effort Level in 19 Minutes",
-   "published": "2026-10-23T13:45:37Z",
-   "state": "screen",
-   "runs": 1178,
-   "channel": "Austin Marchese"
-  },
-  {
    "id": "QBClwotyT3Y",
    "source": "austin-marchese",
    "form": "long",
@@ -1503,24 +1453,14 @@
    "channel": "Austin Marchese"
   },
   {
-   "id": "4PO0x-myitw",
-   "source": "riley-brown",
+   "id": "UUg5oij7ptw",
+   "source": "austin-marchese",
    "form": "long",
-   "title": "How Smart People Are Using AI Right Now (7 Insane Use Cases)",
-   "published": "2026-10-22T19:27:08Z",
+   "title": "How To Build Self-Improving AI Agents with Claude (Stanford's Method)",
+   "published": "2026-11-21T14:45:00Z",
    "state": "screen",
-   "runs": 1685,
-   "channel": "Riley Brown"
-  },
-  {
-   "id": "ZIBI6FiLxgQ",
-   "source": "riley-brown",
-   "form": "long",
-   "title": "How I’m Actually Using Claude Duet (After 10 Hours of Testing)",
-   "published": "2026-10-23T20:50:23Z",
-   "state": "screen",
-   "runs": 1464,
-   "channel": "Riley Brown"
+   "runs": 1004,
+   "channel": "Austin Marchese"
   },
   {
    "id": "3hJ049UPv4Y",
@@ -1606,7 +1546,7 @@
    "id": "7N1AE5Y87GU",
    "source": "riley-brown",
    "form": "long",
-   "title": "Master Claude Artifacts in 20 Minutes (All 7 Types)",
+   "title": "How I Actually Use Claude Artifacts (Full Guide)",
    "published": "2026-11-18T19:35:33Z",
    "state": "screen",
    "runs": 1182,
@@ -1616,10 +1556,20 @@
    "id": "LNIrmrZ_0gY",
    "source": "riley-brown",
    "form": "long",
-   "title": "Gemini Neon Just Caught Up To Claude (And It’s HALF the Price)",
+   "title": "Google JUST Caught Up To Claude For Half The Price (NEON Tested)",
    "published": "2026-11-20T21:41:40Z",
    "state": "screen",
    "runs": 1530,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "K2UEMxBTu9M",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "Open Source AI Is Dangerously Close to Claude (And 30x Cheaper)",
+   "published": "2026-11-21T20:11:03Z",
+   "state": "screen",
+   "runs": 3649,
    "channel": "Riley Brown"
   },
   {
@@ -1651,16 +1601,6 @@
    "state": "screen",
    "runs": 66,
    "channel": "Riley Brown"
-  },
-  {
-   "id": "DSS1Yqb6-qE",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "/roast-room: How I Use Claude to Think Like the Top 1%",
-   "published": "2026-10-22T14:18:13Z",
-   "state": "screen",
-   "runs": 900,
-   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "BQJRLZ2q_Ns",
@@ -1786,7 +1726,7 @@
    "id": "aaTqimE1J9w",
    "source": "nate-herk",
    "form": "long",
-   "title": "I Turned Grok Bot Into a 24/7 GTA 6 Clipping Machine",
+   "title": "Instead of Playing GTA 6, Build a Clipping Factory (Full Guide)",
    "published": "2026-11-19T19:47:17Z",
    "state": "screen",
    "runs": 748,
@@ -1803,13 +1743,43 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
-   "id": "GnFFcLnmWuQ",
+   "id": "Xt_pAY0Mg4Q",
    "source": "nate-herk",
-   "form": "short",
-   "title": "Claude has completely changed how I edit videos",
-   "published": "2026-10-22T13:18:04Z",
+   "form": "long",
+   "title": "What Anthropic's $900 Billion Bet Means for You",
+   "published": "2026-11-21T14:08:25Z",
    "state": "screen",
-   "runs": 50,
+   "runs": 429,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "NLNoZrzXrvU",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "Google Is BACK (Gemini 4 Neon Tested)",
+   "published": "2026-11-22T00:06:32Z",
+   "state": "screen",
+   "runs": 554,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "0RF9ml43ups",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "Anthropic Engineer Explains: How to Stop Hitting Claude's Token Limit",
+   "published": "2026-11-22T15:39:28Z",
+   "state": "screen",
+   "runs": 728,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "sVrmhD99BJk",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "30 Everyday Ways to Use Grok Bot That Feel Like Cheating",
+   "published": "2026-11-23T01:52:25Z",
+   "state": "screen",
+   "runs": 834,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -2203,16 +2173,6 @@
    "channel": "Chase AI"
   },
   {
-   "id": "UDwC-fT3dZs",
-   "source": "chase-ai",
-   "form": "short",
-   "title": "a chinese open weight model just beat opus 5.5",
-   "published": "2026-10-23T22:00:20Z",
-   "state": "screen",
-   "runs": 47,
-   "channel": "Chase AI"
-  },
-  {
    "id": "it3kt7rEQoE",
    "source": "chase-ai",
    "form": "short",
@@ -2423,6 +2383,16 @@
    "channel": "Greg Isenberg"
   },
   {
+   "id": "LrJ4RYRQSpk",
+   "source": "greg-isenberg",
+   "form": "short",
+   "title": "How to design an agent harness",
+   "published": "2026-11-22T18:12:28Z",
+   "state": "screen",
+   "runs": 36,
+   "channel": "Greg Isenberg"
+  },
+  {
    "id": "pryCaGv8wuo",
    "source": "two-minute-papers",
    "form": "long",
@@ -2513,6 +2483,16 @@
    "channel": "Two Minute Papers"
   },
   {
+   "id": "1jPdehG3Hms",
+   "source": "two-minute-papers",
+   "form": "long",
+   "title": "Claude AI Solved The Secret Of Black Holes",
+   "published": "2026-11-23T07:37:52Z",
+   "state": "screen",
+   "runs": 375,
+   "channel": "Two Minute Papers"
+  },
+  {
    "id": "yMnFHFf43Qg",
    "source": "robonuggets",
    "form": "long",
@@ -2590,6 +2570,16 @@
    "published": "2026-11-20T03:10:32Z",
    "state": "screen",
    "runs": 679,
+   "channel": "Jay E | RoboNuggets"
+  },
+  {
+   "id": "OMfU5iq8Eik",
+   "source": "robonuggets",
+   "form": "long",
+   "title": "Anthropic Just Dropped 7 MASSIVE Claude Features (Master them in 15 mins)",
+   "published": "2026-11-22T00:50:09Z",
+   "state": "screen",
+   "runs": 923,
    "channel": "Jay E | RoboNuggets"
   },
   {
@@ -2708,13 +2698,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ]
   },
@@ -2722,13 +2712,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ]
   },
@@ -2736,13 +2726,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ]
   },
@@ -2750,13 +2740,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ]
   },
@@ -2764,13 +2754,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ]
   },
@@ -2778,13 +2768,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ]
   },
@@ -2792,13 +2782,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ]
   },
@@ -2806,13 +2796,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ]
   },
@@ -2820,13 +2810,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ]
   },
@@ -2834,13 +2824,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ]
   },
@@ -2848,13 +2838,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ]
   },
@@ -2862,13 +2852,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ]
   },
@@ -2876,13 +2866,13 @@
    "long": [
     [
      "2026-08-28T09:44:44Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-09-29T14:12:16Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ]
   },
@@ -2890,13 +2880,13 @@
    "long": [
     [
      "2026-09-23T01:33:56Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ],
    "short": [
     [
      "2026-09-25T03:00:26Z",
-     "2026-11-21T12:19:49Z"
+     "2026-11-23T12:20:23Z"
     ]
    ]
   }
