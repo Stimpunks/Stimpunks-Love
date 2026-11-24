@@ -14,7 +14,11 @@ phonograph's own, always in sight: one button that puts the whole playlist on wh
 stands, built by love-embed.js, so it can be hosted on the radio and followed like any
 list, saying it runs until you stop it and never a length, because a list somebody keeps
 adding to has none. Under each bar its songs are folded, with the link that opens the
-playlist on YouTube. No records on a shelf: she said there are too many. The first
+playlist on YouTube, and every song whose video is in 'tracks' has a hidden button that
+music-book.js unhides: it plays the playlist from that song, in its own bar (her ask of
+2026-11-24, "choosing tracks ... without it taking up too much room"). 'tracks' is read
+off YouTube, a video for each song in the same place in the playlist, checked against the
+song's words; a place that holds another song is null and its song stays words. No records on a shelf: she said there are too many. The first
 playlist's songs ship unfolded, so the render checkers measure them; the rest are the
 same markup, folded. A playlist YouTube does not show keeps its name and songs on the
 page and says it is not on YouTube yet, with no bar and no link; its id from the document
@@ -43,6 +47,7 @@ BEGIN, END = "<!-- music-book:begin -->", "<!-- music-book:end -->"
 WORDS = {w: n for n, w in enumerate(
     "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen "
     "sixteen seventeen eighteen nineteen twenty".split())}
+VID = re.compile(r"^[A-Za-z0-9_-]{11}$")
 ID = re.compile(r"^PL[A-Za-z0-9_-]{11}$|^PL[A-Za-z0-9_-]{32}$")
 fail = []
 
@@ -72,6 +77,13 @@ for p in parts:
     if p is not since and first in WORDS and WORDS[first] != len(p["lists"]):
         refuse(f"{p['part']} says {first} playlists and has {len(p['lists'])} under it.")
     for pl in p["lists"]:
+        tr = pl.get("tracks")
+        if tr is not None:
+            if len(tr) != len(pl["songs"]):
+                refuse(f"{pl['name']} has {len(pl['songs'])} songs and {len(tr)} tracks: every song has its place, or null.")
+            for t in tr:
+                if t is not None and not VID.match(t):
+                    refuse(f"{pl['name']}: {t!r} is not a YouTube video id.")
         if "runtime" in pl or "runs" in pl:
             refuse(f"{pl['name']} is a playlist and has no length to give: take its runtime out.")
         if not pl["songs"]:
@@ -91,7 +103,7 @@ out = ['<section class="mus-book" aria-labelledby="music-book">',
 for para in DATA["welcome"]:
     out.append(f'    <p class="mus-book__lede">{esc(para)}</p>')
 waiting = any(not pl.get("list") for p in parts for pl in p["lists"])
-out.append('    <p class="mus-book__how">Every playlist is a bar: press it and the whole playlist goes on right here, and runs until you stop it. Under each bar are its songs, in the playlist&rsquo;s own order, and a link that opens it on YouTube. Nothing plays, and nothing is fetched from YouTube, until you press.'
+out.append('    <p class="mus-book__how">Every playlist is a bar: press it and the whole playlist goes on right here, and runs until you stop it. Under each bar are its songs, in the playlist&rsquo;s own order: press &#9654; beside a song and the playlist plays from that song, in its own bar. There is also a link that opens it on YouTube. Nothing plays, and nothing is fetched from YouTube, until you press.'
            + (' A playlist that says it is not on YouTube yet is on its way.' if waiting else '') + '</p>')
 opened = False
 for p in parts:
@@ -104,7 +116,14 @@ for p in parts:
     out.append('    <div class="mus-book__shelf">')
     for pl in p["lists"]:
         name = esc(pl["name"])
-        songs = "\n            ".join(f"<li>{esc(s)}</li>" for s in pl["songs"])
+        tracks = pl.get("tracks") or [None] * len(pl["songs"])
+
+        def song_li(s, t):
+            if not (t and pl.get("list")):
+                return f"<li>{esc(s)}</li>"
+            return (f'<li><button type="button" class="mus-book__song" data-mb-song="{t}" hidden '
+                    f'aria-label="Play {esc(s)} from here, in {name}">&#9654;</button> {esc(s)}</li>')
+        songs = "\n            ".join(song_li(s, t) for s, t in zip(pl["songs"], tracks))
         if pl.get("list"):
             src = f'https://www.youtube-nocookie.com/embed/videoseries?list={pl["list"]}&amp;autoplay=1'
             top = (f'<div class="mus-book__play"><button type="button" class="facade" data-embed-src="{src}" '
@@ -119,7 +138,8 @@ for p in parts:
             go = '<p class="mus-book__go mus-book__go--soon">Not on YouTube yet.</p>'
         first_open = "" if opened or not pl.get("list") else " open"
         opened = opened or bool(first_open)
-        out.append(f'''      <div class="mus-book__list" id="music-book-{slug(pl["name"])}">
+        mb = f' data-mb-list="{pl["list"]}"' if pl.get("list") else ""
+        out.append(f'''      <div class="mus-book__list" id="music-book-{slug(pl["name"])}"{mb}>
         {top}
         <details class="mus-book__more"{first_open}>
           <summary class="mus-book__name">The songs on {name}</summary>
@@ -142,6 +162,10 @@ if srcs != [f"https://www.youtube-nocookie.com/embed/videoseries?list={i}&amp;au
     refuse("every linked chapter has exactly one button, its own playlist's with autoplay=1, and nothing else in the book plays.")
 if block.count('class="facade"') != len(linked_ids) or "data-embed-id" in block:
     refuse("the music book has a play button that is not a chapter's playlist.")
+if '<script src="music-book.js"' not in PAGE.read_text() and "data-mb-song" in block:
+    refuse("faery-music-room.html does not load music-book.js, so a song's button would never show.")
+if not re.search(r'<body\b[^>]*\bdata-embed-one\b', PAGE.read_text()):
+    refuse("faery-music-room.html's <body> has lost data-embed-one, so its playlists would play over each other again (Helen's ask, 2026-11-24).")
 if '<script src="love-embed.js"' not in PAGE.read_text():
     refuse("faery-music-room.html does not load love-embed.js, so a chapter's button would press and do nothing.")
 

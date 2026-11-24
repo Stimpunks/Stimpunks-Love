@@ -1969,7 +1969,17 @@ Strange things will happen and faery yarn", "have them set out like symphrenia c
 need the records shown any more as there are too many"), **reversing the first day's "nothing in it plays"**: a facade built by
 `love-embed.js` (`/embed/videoseries?list=…&autoplay=1`), so Host this film and Follow work on it as on any list, saying it runs
 until you stop it and never a length, with its songs folded under it beside the link out to YouTube, and no shelf of records. A
-bar that is playing, or whose songs are open, takes the whole row (`:has()` in §115). The first playlist's songs ship unfolded
+bar that is playing, or whose songs are open, takes the whole row (`:has()` in §115). **Every song has a ▶ that plays the
+playlist from it** (her ask, the same day: "choosing tracks ... without it taking up too much room"): `tracks` in the data, a
+video id for each song in the same place in the playlist, read off YouTube and checked against the song's words (null where the
+place holds another song, which stays words), and `music-book.js`, which builds nothing: it puts the song on the bar's own button
+as `data-embed-entry` and presses it, or moves a playing list with `loveEmbed.toEntry`. **The phonograph's record shelves are one
+sideways-scrolling shelf to a playlist** (`.mus-lp` in §115, her "keep the record shelves but condense"), every record kept. **Only one player plays at a time
+there** (her ask, the same day: "each playlist to stop when i press play on another one"): `data-embed-one` on the room's `<body>`
+makes love-embed.js pause every other playing frame the moment one reports it is playing, whatever started it, the player's own
+button included; it is opt-in by attribute so a room meant to play two things at once is left alone, and `make-music-book.py`
+refuses the page without it. The friendly edits are a song button that plays the song alone (it breaks hosting the list), the
+shelves wrapped back into rows, and one-at-a-time made street-wide "since it is nicer", which is every room's own call. The first playlist's songs ship unfolded
 so the render checkers measure them; the rest are the same markup, folded. `since` in the data holds playlists she made after the
 book (Punky Pixie the first), their songs read off YouTube, under a heading of their own so her parts' counts and her welcome's
 total stay her words. Every id is asked of YouTube before it goes in (oEmbed answers 200 for a public list, 403 for a private one
@@ -1977,9 +1987,9 @@ and 404 for none; the embed page's `previewPlayabilityStatus` says whether it pl
 (@AutisticRealms-w4k) keep `list`, and one YouTube does not show has `list: null` and the document's id in `was`, its songs
 shown with "Not on YouTube yet" and no bar. The tool refuses a part whose own count ("Sixteen playlists ...") is not the
 playlists under it, a welcome total that is not her six parts', an id not YouTube's shape, a playlist given a runtime, a bar
-that is not exactly one to a linked playlist, and a frame or player written into the markers. **The phonograph's three plates
-and their record shelves above the book are `make-yurt-yarn.py`'s and were left as they are**; the 3D Music Room's records are
-read off those shelves, so taking them off the page takes them out of that room too, and is Helen's call. The friendly edits
+that is not exactly one to a linked playlist, and a frame or player written into the markers. **The phonograph's plates and
+their record shelves are `make-yurt-yarn.py`'s**; the 3D Music Room's records are read off those shelves, so taking them off
+the page takes them out of that room too. The friendly edits
 are **a link to an id YouTube does not show "since it is hers"**, which opens YouTube's "does not exist", **a runtime on a
 bar**, which is wrong the day she adds a song, **records on a shelf for every playlist**, which she said she does not need,
 and **trimming the songs to save length**, which is her list.

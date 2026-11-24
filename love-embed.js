@@ -179,7 +179,20 @@
         p.index = info.playlistIndex;
       }
       if (typeof info.playerState === 'number') {
+        var was = p.state;
         p.state = info.playerState;
+        // ONE PLAYER AT A TIME, on a page that asks for it with data-embed-one on
+        // <body> (Helen's Music Room, 2026-11-24: "each playlist to stop when i press
+        // play on another one as they all over lap"). Whichever player starts, by its
+        // own play button or any press on the page, pauses every other one playing.
+        // Opt-in, so a room where two things are meant to play together is left alone.
+        if (p.state === 1 && was !== 1 && document.body && document.body.hasAttribute('data-embed-one')) {
+          players.forEach(function (q) {
+            if (q !== p && q.el.isConnected && (q.state === 1 || q.state === 3)) {
+              q.el.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo', args: [], id: 1, channel: 'widget' }), YT);
+            }
+          });
+        }
         // 1 playing, 2 paused, 3 buffering: somebody has started this one.
         if (p.state === 1 || p.state === 2 || p.state === 3) p.started = true;
         if (p.state === 1) p.lastPlayed = Date.now();

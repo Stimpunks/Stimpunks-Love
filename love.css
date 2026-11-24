@@ -28725,16 +28725,23 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
    under it is the card's own facade, kept because the CB's watch-together
    finds a song by it. Nothing on the shelf moves. */
 .mus-lp-case {
-  box-sizing: border-box; width: min(100%, 640px); margin: 14px auto 0; padding: 0 12px;
+  box-sizing: border-box; width: 100%; margin: 14px auto 0; padding: 0 12px;
   background: rgba(0,0,0,.34); border: 10px solid var(--rdr-timber); border-bottom-width: 14px;
-  border-radius: 320px 320px 4px 4px / 250px 250px 4px 4px;
+  border-radius: 120px 120px 4px 4px / 60px 60px 4px 4px;
   box-shadow: inset 0 0 28px rgba(0,0,0,.6), 0 12px 20px -12px rgba(0,0,0,.8), inset 0 0 0 1px rgba(214,176,106,.14);
 }
+/* ONE SHELF TO A PLAYLIST, SCROLLED SIDEWAYS (Helen's ask, 2026-11-24: "keep the record
+   shelves but condense some how", without "1000s of rows of shelves of records"). Every
+   record is still on its shelf, in the playlist's order, on one plank you scroll along,
+   by touch, a trackpad, the scrollbar, or Tab from sleeve to sleeve. The case's arch is
+   lowered to suit one shelf. */
 .mus-lp {
-  list-style: none; margin: 0 -12px; padding: 62px 12px 0;
-  display: grid; grid-template-columns: repeat(auto-fill, 132px); justify-content: center;
-  grid-auto-rows: minmax(216px, auto); gap: 18px 14px; align-items: end;
+  list-style: none; margin: 0 -12px; padding: 34px 12px 14px;
+  display: flex; flex-wrap: nowrap; gap: 14px; align-items: end;
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity;
+  scrollbar-color: var(--rdr-brass) transparent;
 }
+.mus-lp__slot { flex: 0 0 auto; scroll-snap-align: start; }
 .mus-lp__slot { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-inline: -7px; padding: 0 7px 10px; border-bottom: 14px solid var(--rdr-timber); box-shadow: 0 16px 0 -10px rgba(0,0,0,.45); }
 .mus-lp__slot p { margin: 0; }
 .room-music .mus-lp__sleeve {
@@ -28831,7 +28838,18 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .mus-book__go { margin: 4px 0 8px; font-size: 16px; }
 .mus-book__go--soon { font-style: italic; color: var(--rdr-ink-2); }
 .mus-book__songs { margin: 0 0 14px; padding-left: 2.2em; font-size: 16px; line-height: 1.5; columns: 18em; column-gap: 2em; }
-.mus-book__songs li { break-inside: avoid; }
+.mus-book__songs li { break-inside: avoid; position: relative; }
+/* A song's button (her ask, 2026-11-24): a small play mark beside its words, whose
+   press reaches across the whole line, so tapping the song plays the playlist from it. */
+.room-music .mus-book__song {
+  min-width: 26px; min-height: 26px; margin-right: 2px; padding: 0 4px; vertical-align: 1px; cursor: pointer;
+  background: transparent; border: 1px solid rgba(214,176,106,.45); border-radius: 50%;
+  color: var(--rdr-flame-2); font-size: 11px; line-height: 1;
+}
+.room-music .mus-book__song::after { content: ""; position: absolute; inset: 0; }
+.room-music .mus-book__songs li:has(.mus-book__song:hover) { color: var(--rdr-flame-2); }
+.room-music .mus-book__song:hover { border-color: var(--rdr-flame-2); }
+.room-music .mus-book__song:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 2px; }
 .mus-book__from { margin: 22px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); text-align: center; }
 
 /* §116 ── SUBROOM: Fantasy Fancy Dress (through the curtain behind the Dopamine Dress-Up Den)
