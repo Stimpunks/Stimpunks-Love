@@ -1946,7 +1946,11 @@ line says: Myths & Legends' Crystal Wheel and drying herbs press `[data-crystal-
 the basket in Profile are the only record and nothing in the 3D room keeps one; signed off, those buttons are hidden and the room
 says to sign on. **The map** is `tools/make-yurt-map.py` out of `data/yurt-map.json`: a plan and the same plan in words on her
 page, and `YURT_MAP` on a lectern inside the door on Cel Street, and the tool refuses a way whose angle differs from the room's,
-so a door moved in the room stops the build until the map moves too. **The wreath** is `tools/make-yurt-wreath.py` out of
+so a door moved in the room stops the build until the map moves too. **The names on the plan are links** (her ask, 2026-11-24):
+real HTML links the tool lays over the drawing as percentages of it, each box covering its mark on the wall and its name, the
+lettering sized by the drawing's width (cqw), never links inside the SVG, so every script and checker meets an ordinary link and
+the drawing stays an aria-hidden picture; the friendly edit is coordinates typed by hand, or the words under the plan dropped
+"since the map has links now". **The wreath** is `tools/make-yurt-wreath.py` out of
 `data/yurt-wreath.json`, held to her Myths & Legends page's eight festivals and their words for when, drawn in her declared inks
 by name; `yurt-wreath.js` (and the room, which may read `Date`) picks the festival nearest the visitor's own date, once, and
 nothing on it moves. **Its class is `yurt-wreath` because `.yurt-wheel` is Gibbles' wheel.** **The night walk** is
@@ -1957,17 +1961,28 @@ painted tray**, **a crystal kept in the 3D room's own record "so it works signed
 **the wreath changing on a timer at midnight**, **a southern-hemisphere guess from the time zone**, and **the walk reading with
 any voice the browser offers**, which sends the words to somebody's server.
 
-**HER MUSIC BOOK IS HER WORDS, AND A PLAYLIST THAT DOES NOT OPEN HAS NO LINK.** Helen Edgar's document of 2026-11-19
+**HER MUSIC BOOK IS HER WORDS, EVERY PLAYLIST IN IT IS A BAR THAT PLAYS ON A PRESS, AND A PLAYLIST THAT DOES NOT OPEN HAS NO LINK.** Helen Edgar's document of 2026-11-19
 ("Read and push"): `data/music-book.json` holds her welcome, six parts and every playlist's songs as she listed them, and
-`tools/make-music-book.py` writes them into `faery-music-room.html` between `music-book` markers, one folded chapter to a
-playlist with a link out to YouTube. **Nothing in it plays**: no facade and no frame, because the phonograph and its shelves
-are what plays in that room. Every id was asked of YouTube that day; the ones on her channel (@AutisticRealms-w4k) keep
-`list`, and a playlist YouTube said does not exist has `list: null` and the document's id in `was`, its songs shown with "Not
-on YouTube yet" until Helen sends the address. The tool refuses a part whose own count ("Sixteen playlists ...") is not the
-chapters under it, a welcome total that is not the book's, an id not YouTube's shape, and anything that plays. The friendly
-edits are **a link to the id the document gave "since it is hers"**, which opens YouTube's "does not exist", **playing the
-playlists in the room**, which is the phonograph's job and its runtime rules, and **trimming the songs to save length**, which
-is her list.
+`tools/make-music-book.py` writes them into `faery-music-room.html` between `music-book` markers. **Since 2026-11-24 every
+playlist is a bar like the phonograph's plates, always in sight** (her asks, 2026-11-21 and 2026-11-24: "host them too like my
+Strange things will happen and faery yarn", "have them set out like symphrenia chill and strange things will happen", "I don't
+need the records shown any more as there are too many"), **reversing the first day's "nothing in it plays"**: a facade built by
+`love-embed.js` (`/embed/videoseries?list=…&autoplay=1`), so Host this film and Follow work on it as on any list, saying it runs
+until you stop it and never a length, with its songs folded under it beside the link out to YouTube, and no shelf of records. A
+bar that is playing, or whose songs are open, takes the whole row (`:has()` in §115). The first playlist's songs ship unfolded
+so the render checkers measure them; the rest are the same markup, folded. `since` in the data holds playlists she made after the
+book (Punky Pixie the first), their songs read off YouTube, under a heading of their own so her parts' counts and her welcome's
+total stay her words. Every id is asked of YouTube before it goes in (oEmbed answers 200 for a public list, 403 for a private one
+and 404 for none; the embed page's `previewPlayabilityStatus` says whether it plays in a frame); the ones on her channel
+(@AutisticRealms-w4k) keep `list`, and one YouTube does not show has `list: null` and the document's id in `was`, its songs
+shown with "Not on YouTube yet" and no bar. The tool refuses a part whose own count ("Sixteen playlists ...") is not the
+playlists under it, a welcome total that is not her six parts', an id not YouTube's shape, a playlist given a runtime, a bar
+that is not exactly one to a linked playlist, and a frame or player written into the markers. **The phonograph's three plates
+and their record shelves above the book are `make-yurt-yarn.py`'s and were left as they are**; the 3D Music Room's records are
+read off those shelves, so taking them off the page takes them out of that room too, and is Helen's call. The friendly edits
+are **a link to an id YouTube does not show "since it is hers"**, which opens YouTube's "does not exist", **a runtime on a
+bar**, which is wrong the day she adds a song, **records on a shelf for every playlist**, which she said she does not need,
+and **trimming the songs to save length**, which is her list.
 
 **IN A HEADSET THE DIAL AND THE BREAK ARE ON THE SWITCHES, THE PAGE IS READ OFF THE PAGE, AND NOTHING IS DONE FOR YOU BUT ONE THING, ONCE.** Helen
 Edgar's ask, 2026-11-11 ("All of them", to a list of eight), all of it in `cel-street.js`, so every `vr: true` room has it. **The dial** on the panel

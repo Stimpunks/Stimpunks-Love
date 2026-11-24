@@ -6,17 +6,29 @@ own words: her welcome, six parts, and every playlist's songs as she listed them
 tool writes it between music-book markers in faery-music-room.html, one chapter to a
 playlist, folded, with its songs in order and a link that opens the playlist on YouTube.
 
-NOTHING HERE PLAYS. Every chapter is a link out, never a facade or a frame, because the
-room's phonograph and its shelves are what plays in here; a link says where it goes and
-asks nothing of the page. A playlist YouTube said does not exist keeps its songs on the
-page and says it is not on YouTube yet, with no link, rather than a link to nothing; its
-id from the document stays in the data as 'was', so Helen's corrected address can go in.
+EVERY PLAYLIST IS A BAR THAT PLAYS IT ON A PRESS (Helen's asks, 2026-11-21 and 2026-11-24:
+"host them too like my Strange things will happen and faery yarn ... just a book per
+playlist", then "have them set out like symphrenia chill and strange things will happen",
+which reverses the first day's "nothing here plays"). Each playlist is a bar like the
+phonograph's own, always in sight: one button that puts the whole playlist on where it
+stands, built by love-embed.js, so it can be hosted on the radio and followed like any
+list, saying it runs until you stop it and never a length, because a list somebody keeps
+adding to has none. Under each bar its songs are folded, with the link that opens the
+playlist on YouTube. No records on a shelf: she said there are too many. The first
+playlist's songs ship unfolded, so the render checkers measure them; the rest are the
+same markup, folded. A playlist YouTube does not show keeps its name and songs on the
+page and says it is not on YouTube yet, with no bar and no link; its id from the document
+stays in the data as 'was'.
+
+'since' holds the playlists Helen made after the book, their songs read off YouTube, under
+a heading of their own so her parts' own counts and her welcome's total stay her words.
 
 It refuses: a part whose own count of playlists ("Sixteen playlists ...") is not the
 number of chapters under it, so her words can never go stale; a playlist id that is not
 YouTube's shape; a chapter with no songs; the welcome's total if it is not the number of
-chapters; and a frame, a facade or anything that plays inside the markers. Never
-hand-edit between the markers.
+chapters in her six parts; a playlist given a runtime; a button that is not exactly one
+to a linked chapter, or whose address is not that playlist's with autoplay=1; and a
+frame, an audio or a video written into the markers. Never hand-edit between the markers.
 """
 import html
 import json
@@ -47,17 +59,21 @@ def slug(s):
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
-parts = DATA["parts"]
-total = sum(len(p["lists"]) for p in parts)
+book = DATA["parts"]
+since = DATA.get("since")
+parts = book + ([since] if since else [])
+total = sum(len(p["lists"]) for p in book)
 m = re.search(r"holds (\d+) playlists", " ".join(DATA["welcome"]))
 if m and int(m.group(1)) != total:
     refuse(f"the welcome says the book holds {m.group(1)} playlists and it holds {total}: the words must say what is there.")
 seen = set()
 for p in parts:
     first = p["about"].split()[0].lower()
-    if first in WORDS and WORDS[first] != len(p["lists"]):
+    if p is not since and first in WORDS and WORDS[first] != len(p["lists"]):
         refuse(f"{p['part']} says {first} playlists and has {len(p['lists'])} under it.")
     for pl in p["lists"]:
+        if "runtime" in pl or "runs" in pl:
+            refuse(f"{pl['name']} is a playlist and has no length to give: take its runtime out.")
         if not pl["songs"]:
             refuse(f"{pl['name']} has no songs.")
         i = pl.get("list")
@@ -75,35 +91,59 @@ out = ['<section class="mus-book" aria-labelledby="music-book">',
 for para in DATA["welcome"]:
     out.append(f'    <p class="mus-book__lede">{esc(para)}</p>')
 waiting = any(not pl.get("list") for p in parts for pl in p["lists"])
-out.append('    <p class="mus-book__how">Every chapter opens to its songs, in the playlist&rsquo;s own order, and its link opens the playlist on YouTube; nothing here plays by itself.'
-           + (' A chapter that says it is not on YouTube yet is one whose playlist is on its way.' if waiting else '') + '</p>')
+out.append('    <p class="mus-book__how">Every playlist is a bar: press it and the whole playlist goes on right here, and runs until you stop it. Under each bar are its songs, in the playlist&rsquo;s own order, and a link that opens it on YouTube. Nothing plays, and nothing is fetched from YouTube, until you press.'
+           + (' A playlist that says it is not on YouTube yet is on its way.' if waiting else '') + '</p>')
+opened = False
 for p in parts:
-    pid = f"music-book-{slug(p['part'])}"
-    out.append(f'    <h3 class="mus-book__part" id="{pid}">{esc(p["part"])}: {esc(p["name"])}</h3>')
+    if p is since:
+        out.append(f'    <h3 class="mus-book__part" id="music-book-since">{esc(p["name"])}</h3>')
+    else:
+        pid = f"music-book-{slug(p['part'])}"
+        out.append(f'    <h3 class="mus-book__part" id="{pid}">{esc(p["part"])}: {esc(p["name"])}</h3>')
     out.append(f'    <p class="mus-book__about">{esc(p["about"])}</p>')
     out.append('    <div class="mus-book__shelf">')
     for pl in p["lists"]:
         name = esc(pl["name"])
+        songs = "\n            ".join(f"<li>{esc(s)}</li>" for s in pl["songs"])
         if pl.get("list"):
+            src = f'https://www.youtube-nocookie.com/embed/videoseries?list={pl["list"]}&amp;autoplay=1'
+            top = (f'<div class="mus-book__play"><button type="button" class="facade" data-embed-src="{src}" '
+                   f'data-embed-title="{name}, Helen&rsquo;s playlist, on YouTube">\n'
+                   f'          Put on {name} &mdash; runs until you stop it\n'
+                   f'          <span class="facade__play">&#9654; PRESS PLAY</span>\n'
+                   f'        </button></div>')
             go = (f'<p class="mus-book__go"><a href="https://www.youtube.com/playlist?list={pl["list"]}" '
                   f'rel="noopener">Listen to {name} on YouTube</a></p>')
         else:
+            top = f'<p class="mus-book__title">{name}</p>'
             go = '<p class="mus-book__go mus-book__go--soon">Not on YouTube yet.</p>'
-        songs = "\n          ".join(f"<li>{esc(s)}</li>" for s in pl["songs"])
-        out.append(f'''      <details class="mus-book__list" id="music-book-{slug(pl["name"])}">
-        <summary class="mus-book__name">{name}</summary>
-        {go}
-        <ol class="mus-book__songs">
-          {songs}
-        </ol>
-      </details>''')
+        first_open = "" if opened or not pl.get("list") else " open"
+        opened = opened or bool(first_open)
+        out.append(f'''      <div class="mus-book__list" id="music-book-{slug(pl["name"])}">
+        {top}
+        <details class="mus-book__more"{first_open}>
+          <summary class="mus-book__name">The songs on {name}</summary>
+          {go}
+          <ol class="mus-book__songs">
+            {songs}
+          </ol>
+        </details>
+      </div>''')
     out.append('    </div>')
 out.append(f'    <p class="mus-book__from">From my Music Book, 19 November 2026. The playlists are on <a href="{esc(DATA["channel"])}" rel="noopener">my YouTube channel</a>.</p>')
 out.append('  </section>')
 block = "\n".join(out)
 
-if re.search(r"<iframe|facade|data-embed|<audio|<video", block):
-    refuse("the music book holds something that plays; every chapter is a link out.")
+if re.search(r"<iframe|<audio|<video", block):
+    refuse("the music book holds a frame or a player of its own; a chapter plays only through its button, which love-embed.js turns into the frame.")
+linked_ids = [pl["list"] for p in parts for pl in p["lists"] if pl.get("list")]
+srcs = re.findall(r'data-embed-src="([^"]+)"', block)
+if srcs != [f"https://www.youtube-nocookie.com/embed/videoseries?list={i}&amp;autoplay=1" for i in linked_ids]:
+    refuse("every linked chapter has exactly one button, its own playlist's with autoplay=1, and nothing else in the book plays.")
+if block.count('class="facade"') != len(linked_ids) or "data-embed-id" in block:
+    refuse("the music book has a play button that is not a chapter's playlist.")
+if '<script src="love-embed.js"' not in PAGE.read_text():
+    refuse("faery-music-room.html does not load love-embed.js, so a chapter's button would press and do nothing.")
 
 page = PAGE.read_text()
 i, j = page.find(BEGIN), page.find(END)

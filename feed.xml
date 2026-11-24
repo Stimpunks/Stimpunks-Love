@@ -7,7 +7,7 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Sat, 21 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2026 12:00:00 GMT</lastBuildDate>
     <item>
       <title>William’s music under Community Constructionism</title>
       <link>https://stimpunks.world/changelog.html#2026-11-21-william</link>
@@ -28,6 +28,20 @@
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-19-swamburger-on-the-wall</guid>
       <pubDate>Thu, 19 Nov 2026 12:00:00 GMT</pubDate>
       <description>Mindful Mechanics and Becoming Your Own Lane hang above the doors on the street, side by side, one above the other on a phone. Stimpunks commissioned them for Stimpunks.World from our friend Swamburger, whose work is at mugsandpockets.com. They are Swamburger’s and are not under this site’s licence, which the liner notes say beside the credit. Nothing is laid over them at any setting.</description>
+    </item>
+    <item>
+      <title>The rooms on the yurt’s map are links</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-24-yurt-map-links</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-24-yurt-map-links</guid>
+      <pubDate>Tue, 24 Nov 2026 12:00:00 GMT</pubDate>
+      <description>Every room named on the map of Helen Edgar’s Faery Yurt is now a link, at her ask: press a room’s name, or its mark on the wall, and you go straight there. The door goes out to the campgrounds, and the nook and the Glimmer Window go to their parts of the yurt’s own page. The same rooms are still listed in words under the map.</description>
+    </item>
+    <item>
+      <title>Every playlist in the Music Book plays</title>
+      <link>https://stimpunks.world/changelog.html#2026-11-24-music-book-plays</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-11-24-music-book-plays</guid>
+      <pubDate>Tue, 24 Nov 2026 11:59:00 GMT</pubDate>
+      <description>Every playlist in Helen Edgar’s Music Book is now a bar that puts the whole playlist on, right there on the page, at her ask: all her playlists in her Music Room, set out the way Symphrenia Chill and Strange things will happen are on the phonograph, so she can host any of them on the radio for people to listen along. A playlist runs until you stop it, so its bar says that and gives no length. Nothing plays, and nothing is fetched from YouTube, until you press. The songs are folded under each bar, in the playlist’s own order, with the link that opens it on YouTube. There are no records on a shelf for these: Helen said there are too many. This reverses what the book said on the 19th, that nothing in it plays and every chapter is only a link out. It is Helen’s room and her call. Punky Pixie is in the book, under Since the Book: a playlist she made after writing it, its songs read off YouTube.</description>
     </item>
     <item>
       <title>Every chapter of the Music Book opens on YouTube</title>

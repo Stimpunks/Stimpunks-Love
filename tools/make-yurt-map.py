@@ -85,6 +85,9 @@ for w in DATA["ways"]:
     elif found != w["angle"]:
         refuse(f"the map puts the way to {w['room']} at {w['angle']} degrees and the yurt on Cel Street has it at {found}: they must agree.")
 
+OUT = "campgrounds.html"
+if f'href="{OUT}"' not in page_src:
+    refuse(f"the map's door goes out to {OUT}, which her yurt's page does not link to.")
 ids = set(re.findall(r'\bid="([\w-]+)"', page_src))
 for p in DATA["places"]:
     if p.get("section") and p["section"] not in ids:
@@ -102,6 +105,40 @@ def xy(angle, r):
 def clock(angle):
     h = round(((angle % 360) / 30)) % 12
     return 12 if h == 0 else h
+
+
+# THE NAMES ON THE PLAN ARE LINKS (Helen's ask, 2026-11-24: "Hyperlink each domain of my yurt on the map so
+# you can click on it and go straight there"). Each is a real HTML link laid over the drawing where its name
+# was lettered, covering its mark on the wall too, so pressing the mark or the name goes there. They are HTML
+# and not links inside the SVG, so every script and checker on the street meets an ordinary link, and the
+# drawing under them stays a picture with no words of theirs in it. Sizes are in the drawing's own units,
+# written as percentages of it, and the lettering is sized by the drawing's width (cqw), so the names stay
+# where the drawing puts them at any width.
+links = []
+
+
+def go(href, words, dot, at, anchor, kind=""):
+    """A link whose box covers the mark at `dot` and the name lettered at `at` (its baseline's start, end or middle)."""
+    (x, y), (lx, ly) = dot, at
+    size = 15 if kind == "place" else 19
+    tw = len(words) * size * 0.56 + 8
+    if anchor == "start":
+        x0, x1 = min(x - 13, lx), lx + tw
+        pad = f"padding-left:{(lx - x0) / W * 100:.2f}%"
+    elif anchor == "end":
+        x0, x1 = lx - tw, max(x + 13, lx)
+        pad = f"padding-right:{(x1 - lx) / W * 100:.2f}%"
+    else:
+        x0, x1 = min(lx - tw / 2, x - 13), max(lx + tw / 2, x + 13)
+        pad = ""
+    # The name is lettered at the top of its box when it stands above its mark, and at the foot when below.
+    up = ly <= y
+    y0, y1 = min(y - 13, ly - size * 0.85), max(y + 13, ly + size * 0.35)
+    x0, x1 = max(0, x0), min(W, x1)
+    style = (f"left:{x0 / W * 100:.2f}%;top:{y0 / H * 100:.2f}%;width:{(x1 - x0) / W * 100:.2f}%;"
+             f"height:{(y1 - y0) / H * 100:.2f}%" + (";" + pad if pad else ""))
+    cls = f"yurt-map__go yurt-map__go--{anchor} yurt-map__go--{'up' if up else 'down'}" + (" yurt-map__go--place" if kind == "place" else "")
+    links.append(((math.degrees(math.atan2(x - CX, CY - y)) - 180) % 360, f'<a class="{cls}" href="{href}" style="{style}">{esc(words)}</a>'))
 
 
 out = [f'<svg class="yurt-map__plan" viewBox="0 0 {W} {H}" role="presentation" aria-hidden="true" focusable="false">']
@@ -126,7 +163,10 @@ for p in DATA["places"]:
     anchor = "middle" if abs(math.sin(math.radians(p["angle"]))) < 0.3 else ("end" if math.sin(math.radians(p["angle"])) > 0 else "start")
     dx = {"middle": 0, "end": -10, "start": 10}[anchor]
     dy = 20 if abs(math.sin(math.radians(p["angle"]))) < 0.3 and math.cos(math.radians(p["angle"])) > 0 else 5
-    out.append(f'<text class="yurt-map__placename" x="{x + dx:.1f}" y="{y + dy:.1f}" text-anchor="{anchor}">{esc(p["short"])}</text>')
+    if p.get("section"):
+        go("#" + p["section"], p["short"], (x, y), (x + dx, y + dy), anchor, "place")
+    else:
+        out.append(f'<text class="yurt-map__placename" x="{x + dx:.1f}" y="{y + dy:.1f}" text-anchor="{anchor}">{esc(p["short"])}</text>')
 for w in DATA["ways"]:
     x, y = xy(w["angle"], R)
     lx, ly = xy(w["angle"], R + 26)
@@ -134,15 +174,19 @@ for w in DATA["ways"]:
     anchor = "middle" if abs(s) < 0.3 else ("start" if s > 0 else "end")
     out.append(f'<circle class="yurt-map__way" cx="{x:.1f}" cy="{y:.1f}" r="11"/>')
     out.append(f'<circle class="yurt-map__wayin" cx="{x:.1f}" cy="{y:.1f}" r="4"/>')
-    out.append(f'<text class="yurt-map__room" x="{lx:.1f}" y="{ly + 6:.1f}" text-anchor="{anchor}">{esc(w["room"])}</text>')
+    go(w["page"], w["room"], (x, y), (lx, ly + 6), anchor)
 # The door and YOU ARE HERE.
 dx_, dy_ = xy(180, R)
 out.append(f'<rect class="yurt-map__door" x="{dx_ - 26:.1f}" y="{dy_ - 6:.1f}" width="52" height="12" rx="3"/>')
 out.append(f'<circle class="yurt-map__here" cx="{dx_:.1f}" cy="{dy_ - 34:.1f}" r="9"/>')
 out.append(f'<text class="yurt-map__heretext" x="{dx_ + 18:.1f}" y="{dy_ - 29:.1f}">you are here</text>')
-out.append(f'<text class="yurt-map__room" x="{dx_:.1f}" y="{dy_ + 34:.1f}" text-anchor="middle">the door, out to the campgrounds</text>')
+go(OUT, "the door, out to the campgrounds", (dx_, dy_), (dx_, dy_ + 34), "middle")
 out.append("</svg>")
 svg = "\n      ".join(out)
+# Round to the right from the door, the order the words under the plan go in, so the keyboard walks the wall.
+over = "\n      ".join(a for _, a in sorted(links, key=lambda t: (t[0] == 0, t[0])))
+if len(links) < len(DATA["ways"]) + 1:
+    refuse("the plan has a way through with no link on it: every room's name on the map goes to its room.")
 
 # ── The same plan in words ──────────────────────────────────────────────────
 items = sorted(DATA["ways"], key=lambda w: (w["angle"] - 180) % 360)
@@ -156,9 +200,10 @@ for p in places_words:
     pl.append(f"{name} at about {clock(p['angle'])}")
 block = f"""<section class="yurt-map hearth-card" aria-labelledby="yurt-map-h">
     <h2 id="yurt-map-h">A map of the yurt</h2>
-    <p class="yurt-map__lede">The yurt from above, the far wall at the top and the door at the bottom, where you are. Every way through goes to a room of its own.</p>
+    <p class="yurt-map__lede">The yurt from above, the far wall at the top and the door at the bottom, where you are. Every way through goes to a room of its own: press a room&rsquo;s name, or its mark on the wall, to go straight there.</p>
     <figure class="yurt-map__fig">
       {svg}
+      {over}
     </figure>
     <p class="yurt-map__how">The same in words, going round to the right from the door, with the door at six o&rsquo;clock and her own page on the far wall at twelve:</p>
     <ol class="yurt-map__ways">

@@ -1,6 +1,6 @@
 {
-  "_about": "Helen Edgar's Faery Yurt Music Book, from her document of 2026-11-19, in her words: the welcome, the six parts and every playlist's songs as she wrote them. tools/make-music-book.py writes it onto the Music Room page between music-book markers. Every playlist id was asked of YouTube on 2026-11-19: a list that opened, and is on her channel @AutisticRealms-w4k, keeps it in 'list'. A list YouTube said does not exist (not on her channel either) has list null and the id from the document in 'was', and the page shows its songs with no link until Helen sends the playlist's address. Nothing here plays: every link opens YouTube.",
-  "checked": "2026-11-20",
+  "_about": "Helen Edgar's Faery Yurt Music Book, from her document of 2026-11-19, in her words: the welcome, the six parts and every playlist's songs as she wrote them. tools/make-music-book.py writes it onto the Music Room page between music-book markers. Every playlist id was asked of YouTube on 2026-11-19: a list that opened, and is on her channel @AutisticRealms-w4k, keeps it in 'list'. A list YouTube said does not exist (not on her channel either) has list null and the id from the document in 'was', and the page shows its songs with no link until Helen sends the playlist's address. Nothing here plays: every link opens YouTube. On 2026-11-21, at Helen's ask, every chapter also plays its playlist on a press, and 'since' holds the playlists she made after the book, their songs read off YouTube's playlist page on the day in 'read' (title, then the artist off each video's channel).",
+  "checked": "2026-11-21",
   "channel": "https://www.youtube.com/@AutisticRealms-w4k",
   "welcome": [
     "Pull up a cushion and stay a while. This music book holds 51 playlists I've gathered over time, each one a little world of its own.",
@@ -2005,5 +2005,38 @@
         }
       ]
     }
-  ]
+  ],
+  "since": {
+    "name": "Since the Book",
+    "about": "Playlists I have made since I wrote the book.",
+    "read": "2026-11-21",
+    "lists": [
+      {
+        "name": "Punky Pixie",
+        "list": "PLI37i6-lJ-qQ",
+        "songs": [
+          "Here Comes Your Man — Pixies",
+          "Just A Girl — No Doubt",
+          "Sk8er Boi — Avril Lavigne",
+          "Bubblegum Bitch — Marina and The Diamonds",
+          "Oh Bondage! Up Yours! — X-Ray Spex",
+          "Typical Girls — The Slits",
+          "Hong Kong Garden — Siouxsie and the Banshees",
+          "Bad Reputation — Joan Jett",
+          "Call Me — Blondie",
+          "Malibu — Hole",
+          "good 4 u — Olivia Rodrigo",
+          "brutal — Olivia Rodrigo",
+          "Femininomenon — Chappell Roan",
+          "Teenage Kicks — The Undertones",
+          "Ever Fallen in Love (With Someone You Shouldn't've) — Buzzcocks",
+          "I Wanna Be Sedated — Ramones",
+          "Banana Splits (The Tra La La Song) — The Dickies",
+          "Rock Lobster — The B-52's",
+          "Whip It — Devo",
+          "Debaser — Pixies"
+        ]
+      }
+    ]
+  }
 }
