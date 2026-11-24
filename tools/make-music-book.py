@@ -106,6 +106,31 @@ waiting = any(not pl.get("list") for p in parts for pl in p["lists"])
 out.append('    <p class="mus-book__how">Every playlist is a bar: press it and the whole playlist goes on right here, and runs until you stop it. Under each bar are its songs, in the playlist&rsquo;s own order: press &#9654; beside a song and the playlist plays from that song, in its own bar. There is also a link that opens it on YouTube. Nothing plays, and nothing is fetched from YouTube, until you press.'
            + (' A playlist that says it is not on YouTube yet is on its way.' if waiting else '') + '</p>')
 opened = False
+# A CONTENTS LIST, A FINDER AND A NOW-PLAYING STRIP (Helen's picks, 2026-11-24, of ideas for
+# a long page: getting to a playlist, finding a song, and knowing what is playing). The
+# contents are every part and playlist as links, in one short paragraph a part. The finder
+# and the strip are music-book.js's and ship hidden, so a page with no script shows neither;
+# the finder keeps and sends nothing, and the strip shows only while something has started.
+toc = []
+for p in parts:
+    head = esc(p["name"]) if p is since else f'{esc(p["part"])}: {esc(p["name"])}'
+    pid = "music-book-since" if p is since else f"music-book-{slug(p['part'])}"
+    links = " &middot; ".join(f'<a href="#music-book-{slug(pl["name"])}">{esc(pl["name"])}</a>' for pl in p["lists"])
+    toc.append(f'      <li><a class="mus-book__tocpart" href="#{pid}">{head}</a>: {links}</li>')
+out.append('    <nav class="mus-book__toc" aria-label="Every playlist in the book">\n'
+           '      <p class="mus-book__tochead">Go straight to a playlist</p>\n'
+           '      <ul>\n' + "\n".join(toc) + '\n      </ul>\n    </nav>')
+out.append('    <div class="mus-book__find" data-mb-find hidden>\n'
+           '      <label for="mus-book-find">Find a song or an artist in the book</label>\n'
+           '      <input id="mus-book-find" type="search" autocomplete="off" spellcheck="false" data-mb-find-box>\n'
+           '      <p class="mus-book__found" data-mb-found aria-live="polite"></p>\n'
+           '    </div>')
+out.append('    <div class="mus-book__now" data-mb-now hidden role="region" aria-label="Now playing">\n'
+           '      <p class="mus-book__nowsays" data-mb-now-says></p>\n'
+           '      <p class="mus-book__nowdo"><button type="button" class="mus-book__nowbtn" data-mb-now-toggle>Pause</button> '
+           '<button type="button" class="mus-book__nowbtn" data-mb-now-go>Go to it</button> '
+           '<button type="button" class="mus-book__nowbtn" data-mb-now-hide>Hide this</button></p>\n'
+           '    </div>')
 for p in parts:
     if p is since:
         out.append(f'    <h3 class="mus-book__part" id="music-book-since">{esc(p["name"])}</h3>')
@@ -138,7 +163,7 @@ for p in parts:
             go = '<p class="mus-book__go mus-book__go--soon">Not on YouTube yet.</p>'
         first_open = "" if opened or not pl.get("list") else " open"
         opened = opened or bool(first_open)
-        mb = f' data-mb-list="{pl["list"]}"' if pl.get("list") else ""
+        mb = f' data-mb-list="{pl["list"]}" data-mb-name="{name}"' if pl.get("list") else ""
         out.append(f'''      <div class="mus-book__list" id="music-book-{slug(pl["name"])}"{mb}>
         {top}
         <details class="mus-book__more"{first_open}>

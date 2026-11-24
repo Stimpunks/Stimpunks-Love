@@ -28839,6 +28839,29 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .mus-book__go--soon { font-style: italic; color: var(--rdr-ink-2); }
 .mus-book__songs { margin: 0 0 14px; padding-left: 2.2em; font-size: 16px; line-height: 1.5; columns: 18em; column-gap: 2em; }
 .mus-book__songs li { break-inside: avoid; position: relative; }
+/* Go straight to a playlist, find a song, and what is playing (Helen's picks,
+   2026-11-24), in the room's own panel, brass and inks. */
+.mus-book__toc { margin: 18px 0 10px; padding: 12px 16px; background: var(--rdr-panel); border: 1px solid rgba(214,176,106,.28); border-radius: 6px; }
+.mus-book__tochead { margin: 0 0 6px; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic; font-size: 19px; }
+.mus-book__toc ul { margin: 0; padding: 0; list-style: none; font-size: 15px; line-height: 1.7; }
+.mus-book__toc li + li { margin-top: 4px; }
+.room-music a.mus-book__tocpart { font-weight: 700; }
+.mus-book__find { margin: 12px 0 6px; }
+.mus-book__find label { display: block; margin-bottom: 4px; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 18px; }
+.room-music .mus-book__find input { box-sizing: border-box; width: min(100%, 420px); min-height: 40px; padding: 6px 10px; font: inherit; font-size: 16px; color: var(--rdr-ink); background: var(--rdr-stone); border: 1px solid var(--rdr-brass); border-radius: 6px; }
+.room-music .mus-book__find input:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 2px; }
+.mus-book__found { margin: 6px 0 0; min-height: 1.4em; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); }
+.room-music .mus-book__now {
+  position: fixed; left: 16px; bottom: 16px; z-index: 60; box-sizing: border-box; width: min(460px, calc(100% - 32px));
+  padding: 10px 14px; background: var(--rdr-panel); color: var(--rdr-ink); border: 1px solid var(--rdr-brass); border-top: 3px solid var(--rdr-brass); border-radius: 6px;
+  box-shadow: 0 10px 24px -10px rgba(0,0,0,.85);
+}
+@media (max-width: 700px) { .room-music .mus-book__now { bottom: auto; top: 8px; } }
+.mus-book__nowsays { margin: 0 0 8px; font-size: 16px; line-height: 1.35; }
+.mus-book__nowdo { margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.room-music .mus-book__nowbtn { min-height: 36px; padding: 4px 12px; cursor: pointer; font: inherit; font-size: 15px; color: var(--rdr-flame-2); background: transparent; border: 1px solid var(--rdr-brass); border-radius: 6px; }
+.room-music .mus-book__nowbtn:hover { border-color: var(--rdr-flame-2); }
+.room-music .mus-book__nowbtn:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 2px; }
 /* A song's button (her ask, 2026-11-24): a small play mark beside its words, whose
    press reaches across the whole line, so tapping the song plays the playlist from it. */
 .room-music .mus-book__song {

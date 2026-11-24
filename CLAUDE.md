@@ -1978,8 +1978,11 @@ sideways-scrolling shelf to a playlist** (`.mus-lp` in §115, her "keep the reco
 there** (her ask, the same day: "each playlist to stop when i press play on another one"): `data-embed-one` on the room's `<body>`
 makes love-embed.js pause every other playing frame the moment one reports it is playing, whatever started it, the player's own
 button included; it is opt-in by attribute so a room meant to play two things at once is left alone, and `make-music-book.py`
-refuses the page without it. The friendly edits are a song button that plays the song alone (it breaks hosting the list), the
-shelves wrapped back into rows, and one-at-a-time made street-wide "since it is nicer", which is every room's own call. The first playlist's songs ship unfolded
+refuses the page without it. **The book opens with every part and playlist as links, a Find a song box and a now-playing strip** (her picks, the same
+day): the finder (`music-book.js`) hides playlists and songs whose words do not match and keeps and sends nothing; the strip
+shows while a player has started, from `love-embed-state`, an event love-embed.js fires on a player's start, pause, end or turn
+and never on the clock. Both ship hidden. The friendly edits are a song button that plays the song alone (it breaks hosting the
+list), a finder that remembers what you searched, the strip on a timer "so the clock shows", the shelves wrapped back into rows, and one-at-a-time made street-wide "since it is nicer", which is every room's own call. The first playlist's songs ship unfolded
 so the render checkers measure them; the rest are the same markup, folded. `since` in the data holds playlists she made after the
 book (Punky Pixie the first), their songs read off YouTube, under a heading of their own so her parts' counts and her welcome's
 total stay her words. Every id is asked of YouTube before it goes in (oEmbed answers 200 for a public list, 403 for a private one

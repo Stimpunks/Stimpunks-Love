@@ -209,6 +209,11 @@
         if (id) p.id = id;
         p.live = !!vd.isLive;
       }
+      // A page that shows what is playing hears when it changes (the Music
+      // Room's now-playing strip, 2026-11-24): a player starting, pausing,
+      // ending or turning to another film. Only on those, never on the clock.
+      var mark = p.state + '|' + (p.id || '') + '|' + (p.film || '');
+      if (mark !== p.told) { p.told = mark; document.dispatchEvent(new CustomEvent('love-embed-state')); }
       return;
     }
   }
